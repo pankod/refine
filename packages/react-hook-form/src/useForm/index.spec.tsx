@@ -1,12 +1,12 @@
 import React from "react";
 
-import { useForm } from ".";
-import type { IRefineOptions, HttpError } from "@refinedev/core";
+import type { HttpError, IRefineOptions } from "@refinedev/core";
 import * as Core from "@refinedev/core";
-import { MockJSONServer, TestWrapper, act, render, waitFor } from "../../test";
-import { Route, Routes } from "react-router";
-import { Controller, useFieldArray } from "react-hook-form";
 import { screen } from "@testing-library/react";
+import { Controller, useFieldArray } from "react-hook-form";
+import { Route, Routes } from "react-router";
+import { useForm } from ".";
+import { MockJSONServer, TestWrapper, act, render, waitFor } from "../../test";
 
 interface IPost {
   title: string;
@@ -358,7 +358,7 @@ describe("useForm hook", () => {
 
     const EditPage = ({ formLoading }: { formLoading: boolean }) => {
       const { control } = useForm<IPost, HttpError, IPost>({
-        refineCoreProps: { resource: "posts", action: "edit", id: "1" }
+        refineCoreProps: { resource: "posts", action: "edit", id: "1" },
       });
       if (formLoading) return <p>loading</p>;
       return <FieldArrayChild control={control} />;
