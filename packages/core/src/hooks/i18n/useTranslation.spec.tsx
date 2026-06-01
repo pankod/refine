@@ -42,7 +42,63 @@ describe("useTranslation", () => {
     expect(changeLocale).toHaveBeenCalledWith("en");
   });
 
+  it("should not pass options to translate", () => {
+    const translateMock = vi.fn();
+
+    const TestComponentWithNs: React.FC = () => {
+      const { translate } = useTranslation();
+
+      return <div>{translate("products.title.key", "fallback-title")}</div>;
+    };
+
+    render(<TestComponentWithNs />, {
+      wrapper: TestWrapper({
+        resources: [{ name: "products" }],
+        i18nProvider: {
+          translate: translateMock,
+          changeLocale: vi.fn(),
+          getLocale: vi.fn(),
+        },
+      }),
+    });
+
+    expect(translateMock).toHaveBeenCalledTimes(1);
+    expect(translateMock).toHaveBeenCalledWith(
+      "products.title.key",
+      undefined,
+      "fallback-title",
+    );
+  });
+
   it("should pass ns option to translate", () => {
+    const translateMock = vi.fn();
+
+    const TestComponentWithNs: React.FC = () => {
+      const { translate } = useTranslation({ ns: "common" });
+
+      return <div>{translate("products.title.key", "fallback-title")}</div>;
+    };
+
+    render(<TestComponentWithNs />, {
+      wrapper: TestWrapper({
+        resources: [{ name: "products" }],
+        i18nProvider: {
+          translate: translateMock,
+          changeLocale: vi.fn(),
+          getLocale: vi.fn(),
+        },
+      }),
+    });
+
+    expect(translateMock).toHaveBeenCalledTimes(1);
+    expect(translateMock).toHaveBeenCalledWith(
+      "products.title.key",
+      { ns: "common" },
+      "fallback-title",
+    );
+  });
+
+  it("should pass all options to translate", () => {
     const translateMock = vi.fn();
 
     const TestComponentWithNs: React.FC = () => {
@@ -52,7 +108,7 @@ describe("useTranslation", () => {
         <div>
           {translate(
             "products.title.key",
-            { opiton1: "option1" },
+            { option1: "1", option2: "2" },
             "fallback-title",
           )}
         </div>
@@ -73,7 +129,7 @@ describe("useTranslation", () => {
     expect(translateMock).toHaveBeenCalledTimes(1);
     expect(translateMock).toHaveBeenCalledWith(
       "products.title.key",
-      { ns: "common", opiton1: "option1" },
+      { ns: "common", option1: "1", option2: "2" },
       "fallback-title",
     );
   });

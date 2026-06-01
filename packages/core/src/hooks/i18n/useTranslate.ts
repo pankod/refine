@@ -29,8 +29,13 @@ export const useTranslate = ({ ns }: UseTranslationProps = {}) => {
       let defaultMessage = _defaultMessage;
 
       if (typeof options === "string" && defaultMessage === undefined) {
-        options = undefined;
         defaultMessage = options;
+
+        if (ns) {
+          options = { ns };
+        } else {
+          options = undefined;
+        }
       }
 
       if (ns && options && typeof options !== "string") {
