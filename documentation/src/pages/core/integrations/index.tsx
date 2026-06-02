@@ -71,15 +71,15 @@ const Integrations: React.FC = () => {
   return (
     <IntegrationsLayout>
       <div className={clsx("max-w-[624px]")}>
-        <div
+        <h1
           className={clsx(
             "font-semibold",
             "text-zinc-200",
             "text-xl sm:text-[40px] sm:leading-[56px]",
           )}
         >
-          Seamless integration with your existing ecosystem.
-        </div>
+          Refine CORE Integrations
+        </h1>
         <div
           className={clsx(
             "font-semibold",

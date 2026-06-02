@@ -12,6 +12,7 @@ import type {
   UpdateParams,
 } from "@refinedev/core";
 import type { KyResponse } from "ky";
+import type { IStringifyOptions } from "qs";
 
 export type AnyObject = Record<string, any>;
 
@@ -32,6 +33,7 @@ type TransformError<P> = (
 ) => Promise<HttpError>;
 
 export type CreateDataProviderOptions = {
+  stringifyOptions?: IStringifyOptions;
   getList?: {
     getEndpoint?: GetEndpoint<GetListParams>;
     buildHeaders?: BuildHeaders<GetListParams>;

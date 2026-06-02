@@ -37,7 +37,7 @@
     "@refinedev/nestjsx-crud": "^6.0.1",
     "@refinedev/react-hook-form": "^5.0.4",
     "@refinedev/react-router": "^2.0.4",
-    "@refinedev/rest": "^2.1.1",
+    "@refinedev/rest": "^2.1.2",
     "@tanstack/react-query": "^5.81.5",
     "dayjs": "^1.10.7",
     "ky": "^1.10.0",

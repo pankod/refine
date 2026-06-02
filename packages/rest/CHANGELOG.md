@@ -1,5 +1,11 @@
 # @refinedev/rest
 
+## 2.1.2
+
+### Patch Changes
+
+- [#7398](https://github.com/refinedev/refine/pull/7398) [`fb3ae57a0c303aabdbc0e76f247d56e74afb4764`](https://github.com/refinedev/refine/commit/fb3ae57a0c303aabdbc0e76f247d56e74afb4764) Thanks [@armorbreak001](https://github.com/armorbreak001)! - feat: expose stringifyOptions in createDataProvider (fixes #7360)
+
 ## 2.1.1
 
 ### Patch Changes

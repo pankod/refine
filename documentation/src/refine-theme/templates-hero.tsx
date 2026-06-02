@@ -28,7 +28,7 @@ export const TemplatesHero: FC<Props> = ({ className }) => {
       <div className={clsx("absolute", "top-0", "right-0")}>
         <GlowRight />
       </div>
-      <h2
+      <h1
         className={clsx(
           "flex",
           "items-center",
@@ -47,7 +47,7 @@ export const TemplatesHero: FC<Props> = ({ className }) => {
           CORE
         </span>
         <span className={clsx("text-gray-0")}>Templates </span>
-      </h2>
+      </h1>
       <p
         className={clsx(
           "font-normal",

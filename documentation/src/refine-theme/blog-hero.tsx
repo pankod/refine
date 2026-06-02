@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import React, { type FC } from "react";
 
-type Props = { className?: string };
+type Props = { className?: string; title?: string };
 
-export const BlogHero: FC<Props> = ({ className }) => {
+export const BlogHero: FC<Props> = ({ className, title }) => {
   return (
-    <div
+    <h1
       className={clsx(
         "pl-8",
         "blog-max:pl-[46px]",
@@ -25,7 +25,7 @@ export const BlogHero: FC<Props> = ({ className }) => {
         className,
       )}
     >
-      Refine Blog
-    </div>
+      {title || "Refine Blog"}
+    </h1>
   );
 };

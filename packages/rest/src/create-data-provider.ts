@@ -27,6 +27,9 @@ export const createDataProvider = (
   kyOptions: KyOptions = {},
 ): CreateDataProvider => {
   const options = dm(defaultCreateDataProviderOptions, baseOptions);
+  const stringifyOptions = options.stringifyOptions ?? {
+    encodeValuesOnly: true,
+  };
 
   const ky = kyBase.create({
     prefixUrl: apiURL,
@@ -51,7 +54,7 @@ export const createDataProvider = (
 
         const response = await ky(endpoint, {
           headers,
-          searchParams: qs.stringify(query, { encodeValuesOnly: true }),
+          searchParams: qs.stringify(query, stringifyOptions),
         });
 
         const data = await options.getList.mapResponse(
@@ -75,7 +78,7 @@ export const createDataProvider = (
 
         const response = await ky(endpoint, {
           headers,
-          searchParams: qs.stringify(query, { encodeValuesOnly: true }),
+          searchParams: qs.stringify(query, stringifyOptions),
         });
 
         const data = await options.getOne.mapResponse(response, params);
@@ -95,7 +98,7 @@ export const createDataProvider = (
 
             const response = await ky(endpoint, {
               headers,
-              searchParams: qs.stringify(query, { encodeValuesOnly: true }),
+              searchParams: qs.stringify(query, stringifyOptions),
             });
 
             if (response.ok) {
@@ -127,7 +130,7 @@ export const createDataProvider = (
         const response = await ky(endpoint, {
           method: "post",
           headers,
-          searchParams: qs.stringify(query, { encodeValuesOnly: true }),
+          searchParams: qs.stringify(query, stringifyOptions),
           body: JSON.stringify(body),
         });
 
@@ -157,7 +160,7 @@ export const createDataProvider = (
             const response = await ky(endpoint, {
               method: "post",
               headers,
-              searchParams: qs.stringify(query, { encodeValuesOnly: true }),
+              searchParams: qs.stringify(query, stringifyOptions),
               body: JSON.stringify(body),
             });
 
@@ -199,7 +202,7 @@ export const createDataProvider = (
         const response = await ky(endpoint, {
           method,
           headers,
-          searchParams: qs.stringify(query, { encodeValuesOnly: true }),
+          searchParams: qs.stringify(query, stringifyOptions),
           body: JSON.stringify(body),
         });
 
@@ -231,7 +234,7 @@ export const createDataProvider = (
             const response = await ky(endpoint, {
               method,
               headers,
-              searchParams: qs.stringify(query, { encodeValuesOnly: true }),
+              searchParams: qs.stringify(query, stringifyOptions),
               body: JSON.stringify(body),
             });
 
@@ -265,7 +268,7 @@ export const createDataProvider = (
         const response = await ky(endpoint, {
           method: "delete",
           headers,
-          searchParams: qs.stringify(query, { encodeValuesOnly: true }),
+          searchParams: qs.stringify(query, stringifyOptions),
         });
 
         if (response.ok) {
@@ -292,7 +295,7 @@ export const createDataProvider = (
             const response = await ky(endpoint, {
               method: "delete",
               headers,
-              searchParams: qs.stringify(query, { encodeValuesOnly: true }),
+              searchParams: qs.stringify(query, stringifyOptions),
             });
 
             if (options.deleteMany.mapResponse) {
@@ -323,7 +326,7 @@ export const createDataProvider = (
         const query = await options.custom.buildQueryParams(params);
         if (query) {
           client = client.extend({
-            searchParams: qs.stringify(query, { encodeValuesOnly: true }),
+            searchParams: qs.stringify(query, stringifyOptions),
           });
         }
 

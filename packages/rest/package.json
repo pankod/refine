@@ -1,6 +1,6 @@
 {
   "name": "@refinedev/rest",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "private": false,
   "description": "REST Data Provider for Refine, enabling seamless REST API interactions.",
   "repository": {

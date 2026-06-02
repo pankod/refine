@@ -216,6 +216,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
+      docusaurus-plugin-llms:
+        specifier: ^0.3.1
+        version: 0.3.1(@docusaurus/core@2.4.0(@docusaurus/types@2.4.0(@swc/core@1.5.5)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(@swc/core@1.5.5)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(typescript@5.4.5))
       fast-xml-parser:
         specifier: ^5.4.1
         version: 5.4.1
@@ -3165,6 +3168,12 @@ packages:
     resolution: {integrity: sha512-alCwO+EtNehA4oeGS+F7bwJXLvG5MwnFgCGkfF3OKRaJ20iZdlASIhz2YVcj4FOg9J+2lppc0D6D01fxP9liKg==}
     peerDependencies:
       '@docusaurus/core': ^2.0.0
+
+  docusaurus-plugin-llms@0.3.1:
+    resolution: {integrity: sha512-2RsDC4czy1pt2kauIACOcLvSaGmjF3X0pgcVtL6fblzzZMgkasQJrOLN0pRur11j7rQkiaiCGR9NsU3mp4M8fg==}
+    engines: {node: '>=18.0'}
+    peerDependencies:
+      '@docusaurus/core': ^3.0.0
 
   dom-accessibility-api@0.5.16:
     resolution: {integrity: sha512-X7BJ2yElsnOJ30pZF4uIIDfBEVgF4XEBxL9Bxhy6dnrm5hkzqmsWHGTiHqRiITNhMyFLyAiWndIJP7Z1NTteDg==}
@@ -6872,6 +6881,11 @@ packages:
   yaml@2.4.2:
     resolution: {integrity: sha512-B3VqDZ+JAg1nZpaEmWtTXUlBneoGx6CPM9b0TENK6aoSu5t73dItudwdgmi6tHlIZZId4dZ9skcAQ2UbcyAeVA==}
     engines: {node: '>= 14'}
+    hasBin: true
+
+  yaml@2.8.3:
+    resolution: {integrity: sha512-AvbaCLOO2Otw/lW5bmh9d/WEdcDFdQp2Z2ZUH3pX9U2ihyUY0nvLv7J6TrWowklRGPYbB/IuIMfYgxaCPg5Bpg==}
+    engines: {node: '>= 14.6'}
     hasBin: true
 
   yargs-parser@21.1.1:
@@ -10894,6 +10908,13 @@ snapshots:
       copy-webpack-plugin: 5.1.2(webpack@5.91.0(@swc/core@1.5.5))
     transitivePeerDependencies:
       - webpack
+
+  docusaurus-plugin-llms@0.3.1(@docusaurus/core@2.4.0(@docusaurus/types@2.4.0(@swc/core@1.5.5)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(@swc/core@1.5.5)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(typescript@5.4.5)):
+    dependencies:
+      '@docusaurus/core': 2.4.0(@docusaurus/types@2.4.0(@swc/core@1.5.5)(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(@swc/core@1.5.5)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(typescript@5.4.5)
+      gray-matter: 4.0.3
+      minimatch: 9.0.4
+      yaml: 2.8.3
 
   dom-accessibility-api@0.5.16: {}
 
@@ -15232,6 +15253,8 @@ snapshots:
   yaml@1.10.2: {}
 
   yaml@2.4.2: {}
+
+  yaml@2.8.3: {}
 
   yargs-parser@21.1.1: {}
 

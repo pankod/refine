@@ -203,6 +203,52 @@ const siteConfig = {
         },
       },
     ],
+    [
+      "docusaurus-plugin-llms",
+      {
+        title: "Refine",
+        description:
+          "Refine is an open-source, headless React framework for building enterprise-grade internal tools, admin panels, dashboards, and B2B applications. It provides industry-standard solutions for critical concerns like authentication, access control, routing, networking, state management, and i18n.",
+        docsDir: "docs",
+        generateLLMsTxt: true,
+        generateLLMsFullTxt: true,
+        excludeImports: true,
+        removeDuplicateHeadings: true,
+        includeOrder: [
+          "getting-started/**/*",
+          "guides-concepts/**/*",
+          "data/**/*",
+          "authentication/**/*",
+          "authorization/**/*",
+          "routing/**/*",
+          "realtime/**/*",
+          "notification/**/*",
+          "audit-logs/**/*",
+          "core/**/*",
+          "ui-integrations/**/*",
+          "packages/**/*",
+          "advanced-tutorials/**/*",
+          "examples/**/*",
+          "further-readings/**/*",
+          "migration-guide/**/*",
+        ],
+        ignoreFiles: ["partials/**/*"],
+        rootContent: `Refine is a meta-framework for building enterprise-grade, production-ready internal tools, admin panels, dashboards, and B2B applications using React.
+
+Key features:
+- **Headless by design**: Works with any UI library (shadcn/ui, Ant Design, Material UI, Mantine, Chakra UI, or custom)
+- **Data provider agnostic**: Connects to any REST, GraphQL, or custom API backend
+- **Authentication & Authorization**: Built-in auth provider and access control (Casbin, Cerbos, Permify, etc.)
+- **Routing**: Supports React Router, Next.js, and Remix
+- **Realtime**: Live data updates with built-in support
+- **i18n**: Internationalization support out of the box
+- **Audit Logs**: Track data changes automatically
+
+Documentation: https://refine.dev/core/docs/
+GitHub: https://github.com/refinedev/refine
+License: MIT`,
+      },
+    ],
   ],
   themeConfig: {
     prism: {

@@ -10,10 +10,10 @@ hide_table_of_contents: false
 last_update: 2026-02-19
 ---
 
-# Table of Contents
+## Table of Contents
 
 - [Table of Contents](#table-of-contents)
-- [Code Comments: The Good, The Bad, and The Hilarious](#code-comments-the-good-the-bad-and-the-hilarious)
+- [Comment Line: A Necessity or a 'Code Smell'?](#comment-line-a-necessity-or-a-code-smell)
   - [The Good: When Comments Are Your Best Friend](#the-good-when-comments-are-your-best-friend)
     - [1. Explaining the "Why" (The Business and Product Logic)](#1-explaining-the-why-the-business-and-product-logic)
     - [2. Documenting Non-Obvious Solutions and Trade-offs](#2-documenting-non-obvious-solutions-and-trade-offs)
@@ -31,7 +31,7 @@ last_update: 2026-02-19
 
 ---
 
-# Code Comments: The Good, The Bad, and The Hilarious
+## Comment Line: A Necessity or a 'Code Smell'?
 
 Every developer has been there. It’s 2 PM, you're deep into a feature, and you stumble upon a function named `handleData`. It takes three arguments: `x`, `y`, and `flag`. It returns `0` or `1`. There are no comments. You are now an unwilling digital archaeologist, and your afternoon is officially ruined.
 

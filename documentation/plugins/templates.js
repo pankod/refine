@@ -410,7 +410,7 @@ We built this template to demonstrate how the Refine framework simplifies and sp
       "Invoice generator interface showing client management, invoice creation form, and PDF preview",
     runOnYourLocalPath: "invoicer",
     edition: "Community",
-    liveDemo: "https://refine-invoicer-8mk7d.ondigitalocean.app/",
+    liveDemo: "https://refine-invoicer.netlify.app/",
     github: "https://github.com/refinedev/refine/tree/main/examples/invoicer",
     reactPlatform: "Vite",
     uiFramework: "Ant Design",

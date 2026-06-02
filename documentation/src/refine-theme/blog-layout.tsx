@@ -7,6 +7,7 @@ import { BlogHero } from "./blog-hero";
 
 type Props = {
   showHero?: boolean;
+  heroTitle?: string;
   classNameContainer?: ClassValue;
 } & Record<string, any>;
 
@@ -24,7 +25,7 @@ export const RefineBlogLayout = (props: Props) => {
       )}
     >
       <BlogHeader trackProgress={Boolean(toc)} />
-      {props.showHero && <BlogHero />}
+      {props.showHero && <BlogHero title={props.heroTitle} />}
       <div className={clsx("relative", "flex-1")}>
         <div
           className={clsx(

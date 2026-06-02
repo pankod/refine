@@ -100,6 +100,7 @@
     "@types/react-dom": "^17.0.11",
     "@types/react-helmet": "^6.1.2",
     "cross-env": "^7.0.3",
+    "docusaurus-plugin-llms": "^0.3.1",
     "fast-xml-parser": "^5.4.1",
     "fs-extra": "^10.1.0",
     "jest": "^29.3.1",

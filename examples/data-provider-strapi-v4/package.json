@@ -27,7 +27,7 @@
     "@refinedev/cli": "^2.16.52",
     "@refinedev/core": "^5.0.12",
     "@refinedev/react-router": "^2.0.4",
-    "@refinedev/rest": "^2.1.1",
+    "@refinedev/rest": "^2.1.2",
     "@refinedev/strapi-v4": "^7.0.1",
     "@uiw/react-md-editor": "^4.0.8",
     "antd": "^5.23.0",

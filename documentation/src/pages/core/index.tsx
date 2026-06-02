@@ -11,7 +11,6 @@ import { LandingSolidFoundation } from "@site/src/refine-theme/landing-solid-fou
 import { LandingSweetSpot } from "@site/src/refine-theme/landing-sweet-spot";
 import { LandingTestimonial } from "@site/src/refine-theme/landing-testimonial";
 import { LandingTrustedByDevelopers } from "@site/src/refine-theme/landing-trusted-by-developers";
-import { LandingTryItSection } from "@site/src/refine-theme/landing-try-it-section";
 import clsx from "clsx";
 import React from "react";
 
@@ -82,7 +81,6 @@ function Home() {
             <LandingCommunity />
             <LandingTestimonial />
             <LandingSolidFoundation />
-            <LandingTryItSection />
           </div>
           <LandingFooter />
         </div>

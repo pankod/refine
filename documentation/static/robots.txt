@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /core/docs/4.xx.xx/
+Disallow: /core/docs/3.xx.xx/
 
 Sitemap: https://refine.dev/core/sitemap.xml

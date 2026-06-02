@@ -65,8 +65,15 @@ function BlogTagsPostsPageMetadata({ tag }) {
   );
 }
 
+function useTagHeroTitle(tag) {
+  if (!tag?.label) return undefined;
+  const label = tag.label.charAt(0).toUpperCase() + tag.label.slice(1);
+  return `Refine ${label} Blogs`;
+}
+
 function BlogTagsPostsPageContent({ tags, tag, items, sidebar, listMetadata }) {
   const isAllTagsPage = tag?.isAllTagsPage === true;
+  const heroTitle = useTagHeroTitle(isAllTagsPage ? undefined : tag);
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Blog", href: "/blog" },
@@ -78,7 +85,7 @@ function BlogTagsPostsPageContent({ tags, tag, items, sidebar, listMetadata }) {
   }
 
   return (
-    <BlogLayout showHero sidebar={sidebar}>
+    <BlogLayout showHero heroTitle={heroTitle} sidebar={sidebar}>
       <BreadcrumbJsonLd items={breadcrumbItems} />
       <BlogPostItems items={items} tags={tags} isTagsPage={true} />
       <div
