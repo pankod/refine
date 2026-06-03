@@ -287,7 +287,7 @@ const SurveyFinished = (props: {
         animate={{ opacity: 1, transition: { delay: 0.2 } }}
         exit={{ opacity: 0 }}
       >
-        <div className={clsx("mt-1")}>Your feedback has been recieved.</div>
+        <div className={clsx("mt-1")}>Your feedback has been received.</div>
       </motion.div>
     </div>
   );
