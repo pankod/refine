@@ -173,10 +173,7 @@ export const useCustom = <
           url,
           method,
           ...config,
-          meta: {
-            ...combinedMeta,
-            ...prepareQueryContext(context as any),
-          },
+          meta: prepareQueryContext(context as any, combinedMeta),
         }),
       ...queryOptions,
       meta: {

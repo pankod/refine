@@ -254,10 +254,7 @@ export const useInfiniteList = <
           (context.pageParam as number) ?? prefferedPagination.currentPage,
       };
 
-      const meta = {
-        ...combinedMeta,
-        ...prepareQueryContext(context),
-      };
+      const meta = prepareQueryContext(context, combinedMeta);
 
       return getList<TQueryFnData>({
         resource: resource?.name || "",

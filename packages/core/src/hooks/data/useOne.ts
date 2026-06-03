@@ -185,10 +185,7 @@ export const useOne = <
       getOne<TQueryFnData>({
         resource: resource?.name ?? "",
         id: id!,
-        meta: {
-          ...combinedMeta,
-          ...prepareQueryContext(context as any),
-        },
+        meta: prepareQueryContext(context as any, combinedMeta),
       }),
     ...queryOptions,
     enabled: isEnabled,

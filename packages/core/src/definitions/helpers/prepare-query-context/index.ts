@@ -4,13 +4,18 @@ type Context =
   | QueryFunctionContext<QueryKey, any>
   | QueryFunctionContext<QueryKey, never>;
 
+type QueryContextMeta<TMeta extends Record<string, unknown> | undefined> =
+  (TMeta extends Record<string, unknown> ? TMeta : Record<string, never>) &
+    Pick<Context, "queryKey" | "signal">;
+
 export const prepareQueryContext = (
   context: Context,
-): Pick<Context, "queryKey" | "signal"> => {
-  const queryContext: Pick<Context, "queryKey" | "signal"> = {
+  meta?: Record<string, unknown>,
+): QueryContextMeta<typeof meta> => {
+  const queryContext = {
+    ...(meta ?? {}),
     queryKey: context.queryKey,
-    signal: undefined as any,
-  };
+  } as QueryContextMeta<typeof meta>;
 
   Object.defineProperty(queryContext, "signal", {
     enumerable: true,

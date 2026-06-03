@@ -188,10 +188,7 @@ export const useMany = <
       })
       .get(),
     queryFn: (context) => {
-      const meta = {
-        ...combinedMeta,
-        ...prepareQueryContext(context as any),
-      };
+      const meta = prepareQueryContext(context as any, combinedMeta);
 
       if (getMany) {
         return getMany({

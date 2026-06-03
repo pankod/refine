@@ -255,10 +255,7 @@ export const useList = <
       })
       .get(),
     queryFn: (context) => {
-      const meta = {
-        ...combinedMeta,
-        ...prepareQueryContext(context),
-      };
+      const meta = prepareQueryContext(context, combinedMeta);
       return getList<TQueryFnData>({
         resource: resource?.name ?? "",
         pagination: prefferedPagination,
