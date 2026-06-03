@@ -7,6 +7,7 @@ description: "Build i18n in Refine v5. Learn the key steps. Explore translation 
 
 import I18nHeadless from './i18n-headless.tsx';
 import TranslationFileEN from '../../partials/\_partial-translation-file-en.md';
+import TranslationFileDE from '../../partials/\_partial-translation-file-de.md';
 import TranslationFileZH from '../../partials\_partial-translation-file-zh.md';
 
 Internationalization (i18n) is a process that allows software applications to be localized for different regions and languages. Refine can work with any i18n framework, but needs an [`i18nProvider`](/core/docs/i18n/i18n-provider/) to be created based on the chosen library.
