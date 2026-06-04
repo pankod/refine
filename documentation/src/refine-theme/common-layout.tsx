@@ -7,6 +7,7 @@ import LayoutProvider from "@theme/Layout/Provider";
 import SkipToContent from "@theme/SkipToContent";
 import { LivePreviewProvider } from "../components/live-preview-context";
 import useRouteFavicon from "../hooks/use-route-favicon";
+import { ScrollToTop } from "./scroll-to-top";
 import clsx from "clsx";
 
 type Props = {
@@ -36,6 +37,8 @@ export const CommonLayout = (props: Props) => {
           <LivePreviewProvider>{children}</LivePreviewProvider>
         </ErrorBoundary>
       </div>
+      <ScrollToTop />
     </LayoutProvider>
   );
 };
+

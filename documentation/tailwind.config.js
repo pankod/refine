@@ -521,8 +521,20 @@ module.exports = {
           "refine-ai-video-play-button 1.8s ease-out infinite",
         "ai-landing-packages-right":
           "ai-landing-packages-right 80s linear infinite",
+        "scroll-top-ripple":
+          "scroll-top-ripple 0.6s ease-out forwards",
       },
       keyframes: {
+        "scroll-top-ripple": {
+          "0%": {
+            transform: "translate(-50%, -50%) scale(0)",
+            opacity: "0.6",
+          },
+          "100%": {
+            transform: "translate(-50%, -50%) scale(20)",
+            opacity: "0",
+          },
+        },
         "refine-ai-video-play-button": {
           from: {
             transform: "scale3d(1, 1, 1)",
