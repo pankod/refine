@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useTranslate } from "@hooks/i18n";
+import { useTranslate } from "@hooks";
 
 import type { BaseRecord, HttpError } from "../../contexts/data/types";
 import type { AutoSaveIndicatorElements } from "../../hooks/form/types";
