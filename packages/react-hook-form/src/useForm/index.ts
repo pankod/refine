@@ -127,6 +127,7 @@ export const useForm = <
   const {
     control,
     watch,
+    reset,
     setValue,
     getValues,
     handleSubmit: handleSubmitReactHookForm,
@@ -268,7 +269,15 @@ export const useForm = <
     const applyQueryValues = () => {
       if (!isActive) return;
 
-      applyValuesToFields(getRegisteredFields(), data, false);
+      reset(
+        {
+          ...getValues(),
+          ...data,
+        } as unknown as TVariables,
+        {
+          keepDirtyValues: true,
+        },
+      );
     };
 
     queryDataRef.current = data;
@@ -285,7 +294,7 @@ export const useForm = <
     return () => {
       isActive = false;
     };
-  }, [query?.data, setValue, getValues]);
+  }, [query?.data, reset, getValues]);
 
   // Re-sync when new fields register; do not override user edits.
   useEffect(() => {

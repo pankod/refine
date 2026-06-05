@@ -4,8 +4,8 @@ import { useForm } from ".";
 import type { IRefineOptions, HttpError } from "@refinedev/core";
 import * as Core from "@refinedev/core";
 import { MockJSONServer, TestWrapper, act, render, waitFor } from "../../test";
-import { Route, Routes } from "react-router";
-import { Controller } from "react-hook-form";
+import { Link, Route, Routes } from "react-router";
+import { Controller, type Control, useFieldArray } from "react-hook-form";
 
 interface IPost {
   title: string;
@@ -328,5 +328,120 @@ describe("useForm hook", () => {
     } finally {
       useFormCoreSpy.mockRestore();
     }
+  });
+
+  it("should populate useFieldArray fields after navigating back to an edit form", async () => {
+    interface PostWithSkills {
+      id: string;
+      title: string;
+      skills: Array<{ name: string }>;
+    }
+
+    const dataProvider = {
+      ...MockJSONServer,
+      getOne: vi.fn().mockResolvedValue({
+        data: {
+          id: "1",
+          title: "Post 1",
+          skills: [{ name: "TypeScript" }, { name: "React" }],
+        },
+      }),
+    };
+
+    const EditFields = ({
+      control,
+    }: {
+      control: Control<PostWithSkills>;
+    }) => {
+      const { fields } = useFieldArray({
+        control,
+        name: "skills",
+      });
+
+      return (
+        <div>
+          <span data-testid="field-count">{fields.length}</span>
+          {fields.map((field, index) => (
+            <Controller
+              key={field.id}
+              control={control}
+              name={`skills.${index}.name`}
+              render={({ field }) => (
+                <input
+                  data-testid={`skill-${index}`}
+                  value={field.value ?? ""}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+          ))}
+        </div>
+      );
+    };
+
+    const EditPage = () => {
+      const {
+        control,
+        refineCore: { formLoading },
+      } = useForm<PostWithSkills, HttpError, PostWithSkills>({
+        refineCoreProps: {
+          resource: "posts",
+          action: "edit",
+          id: "1",
+        },
+      });
+
+      return (
+        <div>
+          <Link to="/" data-testid="back-link">
+            Back
+          </Link>
+          {!formLoading && <EditFields control={control} />}
+        </div>
+      );
+    };
+
+    const ListPage = () => (
+      <Link to="/posts/edit/1" data-testid="edit-link">
+        Edit
+      </Link>
+    );
+
+    const { findByTestId, getByTestId } = render(
+      <Routes>
+        <Route path="/" element={<ListPage />} />
+        <Route path="/posts/edit/:id" element={<EditPage />} />
+      </Routes>,
+      {
+        wrapper: TestWrapper({
+          dataProvider,
+          routerInitialEntries: ["/posts/edit/1"],
+        }),
+      },
+    );
+
+    expect(
+      await findByTestId("field-count", {}, { timeout: 1000 }),
+    ).toHaveTextContent("2");
+    expect(await findByTestId("skill-0")).toHaveValue("TypeScript");
+    expect(await findByTestId("skill-1")).toHaveValue("React");
+
+    act(() => {
+      getByTestId("back-link").click();
+    });
+
+    expect(
+      await findByTestId("edit-link", {}, { timeout: 1000 }),
+    ).toBeInTheDocument();
+
+    act(() => {
+      getByTestId("edit-link").click();
+    });
+
+    expect(
+      await findByTestId("field-count", {}, { timeout: 1000 }),
+    ).toHaveTextContent("2");
+    expect(await findByTestId("skill-0")).toHaveValue("TypeScript");
+    expect(await findByTestId("skill-1")).toHaveValue("React");
   });
 });
