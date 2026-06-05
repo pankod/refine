@@ -256,6 +256,45 @@ describe("useLogin Hook", () => {
     });
   });
 
+  it("should show a friendly message when OAuth login is cancelled", async () => {
+    const openNotificationMock = vi.fn();
+
+    const { result } = renderHook(() => useLogin(), {
+      wrapper: TestWrapper({
+        notificationProvider: {
+          open: openNotificationMock,
+          close: vi.fn(),
+        },
+        authProvider: {
+          login: () =>
+            Promise.resolve({
+              success: false,
+              error: new Error("No user information from OAuth provider"),
+            }),
+          check: () => Promise.resolve({ authenticated: false }),
+          onError: () => Promise.resolve({}),
+          logout: () => Promise.resolve({ success: true }),
+        },
+      }),
+    });
+
+    const { mutate: login } = result.current;
+
+    await act(async () => {
+      login({ providerName: "github" });
+    });
+
+    await waitFor(() => {
+      expect(openNotificationMock).toHaveBeenCalledWith({
+        key: "login-error",
+        type: "error",
+        message: "Login cancelled",
+        description:
+          "The OAuth authorization was cancelled or denied. Please try again.",
+      });
+    });
+  });
+
   it("should open notification when has success is false, error is undefined", async () => {
     const openNotificationMock = vi.fn();
 

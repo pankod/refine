@@ -107,9 +107,52 @@ export function useLogin<TVariables = {}>({
   };
 }
 
+const getOAuthCancellationNotification = (
+  error?: Error | RefineError,
+): OpenNotificationParams | undefined => {
+  if (!error) {
+    return undefined;
+  }
+
+  const errorMessage = String(
+    error?.message ||
+      error?.response?.data?.error ||
+      error?.response?.data?.message ||
+      "",
+  );
+
+  const statusCode =
+    typeof error?.response?.status === "number"
+      ? error.response.status
+      : undefined;
+
+  if (
+    /access_denied/i.test(errorMessage) ||
+    /authorization was denied/i.test(errorMessage) ||
+    /no user information from oauth provider/i.test(errorMessage) ||
+    (statusCode === 401 && /oauth/i.test(errorMessage))
+  ) {
+    return {
+      key: "login-error",
+      type: "error",
+      message: "Login cancelled",
+      description:
+        "The OAuth authorization was cancelled or denied. Please try again.",
+    };
+  }
+
+  return undefined;
+};
+
 const buildNotification = (
   error?: Error | RefineError,
 ): OpenNotificationParams => {
+  const oauthCancellationNotification = getOAuthCancellationNotification(error);
+
+  if (oauthCancellationNotification) {
+    return oauthCancellationNotification;
+  }
+
   return {
     message: error?.name || "Login Error",
     description: error?.message || "Invalid credentials",
