@@ -129,6 +129,7 @@ export const useForm = <
     watch,
     setValue,
     getValues,
+    reset,
     handleSubmit: handleSubmitReactHookForm,
     setError,
     formState: { dirtyFields },
@@ -140,6 +141,11 @@ export const useForm = <
   const syncedFieldsRef = React.useRef<Set<string>>(new Set());
   // Track mounted field names so late-registered fields can be detected.
   const mountedFieldsRef = React.useRef<Set<string>>(new Set());
+  /**
+   * First successful query sync uses `reset()` so default values include arrays before `useFieldArray`
+   * mounts (e.g. behind `formLoading`). Later syncs use `applyValuesToFields` to avoid wiping RHF metadata.
+   */
+  const hasResetRef = React.useRef(false);
 
   const useFormCoreResult = useFormCore<
     TQueryFnData,
@@ -260,6 +266,7 @@ export const useForm = <
       queryDataRef.current = undefined;
       syncedFieldsRef.current = new Set();
       mountedFieldsRef.current = new Set();
+      hasResetRef.current = false;
       return;
     }
 
@@ -268,7 +275,14 @@ export const useForm = <
     const applyQueryValues = () => {
       if (!isActive) return;
 
-      applyValuesToFields(getRegisteredFields(), data, false);
+      if (!hasResetRef.current) {
+        hasResetRef.current = true;
+        reset({ ...getValues(), ...data } as unknown as TVariables, {
+          keepDirtyValues: true,
+        });
+      } else {
+        applyValuesToFields(getRegisteredFields(), data, false);
+      }
     };
 
     queryDataRef.current = data;
@@ -285,7 +299,7 @@ export const useForm = <
     return () => {
       isActive = false;
     };
-  }, [query?.data, setValue, getValues]);
+  }, [query?.data, setValue, getValues, reset]);
 
   // Re-sync when new fields register; do not override user edits.
   useEffect(() => {
