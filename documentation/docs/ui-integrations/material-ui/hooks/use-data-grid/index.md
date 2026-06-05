@@ -264,6 +264,56 @@ const MyComponent = () => {
 
 :::
 
+### Quick filter
+
+MUI's DataGrid toolbar exposes a quick filter (`<GridToolbarQuickFilter />`) that performs a free-text search across the grid. The text the user types is delivered to `onFilterModelChange` as `GridFilterModel.quickFilterValues` (an array of tokens) together with `quickFilterLogicOperator` (`"and" | "or"`).
+
+Because the quick filter is not a per-column predicate, it doesn't map to `CrudFilters` (which are field-based). `useDataGrid` instead forwards both values through to the data provider via the `meta` object, where your data provider can translate them into whatever search parameter your API expects — or ignore them.
+
+```tsx
+import { useDataGrid, List } from "@refinedev/mui";
+import { DataGrid, GridColDef, GridToolbarQuickFilter } from "@mui/x-data-grid";
+
+const columns: GridColDef[] = [
+  { field: "id", headerName: "ID", type: "number" },
+  { field: "title", headerName: "Title" },
+];
+
+export const PostsList: React.FC = () => {
+  const { dataGridProps } = useDataGrid({ resource: "posts" });
+
+  return (
+    <List>
+      <DataGrid
+        {...dataGridProps}
+        columns={columns}
+        slots={{ toolbar: GridToolbarQuickFilter }}
+      />
+    </List>
+  );
+};
+```
+
+When the user types in the quick filter input, the data provider's `getList` receives the values on `meta`:
+
+```ts
+// dataProvider
+getList: async ({ resource, pagination, filters, sorters, meta }) => {
+  const params = new URLSearchParams();
+
+  if (meta?.quickFilterValues?.length) {
+    params.set("q", meta.quickFilterValues.join(" "));
+    if (meta.quickFilterLogicOperator) {
+      params.set("q_op", meta.quickFilterLogicOperator); // "and" | "or"
+    }
+  }
+
+  // ...pagination/filters/sorters
+};
+```
+
+The toolbar input is kept in sync via the returned `filterModel`, so it stays responsive as the user types; the server query is debounced separately.
+
 ## Realtime Updates
 
 > [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
@@ -569,6 +619,10 @@ useDataGrid({
 - Generating GraphQL queries using plain JavaScript Objects (JSON).
 
 > For more information, refer to the [`meta` section of the General Concepts documentation for more information &#8594](/core/docs/guides-concepts/general-concepts/#meta-concept)
+
+:::note
+When the user types in the DataGrid toolbar's quick filter, `useDataGrid` adds `quickFilterValues` and `quickFilterLogicOperator` to `meta` automatically (see [Quick filter](#quick-filter)). Avoid passing your own `meta` keys with those names.
+:::
 
 In the following example, we pass the `headers` property in the `meta` object to the `create` method. With similar logic, you can pass any properties to specifically handle the data provider methods.
 

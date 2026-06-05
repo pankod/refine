@@ -19,6 +19,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type {
   DataGridProps,
   GridFilterModel,
+  GridLogicOperator,
   GridSortModel,
 } from "@mui/x-data-grid";
 
@@ -164,6 +165,37 @@ export function useDataGrid<
 
   const { identifier } = useResourceParams({ resource: resourceFromProp });
 
+  const isServerSideFilteringEnabled =
+    (filtersFromProp?.mode || "server") === "server";
+
+  // `display` drives the toolbar input (updates immediately); `applied` is
+  // what flows to `meta` and is debounced in server mode.
+  const [displayQuickFilter, setDisplayQuickFilter] = useState<{
+    values?: GridFilterModel["quickFilterValues"];
+    logicOperator?: GridLogicOperator;
+  }>({});
+  const [appliedQuickFilter, setAppliedQuickFilter] = useState<{
+    values?: GridFilterModel["quickFilterValues"];
+    logicOperator?: GridLogicOperator;
+  }>({});
+
+  const metaWithQuickFilter = useMemo(() => {
+    const hasValues =
+      isServerSideFilteringEnabled &&
+      appliedQuickFilter.values !== undefined &&
+      appliedQuickFilter.values.length > 0;
+    if (!hasValues) {
+      return meta;
+    }
+    return {
+      ...meta,
+      quickFilterValues: appliedQuickFilter.values,
+      ...(appliedQuickFilter.logicOperator !== undefined
+        ? { quickFilterLogicOperator: appliedQuickFilter.logicOperator }
+        : {}),
+    };
+  }, [meta, appliedQuickFilter, isServerSideFilteringEnabled]);
+
   const {
     tableQuery,
     currentPage,
@@ -193,7 +225,7 @@ export function useDataGrid<
     liveMode: liveModeFromProp,
     onLiveEvent,
     liveParams,
-    meta,
+    meta: metaWithQuickFilter,
     dataProviderName,
     overtimeOptions,
   });
@@ -210,8 +242,6 @@ export function useDataGrid<
     return rowCountRef.current;
   }, [data]);
 
-  const isServerSideFilteringEnabled =
-    (filtersFromProp?.mode || "server") === "server";
   const isServerSideSortingEnabled =
     (sortersFromProp?.mode || "server") === "server";
   const isPaginationEnabled = (pagination?.mode ?? "server") !== "off";
@@ -261,12 +291,18 @@ export function useDataGrid<
 
   const handleFilterModelChange = (filterModel: GridFilterModel) => {
     const crudFilters = transformFilterModelToCrudFilters(filterModel);
+    const nextQuickFilter = {
+      values: filterModel.quickFilterValues,
+      logicOperator: filterModel.quickFilterLogicOperator,
+    };
     setMuiCrudFilters(crudFilters);
+    setDisplayQuickFilter(nextQuickFilter);
     if (isServerSideFilteringEnabled) {
       // Let the input update immediately; debounce only the server query.
       clearFilterDebounce();
       filterDebounceRef.current = setTimeout(() => {
         applyFilters(crudFilters);
+        setAppliedQuickFilter(nextQuickFilter);
       }, DEFAULT_FILTER_DEBOUNCE_MS);
       return;
     }
@@ -278,6 +314,8 @@ export function useDataGrid<
       const searchFilters = await onSearchProp(value);
       clearFilterDebounce();
       setMuiCrudFilters(searchFilters);
+      setDisplayQuickFilter({});
+      setAppliedQuickFilter({});
       applyFilters(searchFilters);
     }
   };
@@ -347,6 +385,25 @@ export function useDataGrid<
     [sorters, preferredPermanentSorters],
   );
 
+  const transformedFilterModel = useMemo(
+    () =>
+      transformCrudFiltersToFilterModel(
+        differenceWith(muiCrudFilters, preferredPermanentFilters, isEqual),
+        columnsTypes.current,
+      ),
+    [muiCrudFilters, preferredPermanentFilters, columnsTypes.current],
+  );
+
+  const filterModelWithQuickFilter = useMemo<GridFilterModel>(
+    () => ({
+      items: transformedFilterModel?.items ?? [],
+      logicOperator: transformedFilterModel?.logicOperator,
+      quickFilterValues: displayQuickFilter.values,
+      quickFilterLogicOperator: displayQuickFilter.logicOperator,
+    }),
+    [transformedFilterModel, displayQuickFilter],
+  );
+
   return {
     tableQuery,
     dataGridProps: {
@@ -361,10 +418,7 @@ export function useDataGrid<
       filterMode: isServerSideFilteringEnabled ? "server" : "client",
       // Disable DataGrid's debounce for server filtering to prevent input resets.
       filterDebounceMs: isServerSideFilteringEnabled ? 0 : undefined,
-      filterModel: transformCrudFiltersToFilterModel(
-        differenceWith(muiCrudFilters, preferredPermanentFilters, isEqual),
-        columnsTypes.current,
-      ),
+      filterModel: filterModelWithQuickFilter,
       onFilterModelChange: handleFilterModelChange,
       onStateChange: (state) => {
         const newColumnsTypes = Object.fromEntries(
