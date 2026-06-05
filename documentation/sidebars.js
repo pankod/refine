@@ -418,6 +418,7 @@ module.exports = {
             "authentication/hooks/use-register/index",
             "authentication/hooks/use-forgot-password/index",
             "authentication/hooks/use-update-password/index",
+            "authentication/hooks/use-update-identity/index",
           ],
         },
         {
