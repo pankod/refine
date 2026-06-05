@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@refinedev/cli": "^2.16.52",
-    "@refinedev/core": "^5.0.12",
+    "@refinedev/core": "^5.1.0",
     "@refinedev/react-hook-form": "^5.0.4",
     "@refinedev/react-table": "^6.0.1",
     "@refinedev/remix-router": "^4.0.4",

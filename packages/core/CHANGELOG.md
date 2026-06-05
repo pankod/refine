@@ -1,5 +1,37 @@
 # @refinedev/core
 
+## 5.1.0
+
+### Minor Changes
+
+- [#7440](https://github.com/refinedev/refine/pull/7440) [`b71dc1fedbfd0bc0196f45d6ef52127e00633790`](https://github.com/refinedev/refine/commit/b71dc1fedbfd0bc0196f45d6ef52127e00633790) Thanks [@pulkitxm](https://github.com/pulkitxm)! - feat: add `updateIdentity` method to auth provider and `useUpdateIdentity` hook
+
+  Added an optional `updateIdentity` method to the `AuthProvider` interface so consumers can natively update the current user's identity (e.g. username and/or email), following the same pattern as `updatePassword`.
+
+  A new `useUpdateIdentity` hook calls the `updateIdentity` method from the `authProvider` under the hood, mirroring `useUpdatePassword`'s behavior for redirects, notifications and error handling.
+
+  ```tsx
+  import { useUpdateIdentity } from "@refinedev/core";
+
+  const { mutate: updateIdentity } = useUpdateIdentity();
+
+  updateIdentity({ name: "New Name", email: "new@email.com" });
+  ```
+
+  The `updateIdentity` method is optional, so existing auth providers remain fully backwards-compatible.
+
+  [Resolves #6926](https://github.com/refinedev/refine/issues/6926)
+
+### Patch Changes
+
+- [#7426](https://github.com/refinedev/refine/pull/7426) [`f8e4c53f7aa83eff6563d62a9f09fc71d513e0c3`](https://github.com/refinedev/refine/commit/f8e4c53f7aa83eff6563d62a9f09fc71d513e0c3) Thanks [@jwgmeligmeyling](https://github.com/jwgmeligmeyling)! - fix(core): keep query context signal lazy when merging meta
+
+  `prepareQueryContext` was previously spread into new `meta` objects inside core data hooks. Because `signal` is exposed as a getter, object spread eagerly accessed it during merge and marked the query as abortable earlier than intended.
+
+  This keeps `signal` lazy by merging `meta` inside `prepareQueryContext` and preserving the getter on the returned object. The fix is applied across the affected hooks in `@refinedev/core`, and a regression test was added for the lazy `signal` behavior.
+
+  Resolves #7132
+
 ## 5.0.12
 
 ### Patch Changes

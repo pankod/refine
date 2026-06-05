@@ -1,5 +1,11 @@
 # @refinedev/mui
 
+## 8.0.3
+
+### Patch Changes
+
+- [#7428](https://github.com/refinedev/refine/pull/7428) [`c6c27b57f704e0a3b9cc9f01a996a072a179e47f`](https://github.com/refinedev/refine/commit/c6c27b57f704e0a3b9cc9f01a996a072a179e47f) Thanks [@Will-thom](https://github.com/Will-thom)! - Fix ThemedTitle to avoid rendering nested anchor elements.
+
 ## 8.0.2
 
 ### Patch Changes
