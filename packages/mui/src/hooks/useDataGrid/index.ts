@@ -18,6 +18,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import type {
   DataGridProps,
+  GridFilterItem,
   GridFilterModel,
   GridSortModel,
 } from "@mui/x-data-grid";
@@ -161,6 +162,9 @@ export function useDataGrid<
   const columnsTypes = useRef<Record<string, string>>({});
   // Debounce server-side filter fetches so UI input stays responsive.
   const filterDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Tracks the last filter model seen by `onFilterModelChange` so we can detect
+  // when the user swapped a row's `field` and clear the now-stale `value`.
+  const previousFilterModelRef = useRef<GridFilterModel | null>(null);
 
   const { identifier } = useResourceParams({ resource: resourceFromProp });
 
@@ -260,7 +264,44 @@ export function useDataGrid<
   };
 
   const handleFilterModelChange = (filterModel: GridFilterModel) => {
-    const crudFilters = transformFilterModelToCrudFilters(filterModel);
+    // When the user changes a row's `field` in the filter panel, MUI keeps the
+    // previous `value` — which is meaningless under the new field (enums,
+    // foreign-key refs, booleans, etc). Clear it before translating to a
+    // CrudFilter so we don't ship an invalid query to the data provider.
+    const previousModel = previousFilterModelRef.current;
+    let normalizedModel = filterModel;
+    if (
+      previousModel &&
+      previousModel.items.length === filterModel.items.length
+    ) {
+      // Prefer matching by `GridFilterItem.id` so reorders and single-step
+      // swap operations (delete + add in one model update) aren't misread as
+      // field changes. Fall back to position when the id is absent.
+      const previousById = new Map<GridFilterItem["id"], GridFilterItem>();
+      previousModel.items.forEach((item) => {
+        if (item.id !== undefined) {
+          previousById.set(item.id, item);
+        }
+      });
+      let mutated = false;
+      const items = filterModel.items.map((newItem, i) => {
+        const oldItem =
+          newItem.id !== undefined
+            ? previousById.get(newItem.id)
+            : previousModel.items[i];
+        if (oldItem && oldItem.field !== newItem.field) {
+          mutated = true;
+          return { ...newItem, value: null };
+        }
+        return newItem;
+      });
+      if (mutated) {
+        normalizedModel = { ...filterModel, items };
+      }
+    }
+    previousFilterModelRef.current = normalizedModel;
+
+    const crudFilters = transformFilterModelToCrudFilters(normalizedModel);
     setMuiCrudFilters(crudFilters);
     if (isServerSideFilteringEnabled) {
       // Let the input update immediately; debounce only the server query.
@@ -278,6 +319,10 @@ export function useDataGrid<
       const searchFilters = await onSearchProp(value);
       clearFilterDebounce();
       setMuiCrudFilters(searchFilters);
+      // Drop the cached grid model: `search()` replaces filters out-of-band
+      // and the next `onFilterModelChange` should not diff against a model
+      // that no longer reflects the grid's current state.
+      previousFilterModelRef.current = null;
       applyFilters(searchFilters);
     }
   };

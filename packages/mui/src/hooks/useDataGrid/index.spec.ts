@@ -308,6 +308,342 @@ describe("useDataGrid Hook", () => {
     });
   });
 
+  describe("onFilterModelChange — field swap value clearing", () => {
+    it("clears the carried-over value when only the field changes at the same position", async () => {
+      const { result } = renderHook(
+        () =>
+          useDataGrid({
+            resource: "posts",
+            filters: { mode: "off" },
+          }),
+        { wrapper: TestWrapper({}) },
+      );
+
+      await waitFor(() => {
+        expect(!result.current.tableQuery?.isLoading).toBeTruthy();
+      });
+
+      // User picks field "title" with value "X".
+      await act(async () => {
+        result.current.dataGridProps.onFilterModelChange(
+          {
+            items: [
+              { id: 1, field: "title", operator: "contains", value: "X" },
+            ],
+          },
+          {} as any,
+        );
+      });
+
+      expect(result.current.filters).toEqual([
+        { field: "title", operator: "contains", value: "X" },
+      ]);
+
+      // User changes the field to "status" — MUI carries over the old value "X".
+      await act(async () => {
+        result.current.dataGridProps.onFilterModelChange(
+          {
+            items: [
+              { id: 1, field: "status", operator: "contains", value: "X" },
+            ],
+          },
+          {} as any,
+        );
+      });
+
+      // The stale value must NOT leak into the data provider as a filter on
+      // the new field.
+      expect(result.current.filters).toEqual([]);
+    });
+
+    it("preserves the value when only the value changes (same field)", async () => {
+      const { result } = renderHook(
+        () =>
+          useDataGrid({
+            resource: "posts",
+            filters: { mode: "off" },
+          }),
+        { wrapper: TestWrapper({}) },
+      );
+
+      await waitFor(() => {
+        expect(!result.current.tableQuery?.isLoading).toBeTruthy();
+      });
+
+      await act(async () => {
+        result.current.dataGridProps.onFilterModelChange(
+          {
+            items: [
+              { id: 1, field: "title", operator: "contains", value: "X" },
+            ],
+          },
+          {} as any,
+        );
+      });
+
+      await act(async () => {
+        result.current.dataGridProps.onFilterModelChange(
+          {
+            items: [
+              { id: 1, field: "title", operator: "contains", value: "Y" },
+            ],
+          },
+          {} as any,
+        );
+      });
+
+      expect(result.current.filters).toEqual([
+        { field: "title", operator: "contains", value: "Y" },
+      ]);
+    });
+
+    it("does not clear values when a row is added or removed", async () => {
+      const { result } = renderHook(
+        () =>
+          useDataGrid({
+            resource: "posts",
+            filters: { mode: "off" },
+          }),
+        { wrapper: TestWrapper({}) },
+      );
+
+      await waitFor(() => {
+        expect(!result.current.tableQuery?.isLoading).toBeTruthy();
+      });
+
+      await act(async () => {
+        result.current.dataGridProps.onFilterModelChange(
+          {
+            items: [
+              { id: 1, field: "title", operator: "contains", value: "X" },
+            ],
+          },
+          {} as any,
+        );
+      });
+
+      // Adding a second row must not nuke the first row's value.
+      await act(async () => {
+        result.current.dataGridProps.onFilterModelChange(
+          {
+            items: [
+              { id: 1, field: "title", operator: "contains", value: "X" },
+              { id: 2, field: "status", operator: "contains", value: "draft" },
+            ],
+          },
+          {} as any,
+        );
+      });
+
+      expect(result.current.filters).toEqual([
+        { field: "title", operator: "contains", value: "X" },
+        { field: "status", operator: "contains", value: "draft" },
+      ]);
+
+      // Removing the first row must not nuke the remaining row's value, even
+      // though a naive position-by-position diff would see the field change at
+      // index 0.
+      await act(async () => {
+        result.current.dataGridProps.onFilterModelChange(
+          {
+            items: [
+              { id: 2, field: "status", operator: "contains", value: "draft" },
+            ],
+          },
+          {} as any,
+        );
+      });
+
+      expect(result.current.filters).toEqual([
+        { field: "status", operator: "contains", value: "draft" },
+      ]);
+    });
+
+    it("matches items by GridFilterItem.id so single-step row swaps don't wipe unrelated values", async () => {
+      const { result } = renderHook(
+        () =>
+          useDataGrid({
+            resource: "posts",
+            filters: { mode: "off" },
+          }),
+        { wrapper: TestWrapper({}) },
+      );
+
+      await waitFor(() => {
+        expect(!result.current.tableQuery?.isLoading).toBeTruthy();
+      });
+
+      // Seed: two filters with stable ids.
+      await act(async () => {
+        result.current.dataGridProps.onFilterModelChange(
+          {
+            items: [
+              { id: 1, field: "title", operator: "contains", value: "X" },
+              { id: 2, field: "status", operator: "contains", value: "draft" },
+            ],
+          },
+          {} as any,
+        );
+      });
+
+      // Single-step change: row id=1 is removed and id=3 is added at the same
+      // time, so length is preserved. A naive index diff would compare
+      // previous id=1 (title) against new id=2 (status) at position 0 and
+      // wipe the untouched "draft" value.
+      await act(async () => {
+        result.current.dataGridProps.onFilterModelChange(
+          {
+            items: [
+              { id: 2, field: "status", operator: "contains", value: "draft" },
+              {
+                id: 3,
+                field: "created_at",
+                operator: "contains",
+                value: "2024",
+              },
+            ],
+          },
+          {} as any,
+        );
+      });
+
+      expect(result.current.filters).toEqual([
+        { field: "status", operator: "contains", value: "draft" },
+        { field: "created_at", operator: "contains", value: "2024" },
+      ]);
+    });
+
+    it("does not misidentify a value-only edit as a field swap after search() rewrites filters", async () => {
+      const { result } = renderHook(
+        () =>
+          useDataGrid<any, any, { title: string }>({
+            resource: "posts",
+            filters: { mode: "off" },
+            onSearch: (values) => [
+              {
+                field: "status",
+                operator: "contains" as const,
+                value: values.title,
+              },
+            ],
+          }),
+        { wrapper: TestWrapper({}) },
+      );
+
+      await waitFor(() => {
+        expect(!result.current.tableQuery?.isLoading).toBeTruthy();
+      });
+
+      // User edits the grid: field "title" with value "X".
+      await act(async () => {
+        result.current.dataGridProps.onFilterModelChange(
+          {
+            items: [
+              { id: 1, field: "title", operator: "contains", value: "X" },
+            ],
+          },
+          {} as any,
+        );
+      });
+
+      // External: search() rewrites filters to a different field. The grid's
+      // controlled filterModel now reflects {field: "status"} but the cached
+      // previous model still says {field: "title"}.
+      await act(async () => {
+        await result.current.search({ title: "draft" });
+      });
+
+      // User edits only the value of the (now status) row. Without the ref
+      // being reset in search(), the position-0 diff would see
+      // "title" !== "status" and wipe the new value.
+      await act(async () => {
+        result.current.dataGridProps.onFilterModelChange(
+          {
+            items: [
+              {
+                id: 1,
+                field: "status",
+                operator: "contains",
+                value: "published",
+              },
+            ],
+          },
+          {} as any,
+        );
+      });
+
+      expect(result.current.filters).toEqual([
+        { field: "status", operator: "contains", value: "published" },
+      ]);
+    });
+
+    it("clears the carried-over value in server filter mode (debounced)", async () => {
+      const { result } = renderHook(
+        () =>
+          useDataGrid({
+            resource: "posts",
+            // default mode is "server" — debounced applyFilters via setTimeout.
+          }),
+        { wrapper: TestWrapper({}) },
+      );
+
+      await waitFor(() => {
+        expect(!result.current.tableQuery?.isLoading).toBeTruthy();
+      });
+
+      vi.useFakeTimers();
+      try {
+        await act(async () => {
+          result.current.dataGridProps.onFilterModelChange(
+            {
+              items: [
+                { id: 1, field: "title", operator: "contains", value: "X" },
+              ],
+            },
+            {} as any,
+          );
+        });
+
+        // Flush the first debounce so the title="X" filter actually lands in
+        // `result.current.filters` before we trigger the field swap.
+        await act(async () => {
+          vi.advanceTimersByTime(301);
+        });
+
+        expect(result.current.filters).toEqual([
+          { field: "title", operator: "contains", value: "X" },
+        ]);
+
+        // User swaps the field to "status" while MUI carries over value "X".
+        await act(async () => {
+          result.current.dataGridProps.onFilterModelChange(
+            {
+              items: [
+                { id: 1, field: "status", operator: "contains", value: "X" },
+              ],
+            },
+            {} as any,
+          );
+        });
+
+        // Before the debounce fires, the data provider should not see the new
+        // model yet — filters still reflect the previous state.
+        expect(result.current.filters).toEqual([
+          { field: "title", operator: "contains", value: "X" },
+        ]);
+
+        // After debounce, the cleared value must not have leaked.
+        await act(async () => {
+          vi.advanceTimersByTime(301);
+        });
+
+        expect(result.current.filters).toEqual([]);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+  });
+
   it("should not change sortModel when page changes", async () => {
     const { result } = renderHook(
       () =>
