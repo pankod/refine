@@ -1,8 +1,17 @@
 import { renderHook } from "@testing-library/react";
 
 import { MockJSONServer, TestWrapper } from "@test";
+import type { BaseKey, DataProvider, GetOneParams } from "@refinedev/core";
 
 import { useDataProvider } from ".";
+
+type CustomDataProvider = Omit<DataProvider, "getOne"> & {
+  getOne: (params: {
+    resource: string;
+    id: BaseKey;
+    meta?: { test?: string } & GetOneParams["meta"];
+  }) => ReturnType<DataProvider["getOne"]>;
+};
 
 describe("useDataProvider Hook", () => {
   const { result } = renderHook(() => useDataProvider(), {
@@ -23,6 +32,16 @@ describe("useDataProvider Hook", () => {
     const dataProvider = result.current("second");
 
     expect(dataProvider.getList).toBeDefined();
+  });
+
+  it("preserves custom provider types when generic is provided", async () => {
+    const dataProvider = result.current<CustomDataProvider>();
+
+    await dataProvider.getOne({
+      resource: "posts",
+      id: 1,
+      meta: { test: "typed" },
+    });
   });
 
   it("get list with from second data provider", async () => {
