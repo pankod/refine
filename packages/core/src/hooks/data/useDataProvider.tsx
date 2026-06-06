@@ -1,13 +1,16 @@
 import { useCallback, useContext } from "react";
 
 import { DataContext } from "@contexts/data";
-import { type DataProvider, IDataContext } from "../../contexts/data/types";
-export const useDataProvider = (): ((
+import type { DataProvider } from "../../contexts/data/types";
+
+export const useDataProvider = <
+  TDataProvider extends DataProvider = DataProvider,
+>(): ((
   /**
    * The name of the `data provider` you want to access
    */
   dataProviderName?: string,
-) => DataProvider) => {
+) => TDataProvider) => {
   const context = useContext(DataContext);
 
   const handleDataProvider = useCallback(
@@ -36,7 +39,7 @@ export const useDataProvider = (): ((
       );
     },
     [context],
-  );
+  ) as (dataProviderName?: string) => TDataProvider;
 
   return handleDataProvider;
 };
