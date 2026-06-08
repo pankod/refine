@@ -64,7 +64,7 @@ git clone <your repo github link>
 ```
 
 - Change directory and install dependencies:
-
+  ..........................................
 ```
 cd directory
 npm install
