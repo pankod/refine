@@ -1,6 +1,7 @@
 import { useContext, useMemo } from "react";
 
 import { I18nContext } from "@contexts/i18n";
+import type { UseTranslationProps } from "./useTranslation";
 
 /**
  * If you need to translate the texts in your own components, refine provides the `useTranslate` hook.
@@ -8,7 +9,7 @@ import { I18nContext } from "@contexts/i18n";
  *
  * @see {@link https://refine.dev/docs/api-reference/core/hooks/translate/useTranslate} for more details.
  */
-export const useTranslate = () => {
+export const useTranslate = ({ ns }: UseTranslationProps = {}) => {
   const { i18nProvider } = useContext(I18nContext);
 
   const fn = useMemo(() => {
@@ -21,14 +22,31 @@ export const useTranslate = () => {
 
     function translate(
       key: string,
-      options?: string | any,
-      defaultMessage?: string,
+      _options?: string | any,
+      _defaultMessage?: string,
     ) {
+      let options = _options;
+      let defaultMessage = _defaultMessage;
+
+      if (typeof options === "string" && defaultMessage === undefined) {
+        defaultMessage = options;
+
+        if (ns) {
+          options = { ns };
+        } else {
+          options = undefined;
+        }
+      }
+
+      if (ns && options && typeof options !== "string") {
+        options = { ns, ...options };
+      }
+
       return (
         i18nProvider?.translate(key, options, defaultMessage) ??
         defaultMessage ??
-        (typeof options === "string" && typeof defaultMessage === "undefined"
-          ? options
+        (typeof _options === "string" && typeof _defaultMessage === "undefined"
+          ? _options
           : key)
       );
     }

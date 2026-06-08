@@ -127,6 +127,24 @@ const title = translate("posts.fields.title", { ns: "resources" }, "Title");
 // ...
 ```
 
+- Example using namespace option
+
+Using the `ns` option in the hook initializer sets a default namespace for all translations:
+
+```tsx
+import { useTranslation } from "@refinedev/core";
+
+// ...
+
+const { translate } = useTranslation({ ns: "resources" });
+
+// ...
+
+const title = translate("posts.fields.title", "Title");
+
+// ...
+```
+
 You can use the [`useTranslation`][use-translation] hook to call `translate` method.
 
 ### changeLocale

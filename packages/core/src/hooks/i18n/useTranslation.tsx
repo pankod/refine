@@ -2,6 +2,10 @@ import { useGetLocale } from "./useGetLocale";
 import { useSetLocale } from "./useSetLocale";
 import { useTranslate } from "./useTranslate";
 
+export interface UseTranslationProps {
+  ns?: string | string[];
+}
+
 /**
  * It combines `useTranslate`, `useSetLocale` and `useGetLocale` hooks for a better developer experience.
  * It returns `i18nProvider` methods under the hood.
@@ -11,8 +15,8 @@ import { useTranslate } from "./useTranslate";
  *
  * @see {@link https://refine.dev/docs/i18n/i18n-provider/} for more details.
  */
-export const useTranslation = () => {
-  const translate = useTranslate();
+export const useTranslation = ({ ns }: UseTranslationProps = {}) => {
+  const translate = useTranslate({ ns });
   const changeLocale = useSetLocale();
   const getLocale = useGetLocale();
 
