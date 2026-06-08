@@ -6,17 +6,19 @@ import { getResourcePath } from "@utils/resource";
 import spinner from "@utils/spinner";
 import { uppercaseFirstChar } from "@utils/text";
 import execa from "execa";
+import { mkdtempSync } from "fs";
 import {
   copySync,
   mkdirSync,
   moveSync,
   pathExistsSync,
+  removeSync,
   unlinkSync,
 } from "fs-extra";
 import inquirer from "inquirer";
+import { tmpdir } from "os";
 import { join } from "path";
 import { plural } from "pluralize";
-import temp from "temp";
 import { getCommandRootDir } from "./get-command-root-dir";
 
 export const defaultActions = ["list", "create", "edit", "show"];
@@ -97,9 +99,6 @@ export const createResources = async (
     // create temp dir
     const tempDir = generateTempDir();
 
-    // copy template files
-    copySync(sourceDir, tempDir);
-
     const compileParams = {
       resourceName,
       resource,
@@ -108,34 +107,39 @@ export const createResources = async (
       isNextJs,
     };
 
-    // compile dir
-    compileDir(tempDir, compileParams);
-
-    // delete ignored actions
-    if (customActions) {
-      defaultActions.forEach((action) => {
-        if (!customActions.includes(action)) {
-          unlinkSync(`${tempDir}/${action}.tsx`);
-        }
-      });
-    }
-
-    // create desctination dir
-    mkdirSync(destinationPath, { recursive: true });
-
-    // copy to destination
     const destinationResourcePath = `${destinationPath}/${resourceFolderName}`;
 
-    let moveSyncOptions = {};
+    try {
+      // copy template files
+      copySync(sourceDir, tempDir);
 
-    // empty dir override
-    if (pathExistsSync(destinationResourcePath)) {
-      moveSyncOptions = { overwrite: true };
+      // compile dir
+      compileDir(tempDir, compileParams);
+
+      // delete ignored actions
+      if (customActions) {
+        defaultActions.forEach((action) => {
+          if (!customActions.includes(action)) {
+            unlinkSync(`${tempDir}/${action}.tsx`);
+          }
+        });
+      }
+
+      // create desctination dir
+      mkdirSync(destinationPath, { recursive: true });
+
+      let moveSyncOptions = {};
+
+      // empty dir override
+      if (pathExistsSync(destinationResourcePath)) {
+        moveSyncOptions = { overwrite: true };
+      }
+      moveSync(tempDir, destinationResourcePath, moveSyncOptions);
+    } finally {
+      if (pathExistsSync(tempDir)) {
+        removeSync(tempDir);
+      }
     }
-    moveSync(tempDir, destinationResourcePath, moveSyncOptions);
-
-    // clear temp dir
-    temp.cleanupSync();
 
     // if use Next.js, generate page files. This makes easier to use the resource
     if (isNextJs) {
@@ -182,8 +186,7 @@ export const createResources = async (
 };
 
 const generateTempDir = (): string => {
-  temp.track();
-  return temp.mkdirSync("resource");
+  return mkdtempSync(join(tmpdir(), "refine-resource-"));
 };
 
 /**

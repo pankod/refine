@@ -11521,9 +11521,6 @@ importers:
       semver-diff:
         specifier: ^3.1.1
         version: 3.1.1
-      temp:
-        specifier: ^0.9.4
-        version: 0.9.4
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
@@ -11582,9 +11579,6 @@ importers:
       '@types/semver':
         specifier: ^7.5.8
         version: 7.5.8
-      '@types/temp':
-        specifier: ^0.9.1
-        version: 0.9.4
       '@vitest/ui':
         specifier: ^2.1.8
         version: 2.1.9(vitest@2.1.9)
@@ -20721,9 +20715,6 @@ packages:
 
   '@types/tar@6.1.13':
     resolution: {integrity: sha512-IznnlmU5f4WcGTh2ltRu/Ijpmk8wiWXfF0VA4s+HPjHZgvFggk1YaIkbo5krX/zUCzWF8N/l4+W/LNxnvAJ8nw==}
-
-  '@types/temp@0.9.4':
-    resolution: {integrity: sha512-+VfWIwrlept2VBTj7Y2wQnI/Xfscy1u8Pyj/puYwss6V1IblXn1x7S0S9eFh6KyBolgLCm+rUFzhFAbdkR691g==}
 
   '@types/through@0.0.33':
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
@@ -43195,10 +43186,6 @@ snapshots:
     dependencies:
       '@types/node': 20.5.1
       minipass: 4.2.8
-
-  '@types/temp@0.9.4':
-    dependencies:
-      '@types/node': 20.5.1
 
   '@types/through@0.0.33':
     dependencies:
