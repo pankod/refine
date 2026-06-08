@@ -5,6 +5,7 @@ import {
   Grid,
   Drawer,
   Button,
+  Modal,
   theme,
   ConfigProvider,
 } from "antd";
@@ -24,6 +25,7 @@ import {
   useMenu,
   useLink,
   useWarnAboutChange,
+  useRefineOptions,
 } from "@refinedev/core";
 
 import { drawerButtonStyles } from "./styles";
@@ -55,6 +57,7 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
   const { menuItems, selectedKey, defaultOpenKeys } = useMenu({ meta });
   const breakpoint = Grid.useBreakpoint();
   const { mutate: mutateLogout } = useLogout();
+  const { logout: logoutOptions } = useRefineOptions();
 
   const isMobile =
     typeof breakpoint.lg === "undefined" ? false : !breakpoint.lg;
@@ -123,17 +126,30 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
 
   const handleLogout = () => {
     if (warnWhen) {
-      const confirm = window.confirm(
+      const confirmed = window.confirm(
         translate(
           "warnWhenUnsavedChanges",
           "Are you sure you want to leave? You have unsaved changes.",
         ),
       );
 
-      if (confirm) {
+      if (confirmed) {
         setWarnWhen(false);
         mutateLogout();
       }
+    } else if (logoutOptions.confirm) {
+      Modal.confirm({
+        title: translate("buttons.logout", "Logout"),
+        content: translate(
+          "buttons.logout.confirm",
+          "Are you sure you want to logout?",
+        ),
+        okText: translate("buttons.logout", "Logout"),
+        okType: "danger",
+        cancelText: translate("buttons.cancel", "Cancel"),
+        centered: true,
+        onOk: () => mutateLogout(),
+      });
     } else {
       mutateLogout();
     }

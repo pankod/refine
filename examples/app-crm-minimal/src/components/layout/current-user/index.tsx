@@ -1,9 +1,9 @@
 import React from "react";
 
-import { useGetIdentity } from "@refinedev/core";
+import { useGetIdentity, useLogout, useRefineOptions } from "@refinedev/core";
 
-import { SettingOutlined } from "@ant-design/icons";
-import { Button, Popover } from "antd";
+import { LogoutOutlined, SettingOutlined } from "@ant-design/icons";
+import { Button, Modal, Popover } from "antd";
 
 import type { User } from "@/graphql/schema.types";
 
@@ -14,6 +14,24 @@ import { AccountSettings } from "../account-settings";
 export const CurrentUser = () => {
   const [opened, setOpened] = React.useState(false);
   const { data: user } = useGetIdentity<User>();
+  const { mutate: logout } = useLogout();
+  const { logout: logoutOptions } = useRefineOptions();
+
+  const handleLogout = () => {
+    if (logoutOptions.confirm) {
+      Modal.confirm({
+        title: "Logout",
+        content: "Are you sure you want to logout?",
+        okText: "Logout",
+        okType: "danger",
+        cancelText: "Cancel",
+        centered: true,
+        onOk: () => logout(),
+      });
+    } else {
+      logout();
+    }
+  };
 
   const content = (
     <div
@@ -47,6 +65,16 @@ export const CurrentUser = () => {
           onClick={() => setOpened(true)}
         >
           Account settings
+        </Button>
+        <Button
+          style={{ textAlign: "left" }}
+          icon={<LogoutOutlined />}
+          type="text"
+          block
+          danger
+          onClick={handleLogout}
+        >
+          Logout
         </Button>
       </div>
     </div>

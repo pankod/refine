@@ -102,6 +102,16 @@ export interface IRefineOptions {
     icon?: React.ReactNode;
     text?: React.ReactNode;
   };
+  /**
+   * Configure logout behavior across all Refine UI packages.
+   */
+  logout?: {
+    /**
+     * When `true`, a confirmation dialog is shown before logout executes.
+     * @default false
+     */
+    confirm?: boolean;
+  };
 }
 
 export interface IRefineContextOptions {
@@ -124,6 +134,9 @@ export interface IRefineContextOptions {
   title: {
     icon?: React.ReactNode;
     text?: React.ReactNode;
+  };
+  logout: {
+    confirm: boolean;
   };
 }
 

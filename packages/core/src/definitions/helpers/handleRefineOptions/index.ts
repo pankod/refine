@@ -101,6 +101,9 @@ export const handleRefineOptions = ({
       options?.disableRouteChangeHandler ??
       disableRouteChangeHandler ??
       defaultRefineOptions.disableRouteChangeHandler,
+    logout: {
+      confirm: options?.logout?.confirm ?? defaultRefineOptions.logout.confirm,
+    },
   };
 
   const disableTelemetryWithDefault =

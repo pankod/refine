@@ -42,6 +42,7 @@ export const layoutSiderTests = (
     beforeEach(() => {
       vi.spyOn(console, "warn").mockImplementation(() => {});
       vi.spyOn(console, "error").mockImplementation(() => {});
+      vi.spyOn(window, "confirm").mockImplementation(() => true);
     });
 
     it("should render successful", async () => {
@@ -95,6 +96,63 @@ export const layoutSiderTests = (
       });
 
       expect(logoutMockedAuthProvider.logout).toHaveBeenCalledTimes(1);
+    });
+
+    it("should show confirmation dialog when logout.confirm option is true", async () => {
+      const confirmSpy = vi
+        .spyOn(window, "confirm")
+        .mockImplementation(() => true);
+
+      const logoutMockedAuthProvider = {
+        ...mockAuthProvider,
+        logout: vi
+          .fn()
+          .mockImplementation(() => Promise.resolve({ success: true })),
+      };
+
+      const { getAllByText } = render(<SiderElement />, {
+        wrapper: testWrapper({
+          authProvider: logoutMockedAuthProvider,
+          options: {
+            logout: { confirm: true },
+          },
+        }),
+      });
+
+      await act(async () => {
+        getAllByText("Logout")[0].click();
+      });
+
+      expect(confirmSpy).toHaveBeenCalledWith(
+        "Are you sure you want to logout?",
+      );
+      expect(logoutMockedAuthProvider.logout).toHaveBeenCalledTimes(1);
+    });
+
+    it("should not logout when logout.confirm dialog is cancelled", async () => {
+      vi.spyOn(window, "confirm").mockImplementation(() => false);
+
+      const logoutMockedAuthProvider = {
+        ...mockAuthProvider,
+        logout: vi
+          .fn()
+          .mockImplementation(() => Promise.resolve({ success: true })),
+      };
+
+      const { getAllByText } = render(<SiderElement />, {
+        wrapper: testWrapper({
+          authProvider: logoutMockedAuthProvider,
+          options: {
+            logout: { confirm: true },
+          },
+        }),
+      });
+
+      await act(async () => {
+        getAllByText("Logout")[0].click();
+      });
+
+      expect(logoutMockedAuthProvider.logout).not.toHaveBeenCalled();
     });
 
     it("should render only allowed menu items", async () => {

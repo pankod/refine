@@ -46,6 +46,7 @@ const App = () => {
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: true,
                 liveMode: "auto",
+                logout: { confirm: true },
               }}
             >
               <Routes>

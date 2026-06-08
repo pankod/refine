@@ -58,6 +58,9 @@ export const defaultRefineOptions: IRefineContextOptions = {
   disableServerSideValidation: false,
   disableRouteChangeHandler: false,
   title: defaultTitle,
+  logout: {
+    confirm: false,
+  },
 };
 
 export const RefineContext = React.createContext<IRefineContext>({

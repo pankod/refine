@@ -28,6 +28,7 @@ import {
   useMenu,
   useActiveAuthProvider,
   useWarnAboutChange,
+  useRefineOptions,
 } from "@refinedev/core";
 import type { RefineThemedLayoutSiderProps } from "../types";
 
@@ -62,6 +63,7 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
   const authProvider = useActiveAuthProvider();
   const { warnWhen, setWarnWhen } = useWarnAboutChange();
   const { mutate: mutateLogout } = useLogout();
+  const { logout: logoutOptions } = useRefineOptions();
 
   const defaultExpandMenuItems = (() => {
     const defaultOpenKeys = {};
@@ -298,15 +300,23 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
 
   const handleLogout = () => {
     if (warnWhen) {
-      const confirm = window.confirm(
+      const confirmed = window.confirm(
         t(
           "warnWhenUnsavedChanges",
           "Are you sure you want to leave? You have unsaved changes.",
         ),
       );
 
-      if (confirm) {
+      if (confirmed) {
         setWarnWhen(false);
+        mutateLogout();
+      }
+    } else if (logoutOptions.confirm) {
+      const confirmed = window.confirm(
+        t("buttons.logout.confirm", "Are you sure you want to logout?"),
+      );
+
+      if (confirmed) {
         mutateLogout();
       }
     } else {

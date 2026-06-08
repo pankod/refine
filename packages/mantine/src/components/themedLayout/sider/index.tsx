@@ -6,7 +6,7 @@ import {
   useLogout,
   useMenu,
   useActiveAuthProvider,
-  useRefineContext,
+  useRefineOptions,
   useTranslate,
   useWarnAboutChange,
 } from "@refinedev/core";
@@ -53,6 +53,7 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
   const authProvider = useActiveAuthProvider();
   const { warnWhen, setWarnWhen } = useWarnAboutChange();
   const { mutate: mutateLogout } = useLogout();
+  const { logout: logoutOptions } = useRefineOptions();
 
   const RenderToTitle = TitleFromProps ?? DefaultTitle;
 
@@ -160,6 +161,14 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
 
       if (confirm) {
         setWarnWhen(false);
+        mutateLogout();
+      }
+    } else if (logoutOptions.confirm) {
+      const confirmed = window.confirm(
+        t("buttons.logout.confirm", "Are you sure you want to logout?"),
+      );
+
+      if (confirmed) {
         mutateLogout();
       }
     } else {
