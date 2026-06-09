@@ -21,9 +21,56 @@ import { Layout } from "./components/layout";
 
 import "./App.css";
 
+/**
+ * Helper function to check if OAuth callback returned an error
+ * This handles cases like when user cancels the OAuth flow
+ */
+const checkOAuthError = (): { error: Error | null } => {
+  // Check if we're on the login page and have OAuth error parameters
+  if (typeof window !== "undefined") {
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get("error");
+    const errorDescription = urlParams.get("error_description");
+
+    if (error) {
+      // Map OAuth error codes to user-friendly messages
+      const errorMessages: Record<string, string> = {
+        access_denied: "Login cancelled by user",
+        unauthorized: "Authorization was denied",
+        server_error: "OAuth provider error. Please try again later.",
+        temporarily_unavailable:
+          "OAuth service temporarily unavailable. Please try again later.",
+      };
+
+      const message =
+        errorMessages[error] || errorDescription || `OAuth Error: ${error}`;
+      const oauthError = new Error(message);
+      oauthError.name = "OAuth Cancelled";
+
+      // Clean up the URL by removing error parameters
+      const url = new URL(window.location.href);
+      url.searchParams.delete("error");
+      url.searchParams.delete("error_description");
+      window.history.replaceState({}, "", url.toString());
+
+      return { error: oauthError };
+    }
+  }
+  return { error: null };
+};
+
 const App: React.FC = () => {
   const authProvider: AuthProvider = {
     login: async ({ providerName, email }) => {
+      // Check if OAuth callback returned an error first
+      const { error: oauthError } = checkOAuthError();
+      if (oauthError) {
+        return {
+          success: false,
+          error: oauthError,
+        };
+      }
+
       if (providerName === "google") {
         window.location.href = "https://accounts.google.com/o/oauth2/v2/auth";
         return {
