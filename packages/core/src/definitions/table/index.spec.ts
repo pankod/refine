@@ -76,6 +76,22 @@ describe("definitions/table", () => {
     expect(getDefaultFilter("title", filters)).toEqual("test");
   });
 
+  it("getDefaultFilter preserves falsy values", () => {
+    expect(
+      getDefaultFilter("status", [
+        { field: "status", operator: "eq", value: 0 },
+      ]),
+    ).toEqual(0);
+    expect(
+      getDefaultFilter("active", [
+        { field: "active", operator: "eq", value: false },
+      ]),
+    ).toEqual(false);
+    expect(
+      getDefaultFilter("name", [{ field: "name", operator: "eq", value: "" }]),
+    ).toEqual("");
+  });
+
   it("stringify table params correctly", async () => {
     const pagination = {
       currentPage: 1,
