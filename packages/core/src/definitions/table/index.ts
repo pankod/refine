@@ -200,7 +200,7 @@ export const getDefaultFilter = (
   });
 
   if (filter) {
-    return filter.value || [];
+    return filter.value ?? [];
   }
 
   return undefined;
