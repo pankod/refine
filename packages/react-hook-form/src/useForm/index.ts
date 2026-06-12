@@ -129,6 +129,7 @@ export const useForm = <
     watch,
     setValue,
     getValues,
+    reset,
     handleSubmit: handleSubmitReactHookForm,
     setError,
     formState: { dirtyFields },
@@ -268,7 +269,7 @@ export const useForm = <
     const applyQueryValues = () => {
       if (!isActive) return;
 
-      applyValuesToFields(getRegisteredFields(), data, false);
+      reset(data as unknown as TVariables, { keepDirtyValues: true });
     };
 
     queryDataRef.current = data;
