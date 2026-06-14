@@ -69,7 +69,7 @@ export const LiveComponent: React.FC<LiveComponentProps> = ({
           <ErrorComponent
             error={
               error
-                ? `<p>An error occured while rendering the generated component.You can check the generated code from the below "Show Code" button and fix the error manually.</p>
+                ? `<p>An error occurred while rendering the generated component. You can check the generated code from the below "Show Code" button and fix the error manually.</p>
                                     <p>If you think this is a bug, please report the issue at <a target="_blank" rel="noopener noreferrer" href="https://github.com/refinedev/refine/issues">https://github.com/refinedev/refine/issues</a></p>
                                     <p>Exception:</p>
                                     <code>${error}</code>`

@@ -101,7 +101,7 @@ export const useInferFetch = (
         }
       } catch (error) {
         console.warn(
-          "An error occured while fetching the resource data. Please check the error message below:",
+          "An error occurred while fetching the resource data. Please check the error message below:",
           error,
         );
         setError(
