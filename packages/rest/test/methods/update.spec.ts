@@ -85,6 +85,31 @@ describe("update", () => {
     });
   });
 
+  describe("custom buildHeaders", () => {
+    it("should derive a header from params.variables", async () => {
+      nock(API_URL)
+        .matchHeader("x-from-variables", "bar")
+        .patch("/update/1", variables)
+        .reply(200, response);
+
+      const { dataProvider } = createDataProvider(API_URL, {
+        update: {
+          buildHeaders: async (params) => ({
+            "x-from-variables": params.variables.foo,
+          }),
+        },
+      });
+
+      const result = await dataProvider.update({
+        id: 1,
+        resource: "update",
+        variables,
+      });
+
+      expect(result).toEqual({ data: response });
+    });
+  });
+
   describe("failure", () => {
     it("should throw HttpError with message and statusCode", async () => {
       nock(API_URL).patch("/update/1", variables).reply(400, {
