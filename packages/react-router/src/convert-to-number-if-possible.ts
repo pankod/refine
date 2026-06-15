@@ -3,7 +3,7 @@ export const convertToNumberIfPossible = (value: string | undefined) => {
     return value;
   }
   const num = Number(value);
-  if (`${num}` === value) {
+  if (Number.isFinite(num) && `${num}` === value) {
     return num;
   }
   return value;
