@@ -85,7 +85,7 @@ export type CreateDataProviderOptions = {
   update?: {
     getEndpoint?: GetEndpoint<UpdateParams<any>>;
     getRequestMethod?: (params: UpdateParams<any>) => "put" | "patch";
-    buildHeaders?: BuildHeaders<UpdateParams>;
+    buildHeaders?: BuildHeaders<UpdateParams<any>>;
 
     buildQueryParams?: BuildQueryParams<UpdateParams<any>>;
 
