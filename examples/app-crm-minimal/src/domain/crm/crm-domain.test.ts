@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  buildAdsConversionExportBoundary,
   contractPlanTypes,
   createContractFromDeal,
   createInMemoryCrmRepository,
@@ -822,6 +823,199 @@ describe("CRM lead → deal → contract domain model", () => {
           contactId: contact.id,
           from: "active_care",
           to: "renewal_due",
+        }),
+      ]),
+    );
+  });
+
+  it("builds a safe offline Ads conversion export boundary from CRM transitions", () => {
+    const repository = createInMemoryCrmRepository({
+      clock: () => new Date("2026-06-18T12:00:00.000Z"),
+    });
+    const { contact, lead, attribution } = createLeadWithAttribution(
+      repository,
+      {
+        contact: {
+          fullName: "Lead Ads Seguro",
+          email: " LEAD@EXAMPLE.COM ",
+          phone: "(48) 99999-9999",
+        },
+        attribution: {
+          channel: "ads",
+          campaign: "google-junho",
+          utmSource: "google",
+          utmMedium: "cpc",
+          utmCampaign: "avaliacao-segura",
+          gclid: "gclid-permitido",
+        },
+        lead: {
+          interest:
+            "Acompanhamento médico com redução de danos, sem exportar contexto clínico",
+        },
+      },
+    );
+    repository.createConsent({
+      contactId: contact.id,
+      purpose: "marketing",
+      source: "landing-page-lgpd-checkbox",
+    });
+    repository.updateContactLifecycleStage(contact.id, "mql");
+    repository.updateContactLifecycleStage(contact.id, "sql");
+    const deal = moveLeadToDeal(repository, lead.id, {
+      title: "Avaliação médica LuzPerformance",
+      stage: "qualification",
+      valueCents: 600000,
+    });
+    moveDealThroughPipeline(repository, {
+      dealId: deal.id,
+      toStage: "medical_review_pending",
+      actorId: "crm-agent",
+    });
+    moveDealThroughPipeline(repository, {
+      dealId: deal.id,
+      toStage: "won",
+      actorId: "crm-agent",
+    });
+    const contract = createContractFromDeal(repository, deal.id, {
+      planType: "semiannual",
+      startDate: "2026-07-01",
+      valueCents: 600000,
+    });
+    repository.updateContractStatus(contract.id, "renewed");
+
+    const events = buildAdsConversionExportBoundary(repository);
+    const exportableEvents = events.filter(
+      (event) => event.status === "exportable",
+    );
+
+    expect(exportableEvents.map((event) => event.payload.eventName)).toEqual(
+      expect.arrayContaining([
+        "Lead Created",
+        "MQL",
+        "SQL",
+        "Assessment Scheduled",
+        "Contract Closed",
+        "Revenue Initial",
+        "Renewal",
+      ]),
+    );
+    expect(exportableEvents[0]?.payload).toMatchObject({
+      attributionIdentifiers: {
+        channel: "ads",
+        campaign: "google-junho",
+        utmSource: "google",
+        utmMedium: "cpc",
+        utmCampaign: "avaliacao-segura",
+        gclid: "gclid-permitido",
+      },
+      userIdentifiers: {
+        normalizedEmail: "lead@example.com",
+        normalizedPhoneE164: "+5548999999999",
+      },
+    });
+    expect(attribution.gclid).toBe("gclid-permitido");
+    expect(
+      exportableEvents.find(
+        (event) => event.payload.eventName === "Revenue Initial",
+      )?.payload,
+    ).toMatchObject({
+      valueCents: 600000,
+      currency: "BRL",
+    });
+    expect(JSON.stringify(exportableEvents)).not.toContain("interest");
+    expect(JSON.stringify(exportableEvents)).not.toContain("clinical");
+    expect(JSON.stringify(exportableEvents)).not.toContain("symptoms");
+    expect(JSON.stringify(exportableEvents)).not.toContain("hormones");
+    expect(JSON.stringify(exportableEvents)).not.toContain("diagnosis");
+  });
+
+  it("marks Ads exports as blocked when governance or sensitive metadata forbids export", () => {
+    const repository = createInMemoryCrmRepository({
+      clock: () => new Date("2026-06-18T12:00:00.000Z"),
+    });
+    const { contact: noConsentContact } = createLeadWithAttribution(
+      repository,
+      {
+        contact: {
+          fullName: "Lead sem consentimento",
+          email: "sem-consentimento@example.com",
+        },
+        attribution: {
+          channel: "ads",
+          gclid: "gclid-sem-consentimento",
+        },
+      },
+    );
+    const { contact: sensitiveContact, lead: sensitiveLead } =
+      createLeadWithAttribution(repository, {
+        contact: {
+          fullName: "Lead com dado sensível no evento",
+          email: "sensivel@example.com",
+        },
+        attribution: {
+          channel: "ads",
+          gclid: "gclid-sensivel",
+        },
+      });
+    repository.createConsent({
+      contactId: sensitiveContact.id,
+      purpose: "marketing",
+      source: "landing-page-lgpd-checkbox",
+    });
+    const sensitiveAuditLog = repository.createAuditLog({
+      actorId: "crm-agent",
+      action: "lead.created",
+      entityType: "leads",
+      entityId: sensitiveLead.id,
+      contactId: sensitiveContact.id,
+      metadata: {
+        clinicalNotes: "não pode sair do CRM",
+      },
+    });
+    const { contact: blockedContact } = createLeadWithAttribution(repository, {
+      contact: {
+        fullName: "Lead do-not-contact",
+        email: "dnc@example.com",
+      },
+      attribution: {
+        channel: "ads",
+        gclid: "gclid-dnc",
+      },
+    });
+    repository.createConsent({
+      contactId: blockedContact.id,
+      purpose: "marketing",
+      source: "landing-page-lgpd-checkbox",
+    });
+    repository.markDoNotContact(blockedContact.id, {
+      actorId: "dr-vinicius",
+      source: "pedido-explicito",
+    });
+
+    const events = buildAdsConversionExportBoundary(repository);
+
+    expect(events).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          status: "ads_export_blocked",
+          reason: "marketing_consent_not_granted",
+          source: expect.objectContaining({
+            contactId: noConsentContact.id,
+          }),
+        }),
+        expect.objectContaining({
+          status: "ads_export_blocked",
+          reason: "sensitive_metadata_present",
+          source: expect.objectContaining({
+            auditLogId: sensitiveAuditLog.id,
+          }),
+        }),
+        expect.objectContaining({
+          status: "ads_export_blocked",
+          reason: "do_not_contact",
+          source: expect.objectContaining({
+            contactId: blockedContact.id,
+          }),
         }),
       ]),
     );
