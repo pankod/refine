@@ -37,7 +37,7 @@
     "react-router": "^7.0.2"
   },
   "devDependencies": {
-    "@originjs/vite-plugin-federation": "^1.2.3",
+    "@module-federation/vite": "^1.16.8",
     "@types/node": "^20",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
