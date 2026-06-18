@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense } from "react";
 
 import { Authenticated, GitHubBanner, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
@@ -25,7 +25,6 @@ import { ColorModeContextProvider } from "./contexts/color-mode";
 import { ForgotPassword } from "./pages/forgotPassword";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
-import type { ExtendedWindow } from "./types";
 
 const BlogPostList = React.lazy(() => import("blog_posts/BlogPostList"));
 const BlogPostShow = React.lazy(() => import("blog_posts/BlogPostShow"));
@@ -37,19 +36,7 @@ const CategoryShow = React.lazy(() => import("categories/CategoryShow"));
 const CategoryEdit = React.lazy(() => import("categories/CategoryEdit"));
 const CategoryCreate = React.lazy(() => import("categories/CategoryCreate"));
 
-declare let window: ExtendedWindow;
-
 function App() {
-  useEffect(() => {
-    // This is not as elegant as production code as we cannot use such in production.
-    // But lets assume these envs are coming from a environment handler.
-    // And this is only for sample case.
-    if (import.meta.env.VITE_CATEGORIES_URL) {
-      // This is where we set the payment remote's URL.
-      window.categoriesUrl = import.meta.env.VITE_CATEGORIES_URL;
-    }
-  }, []);
-
   return (
     <BrowserRouter>
       <GitHubBanner />
