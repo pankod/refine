@@ -1,4 +1,4 @@
-import { useMany, useCan } from "@refinedev/core";
+import { useMany, useCan, type HttpError } from "@refinedev/core";
 
 import {
   List,
@@ -12,15 +12,60 @@ import {
   NumberField,
 } from "@refinedev/antd";
 
-import { Table, Space, Select, Radio } from "antd";
+import { Table, Space, Select, Radio, Form, Input, Button } from "antd";
 
 import type { IPost, ICategory } from "../../interfaces";
 
+type PostSearchVariables = {
+  title?: string;
+};
+
 export const PostList: React.FC = () => {
-  const { tableProps } = useTable<IPost>();
+  const { tableProps, searchFormProps, setFilters } = useTable<
+    IPost,
+    HttpError,
+    PostSearchVariables
+  >({
+    // Search критерият няма да се пази в URL-а.
+    // След refresh страницата ще се зарежда без попълнен search bar.
+    syncWithLocation: false,
+
+    onSearch: (values) => {
+      const title = values.title?.trim();
+
+      if (!title) {
+        return [];
+      }
+
+      return [
+        {
+          field: "title",
+          operator: "contains",
+          value: title,
+        },
+      ];
+    },
+  });
+
+  const removeTitleFilter = () => {
+    searchFormProps.form?.setFieldsValue({
+      title: undefined,
+    });
+
+    setFilters((prevFilters) =>
+      prevFilters.filter((filter) => {
+        if ("field" in filter) {
+          return filter.field !== "title";
+        }
+
+        return true;
+      }),
+    );
+  };
 
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.category.id) ?? [];
+
   const {
     result: data,
     query: { isLoading },
@@ -50,9 +95,33 @@ export const PostList: React.FC = () => {
 
   return (
     <List>
+      <Form
+        {...searchFormProps}
+        layout="inline"
+        style={{ marginBottom: 16 }}
+      >
+        <Form.Item name="title">
+          <Input
+            placeholder="Search by title"
+            allowClear
+            onChange={(event) => {
+              if (event.target.value === "") {
+                removeTitleFilter();
+              }
+            }}
+          />
+        </Form.Item>
+
+        <Button type="primary" htmlType="submit">
+          Search
+        </Button>
+      </Form>
+
       <Table {...tableProps} rowKey="id">
         <Table.Column dataIndex="id" title="ID" />
+
         <Table.Column dataIndex="title" title="Title" />
+
         <Table.Column
           dataIndex={["category", "id"]}
           title="Category"
@@ -78,6 +147,7 @@ export const PostList: React.FC = () => {
             </FilterDropdown>
           )}
         />
+
         {canAccess?.can && (
           <Table.Column
             dataIndex="hit"
@@ -92,6 +162,7 @@ export const PostList: React.FC = () => {
             )}
           />
         )}
+
         <Table.Column
           dataIndex="status"
           title="Status"
@@ -106,6 +177,7 @@ export const PostList: React.FC = () => {
             </FilterDropdown>
           )}
         />
+
         <Table.Column<IPost>
           title="Actions"
           dataIndex="actions"

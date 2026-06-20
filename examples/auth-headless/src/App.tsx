@@ -19,9 +19,26 @@ import { PostList, PostCreate, PostEdit } from "./pages/posts";
 import { ExamplePage } from "./pages/example";
 import { Layout } from "./components/layout";
 
+import { useEffect } from "react";
+
 import "./App.css";
 
 const App: React.FC = () => {
+    useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get("error");
+
+    if (error === "access_denied") {
+      alert("Login cancelled by user");
+
+      window.history.replaceState(
+        {},
+        document.title,
+        window.location.pathname
+      );
+    }
+  }, []);
+
   const authProvider: AuthProvider = {
     login: async ({ providerName, email }) => {
       if (providerName === "google") {
@@ -137,6 +154,8 @@ const App: React.FC = () => {
       avatar:
         "https://unsplash.com/photos/IWLOvomUmWU/download?force=true&w=640",
     }),
+
+    
   };
 
   return (
