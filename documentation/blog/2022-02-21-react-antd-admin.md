@@ -528,7 +528,7 @@ Let's create two Roles, Admin and Editor. Admin have full CRUD authority on the 
 
 Let's start by creating two buttons for the `Admin` and `Editor` roles in our created Header Component.
 
-```tsx title="/src/componets/header.tsx"
+```tsx title="/src/components/header.tsx"
 import { useGetLocale, useSetLocale } from "@refinedev/core";
 import {
   AntdLayout,

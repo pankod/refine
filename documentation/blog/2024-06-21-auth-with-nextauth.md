@@ -318,7 +318,7 @@ export default function Home() {
               height={200}
             />
             <div className={styles.blogCardContent}>
-              <h2>Nexjs for Beginers</h2>
+              <h2>Nexjs for Beginners</h2>
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Quisquam, quidem.
@@ -450,7 +450,7 @@ export default function Home() {
                 height={200}
               />
               <div className={styles.blogCardContent}>
-                <h2>Nexjs for Beginers</h2>
+                <h2>Nexjs for Beginners</h2>
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Quisquam, quidem.

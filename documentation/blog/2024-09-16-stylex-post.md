@@ -298,7 +298,7 @@ const style = stylex.create({
 
 </details>
 
-It takes a styles object with property indentifiers that represent a CSS class and values that compose the actual CSS rules. Under the hood, Stylex creates a CSS class with an identifier starting with `x` for each of the Stylex style object property. When the style is applied to a JSX element with `stylex.props`, this generated CSS class is added to the element's `className` property.
+It takes a styles object with property identifiers that represent a CSS class and values that compose the actual CSS rules. Under the hood, Stylex creates a CSS class with an identifier starting with `x` for each of the Stylex style object property. When the style is applied to a JSX element with `stylex.props`, this generated CSS class is added to the element's `className` property.
 
 <br />
 

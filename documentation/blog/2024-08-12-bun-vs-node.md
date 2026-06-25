@@ -20,7 +20,7 @@ Do you want to try out a new runtime environment? [Bun](https://bun.sh/) is the 
 
 While there is no prerequisite to follow in this tutorial, you should at least know the fundamentals of Javascript and building basic web applications.
 
-You need the followings:
+You need the following:
 
 - [Node 14](https://nodejs.org/en) or higher
 - [Bun runtime](https://bun.sh/) installed
