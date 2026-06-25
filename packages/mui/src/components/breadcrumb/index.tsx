@@ -35,11 +35,14 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
   if (breadcrumbs.length < minItems) return null;
 
+  // FIX APPLIED HERE: Replaced plain <span> with MuiLink
   const LinkRouter = (props: LinkProps & { to?: string }) => {
     const { to, children, ...restProps } = props;
     return (
       <Link to={to || ""}>
-        <span {...restProps}>{children}</span>
+        <MuiLink component="span" {...restProps}>
+          {children}
+        </MuiLink>
       </Link>
     );
   };
