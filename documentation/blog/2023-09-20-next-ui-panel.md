@@ -2289,7 +2289,7 @@ export { ProductEdit } from "./edit";
 export { ProductShow } from "./show";
 ```
 
-Finally, add the following highligthed changes to the `src/App.tsx` file.
+Finally, add the following highlighted changes to the `src/App.tsx` file.
 
 <details>
 

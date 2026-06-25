@@ -141,7 +141,7 @@ Previously, we mentioned that the scaffolded project includes auto-generated CRU
 
     body {
       margin: 0px;
-      // Build-in PrimeReact themes use this variable
+      // Built-in PrimeReact themes use this variable
       font-family: var(--font-family);
     }
     ```
