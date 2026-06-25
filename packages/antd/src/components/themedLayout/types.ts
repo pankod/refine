@@ -7,6 +7,8 @@ import type {
 
 type RefineThemedLayoutSiderProps = BaseRefineThemedLayoutSiderProps & {
   fixed?: boolean;
+  width?: React.CSSProperties["width"];
+  collapsedWidth?: React.CSSProperties["width"];
 };
 
 export type {
