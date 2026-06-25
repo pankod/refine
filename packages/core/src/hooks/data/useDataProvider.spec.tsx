@@ -32,6 +32,29 @@ describe("useDataProvider Hook", () => {
       expect(error).toEqual(new Error(`"not-exist" Data provider not found`));
     }
   });
+
+  it("should return custom typed data provider when generic is provided", async () => {
+    interface CustomDataProvider extends DataProvider {
+      customMethod: () => void;
+    }
+
+    const { result: customResult } = renderHook(
+      () => useDataProvider<CustomDataProvider>(),
+      {
+        wrapper: TestWrapper({
+          dataProvider: {
+            default: {
+              ...MockJSONServer.default,
+              customMethod: () => {},
+            } as CustomDataProvider,
+          },
+        }),
+      },
+    );
+
+    const dataProvider = customResult.current();
+    expect(dataProvider.customMethod).toBeDefined();
+  });
 });
 describe("useDataProvider Hook without default data provider property", () => {
   const { result } = renderHook(() => useDataProvider(), {
