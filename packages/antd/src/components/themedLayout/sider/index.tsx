@@ -7,6 +7,7 @@ import {
   Button,
   theme,
   ConfigProvider,
+  Tooltip,
 } from "antd";
 import {
   LogoutOutlined,
@@ -38,6 +39,8 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
   fixed,
   activeItemDisabled = false,
   siderItemsAreCollapsed = true,
+  width,
+  collapsedWidth,
 }) => {
   const { token } = theme.useToken();
   const {
@@ -46,6 +49,9 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
     mobileSiderOpen,
     setMobileSiderOpen,
   } = useThemedLayoutContext();
+
+  const computedCollapsedWidth = collapsedWidth ?? 80;
+  const computedWidth = siderCollapsed ? computedCollapsedWidth : (width ?? 200);
 
   const isExistAuthentication = useIsExistAuthentication();
   const direction = useContext(ConfigProvider.ConfigContext)?.direction;
@@ -82,7 +88,15 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
             <Menu.SubMenu
               key={item.key}
               icon={icon ?? <UnorderedListOutlined />}
-              title={label}
+              title={
+                siderCollapsed ? (
+                  label
+                ) : (
+                  <Tooltip title={label} placement="right">
+                    <span style={{ display: "block" }}>{label}</span>
+                  </Tooltip>
+                )
+              }
             >
               {renderTreeView(children, selectedKey)}
             </Menu.SubMenu>
@@ -108,10 +122,19 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
             key={item.key}
             icon={icon ?? (isRoute && <UnorderedListOutlined />)}
             style={linkStyle}
+            title={siderCollapsed ? label : ""}
           >
-            <Link to={route ?? ""} style={linkStyle}>
-              {label}
-            </Link>
+            {siderCollapsed ? (
+              <Link to={route ?? ""} style={linkStyle}>
+                {label}
+              </Link>
+            ) : (
+              <Tooltip title={label} placement="right">
+                <Link to={route ?? ""} style={linkStyle}>
+                  {label}
+                </Link>
+              </Tooltip>
+            )}
             {!siderCollapsed && isSelected && (
               <div className="ant-menu-tree-arrow" />
             )}
@@ -144,8 +167,15 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
       key="logout"
       onClick={() => handleLogout()}
       icon={<LogoutOutlined />}
+      title={siderCollapsed ? translate("buttons.logout", "Logout") : ""}
     >
-      {translate("buttons.logout", "Logout")}
+      {siderCollapsed ? (
+        translate("buttons.logout", "Logout")
+      ) : (
+        <Tooltip title={translate("buttons.logout", "Logout")} placement="right">
+          <span>{translate("buttons.logout", "Logout")}</span>
+        </Tooltip>
+      )}
     </Menu.Item>
   );
 
@@ -197,7 +227,7 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
           onClose={() => setMobileSiderOpen(false)}
           placement={direction === "rtl" ? "right" : "left"}
           closable={false}
-          width={200}
+          width={width ?? 200}
           styles={{
             body: {
               padding: 0,
@@ -212,10 +242,11 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
                 backgroundColor: token.colorBgContainer,
                 borderRight: `1px solid ${token.colorBgElevated}`,
               }}
+              width={width ?? 200}
             >
               <div
                 style={{
-                  width: "200px",
+                  width: width ?? "200px",
                   padding: "0 16px",
                   display: "flex",
                   justifyContent: "flex-start",
@@ -269,7 +300,7 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
       {fixed && (
         <div
           style={{
-            width: siderCollapsed ? "80px" : "200px",
+            width: computedWidth,
             transition: "all 0.2s",
           }}
         />
@@ -283,7 +314,8 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
             setSiderCollapsed(collapsed);
           }
         }}
-        collapsedWidth={80}
+        collapsedWidth={computedCollapsedWidth}
+        width={width ?? 200}
         breakpoint="lg"
         trigger={
           <Button
@@ -301,7 +333,7 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
       >
         <div
           style={{
-            width: siderCollapsed ? "80px" : "200px",
+            width: computedWidth,
             padding: siderCollapsed ? "0" : "0 16px",
             display: "flex",
             justifyContent: siderCollapsed ? "center" : "flex-start",
