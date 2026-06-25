@@ -58,7 +58,7 @@ export const useNavigation = () => {
     id: BaseKey,
     meta: MetaQuery = {},
   ) => {
-    const encodedId = encodeURIComponent(id);
+    const encodedId = encodeURIComponent(String(id));
     const resourceItem =
       typeof resource === "string"
         ? pickResource(resource, resources) ?? { name: resource }
@@ -88,7 +88,7 @@ export const useNavigation = () => {
     id: BaseKey,
     meta: MetaQuery = {},
   ) => {
-    const encodedId = encodeURIComponent(id);
+    const encodedId = encodeURIComponent(String(id));
     const resourceItem =
       typeof resource === "string"
         ? pickResource(resource, resources) ?? { name: resource }
@@ -118,7 +118,7 @@ export const useNavigation = () => {
     id: BaseKey,
     meta: MetaQuery = {},
   ) => {
-    const encodedId = encodeURIComponent(id);
+    const encodedId = encodeURIComponent(String(id));
     const resourceItem =
       typeof resource === "string"
         ? pickResource(resource, resources) ?? { name: resource }

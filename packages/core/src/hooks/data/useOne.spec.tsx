@@ -42,6 +42,29 @@ describe("useOne Hook", () => {
     expect(data?.slug).toBe("ut-ad-et");
   });
 
+  it("should support number[] UUID keys", async () => {
+    const { result } = renderHook(
+      () => useOne({ resource: "posts", id: [1, 2, 3] }),
+      {
+        wrapper: TestWrapper({
+          dataProvider: MockJSONServer,
+          resources: [{ name: "posts" }],
+        }),
+      },
+    );
+
+    await waitFor(() => {
+      expect(!result.current.query.isPending).toBeTruthy();
+    });
+
+    const {
+      query: { status },
+    } = result.current;
+
+    expect(status).toBe("success");
+  });
+
+
   it("should only pass meta from the hook parameter and query parameters to the dataProvider", async () => {
     const getOneMock = vi.fn();
 
