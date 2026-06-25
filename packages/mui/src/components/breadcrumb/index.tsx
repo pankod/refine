@@ -38,9 +38,9 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
   const LinkRouter = (props: LinkProps & { to?: string }) => {
     const { to, children, ...restProps } = props;
     return (
-      <Link to={to || ""}>
-        <span {...restProps}>{children}</span>
-      </Link>
+      <MuiLink component={Link as any} to={to || ""} {...restProps}>
+        {children}
+      </MuiLink>
     );
   };
 
