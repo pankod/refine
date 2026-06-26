@@ -362,7 +362,9 @@ describe("useTable Hook", () => {
         resource: "categories",
         syncWithLocation: true,
         onParse: (filters) => {
-          const nameFilter = filters.find((f) => "field" in f && f.field === "name");
+          const nameFilter = filters.find(
+            (f) => "field" in f && f.field === "name",
+          );
           return {
             name: nameFilter?.value ? `Parsed: ${nameFilter.value}` : "",
           };
@@ -406,7 +408,9 @@ describe("useTable Hook", () => {
     });
 
     await waitFor(() => {
-      expect(getByDisplayValue("Parsed: Some Name To Look For")).toBeInTheDocument();
+      expect(
+        getByDisplayValue("Parsed: Some Name To Look For"),
+      ).toBeInTheDocument();
     });
   });
 });

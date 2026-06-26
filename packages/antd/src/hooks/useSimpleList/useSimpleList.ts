@@ -119,10 +119,7 @@ export const useSimpleList = <
         form.setFieldsValue(parsedValues as any);
       } else {
         // get registered fields of form
-        const registeredFields = form.getFieldsValue() as Record<
-          string,
-          any
-        >;
+        const registeredFields = form.getFieldsValue() as Record<string, any>;
         // map `filters` for registered fields
         const filterFilterMap = Object.keys(registeredFields).reduce(
           (acc, curr) => {

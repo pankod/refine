@@ -201,7 +201,11 @@ describe("useSimpleList Hook", () => {
       return createElement(
         Form,
         searchFormProps,
-        createElement(Form.Item, { name: "name", noStyle: true }, createElement(Input)),
+        createElement(
+          Form.Item,
+          { name: "name", noStyle: true },
+          createElement(Input),
+        ),
       );
     };
 
@@ -252,7 +256,11 @@ describe("useSimpleList Hook", () => {
       return createElement(
         Form,
         searchFormProps,
-        createElement(Form.Item, { name: "name", noStyle: true }, createElement(Input)),
+        createElement(
+          Form.Item,
+          { name: "name", noStyle: true },
+          createElement(Input),
+        ),
       );
     };
 
@@ -281,7 +289,9 @@ describe("useSimpleList Hook", () => {
     });
 
     await waitFor(() => {
-      expect(getByDisplayValue("Parsed: Some Name To Look For")).toBeInTheDocument();
+      expect(
+        getByDisplayValue("Parsed: Some Name To Look For"),
+      ).toBeInTheDocument();
     });
   });
 });
