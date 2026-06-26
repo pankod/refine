@@ -29,6 +29,7 @@ import type { FilterValue, SorterResult } from "../../../definitions/table";
 export type useTableProps<TQueryFnData, TError, TSearchVariables, TData> =
   useTablePropsCore<TQueryFnData, TError, TData> & {
     onSearch?: (data: TSearchVariables) => CrudFilters | Promise<CrudFilters>;
+    onParse?: (filters: CrudFilters) => TSearchVariables;
   };
 
 export type useTableReturnType<
@@ -61,6 +62,7 @@ export const useTable = <
   TData extends BaseRecord = TQueryFnData,
 >({
   onSearch,
+  onParse,
   pagination: paginationFromProp,
   filters: filtersFromProp,
   sorters: sortersFromProp,
@@ -126,28 +128,33 @@ export const useTable = <
 
   React.useEffect(() => {
     if (shouldSyncWithLocation) {
-      // get registered fields of form
-      const registeredFields = formSF.form.getFieldsValue() as Record<
-        string,
-        any
-      >;
-      // map `filters` for registered fields
-      const filterFilterMap = Object.keys(registeredFields).reduce(
-        (acc, curr) => {
-          // find filter for current field
-          const filter = filters.find(
-            (filter) => "field" in filter && filter.field === curr,
-          );
-          // if filter exists, set value to filter value
-          if (filter) {
-            acc[curr] = filter?.value;
-          }
-          return acc;
-        },
-        {} as Record<string, any>,
-      );
-      // set values to form
-      formSF.form.setFieldsValue(filterFilterMap as any);
+      if (onParse) {
+        const parsedValues = onParse(filters);
+        formSF.form.setFieldsValue(parsedValues as any);
+      } else {
+        // get registered fields of form
+        const registeredFields = formSF.form.getFieldsValue() as Record<
+          string,
+          any
+        >;
+        // map `filters` for registered fields
+        const filterFilterMap = Object.keys(registeredFields).reduce(
+          (acc, curr) => {
+            // find filter for current field
+            const filter = filters.find(
+              (filter) => "field" in filter && filter.field === curr,
+            );
+            // if filter exists, set value to filter value
+            if (filter) {
+              acc[curr] = filter?.value;
+            }
+            return acc;
+          },
+          {} as Record<string, any>,
+        );
+        // set values to form
+        formSF.form.setFieldsValue(filterFilterMap as any);
+      }
     }
   }, [shouldSyncWithLocation]);
 

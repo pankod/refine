@@ -1,4 +1,4 @@
-import { Children, createElement, Fragment } from "react";
+import { Children, createElement, Fragment, useEffect } from "react";
 import { type ListProps, type FormProps, Form, Grid } from "antd";
 
 import {
@@ -8,6 +8,7 @@ import {
   useTable as useTableCore,
   type useTableProps as useTablePropsCore,
   type useTableReturnType,
+  useSyncWithLocation,
 } from "@refinedev/core";
 import { useLiveMode } from "@refinedev/core";
 import { PaginationLink } from "@hooks/table/useTable/paginationLink";
@@ -16,6 +17,7 @@ import type { PaginationConfig } from "antd/lib/pagination";
 export type useSimpleListProps<TQueryFnData, TError, TSearchVariables, TData> =
   useTablePropsCore<TQueryFnData, TError, TData> & {
     onSearch?: (data: TSearchVariables) => CrudFilters | Promise<CrudFilters>;
+    onParse?: (filters: CrudFilters) => TSearchVariables;
   };
 
 export type useSimpleListReturnType<
@@ -53,6 +55,7 @@ export const useSimpleList = <
   filters: filtersFromProp,
   sorters: sortersFromProp,
   onSearch,
+  onParse,
   queryOptions,
   syncWithLocation,
   successNotification,
@@ -105,6 +108,38 @@ export const useSimpleList = <
   const liveMode = useLiveMode(liveModeFromProp);
 
   const [form] = Form.useForm<TSearchVariables>();
+
+  const { syncWithLocation: defaultSyncWithLocation } = useSyncWithLocation();
+  const shouldSyncWithLocation = syncWithLocation ?? defaultSyncWithLocation;
+
+  useEffect(() => {
+    if (shouldSyncWithLocation) {
+      if (onParse) {
+        const parsedValues = onParse(filters);
+        form.setFieldsValue(parsedValues as any);
+      } else {
+        // get registered fields of form
+        const registeredFields = form.getFieldsValue() as Record<string, any>;
+        // map `filters` for registered fields
+        const filterFilterMap = Object.keys(registeredFields).reduce(
+          (acc, curr) => {
+            // find filter for current field
+            const filter = filters.find(
+              (filter) => "field" in filter && filter.field === curr,
+            );
+            // if filter exists, set value to filter value
+            if (filter) {
+              acc[curr] = filter?.value;
+            }
+            return acc;
+          },
+          {} as Record<string, any>,
+        );
+        // set values to form
+        form.setFieldsValue(filterFilterMap as any);
+      }
+    }
+  }, [shouldSyncWithLocation]);
 
   const { data, isFetched, isLoading } = tableQuery;
 

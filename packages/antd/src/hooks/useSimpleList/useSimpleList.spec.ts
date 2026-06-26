@@ -1,6 +1,8 @@
+import { createElement } from "react";
 import { renderHook, waitFor } from "@testing-library/react";
+import { Form, Input } from "antd";
 
-import { MockJSONServer, TestWrapper } from "@test";
+import { MockJSONServer, TestWrapper, render } from "@test";
 
 import { useSimpleList } from "./useSimpleList";
 
@@ -187,5 +189,109 @@ describe("useSimpleList Hook", () => {
     });
 
     expect(result.current.query).toEqual(result.current.query);
+  });
+
+  it("should pass form values to search form from params (syncWithLocation)", async () => {
+    const Component = () => {
+      const { searchFormProps } = useSimpleList({
+        resource: "categories",
+        syncWithLocation: true,
+      });
+
+      return createElement(
+        Form,
+        searchFormProps,
+        createElement(
+          Form.Item,
+          { name: "name", noStyle: true },
+          createElement(Input),
+        ),
+      );
+    };
+
+    const { getByDisplayValue } = render(createElement(Component), {
+      wrapper: TestWrapper({
+        dataProvider: MockJSONServer,
+        routerProvider: {
+          parse: () => {
+            return () => ({
+              resource: {
+                name: "posts",
+              },
+              params: {
+                filters: [
+                  {
+                    field: "name",
+                    operator: "contains",
+                    value: "Some Name To Look For",
+                  },
+                ],
+              },
+            });
+          },
+        },
+      }),
+    });
+
+    await waitFor(() => {
+      expect(getByDisplayValue("Some Name To Look For")).toBeInTheDocument();
+    });
+  });
+
+  it("should pass form values parsed by onParse to search form from params (syncWithLocation)", async () => {
+    const Component = () => {
+      const { searchFormProps } = useSimpleList({
+        resource: "categories",
+        syncWithLocation: true,
+        onParse: (filters) => {
+          const nameFilter = filters.find(
+            (f) => "field" in f && f.field === "name",
+          );
+          return {
+            name: nameFilter?.value ? `Parsed: ${nameFilter.value}` : "",
+          };
+        },
+      });
+
+      return createElement(
+        Form,
+        searchFormProps,
+        createElement(
+          Form.Item,
+          { name: "name", noStyle: true },
+          createElement(Input),
+        ),
+      );
+    };
+
+    const { getByDisplayValue } = render(createElement(Component), {
+      wrapper: TestWrapper({
+        dataProvider: MockJSONServer,
+        routerProvider: {
+          parse: () => {
+            return () => ({
+              resource: {
+                name: "posts",
+              },
+              params: {
+                filters: [
+                  {
+                    field: "name",
+                    operator: "contains",
+                    value: "Some Name To Look For",
+                  },
+                ],
+              },
+            });
+          },
+        },
+      }),
+    });
+
+    await waitFor(() => {
+      expect(
+        getByDisplayValue("Parsed: Some Name To Look For"),
+      ).toBeInTheDocument();
+    });
   });
 });
