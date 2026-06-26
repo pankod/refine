@@ -355,4 +355,58 @@ describe("useTable Hook", () => {
 
     expect(result.current.tableQuery).toEqual(result.current.tableQuery);
   });
+
+  it("should pass form values parsed by onParse to search form from params (syncWithLocation)", async () => {
+    const Component = () => {
+      const { searchFormProps } = useTable({
+        resource: "categories",
+        syncWithLocation: true,
+        onParse: (filters) => {
+          const nameFilter = filters.find((f) => "field" in f && f.field === "name");
+          return {
+            name: nameFilter?.value ? `Parsed: ${nameFilter.value}` : "",
+          };
+        },
+      });
+
+      return (
+        <Form {...searchFormProps}>
+          <Form.Item name="name" noStyle>
+            <Input
+              data-test-id="search-name"
+              size="large"
+              placeholder="Search by name"
+            />
+          </Form.Item>
+        </Form>
+      );
+    };
+
+    const { getByDisplayValue } = render(<Component />, {
+      wrapper: TestWrapper({
+        routerProvider: {
+          parse: () => {
+            return () => ({
+              resource: {
+                name: "posts",
+              },
+              params: {
+                filters: [
+                  {
+                    field: "name",
+                    operator: "contains",
+                    value: "Some Name To Look For",
+                  },
+                ],
+              },
+            });
+          },
+        },
+      }),
+    });
+
+    await waitFor(() => {
+      expect(getByDisplayValue("Parsed: Some Name To Look For")).toBeInTheDocument();
+    });
+  });
 });
