@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@esbuild-plugins/node-resolve": "^0.1.4",
-    "@refinedev/core": "5.0.12",
+    "@refinedev/core": "5.1.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@types/node": "^20",
     "@types/node-fetch": "^2.6.11",

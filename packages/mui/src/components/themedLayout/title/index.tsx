@@ -1,7 +1,7 @@
 import React from "react";
 import { useLink, useRefineOptions } from "@refinedev/core";
 
-import MuiLink from "@mui/material/Link";
+import Box from "@mui/material/Box";
 import SvgIcon from "@mui/material/SvgIcon";
 import Typography from "@mui/material/Typography";
 
@@ -24,8 +24,7 @@ export const ThemedTitle: React.FC<RefineLayoutThemedTitleProps> = ({
 
   return (
     <Link to="/" style={{ textDecoration: "none" }}>
-      <MuiLink
-        underline="none"
+      <Box
         sx={{
           display: "flex",
           alignItems: "center",
@@ -48,7 +47,7 @@ export const ThemedTitle: React.FC<RefineLayoutThemedTitleProps> = ({
             {text}
           </Typography>
         )}
-      </MuiLink>
+      </Box>
     </Link>
   );
 };

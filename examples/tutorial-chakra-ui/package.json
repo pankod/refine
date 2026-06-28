@@ -25,7 +25,7 @@
     "@chakra-ui/react": "^2.5.1",
     "@refinedev/chakra-ui": "^3.0.2",
     "@refinedev/cli": "^2.16.52",
-    "@refinedev/core": "^5.0.12",
+    "@refinedev/core": "^5.1.0",
     "@refinedev/inferencer": "^7.0.0",
     "@refinedev/react-hook-form": "^5.0.4",
     "@refinedev/react-router": "^2.0.4",

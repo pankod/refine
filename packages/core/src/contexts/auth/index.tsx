@@ -96,6 +96,19 @@ export const AuthProviderContextProvider: React.FC<
     }
   };
 
+  const handleUpdateIdentity = async (params: unknown) => {
+    try {
+      const result = await authProvider.updateIdentity?.(params);
+      return Promise.resolve(result);
+    } catch (error) {
+      console.warn(
+        "Unhandled Error in updateIdentity: refine always expects a resolved promise.",
+        error,
+      );
+      return Promise.reject(error);
+    }
+  };
+
   return (
     <AuthProviderContext.Provider
       value={{
@@ -106,6 +119,7 @@ export const AuthProviderContextProvider: React.FC<
         register: handleRegister as IAuthContext["register"],
         forgotPassword: handleForgotPassword as IAuthContext["forgotPassword"],
         updatePassword: handleUpdatePassword as IAuthContext["updatePassword"],
+        updateIdentity: handleUpdateIdentity as IAuthContext["updateIdentity"],
         isProvided,
       }}
     >

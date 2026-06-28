@@ -54,6 +54,7 @@ const authProvider: AuthProvider = {
     register: async (params: any): AuthActionResponse,
     forgotPassword: async (params: any): AuthActionResponse,
     updatePassword: async (params: any): AuthActionResponse,
+    updateIdentity: async (params: any): AuthActionResponse,
     getPermissions: async (params: any): unknown,
     getIdentity: async (params: any): unknown,
 };
@@ -1157,6 +1158,63 @@ const authProvider: AuthProvider = {
 
 </details>
 
+### updateIdentity
+
+`updateIdentity` method is used to update the current user's identity (e.g. username and/or email). It expects to return a resolved promise with the following type:
+
+```ts
+type AuthActionResponse = {
+  success: boolean;
+  redirectTo?: string;
+  error?: Error;
+  [key: string]: unknown;
+};
+```
+
+- `success`: Determines whether the operation is successful or not.
+- `redirectTo`: The path of the page that the user will be redirected to after the operation is completed.
+- `error`: An object containing details about any errors encountered during the operation.
+- `[key: string]`: Any additional data you wish to include in the response, keyed by a string identifier.
+
+<br />
+
+To update the user's identity and resolve the promise:
+
+```tsx title="src/authProvider.ts"
+import { AuthProvider } from "@refinedev/core";
+
+const authProvider: AuthProvider = {
+  // ---
+  updateIdentity: async ({ name, email }) => {
+    // update the user's identity here
+
+    // if request is successful
+    return {
+      success: true,
+    };
+
+    // if request is not successful
+    return {
+      success: false,
+      error: {
+        name: "Update Identity Error",
+        message: "Update identity failed",
+      },
+    };
+  },
+};
+```
+
+[`useUpdateIdentity`][use-update-identity] hook is used to call the `updateIdentity` method from the `authProvider`.
+
+```tsx
+import { useUpdateIdentity } from "@refinedev/core";
+
+const { mutate: updateIdentity } = useUpdateIdentity();
+
+updateIdentity({ name: "New Name", email: "new@email.com" });
+```
+
 ## Legacy Auth Provider
 
 Refine's v4 release is backward compatible and supports legacy auth provider implementations until v5.
@@ -1207,4 +1265,5 @@ const App = () => {
 [use-register]: /core/docs/authentication/hooks/use-register
 [use-forgot-password]: /core/docs/authentication/hooks/use-forgot-password
 [use-update-password]: /core/docs/authentication/hooks/use-update-password
+[use-update-identity]: /core/docs/authentication/hooks/use-update-identity
 [create-auth-provider-tutorial]: /core/docs/guides-concepts/authentication

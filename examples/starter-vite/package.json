@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@refinedev/cli": "^2.16.52",
-    "@refinedev/core": "^5.0.12",
+    "@refinedev/core": "^5.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

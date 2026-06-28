@@ -25,7 +25,7 @@
     "@googlemaps/react-wrapper": "^1.1.35",
     "@refinedev/antd": "^6.0.3",
     "@refinedev/cli": "^2.16.52",
-    "@refinedev/core": "^5.0.12",
+    "@refinedev/core": "^5.1.0",
     "@refinedev/kbar": "2.0.1",
     "@refinedev/react-router": "^2.0.4",
     "@refinedev/simple-rest": "^6.0.1",

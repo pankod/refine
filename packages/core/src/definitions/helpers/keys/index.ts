@@ -22,7 +22,8 @@ type AuthActionType =
   | "check"
   | "onError"
   | "permissions"
-  | "updatePassword";
+  | "updatePassword"
+  | "updateIdentity";
 
 type AuditActionType = "list" | "log" | "rename";
 
