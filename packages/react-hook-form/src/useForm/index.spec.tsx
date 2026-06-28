@@ -1,11 +1,12 @@
 import React from "react";
 
-import { useForm } from ".";
-import type { IRefineOptions, HttpError } from "@refinedev/core";
+import type { HttpError, IRefineOptions } from "@refinedev/core";
 import * as Core from "@refinedev/core";
-import { MockJSONServer, TestWrapper, act, render, waitFor } from "../../test";
+import { screen } from "@testing-library/react";
+import { Controller, useFieldArray } from "react-hook-form";
 import { Route, Routes } from "react-router";
-import { Controller } from "react-hook-form";
+import { useForm } from ".";
+import { MockJSONServer, TestWrapper, act, render, waitFor } from "../../test";
 
 interface IPost {
   title: string;
@@ -325,6 +326,58 @@ describe("useForm hook", () => {
       await waitFor(() => {
         expect(lateField).toHaveValue("5");
       });
+    } finally {
+      useFormCoreSpy.mockRestore();
+    }
+  });
+
+  it("should populate useFieldArray fields that mount after initial query data sync", async () => {
+    const queryData = {
+      data: {
+        data: { id: "1", tags: [{ value: "react" }, { value: "refine" }] },
+      },
+    };
+
+    const useFormCoreSpy = vi.spyOn(Core, "useForm").mockReturnValue({
+      query: queryData,
+      onFinish: vi.fn().mockResolvedValue({}),
+      onFinishAutoSave: vi.fn().mockResolvedValue({}),
+      formLoading: true, // cached data available immediately; formLoading driven by EditPage prop
+    });
+
+    const FieldArrayChild = ({ control }: { control: any }) => {
+      const { fields } = useFieldArray({ control, name: "tags" });
+      return (
+        <ul>
+          {fields.map((field) => (
+            <li key={field.id} data-testid="tag-item" />
+          ))}
+        </ul>
+      );
+    };
+
+    const EditPage = ({ formLoading }: { formLoading: boolean }) => {
+      const { control } = useForm<IPost, HttpError, IPost>({
+        refineCoreProps: { resource: "posts", action: "edit", id: "1" },
+      });
+      if (formLoading) return <p>loading</p>;
+      return <FieldArrayChild control={control} />;
+    };
+
+    try {
+      const page = (formLoading: boolean) => (
+        <Routes>
+          <Route path="/" element={<EditPage formLoading={formLoading} />} />
+        </Routes>
+      );
+
+      const { rerender } = render(page(true), { wrapper: TestWrapper({}) });
+
+      await act(async () => rerender(page(false)));
+
+      await waitFor(() =>
+        expect(screen.getAllByTestId("tag-item")).toHaveLength(2),
+      );
     } finally {
       useFormCoreSpy.mockRestore();
     }
