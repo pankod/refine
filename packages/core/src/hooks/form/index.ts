@@ -156,7 +156,7 @@ export const useForm = <
 
   const queryResult = useOne<TQueryFnData, TError, TData>({
     resource: identifier,
-    id,
+    id: isCreate ? undefined : id,
     queryOptions: {
       // Only enable the query if it's not a create action and the `id` is defined
       ...props.queryOptions,

@@ -187,7 +187,7 @@ export const useModalForm = <
 
   // compensate for setting of initial form values in useForm since it doesnt track modal visibility
   React.useEffect(() => {
-    if (!visible || !query?.data?.data) return;
+    if (!visible || !query?.data?.data || action === "create") return;
 
     const formData = query.data.data;
     if (!formData) return;
@@ -197,7 +197,7 @@ export const useModalForm = <
         keepDirtyValues: true,
       }),
     });
-  }, [visible, query?.data?.data, autoResetFormWhenClose]);
+  }, [visible, query?.data?.data, autoResetFormWhenClose, action]);
 
   React.useEffect(() => {
     if (initiallySynced === false && syncWithLocationKey) {

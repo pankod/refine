@@ -42,7 +42,7 @@ export const TestWrapper: (
           options={{
             ...options,
             reactQuery: {
-              clientConfig: {
+              clientConfig: options?.reactQuery?.clientConfig ?? {
                 defaultOptions: {
                   queries: {
                     retry: false,
