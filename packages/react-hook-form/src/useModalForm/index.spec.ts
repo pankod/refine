@@ -1,6 +1,8 @@
 import { renderHook, waitFor } from "@testing-library/react";
+import { useOne } from "@refinedev/core";
 
 import { act, MockJSONServer, TestWrapper } from "../../test";
+import { mockRouterProvider } from "../../test/dataMocks";
 
 import { useModalForm } from "./";
 
@@ -440,5 +442,79 @@ describe("useModalForm Hook", () => {
     });
 
     expect(result.current.modal.visible).toBe(true);
+  });
+
+  it("should not overwrite defaultValues with cached show-page data when action is 'create'", async () => {
+    const showPageData = {
+      id: 1,
+      title: "Show page title",
+      parent: "existing-parent-from-show-page",
+    };
+
+    const mockGetOne = vi.fn().mockResolvedValue({ data: showPageData });
+
+    const { result } = renderHook(
+      () => ({
+        // Simulates the show page fetching data (populates the shared cache)
+        showQuery: useOne({ resource: "posts", id: "1" }),
+        // The create modal form on the same page
+        modalForm: useModalForm({
+          refineCoreProps: {
+            resource: "posts",
+            action: "create",
+          },
+          defaultValues: {
+            title: "defaultValue title",
+            newField: "defaultValue newField",
+          },
+        }),
+      }),
+      {
+        wrapper: TestWrapper({
+          dataProvider: { ...MockJSONServer, getOne: mockGetOne },
+          routerProvider: mockRouterProvider({
+            resource: { name: "posts" },
+            action: "show",
+            id: "1",
+          }),
+          resources: [{ name: "posts" }],
+        }),
+      },
+    );
+
+    // Wait for the show page query to resolve (populating the cache)
+    await waitFor(() =>
+      expect(result.current.showQuery.query.isSuccess).toBe(true),
+    );
+    expect(mockGetOne).toHaveBeenCalledTimes(1);
+
+    // Verify defaultValues are intact before showing modal
+    expect(result.current.modalForm.getValues("title")).toBe(
+      "defaultValue title",
+    );
+
+    // Open the create modal
+    await act(async () => {
+      result.current.modalForm.modal.show();
+    });
+
+    expect(result.current.modalForm.modal.visible).toBe(true);
+
+    // Allow effects to settle
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    });
+
+    // getOne should only have been called once (by the show page query)
+    expect(mockGetOne).toHaveBeenCalledTimes(1);
+
+    // The create form's core query should not have received cached data
+    expect(result.current.modalForm.refineCore.query?.data).toBeUndefined();
+
+    // The form values should still be the defaultValues
+    const finalValues = result.current.modalForm.getValues();
+    expect(finalValues.title).toBe("defaultValue title");
+    expect(finalValues.newField).toBe("defaultValue newField");
+    expect(finalValues.id).toBeUndefined();
   });
 });
