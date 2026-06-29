@@ -47,13 +47,24 @@ describe("handleUseParams", () => {
     ).toEqual(paramsWithUniqueId);
   });
 
-  it("should return params true with nique Id", () => {
+  it("should return params true with base64 encoded Id", () => {
     expect(
       handleUseParams({
         ...paramsWithBase64EncodedId,
         id: encodeURIComponent(paramsWithBase64EncodedId.id),
       }),
     ).toEqual(paramsWithBase64EncodedId);
+  });
+
+  it("should keep original id when encoded id is malformed", () => {
+    const paramsWithMalformedId = {
+      resource: "posts",
+      id: "%E0%A4%A",
+    };
+
+    expect(handleUseParams(paramsWithMalformedId)).toEqual(
+      paramsWithMalformedId,
+    );
   });
 
   it("should return params without id", () => {

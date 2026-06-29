@@ -17,6 +17,7 @@ import {
   useParams,
 } from "react-router";
 import { convertToNumberIfPossible } from "./convert-to-number-if-possible";
+import { safeDecodeURIComponent } from "./safe-decode-uri-component";
 
 export const stringifyConfig = {
   addQueryPrefix: true,
@@ -124,7 +125,7 @@ export const routerProvider: RouterProvider = {
       const response: ParseResponse = {
         ...(resource && { resource }),
         ...(action && { action }),
-        ...(params?.id && { id: decodeURIComponent(params.id) }),
+        ...(params?.id && { id: safeDecodeURIComponent(params.id) }),
         // ...(params?.action && { action: params.action }), // lets see if there is a need for this
         pathname,
         params: {
@@ -136,7 +137,7 @@ export const routerProvider: RouterProvider = {
             combinedParams.pageSize as string,
           ) as number | undefined,
           to: combinedParams.to
-            ? decodeURIComponent(combinedParams.to as string)
+            ? safeDecodeURIComponent(combinedParams.to as string)
             : undefined,
         },
       };
