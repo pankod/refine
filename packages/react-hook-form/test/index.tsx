@@ -6,6 +6,7 @@ import {
   type IResourceItem,
   type I18nProvider,
   type IRefineOptions,
+  type RouterProvider,
 } from "@refinedev/core";
 
 import { MockJSONServer, mockRouterProvider } from "./dataMocks";
@@ -15,6 +16,7 @@ interface ITestWrapperProps {
   dataProvider?: DataProvider;
   resources?: IResourceItem[];
   routerInitialEntries?: string[];
+  routerProvider?: RouterProvider;
   i18nProvider?: I18nProvider;
   options?: IRefineOptions;
 }
@@ -25,6 +27,7 @@ export const TestWrapper: (
   dataProvider,
   resources,
   routerInitialEntries,
+  routerProvider,
   i18nProvider,
   options,
 }) => {
@@ -34,12 +37,12 @@ export const TestWrapper: (
         <Refine
           i18nProvider={i18nProvider}
           dataProvider={dataProvider ?? MockJSONServer}
-          routerProvider={mockRouterProvider()}
+          routerProvider={routerProvider ?? mockRouterProvider()}
           resources={resources ?? [{ name: "posts" }]}
           options={{
             ...options,
             reactQuery: {
-              clientConfig: {
+              clientConfig: options?.reactQuery?.clientConfig ?? {
                 defaultOptions: {
                   queries: {
                     retry: false,
