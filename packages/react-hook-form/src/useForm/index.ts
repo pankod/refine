@@ -129,6 +129,7 @@ export const useForm = <
     watch,
     setValue,
     getValues,
+    reset,
     handleSubmit: handleSubmitReactHookForm,
     setError,
     formState: { dirtyFields },
@@ -217,19 +218,6 @@ export const useForm = <
     return new Set(mounted);
   };
 
-  const getRegisteredFields = () => {
-    const registeredFields = new Set<string>();
-    const mounted = getMountedFields();
-    mounted.forEach((name) => registeredFields.add(name));
-
-    const values = getValues();
-    Object.keys(flattenObjectKeys(values)).forEach((path) => {
-      registeredFields.add(path);
-    });
-
-    return registeredFields;
-  };
-
   const applyValuesToFields = (
     fieldNames: Set<string>,
     data: TData,
@@ -253,7 +241,8 @@ export const useForm = <
     });
   };
 
-  // On query load, attempt a first sync after registration effects run.
+  // On query data changes (such as navigating back to an edit page),
+  // leverage native reset() to hydrate fields cleanly without dynamic race conditions.
   useEffect(() => {
     const data = query?.data?.data;
     if (!data) {
@@ -263,29 +252,13 @@ export const useForm = <
       return;
     }
 
-    let isActive = true;
-
-    const applyQueryValues = () => {
-      if (!isActive) return;
-
-      applyValuesToFields(getRegisteredFields(), data, false);
-    };
-
     queryDataRef.current = data;
     syncedFieldsRef.current = new Set();
     mountedFieldsRef.current = getMountedFields();
 
-    // defer until after field registration effects
-    if (typeof queueMicrotask === "function") {
-      queueMicrotask(applyQueryValues);
-    } else {
-      Promise.resolve().then(applyQueryValues);
-    }
-
-    return () => {
-      isActive = false;
-    };
-  }, [query?.data, setValue, getValues]);
+    // Native reset naturally targets field arrays even if they register late inside a microtask frame.
+    reset(data as unknown as TVariables, { keepDirtyValues: true });
+  }, [query?.data, reset]);
 
   // Re-sync when new fields register; do not override user edits.
   useEffect(() => {
