@@ -7,6 +7,7 @@ import {
   Button,
   theme,
   ConfigProvider,
+  Tooltip,
 } from "antd";
 import {
   LogoutOutlined,
@@ -82,7 +83,26 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
             <Menu.SubMenu
               key={item.key}
               icon={icon ?? <UnorderedListOutlined />}
-              title={label}
+              title={
+                siderCollapsed ? (
+                  label
+                ) : (
+                  <Tooltip title={label} placement="right">
+                    <span
+                      style={{
+                        display: "inline-block",
+                        maxWidth: "100%",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        verticalAlign: "middle",
+                      }}
+                    >
+                      {label}
+                    </span>
+                  </Tooltip>
+                )
+              }
             >
               {renderTreeView(children, selectedKey)}
             </Menu.SubMenu>
@@ -110,7 +130,24 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
             style={linkStyle}
           >
             <Link to={route ?? ""} style={linkStyle}>
-              {label}
+              {siderCollapsed ? (
+                label
+              ) : (
+                <Tooltip title={label} placement="right">
+                  <span
+                    style={{
+                      display: "inline-block",
+                      maxWidth: "100%",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      verticalAlign: "middle",
+                    }}
+                  >
+                    {label}
+                  </span>
+                </Tooltip>
+              )}
             </Link>
             {!siderCollapsed && isSelected && (
               <div className="ant-menu-tree-arrow" />
@@ -145,7 +182,24 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
       onClick={() => handleLogout()}
       icon={<LogoutOutlined />}
     >
-      {translate("buttons.logout", "Logout")}
+      {siderCollapsed ? (
+        translate("buttons.logout", "Logout")
+      ) : (
+        <Tooltip title={translate("buttons.logout", "Logout")} placement="right">
+          <span
+            style={{
+              display: "inline-block",
+              maxWidth: "100%",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              verticalAlign: "middle",
+            }}
+          >
+            {translate("buttons.logout", "Logout")}
+          </span>
+        </Tooltip>
+      )}
     </Menu.Item>
   );
 
