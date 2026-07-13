@@ -1,0 +1,86 @@
+{
+  "name": "@refinedev/core",
+  "version": "5.1.0",
+  "private": false,
+  "description": "Refine is a React meta-framework for building enterprise-level, data-intensive applications rapidly with support for modern UI libraries and headless integrations.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/refinedev/refine.git",
+    "directory": "packages/core"
+  },
+  "license": "MIT",
+  "author": "refine",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "attw": "attw --pack .",
+    "build": "tsup && node ../shared/generate-declarations.js",
+    "dev": "tsup --watch",
+    "prepare": "pnpm build",
+    "publint": "publint --strict=true --level=suggestion",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest",
+    "types": "node ../shared/generate-declarations.js"
+  },
+  "dependencies": {
+    "@refinedev/devtools-internal": "2.0.2",
+    "@tanstack/react-query": "^5.81.5",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "papaparse": "^5.3.0",
+    "pluralize": "^8.0.0",
+    "qs": "^6.10.1",
+    "tslib": "^2.6.2",
+    "warn-once": "^0.1.0"
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-resolve": "^0.1.4",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/lodash": "^4.14.171",
+    "@types/node": "^20",
+    "@types/papaparse": "^5.2.5",
+    "@types/pluralize": "^0.0.29",
+    "@types/qs": "^6.9.7",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@types/react-router-dom": "^5.1.8",
+    "@vitest/ui": "^2.1.8",
+    "graphql": "^15.6.1",
+    "identity-obj-proxy": "^3.0.0",
+    "tsup": "^6.7.0",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.81.5",
+    "@types/react": "^18.0.0 || ^19.0.0",
+    "@types/react-dom": "^18.0.0 || ^19.0.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

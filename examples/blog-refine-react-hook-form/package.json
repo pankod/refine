@@ -1,0 +1,60 @@
+{
+  "name": "blog-refine-react-hook-form",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc && refine build",
+    "dev": "refine dev",
+    "refine": "refine",
+    "start": "refine start"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
+    "@hookform/resolvers": "^2.9.8",
+    "@mui/icons-material": "^6.1.6",
+    "@mui/lab": "^6.0.0-beta.14",
+    "@mui/material": "^6.1.7",
+    "@mui/x-data-grid": "^7.23.5",
+    "@refinedev/cli": "^2.16.40",
+    "@refinedev/core": "^4.56.0",
+    "@refinedev/mui": "^5.22.0",
+    "@refinedev/react-hook-form": "^4.9.1",
+    "@refinedev/react-router": "^0.1.0",
+    "@refinedev/simple-rest": "^5.0.8",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.57.0",
+    "react-router": "^7.0.2",
+    "web-vitals": "^1.1.1",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.2.4",
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.15"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

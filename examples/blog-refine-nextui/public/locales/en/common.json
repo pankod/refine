@@ -1,0 +1,167 @@
+{
+  "pages": {
+    "login": {
+      "title": "Sign in to your account",
+      "signin": "Sign in",
+      "signup": "Sign up",
+      "divider": "or",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "errors": {
+        "validEmail": "Invalid email address"
+      },
+      "buttons": {
+        "submit": "Login",
+        "forgotPassword": "Forgot password?",
+        "noAccount": "Don’t have an account?",
+        "rememberMe": "Remember me"
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot your password?",
+      "fields": {
+        "email": "Email"
+      },
+      "errors": {
+        "validEmail": "Invalid email address"
+      },
+      "buttons": {
+        "submit": "Send reset instructions"
+      }
+    },
+    "register": {
+      "title": "Sign up for your account",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "errors": {
+        "validEmail": "Invalid email address"
+      },
+      "buttons": {
+        "submit": "Register",
+        "haveAccount": "Have an account?"
+      }
+    },
+    "updatePassword": {
+      "title": "Update password",
+      "fields": {
+        "password": "New Password",
+        "confirmPassword": "Confirm new password"
+      },
+      "errors": {
+        "confirmPasswordNotMatch": "Passwords do not match"
+      },
+      "buttons": {
+        "submit": "Update"
+      }
+    },
+    "error": {
+      "info": "You may have forgotten to add the {{action}} component to {{resource}} resource.",
+      "404": "Sorry, the page you visited does not exist.",
+      "resource404": "Are you sure you have created the {{resource}} resource.",
+      "backHome": "Back Home"
+    }
+  },
+  "actions": {
+    "list": "List",
+    "create": "Create",
+    "edit": "Edit",
+    "show": "Show"
+  },
+  "buttons": {
+    "create": "Create",
+    "save": "Save",
+    "logout": "Logout",
+    "delete": "Delete",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "confirm": "Are you sure?",
+    "filter": "Filter",
+    "clear": "Clear",
+    "refresh": "Refresh",
+    "show": "Show",
+    "undo": "Undo",
+    "import": "Import",
+    "clone": "Clone",
+    "notAccessTitle": "You don't have permission to access"
+  },
+  "warnWhenUnsavedChanges": "Are you sure you want to leave? You have unsaved changes.",
+  "notifications": {
+    "success": "Successful",
+    "error": "Error (status code: {{statusCode}})",
+    "undoable": "You have {{seconds}} seconds to undo",
+    "createSuccess": "Successfully created {{resource}}",
+    "createError": "There was an error creating {{resource}} (status code: {{statusCode}})",
+    "deleteSuccess": "Successfully deleted {{resource}}",
+    "deleteError": "Error when deleting {{resource}} (status code: {{statusCode}})",
+    "editSuccess": "Successfully edited {{resource}}",
+    "editError": "Error when editing {{resource}} (status code: {{statusCode}})",
+    "importProgress": "Importing: {{processed}}/{{total}}"
+  },
+  "loading": "Loading",
+  "tags": {
+    "clone": "Clone"
+  },
+  "dashboard": {
+    "title": "Dashboard"
+  },
+  "blog_posts": {
+    "blog_posts": "Blog Posts",
+    "fields": {
+      "id": "Id",
+      "title": "Title",
+      "content": "Content",
+      "status": "Status",
+      "createdAt": "Created At",
+      "category": "Category"
+    },
+    "titles": {
+      "create": "Create Blog Post",
+      "edit": "Edit Blog Post",
+      "list": "Blog Posts",
+      "show": "Show Blog Post"
+    }
+  },
+  "categories": {
+    "categories": "Categories",
+    "fields": {
+      "id": "Id",
+      "title": "Title",
+      "createdAt": "Created At"
+    },
+    "titles": {
+      "create": "Create Category",
+      "edit": "Edit Category",
+      "list": "Categories",
+      "show": "Show Category"
+    }
+  },
+  "documentTitle": {
+    "default": "refine",
+    "suffix": " | refine",
+    "blog_posts": {
+      "list": "Blog Posts | refine",
+      "show": "#{{id}} Show Blog Post | refine",
+      "edit": "#{{id}} Edit Blog Post | refine",
+      "create": "Create new Blog Post | refine",
+      "clone": "#{{id}} Clone Blog Post | refine"
+    },
+    "categories": {
+      "list": "Categories | refine",
+      "show": "#{{id}} Show Category | refine",
+      "edit": "#{{id}} Edit Category | refine",
+      "create": "Create new Category | refine",
+      "clone": "#{{id}} Clone Category | refine"
+    }
+  },
+  "table": {
+    "actions": "Actions"
+  },
+  "pagination": {
+    "go": "Go to Page",
+    "show": "Show"
+  }
+}

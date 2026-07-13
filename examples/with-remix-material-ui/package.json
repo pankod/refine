@@ -1,0 +1,48 @@
+{
+  "name": "with-remix-material-ui",
+  "version": "1.0.0",
+  "private": true,
+  "sideEffects": false,
+  "scripts": {
+    "build": "refine build",
+    "dev": "refine dev",
+    "refine": "refine",
+    "start": "refine start"
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^6.1.6",
+    "@mui/lab": "^6.0.0-beta.14",
+    "@mui/material": "^6.1.7",
+    "@mui/x-data-grid": "^8.24.0",
+    "@refinedev/cli": "^2.16.52",
+    "@refinedev/core": "^5.1.0",
+    "@refinedev/inferencer": "^7.0.0",
+    "@refinedev/kbar": "^2.0.1",
+    "@refinedev/mui": "^8.0.3",
+    "@refinedev/remix-router": "^4.0.4",
+    "@refinedev/simple-rest": "^6.0.1",
+    "@remix-run/node": "^2.4.0",
+    "@remix-run/react": "^2.4.0",
+    "@remix-run/serve": "^2.4.0",
+    "cookie": "^0.5.0",
+    "js-cookie": "^3.0.1",
+    "nookies": "^2.5.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-transition-group": "^4.4.5"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^2.3.1",
+    "@types/js-cookie": "^3.0.2",
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

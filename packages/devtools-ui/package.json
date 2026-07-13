@@ -1,0 +1,93 @@
+{
+  "name": "@refinedev/devtools-ui",
+  "version": "2.0.3",
+  "private": false,
+  "description": "refine devtools offers a set of features from monitoring to quickly prototyping a UI.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/refinedev/refine.git",
+    "directory": "packages/devtools"
+  },
+  "license": "MIT",
+  "author": "refine",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "attw": "attw --pack . --exclude-entrypoints style.css",
+    "build": "tsup && node ../shared/generate-declarations.js",
+    "dev": "tsup --watch",
+    "prepare": "pnpm build",
+    "publint": "publint --strict=true --level=suggestion",
+    "test": "vitest --run",
+    "types": "node ../shared/generate-declarations.js"
+  },
+  "dependencies": {
+    "@fireworks-js/react": "^2.10.7",
+    "@headlessui/react": "^1.7.17",
+    "@refinedev/devtools-shared": "2.0.2",
+    "@tanstack/react-table": "^8.2.6",
+    "clsx": "^1.1.1",
+    "dayjs": "^1.10.7",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "prism-react-renderer": "^1.3.5",
+    "react-hook-form": "^7.57.0",
+    "react-json-view-lite": "^1.3.0",
+    "react-router": "^7.0.2",
+    "semver-diff": "^3.1.1"
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-resolve": "^0.1.4",
+    "@tailwindcss/typography": "^0.5.9",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/lodash": "^4.14.171",
+    "@types/node": "^20",
+    "@types/react-gravatar": "^2.6.10",
+    "autoprefixer": "^10.4.1",
+    "jsdom": "^25.0.1",
+    "postcss": "^8.1.4",
+    "react-router": "^7.0.2",
+    "tailwindcss": "^3.0.11",
+    "tslib": "^2.6.2",
+    "tsup": "^6.7.0",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@types/react": "^18.0.0 || ^19.0.0",
+    "@types/react-dom": "^18.0.0 || ^19.0.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

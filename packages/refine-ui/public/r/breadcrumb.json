@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "breadcrumb",
+  "type": "registry:component",
+  "title": "Refine Breadcrumb",
+  "author": "Refine <info@refine.dev>",
+  "description": "A breadcrumb navigation component for Refine applications that automatically generates breadcrumbs based on the current route and resource structure.",
+  "dependencies": ["@refinedev/core", "lucide-react"],
+  "registryDependencies": ["breadcrumb"],
+  "files": [
+    {
+      "path": "registry/new-york/refine-ui/layout/breadcrumb.tsx",
+      "content": "\"use client\";\n\nimport { Fragment, useMemo } from \"react\";\nimport { Home } from \"lucide-react\";\nimport {\n  matchResourceFromRoute,\n  useBreadcrumb,\n  useLink,\n  useResourceParams,\n} from \"@refinedev/core\";\nimport {\n  BreadcrumbSeparator as ShadcnBreadcrumbSeparator,\n  BreadcrumbItem as ShadcnBreadcrumbItem,\n  BreadcrumbList as ShadcnBreadcrumbList,\n  BreadcrumbPage as ShadcnBreadcrumbPage,\n  Breadcrumb as ShadcnBreadcrumb,\n} from \"@/registry/new-york/ui/breadcrumb\";\n\nexport function Breadcrumb() {\n  const Link = useLink();\n  const { breadcrumbs } = useBreadcrumb();\n  const { resources } = useResourceParams();\n  const rootRouteResource = matchResourceFromRoute(\"/\", resources);\n\n  const breadCrumbItems = useMemo(() => {\n    const list: {\n      key: string;\n      href: string;\n      Component: React.ReactNode;\n    }[] = [];\n\n    list.push({\n      key: \"breadcrumb-item-home\",\n      href: rootRouteResource.matchedRoute ?? \"/\",\n      Component: (\n        <Link to={rootRouteResource.matchedRoute ?? \"/\"}>\n          {rootRouteResource?.resource?.meta?.icon ?? (\n            <Home className=\"h-4 w-4\" />\n          )}\n        </Link>\n      ),\n    });\n\n    for (const { label, href } of breadcrumbs) {\n      list.push({\n        key: `breadcrumb-item-${label}`,\n        href: href ?? \"\",\n        Component: href ? <Link to={href}>{label}</Link> : <span>{label}</span>,\n      });\n    }\n\n    return list;\n  }, [breadcrumbs, Link, rootRouteResource]);\n\n  return (\n    <ShadcnBreadcrumb>\n      <ShadcnBreadcrumbList>\n        {breadCrumbItems.map((item, index) => {\n          if (index === breadCrumbItems.length - 1) {\n            return (\n              <ShadcnBreadcrumbPage key={item.key}>\n                {item.Component}\n              </ShadcnBreadcrumbPage>\n            );\n          }\n\n          return (\n            <Fragment key={item.key}>\n              <ShadcnBreadcrumbItem key={item.key}>\n                {item.Component}\n              </ShadcnBreadcrumbItem>\n              <ShadcnBreadcrumbSeparator />\n            </Fragment>\n          );\n        })}\n      </ShadcnBreadcrumbList>\n    </ShadcnBreadcrumb>\n  );\n}\n\nBreadcrumb.displayName = \"Breadcrumb\";\n",
+      "type": "registry:component",
+      "target": "src/components/refine-ui/layout/breadcrumb.tsx"
+    }
+  ],
+  "docs": "https://github.com/refinedev/refine",
+  "categories": ["navigation", "breadcrumb", "layout"]
+}

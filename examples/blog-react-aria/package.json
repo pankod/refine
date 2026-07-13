@@ -1,0 +1,60 @@
+{
+  "name": "blog-react-aria",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cross-env DISABLE_ESLINT_PLUGIN=true refine build",
+    "dev": "refine dev",
+    "eject": "react-scripts eject",
+    "refine": "refine",
+    "test": "craco test"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@craco/craco": "^7.1.0",
+    "@js-temporal/polyfill": "^0.4.2",
+    "@refinedev/cli": "^2.16.31",
+    "@refinedev/core": "^4.49.2",
+    "@refinedev/react-hook-form": "^4.8.18",
+    "@refinedev/react-router": "^4.5.9",
+    "@refinedev/react-table": "^5.6.10",
+    "@refinedev/simple-rest": "^5.0.6",
+    "@tanstack/react-table": "^8.2.6",
+    "cross-env": "^7.0.3",
+    "react": "^19.1.0",
+    "react-aria": "^0.1.0",
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.57.0",
+    "react-router": "^7.0.2",
+    "react-scripts": "^5.0.0",
+    "react-stately": "^3.19.0",
+    "web-vitals": "^1.1.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.2.4",
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "autoprefixer": "^10.4.1",
+    "postcss": "^8.1.4",
+    "tailwindcss": "^3.0.11",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

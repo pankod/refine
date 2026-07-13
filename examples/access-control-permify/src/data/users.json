@@ -1,0 +1,44 @@
+[
+  {
+    "id": "demo_user_1",
+    "name": "USER_NAME_1",
+    "photo": "",
+    "roles": [
+      {
+        "color": "#15d23a",
+        "created_at": "2022-04-21T12:06:24.468549Z",
+        "description": "admin role",
+        "guard_name": "admin",
+        "name": "admin",
+        "updated_at": "2022-04-21T12:06:24.468549Z",
+        "organization_id": "demo_org_1"
+      }
+    ],
+    "attributes": {},
+    "created_at": "2022-04-24T15:27:44.070258Z",
+    "groups": [],
+    "updated_at": "2022-04-24T15:27:44.070258Z",
+    "organization_id": "demo_org_1"
+  },
+  {
+    "id": "demo_user_2",
+    "name": "USER_NAME_2",
+    "photo": "",
+    "roles": [
+      {
+        "color": "#2438a4",
+        "created_at": "2022-04-24T15:28:06.775147Z",
+        "description": "editor role",
+        "guard_name": "editor",
+        "name": "editor",
+        "updated_at": "2022-04-24T15:28:06.775147Z",
+        "organization_id": "demo_org_1"
+      }
+    ],
+    "attributes": {},
+    "created_at": "2022-04-24T15:27:20.291608Z",
+    "groups": [],
+    "updated_at": "2022-04-24T15:28:14.103317Z",
+    "organization_id": "demo_org_1"
+  }
+]

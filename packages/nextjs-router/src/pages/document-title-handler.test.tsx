@@ -1,0 +1,207 @@
+import React, { type ReactNode } from "react";
+import { vi } from "vitest";
+
+import { DocumentTitleHandler } from "./document-title-handler";
+import { render, TestWrapper, type ITestWrapperProps } from "../test/index";
+import { mockRouterProvider } from "../test/dataMocks";
+
+vi.mock("next/head", () => {
+  return {
+    __esModule: true,
+    default: ({ children }: { children: Array<React.ReactElement> }) => {
+      return <>{children}</>;
+    },
+  };
+});
+
+const assertNextHeadTitle = (text: string) => {
+  const title = document.querySelector("title");
+  expect(title?.textContent).toBe(text);
+};
+
+const renderDocumentTitleHandler = (
+  children: ReactNode,
+  wrapperProps: ITestWrapperProps = {},
+) => {
+  return render(<>{children}</>, {
+    wrapper: TestWrapper(wrapperProps),
+  });
+};
+
+describe("<DocumentTitleHandler />", () => {
+  it("should render default list title", async () => {
+    renderDocumentTitleHandler(<DocumentTitleHandler />, {
+      resources: [{ name: "posts", list: "/posts" }],
+      routerInitialEntries: ["/posts"],
+      routerProvider: mockRouterProvider({
+        action: "list",
+        resource: { name: "posts", list: "/posts" },
+      }),
+    });
+
+    assertNextHeadTitle("Posts | Refine");
+  });
+
+  it("should render default create title", async () => {
+    renderDocumentTitleHandler(<DocumentTitleHandler />, {
+      resources: [{ name: "posts", create: "/posts/create" }],
+      routerInitialEntries: ["/posts/create"],
+      routerProvider: mockRouterProvider({
+        action: "create",
+        resource: { name: "posts", create: "/posts/create" },
+      }),
+    });
+
+    assertNextHeadTitle("Create new Post | Refine");
+  });
+
+  it("should render default edit title", async () => {
+    renderDocumentTitleHandler(<DocumentTitleHandler />, {
+      resources: [{ name: "posts", edit: "/posts/edit/:id" }],
+      routerInitialEntries: ["/posts/edit/1"],
+      routerProvider: mockRouterProvider({
+        action: "edit",
+        resource: { name: "posts", edit: "/posts/edit/1" },
+        id: "1",
+      }),
+    });
+
+    assertNextHeadTitle("#1 Edit Post | Refine");
+  });
+
+  it("should render default show title", async () => {
+    renderDocumentTitleHandler(<DocumentTitleHandler />, {
+      resources: [{ name: "posts", show: "/posts/show/:id" }],
+      routerInitialEntries: ["/posts/show/1"],
+      routerProvider: mockRouterProvider({
+        action: "show",
+        resource: { name: "posts", show: "/posts/show/1" },
+        id: "1",
+      }),
+    });
+
+    assertNextHeadTitle("#1 Show Post | Refine");
+  });
+
+  it("should render default clone title", async () => {
+    renderDocumentTitleHandler(<DocumentTitleHandler />, {
+      resources: [{ name: "posts", clone: "/posts/clone/:id" }],
+      routerInitialEntries: ["/posts/clone/1"],
+      routerProvider: mockRouterProvider({
+        action: "clone",
+        resource: { name: "posts", clone: "/posts/clone/1" },
+        id: "1",
+      }),
+    });
+
+    assertNextHeadTitle("#1 Clone Post | Refine");
+  });
+
+  it("should render default title for unknown resource", async () => {
+    renderDocumentTitleHandler(<DocumentTitleHandler />, {
+      resources: [{ name: "posts" }],
+      routerInitialEntries: ["/unknown"],
+      routerProvider: mockRouterProvider({
+        action: "list",
+        resource: undefined,
+      }),
+    });
+
+    assertNextHeadTitle("Refine");
+  });
+
+  it("should render default title for unknown action", async () => {
+    renderDocumentTitleHandler(<DocumentTitleHandler />, {
+      resources: [{ name: "posts" }],
+      routerInitialEntries: ["/posts/unknown"],
+      routerProvider: mockRouterProvider({
+        action: undefined,
+        resource: {
+          name: "posts",
+        },
+      }),
+    });
+
+    assertNextHeadTitle("Refine");
+  });
+
+  it("should use identifier", async () => {
+    renderDocumentTitleHandler(<DocumentTitleHandler />, {
+      resources: [
+        { name: "posts", list: "/posts", identifier: "Awesome Posts" },
+      ],
+      routerInitialEntries: ["/posts"],
+      routerProvider: mockRouterProvider({
+        action: "list",
+        resource: {
+          name: "posts",
+          list: "/posts",
+          identifier: "Awesome Posts",
+        },
+      }),
+    });
+
+    assertNextHeadTitle("Awesome posts | Refine");
+  });
+
+  it("should render custom title", async () => {
+    renderDocumentTitleHandler(
+      <DocumentTitleHandler
+        handler={() => {
+          return "Custom Title";
+        }}
+      />,
+      {
+        resources: [{ name: "posts", list: "/posts" }],
+        routerInitialEntries: ["/posts"],
+        routerProvider: mockRouterProvider({
+          action: "list",
+          resource: { name: "posts", list: "/posts" },
+        }),
+      },
+    );
+
+    assertNextHeadTitle("Custom Title");
+  });
+
+  it("should label be populated with friendly resource name on handler function", async () => {
+    renderDocumentTitleHandler(
+      <DocumentTitleHandler
+        handler={({ resource, autoGeneratedTitle }) => {
+          const labelMeta = resource?.meta?.label;
+
+          expect(labelMeta).toBe("Posts");
+
+          return autoGeneratedTitle;
+        }}
+      />,
+      {
+        resources: [{ name: "posts", list: "/posts" }],
+        routerInitialEntries: ["/posts"],
+        routerProvider: mockRouterProvider({
+          action: "list",
+          resource: { name: "posts", list: "/posts" },
+        }),
+      },
+    );
+  });
+
+  it("should use label from resource if its provided", async () => {
+    renderDocumentTitleHandler(<DocumentTitleHandler />, {
+      resources: [
+        { name: "posts", list: "/posts", meta: { label: "Labeled Posts" } },
+      ],
+      routerInitialEntries: ["/posts"],
+      routerProvider: mockRouterProvider({
+        action: "list",
+        resource: {
+          name: "posts",
+          list: "/posts",
+          meta: { label: "Labeled Posts" },
+        },
+      }),
+    });
+
+    assertNextHeadTitle("Labeled Posts | Refine");
+  });
+});

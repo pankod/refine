@@ -1,0 +1,126 @@
+:root {
+    --primary: #ffffff;
+    --primary-2: #f1f3f5;
+    --secondary: #000000;
+    --secondary-2: #111;
+    --selection: var(--cyan);
+    --text-base: #000000;
+    --text-primary: #000000;
+    --text-secondary: white;
+    --hover: rgba(0, 0, 0, 0.075);
+    --hover-1: rgba(0, 0, 0, 0.15);
+    --hover-2: rgba(0, 0, 0, 0.25);
+    --product-gray: #d4d4d9;
+    --product-gray-dark: #aaaab3;
+    --product-blue: #d1e9ff;
+    --product-green: #d9f8fd;
+    --product-pink: #e1d0f5;
+    --cyan: #22b8cf;
+    --green: #37b679;
+    --red: #da3c3c;
+    --purple: #f81ce5;
+    --blue: #0070f3;
+    --pink: #ff0080;
+    --pink-light: #ff379c;
+    --magenta: #eb367f;
+    --violet: #450096;
+    --violet-dark: #4c2889;
+    --accent-0: #fff;
+    --accent-1: #fafafa;
+    --accent-2: #eaeaea;
+    --accent-3: #999999;
+    --accent-4: #888888;
+    --accent-5: #666666;
+    --accent-6: #444444;
+    --accent-7: #333333;
+    --accent-8: #111111;
+    --accent-9: #000;
+    --font-sans: -apple-system, system-ui, BlinkMacSystemFont, "Helvetica Neue",
+        "Helvetica", sans-serif;
+}
+
+[data-theme="dark"] {
+    --primary: #000000;
+    --primary-2: #111;
+    --secondary: #ffffff;
+    --secondary-2: #f1f3f5;
+    --hover: rgba(255, 255, 255, 0.075);
+    --hover-1: rgba(255, 255, 255, 0.15);
+    --hover-2: rgba(255, 255, 255, 0.25);
+    --selection: var(--purple);
+    --text-base: white;
+    --text-primary: white;
+    --text-secondary: black;
+    --accent-9: #fff;
+    --accent-8: #fafafa;
+    --accent-7: #eaeaea;
+    --accent-6: #999999;
+    --accent-5: #888888;
+    --accent-4: #666666;
+    --accent-3: #444444;
+    --accent-2: #333333;
+    --accent-1: #111111;
+    --accent-0: #000;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+html,
+body {
+    height: 100%;
+    box-sizing: border-box;
+    touch-action: manipulation;
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--primary);
+    color: var(--text-primary);
+    overscroll-behavior-x: none;
+}
+
+body {
+    position: relative;
+    min-height: 100%;
+    margin: 0;
+}
+
+a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+    -webkit-animation-name: fadeIn;
+}
+
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

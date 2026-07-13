@@ -1,0 +1,33 @@
+.button {
+    @apply bg-primary relative flex w-full cursor-default items-center justify-between border border-gray-200 px-4 py-[10px] text-left text-sm font-normal leading-6;
+}
+
+.button:focus {
+    @apply outline-none;
+}
+
+.button:focus-visible {
+    @apply border-primary ring-offset-primary ring-2 ring-white ring-opacity-75 ring-offset-2;
+}
+
+.options {
+    @apply border-primary bg-primary absolute z-20 max-h-60 w-full overflow-auto border border-t-0 text-xs font-normal leading-5;
+}
+
+.options:focus {
+    @apply outline-none;
+}
+
+@screen sm {
+    .options {
+        @apply text-sm;
+    }
+}
+
+.option {
+    @apply relative cursor-default select-none py-4 pl-6 pr-10;
+}
+
+.option:hover {
+    @apply bg-accent-2;
+}

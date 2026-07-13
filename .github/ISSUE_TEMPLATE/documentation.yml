@@ -1,0 +1,27 @@
+name: Documentation
+description: Help us improve documentations
+title: "[DOC]"
+labels: ["documentation"]
+body:
+    - type: textarea
+      attributes:
+        label: Documentation issue
+        description: Is this issue related to an existing part of the documentation? If so, please provide a link
+        placeholder: >
+            Helpful info about this issue.
+      validations:
+        required: true
+
+    - type: textarea
+      attributes:
+        label: Describe the thing to improve
+        description: A clear and concise description of problems and what you would like to see
+      validations:
+        required: true
+
+    - type: textarea
+      attributes:
+        label: Describe the solution (optional)
+        description: Ideas about what we should do to improve experience of beginners and readers. It may be new pages to add, grammar fixes etc.
+      validations:
+        required: false

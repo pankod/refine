@@ -1,0 +1,16 @@
+{
+  "name": "monorepo-with-lerna-bootstrap",
+  "private": true,
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
+    "dev": "lerna run dev"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "lerna": "^6.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

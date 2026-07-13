@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "notification-provider",
+  "type": "registry:component",
+  "title": "Notification Provider",
+  "author": "Refine <info@refine.dev>",
+  "description": "A comprehensive notification system for Refine with toast notifications, undoable notifications, and provider hooks using sonner",
+  "dependencies": ["@refinedev/core", "sonner"],
+  "registryDependencies": [
+    "button",
+    "dropdown-menu",
+    "https://ui.refine.dev/r/theme-provider.json"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/refine-ui/notification/use-notification-provider.tsx",
+      "content": "import type { NotificationProvider } from \"@refinedev/core\";\nimport { toast } from \"sonner\";\nimport { UndoableNotification } from \"@/registry/new-york/refine-ui/notification/undoable-notification\";\n\nexport function useNotificationProvider(): NotificationProvider {\n  return {\n    open: ({\n      key,\n      type,\n      message,\n      description,\n      undoableTimeout,\n      cancelMutation,\n    }) => {\n      switch (type) {\n        case \"success\":\n          toast.success(message, {\n            id: key,\n            description,\n            richColors: true,\n          });\n          return;\n\n        case \"error\":\n          toast.error(message, {\n            id: key,\n            description,\n            richColors: true,\n          });\n          return;\n\n        case \"progress\": {\n          const toastId = key || Date.now();\n\n          toast(\n            () => (\n              <UndoableNotification\n                message={message}\n                description={description}\n                undoableTimeout={undoableTimeout}\n                cancelMutation={cancelMutation}\n                onClose={() => toast.dismiss(toastId)}\n              />\n            ),\n            {\n              id: toastId,\n              duration: (undoableTimeout || 5) * 1000,\n              unstyled: true,\n            },\n          );\n          return;\n        }\n\n        default:\n          return;\n      }\n    },\n    close: (id) => {\n      toast.dismiss(id);\n    },\n  };\n}\n",
+      "type": "registry:hook",
+      "target": "src/components/refine-ui/notification/use-notification-provider.tsx"
+    },
+    {
+      "path": "registry/new-york/refine-ui/notification/toaster.tsx",
+      "content": "\"use client\";\n\nimport { Toaster as Sonner, type ToasterProps } from \"sonner\";\nimport { useTheme } from \"@/registry/new-york/refine-ui/theme/theme-provider\";\n\nexport function Toaster({ ...props }: ToasterProps) {\n  const { theme = \"system\" } = useTheme();\n\n  return (\n    <Sonner\n      theme={theme as ToasterProps[\"theme\"]}\n      className=\"toaster group\"\n      style={\n        {\n          \"--normal-bg\": \"var(--popover)\",\n          \"--normal-text\": \"var(--popover-foreground)\",\n          \"--normal-border\": \"var(--border)\",\n        } as React.CSSProperties\n      }\n      {...props}\n    />\n  );\n}\n",
+      "type": "registry:component",
+      "target": "src/components/refine-ui/notification/toaster.tsx"
+    },
+    {
+      "path": "registry/new-york/refine-ui/notification/undoable-notification.tsx",
+      "content": "import React from \"react\";\nimport { useTranslate } from \"@refinedev/core\";\nimport { Button } from \"@/registry/new-york/ui/button\";\nimport { cn } from \"@/lib/utils\";\n\ntype UndoableNotificationProps = {\n  message: string;\n  description?: string;\n  undoableTimeout?: number;\n  cancelMutation?: () => void;\n  onClose?: () => void;\n};\n\nexport function UndoableNotification({\n  message,\n  description,\n  undoableTimeout = 5,\n  cancelMutation,\n  onClose,\n}: UndoableNotificationProps) {\n  const t = useTranslate();\n\n  React.useEffect(() => {\n    const timer = setTimeout(() => {\n      onClose?.();\n    }, undoableTimeout * 1000);\n\n    return () => clearTimeout(timer);\n  }, [onClose, undoableTimeout]);\n\n  const handleUndo = () => {\n    cancelMutation?.();\n    onClose?.();\n  };\n\n  return (\n    <div\n      className={cn(\n        \"bg-card\",\n        \"text-card-foreground\",\n        \"rounded-lg\",\n        \"p-4\",\n        \"shadow-xl\",\n        \"border\",\n        \"border-border\",\n        \"min-w-[320px]\",\n        \"max-w-md\",\n      )}\n    >\n      <div className={cn(\"flex\", \"items-center\", \"justify-between\")}>\n        <div className={cn(\"flex-1\", \"mr-4\")}>\n          <div className={cn(\"font-medium\", \"text-foreground\", \"text-sm\")}>\n            {message}\n          </div>\n          {description && (\n            <div className={cn(\"text-muted-foreground\", \"text-sm\", \"mt-1\")}>\n              {description}\n            </div>\n          )}\n        </div>\n        <Button\n          variant=\"secondary\"\n          size=\"sm\"\n          onClick={handleUndo}\n          className={cn(\n            \"bg-secondary\",\n            \"hover:bg-secondary/80\",\n            \"text-secondary-foreground\",\n            \"border-0\",\n            \"px-4\",\n            \"py-2\",\n            \"text-sm\",\n            \"font-medium\",\n            \"rounded-md\",\n          )}\n        >\n          {t(\"buttons.undo\", \"Undo\")}\n        </Button>\n      </div>\n    </div>\n  );\n}\n\nUndoableNotification.displayName = \"UndoableNotification\";\n",
+      "type": "registry:component",
+      "target": "src/components/refine-ui/notification/undoable-notification.tsx"
+    }
+  ],
+  "docs": "https://github.com/refinedev/refine",
+  "categories": ["providers", "notifications", "toast", "hooks", "undoable"]
+}

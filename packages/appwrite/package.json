@@ -1,0 +1,66 @@
+{
+  "name": "@refinedev/appwrite",
+  "version": "8.0.1",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/refinedev/refine.git",
+    "directory": "packages/appwrite"
+  },
+  "license": "MIT",
+  "author": "refine",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "./refine.config.js"
+  ],
+  "scripts": {
+    "attw": "attw --pack .",
+    "build": "tsup && node ../shared/generate-declarations.js",
+    "dev": "tsup --watch",
+    "prepare": "pnpm build",
+    "publint": "publint --strict=true --level=suggestion",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "types": "node ../shared/generate-declarations.js"
+  },
+  "dependencies": {
+    "appwrite": "^15.0.0"
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-resolve": "^0.1.4",
+    "@refinedev/cli": "^2.16.50",
+    "@refinedev/core": "^5.0.5",
+    "@types/node": "^20",
+    "@vitest/ui": "^2.1.8",
+    "nock": "14.0.5",
+    "tslib": "^2.6.2",
+    "tsup": "^6.7.0",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@refinedev/core": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler"
+  },
+  "include": ["vite.config.js"]
+}

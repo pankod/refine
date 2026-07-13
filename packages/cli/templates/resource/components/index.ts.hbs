@@ -1,0 +1,10 @@
+export * from "./list";
+{{#ifIn actions "create"}}
+export * from "./create";
+{{/ifIn}}
+{{#ifIn actions "edit"}}
+export * from "./edit";
+{{/ifIn}}
+{{#ifIn actions "show"}}
+export * from "./show";
+{{/ifIn}}

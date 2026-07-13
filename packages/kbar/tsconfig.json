@@ -1,0 +1,18 @@
+{
+  "include": ["src", "types"],
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@components": ["src/components"],
+      "@hooks/*": ["src/hooks/*"],
+      "@hooks": ["src/hooks"],
+      "@test/*": ["test/*"],
+      "@test": ["test"],
+      "@definitions/*": ["src/definitions/*"],
+      "@definitions": ["src/definitions"]
+    }
+  }
+}

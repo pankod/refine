@@ -1,0 +1,48 @@
+name: Deploy Example Previews
+
+on:
+  workflow_dispatch:
+    inputs:
+      example_name:
+        description: "Example name to deploy preview"
+        type: choice
+        required: true
+        options:
+          - finefoods-antd
+          - finefoods-client
+          - finefoods-material-ui
+          - app-crm
+          - pixels
+          - invoicer
+
+jobs:
+  deploy_preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "pnpm"
+      - name: Install Dependencies
+        run: pnpm install --ignore-scripts
+      - name: Build example
+        run: pnpm build --scope ${{ inputs.example_name }}
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: ${{ format('./examples/{0}/{1}', inputs.example_name, contains(fromJson('["finefoods-client"]'), inputs.example_name) && '.next' || 'dist') }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "[Dispatch] Deploy from GitHub Actions"
+          alias: deploy-preview-dispatch-${{ inputs.example_name }}-${{ github.ref_name }}
+          enable-pull-request-comment: false
+          overwrites-pull-request-comment: false
+          github-deployment-environment: "deploy-preview-dispatch-${{ inputs.example_name }}-${{ github.ref_name }}"
+          netlify-config-path: ./examples/${{ inputs.example_name }}/netlify.toml
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 10

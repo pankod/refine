@@ -1,0 +1,1 @@
+export { useEditableTable } from "./useEditableTable";

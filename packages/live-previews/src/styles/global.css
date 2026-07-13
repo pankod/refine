@@ -1,0 +1,159 @@
+html, body, #__next {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* background: aliceblue; */
+}
+
+@keyframes loading-overlay {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes loading-spin {
+    0% {
+        animation-timing-function: cubic-bezier(0.5856,0.0703,0.4143,0.9297);
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes loading-drop {
+    0% {
+        animation-timing-function: cubic-bezier(0.5856,0.0703,0.4143,0.9297);
+        transform: translateY(0%);
+    }
+    90% {
+        transform: translateY(calc(100% + 8px));
+    }
+    100% {
+        transform: translateY(calc(100% + 8px));
+    }
+}
+
+.refine-loading__overlay {
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    position: absolute;
+    padding: "16px";
+    left: 0;
+    right: 0;
+    backdrop-filter: blur(14px);
+    background-color: rgba(200, 200, 200, 0.20);
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-direction: column;
+    z-index: 99999;
+    pointer-events: none;
+    animation-name: loading-overlay;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+}
+
+.refine-loading__progress {
+    width: 200px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: white;
+    position: relative;
+}
+
+.refine-loading__progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 6px;
+    min-width: 6px;
+    border-radius: 3px;
+    background-color: #1890FF;
+    animation-name: loading;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+}
+
+.page__wrapper {
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 24px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aliceblue;
+}
+
+.page__content {
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    padding-bottom: 20%;
+}
+
+.page__content h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    line-height: 3rem;
+    margin-bottom: 0;
+    color: #444;
+}
+
+.page__content h2 {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 2rem;
+    margin-bottom: 0.5rem;
+    color: #444;
+}
+
+.index .page__content h1 {
+    font-size: 4em;
+    font-weight: 900;
+    line-height: 3.25rem;
+    margin-bottom: 0;
+    color: #444;
+}
+
+.page__content p {
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 2.5rem;
+    margin-bottom: 1rem;
+    color: #555;
+}
+
+.page__content a {
+    color: #1890ff;
+    text-decoration: underline;
+    font-weight: 500;
+    font-size: 1.25rem;
+}
+
+.page__content p.live-error__description {
+    font-family: monospace;
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+section.ant-layout > main.ant-layout-content > div {
+    padding: 16px 12px !important;
+}
+
+.refine-loading__gif {
+    width: 64px;
+    height: 64px;
+    border-radius: 64px;
+}

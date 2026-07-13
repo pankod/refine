@@ -1,0 +1,30 @@
+:root {
+  --color-gray-0: 255 255 255;
+  --color-gray-50: 244 248 251;
+  --color-gray-100: 237 242 247;
+  --color-gray-200: 222 229 237;
+  --color-gray-300: 207 215 226;
+  --color-gray-400: 163 173 194;
+  --color-gray-500: 108 119 147;
+  --color-gray-600: 71 78 107;
+  --color-gray-700: 48 52 80;
+  --color-gray-800: 29 30 48;
+  --color-gray-900: 20 20 31;
+  --color-gray-1000: 0 0 0;
+}
+
+html.blog-wrapper,
+html.docs-wrapper {
+  --color-gray-0: 255 255 255;
+  --color-gray-50: 246 247 249; /* mising */
+  --color-gray-100: 246 247 249;
+  --color-gray-200: 234 235 239;
+  --color-gray-300: 227 228 229;
+  --color-gray-400: 153 161 179;
+  --color-gray-500: 102 112 132;
+  --color-gray-600: 68 73 85;
+  --color-gray-700: 52 58 70;
+  --color-gray-800: 35 39 47;
+  --color-gray-900: 35 39 47; /* mising */
+  --color-gray-1000: 0 0 0;
+}

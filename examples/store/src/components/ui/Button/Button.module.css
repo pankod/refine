@@ -1,0 +1,57 @@
+.root {
+  @apply bg-accent-9 text-accent-0 cursor-pointer inline-flex
+  px-10 py-5 leading-6 transition ease-in-out duration-150
+  shadow-sm text-center justify-center uppercase
+  border border-transparent items-center text-sm font-semibold
+  tracking-wide;
+  max-height: 64px;
+}
+
+.root:hover {
+  @apply border-accent-9 bg-accent-6;
+}
+
+.root:focus {
+  @apply shadow-outline-normal outline-none;
+}
+
+.root[data-active] {
+  @apply bg-accent-6;
+}
+
+.loading {
+  @apply bg-accent-1 text-accent-3 border-accent-2 cursor-not-allowed;
+}
+
+.slim {
+  @apply py-2 transform-none normal-case;
+}
+
+.ghost {
+  @apply border border-accent-2 bg-accent-0 text-accent-9 text-sm;
+}
+
+.ghost:hover {
+  @apply border-accent-9 bg-accent-9 text-accent-0;
+}
+
+.naked {
+  @apply bg-transparent font-semibold border-none shadow-none outline-none py-0 px-0;
+}
+
+.naked:hover,
+.naked:focus {
+  @apply bg-transparent border-none;
+}
+
+.disabled,
+.disabled:hover {
+  @apply text-accent-4 border-accent-2 bg-accent-1 cursor-not-allowed;
+  filter: grayscale(1);
+  -webkit-transform: translateZ(0);
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+}
+
+.progress {
+}

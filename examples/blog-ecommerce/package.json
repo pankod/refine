@@ -1,0 +1,41 @@
+{
+  "name": "blog-ecommerce",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "refine build && rimraf .next/cache",
+    "dev": "cross-env NODE_OPTIONS=--max_old_space_size=4096 refine dev",
+    "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
+    "start": "refine start"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "^1.1.5",
+    "@chakra-ui/react": "^2.5.1",
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
+    "@refinedev/cli": "^2.16.40",
+    "@refinedev/core": "^4.56.0",
+    "@refinedev/nextjs-router": "^6.1.0",
+    "@refinedev/strapi": "^4.1.12",
+    "@refinedev/strapi-v4": "^6.0.9",
+    "axios": "^1.11.0",
+    "cross-env": "^7.0.3",
+    "framer-motion": "^7.5.3",
+    "next": "^14.2.26",
+    "nookies": "^2.5.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-icons": "^4.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@typescript-eslint/parser": "5.48.0",
+    "rimraf": "3.0.2",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

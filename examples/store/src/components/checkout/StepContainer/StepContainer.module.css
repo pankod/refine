@@ -1,0 +1,11 @@
+.step {
+    @apply flex items-center gap-x-4 pb-6 pt-8 text-2xl font-semibold leading-[36px];
+}
+
+.stepCount {
+    @apply bg-secondary text-secondary flex h-8 w-8 items-center justify-center rounded-full text-sm;
+}
+
+.panel {
+    @apply overflow-hidden transition-[max-height,opacity] duration-700 ease-in-out;
+}

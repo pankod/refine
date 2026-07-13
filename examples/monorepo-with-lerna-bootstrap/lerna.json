@@ -1,0 +1,8 @@
+{
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "version": "0.0.0",
+  "packages": ["apps/*"],
+  "hoist": "**",
+  "registry": "https://registry.npmjs.org/",
+  "npmClient": "npm"
+}

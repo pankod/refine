@@ -1,0 +1,25 @@
+{
+  "title": "Refine Store | Show Your Support Proudly",
+  "titleTemplate": "%s - Refine Store",
+  "description": "Official swag store to buy Refine branded t-shirt's, mugs and other merchandise",
+  "openGraph": {
+    "title": "Refine Store | Show Your Support Proudly",
+    "description": "Official swag store to buy Refine branded t-shirt's, mugs and other merchandise",
+    "type": "website",
+    "url": "https://store.refine.dev/",
+    "site_name": "Refine Store",
+    "images": [
+      {
+        "url": "/social.png",
+        "width": "1240",
+        "height": "640",
+        "alt": "Refine Store"
+      }
+    ]
+  },
+  "twitter": {
+    "handle": "@refine_dev",
+    "site": "@refine_dev",
+    "cardType": "summary_large_image"
+  }
+}

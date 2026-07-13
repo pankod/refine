@@ -1,0 +1,73 @@
+@import "tailwindcss/base";
+@import "./base.css";
+@import "tailwindcss/components";
+@import "./components.css";
+@import "tailwindcss/utilities";
+
+.scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+}
+
+@layer base {
+    button[type="submit"] {
+        background-color: rgb(0 0 0);
+    }
+}
+
+@layer components {
+    .content-container {
+        @apply mx-auto w-full max-w-[1440px] px-8;
+    }
+
+    .text-small-regular {
+        @apply text-xs font-normal leading-5;
+    }
+
+    .text-small-semi {
+        @apply text-xs font-semibold leading-5;
+    }
+
+    .text-base-regular {
+        @apply text-sm font-normal leading-6;
+    }
+
+    .text-base-semi {
+        @apply text-sm font-semibold leading-6;
+    }
+
+    .text-large-regular {
+        @apply text-base font-normal leading-6;
+    }
+
+    .text-large-semi {
+        @apply text-base font-semibold leading-6;
+    }
+
+    .text-xl-regular {
+        @apply text-2xl font-normal leading-[36px];
+    }
+
+    .text-xl-semi {
+        @apply text-2xl font-semibold leading-[36px];
+    }
+
+    .text-2xl-regular {
+        @apply text-[30px] font-normal leading-[48px];
+    }
+
+    .text-2xl-semi {
+        @apply text-[30px] font-semibold leading-[48px];
+    }
+
+    .text-3xl-regular {
+        @apply text-[36px] font-normal leading-[48px];
+    }
+
+    .text-3xl-semi {
+        @apply text-[36px] font-semibold leading-[48px];
+    }
+}

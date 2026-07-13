@@ -1,0 +1,79 @@
+.link {
+    @apply border-accent-2 flex items-center justify-between border-b py-4 px-8;
+}
+
+.mobileHidden {
+    @apply small:hidden;
+}
+
+.mobileBlock {
+    @apply small:block hidden;
+}
+
+.head {
+    @apply mb-4 px-8 text-2xl font-semibold leading-[36px];
+}
+
+.mobileHead {
+    @apply mb-4 flex items-start justify-between text-2xl font-semibold leading-[36px];
+}
+
+.icon {
+    @apply -rotate-90 transform;
+}
+
+.linkContent {
+    @apply flex items-center gap-x-2;
+}
+
+.center {
+    @apply flex items-center justify-between;
+}
+
+.semibold {
+    @apply text-base font-semibold leading-6;
+}
+
+.regularText {
+    @apply text-accent-9 text-sm font-normal uppercase leading-6;
+}
+
+.flexCol {
+    @apply flex flex-col gap-y-4;
+}
+
+.flexEnd {
+    @apply flex items-end gap-x-2;
+}
+
+.signIn {
+    @apply text-accent-7 text-xs font-normal leading-5;
+}
+
+.overviewContainer {
+    @apply flex flex-col border-t border-gray-200 py-8;
+}
+
+.overviewWapper {
+    @apply col-span-1 row-span-2 flex h-full flex-1 flex-col gap-y-4;
+}
+
+.overviewInfo {
+    @apply mb-6 flex items-start gap-x-16;
+}
+
+.overviewInfoProfile {
+    @apply text-base font-semibold leading-6;
+}
+
+.remarkableText {
+    @apply text-[36px] font-semibold leading-[48px] leading-none;
+}
+
+.ordersWrapper {
+    @apply bg-accent-2 flex items-center justify-between p-4;
+}
+
+.orders {
+    @apply grid flex-1 grid-cols-3 grid-rows-2 gap-x-4 text-xs font-normal leading-5;
+}

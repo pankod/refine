@@ -1,0 +1,32 @@
+{
+  "include": ["src"],
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@components": ["src/components"],
+      "@containers/*": ["src/containers/*"],
+      "@containers": ["src/containers"],
+      "@pages/*": ["src/pages/*"],
+      "@pages": ["src/pages"],
+      "@contexts/*": ["src/contexts/*"],
+      "@contexts": ["src/contexts"],
+      "@dataProviders/*": ["src/dataProviders/*"],
+      "@dataProviders": ["src/dataProviders"],
+      "@hooks/*": ["src/hooks/*"],
+      "@hooks": ["src/hooks"],
+      "@test/*": ["test/*"],
+      "@test": ["test"],
+      "@definitions/*": ["src/definitions/*"],
+      "@definitions": ["src/definitions"]
+    },
+    "typeRoots": [
+      "./src/types",
+      "./node_modules/@types",
+      "../../node_modules/@types"
+    ]
+  }
+}

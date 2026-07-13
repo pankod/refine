@@ -1,0 +1,17 @@
+{{#if isNextJs}}
+"use client";
+
+{{/if}}
+{{#if uiFramework}}
+import { {{formatInferencerComponent uiFramework}}Inferencer } from "@refinedev/inferencer/{{uiFramework}}";
+{{else}}
+import { HeadlessInferencer } from "@refinedev/inferencer/headless";
+{{/if}}
+
+export const {{getComponentNameByResource resource}}Edit = () => {
+    {{#if uiFramework}}
+    return <{{formatInferencerComponent uiFramework}}Inferencer />;
+    {{else}}
+    return <HeadlessInferencer />;
+    {{/if}}
+};

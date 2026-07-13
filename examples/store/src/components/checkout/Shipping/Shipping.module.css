@@ -1,0 +1,7 @@
+.radio {
+    @apply text-primary flex cursor-pointer items-center justify-between py-4 px-8 text-xs font-normal leading-5;
+}
+
+.spinner {
+    @apply flex flex-col items-center justify-center px-4 py-8 text-gray-900;
+}

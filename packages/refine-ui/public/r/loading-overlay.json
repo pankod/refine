@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "loading-overlay",
+  "type": "registry:component",
+  "title": "Loading Overlay",
+  "author": "Refine <info@refine.dev>",
+  "description": "A loading overlay component that displays a spinner over content while loading. Can be used to provide visual feedback during async operations.",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/new-york/refine-ui/layout/loading-overlay.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Loader2 } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\n\ninterface LoadingOverlayProps extends React.HTMLAttributes<HTMLDivElement> {\n  loading?: boolean;\n  children: React.ReactNode;\n}\n\nexport const LoadingOverlay = React.forwardRef<\n  HTMLDivElement,\n  LoadingOverlayProps\n>(({ className, loading = false, children, ...props }, ref) => {\n  if (!loading) return children;\n\n  return (\n    <div className=\"relative\" ref={ref} {...props}>\n      {children}\n      <div\n        className={cn(\n          \"absolute inset-0 z-50 flex items-center justify-center\",\n          \"bg-background/60\",\n          className,\n        )}\n      >\n        <div className=\"flex flex-col items-center gap-2\">\n          <Loader2 className=\"h-8 w-8 animate-spin text-primary\" />\n        </div>\n      </div>\n    </div>\n  );\n});\n\nLoadingOverlay.displayName = \"LoadingOverlay\";\n",
+      "type": "registry:component",
+      "target": "src/components/refine-ui/layout/loading-overlay.tsx"
+    }
+  ],
+  "docs": "https://github.com/refinedev/refine",
+  "categories": ["loading", "overlay", "feedback", "ui"]
+}

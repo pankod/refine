@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "auto-save-indicator",
+  "type": "registry:component",
+  "title": "Auto Save Indicator",
+  "author": "Refine <info@refine.dev>",
+  "description": "A visual indicator component for auto-save functionality in Refine forms. Shows loading, success, error, and idle states with smooth transitions and customizable elements.",
+  "dependencies": ["@refinedev/core", "lucide-react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/new-york/refine-ui/form/auto-save-indicator.tsx",
+      "content": "\"use client\";\n\nimport { useState, useEffect } from \"react\";\nimport { useTranslate, type AutoSaveIndicatorProps } from \"@refinedev/core\";\nimport { AlertTriangle, Clock, CheckCircle2, Loader2 } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\n\n type Props = AutoSaveIndicatorProps;\n\nexport function AutoSaveIndicator({\n  status,\n  elements: elementsFromProps,\n}: Props) {\n  const t = useTranslate();\n  const [shouldFadeSuccess, setShouldFadeSuccess] = useState(false);\n\n  useEffect(() => {\n    if (status === \"success\") {\n      const timer = setTimeout(() => {\n        setShouldFadeSuccess(true);\n      }, 1000);\n\n      return () => {\n        clearTimeout(timer);\n        setShouldFadeSuccess(false);\n      };\n    }\n    setShouldFadeSuccess(false);\n  }, [status]);\n\n  const elements = {\n    pending: elementsFromProps?.loading ?? (\n      <div\n        className={cn(\n          \"flex\",\n          \"items-center\",\n          \"h-9\",\n          \"text-sm\",\n          \"text-sky-600\",\n          \"px-3\",\n        )}\n      >\n        <Loader2 className={cn(\"h-4\", \"w-4\", \"mr-2\", \"animate-spin\")} />\n        <span className={cn(\"font-medium\")}>\n          {t(\"autoSave.loading\", \"Saving\")}\n        </span>\n      </div>\n    ),\n    success: elementsFromProps?.success ?? (\n      <div\n        className={cn(\n          \"flex\",\n          \"items-center\",\n          \"h-9\",\n          \"text-sm\",\n          \"text-emerald-500\",\n          \"transition-opacity\",\n          \"duration-500\",\n          \"px-3\",\n          {\n            \"opacity-50\": shouldFadeSuccess,\n          },\n        )}\n      >\n        <CheckCircle2 className={cn(\"h-4\", \"w-4\", \"mr-2\")} />\n        <span className={cn(\"font-medium\")}>\n          {t(\"autoSave.success\", \"Saved\")}\n        </span>\n      </div>\n    ),\n    error: elementsFromProps?.error ?? (\n      <div\n        className={cn(\n          \"flex\",\n          \"items-center\",\n          \"h-9\",\n          \"text-sm\",\n          \"text-rose-400\",\n          \"px-3\",\n        )}\n      >\n        <AlertTriangle className={cn(\"h-4\", \"w-4\", \"mr-2\")} />\n        <span className={cn(\"font-medium\")}>\n          {t(\"autoSave.error\", \"Failed\")}\n        </span>\n      </div>\n    ),\n    idle: elementsFromProps?.idle ?? (\n      <div\n        className={cn(\n          \"flex\",\n          \"items-center\",\n          \"h-9\",\n          \"text-sm\",\n          \"text-slate-500\",\n          \"px-3\",\n        )}\n      >\n        <Clock className={cn(\"h-4\", \"w-4\", \"mr-2\")} />\n        <span>{t(\"autoSave.idle\", \"Idle\")} </span>\n      </div>\n    ),\n  };\n\n  return <div className={cn(\"flex\")}>{elements[status]}</div>;\n}\n\nAutoSaveIndicator.displayName = \"AutoSaveIndicator\";\n",
+      "type": "registry:component",
+      "target": "src/components/refine-ui/form/auto-save-indicator.tsx"
+    }
+  ],
+  "docs": "https://github.com/refinedev/refine",
+  "categories": ["form", "auto-save", "indicator", "feedback", "ui"]
+}

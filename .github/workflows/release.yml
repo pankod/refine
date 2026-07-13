@@ -1,0 +1,67 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    permissions:
+      contents: write
+      id-token: write
+      issues: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.ref }}-stable-release
+      cancel-in-progress: true
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
+    env:
+      RELEASE_ONLY: ${{ secrets.RELEASE_ONLY }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PANKOD_BOT_TOKEN }}
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+      - name: Creating .npmrc
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Install Dependencies & Build
+        run: pnpm install
+      - name: Lint
+        run: pnpm lint:ci
+        if: ${{ env.RELEASE_ONLY != 'true' }}
+      - name: Syncpack
+        run: pnpm sp lint
+        if: ${{ env.RELEASE_ONLY != 'true' }}
+      - name: Publint
+        run: pnpm publint:all
+        if: ${{ env.RELEASE_ONLY != 'true' }}
+      - name: Are The Types Wrong
+        run: pnpm attw:all
+        if: ${{ env.RELEASE_ONLY != 'true' }}
+      - name: Test
+        run: pnpm test:all
+        if: ${{ env.RELEASE_ONLY != 'true' }}
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          version: pnpm version-packages
+          publish: pnpm changeset publish
+          commit: "ci(changesets): version packages"
+          title: "ci(changesets): version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PANKOD_BOT_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,39 @@
+{
+  "name": "upload-chakra-ui-multipart",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc && refine build",
+    "dev": "refine dev",
+    "refine": "refine",
+    "start": "refine start"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.5.1",
+    "@refinedev/chakra-ui": "^3.0.2",
+    "@refinedev/cli": "^2.16.52",
+    "@refinedev/core": "^5.1.0",
+    "@refinedev/react-hook-form": "^5.0.4",
+    "@refinedev/react-router": "^2.0.4",
+    "@refinedev/react-table": "^6.0.1",
+    "@refinedev/simple-rest": "^6.0.1",
+    "@tabler/icons-react": "^3.1.0",
+    "@tanstack/react-table": "^8.2.6",
+    "rc-upload": "^4.3.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router": "^7.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.15"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

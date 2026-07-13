@@ -1,0 +1,28 @@
+.wrapper {
+    display: flex;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    background-color: white;
+    align-items: center;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+
+.wrapper:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+.title {
+    text-align: left;
+}
+
+.circle {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    margin-right: 30px;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 5px;
+}

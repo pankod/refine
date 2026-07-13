@@ -1,0 +1,50 @@
+{
+  "name": "create-refine-app",
+  "version": "1.12.11",
+  "private": false,
+  "description": "Create Refine App, a scaffold tool for rapidly starting Refine applications.",
+  "license": "MIT",
+  "author": "refine",
+  "main": "dist/index.js",
+  "module": "dist/esm/index.js",
+  "typings": "dist/index.d.ts",
+  "bin": "./dist/index.js",
+  "scripts": {
+    "build": "tsup && tsc --project tsconfig.declarations.json",
+    "dev": "tsup --watch",
+    "prepare": "pnpm build",
+    "test": "vitest run --passWithNoTests",
+    "types": "tsc --project tsconfig.declarations.json"
+  },
+  "dependencies": {
+    "boxen": "^5.1.2",
+    "chalk": "^4.1.2",
+    "commander": "9.4.1",
+    "cowrizz": "^1.0.4",
+    "execa": "^5.1.1",
+    "got": "^11.8.5",
+    "ora": "^5.4.1",
+    "prompts": "2.1.0",
+    "rimraf": "3.0.2",
+    "superplate-cli": "^1.20.1",
+    "tar": "^6.2.0",
+    "tslib": "^2.6.2",
+    "which-pm-runs": "^1.1.0"
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-resolve": "^0.1.4",
+    "@types/node": "^20",
+    "@types/prompts": "2.0.1",
+    "@types/rimraf": "3.0.0",
+    "@types/tar": "^6.1.11",
+    "@types/which-pm-runs": "^1.0.0",
+    "tsup": "^6.7.0",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "include": ["src"],
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": false,
+    "strict": true,
+    "paths": {}
+  }
+}

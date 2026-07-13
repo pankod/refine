@@ -1,0 +1,130 @@
+{
+  "name": "@refinedev/devtools-server",
+  "version": "2.0.2",
+  "private": false,
+  "description": "refine devtools offers a set of features from monitoring to quickly prototyping a UI.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/refinedev/refine.git",
+    "directory": "packages/devtools"
+  },
+  "license": "MIT",
+  "author": "refine",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "bin": {
+    "refine-devtools": "./dist/cli.cjs"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "attw": "attw --pack .",
+    "build": "pnpm build:client && tsup && node ../shared/generate-declarations.js",
+    "build:client": "cross-env NODE_ENV=production tsc && vite build --config src/client/vite.config.ts",
+    "dev": "pnpm dev:client & tsup --watch",
+    "dev:client": "vite build --watch --config src/client/vite.config.ts",
+    "prepare": "pnpm build",
+    "publint": "publint --strict=true --level=suggestion",
+    "start:server": "node dist/cli.cjs",
+    "test": "vitest run --passWithNoTests",
+    "types": "node ../shared/generate-declarations.js"
+  },
+  "dependencies": {
+    "@refinedev/devtools-shared": "2.0.2",
+    "body-parser": "^1.20.2",
+    "boxen": "^5.1.2",
+    "chalk": "^4.1.2",
+    "dedent": "^0.7.0",
+    "dotenv": "^16.0.3",
+    "error-stack-parser": "^2.1.4",
+    "execa": "^5.1.1",
+    "express": "^4.21.0",
+    "fs-extra": "^10.1.0",
+    "globby": "^11.1.0",
+    "gray-matter": "^4.0.3",
+    "http-proxy-middleware": "^3.0.0",
+    "jscodeshift": "^17.3.0",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "marked": "^4.3.0",
+    "node-fetch": "^2.6.7",
+    "package-manager-detector": "^0.1.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "sanitize-html": "^2.11.0",
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-resolve": "^0.1.4",
+    "@refinedev/devtools-ui": "2.0.3",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@types/dedent": "^0.7.0",
+    "@types/express": "^4.17.21",
+    "@types/fs-extra": "^9.0.13",
+    "@types/jscodeshift": "^17.3.0",
+    "@types/lodash": "^4.14.171",
+    "@types/marked": "^5.0.1",
+    "@types/node": "^20",
+    "@types/node-fetch": "^2.6.11",
+    "@types/sanitize-html": "^2.9.0",
+    "@types/ws": "^8.5.5",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/ui": "^2.1.8",
+    "esbuild-copy-static-files": "^0.1.0",
+    "jsdom": "^25.0.1",
+    "react-router": "^7.0.2",
+    "tslib": "^2.6.2",
+    "tsup": "^6.7.0",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.15",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@types/react": "^18.0.0 || ^19.0.0",
+    "@types/react-dom": "^18.0.0 || ^19.0.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "dependsOn": [
+          "^build",
+          "build:client"
+        ],
+        "cache": true
+      },
+      "build:client": {
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{projectRoot}/dist"
+        ],
+        "cache": true
+      }
+    }
+  }
+}

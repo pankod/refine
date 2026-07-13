@@ -1,0 +1,96 @@
+{
+  "name": "@refinedev/antd",
+  "version": "6.0.3",
+  "private": false,
+  "description": "Ant Design UI support for Refine, offering enterprise-level UI components.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/refinedev/refine.git",
+    "directory": "packages/antd"
+  },
+  "license": "MIT",
+  "author": "refine",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./dist/reset.css": {
+      "import": "./dist/reset.css",
+      "require": "./dist/reset.css"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "attw": "attw --pack . --exclude-entrypoints dist/reset.css",
+    "build": "tsup && node ../shared/generate-declarations.js",
+    "dev": "tsup --watch",
+    "prepare": "pnpm build",
+    "publint": "publint --strict=true --level=suggestion",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest",
+    "types": "node ../shared/generate-declarations.js"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.5.1",
+    "@ant-design/pro-layout": "^7.21.1",
+    "@refinedev/ui-types": "^2.0.1",
+    "@tanstack/react-query": "^5.81.5",
+    "antd": "^5.23.0",
+    "dayjs": "^1.10.7",
+    "react-markdown": "^6.0.1",
+    "remark-gfm": "^1.0.0",
+    "sunflower-antd": "1.0.0-beta.3",
+    "tslib": "^2.6.2"
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-resolve": "^0.1.4",
+    "@refinedev/cli": "^2.16.50",
+    "@refinedev/core": "^5.0.5",
+    "@refinedev/ui-tests": "^2.0.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/lodash": "^4.14.171",
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitest/ui": "^2.1.8",
+    "esbuild-copy-static-files": "^0.1.0",
+    "esbuild-plugin-inline-image": "^0.0.8",
+    "identity-obj-proxy": "^3.0.0",
+    "postcss": "^8.1.4",
+    "react-router": "^7.0.2",
+    "tsup": "^6.7.0",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@refinedev/core": "^5.0.0",
+    "@types/react": "^18.0.0 || ^19.0.0",
+    "@types/react-dom": "^18.0.0 || ^19.0.0",
+    "antd": "^5.23.0",
+    "dayjs": "^1.10.7",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+.step {
+    @apply bg-accent-2 flex items-center gap-x-4 pb-6 pt-8 text-2xl font-semibold leading-[36px];
+}
+
+.stepCount {
+    @apply bg-secondary text-secondary flex h-8 w-8 items-center justify-center rounded-full text-sm;
+}
+
+.mark {
+    @apply bg-green flex h-6 min-w-[24px] items-center justify-center rounded-full text-xs font-normal leading-5 text-white;
+}
+
+.checkedAddress {
+    @apply flex w-full items-start justify-between;
+}

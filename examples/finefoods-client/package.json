@@ -1,0 +1,37 @@
+{
+  "name": "finefoods-client",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "refine build && rimraf .next/cache",
+    "dev": "refine dev",
+    "start": "refine start"
+  },
+  "dependencies": {
+    "@refinedev/cli": "^2.16.52",
+    "@refinedev/core": "^5.1.0",
+    "@refinedev/nextjs-router": "^7.0.5",
+    "@refinedev/react-table": "^6.0.1",
+    "@refinedev/simple-rest": "^6.0.1",
+    "@tanstack/react-table": "^8.2.6",
+    "classnames": "^2.3.2",
+    "dayjs": "^1.10.7",
+    "js-confetti": "^0.9.0",
+    "next": "^14.2.26",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@netlify/plugin-nextjs": "5.2.2",
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "autoprefixer": "^10.4.1",
+    "postcss": "^8.1.4",
+    "rimraf": "3.0.2",
+    "tailwindcss": "^3.0.11",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "name": "blog-material-ui-datagrid",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc && refine build",
+    "dev": "refine dev",
+    "refine": "refine",
+    "start": "refine start"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^6.1.6",
+    "@mui/lab": "^6.0.0-beta.14",
+    "@mui/material": "^6.1.7",
+    "@mui/x-data-grid": "^7.23.5",
+    "@refinedev/cli": "^2.16.40",
+    "@refinedev/core": "^4.56.0",
+    "@refinedev/inferencer": "^4.7.1",
+    "@refinedev/kbar": "^1.3.12",
+    "@refinedev/mui": "^5.22.0",
+    "@refinedev/react-hook-form": "^4.9.1",
+    "@refinedev/react-router": "^0.1.0",
+    "@refinedev/simple-rest": "^5.0.8",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.57.0",
+    "react-router": "^7.0.2",
+    "styled-components": "^6.1.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@types/styled-components": "^5.1.26",
+    "@typescript-eslint/eslint-plugin": "5.48.0",
+    "@typescript-eslint/parser": "5.48.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.24.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.3.4",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.15"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

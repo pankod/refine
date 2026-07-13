@@ -1,0 +1,56 @@
+{
+  "name": "@refinedev/codemod",
+  "version": "4.4.3",
+  "private": false,
+  "description": "Codemod scripts for Refine, automating code transformations and migrations.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/refinedev/refine.git",
+    "directory": "packages/codemod"
+  },
+  "license": "MIT",
+  "author": "refine",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "bin": "./dist/index.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -d -p tsconfig.json",
+    "dev": "tsc -w -d -p tsconfig.json",
+    "jscodeshift": "jscodeshift -d --transform=src/transformations/refine1-to-refine2.ts",
+    "prepare": "pnpm build",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@npmcli/package-json": "^5.2.0",
+    "chalk": "^4.1.2",
+    "cheerio": "1.0.0-rc.9",
+    "execa": "^5.1.1",
+    "globby": "^11.1.0",
+    "inquirer": "^8.2.5",
+    "is-git-clean": "1.1.0",
+    "jscodeshift": "^17.3.0",
+    "meow": "7.0.1",
+    "semver": "7.5.2"
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-resolve": "^0.1.4",
+    "@types/eslint": "^7.28.2",
+    "@types/inquirer": "^8.2.5",
+    "@types/jscodeshift": "^17.3.0",
+    "@types/node": "^20",
+    "@types/npmcli__package-json": "^4.0.4",
+    "tslib": "^2.6.2",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

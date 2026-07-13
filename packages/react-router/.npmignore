@@ -1,0 +1,10 @@
+node_modules
+.DS_Store
+test
+**/*.spec.ts
+**/*.spec.tsx
+**/*.test.ts
+**/*.test.tsx
+tsup.config.ts
+tsconfig.test.json
+tsconfig.declarations.json

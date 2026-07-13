@@ -1,0 +1,178 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #efefef;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #222;
+}
+
+.m-1 {
+  margin: 0.5rem;
+}
+
+.m-2 {
+  margin: 1rem;
+}
+
+.mx-2 {
+  margin: 0 1.5rem;
+}
+
+.my-1 {
+  margin: 0.5rem 0;
+}
+
+.my-2 {
+  margin: 1.5rem 0;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+.p-1 {
+  padding: 0.5rem;
+}
+
+.p-2 {
+  padding: 1rem;
+}
+
+.px-2 {
+  padding: 0.5rem 1rem;
+}
+
+.flex-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-conten: space-between;
+  align-items: center;
+}
+
+.flex-row-left {
+  margin: 0.2rem;
+  flex-grow: 1;
+}
+
+.font-sm {
+  font-size: 0.8rem;
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.heading-sm {
+  font-size: 1.2rem;
+  color: #0b678e;
+}
+
+.heading-md {
+  font-size: 1.5rem;
+  color: #055E84;
+}
+
+.heading-lg {
+  font-size: 2rem;
+  color: #055E84;
+}
+
+.border {
+  border: 1px solid #ccbdbd;
+}
+
+.border-rounded {
+  border-radius: 4px;
+}
+
+.input-field {
+  padding: 0.4rem;
+}
+
+.hr {
+  width: 98%;
+  margin: auto;
+}
+
+.btn {
+  display: block;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  color: wheat;
+  font-weight: bold;
+  border: 1px solid #ccbdbd;
+  border-radius: 4px;
+}
+
+.btn-inline {
+  display: inline;
+}
+
+.btn-danger {
+  background-color: #ef475e;
+}
+
+.btn-primary {
+  background-color: #208fd8;
+}
+
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 3rem;
+  background-color: #ccc7c7;
+}
+
+.latest-posts-top {
+  display: flex;
+  flex-wrap: no-wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post {
+  flow: 1;
+}
+
+.box {
+  width: 100%;
+  background-color: #f8f8f8;
+  box-shadow: 2px 2px 4px #ccbdbd;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}

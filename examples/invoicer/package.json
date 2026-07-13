@@ -1,0 +1,53 @@
+{
+  "name": "invoicer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc && refine build",
+    "dev": "refine dev",
+    "refine": "refine",
+    "start": "refine start"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@refinedev/antd": "^6.0.3",
+    "@refinedev/cli": "^2.16.52",
+    "@refinedev/core": "^5.1.0",
+    "@refinedev/devtools": "^2.0.5",
+    "@refinedev/react-router": "^2.0.4",
+    "@refinedev/strapi-v4": "^7.0.1",
+    "antd": "^5.23.0",
+    "antd-style": "^3.6.1",
+    "axios": "^1.11.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-input-mask": "^2.0.4",
+    "react-router": "^7.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@types/react-input-mask": "^3.0.1",
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.15",
+    "vite-tsconfig-paths": "^4.2.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,45 @@
+name: Bug report
+description: Create a report to help us improve
+title: "[BUG]"
+labels: ["bug"]
+body:
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: >
+        Please provide the context in which the problem occur.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Steps To Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Packages
+      description: Run `npm run refine whoami` script and paste the result here.
+      placeholder: Run `npm run refine whoami` script and paste the result here.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here.

@@ -1,0 +1,27 @@
+{
+  "include": ["src", "types"],
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "importHelpers": false,
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@components": ["src/components"],
+      "@containers/*": ["src/containers/*"],
+      "@containers": ["src/containers"],
+      "@pages/*": ["src/pages/*"],
+      "@pages": ["src/pages"],
+      "@contexts/*": ["src/contexts/*"],
+      "@contexts": ["src/contexts"],
+      "@dataProviders/*": ["src/dataProviders/*"],
+      "@dataProviders": ["src/dataProviders"],
+      "@hooks/*": ["src/hooks/*"],
+      "@hooks": ["src/hooks"],
+      "@test/*": ["test/*"],
+      "@test": ["test"],
+      "@definitions/*": ["src/definitions/*"],
+      "@definitions": ["src/definitions"]
+    }
+  }
+}

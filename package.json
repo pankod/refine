@@ -1,0 +1,102 @@
+{
+  "name": "refinedev",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "author": "refine",
+  "scripts": {
+    "attw": "lerna run attw --scope @refinedev/core",
+    "attw:all": "lerna run attw --scope @refinedev/*",
+    "biome": "biome",
+    "build": "lerna run build --scope @refinedev/core",
+    "build:all": "lerna run build --scope @refinedev/* --scope create-refine-app",
+    "changeset": "changeset",
+    "coffee": "pnpm nuke && pnpm i && pnpm build:all",
+    "cypress:open": "cypress open -C cypress/cypress.config.ts",
+    "cypress:run": "cypress run -C cypress/cypress.config.ts --browser chrome",
+    "dev": "lerna run dev",
+    "dev:docs": "concurrently \"cd documentation && pnpm dev\" \"pnpm dev --scope @refinedev/live-previews\" --names docs,live --prefix-colors blue,red",
+    "lerna": "lerna",
+    "lint": "biome check .",
+    "lint:ci": "biome ci .",
+    "lint:error": "biome check . --diagnostic-level error",
+    "lint:fix": "biome check . --apply",
+    "lint:staged": "lint-staged",
+    "nuke": "echo 'Removing all node_modules, builds and lockfiles'; pnpm nuke:nx; pnpm nuke:node_modules; pnpm nuke:builds; pnpm nuke:lockfiles;",
+    "nuke:builds": "lerna exec -- rimraf dist && lerna exec -- rimraf .next && lerna exec -- rimraf build",
+    "nuke:lockfiles": "lerna exec --ignore @refinedev/codemod -- rimraf package-lock.json && lerna exec --ignore @refinedev/codemod -- rimraf yarn.lock && lerna exec --ignore @refinedev/codemod -- rimraf pnpm-lock.yaml",
+    "nuke:node_modules": "lerna clean --yes",
+    "nuke:nx": "rimraf .nx/cache",
+    "nx": "nx",
+    "pnpm:devPreinstall": "node scripts/fix-pnpm-symlinks.js",
+    "prepare": "husky install",
+    "publint": "lerna run publint --scope @refinedev/core",
+    "publint:all": "lerna run publint --scope @refinedev/*",
+    "sp": "syncpack",
+    "start": "lerna run start",
+    "test": "lerna run test --stream",
+    "test:all": "lerna run test --stream --scope @refinedev/* --scope create-refine-app",
+    "test:all:coverage": "pnpm test:all -- -- --coverage",
+    "test:coverage": "pnpm test -- -- --coverage",
+    "version-packages": "pnpm changeset version && pnpm i --ignore-scripts --lockfile-only --no-frozen-lockfile --reporter=ndjson --stream && git add pnpm-lock.yaml"
+  },
+  "lint-staged": {
+    "documentation/blog/**": [
+      "typos -c ./typos.toml"
+    ],
+    "*.{js,jsx,ts,tsx,json}": [
+      "biome format --write --no-errors-on-unmatched"
+    ],
+    "*.{md,mdx}": [
+      "prettier --config ./.prettierrc --write"
+    ],
+    "package.json": [
+      "sort-package-json",
+      "syncpack lint"
+    ]
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.15.3",
+    "@biomejs/biome": "^1.7.3",
+    "@changesets/changelog-github": "^0.4.6",
+    "@changesets/cli": "^2.24.3",
+    "@commitlint/cli": "^17.0.1",
+    "@commitlint/config-conventional": "^17.0.0",
+    "@lerna/filter-options": "^6.2.0",
+    "@netlify/plugin-nextjs": "5.2.2",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitest/ui": "^2.1.8",
+    "concurrently": "^7.4.0",
+    "cypress": "^13.6.3",
+    "glob": "^10.4.2",
+    "husky": "^8.0.1",
+    "lerna": "^8.1.2",
+    "lint-staged": "^10.5.4",
+    "nx": "18.2.2",
+    "pidtree": "^0.6.0",
+    "port-pid": "^0.0.7",
+    "prettier": "^2.7.1",
+    "publint": "^0.2.7",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-refresh": "^0.11.0",
+    "rimraf": "3.0.2",
+    "sort-package-json": "^2.7.0",
+    "syncpack": "^12.3.2",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8",
+    "wait-on": "^7.0.1"
+  },
+  "packageManager": "pnpm@9.4.0+sha256.b6fd0bfda555e7e584ad7e56b30c68b01d5a04f9ee93989f4b93ca8473c49c74",
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=9"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@changesets/git@3.0.0": "patches/@changesets__git@3.0.0.patch",
+      "react95@4.0.0": "patches/react95@4.0.0.patch"
+    }
+  }
+}

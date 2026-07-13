@@ -1,0 +1,184 @@
+{
+  "redirects": [
+    {
+      "from": "/docs/examples",
+      "to": "https://github.com/refinedev/refine/tree/main/examples"
+    },
+    {
+      "from": "/examples",
+      "to": "https://github.com/refinedev/refine/tree/main/examples"
+    },
+    {
+      "from": "/demo",
+      "to": "https://github.com/refinedev/refine/tree/main/examples"
+    },
+    {
+      "from": "/docs/examples/build-systems/lerna",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/monorepo-with-lerna"
+    },
+    {
+      "from": "/docs/examples/build-systems/nx",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/with-nx"
+    },
+    {
+      "from": "/docs/examples/build-systems/turbo",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/monorepo-with-turbo"
+    },
+    {
+      "from": "/docs/examples/command-palette",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/command-palette-kbar"
+    },
+    {
+      "from": "/docs/examples/core/useImport",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/core-use-import"
+    },
+    {
+      "from": "/docs/examples/core/useInfiniteList",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/use-infinite-list"
+    },
+    {
+      "from": "/docs/examples/core/useMenu",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/core-use-menu"
+    },
+    {
+      "from": "/docs/examples/core/useModal",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/core-use-modal"
+    },
+    {
+      "from": "/docs/examples/core/useSelect",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/core-use-select"
+    },
+    {
+      "from": "/docs/examples/customization/customFooter",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/customization-footer"
+    },
+    {
+      "from": "/docs/examples/customization/customLogin",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/customization-login"
+    },
+    {
+      "from": "/docs/examples/customization/customSider",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/customization-sider"
+    },
+    {
+      "from": "/docs/examples/customization/offLayoutArea",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/customization-offlayout-area"
+    },
+    {
+      "from": "/docs/examples/customization/rtl",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/customization-rtl"
+    },
+    {
+      "from": "/docs/examples/customization/topMenuLayout",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/customization-top-menu-layout"
+    },
+    {
+      "from": "/docs/examples/customPages",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/with-custom-pages"
+    },
+    {
+      "from": "/docs/examples/field/useAutocomplete",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/field-material-ui-use-autocomplete"
+    },
+    {
+      "from": "/docs/examples/field/useCheckboxGroup",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/field-antd-use-checkbox-group"
+    },
+    {
+      "from": "/docs/examples/field/useRadioGroup",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/field-antd-use-radio-group"
+    },
+    {
+      "from": "/docs/examples/field/useSelect",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/field-antd-use-select-basic"
+    },
+    {
+      "from": "/docs/examples/field/useSelect-with-infinite-list",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/field-antd-use-select-infinite"
+    },
+    {
+      "from": "/docs/examples/form/headless/save-and-continue",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/form-save-and-continue"
+    },
+    {
+      "from": "/docs/examples/form/headless/useForm",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/form-core-use-form"
+    },
+    {
+      "from": "/docs/examples/inputs/customInput",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/input-custom"
+    },
+    {
+      "from": "/docs/examples/inputs/datePicker",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/input-date-picker"
+    },
+    {
+      "from": "/docs/examples/javascript",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/with-javascript"
+    },
+    {
+      "from": "/docs/examples/list/useSimpleList",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/use-simple-list-antd"
+    },
+    {
+      "from": "/docs/examples/module-federation/vite",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/monorepo-module-federation"
+    },
+    {
+      "from": "/docs/examples/multi-level-menu",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/multi-level-menu"
+    },
+    {
+      "from": "/docs/examples/meta-properties",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/with-meta-properties"
+    },
+    {
+      "from": "/docs/examples/mutation-mode",
+      "to": "https://github.com/refinedev/refine/tree/main/examples"
+    },
+    {
+      "from": "/docs/examples/persistQuery",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/with-persist-query"
+    },
+    {
+      "from": "/docs/examples/search",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/search"
+    },
+    {
+      "from": "/docs/examples/table/handsontable/handsontable",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/table-handson"
+    },
+    {
+      "from": "/docs/examples/ui/useModal",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/use-modal-antd"
+    },
+    {
+      "from": "/docs/examples/web3/web3Login",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/with-web3"
+    },
+    {
+      "from": "/docs/examples/tutorial/antd-tutorial",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/tutorial-antd"
+    },
+    {
+      "from": "/docs/examples/tutorial/chakra-ui-tutorial",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/tutorial-chakra-ui"
+    },
+    {
+      "from": "/docs/examples/tutorial/headless-tutorial",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/tutorial-headless"
+    },
+    {
+      "from": "/docs/examples/tutorial/mantine-tutorial",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/tutorial-mantine"
+    },
+    {
+      "from": "/docs/examples/tutorial/mui-tutorial",
+      "to": "https://github.com/refinedev/refine/tree/main/examples/tutorial-material-ui"
+    },
+    {
+      "from": "/docs/3.xx.xx/examples",
+      "to": "https://github.com/refinedev/refine/tree/v3/examples"
+    }
+  ]
+}

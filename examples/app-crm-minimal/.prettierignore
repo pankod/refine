@@ -1,0 +1,6 @@
+build/
+dist/
+node_modules/
+.snapshots/
+*.min.js
+packages/**/coverage/

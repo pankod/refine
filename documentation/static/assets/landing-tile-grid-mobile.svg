@@ -1,0 +1,14 @@
+<svg width="290" height="82" viewBox="0 0 290 82" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17 1H285C287.209 1 289 2.79086 289 5V17M17 1H5C2.79086 1 1 2.79086 1 5V17M17 1V81M33 1V81M49 1V81M65 1V81M81 1V81M97 1V81M113 1V81M129 1V81M145 1V81M161 1V81M177 1V81M193 1V81M209 1V81M225 1V81M241 1V81M257 1V81M273 1V81M1 17V77C1 79.2091 2.79086 81 5 81H285C287.209 81 289 79.2091 289 77V17M1 17H289M1 33H289M1 49H289M1 65H289" stroke="url(#paint0_radial_710_10375)"/>
+<path d="M17 1H285C287.209 1 289 2.79086 289 5V17M17 1H5C2.79086 1 1 2.79086 1 5V17M17 1V81M33 1V81M49 1V81M65 1V81M81 1V81M97 1V81M113 1V81M129 1V81M145 1V81M161 1V81M177 1V81M193 1V81M209 1V81M225 1V81M241 1V81M257 1V81M273 1V81M1 17V77C1 79.2091 2.79086 81 5 81H285C287.209 81 289 79.2091 289 77V17M1 17H289M1 33H289M1 49H289M1 65H289" stroke="url(#paint1_radial_710_10375)"/>
+<defs>
+<radialGradient id="paint0_radial_710_10375" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(289 1) rotate(180) scale(148 148)">
+<stop stop-color="#4D4DB3" stop-opacity="0.5"/>
+<stop offset="1" stop-color="#4D4DB3" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="paint1_radial_710_10375" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(0.999978 0.999998) rotate(31.4296) scale(168.76 168.76)">
+<stop stop-color="#4D4DB3" stop-opacity="0.2"/>
+<stop offset="1" stop-color="#4D4DB3" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>

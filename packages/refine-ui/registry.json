@@ -1,0 +1,397 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "Refine",
+  "homepage": "https://refine.dev",
+  "items": [
+    {
+      "name": "sign-in-form",
+      "type": "registry:component",
+      "title": "Sign In Form",
+      "description": "A Sign In Form component for Refine to use on the sign in page",
+      "dependencies": ["@refinedev/core"],
+      "registryDependencies": [
+        "button",
+        "input",
+        "label",
+        "card",
+        "checkbox",
+        "separator"
+      ],
+      "author": "Refine <info@refine.dev>",
+      "docs": "https://github.com/refinedev/refine",
+      "categories": ["auth", "form", "login", "sign-in"],
+      "files": [
+        {
+          "path": "registry/new-york/refine-ui/form/sign-in-form.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/form/sign-in-form.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/form/input-password.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/form/input-password.tsx"
+        }
+      ]
+    },
+    {
+      "name": "sign-up-form",
+      "type": "registry:component",
+      "title": "Sign Up Form",
+      "description": "A Sign Up Form component for Refine to use on the registration page",
+      "dependencies": ["@refinedev/core"],
+      "registryDependencies": ["button", "input", "label", "card", "separator"],
+      "author": "Refine <info@refine.dev>",
+      "docs": "https://github.com/refinedev/refine",
+      "categories": ["auth", "form", "register", "signup"],
+      "files": [
+        {
+          "path": "registry/new-york/refine-ui/form/sign-up-form.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/form/sign-up-form.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/form/input-password.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/form/input-password.tsx"
+        }
+      ]
+    },
+    {
+      "name": "forgot-password-form",
+      "type": "registry:component",
+      "title": "Forgot Password Form",
+      "description": "A Forgot Password Form component for Refine to use on the password reset page",
+      "dependencies": ["@refinedev/core"],
+      "registryDependencies": ["button", "input", "label", "card"],
+      "author": "Refine <info@refine.dev>",
+      "docs": "https://github.com/refinedev/refine",
+      "categories": ["auth", "form", "password", "reset"],
+      "files": [
+        {
+          "path": "registry/new-york/refine-ui/form/forgot-password-form.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/form/forgot-password-form.tsx"
+        }
+      ]
+    },
+    {
+      "name": "notification-provider",
+      "type": "registry:component",
+      "title": "Notification Provider",
+      "description": "A comprehensive notification system for Refine with toast notifications, undoable notifications, and provider hooks using sonner",
+      "dependencies": ["@refinedev/core", "sonner"],
+      "registryDependencies": [
+        "button",
+        "dropdown-menu",
+        "https://ui.refine.dev/r/theme-provider.json"
+      ],
+      "author": "Refine <info@refine.dev>",
+      "docs": "https://github.com/refinedev/refine",
+      "categories": [
+        "providers",
+        "notifications",
+        "toast",
+        "hooks",
+        "undoable"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/refine-ui/notification/use-notification-provider.tsx",
+          "type": "registry:hook",
+          "target": "src/components/refine-ui/notification/use-notification-provider.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/notification/toaster.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/notification/toaster.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/notification/undoable-notification.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/notification/undoable-notification.tsx"
+        }
+      ]
+    },
+    {
+      "name": "layout-01",
+      "type": "registry:block",
+      "title": "Layout 01",
+      "description": "A complete layout system with sidebar, header, and main content area for Refine applications",
+      "dependencies": ["@refinedev/core", "lucide-react"],
+      "registryDependencies": [
+        "sidebar",
+        "avatar",
+        "button",
+        "separator",
+        "dropdown-menu",
+        "collapsible",
+        "https://ui.refine.dev/r/theme-provider.json"
+      ],
+      "author": "Refine <info@refine.dev>",
+      "docs": "https://github.com/refinedev/refine",
+      "categories": ["layout", "sidebar", "navigation", "dashboard"],
+      "files": [
+        {
+          "path": "registry/new-york/refine-ui/layout/layout-01/layout.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/layout/layout.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/layout/layout-01/header.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/layout/header.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/layout/layout-01/sidebar.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/layout/sidebar.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/user/user-avatar.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/layout/user-avatar.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/user/user-info.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/layout/user-info.tsx"
+        }
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:component",
+      "title": "Data Table",
+      "description": "A comprehensive data table component for Refine with sorting, filtering, pagination, and advanced features",
+      "dependencies": [
+        "@refinedev/core",
+        "@refinedev/react-table",
+        "@tanstack/react-table",
+        "react-day-picker",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "table",
+        "button",
+        "input",
+        "badge",
+        "popover",
+        "command",
+        "separator",
+        "calendar",
+        "select"
+      ],
+      "author": "Refine <info@refine.dev>",
+      "docs": "https://github.com/refinedev/refine",
+      "categories": ["data", "table", "pagination", "sorting", "filtering"],
+      "files": [
+        {
+          "path": "registry/new-york/refine-ui/data-table/data-table.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/data-table/data-table.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/data-table/data-table-filter.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/data-table/data-table-filter.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/data-table/data-table-sorter.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/data-table/data-table-sorter.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/data-table/data-table-pagination.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/data-table/data-table-pagination.tsx"
+        }
+      ]
+    },
+    {
+      "name": "buttons",
+      "type": "registry:component",
+      "title": "Refine Buttons",
+      "description": "A comprehensive set of action buttons for Refine applications including create, edit, delete, show, clone, list, and refresh buttons",
+      "dependencies": ["@refinedev/core", "lucide-react"],
+      "registryDependencies": ["button", "popover"],
+      "author": "Refine <info@refine.dev>",
+      "docs": "https://github.com/refinedev/refine",
+      "categories": ["buttons", "actions", "crud", "navigation"],
+      "files": [
+        {
+          "path": "registry/new-york/refine-ui/buttons/create.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/buttons/create.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/buttons/edit.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/buttons/edit.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/buttons/show.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/buttons/show.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/buttons/delete.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/buttons/delete.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/buttons/clone.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/buttons/clone.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/buttons/list.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/buttons/list.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/buttons/refresh.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/buttons/refresh.tsx"
+        }
+      ]
+    },
+    {
+      "name": "views",
+      "type": "registry:component",
+      "title": "Refine Views",
+      "description": "A comprehensive set of view components for Refine applications including create, edit, show, and list views with headers and content areas. These components are designed to be used as page templates for CRUD operations.",
+      "dependencies": ["@refinedev/core", "lucide-react"],
+      "registryDependencies": [
+        "separator",
+        "https://ui.refine.dev/r/buttons.json",
+        "https://ui.refine.dev/r/breadcrumb.json",
+        "https://ui.refine.dev/r/loading-overlay.json"
+      ],
+      "author": "Refine <info@refine.dev>",
+      "docs": "https://github.com/refinedev/refine",
+      "categories": ["views", "layout", "crud", "pages"],
+      "files": [
+        {
+          "path": "registry/new-york/refine-ui/views/create-view.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/views/create-view.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/views/edit-view.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/views/edit-view.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/views/show-view.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/views/show-view.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/views/list-view.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/views/list-view.tsx"
+        }
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:component",
+      "title": "Refine Breadcrumb",
+      "description": "A breadcrumb navigation component for Refine applications that automatically generates breadcrumbs based on the current route and resource structure.",
+      "dependencies": ["@refinedev/core", "lucide-react"],
+      "registryDependencies": ["breadcrumb"],
+      "author": "Refine <info@refine.dev>",
+      "docs": "https://github.com/refinedev/refine",
+      "categories": ["navigation", "breadcrumb", "layout"],
+      "files": [
+        {
+          "path": "registry/new-york/refine-ui/layout/breadcrumb.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/layout/breadcrumb.tsx"
+        }
+      ]
+    },
+    {
+      "name": "loading-overlay",
+      "type": "registry:component",
+      "title": "Loading Overlay",
+      "description": "A loading overlay component that displays a spinner over content while loading. Can be used to provide visual feedback during async operations.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": [],
+      "author": "Refine <info@refine.dev>",
+      "docs": "https://github.com/refinedev/refine",
+      "categories": ["loading", "overlay", "feedback", "ui"],
+      "files": [
+        {
+          "path": "registry/new-york/refine-ui/layout/loading-overlay.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/layout/loading-overlay.tsx"
+        }
+      ]
+    },
+    {
+      "name": "theme-provider",
+      "type": "registry:component",
+      "title": "Theme Provider & Toggle & Select",
+      "description": "A complete theme system with provider, toggle, and select components. Supports dark, light, and system themes with localStorage persistence.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button", "dropdown-menu"],
+      "author": "Refine <info@refine.dev>",
+      "docs": "https://github.com/refinedev/refine",
+      "categories": ["theme", "dark-mode", "toggle", "select", "provider"],
+      "files": [
+        {
+          "path": "registry/new-york/refine-ui/theme/theme-provider.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/theme/theme-provider.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/theme/theme-toggle.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/theme/theme-toggle.tsx"
+        },
+        {
+          "path": "registry/new-york/refine-ui/theme/theme-select.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/theme/theme-select.tsx"
+        }
+      ]
+    },
+    {
+      "name": "error-component",
+      "type": "registry:component",
+      "title": "Error Component",
+      "description": "404 error page component for Refine applications with elegant SVG graphics and navigation back to home page.",
+      "dependencies": ["@refinedev/core", "lucide-react"],
+      "registryDependencies": ["button", "tooltip"],
+      "author": "Refine <info@refine.dev>",
+      "docs": "https://github.com/refinedev/refine",
+      "categories": ["error", "layout", "404", "pages"],
+      "files": [
+        {
+          "path": "registry/new-york/refine-ui/layout/error-component.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/layout/error-component.tsx"
+        }
+      ]
+    },
+    {
+      "name": "auto-save-indicator",
+      "type": "registry:component",
+      "title": "Auto Save Indicator",
+      "description": "A visual indicator component for auto-save functionality in Refine forms. Shows loading, success, error, and idle states with smooth transitions and customizable elements.",
+      "dependencies": ["@refinedev/core", "lucide-react"],
+      "registryDependencies": [],
+      "author": "Refine <info@refine.dev>",
+      "docs": "https://github.com/refinedev/refine",
+      "categories": ["form", "auto-save", "indicator", "feedback", "ui"],
+      "files": [
+        {
+          "path": "registry/new-york/refine-ui/form/auto-save-indicator.tsx",
+          "type": "registry:component",
+          "target": "src/components/refine-ui/form/auto-save-indicator.tsx"
+        }
+      ]
+    }
+  ]
+}

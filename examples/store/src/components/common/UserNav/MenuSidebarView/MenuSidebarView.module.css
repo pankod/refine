@@ -1,0 +1,7 @@
+.root {
+  @apply px-4 sm:px-6 sm:w-full flex-1 z-20;
+}
+
+.item {
+  @apply text-xl font-bold py-2;
+}

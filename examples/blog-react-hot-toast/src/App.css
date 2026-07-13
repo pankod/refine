@@ -1,0 +1,88 @@
+body {
+  margin: 0px;
+}
+
+table {
+  border-spacing: 0;
+  border: 1px solid black;
+}
+
+table th,
+td {
+  margin: 0;
+  padding: 0.5rem;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
+
+table tr:last-child td {
+  border-bottom: 0;
+}
+
+table th,
+td {
+  margin: 0;
+  padding: 0.5rem;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
+
+table th:last-child,
+td:last-child {
+  border-right: 0;
+}
+
+.layout {
+  display: flex;
+  gap: 16px;
+}
+
+@media screen and (max-width: 751px) {
+  .layout {
+    display: block;
+  }
+}
+
+.layout .content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.breadcrumb {
+  display: flex;
+  gap: 24px;
+  list-style-type: "/  ";
+  padding: 8px 16px;
+  border-bottom: 1px solid lightgray;
+}
+
+.breadcrumb a {
+  color: blue;
+  text-decoration: none;
+}
+
+.menu {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-right: 1px solid lightgray;
+}
+
+.menu a {
+  color: black;
+}
+
+.menu .active {
+  font-weight: bold;
+}
+
+@media screen and (max-width: 751px) {
+  .menu {
+    border-right: none;
+    border-bottom: 1px solid lightgray;
+  }
+}
+
+.menu ul {
+  padding-left: 16px;
+}

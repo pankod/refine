@@ -1,0 +1,25 @@
+[data-theme="light"] {
+    --ifm-background-color: #fff;
+}
+
+.tooltip {
+    z-index: var(--ifm-z-index-overlay);
+    @apply relative flex flex-col items-center;
+}
+
+.tooltipContainer {
+    background: var(--ifm-background-color);
+    border: 1px solid var(--ifm-toc-border-color);
+    @apply absolute bottom-0 left-0 flex flex-col items-center invisible mb-6 transition-all ease-out delay-75 border rounded-sm shadow-lg;
+}
+
+.tooltipContent {
+    @apply relative p-2 w-60;
+}
+
+.tooltipArrow {
+    background: var(--ifm-background-color);
+    border-right: 1px solid var(--ifm-toc-border-color);
+    border-bottom: 1px solid var(--ifm-toc-border-color);
+    @apply absolute bottom-0 w-3 h-3 rotate-45 translate-y-2/4;
+}

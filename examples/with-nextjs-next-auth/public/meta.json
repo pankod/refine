@@ -1,0 +1,15 @@
+{
+  "name": "refine-next",
+  "plugins": [
+    {
+      "name": "CSS / styled-jsx",
+      "description": "Next.js comes with built-in support for CSS and styled-jsx. Styled-jsx is full, scoped and component-friendly CSS support for JSX (rendered on the server or the client).",
+      "url": "https://github.com/vercel/styled-jsx"
+    },
+    {
+      "name": "ESLint",
+      "description": "A pluggable and configurable linter tool for identifying and reporting on patterns in JavaScript. Maintain your code quality with ease.",
+      "url": "https://eslint.org/docs/user-guide/getting-started"
+    }
+  ]
+}

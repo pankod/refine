@@ -1,0 +1,235 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    width: 100%;
+    background-color: #14141f;
+}
+
+#root {
+    min-width: 640px;
+    min-height: 360px;
+}
+
+.trace-list {
+    /*  */
+}
+.trace-list .trace-item {
+    position: relative;
+}
+
+.trace-list .trace-item {
+    border-right-width: 0;
+    border-left-width: 0;
+    flex-shrink: 0;
+}
+
+.trace-list .trace-item:first-of-type {
+    border-left-width: 1px;
+}
+
+.trace-list .trace-item:last-of-type {
+    border-right-width: 1px;
+}
+
+.trace-list .trace-item::after {
+    content: "";
+    position: absolute;
+    right: -4px;
+    top: 0;
+    width: 16px;
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='26' viewBox='0 0 9 26' fill='none'%3E%3Cpath d='M1 1L7.5208 10.7812C8.41653 12.1248 8.41653 13.8752 7.5208 15.2188L1 25' stroke='%23303450'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.trace-list .trace-item:last-of-type::after {
+    display: none;
+}
+
+.monitor-table-row:hover {
+    background-color: #f7f7f7;
+}
+
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+/* json view */
+
+/* base styles */
+
+._GzYRV {
+    line-height: 1.2;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  ._3eOF8 {
+    margin-right: 5px;
+    font-weight: bold;
+  }
+  
+  ._1MFti {
+    cursor: pointer;
+  }
+  
+  ._f10Tu {
+    font-size: 1.2em;
+    margin-right: 5px;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+  }
+  
+  ._1UmXx::after {
+    content: '\25B8';
+  }
+  
+  ._1LId0::after {
+    content: '\25BE';
+  }
+  
+  ._1pNG9 {
+    margin-right: 5px;
+  }
+  
+  ._1pNG9::after {
+    content: '...';
+    font-size: 0.8em;
+  }
+  
+  ._2IvMF {
+    background: #eee;
+  }
+  
+  ._2bkNM {
+    margin: 0 10px;
+    padding: 0;
+  }
+  
+  /* default light style */
+  ._1MGIk {
+    font-weight: 600;
+    margin-right: 5px;
+    color: #000000;
+  }
+  
+  ._3uHL6 {
+    color: #000000;
+  }
+  
+  ._2T6PJ {
+    color: #df113a;
+  }
+  
+  ._1Gho6 {
+    color: #df113a;
+  }
+  
+  ._vGjyY {
+    color: rgb(42, 63, 60);
+  }
+  
+  ._1bQdo {
+    color: #0b75f5;
+  }
+  
+  ._3zQKs {
+    color: rgb(70, 144, 56);
+  }
+  
+  ._1xvuR {
+    color: #43413d;
+  }
+  
+  ._oLqym {
+    color: #000000;
+  }
+  
+  ._2AXVT {
+    color: #000000;
+  }
+  
+  ._2KJWg {
+    color: #000000;
+  }
+  
+  /* default dark style */
+  ._11RoI {
+    background: rgb(0, 43, 54);
+  }
+  
+  ._17H2C {
+    color: rgb(253, 246, 227);
+  }
+  
+  ._3QHg2 {
+    color: rgb(253, 246, 227);
+  }
+  
+  ._3fDAz {
+    color: rgb(253, 246, 227);
+  }
+  
+  ._2bSDX {
+    /* font-weight: bolder; */
+    margin-right: 5px;
+    color: rgb(253, 246, 227);
+  }
+  
+  ._gsbQL {
+    color: rgb(253, 246, 227);
+  }
+  
+  ._LaAZe {
+    color: rgb(129, 181, 172);
+  }
+  
+  ._GTKgm {
+    color: rgb(129, 181, 172);
+  }
+  
+  ._Chy1W {
+    color: rgb(203, 75, 22);
+  }
+  
+  ._2bveF {
+    color: rgb(211, 54, 130);
+  }
+  
+  ._2vRm- {
+    color: rgb(174, 129, 255);
+  }
+  
+  ._1prJR {
+    color: rgb(38, 139, 210);
+  }

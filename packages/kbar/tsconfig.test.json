@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["test"],
+  "compilerOptions": {
+    "rootDir": ".",
+    "types": ["vitest/globals"]
+  }
+}

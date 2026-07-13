@@ -1,0 +1,7 @@
+.paymentInput {
+    @apply relative w-full border-b border-gray-200 py-2;
+}
+
+.paymentLabel {
+    @apply absolute -top-6 text-sm font-normal leading-6 text-gray-700;
+}

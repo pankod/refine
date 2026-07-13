@@ -1,0 +1,39 @@
+{
+  "name": "with-remix-antd",
+  "version": "1.0.0",
+  "private": true,
+  "sideEffects": false,
+  "scripts": {
+    "build": "refine build",
+    "dev": "refine dev",
+    "refine": "refine",
+    "start": "refine start"
+  },
+  "dependencies": {
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@refinedev/antd": "^6.0.3",
+    "@refinedev/cli": "^2.16.52",
+    "@refinedev/core": "^5.1.0",
+    "@refinedev/remix-router": "^4.0.4",
+    "@refinedev/simple-rest": "^6.0.1",
+    "@remix-run/node": "^2.4.0",
+    "@remix-run/react": "^2.4.0",
+    "@remix-run/serve": "^2.4.0",
+    "antd": "^5.23.0",
+    "cookie": "^0.5.0",
+    "js-cookie": "^3.0.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^2.3.1",
+    "@types/js-cookie": "^3.0.2",
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

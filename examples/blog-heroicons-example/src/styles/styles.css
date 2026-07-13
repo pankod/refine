@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary-color: rgb(223, 232, 247);
+    --secondary-color: rgb(182, 76, 27);
+    --grayscale: rgb(226, 218, 218);
+    --friendly: green;
+    --neutral: blue;
+    --warning: yellow;
+    --danger: crimson;
+    --forbidden: black;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 450px;
+}
+
+.navbar {
+    @apply sticky top-0 mx-auto px-2 w-full h-auto bg-slate-600 flex flex-col justify-start md:flex-row md:justify-between md:items-center;
+}
+
+.brand-wrapper {
+    @apply h-14 bg-slate-600 w-full flex justify-start items-center flex-1 self-start;
+}
+
+.brand {
+    max-width: 12rem;
+    color: var(--primary-color);
+    @apply text-4xl p-2;
+}
+
+.items-strip {
+    @apply my-2 flex flex-col justify-start items-start md:flex-row md:justify-start md:items-center;
+}
+
+.items-left {
+    @apply mx-2 p-2 order-last md:order-none flex justify-center items-center;
+}
+
+.items-list {
+    @apply flex flex-col md:flex-row md:justify-start md:items-center;
+}
+
+.nav-item {
+   @apply mx-2 p-1 rounded lg:mx-8 w-full lg:w-auto hover:scale-105 hover:backdrop-brightness-125 hover:shadow transition-all;
+}
+
+.nav-link {
+    @apply text-center p-1 flex justify-start items-center;
+}
+
+.text-input {
+    @apply py-0.5 px-2 border rounded-l text-slate-800;
+}
+
+.avatar {
+    width: 2rem;
+    height: 2rem;
+    color: whitesmoke;
+}
+
+.icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: whitesmoke;
+}
+
+.tailzup-logo {
+    width: 4rem;
+    height: 4rem;
+}
+
+.glow {
+    animation: glow 0.8s alternate infinite;
+}
+
+@keyframes glow {
+    0% {                        
+        filter: drop-shadow(0 0 1px #fff)
+        drop-shadow(0 0 2px #fff)
+        drop-shadow(0 0 3px #ff80b3)
+        drop-shadow(0 0 4px #ff4d94)
+        drop-shadow(0 0 5px #ff0066)
+    }
+     29% {
+        filter: drop-shadow(0 0 2px #fff)
+        drop-shadow(0 0 4px #fff)
+        drop-shadow(0 0 6px #ff80b3)
+        drop-shadow(0 0 8px #ff4d94)
+        drop-shadow(0 0 10px #ff0066)
+    }
+
+    92% {
+        filter: drop-shadow(0 0 3px #fff)
+        drop-shadow(0 0 6px #fff)
+        drop-shadow(0 0 9px #ff80b3)
+        drop-shadow(0 0 12px #ff4d94)
+        drop-shadow(0 0 15px #ff0066)
+    }
+}

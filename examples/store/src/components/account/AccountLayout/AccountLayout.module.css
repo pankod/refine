@@ -1,0 +1,30 @@
+.root {
+    @apply small:mt-16 flex-1;
+}
+.wrapper {
+    @apply small:px-40  large:px-52 w-full;
+}
+
+.header {
+    @apply small:grid-cols-[240px_1fr] small:px-8 small:py-12 small:shadow-md grid grid-cols-1 py-6;
+}
+
+.children {
+    @apply flex-1 px-4;
+}
+
+.info {
+    @apply small:flex-row small:border-t border-accent-2 flex flex-col items-end justify-between gap-x-8 px-8 py-12;
+}
+
+.infoHeader {
+    @apply mb-4 text-2xl font-semibold leading-[36px];
+}
+
+.infoText {
+    @apply text-xs font-normal leading-5;
+}
+
+.loading {
+    @apply text-accent-9 flex h-full min-h-[640px] w-full items-center justify-center;
+}

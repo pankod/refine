@@ -1,0 +1,11 @@
+.root {
+  min-height: 100vh;
+}
+
+.root.empty {
+  @apply bg-secondary text-secondary;
+}
+
+.lineItemsList {
+  @apply py-4 space-y-6 sm:py-0 sm:space-y-0 border-accent-2;
+}

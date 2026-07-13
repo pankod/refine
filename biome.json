@@ -1,0 +1,143 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "organizeImports": {
+    "enabled": false
+  },
+  "files": {
+    "ignore": [
+      "theme.d.ts",
+      "documentation/plugins",
+      "documentation/static",
+      "package.json"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80
+  },
+  "javascript": {
+    "jsxRuntime": "reactClassic",
+    "formatter": {
+      "arrowParentheses": "always",
+      "quoteStyle": "double",
+      "semicolons": "always",
+      "trailingComma": "all"
+    }
+  },
+  "json": {
+    "parser": {
+      "allowComments": false,
+      "allowTrailingCommas": false
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "a11y": {
+        "noAriaHiddenOnFocusable": "off",
+        "noAutofocus": "off",
+        "noBlankTarget": "off",
+        "noNoninteractiveElementToInteractiveRole": "off",
+        "noNoninteractiveTabindex": "off",
+        "noPositiveTabindex": "off",
+        "noSvgWithoutTitle": "off",
+        "useAltText": "off",
+        "useButtonType": "off",
+        "useHtmlLang": "off",
+        "useIframeTitle": "off",
+        "useKeyWithClickEvents": "off",
+        "useKeyWithMouseEvents": "off",
+        "useValidAnchor": "off"
+      },
+      "complexity": {
+        "noBannedTypes": "off",
+        "noExtraBooleanCast": "error",
+        "noForEach": "off",
+        "noStaticOnlyClass": "error",
+        "noUselessCatch": "error",
+        "noUselessConstructor": "error",
+        "noUselessFragments": "off",
+        "noUselessRename": "error",
+        "noUselessSwitchCase": "error",
+        "useArrowFunction": "error",
+        "useLiteralKeys": "off",
+        "useOptionalChain": "error",
+        "noExcessiveNestedTestSuites": "off"
+      },
+      "correctness": {
+        "noConstantCondition": "error",
+        "noEmptyPattern": "error",
+        "noSwitchDeclarations": "error",
+        "noUnreachable": "error",
+        "noUnsafeOptionalChaining": "error",
+        "useExhaustiveDependencies": "off",
+        "useJsxKeyInIterable": "off"
+      },
+      "performance": {
+        "noAccumulatingSpread": "off",
+        "noDelete": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "error"
+      },
+      "style": {
+        "noCommaOperator": "error",
+        "noNonNullAssertion": "off",
+        "noParameterAssign": "off",
+        "noUnusedTemplateLiteral": "error",
+        "noUselessElse": "error",
+        "useConst": "error",
+        "useDefaultParameterLast": "off",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "useTemplate": "error",
+        "useImportType": "error",
+        "useNodejsImportProtocol": "off"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "off",
+        "noAssignInExpressions": "error",
+        "noAsyncPromiseExecutor": "error",
+        "noConfusingVoidType": "off",
+        "noControlCharactersInRegex": "error",
+        "noDoubleEquals": "error",
+        "noDuplicateJsxProps": "error",
+        "noDuplicateObjectKeys": "error",
+        "noEmptyInterface": "error",
+        "noExplicitAny": "off",
+        "noFallthroughSwitchClause": "error",
+        "noGlobalIsNan": "error",
+        "noImplicitAnyLet": "off",
+        "noPrototypeBuiltins": "error",
+        "noRedeclare": "error",
+        "noRedundantUseStrict": "error",
+        "noSelfCompare": "error",
+        "noShadowRestrictedNames": "off",
+        "useDefaultSwitchClauseLast": "error",
+        "useValidTypeof": "error"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "include": ["packages/ui-tests"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExportsInTest": "off",
+            "useDefaultSwitchClauseLast": "error"
+          }
+        }
+      }
+    }
+  ],
+  "vcs": {
+    "clientKind": "git",
+    "defaultBranch": "main",
+    "enabled": true,
+    "useIgnoreFile": true
+  }
+}

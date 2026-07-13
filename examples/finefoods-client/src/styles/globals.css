@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.3);
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}

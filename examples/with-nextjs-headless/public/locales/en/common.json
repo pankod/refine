@@ -1,0 +1,169 @@
+{
+  "ID": "ID",
+  "pages": {
+    "login": {
+      "title": "Sign in to your account",
+      "signin": "Sign in",
+      "signup": "Sign up",
+      "register": "Register",
+      "divider": "or",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "errors": {
+        "requiredEmail": "Email is required",
+        "requiredPassword": "Password is required",
+        "validEmail": "Invalid email address"
+      },
+      "buttons": {
+        "submit": "Login",
+        "forgotPassword": "Forgot password?",
+        "noAccount": "Don’t have an account?",
+        "haveAccount": "Have an account?",
+        "rememberMe": "Remember me"
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot your password?",
+      "signin": "Sign in",
+      "fields": {
+        "email": "Email"
+      },
+      "errors": {
+        "requiredEmail": "Email is required",
+        "validEmail": "Invalid email address"
+      },
+      "buttons": {
+        "haveAccount": "Have an account?",
+        "submit": "Send reset instructions"
+      }
+    },
+    "register": {
+      "title": "Sign up for your account",
+      "signin": "Sign in",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "errors": {
+        "validEmail": "Invalid email address"
+      },
+      "buttons": {
+        "submit": "Register",
+        "haveAccount": "Have an account?"
+      }
+    },
+    "updatePassword": {
+      "title": "Update password",
+      "fields": {
+        "password": "New Password",
+        "confirmPassword": "Confirm new password"
+      },
+      "errors": {
+        "confirmPasswordNotMatch": "Passwords do not match"
+      },
+      "buttons": {
+        "submit": "Update"
+      }
+    },
+    "error": {
+      "info": "You may have forgotten to add the {action} component to {resource} resource.",
+      "404": "Sorry, the page you visited does not exist.",
+      "resource404": "Are you sure you have created the {resource} resource.",
+      "backHome": "Back Home"
+    }
+  },
+  "actions": {
+    "list": "List",
+    "create": "Create",
+    "edit": "Edit",
+    "show": "Show",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "buttons": {
+    "create": "Create",
+    "save": "Save",
+    "logout": "Logout",
+    "delete": "Delete",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "confirm": "Are you sure?",
+    "filter": "Filter",
+    "clear": "Clear",
+    "refresh": "Refresh",
+    "show": "Show",
+    "undo": "Undo",
+    "import": "Import",
+    "clone": "Clone",
+    "notAccessTitle": "You don't have permission to access"
+  },
+  "warnWhenUnsavedChanges": "Are you sure you want to leave? You have unsaved changes.",
+  "notifications": {
+    "success": "Successful",
+    "error": "Error (status code: {statusCode})",
+    "undoable": "You have {seconds} seconds to undo",
+    "createSuccess": "Successfully created {resource}",
+    "createError": "There was an error creating {resource} (status code: {statusCode})",
+    "deleteSuccess": "Successfully deleted {resource}",
+    "deleteError": "Error when deleting {resource} (status code: {statusCode})",
+    "editSuccess": "Successfully edited {resource}",
+    "editError": "Error when editing {resource} (status code: {statusCode})",
+    "importProgress": "Importing: {processed}/{total}"
+  },
+  "loading": "Loading",
+  "tags": {
+    "clone": "Clone"
+  },
+  "dashboard": {
+    "title": "Dashboard"
+  },
+  "blog_posts": {
+    "blog_posts": "Blog Posts",
+    "form": {
+      "select": {
+        "category": {
+          "placeholder": "Please select category"
+        }
+      }
+    },
+    "fields": {
+      "id": "Id",
+      "title": "Title",
+      "category": "Category",
+      "status": {
+        "title": "Status",
+        "published": "Published",
+        "draft": "Draft",
+        "rejected": "Rejected"
+      },
+      "content": "Content",
+      "createdAt": "Created At"
+    },
+    "titles": {
+      "create": "Create Post",
+      "edit": "Edit Post",
+      "list": "Posts",
+      "show": "Show Post"
+    }
+  },
+  "categories": {
+    "categories": "Categories",
+    "fields": {
+      "id": "Id",
+      "title": "Title",
+      "createdAt": "Created At"
+    },
+    "titles": {
+      "create": "Create Category",
+      "edit": "Edit Category",
+      "list": "Categories",
+      "show": "Show Category"
+    }
+  },
+  "table": {
+    "actions": "Actions"
+  }
+}

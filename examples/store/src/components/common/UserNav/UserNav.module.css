@@ -1,0 +1,59 @@
+.root {
+  @apply relative flex items-center;
+}
+
+.list {
+  @apply flex flex-row items-center justify-items-end h-full;
+}
+
+.item {
+  @apply ml-6 cursor-pointer relative transition ease-in-out
+  duration-100 flex items-center outline-none text-primary;
+}
+
+.item:hover {
+  @apply text-accent-6 transition scale-110 duration-100;
+}
+
+.item:first-child {
+  @apply ml-0;
+}
+
+.item:focus,
+.item:active {
+  @apply outline-none;
+}
+
+.bagCount {
+  @apply border border-accent-1 bg-secondary text-secondary absolute rounded-full right-3 top-3 flex items-center justify-center font-bold text-xs;
+  padding-left: 2.5px;
+  padding-right: 2.5px;
+  min-width: 1.25rem;
+  min-height: 1.25rem;
+}
+
+.avatarButton {
+  @apply flex mt-px justify-center border-primary hover:border-secondary focus:border-secondary h-8 w-8 rounded-full border-2 transition-colors ease-linear;
+}
+
+.mobileMenu {
+  @apply flex lg:hidden ml-6 text-white;
+}
+
+.avatarButton:focus,
+.mobileMenu:focus {
+  @apply outline-none;
+}
+
+.dropdownDesktop {
+  @apply hidden -z-10;
+}
+
+@media screen(lg) {
+  .dropdownDesktop {
+    @apply block;
+  }
+  .dropdownMobile {
+    @apply hidden;
+  }
+}

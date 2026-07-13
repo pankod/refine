@@ -1,0 +1,114 @@
+{
+  "name": "@refinedev/rest",
+  "version": "2.1.2",
+  "private": false,
+  "description": "REST Data Provider for Refine, enabling seamless REST API interactions.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/refinedev/refine.git",
+    "directory": "packages/rest"
+  },
+  "license": "MIT",
+  "author": "refine",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./nestjsx-crud": {
+      "import": {
+        "types": "./dist/data-providers/nestjsx-crud/index.d.mts",
+        "default": "./dist/nestjsx-crud.mjs"
+      },
+      "require": {
+        "types": "./dist/data-providers/nestjsx-crud/index.d.cts",
+        "default": "./dist/nestjsx-crud.cjs"
+      }
+    },
+    "./simple-rest": {
+      "import": {
+        "types": "./dist/data-providers/simple-rest/index.d.mts",
+        "default": "./dist/simple-rest.mjs"
+      },
+      "require": {
+        "types": "./dist/data-providers/simple-rest/index.d.cts",
+        "default": "./dist/simple-rest.cjs"
+      }
+    },
+    "./strapi-v4": {
+      "import": {
+        "types": "./dist/data-providers/strapi-v4/index.d.mts",
+        "default": "./dist/strapi-v4.mjs"
+      },
+      "require": {
+        "types": "./dist/data-providers/strapi-v4/index.d.cts",
+        "default": "./dist/strapi-v4.cjs"
+      }
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "dist/index.d.ts"
+      ],
+      "nestjsx-crud": [
+        "dist/data-providers/nestjsx-crud/index.d.ts"
+      ],
+      "simple-rest": [
+        "dist/data-providers/simple-rest/index.d.ts"
+      ],
+      "strapi-v4": [
+        "dist/data-providers/strapi-v4/index.d.ts"
+      ]
+    }
+  },
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "attw": "attw --pack .",
+    "build": "tsup && node ../shared/generate-declarations.js",
+    "dev": "tsup --watch",
+    "prepare": "pnpm build",
+    "publint": "publint --strict=true --level=suggestion",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest",
+    "types": "node ../shared/generate-declarations.js"
+  },
+  "dependencies": {
+    "deepmerge": "^4.3.1",
+    "ky": "^1.10.0",
+    "qs": "^6.10.1"
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-resolve": "^0.1.4",
+    "@types/node": "^20",
+    "@vitest/ui": "^2.1.8",
+    "nock": "^14.0.5",
+    "tsup": "^6.7.0",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@nestjsx/crud-request": "^5.0.0-alpha.3",
+    "@refinedev/core": "^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@nestjsx/crud-request": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

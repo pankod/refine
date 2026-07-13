@@ -1,0 +1,9 @@
+html {
+    font-size: 14px;
+}
+
+body {
+    margin: 0px;
+    // Build-in PrimeReact themes use this variable
+    font-family: var(--font-family);
+}

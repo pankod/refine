@@ -1,0 +1,121 @@
+{
+  "name": "@refinedev/nextjs-router",
+  "version": "7.0.5",
+  "private": false,
+  "description": "React Router v6 support for Refine, with full routing capabilities.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/refinedev/refine.git",
+    "directory": "packages/nextjs-router"
+  },
+  "license": "MIT",
+  "author": "refine",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./app": {
+      "import": {
+        "types": "./dist/app/index.d.mts",
+        "default": "./dist/app.mjs"
+      },
+      "require": {
+        "types": "./dist/app/index.d.cts",
+        "default": "./dist/app.cjs"
+      }
+    },
+    "./pages": {
+      "import": {
+        "types": "./dist/pages/index.d.mts",
+        "default": "./dist/pages.mjs"
+      },
+      "require": {
+        "types": "./dist/pages/index.d.cts",
+        "default": "./dist/pages.cjs"
+      }
+    },
+    "./parse-table-params": {
+      "import": {
+        "types": "./dist/common/parse-table-params.d.mts",
+        "default": "./dist/parse-table-params.mjs"
+      },
+      "require": {
+        "types": "./dist/common/parse-table-params.d.cts",
+        "default": "./dist/parse-table-params.cjs"
+      }
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "dist/index.d.ts"
+      ],
+      "app": [
+        "dist/app/index.d.ts"
+      ],
+      "pages": [
+        "dist/pages/index.d.ts"
+      ],
+      "parse-table-params": [
+        "dist/common/parse-table-params.d.ts"
+      ]
+    }
+  },
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "attw": "attw --pack .",
+    "build": "tsup && node ../shared/generate-declarations.js",
+    "dev": "tsup --watch",
+    "prepare": "pnpm build",
+    "publint": "publint --strict=true --level=suggestion",
+    "test": "vitest run",
+    "types": "node ../shared/generate-declarations.js"
+  },
+  "dependencies": {
+    "qs": "^6.10.1",
+    "warn-once": "^0.1.0"
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-resolve": "^0.1.4",
+    "@refinedev/core": "^5.0.10",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@types/node": "^20",
+    "@types/qs": "^6.9.7",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/ui": "^2.1.8",
+    "happy-dom": "^15.7.4",
+    "next": "^14.2.26",
+    "tslib": "^2.6.2",
+    "tsup": "^6.7.0",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@refinedev/core": "^5.0.0",
+    "@types/react": "^18.0.0 || ^19.0.0",
+    "@types/react-dom": "^18.0.0 || ^19.0.0",
+    "next": "*",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

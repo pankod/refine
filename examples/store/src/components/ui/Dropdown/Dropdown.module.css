@@ -1,0 +1,32 @@
+.root {
+  @apply bg-accent-0;
+  animation: none;
+  transition: none;
+  min-width: 100%;
+}
+
+@media screen(lg) {
+  .root {
+    @apply bg-accent-0;
+    box-shadow: hsl(206 22% 7% / 45%) 0px 10px 38px -10px,
+      hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+    min-width: 14rem;
+    will-change: transform, opacity;
+    animation-duration: 600ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    animation-fill-mode: forwards;
+    transform-origin: var(--radix-dropdown-menu-content-transform-origin);
+    animation-name: slideIn;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}

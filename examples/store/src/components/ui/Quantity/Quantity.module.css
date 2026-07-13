@@ -1,0 +1,27 @@
+.actions {
+  @apply flex p-1 border-accent-2 border items-center justify-center
+  w-12 text-accent-7;
+  transition-property: border-color, background, color, transform, box-shadow;
+
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+  user-select: none;
+}
+
+.actions:hover {
+  @apply border bg-accent-1 border-accent-3 text-accent-9;
+  transition: border-color;
+  z-index: 10;
+}
+
+.actions:focus {
+  @apply outline-none;
+}
+
+.actions:disabled {
+  @apply cursor-not-allowed;
+}
+
+.input {
+  @apply bg-transparent px-4 w-full h-full focus:outline-none select-none pointer-events-auto;
+}

@@ -1,0 +1,37 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "../test/**/*",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.spec.tsx",
+    "**/*.test.tsx"
+  ],
+  "compilerOptions": {
+    "outDir": "dist",
+    "declarationDir": "dist",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "declarationMap": true,
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@components": ["src/components"],
+      "@containers/*": ["src/containers/*"],
+      "@containers": ["src/containers"],
+      "@pages/*": ["src/pages/*"],
+      "@pages": ["src/pages"],
+      "@contexts/*": ["src/contexts/*"],
+      "@contexts": ["src/contexts"],
+      "@dataProviders/*": ["src/dataProviders/*"],
+      "@dataProviders": ["src/dataProviders"],
+      "@hooks/*": ["src/hooks/*"],
+      "@hooks": ["src/hooks"],
+      "@definitions/*": ["src/definitions/*"],
+      "@definitions": ["src/definitions"]
+    }
+  }
+}

@@ -1,0 +1,108 @@
+import nock from "nock";
+
+nock("https://iwdfzvfqbtokqetmbmbp.supabase.co:443", {
+  encodedQueryParams: true,
+})
+  .get("/rest/v1/posts")
+  .query({ select: "%2A", id: "eq.2" })
+  .reply(
+    200,
+    [
+      {
+        id: 2,
+        title: "Great Plains Flatsedge",
+        slug: "5aecd7b0-cf28-40b4-ad48-7d4c6718837e",
+        createdAt: "2024-04-24T13:20:10.200327+00:00",
+        content:
+          "In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.\n\nNulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\n\nCras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.",
+        categoryId: 8,
+        images: null,
+      },
+    ],
+    [
+      "Date",
+      "Thu, 25 Apr 2024 09:10:35 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Transfer-Encoding",
+      "chunked",
+      "Connection",
+      "close",
+      "Content-Range",
+      "0-0/*",
+      "CF-Ray",
+      "879d3362ae3d5184-IST",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Access-Control-Allow-Origin",
+      "*",
+      "Content-Location",
+      "/posts?id=eq.2&select=%2A",
+      "Strict-Transport-Security",
+      "max-age=15552000; includeSubDomains",
+      "Vary",
+      "Accept-Encoding",
+      "Via",
+      "kong/2.8.1",
+      "content-profile",
+      "public",
+      "sb-gateway-version",
+      "1",
+      "x-kong-proxy-latency",
+      "1",
+      "x-kong-upstream-latency",
+      "3",
+      "Server",
+      "cloudflare",
+      "alt-svc",
+      'h3=":443"; ma=86400',
+    ],
+  );
+
+nock("https://iwdfzvfqbtokqetmbmbp.supabase.co:443", {
+  encodedQueryParams: true,
+})
+  .get("/rest/v1/posts")
+  .query({ select: "title", id: "eq.3" })
+  .reply(
+    200,
+    [{ title: "Copperweed" }],
+    [
+      "Date",
+      "Thu, 25 Apr 2024 09:10:35 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Transfer-Encoding",
+      "chunked",
+      "Connection",
+      "close",
+      "Content-Range",
+      "0-0/*",
+      "CF-Ray",
+      "879d33679f16724e-IST",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Access-Control-Allow-Origin",
+      "*",
+      "Content-Location",
+      "/posts?id=eq.3&select=title",
+      "Strict-Transport-Security",
+      "max-age=15552000; includeSubDomains",
+      "Vary",
+      "Accept-Encoding",
+      "Via",
+      "kong/2.8.1",
+      "content-profile",
+      "public",
+      "sb-gateway-version",
+      "1",
+      "x-kong-proxy-latency",
+      "1",
+      "x-kong-upstream-latency",
+      "3",
+      "Server",
+      "cloudflare",
+      "alt-svc",
+      'h3=":443"; ma=86400',
+    ],
+  );

@@ -1,0 +1,60 @@
+{
+  "name": "blog-react-dnd",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cross-env DISABLE_ESLINT_PLUGIN=true refine build",
+    "dev": "refine dev",
+    "eject": "react-scripts eject",
+    "refine": "refine",
+    "start": "refine start",
+    "test": "craco test"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@craco/craco": "^7.1.0",
+    "@refinedev/antd": "^5.44.0",
+    "@refinedev/cli": "^2.16.40",
+    "@refinedev/core": "^4.56.0",
+    "@refinedev/inferencer": "^4.7.1",
+    "@refinedev/react-router": "^0.1.0",
+    "@refinedev/simple-rest": "^5.0.8",
+    "@uiw/react-md-editor": "^4.0.8",
+    "antd": "^5.23.0",
+    "cross-env": "^7.0.3",
+    "immutability-helper": "^3.1.1",
+    "next": "^14.2.26",
+    "react": "^19.1.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^19.1.0",
+    "react-router": "^7.0.2",
+    "react-scripts": "^5.0.0",
+    "web-vitals": "^1.1.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.2.4",
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "name": "@refinedev/nestjsx-crud",
+  "version": "6.0.1",
+  "private": false,
+  "description": "“Nestjsx CRUD Data Provider for Refine, enabling easy integration with NestJS CRUD operations.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/refinedev/refine.git",
+    "directory": "packages/nestjsx-crud"
+  },
+  "license": "MIT",
+  "author": "refine",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "./refine.config.js"
+  ],
+  "scripts": {
+    "attw": "attw --pack .",
+    "build": "tsup && node ../shared/generate-declarations.js",
+    "dev": "tsup --watch",
+    "prepare": "pnpm build",
+    "publint": "publint --strict=true --level=suggestion",
+    "test": "vitest run --passWithNoTests",
+    "types": "node ../shared/generate-declarations.js"
+  },
+  "dependencies": {
+    "@nestjsx/crud-request": "^5.0.0-alpha.3",
+    "axios": "^1.11.0",
+    "query-string": "^7.1.1"
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-resolve": "^0.1.4",
+    "@refinedev/cli": "^2.16.50",
+    "@refinedev/core": "^5.0.5",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@types/node": "^20",
+    "jsdom": "^25.0.1",
+    "nock": "^13.4.0",
+    "tslib": "^2.6.2",
+    "tsup": "^6.7.0",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@refinedev/core": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,68 @@
+[default]
+locale = "en-us"
+
+extend-ignore-re = [
+    "\\.refine",
+    "\\.refine\\.",
+    "refine\\.",
+    "-refine",
+    "run refine",
+    "refineCore",
+    "refine-",
+    "refine-\\d+",
+    "refine\\d+",
+    "-refine-",
+    "_refine",
+    "/refine",
+    "/refine/",
+    "refine/",
+    "refinedev",
+    "Refine",
+    "refine,",
+    "refine-themes",
+    "REFINE",
+    "refine3",
+    "refine[0-9]+",
+    "refine[0-9]+-",
+    "-refine[0-9]+",
+    "\\: refine",
+    "\\`refine",
+    "\"refine\"",
+    "\"refine",
+    "refineTheme",
+    "exitt",
+    "refine\\:",
+    "refine devtools",
+    "const [a-zA-Z0-9_]+ = .*",
+    "Example: .*",
+    "RGBa",
+    "Abd",
+    '.*/refine.*\.jpg',
+    '.*/refine.*\.png',
+    "refine dev"
+]
+
+[files]
+extend-exclude = ["documentation/docs/partials/_partial-translation-file-de.md", "documentation/versioned_docs", "documentation/versioned_sidebars", "*.ts", "*.tsx", "refine-*", "packages", "examples", "*.js", "*.json", "*.svg", "*.png", "*.jpg", "*.jpeg", "pnpm-lock.yaml"]
+ignore-vcs = true
+
+[default.extend-words]
+nin = "nin"
+typ = "typ"
+OT = "OT"
+prev = "prev"
+prepend = "prepend"
+prepended = "prepended"
+goes = "goes"
+IIF = "IIF"
+Preact = "Preact"
+AKS = "AKS"
+ege = "ege"
+nd = "nd"
+DAA = "DAA"
+bare = "bare"
+inovice = "invoice"
+refine = "Refine"
+Axe = "Axe"
+HashiCorp = "HashiCorp"
+Hashi = "Hashi"

@@ -1,0 +1,54 @@
+.playgroundContainer {
+  margin-bottom: var(--ifm-leading);
+  border-radius: var(--ifm-global-radius);
+  box-shadow: var(--ifm-global-shadow-lw);
+  overflow: hidden;
+}
+
+.playgroundHeader {
+  padding: 0 1rem;
+  background: var(--browser-window-bezel-color);
+  text-align: center;
+}
+
+.headerButton {
+  width: 100%;
+  appearance: none;
+  border: none;
+  background: none;
+  color: var(--ifm-color-content);
+  font-size: 0.75rem;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.008rem;
+  cursor: pointer;
+}
+
+.playgroundHeader:first-of-type {
+  background: var(--ifm-color-emphasis-600);
+  color: var(--ifm-color-content-inverse);
+}
+
+.playgroundPreview {
+  padding: 0;
+  max-height: 400px;
+  min-height: 400px;
+  overflow-y: scroll;
+  background-color: var(--ifm-pre-background);
+}
+
+[data-theme="dark"] .playgroundPreview {
+  background-color: #fff;
+}
+
+.playgroundEditorWrapper {
+  border: 3px solid var(--browser-window-bezel-color);
+  background-color: var(--browser-window-bezel-color);
+}
+
+.playgroundEditorWrapper > div {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  margin-bottom: 0 !important;
+}

@@ -1,0 +1,63 @@
+import nock from "nock";
+
+nock("https://cloud.appwrite.io:443", { encodedQueryParams: true })
+  .get(
+    "/v1/databases/default/collections/blog_posts/documents/669e49f2003b4ed88818",
+  )
+  .reply(
+    200,
+    {
+      title: "Aut Cum Beatae",
+      content:
+        "Rerum recusandae in reiciendis sed officia at voluptates quaerat. Voluptas odio in magnam laudantium veniam inventore est quam eos. Laboriosam laborum impedit temporibus deleniti consequuntur. Debitis architecto deserunt maiores perferendis voluptatibus facilis sunt. Nemo omnis architecto ea ab illum nobis voluptatem et porro. Quos est occaecati quidem consectetur. Vitae ut optio ut praesentium. Porro qui voluptas. Delectus repellendus eligendi. Quisquam quia necessitatibus delectus id sapiente explicabo quisquam blanditiis.",
+      status: "rejected",
+      images: null,
+      $id: "669e49f2003b4ed88818",
+      $tenant: "169888",
+      $createdAt: "2024-07-22T12:00:51.069+00:00",
+      $updatedAt: "2024-07-22T12:00:51.069+00:00",
+      $permissions: [],
+      category: {
+        title: "Gaming",
+        $id: "gaming",
+        $tenant: "169888",
+        $createdAt: "2024-07-22T12:00:35.687+00:00",
+        $updatedAt: "2024-07-22T12:00:35.687+00:00",
+        $permissions: [],
+        $databaseId: "default",
+        $collectionId: "categories",
+      },
+      $databaseId: "default",
+      $collectionId: "blog_posts",
+    },
+    [
+      "Access-Control-Allow-Credentials",
+      "true",
+      "Access-Control-Allow-Headers",
+      "Origin, Cookie, Set-Cookie, X-Requested-With, Content-Type, Access-Control-Allow-Origin, Access-Control-Request-Headers, Accept, X-Appwrite-Project, X-Appwrite-Key, X-Appwrite-Locale, X-Appwrite-Mode, X-Appwrite-JWT, X-Appwrite-Response-Format, X-Appwrite-Timeout, X-SDK-Version, X-SDK-Name, X-SDK-Language, X-SDK-Platform, X-SDK-GraphQL, X-Appwrite-ID, X-Appwrite-Timestamp, Content-Range, Range, Cache-Control, Expires, Pragma, X-Forwarded-For, X-Forwarded-User-Agent",
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, PATCH, DELETE",
+      "Access-Control-Allow-Origin",
+      "https://localhost",
+      "Access-Control-Expose-Headers",
+      "X-Appwrite-Session, X-Fallback-Cookies",
+      "Content-Length",
+      "1037",
+      "Content-Type",
+      "application/json; charset=UTF-8",
+      "Date",
+      "Mon, 22 Jul 2024 13:36:30 GMT",
+      "Server",
+      "Appwrite",
+      "Strict-Transport-Security",
+      "max-age=10886400",
+      "X-Content-Type-Options",
+      "nosniff",
+      "X-Debug-Fallback",
+      "true",
+      "X-Debug-Speed",
+      "0.048836946487427",
+      "Connection",
+      "close",
+    ],
+  );

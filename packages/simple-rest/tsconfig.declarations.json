@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "../test/**/*",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.spec.tsx",
+    "**/*.test.tsx"
+  ],
+  "compilerOptions": {
+    "outDir": "dist",
+    "declarationDir": "dist",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "declarationMap": true
+  }
+}

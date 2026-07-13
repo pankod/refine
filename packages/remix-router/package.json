@@ -1,0 +1,85 @@
+{
+  "name": "@refinedev/remix-router",
+  "version": "4.0.4",
+  "private": false,
+  "description": "Remix router integration package for Refine.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/refinedev/refine.git",
+    "directory": "packages/remix-router"
+  },
+  "license": "MIT",
+  "author": "refine",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "dist/index.d.ts"
+      ]
+    }
+  },
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "attw": "attw --pack .",
+    "build": "tsup && node ../shared/generate-declarations.js",
+    "dev": "tsup --watch",
+    "prepare": "pnpm build",
+    "publint": "publint --strict=true --level=suggestion",
+    "test": "vitest run --silent",
+    "types": "node ../shared/generate-declarations.js"
+  },
+  "dependencies": {
+    "qs": "^6.10.1"
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-resolve": "^0.1.4",
+    "@refinedev/core": "^5.0.10",
+    "@remix-run/node": "^2.4.0",
+    "@remix-run/react": "^2.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^20",
+    "@types/qs": "^6.9.7",
+    "@vitest/ui": "^2.1.8",
+    "remix": "^2.4.0",
+    "tslib": "^2.6.2",
+    "tsup": "^6.7.0",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@refinedev/core": "^5.0.0",
+    "@remix-run/node": "*",
+    "@remix-run/react": "*",
+    "@types/react": "^18.0.0 || ^19.0.0",
+    "@types/react-dom": "^18.0.0 || ^19.0.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "remix": "*"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

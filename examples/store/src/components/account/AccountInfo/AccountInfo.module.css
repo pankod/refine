@@ -1,0 +1,55 @@
+.root {
+    @apply text-xs font-normal leading-5;
+}
+
+.currentInfoWrapper {
+    @apply flex items-end justify-between;
+}
+
+.currentInfoTop {
+    @apply flex flex-col;
+}
+
+.label {
+    @apply text-accent-9 uppercase;
+}
+
+.currentInfo {
+    @apply flex flex-1 basis-0 items-center justify-end gap-x-4;
+}
+
+.text {
+    @apply font-semibold;
+}
+
+.buttonWrapper {
+    @apply mt-2 flex items-center justify-end;
+}
+
+.button {
+    @apply small:h-[50px] small:w-[100px] h-[25px] min-h-[25px] w-[50px] py-1;
+}
+
+.disclosure {
+    @apply overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out;
+}
+
+.openDisclosure {
+    @apply flex flex-col gap-y-2 py-4;
+}
+
+.appearDisclosure {
+    @apply max-h-[1000px] opacity-100;
+}
+
+.disappearDisclosure {
+    @apply max-h-0 opacity-0;
+}
+
+.successMessage {
+    @apply bg-green text-accent-1 my-4 p-4;
+}
+
+.errorMessage {
+    @apply bg-violet-light text-violet-dark mt-4 p-4;
+}

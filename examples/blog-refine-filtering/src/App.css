@@ -1,0 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 20px;
+    height: 100vh;
+    background-color: #fee140;
+    background-image: linear-gradient(90deg, #fee140 0%, #fa709a 100%);
+}

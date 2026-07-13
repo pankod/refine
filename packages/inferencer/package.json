@@ -1,0 +1,252 @@
+{
+  "name": "@refinedev/inferencer",
+  "version": "7.0.0",
+  "private": false,
+  "description": "refine is a React-based framework for building internal tools, rapidly.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/refinedev/refine.git",
+    "directory": "packages/inferencer"
+  },
+  "license": "MIT",
+  "author": "Refine",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./headless": {
+      "import": {
+        "types": "./dist/inferencers/headless/index.d.mts",
+        "default": "./dist/headless.mjs"
+      },
+      "require": {
+        "types": "./dist/inferencers/headless/index.d.cts",
+        "default": "./dist/headless.cjs"
+      }
+    },
+    "./mantine": {
+      "import": {
+        "types": "./dist/inferencers/mantine/index.d.mts",
+        "default": "./dist/mantine.mjs"
+      },
+      "require": {
+        "types": "./dist/inferencers/mantine/index.d.cts",
+        "default": "./dist/mantine.cjs"
+      }
+    },
+    "./antd": {
+      "import": {
+        "types": "./dist/inferencers/antd/index.d.mts",
+        "default": "./dist/antd.mjs"
+      },
+      "require": {
+        "types": "./dist/inferencers/antd/index.d.cts",
+        "default": "./dist/antd.cjs"
+      }
+    },
+    "./mui": {
+      "import": {
+        "types": "./dist/inferencers/mui/index.d.mts",
+        "default": "./dist/mui.mjs"
+      },
+      "require": {
+        "types": "./dist/inferencers/mui/index.d.cts",
+        "default": "./dist/mui.cjs"
+      }
+    },
+    "./chakra-ui": {
+      "import": {
+        "types": "./dist/inferencers/chakra-ui/index.d.mts",
+        "default": "./dist/chakra-ui.mjs"
+      },
+      "require": {
+        "types": "./dist/inferencers/chakra-ui/index.d.cts",
+        "default": "./dist/chakra-ui.cjs"
+      }
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "dist/index.d.ts"
+      ],
+      "headless": [
+        "dist/inferencers/headless/index.d.ts"
+      ],
+      "mantine": [
+        "dist/inferencers/mantine/index.d.ts"
+      ],
+      "antd": [
+        "dist/inferencers/antd/index.d.ts"
+      ],
+      "mui": [
+        "dist/inferencers/mui/index.d.ts"
+      ],
+      "chakra-ui": [
+        "dist/inferencers/chakra-ui/index.d.ts"
+      ]
+    }
+  },
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "attw": "attw --pack .",
+    "build": "tsup && node ../shared/generate-declarations.js",
+    "dev": "tsup --watch",
+    "prepare": "pnpm build",
+    "publint": "publint --strict=true --level=suggestion",
+    "test": "vitest --run",
+    "types": "node ../shared/generate-declarations.js"
+  },
+  "dependencies": {
+    "@refinedev/core": "^5.0.5",
+    "@tabler/icons-react": "^3.1.0",
+    "dayjs": "^1.10.7",
+    "graphql": "^15.6.1",
+    "graphql-tag": "^2.12.6",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "pluralize": "^8.0.0",
+    "prettier": "^2.7.1",
+    "prism-react-renderer": "^1.3.5",
+    "react-markdown": "^6.0.1",
+    "remark-gfm": "^1.0.0",
+    "tslib": "^2.6.2"
+  },
+  "devDependencies": {
+    "@esbuild-plugins/node-resolve": "^0.1.4",
+    "@refinedev/antd": "^6.0.3",
+    "@refinedev/chakra-ui": "^3.0.2",
+    "@refinedev/core": "^5.0.5",
+    "@refinedev/mantine": "^3.0.2",
+    "@refinedev/mui": "^8.0.0",
+    "@refinedev/react-hook-form": "^5.0.2",
+    "@refinedev/react-table": "^6.0.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/lodash": "^4.14.171",
+    "@types/node": "^20",
+    "@types/pluralize": "^0.0.29",
+    "@types/prismjs": "^1.26.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@types/react-test-renderer": "^18.0.0",
+    "esbuild-copy-static-files": "^0.1.0",
+    "esbuild-plugin-inline-image": "^0.0.8",
+    "identity-obj-proxy": "^3.0.0",
+    "jsdom": "^25.0.1",
+    "react-live": "^4.1.8",
+    "react-router": "^7.0.2",
+    "react-test-renderer": "^18.2.0",
+    "tsup": "^6.7.0",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@ant-design/icons": "^5.5.1",
+    "@chakra-ui/react": "^2.5.1",
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
+    "@mantine/core": "^5.10.4",
+    "@mantine/form": "^5.10.4",
+    "@mantine/hooks": "^5.10.4",
+    "@mantine/notifications": "^5.10.4",
+    "@mui/lab": "^6.0.0-beta.14",
+    "@mui/material": "^6.1.7",
+    "@mui/x-data-grid": "^7.23.5",
+    "@refinedev/antd": "^6.0.0",
+    "@refinedev/chakra-ui": "^3.0.0",
+    "@refinedev/core": "^5.0.0",
+    "@refinedev/mantine": "^3.0.0",
+    "@refinedev/mui": "^8.0.0",
+    "@refinedev/react-hook-form": "^5.0.0",
+    "@refinedev/react-table": "^6.0.0",
+    "@tanstack/react-table": "^8.2.6",
+    "@types/react": "^18.0.0 || ^19.0.0",
+    "@types/react-dom": "^18.0.0 || ^19.0.0",
+    "antd": "^5.0.3",
+    "dayjs": "^1.10.7",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "react-hook-form": "^7.57.0"
+  },
+  "peerDependenciesMeta": {
+    "@chakra-ui/react": {
+      "optional": true
+    },
+    "@emotion/react": {
+      "optional": true
+    },
+    "@emotion/styled": {
+      "optional": true
+    },
+    "@mantine/core": {
+      "optional": true
+    },
+    "@mantine/form": {
+      "optional": true
+    },
+    "@mantine/hooks": {
+      "optional": true
+    },
+    "@mantine/notifications": {
+      "optional": true
+    },
+    "@mui/lab": {
+      "optional": true
+    },
+    "@mui/material": {
+      "optional": true
+    },
+    "@mui/x-data-grid": {
+      "optional": true
+    },
+    "@refinedev/antd": {
+      "optional": true
+    },
+    "@refinedev/chakra-ui": {
+      "optional": true
+    },
+    "@refinedev/mantine": {
+      "optional": true
+    },
+    "@refinedev/mui": {
+      "optional": true
+    },
+    "@refinedev/react-hook-form": {
+      "optional": true
+    },
+    "@refinedev/react-table": {
+      "optional": true
+    },
+    "@tanstack/react-table": {
+      "optional": true
+    },
+    "antd": {
+      "optional": true
+    },
+    "dayjs": {
+      "optional": true
+    },
+    "react-hook-form": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

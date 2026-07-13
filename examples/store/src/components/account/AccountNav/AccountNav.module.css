@@ -1,0 +1,27 @@
+.account {
+    @apply small:hidden;
+}
+
+.accountLink {
+    @apply flex items-center gap-x-2 py-2 text-xs font-normal leading-5;
+}
+
+.head {
+    @apply py-4 text-sm font-semibold leading-6;
+}
+
+.icon {
+    @apply rotate-90 transform;
+}
+
+.links {
+    @apply small:block hidden;
+}
+
+.links h3 {
+    @apply py-4;
+}
+
+.list {
+    @apply mb-0 flex flex-col items-start justify-start gap-y-4 text-sm font-normal leading-6;
+}

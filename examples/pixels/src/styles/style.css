@@ -1,0 +1,180 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+html {
+    font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+        "Helvetica Neue", sans-serif;
+}
+
+.ant-menu-inline,
+.ant-menu-vertical,
+.ant-menu-vertical-left {
+    border-right: 0px;
+}
+
+.ant-form-item-label > label {
+    font-weight: bold;
+}
+
+.ant-page-header {
+    border-radius: 6px;
+}
+
+.ant-menu-submenu-popup > .ant-menu {
+    background-color: #2a132e;
+}
+
+.ant-menu-tree-arrow {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    width: 10px;
+    color: #fff;
+    transform: translateY(-50%);
+    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.ant-menu-tree-arrow::before,
+.ant-menu-tree-arrow::after {
+    position: absolute;
+    width: 6px;
+    height: 1.5px;
+    background-color: currentcolor;
+    border-radius: 2px;
+    transition: background 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+        transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+        top 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+        color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    content: "";
+}
+
+.ant-menu-tree-arrow::before {
+    transform: rotate(45deg) translateY(-2.5px);
+}
+
+.ant-menu-tree-arrow::after {
+    transform: rotate(-45deg) translateY(2.5px);
+}
+
+.container {
+    margin: auto;
+    max-width: 940px;
+    width: 100%;
+    padding: 0px 16px;
+}
+
+.paper {
+    background-color: #fff;
+    box-shadow: 4px 8px 16px rgba(42, 42, 66, 0.25);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.paper-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.canvas-list .ant-list-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 275px);
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.canvas-skeleton-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 275px);
+    gap: 0px 16px;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.canvas-item {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #d8d8db;
+    border-radius: 8px;
+    padding: 14px;
+    height: 100%;
+}
+
+.canvas-item:hover {
+    border-color: #3ecf8e;
+    border-style: dashed;
+    transition: border-color 0.3s;
+}
+
+.canvas-item:hover .canvas-name-text {
+    color: #3ecf8e;
+    transition: color 0.3s;
+}
+
+.canvas-name-text {
+    margin-top: 16px;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.layout-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 0px;
+}
+
+@media screen and (max-width: 600px) {
+    .layout-header a {
+        flex: 100%;
+        text-align: center;
+    }
+}
+
+.dot-icon {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #96969e;
+    margin-right: 6px;
+}
+
+.nav-button {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: #96969e;
+    transition: all 0.3s;
+}
+
+.nav-button:hover {
+    color: #3ecf8e;
+}
+
+.nav-button:hover .dot-icon {
+    background-color: #3ecf8e;
+}
+
+.nav-button.active {
+    color: #242436;
+}
+
+.nav-button.active .dot-icon {
+    background-color: #3ecf8e;
+}
+
+.spin-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+}
+
+::selection {
+    background-color: #3ecf8e;
+    color: #fff;
+}

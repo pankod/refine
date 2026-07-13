@@ -1,0 +1,53 @@
+{
+  "name": "categories",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc && refine build",
+    "dev": "refine dev",
+    "refine": "refine",
+    "start": "refine start"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.5.1",
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@refinedev/antd": "^5.9.0",
+    "@refinedev/cli": "^2.5.3",
+    "@refinedev/core": "^4.10.0",
+    "@refinedev/kbar": "^1.1.0",
+    "@refinedev/react-router": "^4.1.0",
+    "@refinedev/simple-rest": "^4.5.0",
+    "@uiw/react-md-editor": "^3.23.5",
+    "antd": "^5.23.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router": "^7.0.2"
+  },
+  "devDependencies": {
+    "@originjs/vite-plugin-federation": "^1.2.3",
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "dns": "^0.2.2",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.15",
+    "vite-tsconfig-paths": "^4.2.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

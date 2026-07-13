@@ -1,0 +1,78 @@
+name: Documentation
+
+on:
+  pull_request:
+    paths:
+      - "documentation/**"
+      - ".github/workflows/documentation.yml"
+  push:
+    paths:
+      - "documentation/**"
+      - ".github/workflows/documentation.yml"
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  typos:
+    name: Check spelling using typos
+    runs-on: ubuntu-latest
+    concurrency:
+      group: docs-typos-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Check out code.
+        uses: actions/checkout@v4
+      - name: typos
+        id: check_for_typos
+        uses: crate-ci/typos@v1.29.9
+        with:
+          config: ./typos.toml
+  deploy_documentation:
+    name: Documentation Deploy
+    runs-on: ubuntu-latest
+    concurrency:
+      group: docs-deploy-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ github.ref == 'refs/heads/main' && 500 || 1 }}
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install & build dependencies
+        run: pnpm install
+      - name: Install dependencies (Docs)
+        run: |
+          cd documentation
+          pnpm install
+      - name: Build Documentation
+        env:
+          NODE_ENV: production
+          NODE_OPTIONS: "--max_old_space_size=4096"
+        run: |
+          cd documentation
+          LIVE_PREVIEW_URL=https://cloud2.refine.dev/preview pnpm build
+      - name: Deploy to Netlify
+        id: netlify-deploy
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: "./documentation/build"
+          github-token: ${{ secrets.PANKOD_BOT_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          overwrites-pull-request-comment: false
+          github-deployment-environment: ${{ github.ref == 'refs/heads/main' && 'production' || format('deploy-preview-website-{0}', github.event.number) }}
+          production-deploy: ${{ github.ref == 'refs/heads/main' }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 15
+      - name: Check Existing Links in Documentation
+        if: ${{ github.ref != 'refs/heads/main' && steps.netlify-deploy.outputs.deploy-url }}
+        run: DEPLOY_URL=${{ steps.netlify-deploy.outputs.deploy-url }} SITEMAP_URL=https://refine.dev/core/sitemap.xml node ./.github/workflows/scripts/check-existing-doc-links.js

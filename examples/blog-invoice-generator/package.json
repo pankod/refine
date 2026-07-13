@@ -1,0 +1,61 @@
+{
+  "name": "blog-invoice-generator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "refine build",
+    "dev": "refine dev",
+    "refine": "refine",
+    "start": "refine start",
+    "test": "jest --passWithNoTests --runInBand"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.5.1",
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@react-pdf/renderer": "^3.1.8",
+    "@refinedev/antd": "^5.44.0",
+    "@refinedev/cli": "^2.16.40",
+    "@refinedev/core": "^4.56.0",
+    "@refinedev/react-router": "^0.1.0",
+    "@refinedev/strapi-v4": "^6.0.9",
+    "antd": "^5.23.0",
+    "axios": "^1.11.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-pdf": "^5.7.1",
+    "react-router": "^7.0.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.2.4",
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "cross-env": "^7.0.3",
+    "jest": "^30.0.5",
+    "jest-environment-jsdom": "^30.0.5",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.15",
+    "vite-tsconfig-paths": "^4.2.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

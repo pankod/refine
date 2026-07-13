@@ -1,0 +1,21 @@
+.saveActions {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.form-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: fit-content;
+}
+.back {
+    margin-bottom: 8px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}

@@ -1,0 +1,68 @@
+name: PR Checks
+on: [pull_request]
+
+jobs:
+  commit-lint:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.ref }}-commit-lint
+      cancel-in-progress: true
+    name: Commitlint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: wagoid/commitlint-github-action@v5
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+      - name: Install Dependencies
+        run: |
+          pnpm install -w
+      - name: lint
+        run: |
+          pnpm lint:ci
+      - name: syncpack
+        run: pnpm sp lint
+  build:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.ref }}-pr-build
+      cancel-in-progress: true
+    name: Build & Test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+      - name: Install & Build
+        run: pnpm install
+      - name: Test
+        run: pnpm test:all --skip-nx-cache
+      - name: Publint
+        run: pnpm publint:all
+      - name: Are The Types Wrong
+        run: pnpm attw:all
+
+  tsdoc-check:
+    runs-on: ubuntu-latest
+    name: Check TSDoc Links
+    concurrency:
+      group: ${{ github.ref }}-tsdoc-check
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - name: Check TSDoc Links
+        run: npx tsdoc-link-check --patterns packages/**/*.ts packages/**/*.tsx

@@ -1,0 +1,44 @@
+{
+  "name": "blog-sveltekit-crud",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "dev": "vite dev",
+    "format": "prettier --write .",
+    "lint": "prettier --check . && eslint .",
+    "prepare": "svelte-kit sync",
+    "preview": "vite preview",
+    "refine": "refine"
+  },
+  "devDependencies": {
+    "@smui/button": "^6.1.0",
+    "@smui/card": "^6.1.0",
+    "@smui/data-table": "^6.1.0",
+    "@smui/dialog": "^6.1.0",
+    "@smui/linear-progress": "^6.1.0",
+    "@smui/textfield": "^6.1.0",
+    "@sveltejs/adapter-auto": "next",
+    "@sveltejs/kit": "next",
+    "@types/node": "^20",
+    "@typescript-eslint/eslint-plugin": "5.48.0",
+    "@typescript-eslint/parser": "5.48.0",
+    "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-svelte3": "^4.0.0",
+    "prettier": "^2.7.1",
+    "prettier-plugin-svelte": "^2.7.0",
+    "svelte": "^3.44.0",
+    "svelte-check": "^2.7.1",
+    "svelte-preprocess": "^4.10.6",
+    "tslib": "^2.6.2",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.15"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

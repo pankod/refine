@@ -1,0 +1,22 @@
+{
+  "include": ["src"],
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": false,
+    "strict": true,
+    "types": ["vitest/globals"],
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@components": ["src/components"],
+      "@hooks/*": ["src/hooks/*"],
+      "@hooks": ["src/hooks"],
+      "@test/*": ["src/test/*"],
+      "@test": ["src/test"],
+      "@definitions/*": ["src/definitions/*"],
+      "@definitions": ["src/definitions"]
+    }
+  }
+}

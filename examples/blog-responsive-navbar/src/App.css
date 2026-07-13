@@ -1,0 +1,16 @@
+.post, .category, .user, .event {
+    text-align: center;
+  }
+
+  .navbar-border {
+    border-bottom: 1px solid gray;
+  }
+
+  .nav-link {
+    margin-top: 5px;
+    text-transform: capitalize; 
+  }
+
+  .brand-image {
+    margin: 0 15px !important;
+  }

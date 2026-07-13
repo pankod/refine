@@ -1,0 +1,400 @@
+.blog-wrapper:root {
+  --primary-font-sans: "Inter";
+}
+
+.blog-wrapper .refine-prose table thead {
+  @apply bg-white dark:bg-zinc-950 text-sm;
+}
+
+.blog-wrapper .refine-prose table thead th {
+  @apply bg-white dark:bg-zinc-950 text-sm tracking-[-0.004em] text-start;
+}
+
+.blog-wrapper .refine-prose table tbody td {
+  @apply text-sm tracking-[-0.007em];
+}
+
+.blog-wrapper .refine-prose {
+  @apply prose-a:text-teal-600 prose-a:dark:text-teal-400;
+}
+
+@media (max-width: 720px) {
+  .blog-wrapper .markdown p {
+    @apply text-sm;
+  }
+}
+
+.blog-wrapper .refine-prose h2 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  letter-spacing: 0;
+}
+
+.blog-wrapper .refine-prose h3 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  letter-spacing: 0;
+}
+
+.blog-wrapper .refine-prose h4 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  letter-spacing: -0.004em;
+}
+
+.blog-wrapper a:has(> code):not(.refine-toc-item) code {
+  @apply !text-teal-700 dark:!text-teal-400;
+  @apply !bg-teal-200 dark:!bg-teal-950;
+}
+
+.blog-wrapper a:has(> code):not(.refine-toc-item):hover code {
+  @apply !text-teal-700 dark:!text-teal-400;
+  @apply !bg-teal-100 dark:!bg-teal-900;
+}
+
+.blog-wrapper .refine-prose code:not(pre > code) {
+  @apply text-zinc-700 dark:text-zinc-300 bg-[#e4e4e7] dark:bg-[#3f3f4680];
+}
+
+:is(
+    .blog-wrapper .blog-content-bleed,
+    .blog-wrapper .markdown p:has(> img:only-child),
+    .blog-wrapper .markdown p:has(> a:only-child > img:only-child),
+    .blog-wrapper .markdown figure:has(> img:only-child),
+    .blog-wrapper .markdown figure:has(> a:only-child > img:only-child)
+  ) {
+  margin-left: -12px;
+  margin-right: -12px;
+  width: calc(100% + 24px);
+  max-width: none;
+}
+
+@media (min-width: 720px) {
+  :is(
+      .blog-wrapper .blog-content-bleed,
+      .blog-wrapper .admonition,
+      .blog-wrapper .markdown p:has(> img:only-child),
+      .blog-wrapper .markdown p:has(> a:only-child > img:only-child),
+      .blog-wrapper .markdown figure:has(> img:only-child),
+      .blog-wrapper .markdown figure:has(> a:only-child > img:only-child)
+    ) {
+    margin-left: -16px;
+    margin-right: -16px;
+    width: calc(100% + 32px);
+    max-width: none;
+  }
+}
+
+.blog-wrapper
+  .markdown
+  :is(
+    p:has(> img:only-child) > img,
+    p:has(> a:only-child > img:only-child) > a > img,
+    figure:has(> img:only-child) > img,
+    figure:has(> a:only-child > img:only-child) > a > img
+  ) {
+  display: block;
+  width: 100%;
+  max-width: none;
+}
+
+/* Admonition blog overrides */
+.blog-wrapper .admonition {
+  @apply text-base tracking-[-0.004em];
+}
+
+.blog-wrapper .admonition li::marker {
+  @apply text-base;
+}
+
+.blog-wrapper .admonition code:not(pre > code) {
+  @apply bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white px-1.5;
+}
+
+.blog-wrapper .admonition.admonition-caution a:has(> code) code {
+  @apply !text-amber-700 dark:!text-amber-400;
+  @apply !bg-amber-100 dark:!bg-amber-950;
+}
+
+.blog-wrapper .admonition.admonition-caution a:has(> code):hover code {
+  @apply !bg-amber-200 dark:!bg-amber-950;
+}
+
+.blog-wrapper .admonition.admonition-danger a:has(> code) code {
+  @apply !text-red-700 dark:!text-red-400;
+  @apply !bg-red-100 dark:!bg-red-950;
+}
+
+.blog-wrapper .admonition.admonition-danger a:has(> code):hover code {
+  @apply !bg-red-200 dark:!bg-red-950;
+}
+
+.blog-wrapper .admonition.admonition-info a:has(> code) code {
+  @apply !text-blue-700 dark:!text-blue-400;
+  @apply !bg-blue-100 dark:!bg-blue-950;
+}
+
+.blog-wrapper .admonition.admonition-info a:has(> code):hover code {
+  @apply !bg-blue-200 dark:!bg-blue-950;
+}
+
+.blog-wrapper .admonition.admonition-info-tip a:has(> code) code {
+  @apply !text-blue-700 dark:!text-blue-400;
+  @apply !bg-blue-100 dark:!bg-blue-950;
+}
+
+.blog-wrapper .admonition.admonition-info-tip a:has(> code):hover code {
+  @apply !bg-blue-200 dark:!bg-blue-950;
+}
+
+.blog-wrapper .admonition.admonition-tip a:has(> code) code {
+  @apply !text-green-700 dark:!text-green-400;
+  @apply !bg-green-100 dark:!bg-green-950;
+}
+
+.blog-wrapper .admonition.admonition-tip a:has(> code):hover code {
+  @apply !bg-green-200 dark:!bg-green-950;
+}
+
+.blog-wrapper .admonition.admonition-note a:has(> code) code {
+  @apply !text-teal-700 dark:!text-teal-400;
+  @apply !bg-teal-100 dark:!bg-teal-950;
+}
+
+.blog-wrapper .admonition.admonition-note a:has(> code):hover code {
+  @apply !bg-teal-200 dark:!bg-teal-950;
+}
+
+.blog-wrapper .admonition.admonition-caution a:not(:has(> code)) {
+  @apply !text-amber-700 dark:!text-amber-400;
+}
+
+.blog-wrapper .admonition.admonition-caution a:not(:has(> code)):hover {
+  @apply !text-amber-800 dark:!text-amber-300;
+}
+
+.blog-wrapper .admonition.admonition-danger a:not(:has(> code)) {
+  @apply !text-red-700 dark:!text-red-400;
+}
+
+.blog-wrapper .admonition.admonition-danger a:not(:has(> code)):hover {
+  @apply !text-red-800 dark:!text-red-300;
+}
+
+.blog-wrapper .admonition.admonition-info a:not(:has(> code)) {
+  @apply !text-blue-700 dark:!text-blue-400;
+}
+
+.blog-wrapper .admonition.admonition-info a:not(:has(> code)):hover {
+  @apply !text-blue-800 dark:!text-blue-300;
+}
+
+.blog-wrapper .admonition.admonition-info-tip a:not(:has(> code)) {
+  @apply !text-blue-700 dark:!text-blue-400;
+}
+
+.blog-wrapper .admonition.admonition-info-tip a:not(:has(> code)):hover {
+  @apply !text-blue-800 dark:!text-blue-300;
+}
+
+.blog-wrapper .admonition.admonition-tip a:not(:has(> code)) {
+  @apply !text-green-700 dark:!text-green-400;
+}
+
+.blog-wrapper .admonition.admonition-tip a:not(:has(> code)):hover {
+  @apply !text-green-800 dark:!text-green-300;
+}
+
+.blog-wrapper .admonition.admonition-note a:not(:has(> code)) {
+  @apply !text-teal-700 dark:!text-teal-400;
+}
+
+.blog-wrapper .admonition.admonition-note a:not(:has(> code)):hover {
+  @apply !text-teal-800 dark:!text-teal-300;
+}
+
+.blog-wrapper .admonition.admonition-caution li::marker {
+  @apply text-amber-700 dark:text-amber-400;
+}
+
+.blog-wrapper .admonition.admonition-danger li::marker {
+  @apply dark:text-refine-red text-refine-red;
+}
+
+.blog-wrapper .admonition.admonition-info li::marker {
+  @apply text-blue-700 dark:text-blue-400;
+}
+
+.blog-wrapper .admonition.admonition-info-tip li::marker {
+  @apply text-blue-700 dark:text-blue-400;
+}
+
+.blog-wrapper .admonition.admonition-tip li::marker {
+  @apply text-green-700 dark:text-green-400;
+}
+
+.blog-wrapper .admonition.admonition-note li::marker {
+  @apply text-teal-700 dark:text-teal-400;
+}
+
+.blog-details {
+  @apply rounded-lg overflow-hidden border border-zinc-200 dark:border-transparent;
+}
+
+.blog-details-content {
+  @apply bg-white dark:bg-zinc-950;
+}
+
+.blog-details-content > p:last-of-type {
+  margin-bottom: 0 !important;
+}
+
+.blog-summary {
+  @apply flex items-center gap-2 before:hidden !p-3 !mb-0 min-h-10 rounded-lg bg-zinc-100 dark:bg-zinc-800;
+}
+
+.blog-summary-label {
+  @apply font-sans font-normal text-xs tracking-[-0.006em] text-zinc-700 dark:text-white;
+}
+
+.blog-summary-chevron {
+  @apply text-zinc-700 dark:text-white;
+  transform: rotate(-90deg);
+  transition: transform 200ms ease-in-out;
+}
+
+.blog-details[open] .blog-summary-chevron {
+  transform: rotate(180deg);
+}
+
+.blog-details[open] .blog-summary {
+  @apply rounded-b-none border-b border-b-zinc-200 dark:border-b-transparent;
+}
+
+.refine-common-code-block {
+  @apply bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-transparent;
+}
+
+.blog-details-content .refine-common-code-block {
+  @apply mb-0 rounded-none border-0 w-full;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: none;
+  background: transparent;
+}
+
+.blog-details[data-has-code-title="true"]
+  .refine-common-code-block
+  > div:first-child {
+  @apply hidden;
+}
+
+.blog-details-content .refine-common-code-block > .relative.not-prose {
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+}
+
+.blog-details-content .refine-common-code-block pre {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.blog-details-content .refine-common-code-block pre code {
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.blog-details-content .refine-common-code-block > div:last-child {
+  top: 16px !important;
+  right: 16px !important;
+  gap: 8px;
+}
+
+.blog-details-content .refine-code-block-word-wrap-button,
+.blog-details-content .refine-code-block-copy-button {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: #f4f4f5;
+}
+
+.blog-details-content .refine-code-block-word-wrap-button:hover,
+.blog-details-content .refine-code-block-copy-button:hover {
+  background: #e4e4e7;
+}
+
+.blog-details-content .refine-code-block-word-wrap-button svg,
+.blog-details-content .refine-code-block-copy-button svg {
+  width: 16px;
+  height: 16px;
+  color: #71717a;
+}
+
+html[data-theme="dark"]
+  .blog-details-content
+  .refine-code-block-word-wrap-button,
+html[data-theme="dark"] .blog-details-content .refine-code-block-copy-button {
+  background: #3f3f46;
+}
+
+html[data-theme="dark"]
+  .blog-details-content
+  .refine-code-block-word-wrap-button:hover,
+html[data-theme="dark"]
+  .blog-details-content
+  .refine-code-block-copy-button:hover {
+  background: #52525b;
+}
+
+html[data-theme="dark"]
+  .blog-details-content
+  .refine-code-block-word-wrap-button
+  svg,
+html[data-theme="dark"]
+  .blog-details-content
+  .refine-code-block-copy-button
+  svg {
+  color: #a1a1aa;
+}
+
+/* Open Files Tab - Curved Borders for Active Tab */
+.blog-tab-item.active .blog-tab-item-border {
+  display: block;
+  content: "";
+  position: absolute;
+  transition: opacity 0.2s ease-out;
+  opacity: 1;
+  left: -0.5rem;
+  top: -4px;
+  width: calc(100% + 1rem);
+  height: calc(100% + 0.75rem);
+  pointer-events: none;
+  z-index: 1;
+}
+
+ul[role="tablist"] > li.blog-tab-item:first-child.active .blog-tab-item-border {
+  top: -2px;
+}
+
+/* Light Mode Curved Borders */
+html[data-theme="light"] .blog-tab-item.active .blog-tab-item-border {
+  background-position: calc(100% - 1rem) 0.25rem, 0 100%, 100% 100%,
+    calc(100% - 1rem) 0.25rem;
+  background-size: calc(100% - 2rem) 1px, 1rem 100%, 1rem 100%,
+    calc(100% - 2rem) calc(100% - 0.25rem);
+  background-repeat: no-repeat;
+  background-image: linear-gradient(0deg, #e4e4e7, #e4e4e7),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='52' fill='none' viewBox='0 0 16 52'%3E%3Cpath fill='%23fff' d='M16 52H0v-3.5a8 8 0 0 0 8-8v-28a8 8 0 0 1 8-8z'/%3E%3Cpath stroke='%23e4e4e7' d='M0 48.5a8 8 0 0 0 8-8v-28a8 8 0 0 1 8-8'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='52' fill='none' viewBox='0 0 16 52'%3E%3Cpath fill='%23fff' d='M0 52h16v-3.5a8 8 0 0 1-8-8v-28a8 8 0 0 0-8-8z'/%3E%3Cpath stroke='%23e4e4e7' d='M16 48.5a8 8 0 0 1-8-8v-28a8 8 0 0 0-8-8'/%3E%3C/svg%3E"),
+    linear-gradient(0deg, #fff, #fff);
+}
+
+/* Dark Mode Curved Borders */
+html[data-theme="dark"] .blog-tab-item.active .blog-tab-item-border {
+  background-position: 0 100%, 100% 100%, calc(100% - 1rem) 0.25rem;
+  background-size: 1rem 100%, 1rem 100%, calc(100% - 2rem) calc(100% - 0.25rem);
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='52' fill='none' viewBox='0 0 16 52'%3E%3Cpath fill='%2318181b' d='M16 52H0v-3.5a8 8 0 0 0 8-8v-28a8 8 0 0 1 8-8z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='52' fill='none' viewBox='0 0 16 52'%3E%3Cpath fill='%2318181b' d='M0 52h16v-3.5a8 8 0 0 1-8-8v-28a8 8 0 0 0-8-8z'/%3E%3C/svg%3E"),
+    linear-gradient(0deg, #18181b, #18181b);
+}
