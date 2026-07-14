@@ -39,12 +39,28 @@ export const useNotificationProvider = (): NotificationProvider => {
           closeIcon: <></>,
         });
       } else {
-        notification.open({
+        const notificationArgs = {
           key,
           description: message,
           message: description ?? null,
-          type,
-        });
+        };
+
+        switch (type) {
+          case "success":
+            notification.success(notificationArgs);
+            break;
+          case "error":
+            notification.error(notificationArgs);
+            break;
+          case "info":
+            notification.info(notificationArgs);
+            break;
+          case "warning":
+            notification.warning(notificationArgs);
+            break;
+          default:
+            notification.open(notificationArgs);
+        }
       }
     },
     close: (key) => notification.destroy(key),
