@@ -33,7 +33,7 @@ export type SuccessErrorNotification<
 export type OpenNotificationParams = {
   key?: string;
   message: string;
-  type: "success" | "error" | "progress";
+  type?: "success" | "error" | "info" | "warning" | "progress";
   description?: string;
   cancelMutation?: () => void;
   undoableTimeout?: number;

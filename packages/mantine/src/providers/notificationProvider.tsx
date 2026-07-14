@@ -6,12 +6,37 @@ import {
   hideNotification,
 } from "@mantine/notifications";
 import { ActionIcon, Box, Group, Text } from "@mantine/core";
-import { IconCheck, IconRotate2, IconX } from "@tabler/icons-react";
+import {
+  IconAlertTriangle,
+  IconCheck,
+  IconInfoCircle,
+  IconRotate2,
+  IconX,
+} from "@tabler/icons-react";
 
 import { RingCountdown } from "@components";
 
 export const useNotificationProvider = (): NotificationProvider => {
   const activeNotifications: string[] = [];
+
+  const notificationStyles = {
+    success: {
+      color: "primary",
+      icon: <IconCheck size={18} />,
+    },
+    error: {
+      color: "red",
+      icon: <IconX size={18} />,
+    },
+    info: {
+      color: "blue",
+      icon: <IconInfoCircle size={18} />,
+    },
+    warning: {
+      color: "yellow",
+      icon: <IconAlertTriangle size={18} />,
+    },
+  };
 
   const isNotificationActive = (key?: string) => {
     return activeNotifications.includes(key as string);
@@ -123,16 +148,12 @@ export const useNotificationProvider = (): NotificationProvider => {
           });
         }
       } else {
+        const notificationStyle = type ? notificationStyles[type] : undefined;
+
         if (isNotificationActive(key)) {
           updateNotification({
             id: key!,
-            color: type === "success" ? "primary" : "red",
-            icon:
-              type === "success" ? (
-                <IconCheck size={18} />
-              ) : (
-                <IconX size={18} />
-              ),
+            ...notificationStyle,
             message,
             title: description,
             autoClose: 5000,
@@ -141,13 +162,7 @@ export const useNotificationProvider = (): NotificationProvider => {
           addNotification(key);
           showNotification({
             id: key!,
-            color: type === "success" ? "primary" : "red",
-            icon:
-              type === "success" ? (
-                <IconCheck size={18} />
-              ) : (
-                <IconX size={18} />
-              ),
+            ...notificationStyle,
             message,
             title: description,
             onClose: () => {
