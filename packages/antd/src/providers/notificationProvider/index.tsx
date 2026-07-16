@@ -4,6 +4,14 @@ import React from "react";
 
 import { UndoableNotification } from "@components/undoableNotification";
 
+type AntdNotificationType = "success" | "error" | "info" | "warning";
+
+const isAntdNotificationType = (type?: string): type is AntdNotificationType =>
+  type === "success" ||
+  type === "error" ||
+  type === "info" ||
+  type === "warning";
+
 export const useNotificationProvider = (): NotificationProvider => {
   const { notification: notificationFromContext } = App.useApp();
   const notification =
@@ -39,11 +47,14 @@ export const useNotificationProvider = (): NotificationProvider => {
           closeIcon: <></>,
         });
       } else {
-        notification.open({
+        const openNotification = isAntdNotificationType(type)
+          ? notification[type]
+          : notification.open;
+
+        openNotification({
           key,
           description: message,
           message: description ?? null,
-          type,
         });
       }
     },

@@ -22,22 +22,27 @@ describe("Antd useNotificationProvider", () => {
     });
 
     const notificationOpenSpy = vi.spyOn(notification, "open");
+    const notificationSuccessSpy = vi.spyOn(notification, "success");
+    const notificationErrorSpy = vi.spyOn(notification, "error");
+    const notificationInfoSpy = vi.spyOn(notification, "info");
+    const notificationWarningSpy = vi.spyOn(notification, "warning");
     const notificationCloseSpy = vi.spyOn(notification, "destroy");
 
-    it("should render notification type succes notification", async () => {
+    it("should render notification type success notification using notification.success", async () => {
       const { result } = renderHook(() => useNotificationProvider(), {});
 
       result.current.open?.(mockNotification);
 
-      expect(notificationOpenSpy).toHaveBeenCalledTimes(1);
-      expect(notificationOpenSpy).toHaveBeenCalledWith({
-        ...mockNotification,
+      expect(notificationSuccessSpy).toHaveBeenCalledTimes(1);
+      expect(notificationSuccessSpy).toHaveBeenCalledWith({
+        key: mockNotification.key,
         message: null,
         description: mockNotification.message,
       });
+      expect(notificationOpenSpy).not.toHaveBeenCalled();
     });
 
-    it("should render notification type error notification", async () => {
+    it("should render notification type error notification using notification.error", async () => {
       const { result } = renderHook(() => useNotificationProvider(), {});
 
       result.current.open?.({
@@ -45,12 +50,62 @@ describe("Antd useNotificationProvider", () => {
         type: "error",
       });
 
-      expect(notificationOpenSpy).toHaveBeenCalledTimes(1);
-      expect(notificationOpenSpy).toHaveBeenCalledWith({
-        ...mockNotification,
+      expect(notificationErrorSpy).toHaveBeenCalledTimes(1);
+      expect(notificationErrorSpy).toHaveBeenCalledWith({
+        key: mockNotification.key,
         message: null,
         description: mockNotification.message,
-        type: "error",
+      });
+      expect(notificationOpenSpy).not.toHaveBeenCalled();
+    });
+
+    it("should render notification type info notification using notification.info", async () => {
+      const { result } = renderHook(() => useNotificationProvider(), {});
+
+      result.current.open?.({
+        ...mockNotification,
+        type: "info",
+      });
+
+      expect(notificationInfoSpy).toHaveBeenCalledTimes(1);
+      expect(notificationInfoSpy).toHaveBeenCalledWith({
+        key: mockNotification.key,
+        message: null,
+        description: mockNotification.message,
+      });
+      expect(notificationOpenSpy).not.toHaveBeenCalled();
+    });
+
+    it("should render notification type warning notification using notification.warning", async () => {
+      const { result } = renderHook(() => useNotificationProvider(), {});
+
+      result.current.open?.({
+        ...mockNotification,
+        type: "warning",
+      });
+
+      expect(notificationWarningSpy).toHaveBeenCalledTimes(1);
+      expect(notificationWarningSpy).toHaveBeenCalledWith({
+        key: mockNotification.key,
+        message: null,
+        description: mockNotification.message,
+      });
+      expect(notificationOpenSpy).not.toHaveBeenCalled();
+    });
+
+    it("should fall back to notification.open when type is not provided", async () => {
+      const { result } = renderHook(() => useNotificationProvider(), {});
+
+      result.current.open?.({
+        ...mockNotification,
+        type: undefined,
+      });
+
+      expect(notificationOpenSpy).toHaveBeenCalledTimes(1);
+      expect(notificationOpenSpy).toHaveBeenCalledWith({
+        key: mockNotification.key,
+        message: null,
+        description: mockNotification.message,
       });
     });
 
@@ -62,15 +117,15 @@ describe("Antd useNotificationProvider", () => {
         description: "Notification Description",
       });
 
-      expect(notificationOpenSpy).toHaveBeenCalledTimes(1);
-      expect(notificationOpenSpy).toHaveBeenCalledWith({
-        ...mockNotification,
+      expect(notificationSuccessSpy).toHaveBeenCalledTimes(1);
+      expect(notificationSuccessSpy).toHaveBeenCalledWith({
+        key: mockNotification.key,
         message: "Notification Description",
         description: "Test Notification Message",
       });
     });
 
-    it("should render notification type error notification", async () => {
+    it("should render progress notification", async () => {
       const { result } = renderHook(() => useNotificationProvider(), {});
 
       result.current.open?.({
@@ -109,12 +164,20 @@ describe("Antd useNotificationProvider", () => {
 
   describe("using with Ant design's App component", () => {
     const openFn = vi.fn();
+    const successFn = vi.fn();
+    const errorFn = vi.fn();
+    const infoFn = vi.fn();
+    const warningFn = vi.fn();
     const destroyFn = vi.fn();
 
     beforeAll(() => {
       vi.spyOn(App, "useApp").mockReturnValue({
         notification: {
           open: openFn,
+          success: successFn,
+          error: errorFn,
+          info: infoFn,
+          warning: warningFn,
           destroy: destroyFn,
         },
       } as unknown as ReturnType<typeof App.useApp>);
@@ -124,7 +187,7 @@ describe("Antd useNotificationProvider", () => {
       vi.clearAllMocks();
     });
 
-    it("should render notification type succes notification", async () => {
+    it("should render notification type success notification using notification.success", async () => {
       const { result } = renderHook(() => useNotificationProvider());
 
       act(() => {
@@ -132,16 +195,17 @@ describe("Antd useNotificationProvider", () => {
       });
 
       await waitFor(() => {
-        expect(openFn).toHaveBeenCalledTimes(1);
-        expect(openFn).toHaveBeenCalledWith({
-          ...mockNotification,
+        expect(successFn).toHaveBeenCalledTimes(1);
+        expect(successFn).toHaveBeenCalledWith({
+          key: mockNotification.key,
           message: null,
           description: mockNotification.message,
         });
+        expect(openFn).not.toHaveBeenCalled();
       });
     });
 
-    it("should render notification type error notification", async () => {
+    it("should render notification type error notification using notification.error", async () => {
       const { result } = renderHook(() => useNotificationProvider());
 
       act(() => {
@@ -152,12 +216,32 @@ describe("Antd useNotificationProvider", () => {
       });
 
       await waitFor(() => {
-        expect(openFn).toHaveBeenCalledTimes(1);
-        expect(openFn).toHaveBeenCalledWith({
-          ...mockNotification,
+        expect(errorFn).toHaveBeenCalledTimes(1);
+        expect(errorFn).toHaveBeenCalledWith({
+          key: mockNotification.key,
           message: null,
           description: mockNotification.message,
-          type: "error",
+        });
+        expect(openFn).not.toHaveBeenCalled();
+      });
+    });
+
+    it("should fall back to notification.open when type is not provided", async () => {
+      const { result } = renderHook(() => useNotificationProvider());
+
+      act(() => {
+        result.current.open?.({
+          ...mockNotification,
+          type: undefined,
+        });
+      });
+
+      await waitFor(() => {
+        expect(openFn).toHaveBeenCalledTimes(1);
+        expect(openFn).toHaveBeenCalledWith({
+          key: mockNotification.key,
+          message: null,
+          description: mockNotification.message,
         });
       });
     });
@@ -173,16 +257,16 @@ describe("Antd useNotificationProvider", () => {
       });
 
       await waitFor(() => {
-        expect(openFn).toHaveBeenCalledTimes(1);
-        expect(openFn).toHaveBeenCalledWith({
-          ...mockNotification,
+        expect(successFn).toHaveBeenCalledTimes(1);
+        expect(successFn).toHaveBeenCalledWith({
+          key: mockNotification.key,
           message: "Notification Description",
           description: "Test Notification Message",
         });
       });
     });
 
-    it("should render notification type error notification", async () => {
+    it("should render progress notification", async () => {
       const { result } = renderHook(() => useNotificationProvider());
 
       act(() => {
