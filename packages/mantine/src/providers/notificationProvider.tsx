@@ -6,9 +6,27 @@ import {
   hideNotification,
 } from "@mantine/notifications";
 import { ActionIcon, Box, Group, Text } from "@mantine/core";
-import { IconCheck, IconRotate2, IconX } from "@tabler/icons-react";
+import {
+  IconAlertTriangle,
+  IconCheck,
+  IconInfoCircle,
+  IconRotate2,
+  IconX,
+} from "@tabler/icons-react";
 
 import { RingCountdown } from "@components";
+
+type MantineNotificationType = "success" | "error" | "info" | "warning";
+
+const notificationStyleByType: Record<
+  MantineNotificationType,
+  { color: string; icon: React.ReactNode }
+> = {
+  success: { color: "teal", icon: <IconCheck size={18} /> },
+  error: { color: "red", icon: <IconX size={18} /> },
+  info: { color: "blue", icon: <IconInfoCircle size={18} /> },
+  warning: { color: "yellow", icon: <IconAlertTriangle size={18} /> },
+};
 
 export const useNotificationProvider = (): NotificationProvider => {
   const activeNotifications: string[] = [];
@@ -123,16 +141,15 @@ export const useNotificationProvider = (): NotificationProvider => {
           });
         }
       } else {
+        const notificationStyle = type
+          ? notificationStyleByType[type]
+          : undefined;
+
         if (isNotificationActive(key)) {
           updateNotification({
             id: key!,
-            color: type === "success" ? "primary" : "red",
-            icon:
-              type === "success" ? (
-                <IconCheck size={18} />
-              ) : (
-                <IconX size={18} />
-              ),
+            color: notificationStyle?.color,
+            icon: notificationStyle?.icon,
             message,
             title: description,
             autoClose: 5000,
@@ -141,13 +158,8 @@ export const useNotificationProvider = (): NotificationProvider => {
           addNotification(key);
           showNotification({
             id: key!,
-            color: type === "success" ? "primary" : "red",
-            icon:
-              type === "success" ? (
-                <IconCheck size={18} />
-              ) : (
-                <IconX size={18} />
-              ),
+            color: notificationStyle?.color,
+            icon: notificationStyle?.icon,
             message,
             title: description,
             onClose: () => {
