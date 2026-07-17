@@ -5,7 +5,7 @@ export type Prettify<T> = {
   [K in keyof T]: T[K];
 } & {};
 
-export type BaseKey = string | number;
+export type BaseKey = string | number | number[];
 export type BaseRecord = {
   id?: BaseKey;
   [key: string]: any;
