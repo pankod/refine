@@ -1,4 +1,4 @@
-import federation from "@originjs/vite-plugin-federation";
+import { federation } from "@module-federation/vite";
 import react from "@vitejs/plugin-react";
 import * as dns from "dns";
 import { defineConfig } from "vite";
@@ -12,7 +12,8 @@ export default defineConfig({
     react(),
     federation({
       name: "categories",
-      filename: "categories.js",
+      filename: "remoteEntry.js",
+      dts: false,
       exposes: {
         "./CategoryList": "./src/pages/categories/list.tsx",
         "./CategoryShow": "./src/pages/categories/show.tsx",
@@ -22,7 +23,7 @@ export default defineConfig({
       shared: [
         "react",
         "react-dom",
-        "react-router-dom",
+        "react-router",
         "@refinedev/core",
         "@refinedev/antd",
         "antd",
