@@ -16,8 +16,9 @@ import {
 import inquirer from "inquirer";
 import { join } from "path";
 import { plural } from "pluralize";
-import temp from "temp";
 import { getCommandRootDir } from "./get-command-root-dir";
+import { mkdtempSync } from "fs";
+import { tmpdir } from "os";
 
 export const defaultActions = ["list", "create", "edit", "show"];
 
@@ -134,9 +135,6 @@ export const createResources = async (
     }
     moveSync(tempDir, destinationResourcePath, moveSyncOptions);
 
-    // clear temp dir
-    temp.cleanupSync();
-
     // if use Next.js, generate page files. This makes easier to use the resource
     if (isNextJs) {
       generateNextJsPages(
@@ -182,8 +180,7 @@ export const createResources = async (
 };
 
 const generateTempDir = (): string => {
-  temp.track();
-  return temp.mkdirSync("resource");
+  return mkdtempSync(join(tmpdir(), "resource-"));
 };
 
 /**
