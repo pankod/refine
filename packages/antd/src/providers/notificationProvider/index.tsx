@@ -38,12 +38,35 @@ export const useNotificationProvider = (): NotificationProvider => {
           duration: 0,
           closeIcon: <></>,
         });
+      } else if (type === "success") {
+        notification.success({
+          key,
+          description: message,
+          message: description ?? null,
+        });
+      } else if (type === "error") {
+        notification.error({
+          key,
+          description: message,
+          message: description ?? null,
+        });
+      } else if (type === "info") {
+        notification.info({
+          key,
+          description: message,
+          message: description ?? null,
+        });
+      } else if (type === "warning") {
+        notification.warning({
+          key,
+          description: message,
+          message: description ?? null,
+        });
       } else {
         notification.open({
           key,
           description: message,
           message: description ?? null,
-          type,
         });
       }
     },
