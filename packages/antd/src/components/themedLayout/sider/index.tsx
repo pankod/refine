@@ -5,6 +5,7 @@ import {
   Grid,
   Drawer,
   Button,
+  Tooltip,
   theme,
   ConfigProvider,
 } from "antd";
@@ -82,7 +83,11 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
             <Menu.SubMenu
               key={item.key}
               icon={icon ?? <UnorderedListOutlined />}
-              title={label}
+              title={
+                <Tooltip title={siderCollapsed ? label : undefined}>
+                  {label}
+                </Tooltip>
+              }
             >
               {renderTreeView(children, selectedKey)}
             </Menu.SubMenu>
@@ -109,9 +114,11 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
             icon={icon ?? (isRoute && <UnorderedListOutlined />)}
             style={linkStyle}
           >
-            <Link to={route ?? ""} style={linkStyle}>
-              {label}
-            </Link>
+            <Tooltip title={siderCollapsed ? label : undefined}>
+              <Link to={route ?? ""} style={linkStyle}>
+                {label}
+              </Link>
+            </Tooltip>
             {!siderCollapsed && isSelected && (
               <div className="ant-menu-tree-arrow" />
             )}
@@ -145,7 +152,9 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
       onClick={() => handleLogout()}
       icon={<LogoutOutlined />}
     >
-      {translate("buttons.logout", "Logout")}
+      <Tooltip title={siderCollapsed ? translate("buttons.logout", "Logout") : undefined}>
+        {translate("buttons.logout", "Logout")}
+      </Tooltip>
     </Menu.Item>
   );
 
