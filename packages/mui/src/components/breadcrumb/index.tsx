@@ -37,9 +37,12 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
   const LinkRouter = (props: LinkProps & { to?: string }) => {
     const { to, children, ...restProps } = props;
+
     return (
       <Link to={to || ""}>
-        <span {...restProps}>{children}</span>
+        <MuiLink component="span" {...restProps}>
+          {children}
+        </MuiLink>
       </Link>
     );
   };
@@ -72,6 +75,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
           )}
         </LinkRouter>
       )}
+
       {breadcrumbs.map(({ label, icon, href }) => {
         return (
           <Grid
@@ -85,6 +89,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
             }}
           >
             {!hideIcons && icon}
+
             {href ? (
               <LinkRouter
                 underline="hover"
