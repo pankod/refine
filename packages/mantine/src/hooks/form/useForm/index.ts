@@ -245,8 +245,7 @@ export const useForm = <
       onSubmit(
         (v) => onFinish(v).catch((error) => error),
         () => false,
-        // @ts-expect-error event type is not compatible with pointer event
-      )(e);
+      )(e as any);
     },
   };
 
