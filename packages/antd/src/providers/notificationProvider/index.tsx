@@ -39,11 +39,15 @@ export const useNotificationProvider = (): NotificationProvider => {
           closeIcon: <></>,
         });
       } else {
-        notification.open({
+        const notificationFn =
+          type && type in notification
+            ? notification[type as "success" | "error"]
+            : notification.open;
+
+        notificationFn({
           key,
           description: message,
           message: description ?? null,
-          type,
         });
       }
     },

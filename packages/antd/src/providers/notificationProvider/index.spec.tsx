@@ -21,6 +21,8 @@ describe("Antd useNotificationProvider", () => {
       vi.clearAllMocks();
     });
 
+    const notificationSuccessSpy = vi.spyOn(notification, "success");
+    const notificationErrorSpy = vi.spyOn(notification, "error");
     const notificationOpenSpy = vi.spyOn(notification, "open");
     const notificationCloseSpy = vi.spyOn(notification, "destroy");
 
@@ -29,9 +31,9 @@ describe("Antd useNotificationProvider", () => {
 
       result.current.open?.(mockNotification);
 
-      expect(notificationOpenSpy).toHaveBeenCalledTimes(1);
-      expect(notificationOpenSpy).toHaveBeenCalledWith({
-        ...mockNotification,
+      expect(notificationSuccessSpy).toHaveBeenCalledTimes(1);
+      expect(notificationSuccessSpy).toHaveBeenCalledWith({
+        key: mockNotification.key,
         message: null,
         description: mockNotification.message,
       });
@@ -45,12 +47,11 @@ describe("Antd useNotificationProvider", () => {
         type: "error",
       });
 
-      expect(notificationOpenSpy).toHaveBeenCalledTimes(1);
-      expect(notificationOpenSpy).toHaveBeenCalledWith({
-        ...mockNotification,
+      expect(notificationErrorSpy).toHaveBeenCalledTimes(1);
+      expect(notificationErrorSpy).toHaveBeenCalledWith({
+        key: mockNotification.key,
         message: null,
         description: mockNotification.message,
-        type: "error",
       });
     });
 
@@ -62,9 +63,9 @@ describe("Antd useNotificationProvider", () => {
         description: "Notification Description",
       });
 
-      expect(notificationOpenSpy).toHaveBeenCalledTimes(1);
-      expect(notificationOpenSpy).toHaveBeenCalledWith({
-        ...mockNotification,
+      expect(notificationSuccessSpy).toHaveBeenCalledTimes(1);
+      expect(notificationSuccessSpy).toHaveBeenCalledWith({
+        key: mockNotification.key,
         message: "Notification Description",
         description: "Test Notification Message",
       });
@@ -108,12 +109,16 @@ describe("Antd useNotificationProvider", () => {
   });
 
   describe("using with Ant design's App component", () => {
+    const successFn = vi.fn();
+    const errorFn = vi.fn();
     const openFn = vi.fn();
     const destroyFn = vi.fn();
 
     beforeAll(() => {
       vi.spyOn(App, "useApp").mockReturnValue({
         notification: {
+          success: successFn,
+          error: errorFn,
           open: openFn,
           destroy: destroyFn,
         },
@@ -132,9 +137,9 @@ describe("Antd useNotificationProvider", () => {
       });
 
       await waitFor(() => {
-        expect(openFn).toHaveBeenCalledTimes(1);
-        expect(openFn).toHaveBeenCalledWith({
-          ...mockNotification,
+        expect(successFn).toHaveBeenCalledTimes(1);
+        expect(successFn).toHaveBeenCalledWith({
+          key: mockNotification.key,
           message: null,
           description: mockNotification.message,
         });
@@ -152,12 +157,11 @@ describe("Antd useNotificationProvider", () => {
       });
 
       await waitFor(() => {
-        expect(openFn).toHaveBeenCalledTimes(1);
-        expect(openFn).toHaveBeenCalledWith({
-          ...mockNotification,
+        expect(errorFn).toHaveBeenCalledTimes(1);
+        expect(errorFn).toHaveBeenCalledWith({
+          key: mockNotification.key,
           message: null,
           description: mockNotification.message,
-          type: "error",
         });
       });
     });
@@ -173,9 +177,9 @@ describe("Antd useNotificationProvider", () => {
       });
 
       await waitFor(() => {
-        expect(openFn).toHaveBeenCalledTimes(1);
-        expect(openFn).toHaveBeenCalledWith({
-          ...mockNotification,
+        expect(successFn).toHaveBeenCalledTimes(1);
+        expect(successFn).toHaveBeenCalledWith({
+          key: mockNotification.key,
           message: "Notification Description",
           description: "Test Notification Message",
         });
