@@ -28,3 +28,4 @@ export { downloadInBrowser } from "./downloadInBrowser";
 export { deferExecution } from "./defer-execution";
 export { asyncDebounce } from "./async-debounce";
 export { prepareQueryContext } from "./prepare-query-context";
+export { truncateMiddle } from "./truncateMiddle";
