@@ -123,16 +123,20 @@ export const useNotificationProvider = (): NotificationProvider => {
           });
         }
       } else {
+        const color =
+          type === "success" ? "primary" : type === "error" ? "red" : undefined;
+        const icon =
+          type === "success" ? (
+            <IconCheck size={18} />
+          ) : type === "error" ? (
+            <IconX size={18} />
+          ) : undefined;
+
         if (isNotificationActive(key)) {
           updateNotification({
             id: key!,
-            color: type === "success" ? "primary" : "red",
-            icon:
-              type === "success" ? (
-                <IconCheck size={18} />
-              ) : (
-                <IconX size={18} />
-              ),
+            color,
+            icon,
             message,
             title: description,
             autoClose: 5000,
@@ -141,13 +145,8 @@ export const useNotificationProvider = (): NotificationProvider => {
           addNotification(key);
           showNotification({
             id: key!,
-            color: type === "success" ? "primary" : "red",
-            icon:
-              type === "success" ? (
-                <IconCheck size={18} />
-              ) : (
-                <IconX size={18} />
-              ),
+            color,
+            icon,
             message,
             title: description,
             onClose: () => {
