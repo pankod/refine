@@ -84,7 +84,6 @@
         "noDangerouslySetInnerHtml": "error"
       },
       "style": {
-        "noCommaOperator": "error",
         "noNonNullAssertion": "off",
         "noParameterAssign": "off",
         "noUnusedTemplateLiteral": "error",
@@ -116,8 +115,7 @@
         "noRedundantUseStrict": "error",
         "noSelfCompare": "error",
         "noShadowRestrictedNames": "off",
-        "useDefaultSwitchClauseLast": "error",
-        "useValidTypeof": "error"
+        "useDefaultSwitchClauseLast": "error"
       }
     }
   },
