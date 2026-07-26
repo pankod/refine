@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc && refine build",
+    "build": "refine build",
     "dev": "refine dev",
     "refine": "refine",
     "start": "refine start"
@@ -22,20 +22,23 @@
     ]
   },
   "dependencies": {
+    "@ant-design/icons": "^6.3.2",
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@react-keycloak/web": "^3.4.0",
-    "@refinedev/antd": "^6.0.3",
-    "@refinedev/cli": "^2.16.52",
-    "@refinedev/core": "^5.1.0",
-    "@refinedev/react-router": "^2.0.4",
-    "@refinedev/simple-rest": "^6.0.1",
+    "@refinedev/antd": "latest",
+    "@refinedev/cli": "latest",
+    "@refinedev/core": "latest",
+    "@refinedev/react-router": "latest",
+    "@refinedev/simple-rest": "latest",
     "@uiw/react-md-editor": "^4.0.8",
     "antd": "^5.23.0",
     "axios": "^1.11.0",
     "keycloak-js": "^25.0.1",
+    "mqtt": "^5.15.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router": "^7.0.2"
+    "react-router": "^7.0.2",
+    "recharts": "^3.10.1"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -1,0 +1,40 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "predev": "node scripts/sync-env.js",
+    "dev": "tsx watch src/index.ts",
+    "prebuild": "node scripts/sync-env.js",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.9.0",
+    "@prisma/client": "^7.9.0",
+    "@types/pg": "^8.20.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-jwt": "^8.5.1",
+    "ioredis": "^5.11.1",
+    "jwks-rsa": "^4.1.0",
+    "mqtt": "^5.15.2",
+    "pg": "^8.22.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.1.1",
+    "prisma": "^7.9.0",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
+  }
+}

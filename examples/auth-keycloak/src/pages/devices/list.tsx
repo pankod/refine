@@ -1,0 +1,432 @@
+import React, { useState } from "react";
+import { List, useTable, useModalForm, DeleteButton, EditButton } from "@refinedev/antd";
+import { Table, Tag, Drawer, Tabs, Descriptions, Typography, Card, Button, Input, Space, Form, Select, Checkbox, Modal, Row, Col, message } from "antd";
+import { SearchOutlined, SyncOutlined, SettingOutlined, CheckCircleOutlined, CloseCircleOutlined, PlusOutlined, KeyOutlined, LockOutlined } from "@ant-design/icons";
+import { useCustom } from "@refinedev/core";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
+import { useMqtt } from "../../hooks/useMqtt";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+
+const { Text, Title } = Typography;
+
+export const DeviceList: React.FC = () => {
+  const { tableProps } = useTable({
+    syncWithLocation: true,
+  });
+
+  const { 
+    modalProps: createModalProps, 
+    formProps: createFormProps, 
+    show: showCreateModal 
+  } = useModalForm({
+    resource: "devices",
+    action: "create",
+    syncWithLocation: true,
+  });
+
+  const { 
+    modalProps: editModalProps, 
+    formProps: editFormProps, 
+    show: showEditModal 
+  } = useModalForm({
+    resource: "devices",
+    action: "edit",
+    syncWithLocation: true,
+  });
+
+  const [selectedDevice, setSelectedDevice] = useState<any>(null);
+  const [drawerVisible, setDrawerVisible] = useState(false);
+
+  // Handle row click
+  const onRowClick = (record: any) => {
+    return {
+      onClick: () => {
+        setSelectedDevice(record);
+        setDrawerVisible(true);
+      },
+      style: { cursor: 'pointer' }
+    };
+  };
+
+  return (
+    <>
+      <List 
+        title="Thiết bị (Devices)" 
+        headerButtons={
+          <Space>
+            <Input 
+              placeholder="Tìm kiếm thiết bị..." 
+              prefix={<SearchOutlined />} 
+              style={{ width: 250 }} 
+            />
+            <Button icon={<SyncOutlined />} onClick={() => tableProps.onChange?.(tableProps.pagination || {} as any, {}, {}, { currentDataSource: [] } as any)}>Tải lại</Button>
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => showCreateModal()}>Tạo thiết bị</Button>
+          </Space>
+        }
+      >
+        <Table {...tableProps} rowKey="id" onRow={onRowClick} hoverable>
+          <Table.Column dataIndex="name" title="Tên thiết bị" render={(value) => <strong>{value}</strong>} />
+          <Table.Column dataIndex="type" title="Loại (Profile)" />
+          <Table.Column dataIndex="label" title="Nhãn (Label)" />
+          <Table.Column 
+            dataIndex="status" 
+            title="Trạng thái" 
+            render={(v) => (
+              <Tag color={v === 'online' ? 'success' : 'default'}>
+                {v === 'online' ? '🟢 ONLINE' : '⦻ OFFLINE'}
+              </Tag>
+            )} 
+          />
+          <Table.Column 
+            dataIndex="created_at" 
+            title="Thời gian tạo" 
+            render={(value) => new Date(value).toLocaleString()} 
+          />
+        </Table>
+      </List>
+
+      <Drawer
+        title={
+          <Space>
+            <SettingOutlined />
+            <Text strong style={{ fontSize: 18 }}>{selectedDevice?.name}</Text>
+          </Space>
+        }
+        width={700}
+        placement="right"
+        onClose={() => setDrawerVisible(false)}
+        open={drawerVisible}
+        destroyOnClose
+      >
+        {selectedDevice && (
+          <Tabs defaultActiveKey="details">
+            <Tabs.TabPane tab="Chi tiết" key="details">
+              <Card size="small" title="Thông tin cơ bản" bordered={false}>
+                <Descriptions column={1} labelStyle={{ fontWeight: "bold" }}>
+                  <Descriptions.Item label="ID Thiết bị">{selectedDevice.id}</Descriptions.Item>
+                  <Descriptions.Item label="Tên">{selectedDevice.name}</Descriptions.Item>
+                  <Descriptions.Item label="Loại (Profile)">{selectedDevice.type}</Descriptions.Item>
+                  <Descriptions.Item label="Nhãn (Label)">{selectedDevice.label}</Descriptions.Item>
+                  <Descriptions.Item label="Trạng thái">
+                    {selectedDevice.status === "online" ? <Text type="success">Đang hoạt động</Text> : <Text type="secondary">Mất kết nối</Text>}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Card>
+              <Space style={{ marginTop: 16 }}>
+                <EditButton 
+                  resource="devices" 
+                  recordItemId={selectedDevice.id} 
+                  onClick={() => {
+                    setDrawerVisible(false);
+                    showEditModal(selectedDevice.id);
+                  }}
+                />
+                <Button 
+                  icon={<KeyOutlined />} 
+                  onClick={() => {
+                    navigator.clipboard.writeText(selectedDevice.device_key || "Chưa có Device Key");
+                    message.success("Đã copy Device Key!");
+                  }}
+                >
+                  Copy Device Key
+                </Button>
+                <Button 
+                  icon={<LockOutlined />} 
+                  onClick={() => {
+                    navigator.clipboard.writeText(selectedDevice.secret || "Chưa có Secret");
+                    message.success("Đã copy Secret!");
+                  }}
+                >
+                  Copy Secret
+                </Button>
+                <DeleteButton 
+                  resource="devices" 
+                  recordItemId={selectedDevice.id} 
+                  onSuccess={() => setDrawerVisible(false)}
+                  confirmTitle="Bạn có chắc muốn xóa vĩnh viễn thiết bị này không?"
+                  confirmOkText="Xóa"
+                  confirmCancelText="Hủy"
+                />
+              </Space>
+            </Tabs.TabPane>
+            
+            <Tabs.TabPane tab="Thuộc tính (Attributes)" key="attributes">
+              <DeviceAttributes deviceId={selectedDevice.id} />
+            </Tabs.TabPane>
+
+            <Tabs.TabPane tab="Đo lường (Telemetry)" key="telemetry">
+              <DeviceTelemetry deviceId={selectedDevice.id} deviceKey={selectedDevice.device_key} />
+            </Tabs.TabPane>
+            
+            <Tabs.TabPane tab="Cảnh báo (Alarms)" key="alarms">
+              <div style={{ textAlign: "center", padding: 40 }}>
+                <Text type="secondary">Chưa có cảnh báo nào được ghi nhận.</Text>
+              </div>
+            </Tabs.TabPane>
+          </Tabs>
+        )}
+      </Drawer>
+
+      <Modal {...createModalProps} title="Tạo thiết bị mới (Create Device)" width={600}>
+        <Form {...createFormProps} layout="vertical">
+          <Form.Item 
+            label="Tên thiết bị (Name)" 
+            name="name" 
+            rules={[{ required: true, message: "Vui lòng nhập tên thiết bị!" }]}
+          >
+            <Input placeholder="Ví dụ: Cảm biến nhiệt độ DHT22" />
+          </Form.Item>
+
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="Loại (Device Profile)" name="type" initialValue="default">
+                <Select>
+                  <Select.Option value="default">Mặc định (default)</Select.Option>
+                  <Select.Option value="sensor">Cảm biến (sensor)</Select.Option>
+                  <Select.Option value="actuator">Thiết bị chấp hành (actuator)</Select.Option>
+                  <Select.Option value="gateway">Cổng kết nối (gateway)</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Nhãn (Label)" name="label">
+                <Input placeholder="Ví dụ: Nhà kính A" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+
+
+          <Form.Item label="Mô tả (Description)" name="description">
+            <Input.TextArea rows={3} placeholder="Mô tả chi tiết về thiết bị..." />
+          </Form.Item>
+
+          <Form.Item name="autoGenerateToken" valuePropName="checked" initialValue={true}>
+            <Checkbox>Tự động sinh mã Access Token xác thực (Mặc định)</Checkbox>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      <Modal {...editModalProps} title="Sửa thông tin thiết bị" width={600}>
+        <Form {...editFormProps} layout="vertical">
+          <Form.Item 
+            label="Tên thiết bị (Name)" 
+            name="name" 
+            rules={[{ required: true, message: "Vui lòng nhập tên thiết bị!" }]}
+          >
+            <Input placeholder="Ví dụ: Cảm biến nhiệt độ DHT22" />
+          </Form.Item>
+
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="Loại (Device Profile)" name="type" initialValue="default">
+                <Select>
+                  <Select.Option value="default">Mặc định (default)</Select.Option>
+                  <Select.Option value="sensor">Cảm biến (sensor)</Select.Option>
+                  <Select.Option value="actuator">Thiết bị chấp hành (actuator)</Select.Option>
+                  <Select.Option value="gateway">Cổng kết nối (gateway)</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Nhãn (Label)" name="label">
+                <Input placeholder="Ví dụ: Nhà kính A" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="Trạng thái" name="status">
+                <Select>
+                  <Select.Option value="offline">Ngoại tuyến (Offline)</Select.Option>
+                  <Select.Option value="online">Trực tuyến (Online)</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Form.Item label="Mô tả (Description)" name="description">
+            <Input.TextArea rows={3} placeholder="Mô tả chi tiết về thiết bị..." />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
+  );
+};
+
+// Component con hiển thị Thuộc tính
+const DeviceAttributes: React.FC<{ deviceId: string }> = ({ deviceId }) => {
+  const { data, isLoading } = useCustom<any>({
+    url: `devices/${deviceId}/attributes`,
+    method: "get",
+    dataProviderName: "devices",
+    meta: {
+      dataProviderName: "devices"
+    }
+  });
+
+  const attributes = data?.data || { client: [], shared: [], server: [] };
+  
+  // Gop tat ca attributes de hien thi trong 1 bang
+  const allAttrs = [
+    ...attributes.client.map((a: any) => ({ ...a, scope: "Client" })),
+    ...attributes.shared.map((a: any) => ({ ...a, scope: "Shared" })),
+    ...attributes.server.map((a: any) => ({ ...a, scope: "Server" }))
+  ];
+
+  return (
+    <Table 
+      dataSource={allAttrs} 
+      rowKey={(record) => record.scope + record.key} 
+      loading={isLoading}
+      size="small"
+      pagination={{ pageSize: 10 }}
+    >
+      <Table.Column dataIndex="lastUpdate" title="Cập nhật lần cuối" render={(v) => new Date(v).toLocaleString()} />
+      <Table.Column dataIndex="key" title="Thuộc tính (Key)" render={(v) => <strong>{v}</strong>} />
+      <Table.Column dataIndex="value" title="Giá trị (Value)" />
+      <Table.Column dataIndex="scope" title="Phạm vi (Scope)" render={(v) => <Tag color="blue">{v}</Tag>} />
+    </Table>
+  );
+};
+
+// Component con hiển thị Telemetry
+const DeviceTelemetry: React.FC<{ deviceId: string, deviceKey: string }> = ({ deviceId, deviceKey }) => {
+  const queryClient = useQueryClient();
+  const API_URL = import.meta.env.VITE_API_URL || "/api";
+
+  // Fetch Telemetry (Current Data) with SWR Caching
+  const { data: telemetryData = [], isLoading: isLoadingTelemetry } = useQuery({
+    queryKey: ['telemetry', deviceId],
+    queryFn: async () => {
+      const res = await axios.get(`${API_URL}/devices/${deviceId}/telemetry`);
+      return res.data;
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes cache
+  });
+
+  // Fetch History with SWR Caching
+  const { data: chartData = [], isLoading: isLoadingHistory } = useQuery({
+    queryKey: ['telemetryHistory', deviceId],
+    queryFn: async () => {
+      const res = await axios.get(`${API_URL}/devices/${deviceId}/telemetry/history`);
+      const historyData = res.data;
+      
+      if (historyData && historyData.length > 0) {
+        const grouped = new Map<string, any>();
+        const sorted = [...historyData].sort((a, b) => new Date(a.ts).getTime() - new Date(b.ts).getTime());
+        
+        sorted.forEach(item => {
+          const timeKey = new Date(item.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+          if (!grouped.has(timeKey)) {
+            grouped.set(timeKey, { time: timeKey });
+          }
+          const point = grouped.get(timeKey);
+          point[item.key] = item.value;
+        });
+  
+        const formattedHistory = Array.from(grouped.values());
+        return formattedHistory.slice(-30);
+      } else {
+        // Mock data fallback if no history exists
+        const history = [];
+        let now = Date.now();
+        for (let i = 20; i >= 0; i--) {
+          history.push({
+            time: new Date(now - i * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+            temperature: (25 + Math.random() * 5).toFixed(1),
+            humidity: (50 + Math.random() * 15).toFixed(1),
+          });
+        }
+        return history;
+      }
+    },
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+  });
+
+  // Tích hợp MQTT hook
+  const { payload, isConnected } = useMqtt({
+    topic: `telemetry/${deviceKey}`,
+  });
+
+  // Lắng nghe payload từ MQTT để cập nhật realtime thẳng vào Cache
+  React.useEffect(() => {
+    if (payload) {
+      console.log("Nhận được Telemetry mới:", payload);
+      const currentTime = new Date().toISOString();
+      const currentLabel = new Date(currentTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+      // 1. Cập nhật Bảng (Table) Cache
+      queryClient.setQueryData(['telemetry', deviceId], (oldData: any[]) => {
+        const updated = oldData ? [...oldData] : [];
+        Object.keys(payload).forEach(key => {
+          const existingIndex = updated.findIndex(t => t.key === key);
+          if (existingIndex !== -1) {
+            updated[existingIndex] = { ...updated[existingIndex], value: payload[key], lastUpdate: currentTime };
+          } else {
+            updated.push({ key, value: payload[key], lastUpdate: currentTime });
+          }
+        });
+        return updated;
+      });
+
+      // 2. Cập nhật Biểu đồ (Chart) Cache
+      queryClient.setQueryData(['telemetryHistory', deviceId], (oldData: any[]) => {
+        const prev = oldData ? [...oldData] : [];
+        const newDataPoint: any = { time: currentLabel };
+        
+        if (payload.temperature !== undefined) newDataPoint.temperature = payload.temperature;
+        else newDataPoint.temperature = prev[prev.length - 1]?.temperature || 25; // Giữ giá trị cũ nếu không có
+
+        if (payload.humidity !== undefined) newDataPoint.humidity = payload.humidity;
+        else newDataPoint.humidity = prev[prev.length - 1]?.humidity || 50;
+        
+        const newChartData = [...prev, newDataPoint];
+        if (newChartData.length > 20) newChartData.shift(); // Giới hạn 20 điểm
+        return newChartData;
+      });
+    }
+  }, [payload, deviceId, queryClient]);
+
+  return (
+    <Space direction="vertical" style={{ width: '100%' }} size="large">
+      {isConnected ? (
+        <Tag color="success">🟢 Dashboard: Đã kết nối MQTT (Lắng nghe dữ liệu)</Tag>
+      ) : (
+        <Tag color="warning">🔴 Dashboard: Mất kết nối MQTT</Tag>
+      )}
+      
+      <Table 
+        dataSource={telemetryData} 
+        rowKey="key" 
+        loading={isLoadingTelemetry}
+        size="small"
+        pagination={false}
+      >
+        <Table.Column dataIndex="lastUpdate" title="Thời gian" render={(v) => new Date(v).toLocaleString()} />
+        <Table.Column dataIndex="key" title="Thông số (Key)" render={(v) => <strong>{v}</strong>} />
+        <Table.Column dataIndex="value" title="Giá trị hiện tại" render={(v) => <Text style={{ fontSize: 16, fontWeight: 500, color: "#0B5D3B" }}>{v}</Text>} />
+      </Table>
+      
+      <Card size="small" title="Biểu đồ trực tuyến (Mock History)" bordered={false} bodyStyle={{ padding: 0, paddingTop: 16 }} loading={isLoadingHistory}>
+        <div style={{ height: 250, width: '100%' }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <XAxis dataKey="time" tick={{ fontSize: 12 }} />
+              <YAxis yAxisId="left" tick={{ fontSize: 12 }} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 12 }} />
+              <RechartsTooltip />
+              <Line yAxisId="left" type="monotone" dataKey="temperature" name="Nhiệt độ (°C)" stroke="#ff7300" strokeWidth={2} dot={false} />
+              <Line yAxisId="right" type="monotone" dataKey="humidity" name="Độ ẩm (%)" stroke="#387908" strokeWidth={2} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </Card>
+    </Space>
+  );
+};

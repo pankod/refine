@@ -1,0 +1,61 @@
+/* custom.css */
+/* Ép buộc màu nền cho Sidebar */
+.ant-layout-sider {
+  background-color: #0B5D3B !important;
+}
+
+/* Ép buộc màu nền cho nút gập mở (Trigger) của Sidebar */
+.ant-layout-sider-trigger {
+  background-color: #094a2f !important;
+}
+
+/* Đảm bảo nền của Menu bên trong là trong suốt để lộ màu xanh của Sidebar */
+.ant-menu {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* Chỉnh màu chữ cho các mục Menu bình thường */
+.ant-menu-item .ant-menu-title-content,
+.ant-menu-submenu-title .ant-menu-title-content {
+  color: #ffffff !important;
+}
+.ant-menu-item .anticon,
+.ant-menu-submenu-title .anticon {
+  color: #ffffff !important;
+}
+
+/* Màu nền và chữ khi Hover vào mục Menu */
+.ant-menu-item:hover,
+.ant-menu-submenu-title:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+/* Màu nền và chữ khi mục Menu được chọn (Active) */
+.ant-menu-item-selected {
+  background-color: #2FA84F !important;
+}
+.ant-menu-item-selected .ant-menu-title-content,
+.ant-menu-item-selected .anticon {
+  color: #ffffff !important;
+}
+
+/* Popup menu (ví dụ sub-menu) */
+.ant-menu-submenu-popup .ant-menu {
+  background-color: #0B5D3B !important;
+}
+
+/* Khu vực Logo (Title) */
+.ant-layout-sider-children > div:first-child,
+.ant-layout-sider-children a {
+  background-color: transparent !important;
+}
+
+/* Xóa vạch kẻ dọc (border) trắng ngăn cách Sidebar và nội dung chính */
+.ant-layout-sider,
+.ant-menu,
+.ant-layout-sider-children {
+  border-right: none !important;
+  border-inline-end: none !important;
+}
