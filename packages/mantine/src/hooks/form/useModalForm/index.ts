@@ -317,8 +317,7 @@ export const useModalForm = <
     ...useMantineFormResult,
     saveButtonProps: {
       ...saveButtonProps,
-      // @ts-expect-error event type is not compatible with pointer event
-      onClick: (e) => onSubmit(submit)(e),
+      onClick: (e) => onSubmit(submit)(e as any),
     },
   };
 };
