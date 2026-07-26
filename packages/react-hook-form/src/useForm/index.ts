@@ -129,6 +129,7 @@ export const useForm = <
     watch,
     setValue,
     getValues,
+    reset,
     handleSubmit: handleSubmitReactHookForm,
     setError,
     formState: { dirtyFields },
@@ -253,39 +254,28 @@ export const useForm = <
     });
   };
 
-  // On query load, attempt a first sync after registration effects run.
+  // On query load, reset the form with server data natively.
+  // This ensures useFieldArray and other RHF internals are properly initialized.
+  const initialLoadRef = React.useRef(true);
   useEffect(() => {
     const data = query?.data?.data;
     if (!data) {
       queryDataRef.current = undefined;
       syncedFieldsRef.current = new Set();
       mountedFieldsRef.current = new Set();
+      initialLoadRef.current = true;
       return;
     }
 
-    let isActive = true;
-
-    const applyQueryValues = () => {
-      if (!isActive) return;
-
-      applyValuesToFields(getRegisteredFields(), data, false);
-    };
-
     queryDataRef.current = data;
-    syncedFieldsRef.current = new Set();
     mountedFieldsRef.current = getMountedFields();
 
-    // defer until after field registration effects
-    if (typeof queueMicrotask === "function") {
-      queueMicrotask(applyQueryValues);
-    } else {
-      Promise.resolve().then(applyQueryValues);
+    if (initialLoadRef.current) {
+      initialLoadRef.current = false;
+      syncedFieldsRef.current = new Set();
+      reset(data as unknown as TVariables, { keepDirtyValues: true });
     }
-
-    return () => {
-      isActive = false;
-    };
-  }, [query?.data, setValue, getValues]);
+  }, [query?.data, reset, getValues]);
 
   // Re-sync when new fields register; do not override user edits.
   useEffect(() => {

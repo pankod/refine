@@ -68,7 +68,6 @@
     "prettier": "^2.7.1",
     "semver": "7.5.2",
     "semver-diff": "^3.1.1",
-    "temp": "^0.9.4",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
@@ -90,7 +89,6 @@
     "@types/pluralize": "^0.0.29",
     "@types/prettier": "^2.7.3",
     "@types/semver": "^7.5.8",
-    "@types/temp": "^0.9.1",
     "@vitest/ui": "^2.1.8",
     "tsup": "^6.7.0",
     "typescript": "^5.8.3",
