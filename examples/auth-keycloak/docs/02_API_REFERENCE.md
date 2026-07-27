@@ -90,8 +90,9 @@ Tài liệu này liệt kê toàn bộ các đường dẫn (API) mà hệ thố
 
 Thiết bị phần cứng (cảm biến, vi điều khiển) không dùng HTTP API mà dùng MQTT để truyền dữ liệu cho nhanh và nhẹ.
 
-- **Broker**: `localhost` (Cổng `1883`)
-- **Topic gửi dữ liệu**: `telemetry/<DEVICE_KEY>` (Ví dụ: `telemetry/sensor-01`)
+- **Broker**: `emqx.greeniq.vn` (Cổng `1883`) hoặc `localhost`
+- **Xác thực**: Yêu cầu `Username` = `DEVICE_KEY` và `Password` = `SECRET_TOKEN`
+- **Topic gửi dữ liệu**: `v1/devices/<DEVICE_KEY>/telemetry` (Ví dụ: `v1/devices/sensor-01/telemetry`)
 - **Định dạng dữ liệu**: JSON thuần túy (VD: `{"temperature": 25}`)
 - **Luồng hoạt động**:
   1. Cảm biến gửi dữ liệu vào EMQX.

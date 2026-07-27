@@ -50,13 +50,15 @@ Bạn cần đảm bảo Docker đã được cài đặt trên máy.
 
 **Cài đặt kết nối trong MQTTX:**
 - **Name**: Nhập gì cũng được (vd: `ThietBi_Test`)
-- **Host**: `mqtt://localhost`
+- **Host**: `mqtt://emqx.greeniq.vn` (hoặc localhost nếu chạy local)
 - **Port**: `1883`
+- **Username**: Mã `DEVICE_KEY` của thiết bị
+- **Password**: Mã `SECRET_TOKEN` của thiết bị
 - Bấm **Connect**. Nếu đèn báo xanh lá cây là kết nối thành công.
 
 **Cách gửi dữ liệu:**
 1. Chọn kết nối vừa tạo.
-2. Ở ô **Topic**, bạn nhập: `telemetry/DEVICE_KEY`
+2. Ở ô **Topic**, bạn nhập: `v1/devices/DEVICE_KEY/telemetry`
    *(Thay `DEVICE_KEY` bằng Key của thiết bị bạn thấy trên giao diện web).*
 3. Ở ô **Payload** (Nội dung), bạn chọn định dạng `JSON` và dán đoạn chữ sau vào:
    ```json
@@ -77,5 +79,5 @@ Ngay lập tức, bạn sẽ thấy trên giao diện web (bảng và biểu đ�
 ## 4. Khắc phục sự cố thường gặp (Troubleshooting)
 
 - **Lỗi màn hình trắng khi bấm vào thiết bị:** Hãy thử F5 (tải lại trang). Đảm bảo Backend (cửa sổ chạy `npm run dev` ở thư mục backend) không báo lỗi đỏ.
-- **Biểu đồ không nhảy dữ liệu:** Kiểm tra lại ô Topic trong MQTTX xem gõ đúng chữ `telemetry/DEVICE_KEY` chưa. Phải đúng chữ thường.
+- **Biểu đồ không nhảy dữ liệu:** Kiểm tra lại ô Topic trong MQTTX xem gõ đúng chữ `v1/devices/DEVICE_KEY/telemetry` chưa. Phải đúng chữ thường. Đồng thời kiểm tra xem thiết bị đã cấu hình đúng Username/Password chưa.
 - **Báo lỗi 401 Unauthorized:** Token đăng nhập đã hết hạn. Bạn hãy đăng xuất ở góc trên bên phải màn hình web và đăng nhập lại.
