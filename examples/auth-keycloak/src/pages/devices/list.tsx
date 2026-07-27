@@ -10,6 +10,14 @@ import axios from "axios";
 
 const { Text, Title } = Typography;
 
+/**
+ * ============================================================================
+ * COMPONENT: DANH SÁCH THIẾT BỊ (DeviceList)
+ * ============================================================================
+ * Trang này chịu trách nhiệm hiển thị bảng danh sách các thiết bị IoT.
+ * Nó sử dụng sức mạnh của @refinedev/antd để tự động hóa việc lấy dữ liệu (useTable),
+ * hiển thị phân trang, tìm kiếm, và quản lý các Form Tạo/Sửa (useModalForm).
+ */
 export const DeviceList: React.FC = () => {
   const { tableProps } = useTable({
     syncWithLocation: true,
@@ -40,9 +48,11 @@ export const DeviceList: React.FC = () => {
   const queryClient = useQueryClient();
 
   // --- PRODUCTION-GRADE: BACKGROUND PREFETCHING ---
-  // Tự động tải trước (prefetch) dữ liệu Telemetry của tất cả thiết bị trên trang hiện tại một cách âm thầm.
-  // Kỹ thuật này giúp khi người dùng click vào thiết bị, dữ liệu đã có sẵn trong RAM (0s delay).
-  // Để không gây giật lag (Block Main Thread), các request được giãn cách nhau (stagger) và chạy khi trình duyệt rảnh (Idle).
+  /**
+   * Tự động tải trước (prefetch) dữ liệu Telemetry của tất cả thiết bị trên trang hiện tại một cách âm thầm.
+   * Kỹ thuật này giúp khi người dùng click vào thiết bị, dữ liệu đã có sẵn trong RAM (0s delay, trải nghiệm siêu mượt).
+   * Để không gây giật lag (Block Main Thread), các request được giãn cách nhau (stagger) và chạy khi trình duyệt rảnh (requestIdleCallback).
+   */
   React.useEffect(() => {
     if (tableProps.dataSource && tableProps.dataSource.length > 0) {
       const prefetchBackground = () => {
@@ -291,7 +301,13 @@ export const DeviceList: React.FC = () => {
   );
 };
 
-// Component con hiển thị Thuộc tính
+/**
+ * ============================================================================
+ * COMPONENT CON: HIỂN THỊ THUỘC TÍNH (DeviceAttributes)
+ * ============================================================================
+ * Nhiệm vụ: Lấy cấu hình (Attributes) của thiết bị (Shared, Client, Server scope)
+ * Dùng hook `useCustom` của Refine để gọi thẳng API tùy chỉnh.
+ */
 const DeviceAttributes: React.FC<{ deviceId: string }> = ({ deviceId }) => {
   const { data, isLoading } = useCustom<any>({
     url: `devices/${deviceId}/attributes`,
@@ -327,7 +343,16 @@ const DeviceAttributes: React.FC<{ deviceId: string }> = ({ deviceId }) => {
   );
 };
 
-// Component con hiển thị Telemetry
+/**
+ * ============================================================================
+ * COMPONENT CON: HIỂN THỊ DỮ LIỆU ĐO LƯỜNG THỜI GIAN THỰC (DeviceTelemetry)
+ * ============================================================================
+ * Nhiệm vụ:
+ * 1. Lần đầu mở lên: Dùng `useQuery` (React Query) để lấy dữ liệu cuối cùng từ Backend (DB).
+ * 2. Ngay sau đó: Dùng `useMqtt` kết nối thẳng WebSocket tới máy chủ EMQX Broker.
+ * 3. Bất cứ khi nào thiết bị (ESP32) bắn số mới lên EMQX, Component này sẽ nhận được lập tức,
+ *    và tự động chèn (patch) vào Cache của React Query để Giao diện chớp số mới mà không cần Reload API.
+ */
 const DeviceTelemetry: React.FC<{ deviceId: string, deviceKey: string }> = ({ deviceId, deviceKey }) => {
   const queryClient = useQueryClient();
   const API_URL = import.meta.env.VITE_API_URL || "/api";
