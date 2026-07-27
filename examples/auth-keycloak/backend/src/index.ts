@@ -326,10 +326,19 @@ app.patch('/devices/:id', async (req, res) => {
 });
 
 app.delete('/devices/:id', async (req, res) => {
-  await prisma.devices.delete({
-    where: { id: req.params.id }
+  const deviceId = req.params.id;
+
+  // Xóa toàn bộ dữ liệu đo lường (telemetry) của thiết bị này trước
+  await prisma.telemetry_kv.deleteMany({
+    where: { entity_id: deviceId }
   });
-  publishLiveEvent('devices', 'deleted', { id: req.params.id });
+
+  // Sau đó xóa thiết bị
+  await prisma.devices.delete({
+    where: { id: deviceId }
+  });
+  
+  publishLiveEvent('devices', 'deleted', { id: deviceId });
   res.json({ success: true });
 });
 
