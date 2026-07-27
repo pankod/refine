@@ -168,3 +168,64 @@ Bây giờ bạn đã có 1 hệ thống hoành tráng, bạn chỉ cần nạp 
 ```
 
 **BÙM!** Ngay khi ESP32 gửi chuỗi JSON này lên, chỉ trong chưa tới 1 giây, nó đã đi qua EMQX -> rớt xuống băng chuyền Redis -> Bị Node.js Worker hốt trọn -> Nằm vĩnh viễn trong CSDL PostgreSQL -> và cuối cùng hiện lên Đồ thị trên giao diện Web Refine của bạn!
+
+---
+
+## 📡 6. GIAO THỨC MQTT VÀ CƠ CHẾ PUB/SUB CHI TIẾT
+
+**MQTT** là giao thức nhắn tin "siêu nhẹ" được thiết kế riêng cho vạn vật kết nối (IoT). Nó hoạt động dựa trên cơ chế **Publish/Subscribe (Pub/Sub - Phát hành/Đăng ký)** thay vì mô hình Yêu cầu/Phản hồi (Request/Response) truyền thống của HTTP.
+
+### 6.1. Cơ chế Pub/Sub là gì?
+
+Hãy tưởng tượng MQTT Broker (EMQX của chúng ta) giống như một **Đài phát thanh (Radio Station)**, và các Topic (Chủ đề) giống như các **Tần số FM**.
+
+- **Publisher (Người phát thanh):** Là người cầm micro nói vào một tần số cụ thể (ví dụ: `99.9 MHz`). Họ không cần biết ai đang nghe, họ chỉ việc nói.
+- **Subscriber (Người nghe đài):** Là người vặn radio dò đúng tần số `99.9 MHz` để nghe. Bất cứ khi nào có người nói vào tần số đó, tất cả những người đang dò đúng tần số đều sẽ nghe thấy cùng một lúc (Realtime).
+
+Trong hệ thống GreenIQ, chúng ta áp dụng Pub/Sub cho 2 luồng dữ liệu chính:
+
+### 6.2. Luồng 1: Thiết bị phần cứng gửi Dữ liệu (Telemetry)
+- **Thiết bị (Publisher):** Phát dữ liệu lên kênh (Topic) mang tên mã bí mật của nó.
+  - Ví dụ: ESP32 phát bản tin nhiệt độ lên Topic: `telemetry/ABCD123`
+- **Node.js Backend (Subscriber):** Backend luôn túc trực (subscribe) ở tần số `telemetry/+` (Dấu `+` là ký tự đại diện cho mọi mã thiết bị ở cấp đó).
+  - Ngay khi ESP32 phát tin, Backend lập tức bắt được bản tin này, sau đó đưa vào hàng đợi Redis để lưu vào CSDL.
+
+**Ví dụ Code ESP32 (Publisher):**
+```cpp
+// ESP32 phát dữ liệu nhiệt độ lên MQTT
+client.publish("telemetry/ABCD123", "{\"temperature\": 26.5}");
+```
+
+### 6.3. Luồng 2: Tự động đồng bộ Giao diện Web (LiveProvider)
+Đây là tính năng Realtime nâng cao giúp các trình duyệt tự cập nhật dữ liệu (auto-refresh) khi có sự thay đổi mà không cần tải lại trang (F5).
+
+- **Node.js Backend (Publisher):** Khi có người tạo, sửa, hoặc xóa một thiết bị qua API, Backend sẽ phát một thông báo lên đài phát thanh MQTT.
+  - Ví dụ: Có thiết bị mới được tạo, Backend phát tin lên Topic `refine/devices/created`.
+- **Giao diện Web Refine (Subscriber):** Giao diện Web của bạn luôn dò sẵn tần số `refine/devices/#` (Dấu `#` đại diện cho mọi hành động bên dưới thư mục devices: created, updated, deleted).
+  - Khi bắt được tin từ Backend, Web sẽ tự động gọi lại API để vẽ thêm dòng mới vào bảng danh sách thiết bị ngay lập tức.
+
+**Ví dụ Code Backend (Publisher):**
+```typescript
+// Khi API thêm thiết bị thành công, Backend báo cáo lên MQTT
+mqttClient.publish("refine/devices/created", JSON.stringify({
+  payload: { id: "1", name: "Cảm biến nhiệt" },
+  date: new Date().toISOString()
+}));
+```
+
+**Ví dụ Code Frontend (Subscriber):**
+```typescript
+// Trình duyệt Web lắng nghe kênh MQTT để tự động làm mới giao diện
+client.subscribe("refine/devices/#");
+client.on("message", (topic, message) => {
+  if (topic === "refine/devices/created") {
+    console.log("Cập nhật lại bảng danh sách thiết bị ngay lập tức!");
+    // (Refine sẽ tự động xử lý phần việc này nhờ LiveProvider)
+  }
+});
+```
+
+### Tóm tắt lợi ích của MQTT Pub/Sub:
+1. **Tiết kiệm băng thông:** Gói tin MQTT siêu nhỏ (chỉ mất vài byte overhead), cực kỳ phù hợp cho mạng 3G/4G chập chờn hoặc thiết bị pin yếu.
+2. **Realtime (Thời gian thực):** Độ trễ truyền tải chỉ tính bằng mili-giây do kết nối (TCP Socket) luôn được giữ mở.
+3. **Mở rộng dễ dàng (Decoupling):** Các thiết bị và máy chủ hoàn toàn độc lập với nhau. Có thể có hàng triệu thiết bị cùng nghe/nói mà không làm sập Backend nhờ sức mạnh điều phối của EMQX Broker.

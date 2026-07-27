@@ -3,7 +3,7 @@ import { List, useTable, useModalForm, DeleteButton, EditButton } from "@refined
 import { Table, Tag, Drawer, Tabs, Descriptions, Typography, Card, Button, Input, Space, Form, Select, Checkbox, Modal, Row, Col, message } from "antd";
 import { SearchOutlined, SyncOutlined, SettingOutlined, CheckCircleOutlined, CloseCircleOutlined, PlusOutlined, KeyOutlined, LockOutlined } from "@ant-design/icons";
 import { useCustom } from "@refinedev/core";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
+
 import { useMqtt } from "../../hooks/useMqtt";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -343,45 +343,7 @@ const DeviceTelemetry: React.FC<{ deviceId: string, deviceKey: string }> = ({ de
     gcTime: 10 * 60 * 1000, // 10 minutes cache
   });
 
-  // Fetch History with SWR Caching
-  const { data: chartData = [], isLoading: isLoadingHistory } = useQuery({
-    queryKey: ['telemetryHistory', deviceId],
-    queryFn: async () => {
-      const res = await axios.get(`${API_URL}/devices/${deviceId}/telemetry/history`);
-      const historyData = res.data;
-      
-      if (historyData && historyData.length > 0) {
-        const grouped = new Map<string, any>();
-        const sorted = [...historyData].sort((a, b) => new Date(a.ts).getTime() - new Date(b.ts).getTime());
-        
-        sorted.forEach(item => {
-          const timeKey = new Date(item.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-          if (!grouped.has(timeKey)) {
-            grouped.set(timeKey, { time: timeKey });
-          }
-          const point = grouped.get(timeKey);
-          point[item.key] = item.value;
-        });
-  
-        const formattedHistory = Array.from(grouped.values());
-        return formattedHistory.slice(-30);
-      } else {
-        // Mock data fallback if no history exists
-        const history = [];
-        let now = Date.now();
-        for (let i = 20; i >= 0; i--) {
-          history.push({
-            time: new Date(now - i * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-            temperature: (25 + Math.random() * 5).toFixed(1),
-            humidity: (50 + Math.random() * 15).toFixed(1),
-          });
-        }
-        return history;
-      }
-    },
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
-  });
+
 
   // Tích hợp MQTT hook
   const { payload, isConnected } = useMqtt({
@@ -409,21 +371,7 @@ const DeviceTelemetry: React.FC<{ deviceId: string, deviceKey: string }> = ({ de
         return updated;
       });
 
-      // 2. Cập nhật Biểu đồ (Chart) Cache
-      queryClient.setQueryData(['telemetryHistory', deviceId], (oldData: any[]) => {
-        const prev = oldData ? [...oldData] : [];
-        const newDataPoint: any = { time: currentLabel };
-        
-        if (payload.temperature !== undefined) newDataPoint.temperature = payload.temperature;
-        else newDataPoint.temperature = prev[prev.length - 1]?.temperature || 25; // Giữ giá trị cũ nếu không có
 
-        if (payload.humidity !== undefined) newDataPoint.humidity = payload.humidity;
-        else newDataPoint.humidity = prev[prev.length - 1]?.humidity || 50;
-        
-        const newChartData = [...prev, newDataPoint];
-        if (newChartData.length > 20) newChartData.shift(); // Giới hạn 20 điểm
-        return newChartData;
-      });
     }
   }, [payload, deviceId, queryClient]);
 
@@ -446,22 +394,6 @@ const DeviceTelemetry: React.FC<{ deviceId: string, deviceKey: string }> = ({ de
         <Table.Column dataIndex="key" title="Thông số (Key)" render={(v) => <strong>{v}</strong>} />
         <Table.Column dataIndex="value" title="Giá trị hiện tại" render={(v) => <Text style={{ fontSize: 16, fontWeight: 500, color: "#0B5D3B" }}>{v}</Text>} />
       </Table>
-      
-      <Card size="small" title="Biểu đồ trực tuyến (Mock History)" bordered={false} bodyStyle={{ padding: 0, paddingTop: 16 }} loading={isLoadingHistory}>
-        <div style={{ height: 250, width: '100%' }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis dataKey="time" tick={{ fontSize: 12 }} />
-              <YAxis yAxisId="left" tick={{ fontSize: 12 }} />
-              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 12 }} />
-              <RechartsTooltip />
-              <Line yAxisId="left" type="monotone" dataKey="temperature" name="Nhiệt độ (°C)" stroke="#ff7300" strokeWidth={2} dot={false} />
-              <Line yAxisId="right" type="monotone" dataKey="humidity" name="Độ ẩm (%)" stroke="#387908" strokeWidth={2} dot={false} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </Card>
     </Space>
   );
 };
