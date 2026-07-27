@@ -83,8 +83,11 @@ export const startMqttClient = () => {
             ts: new Date().getTime() // Đóng dấu thời gian lúc nhận được hàng
           };
 
-          // QUAN TRỌNG: Quăng mạnh kiện hàng này lên băng chuyền Redis (Lệnh LPUSH)
+          // 1. Quăng mạnh kiện hàng này lên băng chuyền Redis (Lệnh LPUSH) để xử lý lô lưu vào DB
           await redis.lpush('telemetry_queue', JSON.stringify(queueItem));
+
+          // 2. Lưu NGAY LẬP TỨC vào bộ nhớ đệm RAM (Redis Hash) để Giao diện Web lấy tốc độ 0ms
+          await redis.hset(`latest_telemetry:${deviceKey}`, key, JSON.stringify(queueItem));
         }
       }
     } catch (err) {

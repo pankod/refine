@@ -3,9 +3,7 @@ import { List, useTable } from "@refinedev/antd";
 import { Table } from "antd";
 
 export const GroupList: React.FC = () => {
-  const { tableProps } = useTable({
-    syncWithLocation: true,
-  });
+  const { tableProps } = useTable();
 
   return (
     <List title="Nhóm (Groups)">

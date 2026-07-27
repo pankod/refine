@@ -3,9 +3,7 @@ import { List, useTable } from "@refinedev/antd";
 import { Table, Space, Tag } from "antd";
 
 export const UserList: React.FC = () => {
-  const { tableProps } = useTable({
-    syncWithLocation: true,
-  });
+  const { tableProps } = useTable();
 
   return (
     <List title="Người dùng">

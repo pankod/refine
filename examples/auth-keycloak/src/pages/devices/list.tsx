@@ -19,9 +19,7 @@ const { Text, Title } = Typography;
  * hiển thị phân trang, tìm kiếm, và quản lý các Form Tạo/Sửa (useModalForm).
  */
 export const DeviceList: React.FC = () => {
-  const { tableProps } = useTable({
-    syncWithLocation: true,
-  });
+  const { tableProps } = useTable();
 
   const { 
     modalProps: createModalProps, 
@@ -30,7 +28,6 @@ export const DeviceList: React.FC = () => {
   } = useModalForm({
     resource: "devices",
     action: "create",
-    syncWithLocation: true,
   });
 
   const { 
@@ -38,57 +35,36 @@ export const DeviceList: React.FC = () => {
     formProps: editFormProps, 
     show: showEditModal 
   } = useModalForm({
-    resource: "devices",
     action: "edit",
-    syncWithLocation: true,
+    syncWithLocation: false,
   });
 
   const [selectedDevice, setSelectedDevice] = useState<any>(null);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const queryClient = useQueryClient();
 
-  // --- PRODUCTION-GRADE: BACKGROUND PREFETCHING ---
-  /**
-   * Tự động tải trước (prefetch) dữ liệu Telemetry của tất cả thiết bị trên trang hiện tại một cách âm thầm.
-   * Kỹ thuật này giúp khi người dùng click vào thiết bị, dữ liệu đã có sẵn trong RAM (0s delay, trải nghiệm siêu mượt).
-   * Để không gây giật lag (Block Main Thread), các request được giãn cách nhau (stagger) và chạy khi trình duyệt rảnh (requestIdleCallback).
-   */
-  React.useEffect(() => {
-    if (tableProps.dataSource && tableProps.dataSource.length > 0) {
-      const prefetchBackground = () => {
-        const apiUrl = import.meta.env.VITE_API_URL || "/api";
-        tableProps.dataSource.forEach((device: any, index: number) => {
-          // Staggering: Mỗi request cách nhau 150ms để network không bị nghẽn
-          setTimeout(() => {
-            queryClient.prefetchQuery({
-              queryKey: ['telemetry', device.id],
-              queryFn: async () => {
-                const res = await axios.get(`${apiUrl}/devices/${device.id}/telemetry`);
-                return res.data;
-              },
-              staleTime: 5 * 60 * 1000,
-            });
-          }, index * 150);
-        });
-      };
-
-      // Chỉ chạy background worker khi trình duyệt đang rảnh (không cuộn, không click)
-      if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(prefetchBackground);
-      } else {
-        // Fallback cho trình duyệt cũ
-        setTimeout(prefetchBackground, 1000); 
-      }
-    }
-  }, [tableProps.dataSource, queryClient]);
+  // Ghi chú: Logic prefetch background đã được chuyển lên Global CacheWarmer để tối ưu 0ms load cho toàn hệ thống.
 
 
-  // Handle row click
+  const API_URL = import.meta.env.VITE_API_URL || "/api";
+
+  // Handle row click & hover prefetching
   const onRowClick = (record: any) => {
     return {
       onClick: () => {
         setSelectedDevice(record);
         setDrawerVisible(true);
+      },
+      onMouseEnter: () => {
+        // Kỹ thuật "Prefetch on Hover": Tải trước dữ liệu ngay khi người dùng vừa di chuột qua dòng
+        queryClient.prefetchQuery({
+          queryKey: ['telemetry', record.id],
+          queryFn: async () => {
+            const res = await axios.get(`${API_URL}/devices/${record.id}/telemetry`);
+            return res.data;
+          },
+          staleTime: 5 * 60 * 1000 // Giữ cache 5 phút để tránh spam API nếu họ rê chuột liên tục
+        });
       },
       style: { cursor: 'pointer' }
     };
@@ -253,7 +229,7 @@ export const DeviceList: React.FC = () => {
         </Form>
       </Modal>
 
-      <Modal {...editModalProps} title="Sửa thông tin thiết bị" width={600}>
+      <Modal {...editModalProps} title="Sửa thông tin thiết bị" width={600} forceRender>
         <Form {...editFormProps} layout="vertical">
           <Form.Item 
             label="Tên thiết bị (Name)" 

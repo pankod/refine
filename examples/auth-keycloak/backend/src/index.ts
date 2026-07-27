@@ -7,6 +7,7 @@ import { PrismaClient } from '@prisma/client';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import crypto from 'crypto';
+import { redis } from './redis/redisClient';
 import { startMqttClient, publishLiveEvent } from './mqtt/mqttClient';
 import { startTelemetryWorker } from './workers/telemetryWorker';
 
@@ -28,7 +29,9 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 const port = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors({
+  exposedHeaders: ['x-total-count']
+}));
 app.use(express.json());
 
 // Tích hợp Keycloak JWT Middleware
@@ -117,15 +120,25 @@ const getDefaultTenant = async () => {
  * Dữ liệu trả về sẽ được format (chế biến lại) cho đúng chuẩn cấu trúc mà Frontend cần.
  */
 app.get('/dashboards', async (req, res) => {
-  const dashboards = await prisma.dashboards.findMany({
-    orderBy: { created_at: 'desc' } // Sắp xếp giảm dần theo ngày tạo (mới nhất lên đầu)
-  });
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const skip = (page - 1) * limit;
+
+  const [dashboards, total] = await Promise.all([
+    prisma.dashboards.findMany({
+      orderBy: { created_at: 'desc' },
+      skip,
+      take: limit
+    }),
+    prisma.dashboards.count()
+  ]);
   const formatted = dashboards.map(d => ({
     id: d.id,
     title: d.title,
     description: (d.configuration as any)?.description || '', // Ép kiểu JSON an toàn
     createdAt: d.created_at
   }));
+  res.setHeader('x-total-count', total.toString());
   res.json(formatted);
 });
 
@@ -306,10 +319,19 @@ app.post('/api/mqtt/acl', (req, res) => {
  * từ đó lấy ra được Mã bí mật của thiết bị hiển thị lên giao diện.
  */
 app.get('/devices', async (req, res) => {
-  const devices = await prisma.devices.findMany({
-    include: { device_credentials: true }, // Nối bảng để lấy Mật khẩu (Secret)
-    orderBy: { created_at: 'desc' } // Sắp xếp mới nhất lên đầu
-  });
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const skip = (page - 1) * limit;
+
+  const [devices, total] = await Promise.all([
+    prisma.devices.findMany({
+      include: { device_credentials: true }, // Nối bảng để lấy Mật khẩu (Secret)
+      orderBy: { created_at: 'desc' }, // Sắp xếp mới nhất lên đầu
+      skip,
+      take: limit
+    }),
+    prisma.devices.count()
+  ]);
   
   // Định dạng lại JSON theo cấu trúc mà Giao diện Refine yêu cầu
   const formatted = devices.map(d => ({
@@ -321,6 +343,7 @@ app.get('/devices', async (req, res) => {
     secret: d.device_credentials?.credentials_value || '',
     created_at: d.created_at
   }));
+  res.setHeader('x-total-count', total.toString());
   res.json(formatted);
 });
 
@@ -448,40 +471,56 @@ app.delete('/devices/:id', async (req, res) => {
 /**
  * [GET] Lấy Dữ liệu Đo lường Mới Nhất
  * @param id Mã định danh thiết bị
- * @description Hàm này dùng để hiển thị các chỉ số hiện tại (Ví dụ: Nhiệt độ hiện tại, Độ ẩm hiện tại).
- * Nó sẽ lấy 50 điểm dữ liệu gần nhất, sau đó lọc ra giá trị mới nhất của TỪNG LOẠI dữ liệu (key).
+ * @description (TỐI ƯU HÓA BỞI REDIS) - Đọc thẳng từ RAM tốc độ 0ms thay vì quét ổ cứng Database
  */
 app.get('/devices/:id/telemetry', async (req, res) => {
   try {
-    console.log(`[API] Fetching telemetry for device: ${req.params.id}`);
+    const deviceId = req.params.id;
     
-    // BƯỚC 1: Rút 50 điểm dữ liệu gần nhất từ Database (Bảng telemetry_kv)
+    // 1. Lấy DeviceKey (Mã thiết bị thực tế) từ UUID
+    const creds = await prisma.device_credentials.findFirst({
+      where: { device_id: deviceId }
+    });
+    
+    if (creds?.credentials_id) {
+      // 2. Đọc TOÀN BỘ dữ liệu mới nhất từ RAM (Redis) siêu tốc độ (O(1))
+      const cachedData = await redis.hgetall(`latest_telemetry:${creds.credentials_id}`);
+      
+      if (cachedData && Object.keys(cachedData).length > 0) {
+        // Chuyển đổi từ chuỗi Redis thành Mảng JSON cho Frontend
+        const finalData = Object.values(cachedData).map(str => {
+          const item = JSON.parse(str);
+          return {
+            key: item.key,
+            value: item.dbl_v !== null ? item.dbl_v : (item.long_v !== null ? item.long_v : (item.bool_v !== null ? item.bool_v : item.str_v)),
+            lastUpdate: new Date(item.ts)
+          };
+        });
+        
+        return res.json(finalData); // Trả về siêu tốc, Bỏ qua việc quét Database!
+      }
+    }
+
+    // 3. FALLBACK: Nếu Redis bị khởi động lại hoặc mất mát, mới chui xuống Postgres quét đĩa
+    console.warn(`[API] Cache miss for ${deviceId}, falling back to Postgres...`);
     const telemetries = await prisma.telemetry_kv.findMany({
-      where: { entity_id: req.params.id },
-      orderBy: { ts: 'desc' }, // 'desc' = Giảm dần = Lấy thời gian mới nhất
+      where: { entity_id: deviceId },
+      orderBy: { ts: 'desc' }, 
       take: 50
     });
     
-    console.log(`[API] Found ${telemetries.length} telemetry records for device ${req.params.id}`);
-
-    // BƯỚC 2: Lọc lấy giá trị MỚI NHẤT cho mỗi khóa (key)
-    // Ví dụ: Có 10 dòng nhiệt độ, ta chỉ lấy 1 dòng trên cùng.
     const latestByKey = new Map();
     for (const t of telemetries) {
-      if (!latestByKey.has(t.key)) { // Nếu Map chưa có key này thì thêm vào (Do đã sort giảm dần nên cái đầu tiên luôn là mới nhất)
+      if (!latestByKey.has(t.key)) {
         latestByKey.set(t.key, {
           key: t.key,
-          // Kiểm tra xem dữ liệu nằm ở cột nào (Số thực, Số nguyên, hay Chuỗi)
           value: t.dbl_v !== null ? t.dbl_v : (t.long_v !== null ? Number(t.long_v) : (t.bool_v !== null ? t.bool_v : t.str_v)),
           lastUpdate: t.ts
         });
       }
     }
     
-    // BƯỚC 3: Chuyển Map thành Mảng (Array) để gửi về cho Frontend
-    const finalData = Array.from(latestByKey.values());
-    console.log(`[API] Returning telemetry data:`, JSON.stringify(finalData));
-    res.json(finalData);
+    res.json(Array.from(latestByKey.values()));
   } catch (err) {
     console.error('[API] Error fetching telemetry:', err);
     res.status(500).json({ error: 'Internal Server Error' });

@@ -41,6 +41,7 @@ import { DashboardList } from "./pages/dashboards";
 import { HomeDashboard } from "./pages/home";
 import { TeamOutlined, DesktopOutlined, DashboardOutlined, SafetyCertificateOutlined, UsergroupAddOutlined, HomeOutlined } from "@ant-design/icons";
 import { CustomHeader } from "./components/header";
+import { GlobalPreloader } from "./components/GlobalPreloader";
 import { Login } from "../src/pages/login";
 import { AccountPage } from "./pages/account";
 import { useKeycloak } from "@react-keycloak/web";
@@ -227,9 +228,18 @@ const App: React.FC = () => {
             // ⚡ LIVE PROVIDER: Kết nối WebSocket (MQTT) để tự động reload lại trang nếu có ai đó cập nhật dữ liệu
             liveProvider={liveProvider("wss://mqtt.greeniq.vn/mqtt")}
             options={{
-              syncWithLocation: true,
+              syncWithLocation: false,
               warnWhenUnsavedChanges: true,
               liveMode: "auto", // Tự động reload (hoặc báo vàng vàng) khi có data update
+              reactQuery: {
+                clientConfig: {
+                  defaultOptions: {
+                    queries: {
+                      staleTime: 5 * 60 * 1000, // 5 phút: Ngăn không cho React Query fetch ngầm khi data đã có sẵn trong Cache
+                    },
+                  },
+                },
+              },
             }}
           >
             <Routes>
@@ -239,33 +249,35 @@ const App: React.FC = () => {
                     key="authenticated-routes"
                     fallback={<CatchAllNavigate to="/login" />}
                   >
-                    <ThemedLayout
-                      Header={() => <CustomHeader />}
-                      Sider={(props) => (
-                        <ThemedSider 
-                          {...props} 
-                          theme="dark"
-                          style={{ backgroundColor: "#0B5D3B" }}
-                          render={({ items }) => <>{items}</>}
-                          Title={({ collapsed }) => (
-                            <ThemedTitle
-                              collapsed={collapsed}
-                              text={null}
-                              wrapperStyles={{ backgroundColor: "transparent" }}
-                              icon={
-                                <img 
-                                  src={collapsed ? "/logo.png" : "/logo-full.png"} 
-                                  alt="GreenIQ" 
-                                  style={{ height: collapsed ? "32px" : "40px" }} 
-                                />
-                              }
-                            />
-                          )}
-                        />
-                      )}
-                    >
-                      <Outlet />
-                    </ThemedLayout>
+                    <GlobalPreloader>
+                      <ThemedLayout
+                        Header={() => <CustomHeader />}
+                        Sider={(props) => (
+                          <ThemedSider 
+                            {...props} 
+                            theme="dark"
+                            style={{ backgroundColor: "#0B5D3B" }}
+                            render={({ items }) => <>{items}</>}
+                            Title={({ collapsed }) => (
+                              <ThemedTitle
+                                collapsed={collapsed}
+                                text={null}
+                                wrapperStyles={{ backgroundColor: "transparent" }}
+                                icon={
+                                  <img 
+                                    src={collapsed ? "/logo.png" : "/logo-full.png"} 
+                                    alt="GreenIQ" 
+                                    style={{ height: collapsed ? "32px" : "40px" }} 
+                                  />
+                                }
+                              />
+                            )}
+                          />
+                        )}
+                      >
+                        <Outlet />
+                      </ThemedLayout>
+                    </GlobalPreloader>
                   </Authenticated>
                 }
               >

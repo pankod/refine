@@ -6,12 +6,16 @@ interface UseMqttProps {
   url?: string;
   topic?: string;
   options?: IClientOptions;
+  username?: string;
+  password?: string;
 }
 
 export const useMqtt = ({ 
-  url = "wss://mqtt.greeniq.vn/mqtt", // Cấu hình trỏ tới cụm K3s EMQX qua Ingress WSS
-  topic, 
-  options 
+  url = import.meta.env.VITE_MQTT_URL || "wss://mqtt.greeniq.vn/mqtt", 
+  topic = "v1/devices/me/telemetry", 
+  options,
+  username,
+  password
 }: UseMqttProps) => {
   const [client, setClient] = useState<MqttClient | null>(null);
   const [payload, setPayload] = useState<any>(null);

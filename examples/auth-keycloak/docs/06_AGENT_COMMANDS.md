@@ -35,4 +35,7 @@ Bất cứ khi nào bạn gõ đúng các lệnh dưới đây vào khung chat, 
 
 ### 2.2. Nguyên Tắc Cốt Lõi Dự Án
 
-- **Đọc Mã Nguồn Gốc Refine (Context Lookup):** Khi phát triển dự án này, AI không được phép "đoán" code hoặc bịa ra các linh kiện (components). Bắt buộc AI phải chủ động quét thư mục mã nguồn lõi của Refine trên máy tính để đọc tài liệu chính thức trước khi hướng dẫn hoặc sửa code. Đảm bảo chuẩn 100% theo hệ sinh thái Refine.
+- **Ưu Tiên Đọc Mã Nguồn Gốc (Context Priority):** Khi phát triển dự án này, AI không được phép "đoán" code. Bắt buộc AI phải chủ động quét và tham chiếu mã nguồn từ đúng 2 đường dẫn ưu tiên sau trước khi sửa code:
+  1. Thư mục lõi (Core): `C:\Users\vthea\Documents\GitHub\refine`
+  2. Thư mục dự án mẫu (Ví dụ hiện tại): `C:\Users\vthea\Documents\GitHub\refine\examples\auth-keycloak`
+  Điều này đảm bảo mọi đoạn code sinh ra đều giống hệt với văn phong gốc của Refine.

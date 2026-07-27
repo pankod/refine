@@ -9,21 +9,18 @@ export const DashboardList: React.FC = () => {
   const { tableProps } = useTable({
     resource: "dashboards",
     dataProviderName: "dashboards",
-    syncWithLocation: true,
   });
 
   const { modalProps: createModalProps, formProps: createFormProps, show: showCreate } = useModalForm({
     resource: "dashboards",
     action: "create",
     dataProviderName: "dashboards",
-    syncWithLocation: true,
   });
 
   const { modalProps: editModalProps, formProps: editFormProps, show: showEdit } = useModalForm({
-    resource: "dashboards",
     action: "edit",
     dataProviderName: "dashboards",
-    syncWithLocation: true,
+    syncWithLocation: false,
   });
 
   return (
@@ -69,7 +66,7 @@ export const DashboardList: React.FC = () => {
         </Form>
       </Modal>
 
-      <Modal {...editModalProps} title="Sửa Bảng điều khiển" width={500}>
+      <Modal {...editModalProps} title="Sửa Bảng điều khiển" width={500} forceRender>
         <Form {...editFormProps} layout="vertical">
           <Form.Item 
             label="Tên Bảng điều khiển" 
