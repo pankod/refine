@@ -3,21 +3,23 @@ import { redis } from '../redis/redisClient';
 
 const EMQX_URL = process.env.EMQX_URL || 'mqtt://localhost:1883';
 
-export const startMqttClient = () => {
-  const client = mqtt.connect(EMQX_URL);
+let mqttClient: mqtt.MqttClient | null = null;
 
-  client.on('connect', () => {
+export const startMqttClient = () => {
+  mqttClient = mqtt.connect(EMQX_URL);
+
+  mqttClient.on('connect', () => {
     console.log('✅ Connected to EMQX Broker');
     // Đăng ký chủ đề: telemetry/{device_key}
     // Thiết bị sẽ gửi dữ liệu lên chủ đề telemetry/ABCD123
-    client.subscribe('telemetry/+', (err) => {
+    mqttClient?.subscribe('telemetry/+', (err) => {
       if (!err) {
         console.log('📡 Subscribed to topic: telemetry/+');
       }
     });
   });
 
-  client.on('message', async (topic, message) => {
+  mqttClient.on('message', async (topic, message) => {
     try {
       console.log(`[MQTT] Đã nhận tin nhắn từ Topic: ${topic}`);
       // Lọc bỏ dấu '/' ở cuối nếu có
@@ -53,7 +55,22 @@ export const startMqttClient = () => {
     }
   });
 
-  client.on('error', (err) => {
+  mqttClient.on('error', (err) => {
     console.error('❌ MQTT Connection Error:', err);
   });
 };
+
+export const publishLiveEvent = (channel: string, type: string, payload: any) => {
+  if (mqttClient && mqttClient.connected) {
+    const topic = `refine/${channel}/${type}`;
+    const message = JSON.stringify({
+      channel,
+      type,
+      payload,
+      date: new Date().toISOString()
+    });
+    mqttClient.publish(topic, message, { qos: 0 });
+    console.log(`[LIVE EVENT] Đã phát thông báo lên topic: ${topic}`);
+  }
+};
+

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "predev": "node scripts/sync-env.js",
+    "predev": "node scripts/sync-env.js && node scripts/start-dev-services.js",
     "dev": "tsx watch src/index.ts",
     "prebuild": "node scripts/sync-env.js",
     "build": "tsc",

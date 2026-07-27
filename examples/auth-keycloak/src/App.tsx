@@ -28,6 +28,7 @@ import { emptyDataProvider } from "./providers/emptyDataProvider";
 import { keycloakDataProvider } from "./providers/keycloakDataProvider";
 import { apiDeviceProvider } from "./providers/apiDeviceProvider";
 import { apiDashboardProvider } from "./providers/apiDashboardProvider";
+import { liveProvider } from "./providers/liveProvider";
 
 import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
@@ -192,9 +193,11 @@ const App: React.FC = () => {
               { name: "groups", list: "/groups", meta: { parent: "identity", label: "Nhóm (Groups)", icon: <UsergroupAddOutlined />, dataProviderName: "identity" } }
             ]}
             notificationProvider={useNotificationProvider}
+            liveProvider={liveProvider("wss://mqtt.greeniq.vn/mqtt")}
             options={{
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
+              liveMode: "auto",
             }}
           >
             <Routes>

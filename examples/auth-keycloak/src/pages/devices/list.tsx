@@ -37,6 +37,41 @@ export const DeviceList: React.FC = () => {
 
   const [selectedDevice, setSelectedDevice] = useState<any>(null);
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const queryClient = useQueryClient();
+
+  // --- PRODUCTION-GRADE: BACKGROUND PREFETCHING ---
+  // Tự động tải trước (prefetch) dữ liệu Telemetry của tất cả thiết bị trên trang hiện tại một cách âm thầm.
+  // Kỹ thuật này giúp khi người dùng click vào thiết bị, dữ liệu đã có sẵn trong RAM (0s delay).
+  // Để không gây giật lag (Block Main Thread), các request được giãn cách nhau (stagger) và chạy khi trình duyệt rảnh (Idle).
+  React.useEffect(() => {
+    if (tableProps.dataSource && tableProps.dataSource.length > 0) {
+      const prefetchBackground = () => {
+        const apiUrl = import.meta.env.VITE_API_URL || "/api";
+        tableProps.dataSource.forEach((device: any, index: number) => {
+          // Staggering: Mỗi request cách nhau 150ms để network không bị nghẽn
+          setTimeout(() => {
+            queryClient.prefetchQuery({
+              queryKey: ['telemetry', device.id],
+              queryFn: async () => {
+                const res = await axios.get(`${apiUrl}/devices/${device.id}/telemetry`);
+                return res.data;
+              },
+              staleTime: 5 * 60 * 1000,
+            });
+          }, index * 150);
+        });
+      };
+
+      // Chỉ chạy background worker khi trình duyệt đang rảnh (không cuộn, không click)
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(prefetchBackground);
+      } else {
+        // Fallback cho trình duyệt cũ
+        setTimeout(prefetchBackground, 1000); 
+      }
+    }
+  }, [tableProps.dataSource, queryClient]);
+
 
   // Handle row click
   const onRowClick = (record: any) => {

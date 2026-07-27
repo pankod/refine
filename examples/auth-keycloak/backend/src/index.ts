@@ -7,7 +7,7 @@ import { PrismaClient } from '@prisma/client';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import crypto from 'crypto';
-import { startMqttClient } from './mqtt/mqttClient';
+import { startMqttClient, publishLiveEvent } from './mqtt/mqttClient';
 import { startTelemetryWorker } from './workers/telemetryWorker';
 
 const app = express();
@@ -112,12 +112,14 @@ app.post('/dashboards', async (req, res) => {
       configuration: { description: description || '' } 
     }
   });
-  res.status(201).json({
+  const payload = {
     id: d.id,
     title: d.title,
     description: (d.configuration as any)?.description || '',
     createdAt: d.created_at
-  });
+  };
+  publishLiveEvent('dashboards', 'created', payload);
+  res.status(201).json(payload);
 });
 
 app.patch('/dashboards/:id', async (req, res) => {
@@ -129,18 +131,21 @@ app.patch('/dashboards/:id', async (req, res) => {
       configuration: { description: description || '' }
     }
   });
-  res.json({
+  const payload = {
     id: d.id,
     title: d.title,
     description: (d.configuration as any)?.description || '',
     createdAt: d.created_at
-  });
+  };
+  publishLiveEvent('dashboards', 'updated', payload);
+  res.json(payload);
 });
 
 app.delete('/dashboards/:id', async (req, res) => {
   await prisma.dashboards.delete({
     where: { id: req.params.id }
   });
+  publishLiveEvent('dashboards', 'deleted', { id: req.params.id });
   res.json({ success: true });
 });
 
@@ -205,7 +210,7 @@ app.post('/devices', async (req, res) => {
     include: { device_credentials: true }
   });
   
-  res.status(201).json({
+  const payload = {
     id: d.id,
     name: d.name,
     type: d.type,
@@ -213,7 +218,9 @@ app.post('/devices', async (req, res) => {
     device_key: d.device_credentials?.credentials_id || '',
     secret: d.device_credentials?.credentials_value || '',
     created_at: d.created_at
-  });
+  };
+  publishLiveEvent('devices', 'created', payload);
+  res.status(201).json(payload);
 });
 
 app.patch('/devices/:id', async (req, res) => {
@@ -229,7 +236,7 @@ app.patch('/devices/:id', async (req, res) => {
     include: { device_credentials: true }
   });
   
-  res.json({
+  const payload = {
     id: d.id,
     name: d.name,
     type: d.type,
@@ -237,13 +244,16 @@ app.patch('/devices/:id', async (req, res) => {
     device_key: d.device_credentials?.credentials_id || '',
     secret: d.device_credentials?.credentials_value || '',
     created_at: d.created_at
-  });
+  };
+  publishLiveEvent('devices', 'updated', payload);
+  res.json(payload);
 });
 
 app.delete('/devices/:id', async (req, res) => {
   await prisma.devices.delete({
     where: { id: req.params.id }
   });
+  publishLiveEvent('devices', 'deleted', { id: req.params.id });
   res.json({ success: true });
 });
 
