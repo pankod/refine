@@ -204,22 +204,34 @@ Trong hệ thống GreenIQ, chúng ta áp dụng Pub/Sub cho 2 luồng dữ li�
 
 ### 6.2. Luồng 1: Thiết bị phần cứng gửi Dữ liệu (Telemetry)
 - **Thiết bị (Publisher):** Phát dữ liệu lên kênh (Topic) mang tên mã bí mật của nó.
-  - Ví dụ: ESP32 phát bản tin nhiệt độ lên Topic: `telemetry/ABCD123`
-- **Node.js Backend (Subscriber):** Backend luôn túc trực (subscribe) ở tần số `telemetry/+` (Dấu `+` là ký tự đại diện cho mọi mã thiết bị ở cấp đó).
+  - Ví dụ: ESP32 phát bản tin nhiệt độ lên Topic: `v1/devices/ABCD123/telemetry`
+- **Node.js Backend (Subscriber):** Backend luôn túc trực (subscribe) ở tần số `v1/devices/+/telemetry` (Dấu `+` là ký tự đại diện cho mọi mã thiết bị ở cấp đó).
   - Ngay khi ESP32 phát tin, Backend lập tức bắt được bản tin này, sau đó đưa vào hàng đợi Redis để lưu vào CSDL.
 
 **Ví dụ Code ESP32 (Publisher):**
 ```cpp
-// ESP32 phát dữ liệu nhiệt độ lên MQTT
-client.publish("telemetry/ABCD123", "{\"temperature\": 26.5}");
+void setup() {
+  client.setServer("emqx.greeniq.vn", 1883);
+}
+
+void loop() {
+  if (!client.connected()) {
+    // Cần DEVICE_KEY (Username) và SECRET_TOKEN (Password)
+    client.connect("ESP32Client", "ABCD123", "XYZ987_SECRET_TOKEN");
+  }
+  
+  // Topic bảo mật: v1/devices/<DEVICE_KEY>/telemetry
+  client.publish("v1/devices/ABCD123/telemetry", "{\"temperature\": 25.5}");
+  delay(5000);
+}
 ```
 
 ### 6.3. Luồng 2: Tự động đồng bộ Giao diện Web (LiveProvider)
 Đây là tính năng Realtime nâng cao giúp các trình duyệt tự cập nhật dữ liệu (auto-refresh) khi có sự thay đổi mà không cần tải lại trang (F5).
 
 - **Node.js Backend (Publisher):** Khi có người tạo, sửa, hoặc xóa một thiết bị qua API, Backend sẽ phát một thông báo lên đài phát thanh MQTT.
-  - Ví dụ: Có thiết bị mới được tạo, Backend phát tin lên Topic `refine/devices/created`.
-- **Giao diện Web Refine (Subscriber):** Giao diện Web của bạn luôn dò sẵn tần số `refine/devices/#` (Dấu `#` đại diện cho mọi hành động bên dưới thư mục devices: created, updated, deleted).
+  - Ví dụ: Có thiết bị mới được tạo, Backend phát tin lên Topic `v1/refine/devices/created`.
+- **Giao diện Web Refine (Subscriber):** Giao diện Web của bạn luôn dò sẵn tần số `v1/refine/devices/#` (Dấu `#` đại diện cho mọi hành động bên dưới thư mục devices: created, updated, deleted).
   - Khi bắt được tin từ Backend, Web sẽ tự động gọi lại API để vẽ thêm dòng mới vào bảng danh sách thiết bị ngay lập tức.
 
 **Ví dụ Code Backend (Publisher):**
