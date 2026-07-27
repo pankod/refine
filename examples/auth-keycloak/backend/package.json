@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "predev": "node scripts/sync-env.js && node scripts/start-dev-services.js",
+    "swagger": "tsx swagger.ts",
+    "predev": "npm run swagger && node scripts/sync-env.js && node scripts/start-dev-services.js",
     "dev": "tsx watch src/index.ts",
-    "prebuild": "node scripts/sync-env.js",
+    "prebuild": "npm run swagger && node scripts/sync-env.js",
     "build": "tsc",
     "start": "node dist/index.js",
     "db:migrate": "prisma migrate dev",
@@ -27,13 +28,16 @@
     "ioredis": "^5.11.1",
     "jwks-rsa": "^4.1.0",
     "mqtt": "^5.15.2",
-    "pg": "^8.22.0"
+    "pg": "^8.22.0",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.1",
+    "@types/swagger-ui-express": "^4.1.8",
     "prisma": "^7.9.0",
+    "swagger-autogen": "^2.23.7",
     "tsx": "^4.23.1",
     "typescript": "^7.0.2"
   }

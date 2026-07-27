@@ -10,7 +10,8 @@ import crypto from 'crypto';
 import { redis } from './redis/redisClient';
 import { startMqttClient, publishLiveEvent } from './mqtt/mqttClient';
 import { startTelemetryWorker } from './workers/telemetryWorker';
-
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../swagger_output.json';
 /**
  * ============================================================================
  * MODULE: BACKEND CORE (Trái tim của hệ thống quản lý)
@@ -33,6 +34,9 @@ app.use(cors({
   exposedHeaders: ['x-total-count']
 }));
 app.use(express.json());
+
+// Setup Swagger UI Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Tích hợp Keycloak JWT Middleware
 /**
@@ -120,6 +124,7 @@ const getDefaultTenant = async () => {
  * Dữ liệu trả về sẽ được format (chế biến lại) cho đúng chuẩn cấu trúc mà Frontend cần.
  */
 app.get('/dashboards', async (req, res) => {
+  /* #swagger.tags = ['Dashboards'] */
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
@@ -147,6 +152,7 @@ app.get('/dashboards', async (req, res) => {
  * @param id Mã định danh của Dashboard
  */
 app.get('/dashboards/:id', async (req, res) => {
+  /* #swagger.tags = ['Dashboards'] */
   const d = await prisma.dashboards.findUnique({
     where: { id: req.params.id }
   });
@@ -165,6 +171,7 @@ app.get('/dashboards/:id', async (req, res) => {
  * Đồng thời, nó bắn 1 cái loa thông báo (Live Event) qua MQTT để các Web khác biết mà reload lại trang.
  */
 app.post('/dashboards', async (req, res) => {
+  /* #swagger.tags = ['Dashboards'] */
   const { title, description } = req.body;
   const tenantId = await getDefaultTenant();
   
@@ -191,6 +198,7 @@ app.post('/dashboards', async (req, res) => {
  * @param id Mã định danh của Dashboard
  */
 app.patch('/dashboards/:id', async (req, res) => {
+  /* #swagger.tags = ['Dashboards'] */
   const { title, description } = req.body;
   const d = await prisma.dashboards.update({
     where: { id: req.params.id },
@@ -214,6 +222,7 @@ app.patch('/dashboards/:id', async (req, res) => {
  * @param id Mã định danh của Dashboard
  */
 app.delete('/dashboards/:id', async (req, res) => {
+  /* #swagger.tags = ['Dashboards'] */
   await prisma.dashboards.delete({
     where: { id: req.params.id }
   });
@@ -225,6 +234,7 @@ app.delete('/dashboards/:id', async (req, res) => {
 // NHÓM API QUẢN LÝ THIẾT BỊ (DEVICES)
 // ==========================================
 app.get('/', (req, res) => {
+  /* #swagger.tags = ['System'] */
   res.send('Backend API Running...');
 });
 
@@ -238,6 +248,7 @@ app.get('/', (req, res) => {
  * Hệ thống sẽ kiểm tra xem Tên đăng nhập và Mật khẩu có đúng không.
  */
 app.post('/api/mqtt/auth', async (req, res) => {
+  /* #swagger.tags = ['MQTT Auth/ACL'] */
   const { username, password } = req.body;
   
   if (!username) return res.status(401).send('ignore');
@@ -280,6 +291,7 @@ app.post('/api/mqtt/auth', async (req, res) => {
  * muốn "Gửi dữ liệu" (publish) hoặc "Nghe lén" (subscribe) một kênh (topic) nào đó.
  */
 app.post('/api/mqtt/acl', (req, res) => {
+  /* #swagger.tags = ['MQTT Auth/ACL'] */
   const { username, topic, action } = req.body;
 
   // Hành động có thể là: 'publish' (gửi) hoặc 'subscribe' (nghe)
@@ -319,6 +331,7 @@ app.post('/api/mqtt/acl', (req, res) => {
  * từ đó lấy ra được Mã bí mật của thiết bị hiển thị lên giao diện.
  */
 app.get('/devices', async (req, res) => {
+  /* #swagger.tags = ['Devices'] */
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
@@ -352,6 +365,7 @@ app.get('/devices', async (req, res) => {
  * @param id Mã định danh của thiết bị
  */
 app.get('/devices/:id', async (req, res) => {
+  /* #swagger.tags = ['Devices'] */
   const d = await prisma.devices.findUnique({
     where: { id: req.params.id },
     include: { device_credentials: true }
@@ -377,6 +391,7 @@ app.get('/devices/:id', async (req, res) => {
  * 4. Bắn loa thông báo (Live Event) cho Frontend cập nhật UI.
  */
 app.post('/devices', async (req, res) => {
+  /* #swagger.tags = ['Devices'] */
   const { name, type } = req.body;
   const tenantId = await getDefaultTenant();
   
@@ -416,6 +431,7 @@ app.post('/devices', async (req, res) => {
  * @param id Mã định danh thiết bị
  */
 app.patch('/devices/:id', async (req, res) => {
+  /* #swagger.tags = ['Devices'] */
   const { name, type, status } = req.body;
   
   const d = await prisma.devices.update({
@@ -448,6 +464,7 @@ app.patch('/devices/:id', async (req, res) => {
  * (Lịch sử đo lường telemetry_kv) để tránh phình to cơ sở dữ liệu vô ích.
  */
 app.delete('/devices/:id', async (req, res) => {
+  /* #swagger.tags = ['Devices'] */
   const deviceId = req.params.id;
 
   // 1. Quét dọn rác: Xóa toàn bộ dữ liệu đo lường (telemetry) của thiết bị này trước
@@ -474,6 +491,7 @@ app.delete('/devices/:id', async (req, res) => {
  * @description (TỐI ƯU HÓA BỞI REDIS) - Đọc thẳng từ RAM tốc độ 0ms thay vì quét ổ cứng Database
  */
 app.get('/devices/:id/telemetry', async (req, res) => {
+  /* #swagger.tags = ['Telemetry'] */
   try {
     const deviceId = req.params.id;
     
@@ -534,6 +552,7 @@ app.get('/devices/:id/telemetry', async (req, res) => {
  * Nó sẽ lấy 200 điểm dữ liệu trong quá khứ và không cần lọc giá trị mới nhất.
  */
 app.get('/devices/:id/telemetry/history', async (req, res) => {
+  /* #swagger.tags = ['Telemetry'] */
   try {
     const telemetries = await prisma.telemetry_kv.findMany({
       where: { entity_id: req.params.id },
@@ -577,3 +596,5 @@ app.use((err: any, req: any, res: any, next: any) => {
 app.listen(port, () => {
   console.log(`🚀 Backend API đã chạy thành công trên địa chỉ: http://localhost:${port}`);
 });
+
+// Trigger reload

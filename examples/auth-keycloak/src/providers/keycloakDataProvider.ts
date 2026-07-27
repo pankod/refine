@@ -63,11 +63,30 @@ export const keycloakDataProvider = (keycloak: Keycloak): DataProvider => {
             }
           }
 
+          let name = item.name;
+          if (resource === "users") {
+            name = item.firstName || item.lastName 
+              ? `${item.firstName || ""} ${item.lastName || ""}`.trim() 
+              : item.username;
+          }
+
+          let description = item.description;
+          if (resource === "roles" && description?.startsWith("${")) {
+             const key = description.replace("${", "").replace("}", "");
+             const translations: Record<string, string> = {
+                "role_admin": "Quản trị viên hệ thống",
+                "role_create-realm": "Quyền tạo Realm mới",
+                "role_default-roles": "Vai trò mặc định",
+                "role_offline-access": "Cho phép truy cập ngoại tuyến (Offline Access)",
+                "role_uma_authorization": "Quyền quản lý UMA Authorization"
+             };
+             description = translations[key] || description;
+          }
+
           return {
             ...item,
-            name: item.firstName || item.lastName 
-              ? `${item.firstName || ""} ${item.lastName || ""}`.trim() 
-              : item.username,
+            name,
+            description,
             role,
           };
         }));

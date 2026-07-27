@@ -8,10 +8,10 @@ export const UserList: React.FC = () => {
   return (
     <List title="Người dùng">
       <Table {...tableProps} rowKey="id">
-        <Table.Column dataIndex="id" title="ID" />
-        <Table.Column dataIndex="name" title="Tên" />
         <Table.Column dataIndex="email" title="Email" />
+        <Table.Column dataIndex="name" title="Tên" />
         <Table.Column dataIndex="role" title="Vai trò" />
+        <Table.Column dataIndex="id" title="ID" />
       </Table>
     </List>
   );
