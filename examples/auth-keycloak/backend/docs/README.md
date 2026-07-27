@@ -111,8 +111,8 @@ export const startMqttClient = () => {
   const client = mqtt.connect('mqtt://emqx:1883'); // Nối dây vào EMQX
 
   client.on('message', async (topic, message) => {
-    // Khi thiết bị phần cứng gửi lên kênh telemetry/ABCD
-    const deviceKey = topic.split('/')[1]; // Lấy chữ ABCD ra
+    // Khi thiết bị phần cứng gửi lên kênh v1/devices/ABCD/telemetry
+    const deviceKey = topic.split('/')[2]; // Lấy chữ ABCD ra
     
     // Quăng kiện hàng lên Băng chuyền Redis (Lệnh lpush)
     await redis.lpush('telemetry_queue', JSON.stringify({ deviceKey, payload }));
@@ -155,9 +155,27 @@ Bây giờ bạn đã có 1 hệ thống hoành tráng, bạn chỉ cần nạp 
 
 - **Máy chủ MQTT (Server)**: `emqx.greeniq.vn`
 - **Cổng (Port)**: `1883`
-- **Tên đăng nhập (Username)**: Để trống
-- **Mật khẩu (Password)**: Để trống
-- **Chủ đề (Topic) để gửi dữ liệu**: `telemetry/MÃ_BÍ_MẬT_THIẾT_BỊ_CỦA_BẠN` (Lấy mã này từ giao diện Web Refine khi ấn Tạo mới).
+- **Tên đăng nhập (Username)**: Mã `DEVICE_KEY` (Lấy từ giao diện Web Refine)
+- **Mật khẩu (Password)**: Mã `SECRET_TOKEN` (Lấy từ giao diện Web Refine)
+- **Chủ đề (Topic) để gửi dữ liệu**: `v1/devices/MÃ_DEVICE_KEY_CỦA_BẠN/telemetry`
+
+*Lưu ý bảo mật (Chuẩn Vàng)*: EMQX đã được bảo vệ bằng Hệ thống **HTTP Auth/ACL**, vì vậy nếu bạn nhập sai Tên Đăng Nhập hoặc Mật Khẩu, bạn sẽ không thể kết nối. Hơn nữa, mỗi thiết bị chỉ được phép gửi dữ liệu vào đúng cái `Topic` có chứa `DEVICE_KEY` của chính nó, nếu cố tình gửi sai chỗ sẽ bị EMQX chặn (Deny) lập tức.
+
+#### Code mẫu Arduino (ESP32/ESP8266) sử dụng thư viện PubSubClient:
+```cpp
+#include <WiFi.h>
+#include <PubSubClient.h>
+
+const char* ssid = "WIFI_CUA_BAN";
+const char* password = "MAT_KHAU_WIFI";
+const char* mqtt_server = "emqx.greeniq.vn";
+const char* mqtt_user = "ABCD123"; // Mã DEVICE_KEY
+const char* mqtt_pass = "XYZ987_SECRET_TOKEN"; // Mã SECRET_TOKEN
+const char* mqtt_topic = "v1/devices/ABCD123/telemetry"; // Đổi ABCD123 thành DEVICE_KEY của bạn
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+```
 
 **Dữ liệu gửi lên (Chuẩn JSON)**:
 ```json

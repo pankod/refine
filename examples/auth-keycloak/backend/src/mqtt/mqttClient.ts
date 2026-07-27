@@ -6,15 +6,18 @@ const EMQX_URL = process.env.EMQX_URL || 'mqtt://localhost:1883';
 let mqttClient: mqtt.MqttClient | null = null;
 
 export const startMqttClient = () => {
-  mqttClient = mqtt.connect(EMQX_URL);
+  mqttClient = mqtt.connect(EMQX_URL, {
+    username: 'backend_service',
+    password: process.env.BACKEND_MQTT_SECRET || 'super_secret_backend',
+    clientId: `backend_service_${Math.random().toString(16).substring(2, 8)}`
+  });
 
   mqttClient.on('connect', () => {
     console.log('✅ Connected to EMQX Broker');
-    // Đăng ký chủ đề: telemetry/{device_key}
-    // Thiết bị sẽ gửi dữ liệu lên chủ đề telemetry/ABCD123
-    mqttClient?.subscribe('telemetry/+', (err) => {
+    // Đăng ký chủ đề: v1/devices/{device_key}/telemetry
+    mqttClient?.subscribe('v1/devices/+/telemetry', (err) => {
       if (!err) {
-        console.log('📡 Subscribed to topic: telemetry/+');
+        console.log('📡 Subscribed to topic: v1/devices/+/telemetry');
       }
     });
   });
@@ -26,8 +29,9 @@ export const startMqttClient = () => {
       const cleanTopic = topic.endsWith('/') ? topic.slice(0, -1) : topic;
       const parts = cleanTopic.split('/');
       
-      if (parts[0] === 'telemetry' && parts.length === 2) {
-        const deviceKey = parts[1];
+      // Format: v1/devices/<DEVICE_KEY>/telemetry
+      if (parts.length === 4 && parts[0] === 'v1' && parts[1] === 'devices' && parts[3] === 'telemetry') {
+        const deviceKey = parts[2];
         console.log(`[MQTT] Payload nhận được: ${message.toString()}`);
         const payload = JSON.parse(message.toString());
 
@@ -62,7 +66,7 @@ export const startMqttClient = () => {
 
 export const publishLiveEvent = (channel: string, type: string, payload: any) => {
   if (mqttClient && mqttClient.connected) {
-    const topic = `refine/${channel}/${type}`;
+    const topic = `v1/sys/refine/${channel}/${type}`;
     const message = JSON.stringify({
       channel,
       type,

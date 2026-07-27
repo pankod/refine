@@ -31,7 +31,7 @@ const checkJwt = expressjwt({
   algorithms: ['RS256']
 }).unless({
   // Bỏ qua JWT cho các đường dẫn nào (nếu cần)
-  path: ['/']
+  path: ['/', '/api/mqtt/auth', '/api/mqtt/acl']
 });
 
 // Áp dụng JWT cho toàn bộ API
@@ -152,6 +152,82 @@ app.delete('/dashboards/:id', async (req, res) => {
 // ==========================================
 // NHÓM API QUẢN LÝ THIẾT BỊ (DEVICES)
 // ==========================================
+app.get('/', (req, res) => {
+  res.send('Backend API Running...');
+});
+
+// ==========================================
+// NHÓM API BẢO MẬT MQTT (EMQX HTTP AUTH/ACL)
+// ==========================================
+
+// Kiểm tra Đăng nhập
+app.post('/api/mqtt/auth', async (req, res) => {
+  const { username, password } = req.body;
+  
+  if (!username) return res.status(401).send('ignore');
+
+  // 1. Backend Service
+  if (username === 'backend_service') {
+    if (password === process.env.BACKEND_MQTT_SECRET || password === 'super_secret_backend') {
+      return res.status(200).json({ result: 'allow', is_superuser: true });
+    }
+    return res.status(401).send('deny');
+  }
+
+  // 2. Frontend Web
+  if (username === 'frontend_readonly') {
+    if (password === 'public_frontend_token') {
+      return res.status(200).json({ result: 'allow', is_superuser: false });
+    }
+    return res.status(401).send('deny');
+  }
+
+  // 3. Thiết bị IoT
+  const creds = await prisma.device_credentials.findUnique({
+    where: { credentials_id: username }
+  });
+
+  if (creds && creds.credentials_value === password) {
+    return res.status(200).json({ result: 'allow', is_superuser: false });
+  }
+
+  return res.status(401).send('deny');
+});
+
+// Kiểm tra Quyền Publish/Subscribe
+app.post('/api/mqtt/acl', (req, res) => {
+  const { username, topic, action } = req.body;
+
+  // action: 'publish' | 'subscribe'
+  
+  // Backend Service có toàn quyền do is_superuser: true (EMQX sẽ bỏ qua ACL nếu is_superuser)
+  // Tuy nhiên nếu EMQX vẫn gọi, ta allow hết
+  if (username === 'backend_service') {
+    return res.status(200).json({ result: 'allow' });
+  }
+
+  // Frontend chỉ được Subscribe
+  if (username === 'frontend_readonly') {
+    if (action === 'subscribe') {
+      // Chỉ cho phép subscribe các topic refine hoặc telemetry
+      if (topic.startsWith('v1/sys/refine/') || topic.startsWith('v1/devices/')) {
+        return res.status(200).json({ result: 'allow' });
+      }
+    }
+    return res.status(401).send('deny');
+  }
+
+  // Thiết bị IoT
+  // Thiết bị (username) chỉ được phép publish lên đúng topic telemetry của nó
+  // Format chuẩn: v1/devices/<DEVICE_KEY>/telemetry
+  if (action === 'publish' && topic === `v1/devices/${username}/telemetry`) {
+    return res.status(200).json({ result: 'allow' });
+  }
+
+  // Chặn mọi hành động khác của thiết bị
+  return res.status(401).send('deny');
+});
+
 app.get('/devices', async (req, res) => {
   const devices = await prisma.devices.findMany({
     include: { device_credentials: true }, // Nối bảng để lấy Mật khẩu (Secret)

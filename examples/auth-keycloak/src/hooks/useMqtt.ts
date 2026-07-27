@@ -25,9 +25,9 @@ export const useMqtt = ({
   }, [topic]);
 
   useEffect(() => {
-    // Để trống username/password nếu EMQX cho phép Anonymous, 
-    // hoặc điền theo JWT/tài khoản tĩnh do người dùng cấu hình
     const defaultOptions: IClientOptions = {
+      username: 'frontend_readonly',
+      password: 'public_frontend_token',
       keepalive: 60,
       clientId: `refine_client_${Math.random().toString(16).substring(2, 8)}`,
       protocolId: 'MQTT',

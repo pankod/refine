@@ -347,7 +347,7 @@ const DeviceTelemetry: React.FC<{ deviceId: string, deviceKey: string }> = ({ de
 
   // Tích hợp MQTT hook
   const { payload, isConnected } = useMqtt({
-    topic: `telemetry/${deviceKey}`,
+    topic: `v1/devices/${deviceKey}/telemetry`,
   });
 
   // Lắng nghe payload từ MQTT để cập nhật realtime thẳng vào Cache
