@@ -59,3 +59,20 @@
   border-right: none !important;
   border-inline-end: none !important;
 }
+
+/* Hiệu ứng nhịp đập (pulse) cho Logo lúc Loading */
+.pulse-logo {
+  animation: pulse 1.5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 4px 6px rgba(11, 93, 59, 0.2));
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}

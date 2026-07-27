@@ -12,35 +12,27 @@ Hệ thống này gồm 3 thành phần chính:
 
 ## 2. Cách khởi chạy hệ thống (Cho người mới)
 
-### Bước 1: Khởi động các dịch vụ nền (Database, Redis, MQTT)
-Bạn cần đảm bảo Docker đã được cài đặt trên máy.
+### Bước 1: Bật Backend (Máy chủ API)
+Hệ thống đã được tự động hóa tối đa. Bạn chỉ cần chạy một lệnh duy nhất, hệ thống sẽ tự động bật các dịch vụ nền (Redis, EMQX qua Docker) và mở kết nối tới Cơ sở dữ liệu (PostgreSQL qua K3s).
+
+Bạn cần đảm bảo Docker đã được bật và đang chạy trên máy.
 1. Mở Terminal (Command Prompt / PowerShell).
-2. Di chuyển vào thư mục `backend`:
+2. Di chuyển vào thư mục `backend`, chạy lệnh:
    ```bash
    cd backend
-   ```
-3. Chạy lệnh để bật tất cả các dịch vụ (PostgreSQL, Redis, EMQX, Keycloak):
-   ```bash
-   docker-compose up -d
-   ```
-   *(Lưu ý: Mất khoảng 1-2 phút cho lần chạy đầu tiên. Chữ `-d` giúp chạy ngầm).*
-
-### Bước 2: Bật Backend (Máy chủ API)
-1. Vẫn ở trong thư mục `backend`, chạy lệnh:
-   ```bash
    npm install
    npm run dev
    ```
-2. Nếu thành công, bạn sẽ thấy dòng chữ: `Backend server is running on port 3000` và `Connected to Redis successfully`.
+3. Nếu thành công, bạn sẽ thấy thông báo: `🚀 Backend API đã chạy thành công trên địa chỉ: http://localhost:3000` cùng với các dấu tick xanh báo hiệu kết nối Redis và EMQX thành công.
 
-### Bước 3: Bật Frontend (Giao diện người dùng)
+### Bước 2: Bật Frontend (Giao diện người dùng)
 1. Mở một cửa sổ Terminal **mới**.
 2. Đứng ở thư mục gốc của dự án (`auth-keycloak`), chạy lệnh:
    ```bash
    npm install
    npm run dev
    ```
-3. Trình duyệt sẽ tự động mở trang web tại `http://localhost:5173`. Bạn đăng nhập bằng tài khoản Keycloak để vào hệ thống.
+3. Trình duyệt sẽ tự động mở trang web tại `http://localhost:5173`. Trang Loading với logo "Green IQ" sẽ hiện ra. Bạn đăng nhập bằng tài khoản Keycloak để vào hệ thống.
 
 ---
 

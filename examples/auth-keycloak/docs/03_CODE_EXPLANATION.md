@@ -45,25 +45,20 @@ Tệp quan trọng nhất của Frontend là `src/pages/devices/list.tsx` (Nơi 
 
 Tệp trung tâm của Backend là `backend/src/index.ts`.
 
-### Tính năng: Lưu dữ liệu MQTT vào Database và Redis
+### Tính năng: Lưu dữ liệu MQTT thông qua Hàng Đợi (Message Queue)
 ```typescript
 mqttClient.on('message', async (topic, message) => {
-    // 1. Lưu thông số mới nhất vào Redis (Tốc độ ánh sáng)
-    await redisClient.hSet(`device:${device.id}:telemetry`, key, value);
-
-    // 2. Lưu thành lịch sử vào PostgreSQL (Lưu trữ vĩnh viễn)
-    await prisma.deviceTelemetry.create({
-        data: {
-            deviceId: device.id,
-            key: key,
-            value: Number(value) || 0
-        }
-    });
+    // 1. Đẩy dữ liệu vào Hàng đợi Redis (telemetry_queue)
+    await redisClient.lPush('telemetry_queue', JSON.stringify({
+      deviceId: device.id,
+      payload: payload
+    }));
 });
 ```
-- **Ý nghĩa**: Đây là trái tim của hệ thống hứng dữ liệu. Bất cứ khi nào thiết bị IoT gửi dữ liệu lên, Backend sẽ làm song song 2 việc:
-  1. Ghi vào **Redis**: Redis giống như một tờ giấy nháp, truy cập cực nhanh. Backend ghi đè số mới nhất lên đây để Frontend có thể lấy ra hiển thị lập tức mà không cần lục tìm khó khăn.
-  2. Ghi vào **PostgreSQL**: Postgres giống như một cuốn sổ kho bìa cứng. Dữ liệu sẽ được ghi thành từng dòng lịch sử (Ngày này, giờ này, nhiệt độ là bao nhiêu). Dữ liệu này dùng để vẽ Biểu Đồ quá khứ.
+- **Ý nghĩa**: Bất cứ khi nào thiết bị IoT gửi dữ liệu lên, Backend KHÔNG ghi trực tiếp vào Database ngay lập tức (vì sẽ làm sập Server nếu có hàng triệu thiết bị gửi cùng lúc).
+- Thay vào đó, Backend đẩy dữ liệu vào **Redis Queue** (Hàng đợi). Redis là RAM nên tốc độ cực kỳ nhanh (hàng triệu tin nhắn mỗi giây).
+- Đằng sau hệ thống có một **Telemetry Worker** (Công nhân dọn rác). Cứ mỗi 1 giây (hoặc khi gom đủ 1000 tin nhắn), anh công nhân này sẽ hốt trọn bộ dữ liệu từ Redis và dùng lệnh `prisma.telemetry_kv.createMany` để lưu **hàng loạt (Batch Insert)** vào PostgreSQL cùng một lúc.
+- Đây chính là kiến trúc **Message Queue & Batch Processing**, bí quyết giúp các hệ thống IoT chuẩn Công nghiệp xử lý hàng tỷ bản ghi mà không bao giờ bị nghẽn mạng!
 
 ### Tính năng: Xác thực bảo mật Token (Keycloak)
 ```typescript

@@ -1,4 +1,3 @@
-
 <RULE[refine_context_lookup]>
 
 ## Refine Context & Documentation Lookup
