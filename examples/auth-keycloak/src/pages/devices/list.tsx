@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { List, useTable, useModalForm, DeleteButton, EditButton } from "@refinedev/antd";
-import { Table, Tag, Drawer, Tabs, Descriptions, Typography, Card, Button, Input, Space, Form, Select, Checkbox, Modal, Row, Col, message } from "antd";
-import { SearchOutlined, SyncOutlined, SettingOutlined, CheckCircleOutlined, CloseCircleOutlined, PlusOutlined, KeyOutlined, LockOutlined } from "@ant-design/icons";
+import { Table, Tag, Drawer, Tabs, Descriptions, Typography, Card, Button, Input, Space, Form, Select, Checkbox, Modal, Row, Col, message, InputNumber, Tooltip } from "antd";
+import { SearchOutlined, SyncOutlined, SettingOutlined, CheckCircleOutlined, CloseCircleOutlined, PlusOutlined, KeyOutlined, LockOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useCustom } from "@refinedev/core";
 
 import { useMqtt } from "../../hooks/useMqtt";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { DeviceRelations } from "./relations";
 
 const { Text, Title } = Typography;
 
@@ -18,8 +19,13 @@ const { Text, Title } = Typography;
  * Nó sử dụng sức mạnh của @refinedev/antd để tự động hóa việc lấy dữ liệu (useTable),
  * hiển thị phân trang, tìm kiếm, và quản lý các Form Tạo/Sửa (useModalForm).
  */
-export const DeviceList: React.FC = () => {
-  const { tableProps } = useTable();
+export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayView }) => {
+  const { tableProps } = useTable({
+    resource: 'devices',
+    filters: {
+      permanent: isGatewayView ? [{ field: "isGateway", operator: "eq", value: true }] : undefined
+    }
+  });
 
   const { 
     modalProps: createModalProps, 
@@ -73,7 +79,7 @@ export const DeviceList: React.FC = () => {
   return (
     <>
       <List 
-        title="Thiết bị (Devices)" 
+        title={isGatewayView ? "Cổng kết nối (Gateways)" : "Thiết bị (Devices)"} 
         headerButtons={
           <Space>
             <Input 
@@ -82,7 +88,9 @@ export const DeviceList: React.FC = () => {
               style={{ width: 250 }} 
             />
             <Button icon={<SyncOutlined />} onClick={() => tableProps.onChange?.(tableProps.pagination || {} as any, {}, {}, { currentDataSource: [] } as any)}>Tải lại</Button>
-            <Button type="primary" icon={<PlusOutlined />} onClick={() => showCreateModal()}>Tạo thiết bị</Button>
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => showCreateModal()}>
+              {isGatewayView ? "Thêm Gateway" : "Tạo thiết bị"}
+            </Button>
           </Space>
         }
       >
@@ -104,6 +112,16 @@ export const DeviceList: React.FC = () => {
             title="Thời gian tạo" 
             render={(value) => new Date(value).toLocaleString()} 
           />
+          {!isGatewayView && (
+            <Table.Column 
+              dataIndex="isGateway" 
+              title="Is gateway" 
+              align="center"
+              render={(isGateway) => (
+                <Checkbox checked={isGateway} disabled />
+              )} 
+            />
+          )}
         </Table>
       </List>
 
@@ -131,6 +149,9 @@ export const DeviceList: React.FC = () => {
                   <Descriptions.Item label="Nhãn (Label)">{selectedDevice.label}</Descriptions.Item>
                   <Descriptions.Item label="Trạng thái">
                     {selectedDevice.status === "online" ? <Text type="success">Đang hoạt động</Text> : <Text type="secondary">Mất kết nối</Text>}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Là Gateway?">
+                    {selectedDevice.isGateway ? <Tag color="blue">Có (Gateway)</Tag> : <Text type="secondary">Không</Text>}
                   </Descriptions.Item>
                 </Descriptions>
               </Card>
@@ -179,6 +200,10 @@ export const DeviceList: React.FC = () => {
             <Tabs.TabPane tab="Đo lường (Telemetry)" key="telemetry">
               <DeviceTelemetry deviceId={selectedDevice.id} deviceKey={selectedDevice.device_key} />
             </Tabs.TabPane>
+
+            <Tabs.TabPane tab="Relations" key="relations">
+              <DeviceRelations deviceId={selectedDevice.id} />
+            </Tabs.TabPane>
             
             <Tabs.TabPane tab="Cảnh báo (Alarms)" key="alarms">
               <div style={{ textAlign: "center", padding: 40 }}>
@@ -226,6 +251,10 @@ export const DeviceList: React.FC = () => {
           <Form.Item name="autoGenerateToken" valuePropName="checked" initialValue={true}>
             <Checkbox>Tự động sinh mã Access Token xác thực (Mặc định)</Checkbox>
           </Form.Item>
+          
+          <Form.Item name="isGateway" valuePropName="checked" initialValue={isGatewayView || false} hidden={isGatewayView}>
+            <Checkbox>Gán thiết bị này là một Gateway (Cho phép kết nối các thiết bị con)</Checkbox>
+          </Form.Item>
         </Form>
       </Modal>
 
@@ -271,6 +300,10 @@ export const DeviceList: React.FC = () => {
           <Form.Item label="Mô tả (Description)" name="description">
             <Input.TextArea rows={3} placeholder="Mô tả chi tiết về thiết bị..." />
           </Form.Item>
+
+          <Form.Item name="isGateway" valuePropName="checked" hidden={isGatewayView}>
+            <Checkbox>Gán thiết bị này là một Gateway (Cho phép kết nối các thiết bị con)</Checkbox>
+          </Form.Item>
         </Form>
       </Modal>
     </>
@@ -282,40 +315,201 @@ export const DeviceList: React.FC = () => {
  * COMPONENT CON: HIỂN THỊ THUỘC TÍNH (DeviceAttributes)
  * ============================================================================
  * Nhiệm vụ: Lấy cấu hình (Attributes) của thiết bị (Shared, Client, Server scope)
- * Dùng hook `useCustom` của Refine để gọi thẳng API tùy chỉnh.
+ * và cho phép chỉnh sửa Server/Shared attributes.
  */
 const DeviceAttributes: React.FC<{ deviceId: string }> = ({ deviceId }) => {
-  const { data, isLoading } = useCustom<any>({
-    url: `devices/${deviceId}/attributes`,
-    method: "get",
-    dataProviderName: "devices",
-    meta: {
-      dataProviderName: "devices"
+  const [activeTab, setActiveTab] = useState("CLIENT_SCOPE");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalMode, setModalMode] = useState<"add" | "edit">("add");
+  const [form] = Form.useForm();
+  const dataType = Form.useWatch('dataType', form);
+  
+  const queryClient = useQueryClient();
+  const API_URL = import.meta.env.VITE_API_URL || "/api";
+
+  const { data: attributes = [], isLoading } = useQuery({
+    queryKey: ['attributes', deviceId, activeTab],
+    queryFn: async () => {
+      const res = await axios.get(`${API_URL}/devices/${deviceId}/attributes`, { params: { scope: activeTab } });
+      return res.data;
     }
   });
 
-  const attributes = data?.data || { client: [], shared: [], server: [] };
-  
-  // Gop tat ca attributes de hien thi trong 1 bang
-  const allAttrs = [
-    ...attributes.client.map((a: any) => ({ ...a, scope: "Client" })),
-    ...attributes.shared.map((a: any) => ({ ...a, scope: "Shared" })),
-    ...attributes.server.map((a: any) => ({ ...a, scope: "Server" }))
-  ];
+  const showAddModal = () => {
+    setModalMode("add");
+    form.resetFields();
+    form.setFieldsValue({ dataType: 'string' });
+    setIsModalVisible(true);
+  };
+
+  const showEditModal = (record: any) => {
+    setModalMode("edit");
+    form.resetFields();
+    
+    // Determine type from value
+    let type = 'string';
+    if (typeof record.value === 'boolean') type = 'boolean';
+    else if (typeof record.value === 'number') {
+      type = Number.isInteger(record.value) ? 'integer' : 'double';
+    } else if (typeof record.value === 'object') type = 'json';
+
+    form.setFieldsValue({
+      key: record.key,
+      dataType: type,
+      value: type === 'json' ? JSON.stringify(record.value, null, 2) : record.value
+    });
+    setIsModalVisible(true);
+  };
+
+  const handleAddSubmit = async (values: any) => {
+    try {
+      let parsedValue = values.value;
+      
+      switch (values.dataType) {
+        case 'integer':
+          parsedValue = parseInt(values.value, 10);
+          break;
+        case 'double':
+          parsedValue = parseFloat(values.value);
+          break;
+        case 'boolean':
+          parsedValue = values.value === true || values.value === 'true';
+          break;
+        case 'json':
+          try {
+            parsedValue = JSON.parse(values.value);
+          } catch (e) {
+            message.error("JSON không hợp lệ!");
+            return;
+          }
+          break;
+        default:
+          parsedValue = String(values.value);
+      }
+      
+      const payload = { [values.key]: parsedValue };
+      await axios.post(`${API_URL}/devices/${deviceId}/attributes/${activeTab}`, payload);
+      message.success(modalMode === "add" ? "Thêm thuộc tính thành công!" : "Cập nhật thành công!");
+      setIsModalVisible(false);
+      form.resetFields();
+      queryClient.invalidateQueries({ queryKey: ['attributes', deviceId, activeTab] });
+    } catch (err) {
+      console.error(err);
+      message.error("Lỗi khi lưu thuộc tính");
+    }
+  };
+
+  const handleDelete = async (key: string) => {
+    Modal.confirm({
+      title: 'Xác nhận xóa',
+      content: `Bạn có chắc muốn xóa thuộc tính "${key}"?`,
+      onOk: async () => {
+        try {
+          await axios.delete(`${API_URL}/devices/${deviceId}/attributes/${activeTab}?keys=${key}`);
+          message.success("Đã xóa thuộc tính!");
+          queryClient.invalidateQueries({ queryKey: ['attributes', deviceId, activeTab] });
+        } catch (err) {
+          console.error(err);
+          message.error("Lỗi khi xóa");
+        }
+      }
+    });
+  };
 
   return (
-    <Table 
-      dataSource={allAttrs} 
-      rowKey={(record) => record.scope + record.key} 
-      loading={isLoading}
-      size="small"
-      pagination={{ pageSize: 10 }}
-    >
-      <Table.Column dataIndex="lastUpdate" title="Cập nhật lần cuối" render={(v) => new Date(v).toLocaleString()} />
-      <Table.Column dataIndex="key" title="Thuộc tính (Key)" render={(v) => <strong>{v}</strong>} />
-      <Table.Column dataIndex="value" title="Giá trị (Value)" />
-      <Table.Column dataIndex="scope" title="Phạm vi (Scope)" render={(v) => <Tag color="blue">{v}</Tag>} />
-    </Table>
+    <div>
+      <Tabs activeKey={activeTab} onChange={setActiveTab}>
+        <Tabs.TabPane tab="Client Attributes" key="CLIENT_SCOPE" />
+        <Tabs.TabPane tab="Server Attributes" key="SERVER_SCOPE" />
+        <Tabs.TabPane tab="Shared Attributes" key="SHARED_SCOPE" />
+      </Tabs>
+      
+      <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
+        {activeTab !== 'CLIENT_SCOPE' && (
+          <Button type="primary" icon={<PlusOutlined />} onClick={showAddModal}>
+            Thêm Thuộc Tính
+          </Button>
+        )}
+      </div>
+
+      <Table 
+        dataSource={attributes} 
+        rowKey={(record) => record.scope + record.key} 
+        loading={isLoading}
+        size="small"
+        pagination={{ pageSize: 10 }}
+      >
+        <Table.Column dataIndex="lastUpdateTs" title="Cập nhật lần cuối" render={(v) => new Date(v).toLocaleString()} />
+        <Table.Column dataIndex="key" title="Thuộc tính (Key)" render={(v) => <strong>{v}</strong>} />
+        <Table.Column dataIndex="value" title="Giá trị (Value)" render={(v) => typeof v === 'object' ? JSON.stringify(v) : String(v)} />
+        <Table.Column 
+          title="Hành động" 
+          align="right"
+          render={(_, record: any) => (
+            activeTab !== 'CLIENT_SCOPE' ? (
+              <Space>
+                <Tooltip title="Sửa">
+                  <Button type="text" icon={<EditOutlined />} onClick={() => showEditModal(record)} />
+                </Tooltip>
+                <Tooltip title="Xóa">
+                  <Button type="text" danger icon={<DeleteOutlined />} onClick={() => handleDelete(record.key)} />
+                </Tooltip>
+              </Space>
+            ) : null
+          )} 
+        />
+      </Table>
+
+      <Modal 
+        title={`${modalMode === "add" ? 'Thêm' : 'Sửa'} ${activeTab === 'SERVER_SCOPE' ? 'Server' : 'Shared'} Attribute`} 
+        open={isModalVisible} 
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+        destroyOnClose
+      >
+        <Form form={form} layout="vertical" onFinish={handleAddSubmit} initialValues={{ dataType: 'string' }}>
+          <Form.Item name="key" label="Key" rules={[{ required: true, message: "Vui lòng nhập Key" }]}>
+            <Input disabled={modalMode === "edit"} placeholder="Nhập tên thuộc tính (VD: active, version...)" />
+          </Form.Item>
+          
+          <Form.Item name="dataType" label="Kiểu dữ liệu (Data Type)" rules={[{ required: true }]}>
+            <Select>
+              <Select.Option value="string">String</Select.Option>
+              <Select.Option value="integer">Integer</Select.Option>
+              <Select.Option value="double">Double</Select.Option>
+              <Select.Option value="boolean">Boolean</Select.Option>
+              <Select.Option value="json">JSON</Select.Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="value" label="Giá trị (Value)" rules={[{ required: true, message: "Vui lòng nhập Giá trị" }]}>
+            {dataType === 'boolean' ? (
+              <Select>
+                <Select.Option value={true}>True</Select.Option>
+                <Select.Option value={false}>False</Select.Option>
+              </Select>
+            ) : dataType === 'integer' ? (
+              <InputNumber style={{ width: '100%' }} />
+            ) : dataType === 'double' ? (
+              <InputNumber step={0.1} style={{ width: '100%' }} />
+            ) : dataType === 'json' ? (
+              <Input.TextArea rows={4} placeholder='{"key": "value"}' />
+            ) : (
+              <Input />
+            )}
+          </Form.Item>
+          
+          <Form.Item style={{ textAlign: 'right', marginBottom: 0 }}>
+            <Space>
+              <Button onClick={() => setIsModalVisible(false)}>Hủy</Button>
+              <Button type="primary" htmlType="submit">
+                {modalMode === "add" ? 'Thêm' : 'Cập nhật'}
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </div>
   );
 };
 

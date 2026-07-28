@@ -130,6 +130,58 @@ export const startTelemetryWorker = () => {
 
       console.log(`✅ Successfully batch inserted ${telemetryData.length} records to DB!`);
 
+      /**
+       * BƯỚC 6: Xử lý Attributes Queue (Gom Lô giống hệt Telemetry)
+       */
+      const attrMessages = [];
+      for (let i = 0; i < BATCH_SIZE; i++) {
+        const msg = await redis.rpop('attributes_queue');
+        if (!msg) break;
+        attrMessages.push(JSON.parse(msg));
+      }
+
+      if (attrMessages.length > 0) {
+        // Lọc thiết bị hợp lệ
+        const validAttrMessages = attrMessages.filter(m => keyToDeviceId[m.deviceKey] || (Object.keys(keyToDeviceId).length === 0)); 
+        // Note: Nếu trong đợt quét telemetry không có device này, ta phải lấy query lại.
+        // Để đơn giản, gộp chung bộ lọc device:
+        const missingKeys = [...new Set(attrMessages.map(m => m.deviceKey))].filter(k => !keyToDeviceId[k]);
+        if (missingKeys.length > 0) {
+          const extraCreds = await prisma.device_credentials.findMany({
+            where: { credentials_id: { in: missingKeys } },
+            select: { device_id: true, credentials_id: true }
+          });
+          extraCreds.forEach(c => { keyToDeviceId[c.credentials_id] = c.device_id; });
+        }
+
+        const attrData = attrMessages.filter(m => keyToDeviceId[m.deviceKey]).map(m => ({
+          entity_type: 'DEVICE',
+          entity_id: keyToDeviceId[m.deviceKey],
+          attribute_type: 'CLIENT_SCOPE',
+          attribute_key: m.key,
+          bool_v: m.bool_v,
+          str_v: m.str_v,
+          long_v: m.long_v,
+          dbl_v: m.dbl_v,
+          json_v: m.json_v ? JSON.parse(m.json_v) : null,
+          last_update_ts: BigInt(m.ts)
+        }));
+
+        if (attrData.length > 0) {
+          // Prisma createMany on Postgres supports skipDuplicates, but we want an Upsert (ON CONFLICT DO UPDATE).
+          // However, Prisma doesn't support bulk upsert natively, so we either loop upsert or executeRaw.
+          for (const attr of attrData) {
+            await prisma.$executeRaw`
+              INSERT INTO attribute_kv (entity_type, entity_id, attribute_type, attribute_key, bool_v, str_v, long_v, dbl_v, json_v, last_update_ts)
+              VALUES (${attr.entity_type}, ${attr.entity_id}::uuid, ${attr.attribute_type}, ${attr.attribute_key}, ${attr.bool_v}, ${attr.str_v}, ${attr.long_v}, ${attr.dbl_v}, ${attr.json_v}::json, ${attr.last_update_ts})
+              ON CONFLICT (entity_type, entity_id, attribute_type, attribute_key) 
+              DO UPDATE SET bool_v = EXCLUDED.bool_v, str_v = EXCLUDED.str_v, long_v = EXCLUDED.long_v, dbl_v = EXCLUDED.dbl_v, json_v = EXCLUDED.json_v, last_update_ts = EXCLUDED.last_update_ts;
+            `;
+          }
+          console.log(`✅ Successfully upserted ${attrData.length} attributes to DB!`);
+        }
+      }
+
     } catch (err) {
       console.error('❌ Telemetry Worker Error:', err);
     }

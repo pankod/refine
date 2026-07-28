@@ -8,7 +8,7 @@ import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import crypto from 'crypto';
 import { redis } from './redis/redisClient';
-import { startMqttClient, publishLiveEvent } from './mqtt/mqttClient';
+import { startMqttClient, publishLiveEvent, publishSharedAttributes } from './mqtt/mqttClient';
 import { startTelemetryWorker } from './workers/telemetryWorker';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger_output.json';
@@ -336,14 +336,24 @@ app.get('/devices', async (req, res) => {
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
 
+  const isGateway = req.query.isGateway === 'true';
+  const where: any = {};
+  if (isGateway) {
+    where.additional_info = {
+      path: ['isGateway'],
+      equals: true
+    };
+  }
+
   const [devices, total] = await Promise.all([
     prisma.devices.findMany({
+      where,
       include: { device_credentials: true }, // Nối bảng để lấy Mật khẩu (Secret)
       orderBy: { created_at: 'desc' }, // Sắp xếp mới nhất lên đầu
       skip,
       take: limit
     }),
-    prisma.devices.count()
+    prisma.devices.count({ where })
   ]);
   
   // Định dạng lại JSON theo cấu trúc mà Giao diện Refine yêu cầu
@@ -352,6 +362,7 @@ app.get('/devices', async (req, res) => {
     name: d.name,
     type: d.type,
     status: (d.additional_info as any)?.status || 'offline',
+    isGateway: (d.additional_info as any)?.isGateway || false,
     device_key: d.device_credentials?.credentials_id || '',
     secret: d.device_credentials?.credentials_value || '',
     created_at: d.created_at
@@ -376,6 +387,7 @@ app.get('/devices/:id', async (req, res) => {
     name: d.name,
     type: d.type,
     status: (d.additional_info as any)?.status || 'offline',
+    isGateway: (d.additional_info as any)?.isGateway || false,
     device_key: d.device_credentials?.credentials_id || '',
     secret: d.device_credentials?.credentials_value || '',
     created_at: d.created_at
@@ -392,7 +404,7 @@ app.get('/devices/:id', async (req, res) => {
  */
 app.post('/devices', async (req, res) => {
   /* #swagger.tags = ['Devices'] */
-  const { name, type } = req.body;
+  const { name, type, isGateway } = req.body;
   const tenantId = await getDefaultTenant();
   
   // Tạo Thiết bị và đồng thời chèn Mã Token vào bảng device_credentials (Nối bảng)
@@ -401,7 +413,7 @@ app.post('/devices', async (req, res) => {
       name,
       type: type || 'default',
       tenant_id: tenantId,
-      additional_info: { status: 'offline' },
+      additional_info: { status: 'offline', isGateway: !!isGateway },
       device_credentials: {
         create: {
           credentials_type: 'ACCESS_TOKEN',
@@ -418,6 +430,7 @@ app.post('/devices', async (req, res) => {
     name: d.name,
     type: d.type,
     status: (d.additional_info as any)?.status || 'offline',
+    isGateway: (d.additional_info as any)?.isGateway || false,
     device_key: d.device_credentials?.credentials_id || '',
     secret: d.device_credentials?.credentials_value || '',
     created_at: d.created_at
@@ -432,14 +445,17 @@ app.post('/devices', async (req, res) => {
  */
 app.patch('/devices/:id', async (req, res) => {
   /* #swagger.tags = ['Devices'] */
-  const { name, type, status } = req.body;
+  const { name, type, status, isGateway } = req.body;
   
   const d = await prisma.devices.update({
     where: { id: req.params.id },
     data: { 
       name, 
       type, 
-      additional_info: { status: status || 'offline' }
+      additional_info: { 
+        status: status || 'offline',
+        isGateway: isGateway !== undefined ? !!isGateway : false 
+      }
     },
     include: { device_credentials: true }
   });
@@ -449,6 +465,7 @@ app.patch('/devices/:id', async (req, res) => {
     name: d.name,
     type: d.type,
     status: (d.additional_info as any)?.status || 'offline',
+    isGateway: (d.additional_info as any)?.isGateway || false,
     device_key: d.device_credentials?.credentials_id || '',
     secret: d.device_credentials?.credentials_value || '',
     created_at: d.created_at
@@ -484,6 +501,120 @@ app.delete('/devices/:id', async (req, res) => {
 // ==========================================
 // NHÓM API QUẢN LÝ DỮ LIỆU ĐO LƯỜNG (TELEMETRY)
 // ==========================================
+
+// ==========================================
+// NHÓM API QUẢN LÝ THUỘC TÍNH (ATTRIBUTES)
+// ==========================================
+
+/**
+ * [GET] Lấy danh sách Attributes của thiết bị
+ */
+app.get('/devices/:id/attributes', async (req, res) => {
+  /* #swagger.tags = ['Attributes'] */
+  try {
+    const scope = req.query.scope as string;
+    
+    // Fallback: If deviceId is provided, look it up first
+    const creds = await prisma.device_credentials.findFirst({
+      where: { device_id: req.params.id }
+    });
+
+    const whereClause: any = { entity_id: req.params.id };
+    if (scope) {
+      whereClause.attribute_type = scope;
+    }
+    
+    const attributes = await prisma.$queryRawUnsafe<any[]>(
+      `SELECT attribute_key, bool_v, str_v, long_v, dbl_v, json_v, last_update_ts, attribute_type 
+       FROM attribute_kv WHERE entity_id = $1::uuid ${scope ? 'AND attribute_type = $2' : ''} 
+       ORDER BY last_update_ts DESC`,
+      req.params.id,
+      ...(scope ? [scope] : [])
+    );
+
+    const formatted = attributes.map(a => ({
+      key: a.attribute_key,
+      value: a.dbl_v !== null ? a.dbl_v : (a.long_v !== null ? Number(a.long_v) : (a.bool_v !== null ? a.bool_v : (a.json_v !== null ? a.json_v : a.str_v))),
+      lastUpdateTs: Number(a.last_update_ts),
+      scope: a.attribute_type
+    }));
+    res.json(formatted);
+  } catch (err) {
+    console.error('[API] Error fetching attributes:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+/**
+ * [POST] Cập nhật / Thêm mới Attributes (Server/Shared)
+ */
+app.post('/devices/:id/attributes/:scope', async (req, res) => {
+  /* #swagger.tags = ['Attributes'] */
+  try {
+    const { id, scope } = req.params;
+    if (scope !== 'SERVER_SCOPE' && scope !== 'SHARED_SCOPE') {
+      return res.status(400).json({ error: 'Chỉ được phép sửa SERVER_SCOPE hoặc SHARED_SCOPE' });
+    }
+    const payload = req.body;
+    const ts = new Date().getTime();
+    for (const [key, value] of Object.entries(payload)) {
+      const bool_v = typeof value === 'boolean' ? value : null;
+      const str_v = typeof value === 'string' ? value : null;
+      const long_v = typeof value === 'number' && Number.isInteger(value) ? value : null;
+      const dbl_v = typeof value === 'number' && !Number.isInteger(value) ? value : null;
+      const json_v = typeof value === 'object' && value !== null ? JSON.stringify(value) : null;
+      
+      await prisma.$executeRaw`
+        INSERT INTO attribute_kv (entity_type, entity_id, attribute_type, attribute_key, bool_v, str_v, long_v, dbl_v, json_v, last_update_ts)
+        VALUES ('DEVICE', ${id}::uuid, ${scope}, ${key}, ${bool_v}, ${str_v}, ${long_v}, ${dbl_v}, ${json_v}::json, ${ts})
+        ON CONFLICT (entity_type, entity_id, attribute_type, attribute_key) 
+        DO UPDATE SET bool_v = EXCLUDED.bool_v, str_v = EXCLUDED.str_v, long_v = EXCLUDED.long_v, dbl_v = EXCLUDED.dbl_v, json_v = EXCLUDED.json_v, last_update_ts = EXCLUDED.last_update_ts;
+      `;
+    }
+    
+    // Nếu là SHARED_SCOPE, publish MQTT xuống thiết bị
+    if (scope === 'SHARED_SCOPE') {
+      const creds = await prisma.device_credentials.findFirst({ where: { device_id: id } });
+      if (creds?.credentials_id) {
+        publishSharedAttributes(creds.credentials_id, payload);
+      }
+    }
+    
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error('[API] Error saving attributes:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+/**
+ * [DELETE] Xoá Attributes
+ */
+app.delete('/devices/:id/attributes/:scope', async (req, res) => {
+  /* #swagger.tags = ['Attributes'] */
+  try {
+    const { id, scope } = req.params;
+    const keys = (req.query.keys as string || '').split(',');
+    if (keys.length === 0 || !keys[0]) {
+      return res.status(400).json({ error: 'Thiếu keys' });
+    }
+    
+    // Prisma queryRaw for DELETE
+    const placeholders = keys.map((_, i) => '$' + (i + 3)).join(',');
+    await prisma.$executeRawUnsafe(
+      `DELETE FROM attribute_kv WHERE entity_id = $1::uuid AND attribute_type = $2 AND attribute_key IN (${placeholders})`,
+      id,
+      scope,
+      ...keys
+    );
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error('[API] Error deleting attributes:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 /**
  * [GET] Lấy Dữ liệu Đo lường Mới Nhất
@@ -570,6 +701,136 @@ app.get('/devices/:id/telemetry/history', async (req, res) => {
   } catch (err: any) {
     console.error('[API] Error fetching telemetry history:', err);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// ==========================================
+// RELATION API
+// ==========================================
+
+// GET /relations?from_id=... hoặc ?to_id=...
+app.get('/relations', async (req: any, res: any) => {
+  try {
+    const { from_id, to_id } = req.query;
+    
+    const filters: any = {};
+    if (from_id) filters.from_id = from_id;
+    if (to_id) filters.to_id = to_id;
+
+    if (!from_id && !to_id) {
+      return res.status(400).json({ error: 'Missing from_id or to_id query parameter' });
+    }
+
+    const relations = await prisma.relation.findMany({
+      where: filters
+    });
+
+    // Cần lấy TÊN của entity đối diện (để UI dễ hiển thị)
+    // Giả sử chỉ join với devices và dashboards
+    const enriched = await Promise.all(relations.map(async (r) => {
+      let toEntityName = r.to_id;
+      if (r.to_type === 'DEVICE') {
+        const d = await prisma.devices.findUnique({ where: { id: r.to_id } });
+        if (d) toEntityName = d.name;
+      } else if (r.to_type === 'DASHBOARD') {
+        const d = await prisma.dashboards.findUnique({ where: { id: r.to_id } });
+        if (d) toEntityName = d.title;
+      }
+
+      let fromEntityName = r.from_id;
+      if (r.from_type === 'DEVICE') {
+        const d = await prisma.devices.findUnique({ where: { id: r.from_id } });
+        if (d) fromEntityName = d.name;
+      } else if (r.from_type === 'DASHBOARD') {
+        const d = await prisma.dashboards.findUnique({ where: { id: r.from_id } });
+        if (d) fromEntityName = d.title;
+      }
+
+      return {
+        ...r,
+        to_entity_name: toEntityName,
+        from_entity_name: fromEntityName,
+        id: `${r.from_id}_${r.to_id}_${r.relation_type}` // Fake ID for Refine UI
+      };
+    }));
+
+    // Hỗ trợ Refine Header
+    res.setHeader('x-total-count', enriched.length.toString());
+    res.setHeader('Access-Control-Expose-Headers', 'x-total-count');
+    res.json(enriched);
+  } catch (err: any) {
+    console.error('[API] Error fetching relations:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// POST /relations
+app.post('/relations', async (req: any, res: any) => {
+  try {
+    const { from_id, from_type, to_id, to_type, relation_type } = req.body;
+    
+    if (!from_id || !to_id || !relation_type) {
+      return res.status(400).json({ error: 'Missing required relation fields' });
+    }
+
+    const rel = await prisma.relation.create({
+      data: {
+        from_id,
+        from_type: from_type || 'DEVICE',
+        to_id,
+        to_type: to_type || 'DEVICE',
+        relation_type,
+        relation_type_group: 'COMMON'
+      }
+    });
+
+    res.status(201).json(rel);
+  } catch (err: any) {
+    console.error('[API] Error creating relation:', err);
+    res.status(500).json({ error: 'Internal Server Error', details: err.message });
+  }
+});
+
+// DELETE /relations
+app.delete('/relations/:id', async (req: any, res: any) => {
+  try {
+    // ID từ Refine gửi lên là fake ID: fromId_toId_relationType
+    // Hoặc query params ?from_id=...&to_id=...&relation_type=...
+    const idParam = req.params.id;
+    let from_id, to_id, relation_type;
+
+    if (idParam.includes('_')) {
+      const parts = idParam.split('_');
+      from_id = parts[0];
+      to_id = parts[1];
+      relation_type = parts.slice(2).join('_');
+    } else {
+       from_id = req.query.from_id;
+       to_id = req.query.to_id;
+       relation_type = req.query.relation_type;
+    }
+
+    if (!from_id || !to_id || !relation_type) {
+      return res.status(400).json({ error: 'Missing primary keys for relation' });
+    }
+
+    await prisma.relation.delete({
+      where: {
+        from_id_from_type_relation_type_group_relation_type_to_id_to_type: {
+          from_id,
+          to_id,
+          relation_type,
+          from_type: 'DEVICE',
+          to_type: 'DEVICE',
+          relation_type_group: 'COMMON'
+        }
+      }
+    });
+
+    res.json({ success: true });
+  } catch (err: any) {
+    console.error('[API] Error deleting relation:', err);
+    res.status(500).json({ error: 'Internal Server Error', details: err.message });
   }
 });
 

@@ -42,6 +42,13 @@ export const startMqttClient = () => {
         console.log('📡 Subscribed to topic: v1/devices/+/telemetry');
       }
     });
+    
+    // Đăng ký nhận Attributes từ thiết bị
+    mqttClient?.subscribe('v1/devices/+/attributes', (err) => {
+      if (!err) {
+        console.log('📡 Subscribed to topic: v1/devices/+/attributes');
+      }
+    });
   });
 
   /**
@@ -57,10 +64,11 @@ export const startMqttClient = () => {
       const parts = cleanTopic.split('/');
       
       // BƯỚC 2: Kiểm tra cấu trúc Topic xem có đúng chuẩn không
-      // Format chuẩn: v1/devices/<DEVICE_KEY>/telemetry
-      if (parts.length === 4 && parts[0] === 'v1' && parts[1] === 'devices' && parts[3] === 'telemetry') {
+      // Format chuẩn: v1/devices/<DEVICE_KEY>/telemetry hoặc v1/devices/<DEVICE_KEY>/attributes
+      if (parts.length === 4 && parts[0] === 'v1' && parts[1] === 'devices' && (parts[3] === 'telemetry' || parts[3] === 'attributes')) {
         const deviceKey = parts[2]; // Lấy Mã Thiết Bị từ chuỗi
-        console.log(`[MQTT] Payload nhận được: ${message.toString()}`);
+        const msgType = parts[3]; // 'telemetry' hoặc 'attributes'
+        console.log(`[MQTT] Payload nhận được (${msgType}): ${message.toString()}`);
         
         // Mở hộp dữ liệu (Parse JSON)
         // Ví dụ dữ liệu: { "temperature": 25.5, "humidity": 60 }
@@ -80,14 +88,20 @@ export const startMqttClient = () => {
             str_v: typeof value === 'string' ? value : null,
             long_v: typeof value === 'number' && Number.isInteger(value) ? value : null,
             dbl_v: typeof value === 'number' && !Number.isInteger(value) ? value : null,
+            json_v: typeof value === 'object' && value !== null ? JSON.stringify(value) : null,
             ts: new Date().getTime() // Đóng dấu thời gian lúc nhận được hàng
           };
 
-          // 1. Quăng mạnh kiện hàng này lên băng chuyền Redis (Lệnh LPUSH) để xử lý lô lưu vào DB
-          await redis.lpush('telemetry_queue', JSON.stringify(queueItem));
+          if (msgType === 'telemetry') {
+            // 1. Quăng mạnh kiện hàng này lên băng chuyền Redis (Lệnh LPUSH) để xử lý lô lưu vào DB
+            await redis.lpush('telemetry_queue', JSON.stringify(queueItem));
 
-          // 2. Lưu NGAY LẬP TỨC vào bộ nhớ đệm RAM (Redis Hash) để Giao diện Web lấy tốc độ 0ms
-          await redis.hset(`latest_telemetry:${deviceKey}`, key, JSON.stringify(queueItem));
+            // 2. Lưu NGAY LẬP TỨC vào bộ nhớ đệm RAM (Redis Hash) để Giao diện Web lấy tốc độ 0ms
+            await redis.hset(`latest_telemetry:${deviceKey}`, key, JSON.stringify(queueItem));
+          } else if (msgType === 'attributes') {
+            // Đẩy lên băng chuyền attributes_queue (mặc định CLIENT_SCOPE)
+            await redis.lpush('attributes_queue', JSON.stringify(queueItem));
+          }
         }
       }
     } catch (err) {
@@ -126,3 +140,12 @@ export const publishLiveEvent = (channel: string, type: string, payload: any) =>
   }
 };
 
+
+export const publishSharedAttributes = (deviceKey: string, payload: any) => {
+  if (mqttClient && mqttClient.connected) {
+    const topic = `v1/devices/${deviceKey}/attributes/response/shared`;
+    const message = JSON.stringify(payload);
+    mqttClient.publish(topic, message, { qos: 1 });
+    console.log(`[SHARED ATTRIBUTES] Da push xuong ${topic}: ${message}`);
+  }
+};

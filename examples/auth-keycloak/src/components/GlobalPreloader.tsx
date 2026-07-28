@@ -20,7 +20,7 @@ export const GlobalPreloader: React.FC<{ children: React.ReactNode }> = ({ child
   
   React.useEffect(() => {
     // Debug cache keys when ready
-    console.log("CACHE KEYS:", queryClient.getQueryCache().getAll().map(q => q.queryKey));
+    // console.log("CACHE KEYS:", queryClient.getQueryCache().getAll().map(q => q.queryKey));
   });
   // Lệnh useTable này sẽ báo cho React Query biết để tải dữ liệu,
   // Cache Key sinh ra sẽ khớp 100% với Cache Key của các bảng danh sách bên trong hệ thống.

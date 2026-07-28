@@ -63,6 +63,25 @@ Bạn cần đảm bảo Docker đã được bật và đang chạy trên máy.
    ```
 4. Bấm **Send** (Gửi).
 
+**Cách gửi thuộc tính (Attributes):**
+1. Chọn kết nối vừa tạo.
+2. Ở ô **Topic**, nhập: `v1/devices/DEVICE_KEY/attributes`
+3. Ở ô **Payload**, dán đoạn JSON sau:
+   ```json
+   {
+     "firmware_version": "v1.2.3",
+     "battery_level": 98
+   }
+   ```
+4. Bấm **Send**. Quay lại giao diện web, mở tab **Thuộc tính (Attributes)** và chọn **Client Attributes**, bạn sẽ thấy các thông số này xuất hiện.
+
+**Cách nhận lệnh cấu hình (Shared Attributes):**
+Để thiết bị biết khi nào quản trị viên sửa thuộc tính trên Web:
+1. Trong MQTTX, bấm **New Subscription** (Theo dõi kênh mới).
+2. Nhập Topic: `v1/devices/DEVICE_KEY/attributes/response/shared`
+3. Quay lại trang Web, mở tab **Shared Attributes**, tạo một thuộc tính (VD: `temp_limit = 40`).
+4. Quay lại MQTTX, bạn sẽ thấy thiết bị lập tức nhận được bản tin JSON chứa cấu hình mới!
+
 **Kết quả:**
 Ngay lập tức, bạn sẽ thấy trên giao diện web (bảng và biểu đồ) xuất hiện thông số bạn vừa gửi mà không cần tải lại trang. Hệ thống cũng đã ngầm lưu lịch sử này vào Database!
 

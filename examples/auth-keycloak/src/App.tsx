@@ -39,7 +39,7 @@ import { GroupList } from "./pages/groups";
 import { DeviceList } from "./pages/devices";
 import { DashboardList } from "./pages/dashboards";
 import { HomeDashboard } from "./pages/home";
-import { TeamOutlined, DesktopOutlined, DashboardOutlined, SafetyCertificateOutlined, UsergroupAddOutlined, HomeOutlined } from "@ant-design/icons";
+import { TeamOutlined, DesktopOutlined, DashboardOutlined, SafetyCertificateOutlined, UsergroupAddOutlined, HomeOutlined, AppstoreOutlined, TabletOutlined, ApartmentOutlined } from "@ant-design/icons";
 import { CustomHeader } from "./components/header";
 import { GlobalPreloader } from "./components/GlobalPreloader";
 import { Login } from "../src/pages/login";
@@ -215,8 +215,10 @@ const App: React.FC = () => {
             // 📚 RESOURCES: Khai báo các trang/tài nguyên có trong hệ thống và gắn icon, route, provider cho nó
             resources={[
               { name: "home", list: "/", meta: { label: "Trang chủ", icon: <HomeOutlined /> } },
+              { name: "entities", meta: { label: "Thực thể", icon: <AppstoreOutlined /> } },
+              { name: "devices", list: "/devices", meta: { parent: "entities", label: "Thiết bị", icon: <TabletOutlined />, dataProviderName: "devices" } },
+              { name: "gateways", list: "/gateways", meta: { parent: "entities", label: "Gateways", icon: <ApartmentOutlined />, dataProviderName: "devices" } },
               { name: "dashboards", list: "/dashboards", meta: { label: "Bảng điều khiển", icon: <DashboardOutlined />, dataProviderName: "dashboards" } },
-              { name: "devices", list: "/devices", meta: { label: "Thiết bị", icon: <DesktopOutlined />, dataProviderName: "devices" } },
               // Menu Cha: Quản lý truy cập
               { name: "identity", meta: { label: "Quản lý truy cập", icon: <TeamOutlined /> } },
               { name: "users", list: "/users", meta: { parent: "identity", label: "Người dùng", icon: <TeamOutlined />, dataProviderName: "identity" } },
@@ -283,7 +285,8 @@ const App: React.FC = () => {
               >
                 <Route index element={<HomeDashboard />} />
                 <Route path="/dashboards" element={<DashboardList />} />
-                <Route path="/devices" element={<DeviceList />} />
+                <Route path="/devices" element={<DeviceList key="devices" isGatewayView={false} />} />
+                <Route path="/gateways" element={<DeviceList key="gateways" isGatewayView={true} />} />
                 <Route path="/users" element={<UserList />} />
                 <Route path="/roles" element={<RoleList />} />
                 <Route path="/groups" element={<GroupList />} />

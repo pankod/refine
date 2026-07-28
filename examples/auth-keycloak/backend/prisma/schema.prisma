@@ -83,3 +83,30 @@ model telemetry_kv {
 
   @@id([ts, entity_id, key])
 }
+
+model attribute_kv {
+  entity_type    String   @default("DEVICE") @db.VarChar(32)
+  entity_id      String   @db.Uuid
+  attribute_type String   @db.VarChar(255)
+  attribute_key  String   @db.VarChar(255)
+  bool_v         Boolean?
+  str_v          String?
+  long_v         BigInt?
+  dbl_v          Float?
+  json_v         Json?
+  last_update_ts BigInt
+
+  @@id([entity_type, entity_id, attribute_type, attribute_key])
+}
+
+model relation {
+  from_id             String @db.Uuid
+  from_type           String @db.VarChar(32)
+  to_id               String @db.Uuid
+  to_type             String @db.VarChar(32)
+  relation_type_group String @default("COMMON") @db.VarChar(32)
+  relation_type       String @db.VarChar(32)
+  additional_info     Json?
+
+  @@id([from_id, from_type, relation_type_group, relation_type, to_id, to_type])
+}

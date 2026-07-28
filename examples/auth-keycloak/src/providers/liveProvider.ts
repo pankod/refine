@@ -9,7 +9,7 @@ export const liveProvider = (url: string): LiveProvider => {
   });
 
   client.on("connect", () => {
-    console.log("✅ LiveProvider: Connected to MQTT Broker");
+    // console.log("✅ LiveProvider: Connected to MQTT Broker");
   });
 
   client.on("error", (err) => {

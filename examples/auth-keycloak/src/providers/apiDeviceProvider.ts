@@ -5,13 +5,22 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL || "/api";
 
 export const apiDeviceProvider: DataProvider = {
-  getList: async ({ resource, pagination }) => {
+  getList: async ({ resource, pagination, filters }) => {
     if (resource === "devices") {
       const params: any = {};
       if (pagination) {
         params.page = pagination.current || 1;
         params.limit = pagination.pageSize || 10;
       }
+      
+      if (filters && filters.length > 0) {
+        filters.forEach((filter: any) => {
+          if (filter.field === 'isGateway' && filter.operator === 'eq') {
+            params.isGateway = filter.value;
+          }
+        });
+      }
+      
       const response = await axios.get(`${API_URL}/devices`, { params });
       const total = parseInt(response.headers['x-total-count'] || '0', 10) || response.data.length;
       return { data: response.data, total };

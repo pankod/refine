@@ -48,16 +48,14 @@ Tệp trung tâm của Backend là `backend/src/index.ts`.
 ### Tính năng: Lưu dữ liệu MQTT thông qua Hàng Đợi (Message Queue)
 ```typescript
 mqttClient.on('message', async (topic, message) => {
-    // 1. Đẩy dữ liệu vào Hàng đợi Redis (telemetry_queue)
-    await redisClient.lPush('telemetry_queue', JSON.stringify({
-      deviceId: device.id,
-      payload: payload
-    }));
+    // 1. Phân loại tin nhắn (Telemetry hay Attributes)
+    // 2. Đẩy dữ liệu vào Hàng đợi Redis (telemetry_queue hoặc attributes_queue)
+    await redis.lpush('telemetry_queue', JSON.stringify(queueItem));
 });
 ```
 - **Ý nghĩa**: Bất cứ khi nào thiết bị IoT gửi dữ liệu lên, Backend KHÔNG ghi trực tiếp vào Database ngay lập tức (vì sẽ làm sập Server nếu có hàng triệu thiết bị gửi cùng lúc).
-- Thay vào đó, Backend đẩy dữ liệu vào **Redis Queue** (Hàng đợi). Redis là RAM nên tốc độ cực kỳ nhanh (hàng triệu tin nhắn mỗi giây).
-- Đằng sau hệ thống có một **Telemetry Worker** (Công nhân dọn rác). Cứ mỗi 1 giây (hoặc khi gom đủ 1000 tin nhắn), anh công nhân này sẽ hốt trọn bộ dữ liệu từ Redis và dùng lệnh `prisma.telemetry_kv.createMany` để lưu **hàng loạt (Batch Insert)** vào PostgreSQL cùng một lúc.
+- Thay vào đó, Backend đẩy dữ liệu vào **Redis Queue** (Hàng đợi `telemetry_queue` cho dữ liệu đo lường, và `attributes_queue` cho thông số cài đặt). Redis là RAM nên tốc độ cực kỳ nhanh (hàng triệu tin nhắn mỗi giây).
+- Đằng sau hệ thống có một **Telemetry Worker** (Công nhân dọn rác). Cứ mỗi 1 giây (hoặc khi gom đủ 1000 tin nhắn), anh công nhân này sẽ hốt trọn bộ dữ liệu từ Redis và dùng lệnh `prisma.$executeRaw` (Upsert) để lưu **hàng loạt (Batch Insert)** vào PostgreSQL cùng một lúc.
 - Đây chính là kiến trúc **Message Queue & Batch Processing**, bí quyết giúp các hệ thống IoT chuẩn Công nghiệp xử lý hàng tỷ bản ghi mà không bao giờ bị nghẽn mạng!
 
 ### Tính năng: Xác thực bảo mật Token (Keycloak)

@@ -86,13 +86,45 @@ Tài liệu này liệt kê toàn bộ các đường dẫn (API) mà hệ thố
 
 ---
 
-## 3. Giao thức MQTT (Dành cho thiết bị IoT)
+## 3. API Quản lý Thuộc tính (Attributes)
+
+Đây là các API dùng để xem và cấu hình các thuộc tính của thiết bị theo chuẩn ThingsBoard (Client, Server, Shared).
+
+### 3.1 Lấy danh sách Thuộc tính
+- **Đường dẫn**: `GET http://localhost:3000/devices/:id/attributes?scope=SERVER_SCOPE`
+- **Mô tả**: Lấy danh sách các thuộc tính của thiết bị. Có thể truyền thêm `?scope=...` (`CLIENT_SCOPE`, `SERVER_SCOPE`, `SHARED_SCOPE`) để lọc.
+- **Kết quả trả về**:
+  ```json
+  [
+    {
+      "key": "active",
+      "value": true,
+      "lastUpdateTs": 1722132345000,
+      "scope": "SERVER_SCOPE"
+    }
+  ]
+  ```
+
+### 3.2 Thêm / Cập nhật Thuộc tính
+- **Đường dẫn**: `POST http://localhost:3000/devices/:id/attributes/:scope`
+- **Mô tả**: Lưu cấu hình thuộc tính mới. `:scope` bắt buộc là `SERVER_SCOPE` hoặc `SHARED_SCOPE`. Nếu là `SHARED_SCOPE`, Backend sẽ tự động phát sóng (Publish MQTT) cấu hình này xuống thiết bị thực tế.
+- **Dữ liệu gửi lên (Body JSON)**: `{"temp_limit": 40.5, "active": true}`
+
+### 3.3 Xoá Thuộc tính
+- **Đường dẫn**: `DELETE http://localhost:3000/devices/:id/attributes/:scope?keys=key1,key2`
+- **Mô tả**: Xoá một hoặc nhiều thuộc tính theo các key truyền vào.
+
+---
+
+## 4. Giao thức MQTT (Dành cho thiết bị IoT)
 
 Thiết bị phần cứng (cảm biến, vi điều khiển) không dùng HTTP API mà dùng MQTT để truyền dữ liệu cho nhanh và nhẹ.
 
 - **Broker**: `emqx.greeniq.vn` (Cổng `1883`) hoặc `localhost`
 - **Xác thực**: Yêu cầu `Username` = `DEVICE_KEY` và `Password` = `SECRET_TOKEN`
-- **Topic gửi dữ liệu**: `v1/devices/<DEVICE_KEY>/telemetry` (Ví dụ: `v1/devices/sensor-01/telemetry`)
+- **Topic gửi dữ liệu (Telemetry)**: `v1/devices/<DEVICE_KEY>/telemetry`
+- **Topic gửi thuộc tính (Attributes)**: `v1/devices/<DEVICE_KEY>/attributes` (Dùng cho `CLIENT_SCOPE`)
+- **Topic nhận cấu hình Shared**: `v1/devices/<DEVICE_KEY>/attributes/response/shared` (Thiết bị lắng nghe để nhận lệnh cấu hình)
 - **Định dạng dữ liệu**: JSON thuần túy (VD: `{"temperature": 25}`)
 - **Luồng hoạt động**:
   1. Cảm biến gửi dữ liệu vào EMQX.
