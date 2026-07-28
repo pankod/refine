@@ -366,6 +366,9 @@ app.get('/devices', async (req, res) => {
     type: d.type,
     status: (d.additional_info as any)?.status || 'offline',
     isGateway: (d.additional_info as any)?.isGateway || false,
+    overwriteActivityTime: (d.additional_info as any)?.overwriteActivityTime || false,
+    label: (d.additional_info as any)?.label || '',
+    description: (d.additional_info as any)?.description || '',
     device_key: d.device_credentials?.credentials_id || '',
     secret: d.device_credentials?.credentials_value || '',
     created_at: d.created_at
@@ -391,6 +394,9 @@ app.get('/devices/:id', async (req, res) => {
     type: d.type,
     status: (d.additional_info as any)?.status || 'offline',
     isGateway: (d.additional_info as any)?.isGateway || false,
+    overwriteActivityTime: (d.additional_info as any)?.overwriteActivityTime || false,
+    label: (d.additional_info as any)?.label || '',
+    description: (d.additional_info as any)?.description || '',
     device_key: d.device_credentials?.credentials_id || '',
     secret: d.device_credentials?.credentials_value || '',
     created_at: d.created_at
@@ -407,7 +413,7 @@ app.get('/devices/:id', async (req, res) => {
  */
 app.post('/devices', async (req, res) => {
   /* #swagger.tags = ['Devices'] */
-  const { name, type, isGateway } = req.body;
+  const { name, type, label, description, isGateway, overwriteActivityTime } = req.body;
   const tenantId = await getDefaultTenant();
   
   // Tạo Thiết bị và đồng thời chèn Mã Token vào bảng device_credentials (Nối bảng)
@@ -416,7 +422,13 @@ app.post('/devices', async (req, res) => {
       name,
       type: type || 'default',
       tenant_id: tenantId,
-      additional_info: { status: 'offline', isGateway: isGateway !== undefined ? !!isGateway : type === 'gateway' },
+      additional_info: {
+        status: 'offline',
+        isGateway: isGateway !== undefined ? !!isGateway : type === 'gateway',
+        overwriteActivityTime: !!overwriteActivityTime,
+        label: label || '',
+        description: description || ''
+      },
       device_credentials: {
         create: {
           credentials_type: 'ACCESS_TOKEN',
@@ -434,6 +446,9 @@ app.post('/devices', async (req, res) => {
     type: d.type,
     status: (d.additional_info as any)?.status || 'offline',
     isGateway: (d.additional_info as any)?.isGateway || false,
+    overwriteActivityTime: (d.additional_info as any)?.overwriteActivityTime || false,
+    label: (d.additional_info as any)?.label || '',
+    description: (d.additional_info as any)?.description || '',
     device_key: d.device_credentials?.credentials_id || '',
     secret: d.device_credentials?.credentials_value || '',
     created_at: d.created_at
@@ -451,7 +466,7 @@ app.post('/devices', async (req, res) => {
  */
 app.patch('/devices/:id', async (req, res) => {
   /* #swagger.tags = ['Devices'] */
-  const { name, type, isGateway } = req.body;
+  const { name, type, label, description, isGateway, overwriteActivityTime } = req.body;
   // Lưu ý: KHÔNG cho phép REST API ghi đè 'status' - trạng thái do MQTT/SYS quản lý
 
   // Đọc additional_info hiện tại để MERGE (không overwrite trạng thái kết nối)
@@ -469,7 +484,10 @@ app.patch('/devices/:id', async (req, res) => {
       // Merge: Giữ nguyên status/lastConnectTime/... chỉ ghi đè isGateway nếu được gửi lên
       additional_info: {
         ...currentInfo, // Bảo tồn toàn bộ trạng thái cũ (online/offline, timestamps...)
-        ...(isGateway !== undefined ? { isGateway: !!isGateway } : {})
+        ...(isGateway !== undefined ? { isGateway: !!isGateway } : {}),
+        ...(overwriteActivityTime !== undefined ? { overwriteActivityTime: !!overwriteActivityTime } : {}),
+        ...(label !== undefined ? { label } : {}),
+        ...(description !== undefined ? { description } : {})
       }
     },
     include: { device_credentials: true }
@@ -481,6 +499,9 @@ app.patch('/devices/:id', async (req, res) => {
     type: d.type,
     status: (d.additional_info as any)?.status || 'offline',
     isGateway: (d.additional_info as any)?.isGateway || false,
+    overwriteActivityTime: (d.additional_info as any)?.overwriteActivityTime || false,
+    label: (d.additional_info as any)?.label || '',
+    description: (d.additional_info as any)?.description || '',
     device_key: d.device_credentials?.credentials_id || '',
     secret: d.device_credentials?.credentials_value || '',
     created_at: d.created_at

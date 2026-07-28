@@ -33,9 +33,24 @@ Tài liệu này liệt kê toàn bộ các đường dẫn (API) mà hệ thố
 
 ### 1.3 Tạo thiết bị mới
 - **Đường dẫn**: `POST http://localhost:3000/devices`
-- **Dữ liệu gửi lên (Body JSON)**: `{"name": "...", "type": "..."}`
+- **Dữ liệu gửi lên (Body JSON)**:
+  ```json
+  {
+    "name": "Cảm biến nhà kính",
+    "type": "sensor",
+    "label": "Nhà kính A",
+    "description": "Theo dõi nhiệt độ và độ ẩm",
+    "isGateway": false,
+    "overwriteActivityTime": false
+  }
+  ```
 
-### 1.4 Xóa thiết bị
+### 1.4 Sửa thông tin thiết bị
+- **Đường dẫn**: `PATCH http://localhost:3000/devices/:id`
+- **Các trường được phép sửa**: `name`, `type`, `label`, `description`, `isGateway`, `overwriteActivityTime`.
+- **Lưu ý theo chuẩn ThingsBoard**: Không được sửa `status` qua API này. Trạng thái Online/Offline do lớp MQTT và Server Attributes tự động quản lý.
+
+### 1.5 Xóa thiết bị
 - **Đường dẫn**: `DELETE http://localhost:3000/devices/:id`
 
 ---
@@ -173,4 +188,3 @@ Thiết bị phần cứng (cảm biến, vi điều khiển) không dùng HTTP 
 ### 5.3 Xóa liên kết
 - **Đường dẫn**: `DELETE http://localhost:3000/relations/:id`
 - **Mô tả**: Xóa mối quan hệ giữa 2 thiết bị. `:id` là ID kết hợp định dạng: `fromId_toId_relationType` do Frontend tự động tạo ra.
-

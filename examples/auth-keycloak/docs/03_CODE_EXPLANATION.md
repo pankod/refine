@@ -8,6 +8,12 @@ Tài liệu này sẽ giải thích một cách mộc mạc và dễ hiểu nh�
 
 Tệp quan trọng nhất của Frontend là `src/pages/devices/list.tsx` (Nơi hiển thị cửa sổ Thiết bị).
 
+### Form sửa thiết bị theo chuẩn ThingsBoard
+
+Form sửa thiết bị bám theo cấu trúc của `DeviceComponent` trong ThingsBoard: tên thiết bị, hồ sơ thiết bị, nhãn, tùy chọn Gateway, tùy chọn ghi đè thời gian hoạt động và mô tả. Trạng thái Online/Offline không xuất hiện trong form vì đây là trạng thái runtime do MQTT quản lý, không phải metadata do người dùng nhập thủ công.
+
+Các trường `label`, `description`, `isGateway` và `overwriteActivityTime` được backend lưu trong JSON `devices.additional_info`. Khi cập nhật, backend luôn merge với JSON hiện tại để không làm mất `status` và các timestamp hoạt động do MQTT ghi nhận.
+
 ### Tính năng: Tải dữ liệu "Tức thời" bằng React Query Cache
 ```typescript
   const { data: telemetryData = [], isLoading: isLoadingTelemetry } = useQuery({

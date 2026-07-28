@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { List, useTable, useModalForm, DeleteButton, EditButton } from "@refinedev/antd";
-import { Table, Tag, Drawer, Tabs, Descriptions, Typography, Card, Button, Input, Space, Form, Select, Checkbox, Modal, Row, Col, message, InputNumber, Tooltip } from "antd";
+import { Table, Tag, Drawer, Tabs, Descriptions, Typography, Card, Button, Input, Space, Form, Select, Checkbox, Modal, Row, Col, message, InputNumber, Tooltip, Switch } from "antd";
 import { SearchOutlined, SyncOutlined, SettingOutlined, CheckCircleOutlined, CloseCircleOutlined, PlusOutlined, KeyOutlined, LockOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useCustom, useSubscription } from "@refinedev/core";
 
@@ -48,6 +48,7 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
   const [selectedDevice, setSelectedDevice] = useState<any>(null);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const queryClient = useQueryClient();
+  const editIsGateway = Form.useWatch("isGateway", editFormProps.form);
 
   // Đăng ký trực tiếp với LiveProvider (MQTT) để cập nhật Cache Tức Thời (Giống hệt ThingsBoard)
   useSubscription({
@@ -128,7 +129,7 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
           </Space>
         }
       >
-        <Table {...tableProps} rowKey="id" onRow={onRowClick} hoverable>
+        <Table {...tableProps} rowKey="id" onRow={onRowClick} rowHoverable>
           <Table.Column dataIndex="name" title="Tên thiết bị" render={(value) => <strong>{value}</strong>} />
           <Table.Column dataIndex="type" title="Loại (Profile)" />
           <Table.Column dataIndex="label" title="Nhãn (Label)" />
@@ -288,7 +289,7 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
         </Form>
       </Modal>
 
-      <Modal {...editModalProps} title="Sửa thông tin thiết bị" width={600} forceRender>
+      <Modal {...editModalProps} title="Sửa thiết bị" width={600} forceRender>
         <Form {...editFormProps} layout="vertical">
           <Form.Item 
             label="Tên thiết bị (Name)" 
@@ -298,34 +299,43 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
             <Input placeholder="Ví dụ: Cảm biến nhiệt độ DHT22" />
           </Form.Item>
 
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item label="Loại (Device Profile)" name="type" initialValue="default">
-                <Select>
-                  <Select.Option value="default">Mặc định (default)</Select.Option>
-                  <Select.Option value="sensor">Cảm biến (sensor)</Select.Option>
-                  <Select.Option value="actuator">Thiết bị chấp hành (actuator)</Select.Option>
-                  <Select.Option value="gateway">Cổng kết nối (gateway)</Select.Option>
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item label="Nhãn (Label)" name="label">
-                <Input placeholder="Ví dụ: Nhà kính A" />
-              </Form.Item>
-            </Col>
-          </Row>
+          <Form.Item
+            label="Hồ sơ thiết bị (Device profile)"
+            name="type"
+            rules={[{ required: true, message: "Vui lòng chọn hồ sơ thiết bị!" }]}
+          >
+            <Select>
+              <Select.Option value="default">Mặc định (default)</Select.Option>
+              <Select.Option value="sensor">Cảm biến (sensor)</Select.Option>
+              <Select.Option value="actuator">Thiết bị chấp hành (actuator)</Select.Option>
+              <Select.Option value="gateway">Cổng kết nối (gateway)</Select.Option>
+            </Select>
+          </Form.Item>
 
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item label="Trạng thái" name="status">
-                <Select>
-                  <Select.Option value="offline">Ngoại tuyến (Offline)</Select.Option>
-                  <Select.Option value="online">Trực tuyến (Online)</Select.Option>
-                </Select>
+          <Form.Item
+            label="Nhãn (Label)"
+            name="label"
+            rules={[{ max: 255, message: "Nhãn không được vượt quá 255 ký tự!" }]}
+          >
+            <Input placeholder="Ví dụ: Nhà kính A" />
+          </Form.Item>
+
+          <Space direction="vertical" size={12} style={{ width: "100%", marginBottom: 24 }}>
+            <Space>
+              <Form.Item name="isGateway" valuePropName="checked" noStyle>
+                <Switch />
               </Form.Item>
-            </Col>
-          </Row>
+              <Text>Là gateway</Text>
+            </Space>
+            {editIsGateway && (
+              <Space>
+                <Form.Item name="overwriteActivityTime" valuePropName="checked" noStyle>
+                  <Switch />
+                </Form.Item>
+                <Text>Ghi đè thời gian hoạt động</Text>
+              </Space>
+            )}
+          </Space>
 
           <Form.Item label="Mô tả (Description)" name="description">
             <Input.TextArea rows={3} placeholder="Mô tả chi tiết về thiết bị..." />
