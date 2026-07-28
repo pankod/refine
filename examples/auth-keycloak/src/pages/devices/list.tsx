@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { List, useTable, useModalForm, DeleteButton, EditButton } from "@refinedev/antd";
 import { Table, Tag, Drawer, Tabs, Descriptions, Typography, Card, Button, Input, Space, Form, Select, Checkbox, Modal, Row, Col, message, InputNumber, Tooltip } from "antd";
 import { SearchOutlined, SyncOutlined, SettingOutlined, CheckCircleOutlined, CloseCircleOutlined, PlusOutlined, KeyOutlined, LockOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { useCustom } from "@refinedev/core";
+import { useCustom, useSubscription } from "@refinedev/core";
 
 import { useMqtt } from "../../hooks/useMqtt";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -48,6 +48,40 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
   const [selectedDevice, setSelectedDevice] = useState<any>(null);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const queryClient = useQueryClient();
+
+  // Đăng ký trực tiếp với LiveProvider (MQTT) để cập nhật Cache Tức Thời (Giống hệt ThingsBoard)
+  useSubscription({
+    channel: "devices",
+    types: ["updated"],
+    onLiveEvent: (event) => {
+      const { payload } = event;
+      if (payload && payload.id && payload.status) {
+        console.log("⚡ [Cache Patching] Đang vá trạng thái cho thiết bị:", payload.id, "->", payload.status);
+        
+        // Vá (Patch) dữ liệu trực tiếp vào bộ nhớ đệm (Cache) của Bảng mà không cần gọi lại API
+        queryClient.setQueriesData(
+          { predicate: (query) => query.queryKey.includes("devices") },
+          (oldData: any) => {
+            if (!oldData || !Array.isArray(oldData.data)) return oldData;
+            return {
+              ...oldData,
+              data: oldData.data.map((item: any) => 
+                item.id === payload.id ? { ...item, status: payload.status } : item
+              )
+            };
+          }
+        );
+        
+        // Cập nhật luôn cả Drawer nếu đang mở
+        setSelectedDevice((prev: any) => {
+          if (prev && prev.id === payload.id) {
+            return { ...prev, status: payload.status };
+          }
+          return prev;
+        });
+      }
+    }
+  });
 
   // Ghi chú: Logic prefetch background đã được chuyển lên Global CacheWarmer để tối ưu 0ms load cho toàn hệ thống.
 

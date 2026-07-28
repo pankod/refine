@@ -37,10 +37,17 @@ export const liveProvider = (url: string): LiveProvider => {
           try {
             const data = JSON.parse(message.toString());
             
+            const payloadData = data.payload || {};
+            if (payloadData.id && !payloadData.ids) {
+              payloadData.ids = [payloadData.id]; // Standardize for Refine useTable invalidation
+            }
+            
+            console.log(`📡 [LiveProvider] Đã nhận sự kiện ${type} từ ${channel}:`, payloadData);
+            
             callback({
               channel,
               type,
-              payload: data.payload,
+              payload: payloadData,
               date: new Date(data.date),
             });
           } catch (e) {

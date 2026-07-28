@@ -98,6 +98,8 @@ export const startMqttClient = () => {
               select: { device_id: true }
             });
             
+            console.log(`[SYS] Tìm kiếm credentials_id '${username}' trong DB:`, cred ? 'FOUND' : 'NOT FOUND');
+            
             if (cred && cred.device_id) {
               const deviceId = cred.device_id;
               
@@ -109,6 +111,8 @@ export const startMqttClient = () => {
               
               const oldAdditionalInfo = (oldDevice?.additional_info as any) || {};
               const newStatus = isConnected ? 'online' : 'offline';
+              
+              console.log(`[SYS] Thiết bị ${deviceId} đổi trạng thái: ${oldAdditionalInfo.status} -> ${newStatus}`);
               
               if (oldAdditionalInfo.status !== newStatus) {
                 // Cập nhật trạng thái mới
@@ -124,6 +128,8 @@ export const startMqttClient = () => {
                 
                 // Bắn thông báo cập nhật UI ngay lập tức
                 publishLiveEvent('devices', 'updated', { id: deviceId, status: newStatus });
+              } else {
+                console.log(`[SYS] Trạng thái không thay đổi, bỏ qua phát LiveEvent.`);
               }
             }
           }
