@@ -1,5 +1,13 @@
 import mqtt from 'mqtt';
 import { redis } from '../redis/redisClient';
+import { PrismaClient } from '@prisma/client';
+import { Pool } from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
+
+const connectionString = process.env.DATABASE_URL;
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 /**
  * ============================================================================
@@ -24,7 +32,7 @@ let mqttClient: mqtt.MqttClient | null = null;
 export const startMqttClient = () => {
   // Thực hiện kết nối tới EMQX với tư cách là 'backend_service' (Quản trị viên)
   mqttClient = mqtt.connect(EMQX_URL, {
-    username: 'backend_service', // Tài khoản siêu quyền được EMQX tin tưởng
+    username: 'dashboard', // Dùng username 'dashboard' để được phép subscribe $SYS/# theo mặc định của EMQX
     password: process.env.BACKEND_MQTT_SECRET || 'super_secret_backend',
     clientId: `backend_service_${Math.random().toString(16).substring(2, 8)}` // Tạo ID ngẫu nhiên để không bị trùng
   });
@@ -49,6 +57,22 @@ export const startMqttClient = () => {
         console.log('📡 Subscribed to topic: v1/devices/+/attributes');
       }
     });
+    // Đăng ký nhận sự kiện Connected / Disconnected từ thiết bị
+    mqttClient?.subscribe('$SYS/brokers/+/clients/+/connected', (err) => {
+      if (!err) {
+        console.log('📡 Subscribed to topic: $SYS/brokers/+/clients/+/connected');
+      } else {
+        console.error('❌ Lỗi subscribe $SYS connected:', err);
+      }
+    });
+    
+    mqttClient?.subscribe('$SYS/brokers/+/clients/+/disconnected', (err) => {
+      if (!err) {
+        console.log('📡 Subscribed to topic: $SYS/brokers/+/clients/+/disconnected');
+      } else {
+        console.error('❌ Lỗi subscribe $SYS disconnected:', err);
+      }
+    });
   });
 
   /**
@@ -58,6 +82,57 @@ export const startMqttClient = () => {
     try {
       console.log(`[MQTT] Đã nhận tin nhắn từ Topic: ${topic}`);
       
+      // XỬ LÝ SỰ KIỆN KẾT NỐI (ONLINE / OFFLINE)
+      if (topic.startsWith('$SYS/brokers/') && topic.includes('/clients/')) {
+        try {
+          const sysEvent = JSON.parse(message.toString());
+          const username = sysEvent.username; // Chính là Device Key
+          const isConnected = topic.endsWith('/connected');
+          
+          if (username && username !== 'backend_service') {
+            console.log(`[SYS] Thiết bị ${username} -> ${isConnected ? 'ONLINE' : 'OFFLINE'}`);
+            
+            // Tìm thiết bị trong CSDL thông qua credentials_id
+            const cred = await prisma.device_credentials.findUnique({
+              where: { credentials_id: username },
+              select: { device_id: true }
+            });
+            
+            if (cred && cred.device_id) {
+              const deviceId = cred.device_id;
+              
+              // Lấy dữ liệu cũ để bảo toàn (Ví dụ: isGateway)
+              const oldDevice = await prisma.devices.findUnique({
+                where: { id: deviceId },
+                select: { additional_info: true }
+              });
+              
+              const oldAdditionalInfo = (oldDevice?.additional_info as any) || {};
+              const newStatus = isConnected ? 'online' : 'offline';
+              
+              if (oldAdditionalInfo.status !== newStatus) {
+                // Cập nhật trạng thái mới
+                await prisma.devices.update({
+                  where: { id: deviceId },
+                  data: {
+                    additional_info: {
+                      ...oldAdditionalInfo,
+                      status: newStatus
+                    }
+                  }
+                });
+                
+                // Bắn thông báo cập nhật UI ngay lập tức
+                publishLiveEvent('devices', 'updated', { id: deviceId, status: newStatus });
+              }
+            }
+          }
+        } catch (sysErr) {
+          console.error('❌ Lỗi xử lý sự kiện $SYS:', sysErr);
+        }
+        return; // Đã xử lý xong System Event, thoát hàm sớm
+      }
+
       // BƯỚC 1: Dọn dẹp chuỗi topic (Loại bỏ dấu gạch chéo ở cuối nếu dư thừa)
       const cleanTopic = topic.endsWith('/') ? topic.slice(0, -1) : topic;
       // Chẻ chuỗi topic ra thành mảng: ["v1", "devices", "MA_THIET_BI", "telemetry"]
