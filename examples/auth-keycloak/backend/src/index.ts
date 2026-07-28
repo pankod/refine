@@ -10,6 +10,7 @@ import crypto from 'crypto';
 import { redis } from './redis/redisClient';
 import { startMqttClient, publishLiveEvent, publishSharedAttributes } from './mqtt/mqttClient';
 import { startTelemetryWorker } from './workers/telemetryWorker';
+import { startInactivityWorker } from './workers/inactivityWorker';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger_output.json';
 /**
@@ -442,19 +443,31 @@ app.post('/devices', async (req, res) => {
 /**
  * [PATCH] Cập nhật thông tin Thiết bị
  * @param id Mã định danh thiết bị
+ * @description Chuẩn ThingsBoard: Admin chỉ được cập nhật metadata (name, type, isGateway).
+ * Trạng thái kết nối (status, lastConnectTime...) là Server Attribute do MQTT layer quản lý,
+ * KHÔNG được phép ghi đè từ REST API. Hàm này merge additional_info thay vì overwrite.
  */
 app.patch('/devices/:id', async (req, res) => {
   /* #swagger.tags = ['Devices'] */
-  const { name, type, status, isGateway } = req.body;
-  
+  const { name, type, isGateway } = req.body;
+  // Lưu ý: KHÔNG cho phép REST API ghi đè 'status' - trạng thái do MQTT/SYS quản lý
+
+  // Đọc additional_info hiện tại để MERGE (không overwrite trạng thái kết nối)
+  const current = await prisma.devices.findUnique({
+    where: { id: req.params.id },
+    select: { additional_info: true }
+  });
+  const currentInfo = (current?.additional_info as any) || {};
+
   const d = await prisma.devices.update({
     where: { id: req.params.id },
     data: { 
       name, 
-      type, 
-      additional_info: { 
-        status: status || 'offline',
-        isGateway: isGateway !== undefined ? !!isGateway : type === 'gateway' 
+      type,
+      // Merge: Giữ nguyên status/lastConnectTime/... chỉ ghi đè isGateway nếu được gửi lên
+      additional_info: {
+        ...currentInfo, // Bảo tồn toàn bộ trạng thái cũ (online/offline, timestamps...)
+        ...(isGateway !== undefined ? { isGateway: !!isGateway } : {})
       }
     },
     include: { device_credentials: true }
@@ -843,6 +856,10 @@ startMqttClient();
 
 // Bật Telemetry Worker: Định kỳ hốt dữ liệu từ Redis nạp vào DB mỗi giây
 startTelemetryWorker();
+
+// Bat Inactivity Worker: Phat hien thiet bi mat mang dot ngot (khong gui DISCONNECT)
+// Ref: ThingsBoard TransportActivityManager.hasExpired()
+startInactivityWorker();
 
 /**
  * Xử lý lỗi cấp cao (Global Error Handler)
