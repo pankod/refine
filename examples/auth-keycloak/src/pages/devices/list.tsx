@@ -151,7 +151,7 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
                     {selectedDevice.status === "online" ? <Text type="success">Đang hoạt động</Text> : <Text type="secondary">Mất kết nối</Text>}
                   </Descriptions.Item>
                   <Descriptions.Item label="Là Gateway?">
-                    {selectedDevice.isGateway ? <Tag color="blue">Có (Gateway)</Tag> : <Text type="secondary">Không</Text>}
+                    {selectedDevice.type === 'gateway' ? <Tag color="blue">Có (Gateway)</Tag> : <Text type="secondary">Không</Text>}
                   </Descriptions.Item>
                 </Descriptions>
               </Card>
@@ -251,10 +251,6 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
           <Form.Item name="autoGenerateToken" valuePropName="checked" initialValue={true}>
             <Checkbox>Tự động sinh mã Access Token xác thực (Mặc định)</Checkbox>
           </Form.Item>
-          
-          <Form.Item name="isGateway" valuePropName="checked" initialValue={isGatewayView || false} hidden={isGatewayView}>
-            <Checkbox>Gán thiết bị này là một Gateway (Cho phép kết nối các thiết bị con)</Checkbox>
-          </Form.Item>
         </Form>
       </Modal>
 
@@ -299,10 +295,6 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
 
           <Form.Item label="Mô tả (Description)" name="description">
             <Input.TextArea rows={3} placeholder="Mô tả chi tiết về thiết bị..." />
-          </Form.Item>
-
-          <Form.Item name="isGateway" valuePropName="checked" hidden={isGatewayView}>
-            <Checkbox>Gán thiết bị này là một Gateway (Cho phép kết nối các thiết bị con)</Checkbox>
           </Form.Item>
         </Form>
       </Modal>

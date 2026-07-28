@@ -413,7 +413,7 @@ app.post('/devices', async (req, res) => {
       name,
       type: type || 'default',
       tenant_id: tenantId,
-      additional_info: { status: 'offline', isGateway: !!isGateway },
+      additional_info: { status: 'offline', isGateway: isGateway !== undefined ? !!isGateway : type === 'gateway' },
       device_credentials: {
         create: {
           credentials_type: 'ACCESS_TOKEN',
@@ -454,7 +454,7 @@ app.patch('/devices/:id', async (req, res) => {
       type, 
       additional_info: { 
         status: status || 'offline',
-        isGateway: isGateway !== undefined ? !!isGateway : false 
+        isGateway: isGateway !== undefined ? !!isGateway : type === 'gateway' 
       }
     },
     include: { device_credentials: true }
