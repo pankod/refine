@@ -15,6 +15,7 @@ Bất cứ khi nào bạn gõ đúng các lệnh dưới đây vào khung chat, 
 | :--- | :--- |
 | **"cập nhật k3s"** | 1. Tự động Tăng phiên bản (Version Bump).<br>2. Build Docker Image (Cả Frontend & Backend).<br>3. Đẩy Image lên Docker Hub (Push).<br>4. Gọi lệnh K3s cập nhật Pods (kubectl set image).<br>5. Báo cáo sức khỏe Pods.<br>6. Commit & Push mã nguồn lên GitHub. |
 | **"cập nhật docs"** | 1. Tự động rà soát toàn bộ Codebase.<br>2. So sánh với các file tài liệu hiện tại.<br>3. Tìm ra các điểm mù/điểm thay đổi.<br>4. Tự động viết lại tài liệu đồng bộ 100% với Code mới nhất. |
+| **"thuyết minh cấu trúc code"** | 1. Rà soát lại toàn bộ cấu trúc thư mục.<br>2. Liệt kê các file quan trọng.<br>3. Đưa ra giải thích cực kỳ chi tiết về nội dung, tính năng và mục đích của từng file.<br>4. Đóng gói lại thành tài liệu chuẩn hóa để lập trình viên nghiệp dư dễ dàng tiếp cận và triển khai tiếp dự án. |
 
 ### 1.2. Các Nguyên Tắc Kiến Trúc Bắt Buộc (Architecture Rules)
 

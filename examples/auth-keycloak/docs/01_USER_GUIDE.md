@@ -92,3 +92,16 @@ Ngay lập tức, bạn sẽ thấy trên giao diện web (bảng và biểu đ�
 - **Lỗi màn hình trắng khi bấm vào thiết bị:** Hãy thử F5 (tải lại trang). Đảm bảo Backend (cửa sổ chạy `npm run dev` ở thư mục backend) không báo lỗi đỏ.
 - **Biểu đồ không nhảy dữ liệu:** Kiểm tra lại ô Topic trong MQTTX xem gõ đúng chữ `v1/devices/DEVICE_KEY/telemetry` chưa. Phải đúng chữ thường. Đồng thời kiểm tra xem thiết bị đã cấu hình đúng Username/Password chưa.
 - **Báo lỗi 401 Unauthorized:** Token đăng nhập đã hết hạn. Bạn hãy đăng xuất ở góc trên bên phải màn hình web và đăng nhập lại.
+
+---
+
+## 5. Quản lý Liên kết Thiết bị (Gateways & Relations)
+
+Nền tảng hỗ trợ sơ đồ mạng lưới thiết bị (Topology) giống như Thingsboard:
+
+- **Gateway**: Là thiết bị cổng trung tâm. Bạn có thể xem và tạo Gateway riêng biệt trong menu **Thực thể -> Gateways**.
+- **Gán Thiết bị con vào Gateway**:
+  1. Mở danh sách **Gateways**, click nút **Sửa** (Edit) một Gateway.
+  2. Chuyển sang Tab **Relations**.
+  3. Bấm **(+) Thêm**, chọn Direction là `From`, chọn thực thể con (VD: Cảm biến), nhập Loại quan hệ (VD: `Contains`).
+  4. Mối quan hệ này có tính chất hai chiều. Nếu bạn mở Cảm biến đó lên, ở tab Relations sẽ thấy có liên kết `To` trỏ ngược về Gateway!

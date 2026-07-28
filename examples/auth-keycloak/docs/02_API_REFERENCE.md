@@ -131,3 +131,46 @@ Thiết bị phần cứng (cảm biến, vi điều khiển) không dùng HTTP 
   2. Backend Node.js lắng nghe EMQX.
   3. Khi có dữ liệu, Backend lưu vào PostgreSQL (làm lịch sử) và lưu vào Redis (làm trạng thái hiện tại).
   4. Trình duyệt Web (Frontend) nhận trực tiếp dữ liệu từ EMQX qua WebSockets (Cổng `8083`) để bảng/biểu đồ tự nhảy số.
+
+---
+
+## 5. API Quản lý Quan hệ (Relations & Topology)
+
+Đây là các API dùng để gán liên kết giữa các thực thể (Ví dụ: Gán thiết bị con vào Gateway). Kiến trúc này lấy cảm hứng từ Thingsboard.
+
+### 5.1 Lấy danh sách liên kết
+- **Đường dẫn**: `GET http://localhost:3000/relations`
+- **Tham số (Query string)**: `?from_id=<ID>` hoặc `?to_id=<ID>`
+- **Mô tả**: Trả về danh sách các thực thể đang liên kết với ID truyền vào.
+- **Kết quả trả về**:
+  ```json
+  [
+    {
+      "from_id": "gateway-id",
+      "from_type": "DEVICE",
+      "to_id": "sensor-id",
+      "to_type": "DEVICE",
+      "relation_type": "Contains",
+      "additional_info": { "to_name": "Cảm biến nhiệt độ" }
+    }
+  ]
+  ```
+
+### 5.2 Tạo liên kết mới
+- **Đường dẫn**: `POST http://localhost:3000/relations`
+- **Mô tả**: Gán một thực thể vào một thực thể khác (VD: Gắn cảm biến vào Gateway).
+- **Dữ liệu gửi lên (Body JSON)**:
+  ```json
+  {
+    "from_id": "gateway-id",
+    "from_type": "DEVICE",
+    "to_id": "sensor-id",
+    "to_type": "DEVICE",
+    "relation_type": "Contains"
+  }
+  ```
+
+### 5.3 Xóa liên kết
+- **Đường dẫn**: `DELETE http://localhost:3000/relations/:id`
+- **Mô tả**: Xóa mối quan hệ giữa 2 thiết bị. `:id` là ID kết hợp định dạng: `fromId_toId_relationType` do Frontend tự động tạo ra.
+

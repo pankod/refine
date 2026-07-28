@@ -72,3 +72,17 @@ app.use(checkJwt); // Bật khiên bảo vệ cho toàn bộ hệ thống
 ```
 - **Ý nghĩa**: Đoạn code này đóng vai trò là "Bác bảo vệ". Bất kỳ ai gọi API (`/devices/...`) đều phải đi qua hàm này (gọi là middleware). 
 - Bác bảo vệ sẽ kiểm tra xem người này có đeo "Thẻ nhân viên" (Token) hợp lệ do Keycloak phát hành hay không. Nếu không có hoặc thẻ giả, bác bảo vệ sẽ đá ra ngoài bằng lỗi `401 Unauthorized` ngay lập tức, không cho phép truy cập vào Database.
+
+---
+
+## 3. Kiến trúc CSDL Lõi: Bảng Relations
+
+Mô hình thiết bị v1.0.0 đã được thiết kế mở rộng lấy cảm hứng từ cấu trúc phân tầng của Thingsboard.
+
+### Tính năng: Bảng `relation`
+- **Ý nghĩa**: Trong thế giới IoT, các thiết bị hiếm khi đứng độc lập. Một Cảm biến (Sensor) thường phải cắm vào một Bộ Thu Thập (Gateway). 
+- Bảng `relation` sinh ra để giải quyết bài toán này mà không làm phình to bảng `devices`. Nó lưu mối quan hệ giữa bất kỳ 2 thực thể nào:
+  - `from_id`: ID của thực thể gốc (VD: Gateway)
+  - `to_id`: ID của thực thể đích (VD: Sensor)
+  - `relation_type`: Loại quan hệ (VD: `Contains` - Chứa đựng, hoặc `Manages` - Quản lý).
+- **Tính hai chiều (Bi-directional)**: Dù trong Database chỉ lưu 1 chiều (Từ A -> B), Backend API `/relations` được thiết kế thông minh để khi bạn truy vấn `B`, nó sẽ tự tra ngược lại để cho bạn biết `B` đang được cắm vào `A` (Từ `To` truy ngược ra `From`). Điều này giúp vẽ sơ đồ Topology dễ dàng.
