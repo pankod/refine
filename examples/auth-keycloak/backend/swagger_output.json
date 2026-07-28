@@ -362,9 +362,6 @@
                   "type": {
                     "example": "any"
                   },
-                  "status": {
-                    "example": "any"
-                  },
                   "isGateway": {
                     "example": "any"
                   }

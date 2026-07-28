@@ -1,4 +1,4 @@
-﻿import mqtt from 'mqtt';
+import mqtt from 'mqtt';
 import { redis } from '../redis/redisClient';
 import { PrismaClient } from '@prisma/client';
 import { Pool } from 'pg';
@@ -28,7 +28,8 @@ const LAST_ACTIVITY_TIME   = 'lastActivityTime';
 const INACTIVITY_TIMEOUT   = 'inactivityTimeout';
 
 // Danh sach username he thong - KHONG xu ly nhu thiet bi IoT
-const SYSTEM_USERNAMES = new Set(['backend_service', 'frontend_readonly', 'dashboard']);
+// Luu y: EMQX serialize missing username thanh string "undefined" (khong phai JS undefined)
+const SYSTEM_USERNAMES = new Set(['backend_service', 'frontend_readonly', 'dashboard', 'undefined']);
 
 const EMQX_URL = process.env.EMQX_URL || 'mqtt://localhost:1883';
 let mqttClient: mqtt.MqttClient | null = null;

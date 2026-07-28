@@ -314,10 +314,12 @@ app.post('/api/mqtt/acl', (req, res) => {
     return res.status(401).send('deny');
   }
 
-  // 3. Thiết bị IoT: Chỉ được phép GỬI (publish) dữ liệu
-  // Quan trọng: Nó chỉ được gửi lên đúng kênh có chứa MÃ_THIẾT_BỊ của nó.
-  // Format bắt buộc: v1/devices/<DEVICE_KEY>/telemetry
-  if (action === 'publish' && topic === `v1/devices/${username}/telemetry`) {
+  // 3. Thiết bị IoT: Được phép GỬI (publish) dữ liệu telemetry và attributes
+  // Chuẩn ThingsBoard: Device publish v1/devices/{deviceKey}/telemetry VÀ v1/devices/{deviceKey}/attributes
+  if (action === 'publish' && (
+    topic === `v1/devices/${username}/telemetry` ||
+    topic === `v1/devices/${username}/attributes`
+  )) {
     return res.status(200).json({ result: 'allow' });
   }
 
