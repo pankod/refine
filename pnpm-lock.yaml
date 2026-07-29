@@ -11093,7 +11093,7 @@ importers:
     devDependencies:
       '@esbuild-plugins/node-resolve':
         specifier: ^0.1.4
-        version: 0.1.4(esbuild@0.17.19)
+        version: 0.1.4(esbuild@0.21.5)
       '@refinedev/core':
         specifier: ^5.0.5
         version: link:../core
@@ -11136,7 +11136,7 @@ importers:
     devDependencies:
       '@esbuild-plugins/node-resolve':
         specifier: ^0.1.4
-        version: 0.1.4(esbuild@0.21.5)
+        version: 0.1.4(esbuild@0.17.19)
       '@refinedev/core':
         specifier: 5.1.0
         version: link:../core
@@ -11419,6 +11419,9 @@ importers:
 
   packages/cli:
     dependencies:
+      '@11ty/gray-matter':
+        specifier: ^2.1.0
+        version: 2.1.0
       '@npmcli/package-json':
         specifier: ^5.2.0
         version: 5.2.0
@@ -11473,9 +11476,6 @@ importers:
       globby:
         specifier: ^11.1.0
         version: 11.1.0
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
       handlebars:
         specifier: ^4.7.7
         version: 4.7.8
@@ -11956,6 +11956,9 @@ importers:
 
   packages/devtools-server:
     dependencies:
+      '@11ty/gray-matter':
+        specifier: ^2.1.0
+        version: 2.1.0
       '@refinedev/devtools-shared':
         specifier: 2.0.2
         version: link:../devtools-shared
@@ -11995,9 +11998,6 @@ importers:
       globby:
         specifier: ^11.1.0
         version: 11.1.0
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
       http-proxy-middleware:
         specifier: ^3.0.0
         version: 3.0.0
@@ -14065,6 +14065,10 @@ packages:
     peerDependenciesMeta:
       graphql:
         optional: true
+
+  '@11ty/gray-matter@2.1.0':
+    resolution: {integrity: sha512-fNdBOb3MgDz/1UCIoeY4wDuGbp+/3s5y6UrsyfMabECbh/CVycj7Er33JXqSxRwxrRKXcGE1Jipuq/1mODInsQ==}
+    engines: {node: '>=11'}
 
   '@aashutoshrathi/word-wrap@1.2.6':
     resolution: {integrity: sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==}
@@ -22528,6 +22532,7 @@ packages:
   conventional-changelog-core@5.0.1:
     resolution: {integrity: sha512-Rvi5pH+LvgsqGwZPZ3Cq/tz4ty7mjijhr3qR4m9IBXNbxGGYgTVVO+duXzz9aArmHxFtwZ+LRkrNIMDQzgoY4A==}
     engines: {node: '>=14'}
+    deprecated: Deprecated and no longer maintained. Please use conventional-changelog instead.
 
   conventional-changelog-preset-loader@3.0.0:
     resolution: {integrity: sha512-qy9XbdSLmVnwnvzEisjxdDiLA4OmV3o8db+Zdg4WiFw14fP3B6XNz98X0swPPpkTd/pc1K7+adKgEDM1JCUMiA==}
@@ -24647,13 +24652,13 @@ packages:
   git-raw-commits@2.0.11:
     resolution: {integrity: sha512-VnctFhw+xfj8Va1xtfEqCUD2XDrbAPSJx+hSrE5K7fGdjZruW7XV+QOrN7LF/RJyvspRiD2I0asWsxFp0ya26A==}
     engines: {node: '>=10'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-raw-commits@3.0.0:
     resolution: {integrity: sha512-b5OHmZ3vAgGrDn/X0kS+9qCfNKWe4K/jFnhwzVWWg0/k5eLa3060tZShrRg8Dja5kPc+YjS0Gc6y7cRr44Lpjw==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-remote-origin-url@2.0.0:
@@ -24663,7 +24668,7 @@ packages:
   git-semver-tags@5.0.1:
     resolution: {integrity: sha512-hIvOeZwRbQ+7YEUmCkHqo8FOLQZCEn18yevLHADlFPZY02KJGsu5FZt9YW/lybfK2uhWFI7Qg/07LekJiTv7iA==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-up@7.0.0:
@@ -24858,10 +24863,6 @@ packages:
   graphql@16.9.0:
     resolution: {integrity: sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
-
-  gray-matter@4.0.3:
-    resolution: {integrity: sha512-5v6yZd4JK3eMI3FqqCouswVqwugaA9r4dNZB1wwcmrD02QkV5H0y7XBQW8QwQqEaZY1pM9aqORSORhJRdNK44Q==}
-    engines: {node: '>=6.0'}
 
   groqd@0.15.11:
     resolution: {integrity: sha512-i1JBi6CnRAVbsld9pThccvEg0jEq+xDiZE1OAkbTTt6bakpic5nv3QASvdgA+nWAoaX754q1ACvntgB7Pf83VQ==}
@@ -26163,6 +26164,10 @@ packages:
 
   js-yaml@4.1.0:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
+    hasBin: true
+
+  js-yaml@4.3.0:
+    resolution: {integrity: sha512-1td788aAnnZ5qs7V2QIRl1owjtYpbKt749Y3xauqQgwIIGF/xXWz1wMTEBx5O3LK3lXLVuqXPdPxj2BoFHaW9Q==}
     hasBin: true
 
   jsbn@0.1.1:
@@ -31259,10 +31264,6 @@ packages:
     resolution: {integrity: sha512-iq6eVVI64nQQTRYq2KtEg2d2uU7LElhTJwsH4YzIHZshxlgZms/wIc4VoDQTlG/IvVIrBKG06CrZnp0qv7hkcQ==}
     engines: {node: '>=12'}
 
-  strip-bom-string@1.0.0:
-    resolution: {integrity: sha512-uCC2VHvQRYu+lMh4My/sFNmF2klFymLX1wHJeXnbEJERpV/ZsVuonzerjfrGpIGF7LBVa1O7i9kjiWvJiFck8g==}
-    engines: {node: '>=0.10.0'}
-
   strip-bom@3.0.0:
     resolution: {integrity: sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==}
     engines: {node: '>=4'}
@@ -31818,6 +31819,7 @@ packages:
   tsconfck@3.0.3:
     resolution: {integrity: sha512-4t0noZX9t6GcPTfBAbIbbIU4pfpCwh0ueq3S4O/5qXI1VwK1outmxhe9dOiEWqMz3MW2LKgDTpqWV+37IWuVbA==}
     engines: {node: ^18 || >=20}
+    deprecated: unmaintained
     hasBin: true
     peerDependencies:
       typescript: ^5.0.0
@@ -33176,6 +33178,11 @@ snapshots:
   '@0no-co/graphql.web@1.0.8(graphql@16.9.0)':
     optionalDependencies:
       graphql: 16.9.0
+
+  '@11ty/gray-matter@2.1.0':
+    dependencies:
+      js-yaml: 4.3.0
+      section-matter: 1.0.0
 
   '@aashutoshrathi/word-wrap@1.2.6': {}
 
@@ -48676,13 +48683,6 @@ snapshots:
 
   graphql@16.9.0: {}
 
-  gray-matter@4.0.3:
-    dependencies:
-      js-yaml: 3.14.1
-      kind-of: 6.0.3
-      section-matter: 1.0.0
-      strip-bom-string: 1.0.0
-
   groqd@0.15.11:
     dependencies:
       zod: 3.22.4
@@ -50368,6 +50368,10 @@ snapshots:
       esprima: 4.0.1
 
   js-yaml@4.1.0:
+    dependencies:
+      argparse: 2.0.1
+
+  js-yaml@4.3.0:
     dependencies:
       argparse: 2.0.1
 
@@ -57023,8 +57027,6 @@ snapshots:
   strip-ansi@7.1.0:
     dependencies:
       ansi-regex: 6.0.1
-
-  strip-bom-string@1.0.0: {}
 
   strip-bom@3.0.0: {}
 
