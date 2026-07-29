@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import matter from "gray-matter";
+import matter from "@11ty/gray-matter";
 import { marked } from "marked";
 import sanitizeHtml from "sanitize-html";
 

@@ -52,7 +52,7 @@
     "figlet": "^1.5.2",
     "fs-extra": "^10.1.0",
     "globby": "^11.1.0",
-    "gray-matter": "^4.0.3",
+    "@11ty/gray-matter": "^3.0.0",
     "handlebars": "^4.7.7",
     "inquirer": "^8.2.5",
     "inquirer-autocomplete-prompt": "^2.0.0",

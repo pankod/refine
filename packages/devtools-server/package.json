@@ -57,7 +57,7 @@
     "express": "^4.21.0",
     "fs-extra": "^10.1.0",
     "globby": "^11.1.0",
-    "gray-matter": "^4.0.3",
+    "@11ty/gray-matter": "^3.0.0",
     "http-proxy-middleware": "^3.0.0",
     "jscodeshift": "^17.3.0",
     "lodash": "^4.17.21",
