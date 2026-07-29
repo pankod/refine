@@ -3,7 +3,7 @@ import { useLogin } from "@refinedev/core";
 import { Spin } from "antd";
 
 export const Login: React.FC = () => {
-  const { mutate: login, isLoading } = useLogin();
+  const { mutate: login } = useLogin();
 
   useEffect(() => {
     // Tự động kích hoạt luồng đăng nhập (chuyển hướng sang Keycloak) ngay khi load trang

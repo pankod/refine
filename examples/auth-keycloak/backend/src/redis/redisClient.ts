@@ -22,36 +22,50 @@ const REDIS_PASSWORD = process.env.REDIS_PASSWORD;
 // Nếu không cấu hình Sentinel, sẽ chạy ở chế độ Standalone (mặc định cho Dev: redis://localhost:6379)
 const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
 
-let redisConfig: RedisOptions | string = REDIS_URL;
+const commonOptions: RedisOptions = {
+  enableReadyCheck: true,
+  maxRetriesPerRequest: 3,
+  retryStrategy: (attempt) => Math.min(attempt * 250, 5000)
+};
+
+let redisClient: Redis;
 
 // Tự động kiểm tra: Nếu có cấu hình Sentinel (Chạy trên K3s) thì ưu tiên dùng Sentinel
 if (REDIS_SENTINEL_HOST) {
-  redisConfig = {
+  redisClient = new Redis({
+    ...commonOptions,
     sentinels: [{ host: REDIS_SENTINEL_HOST, port: REDIS_SENTINEL_PORT }],
     name: REDIS_MASTER_NAME,
     password: REDIS_PASSWORD,
     sentinelPassword: REDIS_PASSWORD,
-  };
+  });
+} else {
+  redisClient = new Redis(REDIS_URL, commonOptions);
 }
 
 /**
  * Đối tượng `redis` được khởi tạo (Singleton Pattern).
  * Mọi file khác trong dự án khi import `redis` đều dùng chung kết nối này, giúp tiết kiệm tài nguyên.
  */
-export const redis = new Redis(redisConfig as any);
+export const redis = redisClient;
 
 /**
  * Bắt sự kiện: Kết nối thành công.
  * Sẽ in ra log để báo hiệu hệ thống đã sẵn sàng làm "Băng chuyền".
  */
-redis.on('connect', () => {
-  console.log('✅ Connected to Redis (Message Queue)');
+redis.on('ready', () => {
+  console.log('✅ Redis sẵn sàng (Message Queue)');
 });
 
 /**
  * Bắt sự kiện: Mất kết nối hoặc lỗi.
  * Rất quan trọng để theo dõi sức khỏe của hệ thống.
  */
+let lastErrorLogAt = 0;
 redis.on('error', (err) => {
-  console.error('❌ Redis Connection Error:', err);
+  const now = Date.now();
+  if (now - lastErrorLogAt >= 10_000) {
+    console.error(`❌ Redis chưa sẵn sàng: ${err.message}`);
+    lastErrorLogAt = now;
+  }
 });

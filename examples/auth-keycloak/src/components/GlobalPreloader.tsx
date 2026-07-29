@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTable } from '@refinedev/antd';
-import { Spin } from 'antd';
+import { Spin, Typography } from 'antd';
 
 /**
  * ============================================================================
@@ -38,7 +38,8 @@ export const GlobalPreloader: React.FC<{ children: React.ReactNode }> = ({ child
     return (
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f0f2f5' }}>
         <img src="/logo-full.png" alt="Green IQ" className="pulse-logo" style={{ height: '70px', marginBottom: '32px' }} />
-        <Spin size="large" tip="Đang tải dữ liệu nền tảng..." />
+        <Spin size="large" />
+        <Typography.Text style={{ marginTop: 12 }}>Đang tải dữ liệu nền tảng...</Typography.Text>
       </div>
     );
   }

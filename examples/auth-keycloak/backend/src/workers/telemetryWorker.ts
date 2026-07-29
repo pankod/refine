@@ -36,9 +36,12 @@ const PROCESS_INTERVAL_MS = 1000;
  */
 export const startTelemetryWorker = () => {
   console.log('👷 Telemetry Worker started (Batching 1000 msgs/sec)');
+  let isProcessing = false;
 
   // setInterval: Vòng lặp chạy vô tận, cứ mỗi 1 giây lại thực thi đoạn code bên trong
   setInterval(async () => {
+    if (isProcessing || redis.status !== 'ready') return;
+    isProcessing = true;
     try {
       /**
        * BƯỚC 1: Đọc hàng loạt dữ liệu từ Redis (Lệnh RPOP)
@@ -184,6 +187,8 @@ export const startTelemetryWorker = () => {
 
     } catch (err) {
       console.error('❌ Telemetry Worker Error:', err);
+    } finally {
+      isProcessing = false;
     }
   }, PROCESS_INTERVAL_MS);
 };

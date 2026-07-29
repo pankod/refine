@@ -295,7 +295,16 @@
                   "type": {
                     "example": "any"
                   },
+                  "label": {
+                    "example": "any"
+                  },
+                  "description": {
+                    "example": "any"
+                  },
                   "isGateway": {
+                    "example": "any"
+                  },
+                  "overwriteActivityTime": {
                     "example": "any"
                   }
                 }
@@ -362,7 +371,16 @@
                   "type": {
                     "example": "any"
                   },
+                  "label": {
+                    "example": "any"
+                  },
+                  "description": {
+                    "example": "any"
+                  },
                   "isGateway": {
+                    "example": "any"
+                  },
+                  "overwriteActivityTime": {
                     "example": "any"
                   }
                 }

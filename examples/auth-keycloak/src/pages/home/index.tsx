@@ -17,7 +17,7 @@ export const HomeDashboard: React.FC = () => {
   }, []);
 
   // Fetch the selected dashboard details
-  const { data: selectedDashboardData, isLoading: isLoadingSelected } = useOne({
+  const selectedDashboardQuery = useOne({
     resource: "dashboards",
     dataProviderName: "dashboards",
     id: selectedDashboardId || "",
@@ -27,10 +27,14 @@ export const HomeDashboard: React.FC = () => {
   });
 
   // Fetch all available dashboards for the modal
-  const { data: dashboardsData, isLoading: isLoadingList } = useList({
+  const dashboardsQuery = useList({
     resource: "dashboards",
     dataProviderName: "dashboards",
   });
+  const selectedDashboardData = selectedDashboardQuery.result;
+  const isLoadingSelected = selectedDashboardQuery.query.isLoading;
+  const dashboardsData = dashboardsQuery.result.data;
+  const isLoadingList = dashboardsQuery.query.isLoading;
 
   const handleSelect = (id: string) => {
     setSelectedDashboardId(id);
@@ -52,7 +56,7 @@ export const HomeDashboard: React.FC = () => {
           filterOption={(input, option) =>
             (option?.label ?? '').toString().toLowerCase().includes(input.toLowerCase())
           }
-          options={(dashboardsData?.data || []).map(d => ({
+          options={dashboardsData.map((d: any) => ({
             value: d.id,
             label: d.title
           }))}
@@ -74,9 +78,9 @@ export const HomeDashboard: React.FC = () => {
         <Card>
           <Skeleton active />
         </Card>
-      ) : selectedDashboardData?.data ? (
+      ) : selectedDashboardData ? (
         <Card 
-          title={selectedDashboardData.data.title}
+          title={selectedDashboardData.title}
           style={{ minHeight: "500px", display: "flex", flexDirection: "column" }}
           bodyStyle={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f0f2f5" }}
         >
@@ -84,7 +88,7 @@ export const HomeDashboard: React.FC = () => {
             <Title level={4} type="secondary">
               [Vùng hiển thị iFrame Grafana / Thingsboard]
             </Title>
-            <Text type="secondary">{selectedDashboardData.data.description}</Text>
+            <Text type="secondary">{selectedDashboardData.description}</Text>
           </div>
         </Card>
       ) : (

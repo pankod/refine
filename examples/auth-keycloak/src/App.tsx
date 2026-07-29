@@ -257,8 +257,6 @@ const App: React.FC = () => {
                         Sider={(props) => (
                           <ThemedSider 
                             {...props} 
-                            theme="dark"
-                            style={{ backgroundColor: "#0B5D3B" }}
                             render={({ items }) => <>{items}</>}
                             Title={({ collapsed }) => (
                               <ThemedTitle
@@ -311,8 +309,6 @@ const App: React.FC = () => {
                       Sider={(props) => (
                         <ThemedSider 
                           {...props} 
-                          theme="dark"
-                          style={{ backgroundColor: "#0B5D3B" }}
                           render={({ items }) => <>{items}</>}
                           Title={({ collapsed }) => (
                             <ThemedTitle

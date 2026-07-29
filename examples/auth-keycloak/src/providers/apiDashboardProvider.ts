@@ -1,5 +1,6 @@
 import { DataProvider } from "@refinedev/core";
 import axios from "axios";
+import { getListTotal, toList } from "./listResponse";
 
 // Dùng biến môi trường nếu có, nếu không thì dùng đường dẫn tương đối /api (dành cho production Ingress)
 const API_URL = import.meta.env.VITE_API_URL || "/api";
@@ -9,12 +10,14 @@ export const apiDashboardProvider: DataProvider = {
     if (resource === "dashboards") {
       const params: any = {};
       if (pagination) {
-        params.page = pagination.current || 1;
+        params.page = pagination.currentPage || 1;
         params.limit = pagination.pageSize || 10;
       }
       const response = await axios.get(`${API_URL}/dashboards`, { params });
-      const total = parseInt(response.headers['x-total-count'] || '0', 10) || response.data.length;
-      return { data: response.data, total };
+      const data = toList(response.data);
+      const headerTotal = parseInt(response.headers['x-total-count'] || '0', 10);
+      const total = headerTotal || getListTotal(response.data, data.length);
+      return { data, total };
     }
     return { data: [], total: 0 };
   },

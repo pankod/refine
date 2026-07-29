@@ -8,6 +8,7 @@ import {
 } from "@refinedev/antd";
 import { Table, Select, Modal, Form, Input, Space, Button } from "antd";
 import { useSelect, useCreate, useDelete } from "@refinedev/core";
+import { toList } from "../../providers/listResponse";
 
 export const DeviceRelations: React.FC<{ deviceId: string }> = ({ deviceId }) => {
   const [direction, setDirection] = useState<"from" | "to">("from");
@@ -17,7 +18,7 @@ export const DeviceRelations: React.FC<{ deviceId: string }> = ({ deviceId }) =>
   const [form] = Form.useForm();
 
   // Load relations based on direction
-  const { tableProps, tableQueryResult } = useTable({
+  const { tableProps, tableQuery } = useTable({
     resource: "relations",
     filters: {
       permanent: [
@@ -33,7 +34,7 @@ export const DeviceRelations: React.FC<{ deviceId: string }> = ({ deviceId }) =>
 
   // For the Add Modal
   const [selectedTargetType, setSelectedTargetType] = useState("DEVICE");
-  const { selectProps: targetSelectProps } = useSelect({
+  const targetSelect = useSelect({
     resource: selectedTargetType === "DEVICE" ? "devices" : "dashboards",
     optionLabel: selectedTargetType === "DEVICE" ? "name" : "title",
     optionValue: "id",
@@ -56,7 +57,7 @@ export const DeviceRelations: React.FC<{ deviceId: string }> = ({ deviceId }) =>
           onSuccess: () => {
             setIsModalVisible(false);
             form.resetFields();
-            tableQueryResult.refetch();
+            tableQuery.refetch();
           },
         }
       );
@@ -83,6 +84,7 @@ export const DeviceRelations: React.FC<{ deviceId: string }> = ({ deviceId }) =>
 
       <Table
         {...tableProps}
+        dataSource={toList(tableProps.dataSource)}
         rowKey="id"
         pagination={false}
         locale={{ emptyText: "No relations found" }}
@@ -106,7 +108,7 @@ export const DeviceRelations: React.FC<{ deviceId: string }> = ({ deviceId }) =>
                 size="small"
                 recordItemId={record.id}
                 resource="relations"
-                onSuccess={() => tableQueryResult.refetch()}
+                onSuccess={() => tableQuery.refetch()}
               />
             </Space>
           )}
@@ -147,7 +149,13 @@ export const DeviceRelations: React.FC<{ deviceId: string }> = ({ deviceId }) =>
             label="Entity Name"
             rules={[{ required: true }]}
           >
-            <Select {...targetSelectProps} showSearch filterOption={false} />
+            <Select
+              options={targetSelect.options}
+              onSearch={targetSelect.onSearch}
+              loading={targetSelect.query.isLoading}
+              showSearch
+              filterOption={false}
+            />
           </Form.Item>
         </Form>
       </Modal>

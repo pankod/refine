@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # 1. Message Broker (EMQX) - Lắng nghe kết nối MQTT từ thiết bị IoT
   emqx:
@@ -18,7 +16,14 @@ services:
     container_name: greeniq_redis
     ports:
       - "6379:6379"
-    command: redis-server --requirepass redis_strong_password
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:-redis_strong_password}"]
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$$REDIS_PASSWORD\" ping | grep PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    environment:
+      REDIS_PASSWORD: "${REDIS_PASSWORD:-redis_strong_password}"
     restart: unless-stopped
 
   # Ghi chú: Không đưa PostgreSQL vào đây vì hệ thống đang dùng DB localhost có sẵn dữ liệu của dự án.

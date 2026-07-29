@@ -25,6 +25,20 @@ const keycloak = new Keycloak({
   realm: "master", // Tên Không gian làm việc (Realm) trên Keycloak
 });
 
+// Luôn dùng access token còn hạn cho các request gửi qua axios mặc định.
+// Các data provider thiết bị/dashboard đều dùng instance này để gọi backend.
+axios.interceptors.request.use(async (config) => {
+  if (keycloak.authenticated) {
+    await keycloak.updateToken(30);
+
+    if (keycloak.token) {
+      config.headers.Authorization = `Bearer ${keycloak.token}`;
+    }
+  }
+
+  return config;
+});
+
 const container = document.getElementById("root");
 // eslint-disable-next-line
 const root = createRoot(container!);

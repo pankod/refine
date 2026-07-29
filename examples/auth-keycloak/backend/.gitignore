@@ -2,4 +2,15 @@ node_modules
 # Keep environment variables out of version control
 .env
 
+# Local Lens/Kubernetes credentials
+/.kube/
+
 /generated/prisma
+
+# Local development process files
+/scripts/.postgres-port-forward.log
+/scripts/.postgres-port-forward.pid
+/scripts/.redis-port-forward.log
+/scripts/.redis-port-forward.pid
+/scripts/.emqx-port-forward.log
+/scripts/.emqx-port-forward.pid

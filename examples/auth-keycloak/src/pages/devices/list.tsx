@@ -8,6 +8,7 @@ import { useMqtt } from "../../hooks/useMqtt";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { DeviceRelations } from "./relations";
+import { toList } from "../../providers/listResponse";
 
 const { Text, Title } = Typography;
 
@@ -129,7 +130,7 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
           </Space>
         }
       >
-        <Table {...tableProps} rowKey="id" onRow={onRowClick} rowHoverable>
+        <Table {...tableProps} dataSource={toList(tableProps.dataSource)} rowKey="id" onRow={onRowClick} rowHoverable>
           <Table.Column dataIndex="name" title="Tên thiết bị" render={(value) => <strong>{value}</strong>} />
           <Table.Column dataIndex="type" title="Loại (Profile)" />
           <Table.Column dataIndex="label" title="Nhãn (Label)" />
@@ -367,7 +368,7 @@ const DeviceAttributes: React.FC<{ deviceId: string }> = ({ deviceId }) => {
     queryKey: ['attributes', deviceId, activeTab],
     queryFn: async () => {
       const res = await axios.get(`${API_URL}/devices/${deviceId}/attributes`, { params: { scope: activeTab } });
-      return res.data;
+      return toList(res.data);
     }
   });
 
@@ -469,7 +470,7 @@ const DeviceAttributes: React.FC<{ deviceId: string }> = ({ deviceId }) => {
       </div>
 
       <Table 
-        dataSource={attributes} 
+        dataSource={toList(attributes)}
         rowKey={(record) => record.scope + record.key} 
         loading={isLoading}
         size="small"
@@ -568,7 +569,7 @@ const DeviceTelemetry: React.FC<{ deviceId: string, deviceKey: string }> = ({ de
     queryKey: ['telemetry', deviceId],
     queryFn: async () => {
       const res = await axios.get(`${API_URL}/devices/${deviceId}/telemetry`);
-      return res.data;
+      return toList(res.data);
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes cache
@@ -589,8 +590,8 @@ const DeviceTelemetry: React.FC<{ deviceId: string, deviceKey: string }> = ({ de
       const currentLabel = new Date(currentTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
       // 1. Cập nhật Bảng (Table) Cache
-      queryClient.setQueryData(['telemetry', deviceId], (oldData: any[]) => {
-        const updated = oldData ? [...oldData] : [];
+      queryClient.setQueryData(['telemetry', deviceId], (oldData: unknown) => {
+        const updated = [...toList<any>(oldData)];
         Object.keys(payload).forEach(key => {
           const existingIndex = updated.findIndex(t => t.key === key);
           if (existingIndex !== -1) {
@@ -615,7 +616,7 @@ const DeviceTelemetry: React.FC<{ deviceId: string, deviceKey: string }> = ({ de
       )}
       
       <Table 
-        dataSource={telemetryData} 
+        dataSource={toList(telemetryData)}
         rowKey="key" 
         loading={isLoadingTelemetry}
         size="small"

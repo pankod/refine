@@ -33,6 +33,7 @@ const SYSTEM_USERNAMES = new Set(['backend_service', 'frontend_readonly', 'dashb
 
 const EMQX_URL = process.env.EMQX_URL || 'mqtt://localhost:1883';
 let mqttClient: mqtt.MqttClient | null = null;
+let lastMqttErrorLogAt = 0;
 
 /**
  * Luu Server Attribute vao bang attribute_kv - dung chuan ThingsBoard.
@@ -194,7 +195,13 @@ export const startMqttClient = () => {
   });
 
   mqttClient.on('error', (err) => {
-    console.error('[MQTT] Connection Error:', err);
+    const now = Date.now();
+    if (now - lastMqttErrorLogAt >= 10_000) {
+      const nestedErrors = (err as any)?.errors as Error[] | undefined;
+      const detail = nestedErrors?.map(item => item.message).join('; ') || err.message;
+      console.error(`[MQTT] Connection Error: ${detail}`);
+      lastMqttErrorLogAt = now;
+    }
   });
 };
 

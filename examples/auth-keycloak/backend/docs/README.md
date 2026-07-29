@@ -74,6 +74,49 @@ export const apiDeviceProvider = {
 
 ---
 
+## 🧰 2.1. KHỞI ĐỘNG BACKEND TRÊN WINDOWS, MACOS VÀ LINUX
+
+Khi chạy `npm run dev` trong thư mục `backend`, script chuẩn bị môi trường thực hiện ba việc:
+
+1. Đọc URI PostgreSQL từ Secret `iot-db-cluster-app` và mật khẩu Redis từ Secret `redis`, sau đó ghi vào `.env` đã git-ignore.
+2. Hỏi Redis Sentinel để xác định pod primary hiện tại, tránh kết nối nhầm replica read-only.
+3. Tạo port-forward PostgreSQL về `localhost:5432`, Redis primary về `localhost:6379` và EMQX về `localhost:1883`.
+
+Script không hard-code đường dẫn Windows. Thứ tự tìm kubeconfig là:
+
+1. Biến `K3S_KUBECONFIG`.
+2. Biến chuẩn `KUBECONFIG`.
+3. File `k3s/kubeconfig.yaml` nằm cạnh repo `refine`.
+4. File mặc định `~/.kube/config`.
+
+Ví dụ trên macOS/Linux:
+
+```bash
+export K3S_KUBECONFIG="/duong-dan/toi/kubeconfig.yaml"
+cd backend
+npm run dev
+```
+
+Ví dụ PowerShell trên Windows:
+
+```powershell
+$env:K3S_KUBECONFIG = "C:\duong-dan\kubeconfig.yaml"
+cd backend
+npm run dev
+```
+
+Mặc định, khi kubeconfig hợp lệ, Redis và EMQX của K3s được dùng cho dev local (`USE_K3S_REDIS=true`, `USE_K3S_EMQX=true`), nên không cần Docker Desktop. Đặt biến tương ứng thành `false` nếu muốn chạy Redis hoặc EMQX bằng Docker. Khi Redis Sentinel thực hiện failover trong lúc đang dev, chạy lại `npm run dev` để script tìm primary mới và tạo lại port-forward.
+
+Nếu Docker hoặc kubeconfig chưa sẵn sàng, script sẽ cảnh báo và bỏ qua dịch vụ tương ứng, không làm Node.js crash. Có thể chủ động dùng cấu hình có sẵn mà không đồng bộ K3s bằng:
+
+```bash
+SKIP_K8S_SYNC=true SKIP_K8S_PORT_FORWARD=true npm run dev
+```
+
+Các biến tùy chỉnh khác gồm `K8S_NAMESPACE`, `K8S_DB_SECRET`, `K8S_DB_SERVICE`, `K8S_REDIS_SECRET`, `K8S_REDIS_SENTINEL_POD`, `K8S_EMQX_SERVICE`, `LOCAL_DB_HOST`, `LOCAL_DB_PORT`, `LOCAL_REDIS_HOST`, `LOCAL_REDIS_PORT` và `LOCAL_EMQX_PORT`.
+
+---
+
 ## ⚙️ 3. KHỐI XỬ LÝ TRUNG TÂM (BACKEND - NODE.JS)
 
 Thư mục: `backend/src/`

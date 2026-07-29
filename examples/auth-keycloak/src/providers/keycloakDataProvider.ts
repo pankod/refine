@@ -1,6 +1,7 @@
 import { DataProvider } from "@refinedev/core";
 import axios from "axios";
 import Keycloak from "keycloak-js";
+import { getListTotal, toList } from "./listResponse";
 
 export const keycloakDataProvider = (keycloak: Keycloak): DataProvider => {
   const getHeaders = () => ({
@@ -21,8 +22,8 @@ export const keycloakDataProvider = (keycloak: Keycloak): DataProvider => {
       
       // Map Refine pagination to Keycloak first/max
       if (pagination) {
-        const { current = 1, pageSize = 10 } = pagination;
-        params.first = (current - 1) * pageSize;
+        const { currentPage = 1, pageSize = 10 } = pagination;
+        params.first = (currentPage - 1) * pageSize;
         params.max = pageSize;
       }
 
@@ -36,10 +37,11 @@ export const keycloakDataProvider = (keycloak: Keycloak): DataProvider => {
       }
 
       try {
-        const { data } = await axios.get(url, {
+        const response = await axios.get(url, {
           headers: getHeaders(),
           params,
         });
+        const data = toList<any>(response.data);
 
         // Map Keycloak user to match Table columns
         const mappedData = await Promise.all(data.map(async (item: any) => {
@@ -93,7 +95,7 @@ export const keycloakDataProvider = (keycloak: Keycloak): DataProvider => {
 
         // Keycloak admin API doesn't return total count easily without an extra call
         // We will do a separate call to /users/count if resource is users
-        let total = data.length;
+        let total = getListTotal(response.data, data.length);
         if (resource === "users") {
           try {
             const countRes = await axios.get(`${url}/count`, {

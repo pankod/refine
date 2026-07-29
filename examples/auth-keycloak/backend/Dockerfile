@@ -9,7 +9,7 @@ COPY prisma ./prisma
 RUN npx prisma generate
 
 COPY . .
-RUN npm run build
+RUN SKIP_K8S_SYNC=true npm run build
 
 EXPOSE 3000
 CMD ["npm", "start"]

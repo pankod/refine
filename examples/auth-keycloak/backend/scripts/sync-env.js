@@ -1,43 +1,86 @@
-const { execSync } = require('child_process');
+const { spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const {
+  checkKubectl,
+  getKubectlArgs,
+  kubectlCommand,
+  resolveKubeconfig
+} = require('./dev-config');
 
 console.log('🔄 Đang đồng bộ Mật khẩu Database từ K3s Secret...');
 
+const getSecret = (kubeconfig, name, namespace) => {
+  const result = spawnSync(
+    kubectlCommand,
+    getKubectlArgs(kubeconfig, ['get', 'secret', name, '-n', namespace, '-o', 'json']),
+    { encoding: 'utf8' }
+  );
+
+  if (result.error) throw result.error;
+  if (result.status !== 0) {
+    throw new Error(result.stderr.trim() || `kubectl kết thúc với mã ${result.status}`);
+  }
+
+  return JSON.parse(result.stdout);
+};
+
+const setEnvValue = (content, key, value) => {
+  const line = `${key}=${JSON.stringify(value)}`;
+  const pattern = new RegExp(`^${key}=.*$`, 'm');
+  if (pattern.test(content)) {
+    return content.replace(pattern, line);
+  }
+  return `${content}${content.endsWith('\n') || content.length === 0 ? '' : '\n'}${line}\n`;
+};
+
 try {
-  // Lấy dữ liệu secret từ K3s dưới dạng JSON
-  const kubeconfig = 'c:\\\\Users\\\\vthea\\\\Documents\\\\GitHub\\\\k3s\\\\kubeconfig.yaml';
-  const stdout = execSync(`kubectl --kubeconfig ${kubeconfig} get secret iot-db-cluster-app -n default -o json`);
-  const secret = JSON.parse(stdout.toString());
+  if (process.env.SKIP_K8S_SYNC === 'true') {
+    console.log('ℹ️ Đã bỏ qua đồng bộ K3s vì SKIP_K8S_SYNC=true.');
+    process.exit(0);
+  }
 
-  // Giải mã Base64 trường 'uri'
-  const uriBase64 = secret.data.uri;
-  const decodedUri = Buffer.from(uriBase64, 'base64').toString('utf-8');
+  const kubeconfig = resolveKubeconfig();
+  const kubectlStatus = checkKubectl(kubeconfig);
+  if (!kubectlStatus.ok) {
+    throw new Error(kubectlStatus.message);
+  }
 
-  // URL từ K3s có dạng: postgresql://iot_user:PASSWORD@iot-db-cluster-rw.default:5432/iot_db
-  // Khi chạy local, chúng ta map qua port 5432 trên localhost nên cần sửa đổi host
-  const localUri = decodedUri.replace('@iot-db-cluster-rw.default:5432', '@localhost:5432') + '?schema=public&sslmode=disable';
+  const secretName = process.env.K8S_DB_SECRET || 'iot-db-cluster-app';
+  const redisSecretName = process.env.K8S_REDIS_SECRET || 'redis';
+  const namespace = process.env.K8S_NAMESPACE || 'default';
+  const secret = getSecret(kubeconfig, secretName, namespace);
+  const uriBase64 = secret.data?.uri;
+  if (!uriBase64) {
+    throw new Error(`Secret ${secretName} không có trường data.uri.`);
+  }
 
-  // Đọc file .env
+  const decodedUri = Buffer.from(uriBase64, 'base64').toString('utf8');
+  const databaseUrl = new URL(decodedUri);
+  databaseUrl.hostname = process.env.LOCAL_DB_HOST || 'localhost';
+  databaseUrl.port = process.env.LOCAL_DB_PORT || '5432';
+  databaseUrl.searchParams.set('schema', 'public');
+  databaseUrl.searchParams.set('sslmode', 'disable');
+  const localUri = databaseUrl.toString();
+
+  const redisSecret = getSecret(kubeconfig, redisSecretName, namespace);
+  const redisPasswordBase64 = redisSecret.data?.['redis-password'];
+  if (!redisPasswordBase64) {
+    throw new Error(`Secret ${redisSecretName} không có trường data.redis-password.`);
+  }
+  const redisPassword = Buffer.from(redisPasswordBase64, 'base64').toString('utf8');
+  const redisUrl = new URL(`redis://${process.env.LOCAL_REDIS_HOST || 'localhost'}:${process.env.LOCAL_REDIS_PORT || '6379'}`);
+  redisUrl.password = redisPassword;
+
   const envPath = path.join(__dirname, '..', '.env');
-  let envContent = '';
-  if (fs.existsSync(envPath)) {
-    envContent = fs.readFileSync(envPath, 'utf-8');
-  }
+  let envContent = fs.existsSync(envPath) ? fs.readFileSync(envPath, 'utf8') : '';
+  envContent = setEnvValue(envContent, 'DATABASE_URL', localUri);
+  envContent = setEnvValue(envContent, 'REDIS_PASSWORD', redisPassword);
+  envContent = setEnvValue(envContent, 'REDIS_URL', redisUrl.toString());
 
-  // Cập nhật hoặc thêm DATABASE_URL
-  const dbUrlRegex = /^DATABASE_URL=.*$/m;
-  if (dbUrlRegex.test(envContent)) {
-    envContent = envContent.replace(dbUrlRegex, `DATABASE_URL="${localUri}"`);
-  } else {
-    envContent += `\nDATABASE_URL="${localUri}"\n`;
-  }
-
-  // Ghi lại file .env
-  fs.writeFileSync(envPath, envContent, 'utf-8');
-  console.log('✅ Đã đồng bộ thành công DATABASE_URL vào file .env!');
-
+  fs.writeFileSync(envPath, envContent, 'utf8');
+  console.log(`✅ Đã đồng bộ Database và Redis Secrets từ context "${kubectlStatus.context}" vào file .env.`);
 } catch (error) {
-  console.error('❌ Lỗi khi đồng bộ secret từ K3s:', error.message);
-  console.log('⚠️ Hãy chắc chắn bạn đã bật k3s và cấu hình kubectl đúng cách.');
+  console.error('❌ Không thể đồng bộ DATABASE_URL từ K3s:', error.message);
+  console.log('⚠️ Giữ nguyên .env hiện tại. Hãy đặt K3S_KUBECONFIG hoặc KUBECONFIG tới kubeconfig hợp lệ.');
 }

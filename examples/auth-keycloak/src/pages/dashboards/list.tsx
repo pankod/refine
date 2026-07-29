@@ -2,6 +2,7 @@ import React from "react";
 import { List, useTable, useModalForm, DeleteButton, EditButton } from "@refinedev/antd";
 import { Typography, Table, Space, Button, Modal, Form, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { toList } from "../../providers/listResponse";
 
 const { Title, Text } = Typography;
 
@@ -33,7 +34,7 @@ export const DashboardList: React.FC = () => {
           </Button>
         }
       >
-        <Table {...tableProps} rowKey="id">
+        <Table {...tableProps} dataSource={toList(tableProps.dataSource)} rowKey="id">
           <Table.Column dataIndex="id" title="ID" />
           <Table.Column dataIndex="title" title="Tên Bảng điều khiển" render={(value) => <strong>{value}</strong>} />
           <Table.Column dataIndex="description" title="Mô tả" />
