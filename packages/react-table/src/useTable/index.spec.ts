@@ -184,6 +184,120 @@ describe("useTable Hook", () => {
     ]);
   });
 
+  it("should keep the current page when the columns identity changes without a filter change", async () => {
+    const { result, rerender } = renderHook(
+      ({ tableColumns }: { tableColumns: ColumnDef<Post>[] }) =>
+        useTable({
+          columns: tableColumns,
+          refineCoreProps: {
+            resource: "posts",
+            pagination: {
+              pageSize: 1,
+            },
+            filters: {
+              initial: [
+                {
+                  field: "active",
+                  operator: "eq",
+                  value: true,
+                },
+              ],
+            },
+          },
+        }),
+      {
+        wrapper: TestWrapper({
+          routerInitialEntries: ["/posts"],
+        }),
+        initialProps: { tableColumns: columns },
+      },
+    );
+
+    await waitFor(() => {
+      expect(!result.current.refineCore.tableQuery.isLoading).toBeTruthy();
+    });
+
+    act(() => {
+      result.current.refineCore.setCurrentPage(2);
+    });
+
+    await waitFor(() => {
+      expect(result.current.refineCore.currentPage).toBe(2);
+    });
+
+    // A columns array with fresh identity but identical content — cell
+    // renderers are commonly memoized over location-sensitive values
+    // (e.g. useNavigation callbacks depend on useLocation), so with
+    // syncWithLocation this happens right after every pagination click.
+    // The filters did not change, so the page must survive.
+    rerender({
+      tableColumns: columns.map((column) => ({ ...column })),
+    });
+
+    await waitFor(() => {
+      expect(!result.current.refineCore.tableQuery.isFetching).toBeTruthy();
+    });
+
+    expect(result.current.refineCore.currentPage).toBe(2);
+  });
+
+  it("should reset to the first page when a filter actually changes", async () => {
+    const { result } = renderHook(
+      () =>
+        useTable({
+          columns,
+          refineCoreProps: {
+            resource: "posts",
+            pagination: {
+              pageSize: 1,
+            },
+            filters: {
+              initial: [
+                {
+                  field: "active",
+                  operator: "eq",
+                  value: true,
+                },
+              ],
+            },
+          },
+        }),
+      {
+        wrapper: TestWrapper({
+          routerInitialEntries: ["/posts"],
+        }),
+      },
+    );
+
+    await waitFor(() => {
+      expect(!result.current.refineCore.tableQuery.isLoading).toBeTruthy();
+    });
+
+    act(() => {
+      result.current.refineCore.setCurrentPage(2);
+    });
+
+    await waitFor(() => {
+      expect(result.current.refineCore.currentPage).toBe(2);
+    });
+
+    act(() => {
+      const titleColumn = result.current.reactTable.getColumn("title");
+      titleColumn?.setFilterValue("Hello");
+    });
+
+    await waitFor(() => {
+      expect(!result.current.refineCore.tableQuery.isFetching).toBeTruthy();
+    });
+
+    expect(result.current.refineCore.filters).toEqual(
+      expect.arrayContaining([
+        { field: "title", value: "Hello", operator: "contains" },
+      ]),
+    );
+    expect(result.current.refineCore.currentPage).toBe(1);
+  });
+
   it("It should work successfully with initialSorter", async () => {
     const { result } = renderHook(
       () =>
