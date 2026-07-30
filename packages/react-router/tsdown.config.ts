@@ -5,7 +5,7 @@ export default defineConfig((options) => ({
     index: "src/index.ts",
   },
   outputOptions: {
-    inlineDynamicImports: true,
+    codeSplitting: false,
   },
   outDir: "dist",
   sourcemap: true,

@@ -4,7 +4,7 @@ import { lodashReplacePlugin } from "../shared/lodash-replace-plugin";
 export default defineConfig((options) => ({
   entry: ["src/index.ts"],
   outputOptions: {
-    inlineDynamicImports: true,
+    codeSplitting: false,
   },
   sourcemap: true,
   clean: false,

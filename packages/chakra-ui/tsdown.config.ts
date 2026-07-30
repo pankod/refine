@@ -8,7 +8,7 @@ import { dayJsEsmReplacePlugin } from "../shared/dayjs-esm-replace-plugin";
 export default defineConfig((options) => ({
   entry: ["src/index.tsx"],
   outputOptions: {
-    inlineDynamicImports: true,
+    codeSplitting: false,
     keepNames: true,
   },
   banner: {

@@ -24,7 +24,7 @@ const sharedConfig: UserConfig = {
     js: '"use client";',
   },
   outputOptions: {
-    inlineDynamicImports: true,
+    codeSplitting: false,
     keepNames: true,
   },
 };

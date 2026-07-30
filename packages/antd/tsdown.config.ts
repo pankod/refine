@@ -31,7 +31,7 @@ const antdLibToEsPlugin = (): Plugin => ({
 export default defineConfig((options) => ({
   entry: ["src/index.tsx"],
   outputOptions: {
-    inlineDynamicImports: true,
+    codeSplitting: false,
     keepNames: true,
   },
   banner: {

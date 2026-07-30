@@ -4,7 +4,7 @@ import { markAsExternalPlugin } from "../shared/mark-as-external-plugin";
 export default defineConfig((options) => ({
   entry: ["src/index.tsx"],
   outputOptions: {
-    inlineDynamicImports: true,
+    codeSplitting: false,
   },
   sourcemap: true,
   clean: false,

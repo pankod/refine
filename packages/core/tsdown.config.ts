@@ -7,7 +7,7 @@ import { replaceCoreVersionPlugin } from "../shared/replace-core-version-plugin"
 export default defineConfig((options) => ({
   entry: ["src/index.tsx"],
   outputOptions: {
-    inlineDynamicImports: true,
+    codeSplitting: false,
     keepNames: true,
   },
   banner: {

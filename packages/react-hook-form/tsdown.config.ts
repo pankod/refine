@@ -6,7 +6,7 @@ import { markAsExternalPlugin } from "../shared/mark-as-external-plugin";
 export default defineConfig((options) => ({
   entry: ["src/index.ts"],
   outputOptions: {
-    inlineDynamicImports: true,
+    codeSplitting: false,
     keepNames: true,
   },
   banner: {

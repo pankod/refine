@@ -62,7 +62,7 @@ export default defineConfig((options) => {
     minify: false,
     plugins: [textReplacePlugin()],
     outputOptions: {
-      inlineDynamicImports: true,
+      codeSplitting: false,
     },
     external: [
       ".bin/next",

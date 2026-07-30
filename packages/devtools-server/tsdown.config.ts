@@ -13,7 +13,7 @@ export default defineConfig((options) => {
 
   const sharedConfig: UserConfig = {
     outputOptions: {
-      inlineDynamicImports: true,
+      codeSplitting: false,
     },
     sourcemap: true,
     clean: false,

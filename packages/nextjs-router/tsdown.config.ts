@@ -5,7 +5,7 @@ import { nextJsEsmReplacePlugin } from "../shared/next-js-esm-replace-plugin";
 const sharedConfig: Partial<UserConfig> = {
   outDir: "dist",
   outputOptions: {
-    inlineDynamicImports: true,
+    codeSplitting: false,
   },
   sourcemap: true,
   clean: false,

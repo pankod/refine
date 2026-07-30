@@ -7,7 +7,7 @@ const sharedConfig: UserConfig = {
   format: ["cjs", "esm"],
   platform: "browser",
   outputOptions: {
-    inlineDynamicImports: true,
+    codeSplitting: false,
   },
 };
 
