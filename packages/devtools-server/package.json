@@ -35,9 +35,9 @@
   ],
   "scripts": {
     "attw": "attw --pack .",
-    "build": "pnpm build:client && tsup && node ../shared/generate-declarations.js",
+    "build": "pnpm build:client && tsdown && node ../shared/generate-declarations.js",
     "build:client": "cross-env NODE_ENV=production tsc && vite build --config src/client/vite.config.ts",
-    "dev": "pnpm dev:client & tsup --watch",
+    "dev": "pnpm dev:client & tsdown --watch",
     "dev:client": "vite build --watch --config src/client/vite.config.ts",
     "prepare": "pnpm build",
     "publint": "publint --strict=true --level=suggestion",
@@ -89,8 +89,8 @@
     "esbuild-copy-static-files": "^0.1.0",
     "jsdom": "^25.0.1",
     "react-router": "^7.0.2",
+    "tsdown": "^0.21.10",
     "tslib": "^2.6.2",
-    "tsup": "^6.7.0",
     "typescript": "^5.8.3",
     "vite": "^5.4.15",
     "vitest": "^2.1.8"
