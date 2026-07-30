@@ -95,6 +95,7 @@
         "useSingleVarDeclarator": "error",
         "useTemplate": "error",
         "useImportType": "error",
+        "useExportType": "error",
         "useNodejsImportProtocol": "off"
       },
       "suspicious": {

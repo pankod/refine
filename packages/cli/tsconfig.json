@@ -21,6 +21,7 @@
       "@telemetry": ["src/telemetry"],
       "@transformers/*": ["src/transformers/*"],
       "@transformers": ["src/transformers/"]
-    }
+    },
+    "verbatimModuleSyntax": true
   }
 }

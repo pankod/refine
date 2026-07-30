@@ -10,6 +10,7 @@
       "@": ["src"],
       "@test/*": ["test/*"],
       "@test": ["test"]
-    }
+    },
+    "verbatimModuleSyntax": true
   }
 }
