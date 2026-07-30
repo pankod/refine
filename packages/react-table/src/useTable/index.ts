@@ -141,10 +141,10 @@ export function useTable<
 
       if (!isEqual(sorters, newSorters)) {
         setSorters(newSorters);
-      }
 
-      if (sorting.length > 0 && isPaginationEnabled && !isFirstRender) {
-        setCurrentPage(1);
+        if (sorting.length > 0 && isPaginationEnabled && !isFirstRender) {
+          setCurrentPage(1);
+        }
       }
     }
   }, [sorting]);
@@ -168,10 +168,10 @@ export function useTable<
 
     if (!isEqual(crudFilters, filtersCore)) {
       setFilters(crudFilters);
-    }
 
-    if (crudFilters.length > 0 && isPaginationEnabled && !isFirstRender) {
-      setCurrentPage(1);
+      if (crudFilters.length > 0 && isPaginationEnabled && !isFirstRender) {
+        setCurrentPage(1);
+      }
     }
   }, [columnFilters, columns]);
 
