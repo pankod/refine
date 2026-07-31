@@ -121,6 +121,7 @@ export const Create: React.FC<CreateProps> = ({
             goBackFromProps
           ) : (
             <IconButton
+              aria-label="go back"
               onClick={
                 action !== "list" || typeof action !== "undefined"
                   ? back

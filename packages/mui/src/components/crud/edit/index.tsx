@@ -201,6 +201,7 @@ export const Edit: React.FC<EditProps> = ({
             goBackFromProps
           ) : (
             <IconButton
+              aria-label="go back"
               onClick={
                 action !== "list" && typeof action !== "undefined"
                   ? back
