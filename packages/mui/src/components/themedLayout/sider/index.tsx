@@ -468,7 +468,11 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
           >
             <RenderToTitle collapsed={siderCollapsed} />
             {!siderCollapsed && (
-              <IconButton size="small" onClick={() => setSiderCollapsed(true)}>
+              <IconButton
+                size="small"
+                aria-label="collapse sidebar"
+                onClick={() => setSiderCollapsed(true)}
+              >
                 {<ChevronLeft />}
               </IconButton>
             )}

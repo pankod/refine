@@ -191,6 +191,7 @@ export const Show: React.FC<ShowProps> = ({
             goBackFromProps
           ) : (
             <IconButton
+              aria-label="go back"
               onClick={
                 action !== "list" && typeof action !== "undefined"
                   ? back

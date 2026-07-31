@@ -30,6 +30,7 @@ export const useNotificationProvider = (): NotificationProvider => {
               closeSnackbar(key);
             }}
             color="inherit"
+            aria-label="undo"
           >
             <UndoOutlined />
           </IconButton>

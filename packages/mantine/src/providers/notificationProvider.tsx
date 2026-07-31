@@ -59,6 +59,7 @@ export const useNotificationProvider = (): NotificationProvider => {
                 </Group>
                 <ActionIcon
                   variant="default"
+                  aria-label="undo"
                   onClick={() => {
                     cancelMutation?.();
                     if (key) {
@@ -97,6 +98,7 @@ export const useNotificationProvider = (): NotificationProvider => {
                 </Group>
                 <ActionIcon
                   variant="default"
+                  aria-label="undo"
                   onClick={() => {
                     cancelMutation?.();
                     if (key) {
@@ -123,16 +125,22 @@ export const useNotificationProvider = (): NotificationProvider => {
           });
         }
       } else {
+        const notificationColor =
+          type === "success" ? "primary" : type === "error" ? "red" : "primary";
+        const notificationIcon =
+          type === "success" ? (
+            <IconCheck size={18} />
+          ) : type === "error" ? (
+            <IconX size={18} />
+          ) : (
+            <IconCheck size={18} />
+          );
+
         if (isNotificationActive(key)) {
           updateNotification({
             id: key!,
-            color: type === "success" ? "primary" : "red",
-            icon:
-              type === "success" ? (
-                <IconCheck size={18} />
-              ) : (
-                <IconX size={18} />
-              ),
+            color: notificationColor,
+            icon: notificationIcon,
             message,
             title: description,
             autoClose: 5000,
@@ -141,13 +149,8 @@ export const useNotificationProvider = (): NotificationProvider => {
           addNotification(key);
           showNotification({
             id: key!,
-            color: type === "success" ? "primary" : "red",
-            icon:
-              type === "success" ? (
-                <IconCheck size={18} />
-              ) : (
-                <IconX size={18} />
-              ),
+            color: notificationColor,
+            icon: notificationIcon,
             message,
             title: description,
             onClose: () => {
