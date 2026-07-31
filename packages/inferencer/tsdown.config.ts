@@ -9,6 +9,9 @@ import { tablerCjsReplacePlugin } from "../shared/tabler-cjs-replace-plugin";
 const sharedConfig: UserConfig = {
   outDir: "dist",
   sourcemap: true,
+  dts: {
+    sourcemap: true,
+  },
   clean: false,
   minify: false,
   format: ["cjs", "esm"],

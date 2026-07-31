@@ -16,6 +16,9 @@ export default defineConfig((options) => ({
     js: '"use client"',
   },
   sourcemap: true,
+  dts: {
+    sourcemap: true,
+  },
   clean: false,
   minify: false,
   format: ["cjs", "esm"],

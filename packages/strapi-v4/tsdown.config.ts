@@ -6,6 +6,9 @@ export default defineConfig((options) => ({
     codeSplitting: false,
   },
   sourcemap: true,
+  dts: {
+    sourcemap: true,
+  },
   clean: false,
   minify: false,
   format: ["cjs", "esm"],

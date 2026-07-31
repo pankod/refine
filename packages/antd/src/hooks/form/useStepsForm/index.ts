@@ -1,5 +1,5 @@
 export {
   useStepsForm,
-  UseStepsFormProps,
-  UseStepsFormReturnType,
+  type UseStepsFormProps,
+  type UseStepsFormReturnType,
 } from "./useStepsForm";

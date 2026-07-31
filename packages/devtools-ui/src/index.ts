@@ -1,3 +1,6 @@
+// @ts-ignore: needed for tsdown build
+import "./style.css";
+
 import React from "react";
 import { createRoot } from "react-dom/client";
 

@@ -1,9 +1,8 @@
-import { defineConfig } from "tsdown";
+import { defineConfig, type UserConfig } from "tsdown";
 import { dayJsEsmReplacePlugin } from "../shared/dayjs-esm-replace-plugin";
 import { lodashReplacePlugin } from "../shared/lodash-replace-plugin";
 
-export default defineConfig((options) => ({
-  entry: ["src/index.ts", "src/style.css"],
+const sharedConfig: UserConfig = {
   outputOptions: {
     codeSplitting: false,
   },
@@ -13,5 +12,15 @@ export default defineConfig((options) => ({
   format: ["cjs", "esm"],
   platform: "browser",
   plugins: [lodashReplacePlugin, dayJsEsmReplacePlugin],
-  onSuccess: options.watch ? "pnpm types" : undefined,
-}));
+  css: {
+    transformer: "postcss",
+  },
+};
+
+export default defineConfig((options) => [
+  {
+    ...sharedConfig,
+    entry: ["src/index.ts"],
+    onSuccess: options.watch ? "pnpm types" : undefined,
+  },
+]);

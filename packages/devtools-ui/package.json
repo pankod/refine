@@ -65,6 +65,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
+    "@tsdown/css": "^0.22.14",
     "@types/lodash": "^4.14.171",
     "@types/node": "^20",
     "@types/react-gravatar": "^2.6.10",

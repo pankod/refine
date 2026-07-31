@@ -2,6 +2,9 @@ import { defineConfig, type UserConfig } from "tsdown";
 
 const sharedConfig: UserConfig = {
   sourcemap: true,
+  dts: {
+    sourcemap: true,
+  },
   clean: false,
   minify: false,
   format: ["cjs", "esm"],
