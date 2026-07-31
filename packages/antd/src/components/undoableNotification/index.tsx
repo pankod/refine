@@ -37,6 +37,7 @@ export const UndoableNotification: React.FC<UndoableNotificationProps> = ({
       onClick={cancelMutation}
       disabled={undoableTimeout === 0}
       icon={<UndoOutlined />}
+      aria-label="undo"
     />
   </div>
 );

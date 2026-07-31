@@ -59,6 +59,7 @@ export const useNotificationProvider = (): NotificationProvider => {
                 </Group>
                 <ActionIcon
                   variant="default"
+                  aria-label="undo"
                   onClick={() => {
                     cancelMutation?.();
                     if (key) {
@@ -97,6 +98,7 @@ export const useNotificationProvider = (): NotificationProvider => {
                 </Group>
                 <ActionIcon
                   variant="default"
+                  aria-label="undo"
                   onClick={() => {
                     cancelMutation?.();
                     if (key) {
