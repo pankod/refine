@@ -20,6 +20,11 @@ export default defineConfig((options) => ({
   minify: false,
   dts: true,
   format: ["cjs", "esm"],
+  outExtensions({ format }) {
+    return {
+      js: format === "cjs" ? ".cjs" : ".mjs",
+    };
+  },
   platform: "browser",
   plugins: [
     removeTestIdsPlugin,

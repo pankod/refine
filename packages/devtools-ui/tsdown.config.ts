@@ -10,6 +10,11 @@ const sharedConfig: UserConfig = {
   clean: false,
   minify: false,
   format: ["cjs", "esm"],
+  outExtensions({ format }) {
+    return {
+      js: format === "cjs" ? ".cjs" : ".mjs",
+    };
+  },
   platform: "browser",
   plugins: [lodashReplacePlugin, dayJsEsmReplacePlugin],
   css: {

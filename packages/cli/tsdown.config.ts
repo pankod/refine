@@ -56,6 +56,11 @@ const textReplacePlugin = () => ({
 export default defineConfig((options) => {
   const sharedConfig: UserConfig = {
     format: ["cjs", "esm"],
+    outExtensions({ format }) {
+      return {
+        js: format === "cjs" ? ".cjs" : ".mjs",
+      };
+    },
     platform: "node",
     sourcemap: true,
     clean: false,

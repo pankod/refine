@@ -14,6 +14,11 @@ export default defineConfig((options) => ({
   clean: false,
   minify: false,
   format: ["cjs", "esm"],
+  outExtensions({ format }) {
+    return {
+      js: format === "cjs" ? ".cjs" : ".mjs",
+    };
+  },
   platform: "browser",
   plugins: [lodashReplacePlugin],
   onSuccess: options.watch ? "pnpm types" : undefined,

@@ -9,5 +9,10 @@ export default defineConfig((options) => ({
   clean: false,
   platform: "node",
   format: ["cjs", "esm", "iife"],
+  outExtensions({ format }) {
+    return {
+      js: format === "cjs" ? ".cjs" : ".mjs",
+    };
+  },
   onSuccess: options.watch ? "pnpm types" : undefined,
 }));
