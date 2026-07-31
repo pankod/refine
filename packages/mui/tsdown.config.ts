@@ -1,10 +1,10 @@
 import { defineConfig } from "tsdown";
 
-import { lodashReplacePlugin } from "../shared/lodash-replace-plugin";
-import { markAsExternalPlugin } from "../shared/mark-as-external-plugin";
-import { removeTestIdsPlugin } from "../shared/remove-test-ids-plugin";
-import { muiIconsMaterialEsmReplacePlugin } from "../shared/mui-icons-material-esm-replace-plugin";
-import { dayJsEsmReplacePlugin } from "../shared/dayjs-esm-replace-plugin";
+import { lodashReplacePlugin } from "../shared/lodash-replace-plugin.ts";
+import { markAsExternalPlugin } from "../shared/mark-as-external-plugin.ts";
+import { removeTestIdsPlugin } from "../shared/remove-test-ids-plugin.ts";
+import { muiIconsMaterialEsmReplacePlugin } from "../shared/mui-icons-material-esm-replace-plugin.ts";
+import { dayJsEsmReplacePlugin } from "../shared/dayjs-esm-replace-plugin.ts";
 
 export default defineConfig((options) => ({
   entry: ["src/index.tsx"],

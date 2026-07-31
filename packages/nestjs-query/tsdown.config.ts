@@ -1,7 +1,7 @@
 import { defineConfig } from "tsdown";
 
-import { lodashReplacePlugin } from "../shared/lodash-replace-plugin";
-import { markAsExternalPlugin } from "../shared/mark-as-external-plugin";
+import { lodashReplacePlugin } from "../shared/lodash-replace-plugin.ts";
+import { markAsExternalPlugin } from "../shared/mark-as-external-plugin.ts";
 
 export default defineConfig((options) => ({
   entry: ["src/index.ts"],

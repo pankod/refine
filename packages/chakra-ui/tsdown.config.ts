@@ -1,9 +1,9 @@
 import { defineConfig } from "tsdown";
 
-import { markAsExternalPlugin } from "../shared/mark-as-external-plugin";
-import { removeTestIdsPlugin } from "../shared/remove-test-ids-plugin";
-import { tablerCjsReplacePlugin } from "../shared/tabler-cjs-replace-plugin";
-import { dayJsEsmReplacePlugin } from "../shared/dayjs-esm-replace-plugin";
+import { markAsExternalPlugin } from "../shared/mark-as-external-plugin.ts";
+import { removeTestIdsPlugin } from "../shared/remove-test-ids-plugin.ts";
+import { tablerCjsReplacePlugin } from "../shared/tabler-cjs-replace-plugin.ts";
+import { dayJsEsmReplacePlugin } from "../shared/dayjs-esm-replace-plugin.ts";
 
 export default defineConfig((options) => ({
   entry: ["src/index.tsx"],

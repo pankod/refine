@@ -1,5 +1,5 @@
 import { defineConfig, type UserConfig } from "tsdown";
-import { lodashReplacePlugin } from "../shared/lodash-replace-plugin";
+import { lodashReplacePlugin } from "../shared/lodash-replace-plugin.ts";
 
 export default defineConfig((options) => {
   const onSuccess = [

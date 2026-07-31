@@ -1,6 +1,6 @@
 import { defineConfig, type UserConfig } from "tsdown";
 import { NodeResolvePlugin } from "@esbuild-plugins/node-resolve";
-import { nextJsEsmReplacePlugin } from "../shared/next-js-esm-replace-plugin";
+import { nextJsEsmReplacePlugin } from "../shared/next-js-esm-replace-plugin.ts";
 
 const sharedConfig: Partial<UserConfig> = {
   outDir: "dist",

@@ -1,10 +1,10 @@
 import { defineConfig, type UserConfig } from "tsdown";
 
-import { lodashReplacePlugin } from "../shared/lodash-replace-plugin";
-import { prismReactRendererThemeReplacePlugin } from "../shared/prism-react-renderer-theme-replace-plugin";
-import { markAsExternalPlugin } from "../shared/mark-as-external-plugin";
-import { removeTestIdsPlugin } from "../shared/remove-test-ids-plugin";
-import { tablerCjsReplacePlugin } from "../shared/tabler-cjs-replace-plugin";
+import { lodashReplacePlugin } from "../shared/lodash-replace-plugin.ts";
+import { prismReactRendererThemeReplacePlugin } from "../shared/prism-react-renderer-theme-replace-plugin.ts";
+import { markAsExternalPlugin } from "../shared/mark-as-external-plugin.ts";
+import { removeTestIdsPlugin } from "../shared/remove-test-ids-plugin.ts";
+import { tablerCjsReplacePlugin } from "../shared/tabler-cjs-replace-plugin.ts";
 
 const sharedConfig: UserConfig = {
   outDir: "dist",

@@ -2,9 +2,9 @@ import { defineConfig } from "tsdown";
 import type { Plugin } from "rolldown";
 import copy from "rollup-plugin-copy";
 
-import { removeTestIdsPlugin } from "../shared/remove-test-ids-plugin";
-import { dayJsEsmReplacePlugin } from "../shared/dayjs-esm-replace-plugin";
-import { markAsExternalPlugin } from "../shared/mark-as-external-plugin";
+import { removeTestIdsPlugin } from "../shared/remove-test-ids-plugin.ts";
+import { dayJsEsmReplacePlugin } from "../shared/dayjs-esm-replace-plugin.ts";
+import { markAsExternalPlugin } from "../shared/mark-as-external-plugin.ts";
 
 const ANTD_TARGET_REGEX =
   /\/src\/components\/antd\/(antd|calendar|datePicker|timePicker).*/;

@@ -1,5 +1,5 @@
 import { defineConfig } from "tsdown";
-import { markAsExternalPlugin } from "../shared/mark-as-external-plugin";
+import { markAsExternalPlugin } from "../shared/mark-as-external-plugin.ts";
 
 export default defineConfig((options) => ({
   entry: ["src/index.tsx"],

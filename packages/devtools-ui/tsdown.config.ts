@@ -1,6 +1,6 @@
 import { defineConfig, type UserConfig } from "tsdown";
-import { dayJsEsmReplacePlugin } from "../shared/dayjs-esm-replace-plugin";
-import { lodashReplacePlugin } from "../shared/lodash-replace-plugin";
+import { dayJsEsmReplacePlugin } from "../shared/dayjs-esm-replace-plugin.ts";
+import { lodashReplacePlugin } from "../shared/lodash-replace-plugin.ts";
 
 const sharedConfig: UserConfig = {
   outputOptions: {
