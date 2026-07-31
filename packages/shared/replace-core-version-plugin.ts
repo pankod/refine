@@ -2,7 +2,7 @@ import type { Plugin } from "esbuild";
 import * as fs from "fs";
 import path from "path";
 
-import { getRefineCoreVersion } from "./get-refine-core-version";
+import { getRefineCoreVersion } from "./get-refine-core-version.ts";
 
 export const replaceCoreVersionPlugin: Plugin = {
   name: "replaceCoreVersion",
