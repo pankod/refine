@@ -231,6 +231,16 @@ export const processGatewayMessage = async (username: string, topic: string, raw
       for (const sample of samples) {
         if (!sample?.values || typeof sample.values !== 'object') continue;
         await enqueueValues(device, downstreamCredential.credentials_id, sample.values, Number(sample.ts) || Date.now(), 'telemetry');
+        
+        // PUBLISH NGUOC LAI EMQX DE FRONTEND DANG MỞ BẢNG ĐIỀU KHIỂN CÓ THỂ BẮT ĐƯỢC REALTIME
+        import('./mqttClient').then(({ mqttClient }) => {
+          if (mqttClient?.connected) {
+            const frontendTopic = `v1/devices/${downstreamCredential.credentials_id}/telemetry`;
+            mqttClient.publish(frontendTopic, JSON.stringify(sample.values), {
+              properties: { userProperties: { fromGw: 'true' } }
+            });
+          }
+        });
       }
     } else if (data && typeof data === 'object' && !Array.isArray(data)) {
       await enqueueValues(device, downstreamCredential.credentials_id, data, Date.now(), 'attributes');

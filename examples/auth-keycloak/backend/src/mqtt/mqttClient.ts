@@ -35,7 +35,7 @@ const SYSTEM_USERNAMES = new Set(['backend_service', 'frontend_readonly', 'dashb
 const EMQX_URL = process.env.EMQX_URL || 'mqtt://localhost:1883';
 const MAX_MQTT_PAYLOAD_BYTES = Math.max(1024, parseInt(process.env.MAX_MQTT_PAYLOAD_BYTES || '65536', 10));
 const MAX_TELEMETRY_KEYS = Math.max(1, parseInt(process.env.MAX_TELEMETRY_KEYS || '256', 10));
-let mqttClient: mqtt.MqttClient | null = null;
+export let mqttClient: mqtt.MqttClient | null = null;
 let lastMqttErrorLogAt = 0;
 
 /**
@@ -69,6 +69,7 @@ const saveDeviceAttribute = async (
 
 export const startMqttClient = () => {
   mqttClient = mqtt.connect(EMQX_URL, {
+    protocolVersion: 5,
     username: 'backend_service',
     password: process.env.BACKEND_MQTT_SECRET || 'super_secret_backend',
     clientId: `backend_service_${Math.random().toString(16).substring(2, 8)}`
@@ -102,7 +103,7 @@ export const startMqttClient = () => {
     });
   });
 
-  mqttClient.on('message', async (topic, message) => {
+  mqttClient.on('message', async (topic, message, packet) => {
     try {
       // LUONG 1: SU KIEN KET NOI ($SYS)
       // Anh xa tu: DefaultDeviceStateService.onDeviceConnect/Disconnect
@@ -163,6 +164,13 @@ export const startMqttClient = () => {
       const parts = cleanTopic.split('/');
       if (parts.length === 4 && parts[0] === 'v1' && parts[1] === 'devices' &&
           (parts[3] === 'telemetry' || parts[3] === 'attributes')) {
+        // [QUAN TRONG]: Chong loop vo han!
+        // Neu message nay do chinh backend (Gateway Service) publish nguoc lai de cap nhat UI,
+        // chung ta phai bo qua de khong insert trung lap vao DB.
+        if (packet?.properties?.userProperties?.fromGw) {
+          return;
+        }
+
         if (message.length > MAX_MQTT_PAYLOAD_BYTES) {
           throw new Error(`MQTT payload vuot ${MAX_MQTT_PAYLOAD_BYTES} bytes.`);
         }
