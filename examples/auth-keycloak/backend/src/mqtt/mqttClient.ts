@@ -239,4 +239,30 @@ export const publishSharedAttributes = (deviceKey: string, payload: any) => {
 };
 
 // Export de inactivityWorker co the dung
+export const publishRpc = (deviceId: string, isGateway: boolean, deviceName: string, method: string, params: any, rpcId: number) => {
+  if (!mqttClient?.connected) {
+    throw new Error('MQTT Client not connected');
+  }
+  
+  if (isGateway) {
+    // Gateway RPC format
+    const payload = {
+      device: deviceName,
+      data: {
+        id: rpcId,
+        method: method,
+        params: params
+      }
+    };
+    mqttClient.publish('v1/gateway/rpc', JSON.stringify(payload));
+  } else {
+    // Direct device RPC format
+    const payload = {
+      method: method,
+      params: params
+    };
+    mqttClient.publish(`v1/devices/${deviceId}/rpc/request/${rpcId}`, JSON.stringify(payload));
+  }
+};
+
 export { saveDeviceAttribute, ACTIVITY_STATE, LAST_ACTIVITY_TIME, INACTIVITY_TIMEOUT };

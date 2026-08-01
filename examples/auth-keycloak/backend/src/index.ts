@@ -377,7 +377,9 @@ app.post('/api/mqtt/acl', async (req, res) => {
       'v1/gateway/connect',
       'v1/gateway/disconnect',
       'v1/gateway/telemetry',
-      'v1/gateway/attributes'
+      'v1/gateway/attributes',
+      'v1/gateway/attributes/request',
+      'v1/gateway/rpc/response'
     ]);
     const subscribeTopics = new Set([
       'v1/gateway/attributes',
@@ -651,6 +653,66 @@ app.delete('/devices/:id', async (req, res) => {
 /**
  * [GET] Lấy danh sách Attributes của thiết bị
  */
+// -----------------------------------------------------------------------------------------------------
+// Server-side RPC API
+// -----------------------------------------------------------------------------------------------------
+
+/**
+ * Gửi Server-side RPC (Two-way) tới thiết bị (trực tiếp hoặc thông qua Gateway)
+ */
+app.post('/devices/:id/rpc', async (req, res) => {
+  /* #swagger.tags = ['Devices']
+     #swagger.summary = 'Send RPC command to device'
+     #swagger.parameters['id'] = { description: 'Device ID', required: true }
+     #swagger.requestBody = {
+       required: true,
+       content: {
+         "application/json": {
+           schema: {
+             type: "object",
+             properties: {
+               method: { type: "string" },
+               params: { type: "object" }
+             }
+           }
+         }
+       }
+     }
+  */
+  const { id } = req.params;
+  const { method, params } = req.body;
+  if (!method) return res.status(400).send('Missing method in body');
+
+  try {
+    const device = await prisma.devices.findUnique({ where: { id } });
+    if (!device) return res.status(404).send('Device not found');
+
+    const credential = await prisma.device_credentials.findUnique({
+      where: { device_id: id }
+    });
+    if (!credential) return res.status(404).send('Credential not found');
+
+    const additionalInfo = (device.additional_info as Record<string, any>) || {};
+    const isGatewaySubDevice = !!additionalInfo.provisionedByGatewayId;
+    
+    // Generate a random RPC request ID between 1 and 2147483647
+    const rpcId = Math.floor(Math.random() * 2147483647) + 1;
+
+    // Use publishRpc function
+    const { publishRpc } = await import('./mqtt/mqttClient');
+    if (isGatewaySubDevice) {
+      publishRpc(credential.credentials_id, true, device.name, method, params || {}, rpcId);
+    } else {
+      publishRpc(credential.credentials_id, false, device.name, method, params || {}, rpcId);
+    }
+
+    res.status(200).json({ success: true, rpcId });
+  } catch (error) {
+    console.error('Error sending RPC:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 app.get('/devices/:id/attributes', async (req, res) => {
   /* #swagger.tags = ['Attributes'] */
   try {

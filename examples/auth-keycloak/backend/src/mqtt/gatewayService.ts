@@ -12,7 +12,9 @@ const gatewayTopics = new Set([
   'v1/gateway/connect',
   'v1/gateway/disconnect',
   'v1/gateway/telemetry',
-  'v1/gateway/attributes'
+  'v1/gateway/attributes',
+  'v1/gateway/attributes/request',
+  'v1/gateway/rpc/response'
 ]);
 
 const fail = (message: string, statusCode = 400): never => {
@@ -215,6 +217,60 @@ export const processGatewayMessage = async (username: string, topic: string, raw
         relation_type: 'Contains'
       }
     });
+    return { accepted: true, devices: 1 };
+  }
+
+  if (topic === 'v1/gateway/attributes/request') {
+    const req = payload as { id: number; device: string; clientKeys?: string; sharedKeys?: string };
+    if (!req.device || req.id === undefined) return fail('Thieu thong tin device hoac id trong attributes request.');
+    const device = await ensureDownstreamDevice(gateway, req.device);
+    await connectRelation(gateway.id, device.id);
+    
+    // Fetch attributes
+    const clientKeysArray = req.clientKeys ? req.clientKeys.split(',') : [];
+    const sharedKeysArray = req.sharedKeys ? req.sharedKeys.split(',') : [];
+    const allKeys = [...clientKeysArray, ...sharedKeysArray];
+    
+    const attrs = await prisma.attribute_kv.findMany({
+      where: {
+        entity_id: device.id,
+        entity_type: 'DEVICE',
+        attribute_type: { in: ['CLIENT_SCOPE', 'SHARED_SCOPE'] },
+        attribute_key: { in: allKeys }
+      }
+    });
+
+    const responseValue: Record<string, any> = {};
+    for (const attr of attrs) {
+      if (attr.bool_v !== null) responseValue[attr.attribute_key] = attr.bool_v;
+      else if (attr.str_v !== null) responseValue[attr.attribute_key] = attr.str_v;
+      else if (attr.long_v !== null) responseValue[attr.attribute_key] = Number(attr.long_v);
+      else if (attr.dbl_v !== null) responseValue[attr.attribute_key] = attr.dbl_v;
+      else if (attr.json_v !== null) responseValue[attr.attribute_key] = attr.json_v;
+    }
+
+    const responsePayload = {
+      id: req.id,
+      device: req.device,
+      value: responseValue
+    };
+
+    import('./mqttClient').then(({ mqttClient }) => {
+      if (mqttClient?.connected) {
+        mqttClient.publish('v1/gateway/attributes/response', JSON.stringify(responsePayload));
+      }
+    });
+    return { accepted: true, devices: 1 };
+  }
+
+  if (topic === 'v1/gateway/rpc/response') {
+    const resp = payload as { device: string; id: number; data: any };
+    if (!resp.device || resp.id === undefined) return fail('Thieu thong tin device hoac id trong rpc response.');
+    const device = await ensureDownstreamDevice(gateway, resp.device);
+    await connectRelation(gateway.id, device.id);
+    
+    // Publish as live event for any listening UI
+    publishLiveEvent('devices', 'rpc_response', { id: device.id, rpcId: resp.id, data: resp.data });
     return { accepted: true, devices: 1 };
   }
 
