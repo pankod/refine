@@ -4,7 +4,7 @@ const doc = {
   info: {
     title: 'VTA Pro Backend API',
     description: 'Tài liệu hướng dẫn tích hợp hệ thống IoT VTA Pro (Chuẩn OpenAPI 3.0)',
-    version: '1.0.0',
+    version: '2.0.9',
   },
   host: 'localhost:3000',
   schemes: ['http', 'https'],

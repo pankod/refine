@@ -11,8 +11,8 @@ Hãy tưởng tượng hệ thống IoT của chúng ta giống như một **"H�
 ```mermaid
 graph TD
     A[Nông Trại - Thiết Bị IoT ESP32] -->|Chở hàng tới| B(Trạm Thu Phí - EMQX Broker)
-    B -->|Mở barrier cho xe qua| C{Băng Chuyền - Redis Queue}
-    C -->|Gom đủ 1000 xe| D[Nhà Máy Đóng Gói - Node.js Worker]
+    B -->|Shared subscription| C{Redis Streams - Consumer Group}
+    C -->|Batch + ACK sau commit| D[Node.js Queue Worker]
     D -->|Lưu trữ vào Kho| E[(Kho Hàng - PostgreSQL)]
     
     F[Khách Hàng - Giao diện Web Refine] -->|Gõ cửa xin phép| G(Bảo vệ - Keycloak)
@@ -26,8 +26,8 @@ graph TD
 2. **Keycloak (Chú Bảo vệ kiêm Máy cấp thẻ)**: Một hệ thống quản lý danh tính độc lập. Khi bạn mở Web lên, Web sẽ đá bạn sang Keycloak để đăng nhập. Nếu đúng tài khoản, Keycloak cấp cho bạn 1 cái "Thẻ VIP" (Token).
 3. **Thiết bị IoT (Nông trại)**: Liên tục thu hoạch dữ liệu (Nhiệt độ, độ ẩm) và chở lên mạng.
 4. **EMQX (Trạm thu phí MQTT)**: Chịu tải hàng vạn kết nối từ Nông trại.
-5. **Redis (Băng chuyền/Hàng đợi)**: Nhận hàng tốc độ ánh sáng, giúp Kho (Database) không bị cháy vì quá tải.
-6. **Node.js Worker (Nhà máy đóng gói)**: Gom hàng trên băng chuyền đóng thành 1 thùng to rồi đẩy 1 lần vào Kho.
+5. **Redis Streams**: Giữ payload trong shard queue cho đến khi worker xác nhận PostgreSQL đã commit; hỗ trợ pending, retry và DLQ.
+6. **Node.js Worker**: Các pod cùng consumer group, ghi batch telemetry/attributes/activity và chỉ ACK sau transaction.
 7. **PostgreSQL (Kho hàng)**: Nơi lưu trữ vĩnh viễn mọi dữ liệu, tổ chức giống hệt kiến trúc của ThingsBoard.
 
 ---
@@ -144,9 +144,12 @@ app.post('/devices', async (req, res) => {
   
   // Lưu vào Kho (PostgreSQL) thông qua Prisma
   const thietBiMoi = await prisma.devices.create({ ... });
-  res.json({ ...thietBiMoi, device_key: deviceKey });
+  // Response metadata khong chua credential. UI lay credential khi can qua endpoint rieng.
+  res.json({ ...thietBiMoi, gateway: false });
 });
 ```
+
+Credential được lưu trong `device_credentials`, nhưng không trả trong `GET /devices` hoặc `GET /devices/:id`. Người dùng đã đăng nhập Keycloak chỉ tải credential khi mở chi tiết bằng `GET /devices/:id/credentials`.
 
 #### File: `backend/src/mqtt/mqttClient.ts` (Người lấy hàng từ Trạm thu phí)
 ```typescript
@@ -157,8 +160,12 @@ export const startMqttClient = () => {
     // Khi thiết bị phần cứng gửi lên kênh v1/devices/ABCD/telemetry
     const deviceKey = topic.split('/')[2]; // Lấy chữ ABCD ra
     
-    // Quăng kiện hàng lên Băng chuyền Redis (Lệnh lpush)
-    await redis.lpush('telemetry_queue', JSON.stringify({ deviceKey, payload }));
+    const credential = await getDeviceByCredential(deviceKey);
+    await telemetryQueue.enqueue({
+      type: 'telemetry', tenantId: credential.tenantId,
+      deviceId: credential.deviceId, deviceKey,
+      ts: Date.now(), values: payload
+    });
   });
 };
 ```
@@ -166,16 +173,16 @@ export const startMqttClient = () => {
 #### File: `backend/src/workers/telemetryWorker.ts` (Công nhân đóng gói)
 ```typescript
 export const startTelemetryWorker = () => {
-  // Đồng hồ báo thức, 1 giây réo 1 lần
-  setInterval(async () => {
-    // Nhặt 1000 món trên băng chuyền Redis (rpop)
-    const messages = await lay_1000_mon_tu_redis();
-
-    // Mở kho Database 1 lần duy nhất, nhét cả 1000 món vào
-    await prisma.telemetry_kv.createMany({ data: messages });
-  }, 1000); 
+  const deliveries = await telemetryQueue.read('telemetry', consumerName, batchSize);
+  await prisma.$transaction(async tx => {
+    await tx.telemetry_kv.createMany({ data: rows, skipDuplicates: true });
+    await updateActivityBatch(tx, messages);
+  });
+  await telemetryQueue.ack(deliveries);
 };
 ```
+
+Nếu worker chết trước commit, entry vẫn nằm trong Pending Entries List và pod khác thu hồi bằng `XAUTOCLAIM`. Sau số lần retry cấu hình, entry lỗi được chuyển sang DLQ. `GET /api/system/queue/health` hiển thị entries, pending và dead-letter. Production nên tách `REDIS_QUEUE_URL` (AOF, `noeviction`) khỏi Redis cache.
 
 ---
 
@@ -196,7 +203,7 @@ Toàn bộ "Nhà máy" này không chạy trên một cái máy tính cùi bắp
 
 Bây giờ bạn đã có 1 hệ thống hoành tráng, bạn chỉ cần nạp đoạn Code này vào con ESP32 (Arduino) là nó tự động bơm dữ liệu lên.
 
-- **Máy chủ MQTT (Server)**: `emqx.greeniq.vn`
+- **Máy chủ MQTT (Server)**: `mqtt.greeniq.vn`
 - **Cổng (Port)**: `1883`
 - **Tên đăng nhập (Username)**: Mã `DEVICE_KEY` (Lấy từ giao diện Web Refine)
 - **Mật khẩu (Password)**: Mã `SECRET_TOKEN` (Lấy từ giao diện Web Refine)
@@ -211,7 +218,7 @@ Bây giờ bạn đã có 1 hệ thống hoành tráng, bạn chỉ cần nạp 
 
 const char* ssid = "WIFI_CUA_BAN";
 const char* password = "MAT_KHAU_WIFI";
-const char* mqtt_server = "emqx.greeniq.vn";
+const char* mqtt_server = "mqtt.greeniq.vn";
 const char* mqtt_user = "ABCD123"; // Mã DEVICE_KEY
 const char* mqtt_pass = "XYZ987_SECRET_TOKEN"; // Mã SECRET_TOKEN
 const char* mqtt_topic = "v1/devices/ABCD123/telemetry"; // Đổi ABCD123 thành DEVICE_KEY của bạn
@@ -229,6 +236,17 @@ PubSubClient client(espClient);
 ```
 
 **BÙM!** Ngay khi ESP32 gửi chuỗi JSON này lên, chỉ trong chưa tới 1 giây, nó đã đi qua EMQX -> rớt xuống băng chuyền Redis -> Bị Node.js Worker hốt trọn -> Nằm vĩnh viễn trong CSDL PostgreSQL -> và cuối cùng hiện lên Đồ thị trên giao diện Web Refine của bạn!
+
+### Kết nối Gateway
+
+Gateway là một Device có `additional_info.gateway = true`; không dùng `type = gateway` để thay thế Device Profile. Gateway đăng nhập bằng credential của chính nó và dùng:
+
+- `v1/gateway/connect`
+- `v1/gateway/disconnect`
+- `v1/gateway/telemetry`
+- `v1/gateway/attributes`
+
+EMQX phải chuyển message-publish qua Webhook tới `/api/mqtt/gateway`, kèm metadata `username`, `topic`, `payload` và header `x-emqx-hook-secret`. Backend chỉ nhận khi secret khớp `EMQX_WEBHOOK_SECRET`. Xem quy trình đầy đủ tại `docs/05_DEVOPS_RUNBOOK.md`.
 
 ---
 
@@ -254,7 +272,7 @@ Trong hệ thống GreenIQ, chúng ta áp dụng Pub/Sub cho 2 luồng dữ li�
 **Ví dụ Code ESP32 (Publisher):**
 ```cpp
 void setup() {
-  client.setServer("emqx.greeniq.vn", 1883);
+  client.setServer("mqtt.greeniq.vn", 1883);
 }
 
 void loop() {

@@ -29,12 +29,12 @@ Mã nguồn của Frontend nằm chủ yếu trong thư mục `src/`.
 - **`src/custom.css`**: File CSS chứa các quy tắc thiết kế giao diện tùy chỉnh (như màu sắc, độ bo góc, animation).
 
 ### Thư mục `src/providers/` (Cầu nối dữ liệu):
-- **`apiDeviceProvider.ts`**: Nơi chứa hàm tùy biến để Frontend biết cách gọi REST API xuống Backend (GET, POST, PUT, DELETE). Ví dụ: Lấy danh sách thiết bị.
+- **`apiDeviceProvider.ts`**: Ánh xạ cả resource `devices` và `gateways` về API `/devices`. Khi tạo từ `gateways`, provider cưỡng chế `gateway=true` để không phụ thuộc trạng thái form.
 - **`liveProvider.ts`**: Đây là cầu nối Thời Gian Thực (Real-time). Chứa code kết nối trực tiếp đến MQTT (EMQX) bằng thư viện `mqtt.js` qua cổng WebSockets 8083. Khi có dữ liệu mới, nó chọc thẳng vào Cache của React Query để màn hình nhảy số tức thời.
 
 ### Thư mục `src/pages/` (Các trang giao diện):
 Nơi chứa code hiển thị của từng màn hình. Quan trọng nhất là `src/pages/devices/`:
-- **`list.tsx`**: Trang danh sách Thiết bị và Gateway. Chứa một bảng (Table) danh sách và một ngăn kéo (Drawer) mở ra khi click vào một thiết bị. Trong Drawer này, nó nhúng các Tab con.
+- **`list.tsx`**: Trang danh sách Thiết bị và Gateway. Gateway view ép cờ `gateway=true`, hiển thị số downstream device và tab hướng dẫn ThingsBoard Gateway MQTT API. Credential chỉ được tải khi mở Drawer.
 - **`telemetry.tsx`**: Tab Dữ liệu đo lường. Chứa bảng thông số hiện tại và biểu đồ lịch sử (dùng `recharts`).
 - **`attributes.tsx`**: Tab Thuộc tính cấu hình. Chia làm Server/Client/Shared Attributes, có nút thêm, sửa, xóa cấu hình.
 - **`relations.tsx`**: Tab Quan hệ. Nơi định nghĩa thiết bị này đang cắm vào Gateway nào (Sơ đồ Topology).
@@ -51,10 +51,11 @@ Mã nguồn Backend tập trung trong `backend/src/` và `backend/prisma/`.
 ### Các file cấu hình nền móng:
 - `backend/package.json`: Chứa thư viện của Backend (như `express`, `pg`, `ioredis`, `mqtt`, `prisma`).
 - `backend/.env`: File chứa các biến môi trường nhạy cảm (Tài khoản Database, Link kết nối Keycloak, Link Redis, EMQX). Tuyệt đối không đưa file này lên mạng.
+- `backend/.env.example`: Danh sách biến mẫu không chứa secret thật, bao gồm Gateway webhook, Redis Streams, batch và retention.
 - `backend/swagger.ts` & `swagger_output.json`: Công cụ tự động sinh tài liệu API. Nó đọc code và đẻ ra một trang web hướng dẫn API cho lập trình viên.
 
 ### Thư mục `backend/prisma/` (Cơ sở dữ liệu):
-- **`schema.prisma`**: Đây là bản vẽ thiết kế Database (PostgreSQL). Mọi bảng trong hệ thống (`devices`, `device_telemetry`, `attribute_kv`, `relation`) đều được khai báo rõ ràng bằng code ở đây. Khi chạy `prisma migrate dev`, Prisma sẽ dịch file này thành câu lệnh SQL để tạo bảng thực tế.
+- **`schema.prisma`**: Đây là bản vẽ thiết kế Database PostgreSQL. Các bảng lõi gồm `tenants`, `customers`, `devices`, `device_credentials`, `telemetry_kv`, `attribute_kv`, `relation` và `dashboards`.
 
 ### Thư mục `backend/src/` (Trái tim của Backend):
 - **`backend/src/index.ts`**: Cửa ngõ (Entry point) của Server.
@@ -64,10 +65,14 @@ Mã nguồn Backend tập trung trong `backend/src/` và `backend/prisma/`.
 - **`backend/src/mqtt/mqttClient.ts`**: Kênh giao tiếp với trạm MQTT (EMQX).
   - Lắng nghe sự kiện kết nối.
   - Bắt các tin nhắn (Payload) từ thiết bị IoT gửi về qua các Topic `v1/devices/...`.
-  - Phân loại và đẩy tin nhắn vào **Hàng đợi Redis** thay vì lưu thẳng vào Database để chống nghẽn mạng.
-- **`backend/src/workers/telemetryWorker.ts`**: "Anh công nhân dọn rác" (Batch Processor).
-  - Chạy ngầm định kỳ mỗi 1-2 giây.
-  - Nhiệm vụ: Vào Redis vét sạch toàn bộ tin nhắn tồn đọng, nén lại và dùng lệnh `prisma.$executeRaw` Upsert hàng loạt (Batch Insert) vào PostgreSQL trong 1 lần duy nhất. Giúp hệ thống chịu tải hàng triệu tin nhắn.
+  - Dùng shared subscription và đẩy nguyên payload vào `TelemetryQueue` thay vì lưu thẳng Database.
+- **`backend/src/mqtt/gatewayService.ts`**: Xử lý bốn luồng ThingsBoard Gateway MQTT API đã hỗ trợ. Module xác thực Gateway/tenant, tự provision downstream device, tạo relation, cập nhật activity và đưa telemetry vào Queue.
+- **`backend/src/queue/telemetryQueue.ts`**: Interface queue và Redis Streams implementation; chia shard, consumer group, ACK, reclaim, retry, DLQ và health stats. Đây là seam để thêm Kafka sau này.
+- **`backend/src/cache/deviceCredentialCache.ts`**: Cache Device Key → device/tenant/secret/gateway có TTL, dùng chung cho MQTT authentication và ingestion.
+- **`backend/src/workers/telemetryWorker.ts`**: Đọc consumer group, batch telemetry/attributes/activity trong transaction; chỉ ACK sau commit.
+- **`backend/src/workers/inactivityWorker.ts`**: Tìm và cập nhật toàn bộ device hết hạn bằng bulk SQL, không còn N+1 query.
+- **`backend/src/workers/telemetryRetentionWorker.ts`**: Tạo partition tháng tiếp theo và cleanup retention khi được bật.
+- **`backend/scripts/sql/migrate-telemetry-partitions.sql`**: Migration maintenance-window từ bảng telemetry thường sang monthly partitions; không tự chạy khi deploy.
 
 ---
 

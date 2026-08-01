@@ -1,8 +1,22 @@
-# 🌍 Tổng Hợp API (Giao Tiếp Dữ Liệu) v1.0.0
+# 🌍 Tổng Hợp API (Giao Tiếp Dữ Liệu) v2.0.9
 
 Tài liệu này liệt kê toàn bộ các đường dẫn (API) mà hệ thống đang sử dụng để frontend giao tiếp với backend. Nó được viết một cách dễ hiểu để bất cứ ai cũng có thể dùng phần mềm Postman hoặc trình duyệt để kiểm tra.
 
 > **Lưu ý quan trọng**: Tất cả các API này đều yêu cầu bảo mật. Bạn phải gửi kèm `Token` của Keycloak trong Header (phần `Authorization: Bearer <token>`). Nếu không, bạn sẽ nhận lỗi `401 Unauthorized`.
+
+## Swagger UI
+
+- Qua backend trực tiếp: `http://localhost:3000/api-docs`.
+- Qua frontend dev server: `http://localhost:5173/api-docs`.
+- Swagger UI được public để tải giao diện; các thao tác gọi API nghiệp vụ bên trong vẫn cần Bearer token Keycloak.
+- Vite có proxy riêng cho `/api-docs`. Không gộp route này vào rule rewrite `/api`, vì `/api-docs` sẽ bị biến thành `-docs` và rơi vào JWT middleware.
+
+### Queue health
+
+- **Đường dẫn**: `GET /api/system/queue/health`
+- **Bảo mật**: yêu cầu Keycloak Bearer token.
+- **Mô tả**: trả loại queue và thống kê Redis Streams `entries`, `pending`, `deadLetters` riêng cho telemetry/attributes. `503` nghĩa là backend không đọc được queue.
+- Endpoint chỉ quan sát; không ACK, xóa hoặc replay message.
 
 ---
 
@@ -13,6 +27,7 @@ Tài liệu này liệt kê toàn bộ các đường dẫn (API) mà hệ thố
 ### 1.1 Lấy danh sách thiết bị
 - **Đường dẫn**: `GET http://localhost:3000/devices`
 - **Mô tả**: Trả về toàn bộ danh sách thiết bị trong hệ thống.
+- **Query**: `page`, `limit`, `search`; thêm `gateway=true` để chỉ lấy Gateway. `isGateway=true` chỉ còn là alias tương thích v2.0.8.
 - **Kết quả trả về**:
   ```json
   [
@@ -22,6 +37,9 @@ Tài liệu này liệt kê toàn bộ các đường dẫn (API) mà hệ thố
       "type": "Nhiệt độ",
       "label": "Phòng khách",
       "status": "online",
+      "gateway": false,
+      "overwriteActivityTime": false,
+      "connectedDeviceCount": 0,
       "created_at": "2026-07-26..."
     }
   ]
@@ -40,17 +58,24 @@ Tài liệu này liệt kê toàn bộ các đường dẫn (API) mà hệ thố
     "type": "sensor",
     "label": "Nhà kính A",
     "description": "Theo dõi nhiệt độ và độ ẩm",
-    "isGateway": false,
+    "gateway": false,
     "overwriteActivityTime": false
   }
   ```
 
 ### 1.4 Sửa thông tin thiết bị
 - **Đường dẫn**: `PATCH http://localhost:3000/devices/:id`
-- **Các trường được phép sửa**: `name`, `type`, `label`, `description`, `isGateway`, `overwriteActivityTime`.
+- **Các trường được phép sửa**: `name`, `type`, `label`, `description`, `gateway`, `overwriteActivityTime`.
 - **Lưu ý theo chuẩn ThingsBoard**: Không được sửa `status` qua API này. Trạng thái Online/Offline do lớp MQTT và Server Attributes tự động quản lý.
 
-### 1.5 Xóa thiết bị
+`isGateway` vẫn được đọc như alias tương thích cho client v2.0.8, nhưng dữ liệu mới luôn được lưu bằng `additional_info.gateway`.
+
+### 1.5 Lấy credential thiết bị
+
+- **Đường dẫn**: `GET http://localhost:3000/devices/:id/credentials`
+- **Mô tả**: Trả credential khi người dùng đã đăng nhập Keycloak và chủ động mở chi tiết thiết bị. API danh sách và API chi tiết thông thường không trả Device Key/Secret.
+
+### 1.6 Xóa thiết bị
 - **Đường dẫn**: `DELETE http://localhost:3000/devices/:id`
 
 ---
@@ -82,7 +107,7 @@ Tài liệu này liệt kê toàn bộ các đường dẫn (API) mà hệ thố
 ### 2.2 Lấy lịch sử dữ liệu (Telemetry History)
 - **Đường dẫn**: `GET http://localhost:3000/devices/:id/telemetry/history`
 - **Mô tả**: Lấy toàn bộ lịch sử biến động dữ liệu của thiết bị để vẽ lên biểu đồ.
-- **Cách Backend hoạt động**: Backend sẽ truy vấn vào Database PostgreSQL (bảng `device_telemetry`) để lục lại dữ liệu quá khứ.
+- **Cách Backend hoạt động**: Backend truy vấn PostgreSQL từ bảng `telemetry_kv` để lấy dữ liệu quá khứ.
 - **Kết quả trả về**:
   ```json
   [
@@ -135,7 +160,7 @@ Tài liệu này liệt kê toàn bộ các đường dẫn (API) mà hệ thố
 
 Thiết bị phần cứng (cảm biến, vi điều khiển) không dùng HTTP API mà dùng MQTT để truyền dữ liệu cho nhanh và nhẹ.
 
-- **Broker**: `emqx.greeniq.vn` (Cổng `1883`) hoặc `localhost`
+- **Broker**: `mqtt.greeniq.vn` (Cổng `1883`) hoặc `localhost`
 - **Xác thực**: Yêu cầu `Username` = `DEVICE_KEY` và `Password` = `SECRET_TOKEN`
 - **Topic gửi dữ liệu (Telemetry)**: `v1/devices/<DEVICE_KEY>/telemetry`
 - **Topic gửi thuộc tính (Attributes)**: `v1/devices/<DEVICE_KEY>/attributes` (Dùng cho `CLIENT_SCOPE`)
@@ -143,8 +168,8 @@ Thiết bị phần cứng (cảm biến, vi điều khiển) không dùng HTTP 
 - **Định dạng dữ liệu**: JSON thuần túy (VD: `{"temperature": 25}`)
 - **Luồng hoạt động**:
   1. Cảm biến gửi dữ liệu vào EMQX.
-  2. Backend Node.js lắng nghe EMQX.
-  3. Khi có dữ liệu, Backend lưu vào PostgreSQL (làm lịch sử) và lưu vào Redis (làm trạng thái hiện tại).
+  2. Các Backend Pod dùng shared subscription; mỗi message chỉ được giao cho một pod trong group.
+  3. Backend ghi Redis Streams và latest cache. Worker consumer group batch PostgreSQL, chỉ ACK sau commit; lỗi được retry/DLQ.
   4. Trình duyệt Web (Frontend) nhận trực tiếp dữ liệu từ EMQX qua WebSockets (Cổng `8083`) để bảng/biểu đồ tự nhảy số.
 
 ---
@@ -188,3 +213,28 @@ Thiết bị phần cứng (cảm biến, vi điều khiển) không dùng HTTP 
 ### 5.3 Xóa liên kết
 - **Đường dẫn**: `DELETE http://localhost:3000/relations/:id`
 - **Mô tả**: Xóa mối quan hệ giữa 2 thiết bị. `:id` là ID kết hợp định dạng: `fromId_toId_relationType` do Frontend tự động tạo ra.
+
+---
+
+## 6. ThingsBoard Gateway MQTT API
+
+Gateway chỉ được publish/subscribe namespace `v1/gateway/*` khi credential thuộc thiết bị có `additional_info.gateway = true`.
+
+| Tác vụ | Topic | Payload chính |
+|---|---|---|
+| Kết nối device | `v1/gateway/connect` | `{"device":"Device A","type":"sensor"}` |
+| Ngắt kết nối | `v1/gateway/disconnect` | `{"device":"Device A"}` |
+| Telemetry | `v1/gateway/telemetry` | `{"Device A":[{"ts":1700000000000,"values":{"temperature":23.5}}]}` |
+| Client attributes | `v1/gateway/attributes` | `{"Device A":{"firmware":"1.0"}}` |
+
+EMQX Rule/Webhook gọi nội bộ `POST /api/mqtt/gateway` với body `{"username":"<gateway-device-key>","topic":"...","payload":"<json>"}` và header `x-emqx-hook-secret`. Endpoint này không dùng JWT Keycloak vì do broker gọi, nhưng bắt buộc dùng secret riêng `EMQX_WEBHOOK_SECRET`.
+
+### Phạm vi hỗ trợ hiện tại
+
+- Đã hỗ trợ: connect, disconnect, telemetry và client attributes.
+- Gateway tự tạo downstream device trong cùng tenant và tạo relation `Contains`.
+- Chưa hỗ trợ trong phiên bản này: attribute request/response, shared-attribute push, RPC và remote connector configuration. ACL không quảng bá các luồng publish chưa được backend xử lý.
+
+### Phân quyền
+
+REST API xác thực bằng Keycloak. Hệ thống không mô phỏng ThingsBoard PE RBAC; nếu cần quyền cơ bản sẽ ánh xạ role/group Keycloak theo yêu cầu cụ thể. MQTT Gateway dùng credential thiết bị và ACL riêng của EMQX.

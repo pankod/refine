@@ -43,9 +43,10 @@ kubectl top pods
 Dựa vào sơ đồ K3s, đây là các sự cố thường gặp nhất và cách giải quyết:
 
 ### Trường hợp 1: Biểu đồ Web không nhảy số (Dữ liệu bị nghẽn)
-- **Nguyên nhân 1 (Nghẽn băng chuyền):** 
-  - Khả năng cao là "Công nhân dọn rác" (Telemetry Worker) đang bị đình công, khiến rổ hàng trên Redis bị ứ đọng.
-  - **Cách xử lý:** Mở cửa sổ Dòng lệnh kết nối vào Redis, gõ lệnh `LLEN telemetry_queue`. Nếu con số trả về quá lớn (VD: 50.000) và không giảm đi, bạn cần khởi động lại Backend Worker: `kubectl rollout restart deployment backend`.
+- **Nguyên nhân 1 (Nghẽn Redis Streams):**
+  - Gọi `GET /api/system/queue/health` bằng Keycloak Bearer token. `entries` tăng liên tục cho biết PostgreSQL/worker chậm; `pending` lâu không giảm cho biết consumer đang lỗi; `deadLetters > 0` cần xem payload lỗi trước khi replay.
+  - Xem log `[QueueWorker]`. Không xóa stream hoặc chạy `XACK` thủ công vì sẽ làm mất telemetry chưa commit.
+  - Restart backend an toàn: pending entry sẽ được pod khác `XAUTOCLAIM` sau `REDIS_STREAM_CLAIM_IDLE_MS`.
 
 - **Nguyên nhân 2 (EMQX từ chối thiết bị):**
   - **Cách xử lý:** Xem log của EMQX `kubectl logs -f deployment/emqx`. Nếu thấy lỗi `Auth failed`, nghĩa là Thiết bị gửi sai Mật khẩu, hoặc Backend chặn không cho phép. Kiểm tra lại mã Device Key của thiết bị.
@@ -64,6 +65,28 @@ Dựa vào sơ đồ K3s, đây là các sự cố thường gặp nhất và c�
   kubectl rollout undo deployment backend
   ```
 
+### Trường hợp 4: Gateway đăng nhập được nhưng downstream không có dữ liệu
+
+- Kiểm tra Gateway có `additional_info.gateway = true`; giá trị `type = gateway` không thay thế cờ này.
+- Xem log backend và tìm lỗi `EMQX webhook secret khong hop le` hoặc `Credential nay khong thuoc Gateway`.
+- Trong EMQX Dashboard, kiểm tra Webhook/Rule có nhận đúng bốn topic `v1/gateway/connect`, `disconnect`, `telemetry`, `attributes` hay không.
+- Body Webhook phải có `username`, `topic`, `payload`; header `x-emqx-hook-secret` phải khớp Secret backend.
+- Kiểm tra thống kê Webhook của EMQX. HTTP `202` là backend đã nhận; `401` là sai/missing secret; `400` là topic hoặc payload không hợp lệ; `403` là credential không phải Gateway.
+
+### Cấu hình Secret cho Gateway Webhook
+
+Không ghi secret thật vào YAML trong Git. Tạo hoặc cập nhật Secret trực tiếp trong cụm:
+
+```bash
+kubectl create secret generic vtapro-emqx-webhook-secret \
+  --from-literal=EMQX_WEBHOOK_SECRET='<RANDOM_LONG_SECRET>' \
+  --dry-run=client -o yaml | kubectl apply -f -
+```
+
+Deployment backend phải nạp key `EMQX_WEBHOOK_SECRET` từ Secret `vtapro-emqx-webhook-secret` bằng `secretKeyRef`, sau đó restart rollout. Trong EMQX, tạo Webhook message-publish cho `v1/gateway/connect`, `v1/gateway/disconnect`, `v1/gateway/telemetry`, `v1/gateway/attributes`; URL nội bộ là `http://vtapro-backend:3000/api/mqtt/gateway` và thêm header secret tương ứng.
+
+> Khi dùng Lens, có thể chỉnh Secret và Deployment bằng giao diện, nhưng tuyệt đối không chụp hoặc đưa giá trị secret vào tài liệu/commit.
+
 ---
 
 ## 3. 📈 NÂNG CẤP & MỞ RỘNG HỆ THỐNG (SCALING & UPGRADE)
@@ -79,7 +102,15 @@ kubectl scale deployment frontend --replicas=2
 ```
 *Lưu ý:* Redis và Postgres không nên dùng lệnh này vì dữ liệu cần sự đồng nhất. Chỉ phân thân Frontend, Backend và EMQX (Cần cấu hình EMQX Cluster).
 
-### 3.2. Cập nhật Phiên bản (Code mới) theo chuẩn K3s
+Backend đã dùng MQTT shared subscription và Redis Streams consumer group nên có thể scale replica mà không ghi lặp toàn bộ message. Trên EMQX đặt `mqtt.shared_subscription_strategy = hash_clientid`. Production nên tách Redis queue (`REDIS_QUEUE_URL`, AOF, `maxmemory-policy noeviction`) khỏi Redis cache.
+
+### 3.2. Partition và retention telemetry
+
+Script `backend/scripts/sql/migrate-telemetry-partitions.sql` đổi `telemetry_kv` sang monthly range partition. Đây là migration khóa bảng: phải backup, dừng telemetry worker và chạy trong maintenance window. Script giữ `telemetry_kv_unpartitioned_backup`; chỉ DBA xóa bảng backup sau khi đối soát row count.
+
+Worker tự tạo partition hiện tại và hai tháng tiếp theo. `TELEMETRY_RETENTION_DAYS=0` nghĩa là không tự xóa; đặt số ngày lớn hơn 0 để cleanup theo batch. Theo dõi dung lượng/PITR trước khi bật retention vì dữ liệu hết hạn không phục hồi được ngoài backup.
+
+### 3.3. Cập nhật Phiên bản (Code mới) theo chuẩn K3s
 Bất cứ khi nào bạn (hoặc Dev) code xong tính năng mới, quy trình tung bản cập nhật (Deploy) lên K3s sẽ diễn ra theo 3 bước:
 1. **Đóng gói Code mới:** Đóng gói code thành file ảnh (Docker Image), ví dụ: `myregistry/greeniq-backend:v2.0`
 2. **Đẩy lên mây:** `docker push myregistry/greeniq-backend:v2.0`

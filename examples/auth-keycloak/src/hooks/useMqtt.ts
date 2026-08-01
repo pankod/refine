@@ -10,9 +10,9 @@ interface UseMqttProps {
   password?: string;
 }
 
-export const useMqtt = ({ 
-  url = import.meta.env.VITE_MQTT_URL || "wss://mqtt.greeniq.vn/mqtt", 
-  topic = "v1/devices/me/telemetry", 
+export const useMqtt = ({
+  url = import.meta.env.VITE_MQTT_URL || "wss://mqtt.greeniq.vn/mqtt",
+  topic = "v1/devices/me/telemetry",
   options,
   username,
   password
@@ -20,13 +20,21 @@ export const useMqtt = ({
   const [client, setClient] = useState<MqttClient | null>(null);
   const [payload, setPayload] = useState<any>(null);
   const [isConnected, setIsConnected] = useState(false);
-  
-  // Use ref to keep track of the latest topic without triggering re-connects if unnecessary
+
+  // Giu MQTT connection on dinh, chi doi subscription khi topic thay doi.
   const currentTopic = useRef(topic);
 
   useEffect(() => {
     currentTopic.current = topic;
   }, [topic]);
+
+  useEffect(() => {
+    if (!client?.connected || !topic) return;
+    client.subscribe(topic);
+    return () => {
+      client.unsubscribe(topic);
+    };
+  }, [client, topic]);
 
   useEffect(() => {
     const defaultOptions: IClientOptions = {

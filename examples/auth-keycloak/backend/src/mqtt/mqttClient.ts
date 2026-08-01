@@ -1,8 +1,9 @@
 import mqtt from 'mqtt';
-import { redis } from '../redis/redisClient';
 import { PrismaClient } from '@prisma/client';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
+import { getDeviceByCredential } from '../cache/deviceCredentialCache';
+import { telemetryQueue } from '../queue/telemetryQueue';
 
 const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({ connectionString });
@@ -32,6 +33,8 @@ const INACTIVITY_TIMEOUT   = 'inactivityTimeout';
 const SYSTEM_USERNAMES = new Set(['backend_service', 'frontend_readonly', 'dashboard', 'undefined']);
 
 const EMQX_URL = process.env.EMQX_URL || 'mqtt://localhost:1883';
+const MAX_MQTT_PAYLOAD_BYTES = Math.max(1024, parseInt(process.env.MAX_MQTT_PAYLOAD_BYTES || '65536', 10));
+const MAX_TELEMETRY_KEYS = Math.max(1, parseInt(process.env.MAX_TELEMETRY_KEYS || '256', 10));
 let mqttClient: mqtt.MqttClient | null = null;
 let lastMqttErrorLogAt = 0;
 
@@ -66,31 +69,35 @@ const saveDeviceAttribute = async (
 
 export const startMqttClient = () => {
   mqttClient = mqtt.connect(EMQX_URL, {
-    username: 'dashboard',
+    username: 'backend_service',
     password: process.env.BACKEND_MQTT_SECRET || 'super_secret_backend',
     clientId: `backend_service_${Math.random().toString(16).substring(2, 8)}`
   });
 
   mqttClient.on('connect', () => {
     console.log('[MQTT] Connected to EMQX Broker');
-    mqttClient?.subscribe('v1/devices/+/telemetry', (err) => {
-      if (!err) console.log('[MQTT] Subscribed: v1/devices/+/telemetry');
+    const TELEMETRY_TOPIC = '$share/telemetry-ingest/v1/devices/+/telemetry';
+    const ATTRIBUTES_TOPIC = '$share/telemetry-ingest/v1/devices/+/attributes';
+    mqttClient?.subscribe(TELEMETRY_TOPIC, { qos: 1 }, (err) => {
+      if (!err) console.log(`[MQTT] Subscribed shared: ${TELEMETRY_TOPIC}`);
+      else console.error('[MQTT] Error subscribing telemetry:', err);
     });
-    mqttClient?.subscribe('v1/devices/+/attributes', (err) => {
-      if (!err) console.log('[MQTT] Subscribed: v1/devices/+/attributes');
+    mqttClient?.subscribe(ATTRIBUTES_TOPIC, { qos: 1 }, (err) => {
+      if (!err) console.log(`[MQTT] Subscribed shared: ${ATTRIBUTES_TOPIC}`);
+      else console.error('[MQTT] Error subscribing attributes:', err);
     });
 
-    // CHUAN THINGSBOARD: Shared Subscription cho scale-out
-    // Khi co nhieu Pod Backend chay song song, EMQX tu dong chia tai (load-balance)
-    // moi event chi den 1 Pod. Tranh duplicate DB write khi scale tren K3s.
-    const SYS_CONNECTED    = '$share/backend_group/$SYS/brokers/+/clients/+/connected';
-    const SYS_DISCONNECTED = '$share/backend_group/$SYS/brokers/+/clients/+/disconnected';
+    // EMQX 5.8 khong cho shared subscription tren namespace $SYS. State update
+    // la idempotent nen moi backend pod co the subscribe truc tiep; telemetry va
+    // attributes o tren van bat buoc dung shared subscription de tranh ghi trung.
+    const SYS_CONNECTED    = '$SYS/brokers/+/clients/+/connected';
+    const SYS_DISCONNECTED = '$SYS/brokers/+/clients/+/disconnected';
     mqttClient?.subscribe(SYS_CONNECTED, (err) => {
-      if (!err) console.log('[MQTT] Subscribed $SYS/connected (shared)');
+      if (!err) console.log('[MQTT] Subscribed $SYS/connected');
       else console.error('[MQTT] Error subscribing $SYS/connected:', err);
     });
     mqttClient?.subscribe(SYS_DISCONNECTED, (err) => {
-      if (!err) console.log('[MQTT] Subscribed $SYS/disconnected (shared)');
+      if (!err) console.log('[MQTT] Subscribed $SYS/disconnected');
       else console.error('[MQTT] Error subscribing $SYS/disconnected:', err);
     });
   });
@@ -107,16 +114,13 @@ export const startMqttClient = () => {
           if (!username || SYSTEM_USERNAMES.has(username)) return;
           console.log(`[SYS] Thiet bi "${username}" -> ${isConnected ? 'ONLINE' : 'OFFLINE'}`);
 
-          const cred = await prisma.device_credentials.findUnique({
-            where: { credentials_id: username },
-            select: { device_id: true }
-          });
-          if (!cred?.device_id) {
+          const cred = await getDeviceByCredential(username);
+          if (!cred?.deviceId) {
             console.warn(`[SYS] Khong tim thay thiet bi voi token: ${username}`);
             return;
           }
 
-          const deviceId = cred.device_id;
+          const deviceId = cred.deviceId;
           const now = Date.now();
 
           // CHUAN THINGSBOARD: Luu state vao attribute_kv (SERVER_SCOPE)
@@ -159,35 +163,34 @@ export const startMqttClient = () => {
       const parts = cleanTopic.split('/');
       if (parts.length === 4 && parts[0] === 'v1' && parts[1] === 'devices' &&
           (parts[3] === 'telemetry' || parts[3] === 'attributes')) {
+        if (message.length > MAX_MQTT_PAYLOAD_BYTES) {
+          throw new Error(`MQTT payload vuot ${MAX_MQTT_PAYLOAD_BYTES} bytes.`);
+        }
         const deviceKey = parts[2];
         const msgType   = parts[3];
-        const payload   = JSON.parse(message.toString());
-
-        for (const [key, value] of Object.entries(payload)) {
-          const queueItem = {
-            deviceKey, key,
-            bool_v: typeof value === 'boolean' ? value : null,
-            str_v:  typeof value === 'string'  ? value : null,
-            long_v: typeof value === 'number' && Number.isInteger(value)  ? value : null,
-            dbl_v:  typeof value === 'number' && !Number.isInteger(value) ? value : null,
-            json_v: typeof value === 'object' && value !== null ? JSON.stringify(value) : null,
-            ts: Date.now()
-          };
-
-          if (msgType === 'telemetry') {
-            await redis.lpush('telemetry_queue', JSON.stringify(queueItem));
-            await redis.hset(`latest_telemetry:${deviceKey}`, key, JSON.stringify(queueItem));
-            // CHUAN TB: Cap nhat lastActivityTime khi co telemetry (de inactivityWorker dung)
-            const cred = await prisma.device_credentials.findUnique({
-              where: { credentials_id: deviceKey }, select: { device_id: true }
-            });
-            if (cred?.device_id) {
-              await saveDeviceAttribute(cred.device_id, LAST_ACTIVITY_TIME, Date.now());
-            }
-          } else if (msgType === 'attributes') {
-            await redis.lpush('attributes_queue', JSON.stringify(queueItem));
-          }
+        const payload = JSON.parse(message.toString());
+        if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+          throw new Error('Telemetry/attributes payload phai la JSON object.');
         }
+        if (Object.keys(payload).length > MAX_TELEMETRY_KEYS) {
+          throw new Error(`MQTT payload vuot ${MAX_TELEMETRY_KEYS} keys.`);
+        }
+        const credential = await getDeviceByCredential(deviceKey);
+        if (!credential) {
+          console.warn(`[MQTT] Khong tim thay credential cho deviceKey ${deviceKey}`);
+          return;
+        }
+
+        // Moi MQTT message chi tao mot stream entry. Worker se bung cac key va
+        // cap nhat lastActivityTime mot lan sau khi PostgreSQL commit.
+        await telemetryQueue.enqueue({
+          type: msgType,
+          tenantId: credential.tenantId,
+          deviceId: credential.deviceId,
+          deviceKey,
+          ts: Date.now(),
+          values: payload
+        });
       }
     } catch (err) {
       console.error('[MQTT] Error processing message:', err);

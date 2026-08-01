@@ -200,7 +200,7 @@ const App: React.FC = () => {
           {/* CỐT LÕI CỦA REFINE NẰM TẠI ĐÂY */}
           <Refine
             authProvider={authProvider}
-            
+
             // 📡 DATA PROVIDERS: Hướng dẫn Refine lấy dữ liệu ở đâu cho mỗi thực thể
             dataProvider={{
               default: emptyDataProvider, // Mặc định không làm gì nếu không khai báo
@@ -209,9 +209,9 @@ const App: React.FC = () => {
               telemetry: apiDeviceProvider, // API Lấy Telemetry
               dashboards: apiDashboardProvider // API Quản lý Dashboards
             }}
-            
+
             routerProvider={routerProvider}
-            
+
             // 📚 RESOURCES: Khai báo các trang/tài nguyên có trong hệ thống và gắn icon, route, provider cho nó
             resources={[
               { name: "home", list: "/", meta: { label: "Trang chủ", icon: <HomeOutlined /> } },
@@ -226,7 +226,7 @@ const App: React.FC = () => {
               { name: "groups", list: "/groups", meta: { parent: "identity", label: "Nhóm (Groups)", icon: <UsergroupAddOutlined />, dataProviderName: "identity" } }
             ]}
             notificationProvider={useNotificationProvider}
-            
+
             // ⚡ LIVE PROVIDER: Kết nối WebSocket (MQTT) để tự động reload lại trang nếu có ai đó cập nhật dữ liệu
             liveProvider={liveProvider("wss://mqtt.greeniq.vn/mqtt")}
             options={{
@@ -255,8 +255,8 @@ const App: React.FC = () => {
                       <ThemedLayout
                         Header={() => <CustomHeader />}
                         Sider={(props) => (
-                          <ThemedSider 
-                            {...props} 
+                          <ThemedSider
+                            {...props}
                             render={({ items }) => <>{items}</>}
                             Title={({ collapsed }) => (
                               <ThemedTitle
@@ -264,10 +264,10 @@ const App: React.FC = () => {
                                 text={null}
                                 wrapperStyles={{ backgroundColor: "transparent" }}
                                 icon={
-                                  <img 
-                                    src={collapsed ? "/logo.png" : "/logo-full.png"} 
-                                    alt="GreenIQ" 
-                                    style={{ height: collapsed ? "32px" : "40px" }} 
+                                  <img
+                                    src={collapsed ? "/logo.png" : "/logo-full.png"}
+                                    alt="GreenIQ"
+                                    style={{ height: collapsed ? "32px" : "40px" }}
                                   />
                                 }
                               />
@@ -307,8 +307,8 @@ const App: React.FC = () => {
                     <ThemedLayout
                       Header={() => <CustomHeader />}
                       Sider={(props) => (
-                        <ThemedSider 
-                          {...props} 
+                        <ThemedSider
+                          {...props}
                           render={({ items }) => <>{items}</>}
                           Title={({ collapsed }) => (
                             <ThemedTitle
@@ -316,10 +316,10 @@ const App: React.FC = () => {
                               text={null}
                               wrapperStyles={{ backgroundColor: "transparent" }}
                               icon={
-                                <img 
-                                  src={collapsed ? "/logo.png" : "/logo-full.png"} 
-                                  alt="GreenIQ" 
-                                  style={{ height: collapsed ? "32px" : "40px" }} 
+                                <img
+                                  src={collapsed ? "/logo.png" : "/logo-full.png"}
+                                  alt="GreenIQ"
+                                  style={{ height: collapsed ? "32px" : "40px" }}
                                 />
                               }
                             />

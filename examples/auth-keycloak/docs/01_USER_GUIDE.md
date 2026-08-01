@@ -1,6 +1,6 @@
-# 📘 Hướng Dẫn Sử Dụng & Khởi Chạy Dự Án (Version 1.0.0)
+# 📘 Hướng Dẫn Sử Dụng & Khởi Chạy Dự Án (Version 2.0.9)
 
-Chào mừng bạn đến với tài liệu hướng dẫn của hệ thống IoT Dashboard v1.0.0. Tài liệu này được viết theo cách đơn giản nhất để bất kỳ ai (dù không chuyên về lập trình) cũng có thể hiểu và làm theo.
+Chào mừng bạn đến với tài liệu hướng dẫn của hệ thống IoT Dashboard v2.0.9. Tài liệu này được viết theo cách đơn giản nhất để bất kỳ ai (dù không chuyên về lập trình) cũng có thể hiểu và làm theo.
 
 ## 1. Tổng quan hệ thống
 Hệ thống này gồm 3 thành phần chính:
@@ -13,9 +13,9 @@ Hệ thống này gồm 3 thành phần chính:
 ## 2. Cách khởi chạy hệ thống (Cho người mới)
 
 ### Bước 1: Bật Backend (Máy chủ API)
-Hệ thống đã được tự động hóa tối đa. Bạn chỉ cần chạy một lệnh duy nhất, hệ thống sẽ tự động bật các dịch vụ nền (Redis, EMQX qua Docker) và mở kết nối tới Cơ sở dữ liệu (PostgreSQL qua K3s).
+Hệ thống ưu tiên dùng PostgreSQL, Redis và EMQX trong cụm K3s cho môi trường local. Script đọc kubeconfig Lens tại `backend/.kube/lens-kubeconfig.yaml`, đồng bộ secret cần thiết và mở port-forward. Docker Compose chỉ là phương án dự phòng khi đặt `USE_K3S_REDIS=false` hoặc `USE_K3S_EMQX=false`.
 
-Bạn cần đảm bảo Docker đã được bật và đang chạy trên máy.
+Bạn cần có `kubectl` và kubeconfig Lens hợp lệ. Chỉ cần bật Docker Desktop nếu chủ động dùng dịch vụ Docker local.
 1. Mở Terminal (Command Prompt / PowerShell).
 2. Di chuyển vào thư mục `backend`, chạy lệnh:
    ```bash
@@ -23,7 +23,7 @@ Bạn cần đảm bảo Docker đã được bật và đang chạy trên máy.
    npm install
    npm run dev
    ```
-3. Nếu thành công, bạn sẽ thấy thông báo: `🚀 Backend API đã chạy thành công trên địa chỉ: http://localhost:3000` cùng với các dấu tick xanh báo hiệu kết nối Redis và EMQX thành công.
+3. Nếu thành công, bạn sẽ thấy thông báo: `🚀 Backend API đã chạy thành công trên địa chỉ: http://localhost:3000` cùng trạng thái port-forward PostgreSQL, Redis và EMQX.
 
 ### Bước 2: Bật Frontend (Giao diện người dùng)
 1. Mở một cửa sổ Terminal **mới**.
@@ -42,7 +42,7 @@ Bạn cần đảm bảo Docker đã được bật và đang chạy trên máy.
 
 **Cài đặt kết nối trong MQTTX:**
 - **Name**: Nhập gì cũng được (vd: `ThietBi_Test`)
-- **Host**: `mqtt://emqx.greeniq.vn` (hoặc localhost nếu chạy local)
+- **Host**: `mqtt://mqtt.greeniq.vn` (hoặc localhost nếu chạy local)
 - **Port**: `1883`
 - **Username**: Mã `DEVICE_KEY` của thiết bị
 - **Password**: Mã `SECRET_TOKEN` của thiết bị
@@ -95,13 +95,25 @@ Ngay lập tức, bạn sẽ thấy trên giao diện web (bảng và biểu đ�
 
 ---
 
-## 5. Quản lý Liên kết Thiết bị (Gateways & Relations)
+## 5. Quản lý Gateway và thiết bị kết nối
 
 Nền tảng hỗ trợ sơ đồ mạng lưới thiết bị (Topology) giống như Thingsboard:
 
-- **Gateway**: Là thiết bị cổng trung tâm. Bạn có thể xem và tạo Gateway riêng biệt trong menu **Thực thể -> Gateways**.
-- **Gán Thiết bị con vào Gateway**:
-  1. Mở danh sách **Gateways**, click nút **Sửa** (Edit) một Gateway.
-  2. Chuyển sang Tab **Relations**.
-  3. Bấm **(+) Thêm**, chọn Direction là `From`, chọn thực thể con (VD: Cảm biến), nhập Loại quan hệ (VD: `Contains`).
-  4. Mối quan hệ này có tính chất hai chiều. Nếu bạn mở Cảm biến đó lên, ở tab Relations sẽ thấy có liên kết `To` trỏ ngược về Gateway!
+- **Gateway** là thiết bị cổng trung tâm. Nút **Thêm Gateway** luôn tạo thiết bị có cờ chuẩn ThingsBoard `additionalInfo.gateway = true`; Device Profile vẫn là một thuộc tính độc lập.
+- Trang Gateway dùng resource riêng ở frontend nhưng vẫn lưu chung bảng `devices`. Khi Save, provider cưỡng chế `gateway=true`, giữ người dùng tại trang Gateway và backend luôn sinh credential mặc định; form không hiển thị tùy chọn tự sinh Access Token.
+- Cột **Thiết bị kết nối** cho biết số thiết bị downstream hiện được Gateway quản lý.
+- Khi bật **Ghi đè thời gian hoạt động**, hoạt động của Gateway sẽ làm mới `lastActivityTime` cho các thiết bị đang kết nối qua Gateway.
+- Credential không còn nằm trong API danh sách. Chỉ khi mở chi tiết thiết bị, giao diện mới gọi API credential riêng để phục vụ thao tác sao chép.
+
+### Kết nối bằng ThingsBoard Gateway MQTT API
+
+Gateway đăng nhập EMQX bằng Device Key và Secret của chính Gateway, sau đó dùng các topic chuẩn:
+
+- `v1/gateway/connect`: báo một thiết bị downstream đã kết nối, ví dụ `{"device":"Sensor A","type":"sensor"}`.
+- `v1/gateway/disconnect`: báo thiết bị ngắt kết nối, ví dụ `{"device":"Sensor A"}`.
+- `v1/gateway/telemetry`: gửi telemetry cho một hoặc nhiều thiết bị.
+- `v1/gateway/attributes`: gửi client attributes cho một hoặc nhiều thiết bị.
+
+Thiết bị downstream chưa tồn tại sẽ được tự tạo trong cùng tenant với Gateway. Hệ thống cũng tự tạo relation `Gateway --Contains--> Device`; không cần tạo relation thủ công cho thiết bị đi qua Gateway API.
+
+> EMQX phải cấu hình Rule/Webhook cho các topic `v1/gateway/connect`, `v1/gateway/disconnect`, `v1/gateway/telemetry`, `v1/gateway/attributes`. Webhook gửi `username`, `topic`, `payload` tới `/api/mqtt/gateway` và header `x-emqx-hook-secret` phải khớp biến môi trường `EMQX_WEBHOOK_SECRET` của backend. Đây là điều kiện để backend xác định đúng Gateway/tenant từ topic chung.

@@ -7,8 +7,9 @@ const API_URL = import.meta.env.VITE_API_URL || "/api";
 
 export const apiDeviceProvider: DataProvider = {
   getList: async ({ resource, pagination, filters }) => {
-    if (resource === "devices") {
+    if (resource === "devices" || resource === "gateways") {
       const params: any = {};
+      if (resource === "gateways") params.gateway = true;
       if (pagination) {
         params.page = pagination.currentPage || 1;
         params.limit = pagination.pageSize || 10;
@@ -16,8 +17,11 @@ export const apiDeviceProvider: DataProvider = {
       
       if (filters && filters.length > 0) {
         filters.forEach((filter: any) => {
-          if (filter.field === 'isGateway' && filter.operator === 'eq') {
-            params.isGateway = filter.value;
+          if ((filter.field === 'gateway' || filter.field === 'isGateway') && filter.operator === 'eq') {
+            params.gateway = filter.value;
+          }
+          if (filter.field === 'name' && filter.operator === 'contains' && filter.value) {
+            params.search = filter.value;
           }
         });
       }
@@ -32,28 +36,29 @@ export const apiDeviceProvider: DataProvider = {
   },
   getMany: async () => ({ data: [] }),
   getOne: async ({ resource, id }) => {
-    if (resource === "devices") {
+    if (resource === "devices" || resource === "gateways") {
       const response = await axios.get(`${API_URL}/devices/${id}`);
       return { data: response.data };
     }
     return { data: {} as any };
   },
   create: async ({ resource, variables }: any) => {
-    if (resource === "devices") {
-      const response = await axios.post(`${API_URL}/devices`, variables);
+    if (resource === "devices" || resource === "gateways") {
+      const payload = resource === "gateways" ? { ...variables, gateway: true } : variables;
+      const response = await axios.post(`${API_URL}/devices`, payload);
       return { data: response.data };
     }
     return { data: {} as any };
   },
   update: async ({ resource, id, variables }: any) => {
-    if (resource === "devices") {
+    if (resource === "devices" || resource === "gateways") {
       const response = await axios.patch(`${API_URL}/devices/${id}`, variables);
       return { data: response.data };
     }
     return { data: {} as any };
   },
   deleteOne: async ({ resource, id }: any) => {
-    if (resource === "devices") {
+    if (resource === "devices" || resource === "gateways") {
       await axios.delete(`${API_URL}/devices/${id}`);
       return { data: { id } as any };
     }

@@ -9,10 +9,14 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import crypto from 'crypto';
 import { redis } from './redis/redisClient';
 import { startMqttClient, publishLiveEvent, publishSharedAttributes } from './mqtt/mqttClient';
+import { processGatewayMessage } from './mqtt/gatewayService';
 import { startTelemetryWorker } from './workers/telemetryWorker';
 import { startInactivityWorker } from './workers/inactivityWorker';
+import { startTelemetryRetentionWorker } from './workers/telemetryRetentionWorker';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger_output.json';
+import { getDeviceByCredential, invalidateDeviceCredential } from './cache/deviceCredentialCache';
+import { telemetryQueue } from './queue/telemetryQueue';
 /**
  * ============================================================================
  * MODULE: BACKEND CORE (Trái tim của hệ thống quản lý)
@@ -60,7 +64,7 @@ const checkJwt = expressjwt({
 }).unless({
   // Ngoại lệ: Các đường dẫn này không cần thẻ VIP (Token)
   // /api/mqtt/* được dùng riêng cho EMQX gọi nội bộ, đã có cơ chế bảo mật riêng.
-  path: ['/', '/api/mqtt/auth', '/api/mqtt/acl']
+  path: ['/', '/api/mqtt/auth', '/api/mqtt/acl', '/api/mqtt/gateway']
 });
 
 // Áp dụng JWT cho toàn bộ API
@@ -113,6 +117,36 @@ const getDefaultTenant = async () => {
     });
   }
   return tenant.id;
+};
+
+const getDeviceInfo = (additionalInfo: unknown): Record<string, any> & {
+  gateway: boolean;
+  overwriteActivityTime: boolean;
+} => {
+  const info = (additionalInfo as Record<string, any>) || {};
+  return {
+    ...info,
+    gateway: info.gateway ?? info.isGateway ?? false,
+    overwriteActivityTime: info.overwriteActivityTime ?? false
+  };
+};
+
+const formatDevice = (device: any, connectedDeviceCount = 0) => {
+  const info = getDeviceInfo(device.additional_info);
+  return {
+    id: device.id,
+    name: device.name,
+    type: device.type,
+    status: info.status || 'offline',
+    gateway: info.gateway,
+    // Alias tam thoi de cac client v2.0.8 cu khong bi vo khi nang cap.
+    isGateway: info.gateway,
+    overwriteActivityTime: info.overwriteActivityTime,
+    label: info.label || '',
+    description: info.description || '',
+    connectedDeviceCount,
+    created_at: device.created_at
+  };
 };
 
 // ==========================================
@@ -239,6 +273,15 @@ app.get('/', (req, res) => {
   res.send('Backend API Running...');
 });
 
+app.get('/api/system/queue/health', async (req, res) => {
+  /* #swagger.tags = ['System'] */
+  try {
+    res.json({ status: 'ok', queue: 'redis-streams', streams: await telemetryQueue.stats() });
+  } catch (error: any) {
+    res.status(503).json({ status: 'unavailable', error: error?.message || String(error) });
+  }
+});
+
 // ==========================================
 // NHÓM API BẢO MẬT MQTT (EMQX HTTP AUTH/ACL)
 // ==========================================
@@ -274,11 +317,13 @@ app.post('/api/mqtt/auth', async (req, res) => {
 
   // 3. Dành cho Thiết bị IoT (ESP32)
   // Username chính là MÃ_THIẾT_BỊ (deviceKey), Password là MÃ_BÍ_MẬT (secretToken).
-  const creds = await prisma.device_credentials.findUnique({
-    where: { credentials_id: username }
-  });
+  const creds = await getDeviceByCredential(username);
+  const suppliedSecret = typeof password === 'string' ? password : '';
+  const storedSecret = creds?.secret || '';
+  const secretMatches = suppliedSecret.length === storedSecret.length && storedSecret.length > 0 &&
+    crypto.timingSafeEqual(Buffer.from(suppliedSecret), Buffer.from(storedSecret));
 
-  if (creds && creds.credentials_value === password) {
+  if (creds && secretMatches) {
     return res.status(200).json({ result: 'allow', is_superuser: false });
   }
 
@@ -291,7 +336,7 @@ app.post('/api/mqtt/auth', async (req, res) => {
  * @description Sau khi kết nối thành công, EMQX sẽ gọi API này mỗi khi thiết bị 
  * muốn "Gửi dữ liệu" (publish) hoặc "Nghe lén" (subscribe) một kênh (topic) nào đó.
  */
-app.post('/api/mqtt/acl', (req, res) => {
+app.post('/api/mqtt/acl', async (req, res) => {
   /* #swagger.tags = ['MQTT Auth/ACL'] */
   const { username, topic, action } = req.body;
 
@@ -323,15 +368,68 @@ app.post('/api/mqtt/acl', (req, res) => {
     return res.status(200).json({ result: 'allow' });
   }
 
+  // Gateway API dung topic chung, nen chi device co additionalInfo.gateway=true moi duoc dung.
+  // Ho tro doc isGateway cua du lieu v2.0.8 trong giai doan chuyen doi.
+  if (typeof username === 'string' && topic?.startsWith('v1/gateway/')) {
+    const credential = await getDeviceByCredential(username);
+    const isGateway = credential?.gateway || false;
+    const publishTopics = new Set([
+      'v1/gateway/connect',
+      'v1/gateway/disconnect',
+      'v1/gateway/telemetry',
+      'v1/gateway/attributes'
+    ]);
+    const subscribeTopics = new Set([
+      'v1/gateway/attributes',
+      'v1/gateway/attributes/response',
+      'v1/gateway/rpc'
+    ]);
+    if (isGateway && (
+      (action === 'publish' && publishTopics.has(topic)) ||
+      (action === 'subscribe' && subscribeTopics.has(topic))
+    )) {
+      return res.status(200).json({ result: 'allow' });
+    }
+  }
+
   // Chặn mọi hành vi gửi/nghe không đúng quy định
   return res.status(401).send('deny');
 });
 
 /**
+ * EMQX Rule/Webhook chuyen tiep Gateway message vao day, kem username MQTT.
+ * Khong xu ly truc tiep tu MQTT subscriber vi topic v1/gateway/* khong chua danh tinh
+ * publisher; lam vay se co nguy co ghi cheo tenant.
+ */
+app.post('/api/mqtt/gateway', async (req, res) => {
+  /* #swagger.tags = ['MQTT Auth/ACL'] */
+  const hookSecret = process.env.EMQX_WEBHOOK_SECRET;
+  const providedSecret = req.header('x-emqx-hook-secret');
+  const secretMatches = !!hookSecret && !!providedSecret &&
+    Buffer.byteLength(hookSecret) === Buffer.byteLength(providedSecret) &&
+    crypto.timingSafeEqual(Buffer.from(hookSecret), Buffer.from(providedSecret));
+  if (!secretMatches) {
+    return res.status(401).json({ error: 'EMQX webhook secret khong hop le.' });
+  }
+
+  const { username, topic, payload } = req.body || {};
+  if (typeof username !== 'string' || typeof topic !== 'string') {
+    return res.status(400).json({ error: 'Thieu username hoac topic.' });
+  }
+
+  try {
+    const result = await processGatewayMessage(username, topic, payload);
+    return res.status(202).json(result);
+  } catch (error: any) {
+    const status = error?.statusCode || 400;
+    return res.status(status).json({ error: error?.message || 'Gateway message khong hop le.' });
+  }
+});
+
+/**
  * [GET] Lấy danh sách toàn bộ Thiết bị
  * @description API này giúp Frontend vẽ danh sách Thiết bị.
- * Phải dùng cú pháp "include" của Prisma để nối bảng `device_credentials`,
- * từ đó lấy ra được Mã bí mật của thiết bị hiển thị lên giao diện.
+ * Credential khong duoc tra trong list; frontend chi lay qua endpoint rieng khi can.
  */
 app.get('/devices', async (req, res) => {
   /* #swagger.tags = ['Devices'] */
@@ -339,19 +437,28 @@ app.get('/devices', async (req, res) => {
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
 
-  const isGateway = req.query.isGateway === 'true';
+  const gateway = req.query.gateway === 'true' || req.query.isGateway === 'true';
+  const search = String(req.query.search || '').trim();
   const where: any = {};
-  if (isGateway) {
-    where.additional_info = {
-      path: ['isGateway'],
-      equals: true
-    };
+  const filters: any[] = [];
+  if (gateway) {
+    filters.push({
+      OR: [
+        { additional_info: { path: ['gateway'], equals: true } },
+        { additional_info: { path: ['isGateway'], equals: true } }
+      ]
+    });
+  }
+  if (search) {
+    filters.push({ name: { contains: search, mode: 'insensitive' } });
+  }
+  if (filters.length) {
+    where.AND = filters;
   }
 
   const [devices, total] = await Promise.all([
     prisma.devices.findMany({
       where,
-      include: { device_credentials: true }, // Nối bảng để lấy Mật khẩu (Secret)
       orderBy: { created_at: 'desc' }, // Sắp xếp mới nhất lên đầu
       skip,
       take: limit
@@ -360,19 +467,21 @@ app.get('/devices', async (req, res) => {
   ]);
   
   // Định dạng lại JSON theo cấu trúc mà Giao diện Refine yêu cầu
-  const formatted = devices.map(d => ({
-    id: d.id,
-    name: d.name,
-    type: d.type,
-    status: (d.additional_info as any)?.status || 'offline',
-    isGateway: (d.additional_info as any)?.isGateway || false,
-    overwriteActivityTime: (d.additional_info as any)?.overwriteActivityTime || false,
-    label: (d.additional_info as any)?.label || '',
-    description: (d.additional_info as any)?.description || '',
-    device_key: d.device_credentials?.credentials_id || '',
-    secret: d.device_credentials?.credentials_value || '',
-    created_at: d.created_at
-  }));
+  const relationCounts = gateway && devices.length
+    ? await prisma.relation.groupBy({
+        by: ['from_id'],
+        where: {
+          from_id: { in: devices.map(device => device.id) },
+          from_type: 'DEVICE',
+          to_type: 'DEVICE',
+          relation_type_group: 'COMMON',
+          relation_type: 'Contains'
+        },
+        _count: { _all: true }
+      })
+    : [];
+  const countByGateway = new Map(relationCounts.map(row => [row.from_id, row._count._all]));
+  const formatted = devices.map(device => formatDevice(device, countByGateway.get(device.id) || 0));
   res.setHeader('x-total-count', total.toString());
   res.json(formatted);
 });
@@ -384,22 +493,23 @@ app.get('/devices', async (req, res) => {
 app.get('/devices/:id', async (req, res) => {
   /* #swagger.tags = ['Devices'] */
   const d = await prisma.devices.findUnique({
-    where: { id: req.params.id },
-    include: { device_credentials: true }
+    where: { id: req.params.id }
   });
   if (!d) return res.status(404).json({ error: 'Không tìm thấy' });
+  res.json(formatDevice(d));
+});
+
+app.get('/devices/:id/credentials', async (req, res) => {
+  /* #swagger.tags = ['Devices'] */
+  const credential = await prisma.device_credentials.findUnique({
+    where: { device_id: req.params.id },
+    select: { credentials_type: true, credentials_id: true, credentials_value: true }
+  });
+  if (!credential) return res.status(404).json({ error: 'Thiết bị chưa có credential.' });
   res.json({
-    id: d.id,
-    name: d.name,
-    type: d.type,
-    status: (d.additional_info as any)?.status || 'offline',
-    isGateway: (d.additional_info as any)?.isGateway || false,
-    overwriteActivityTime: (d.additional_info as any)?.overwriteActivityTime || false,
-    label: (d.additional_info as any)?.label || '',
-    description: (d.additional_info as any)?.description || '',
-    device_key: d.device_credentials?.credentials_id || '',
-    secret: d.device_credentials?.credentials_value || '',
-    created_at: d.created_at
+    credentialsType: credential.credentials_type,
+    deviceKey: credential.credentials_id,
+    secret: credential.credentials_value || ''
   });
 });
 
@@ -413,8 +523,9 @@ app.get('/devices/:id', async (req, res) => {
  */
 app.post('/devices', async (req, res) => {
   /* #swagger.tags = ['Devices'] */
-  const { name, type, label, description, isGateway, overwriteActivityTime } = req.body;
+  const { name, type, label, description, gateway, isGateway, overwriteActivityTime } = req.body;
   const tenantId = await getDefaultTenant();
+  const gatewayFlag = gateway !== undefined ? !!gateway : !!isGateway;
   
   // Tạo Thiết bị và đồng thời chèn Mã Token vào bảng device_credentials (Nối bảng)
   const d = await prisma.devices.create({
@@ -424,7 +535,7 @@ app.post('/devices', async (req, res) => {
       tenant_id: tenantId,
       additional_info: {
         status: 'offline',
-        isGateway: isGateway !== undefined ? !!isGateway : type === 'gateway',
+        gateway: gatewayFlag,
         overwriteActivityTime: !!overwriteActivityTime,
         label: label || '',
         description: description || ''
@@ -440,19 +551,7 @@ app.post('/devices', async (req, res) => {
     include: { device_credentials: true }
   });
   
-  const payload = {
-    id: d.id,
-    name: d.name,
-    type: d.type,
-    status: (d.additional_info as any)?.status || 'offline',
-    isGateway: (d.additional_info as any)?.isGateway || false,
-    overwriteActivityTime: (d.additional_info as any)?.overwriteActivityTime || false,
-    label: (d.additional_info as any)?.label || '',
-    description: (d.additional_info as any)?.description || '',
-    device_key: d.device_credentials?.credentials_id || '',
-    secret: d.device_credentials?.credentials_value || '',
-    created_at: d.created_at
-  };
+  const payload = formatDevice(d);
   publishLiveEvent('devices', 'created', payload);
   res.status(201).json(payload);
 });
@@ -460,13 +559,14 @@ app.post('/devices', async (req, res) => {
 /**
  * [PATCH] Cập nhật thông tin Thiết bị
  * @param id Mã định danh thiết bị
- * @description Chuẩn ThingsBoard: Admin chỉ được cập nhật metadata (name, type, isGateway).
+ * @description Chuẩn ThingsBoard: Admin chỉ được cập nhật metadata (name, type, gateway).
  * Trạng thái kết nối (status, lastConnectTime...) là Server Attribute do MQTT layer quản lý,
  * KHÔNG được phép ghi đè từ REST API. Hàm này merge additional_info thay vì overwrite.
  */
 app.patch('/devices/:id', async (req, res) => {
   /* #swagger.tags = ['Devices'] */
-  const { name, type, label, description, isGateway, overwriteActivityTime } = req.body;
+  const { name, type, label, description, gateway, isGateway, overwriteActivityTime } = req.body;
+  const gatewayValue = gateway !== undefined ? gateway : isGateway;
   // Lưu ý: KHÔNG cho phép REST API ghi đè 'status' - trạng thái do MQTT/SYS quản lý
 
   // Đọc additional_info hiện tại để MERGE (không overwrite trạng thái kết nối)
@@ -475,16 +575,17 @@ app.patch('/devices/:id', async (req, res) => {
     select: { additional_info: true }
   });
   const currentInfo = (current?.additional_info as any) || {};
+  const { isGateway: _legacyGateway, ...canonicalInfo } = currentInfo;
 
   const d = await prisma.devices.update({
     where: { id: req.params.id },
     data: { 
       name, 
       type,
-      // Merge: Giữ nguyên status/lastConnectTime/... chỉ ghi đè isGateway nếu được gửi lên
+      // Merge: Giữ nguyên status/lastConnectTime/... chỉ ghi đè gateway nếu được gửi lên
       additional_info: {
-        ...currentInfo, // Bảo tồn toàn bộ trạng thái cũ (online/offline, timestamps...)
-        ...(isGateway !== undefined ? { isGateway: !!isGateway } : {}),
+        ...canonicalInfo, // Bảo tồn trạng thái cũ, đồng thời loại cờ isGateway legacy.
+        ...(gatewayValue !== undefined ? { gateway: !!gatewayValue } : {}),
         ...(overwriteActivityTime !== undefined ? { overwriteActivityTime: !!overwriteActivityTime } : {}),
         ...(label !== undefined ? { label } : {}),
         ...(description !== undefined ? { description } : {})
@@ -493,19 +594,10 @@ app.patch('/devices/:id', async (req, res) => {
     include: { device_credentials: true }
   });
   
-  const payload = {
-    id: d.id,
-    name: d.name,
-    type: d.type,
-    status: (d.additional_info as any)?.status || 'offline',
-    isGateway: (d.additional_info as any)?.isGateway || false,
-    overwriteActivityTime: (d.additional_info as any)?.overwriteActivityTime || false,
-    label: (d.additional_info as any)?.label || '',
-    description: (d.additional_info as any)?.description || '',
-    device_key: d.device_credentials?.credentials_id || '',
-    secret: d.device_credentials?.credentials_value || '',
-    created_at: d.created_at
-  };
+  const payload = formatDevice(d);
+  if (d.device_credentials?.credentials_id) {
+    await invalidateDeviceCredential(d.device_credentials.credentials_id);
+  }
   publishLiveEvent('devices', 'updated', payload);
   res.json(payload);
 });
@@ -519,16 +611,30 @@ app.patch('/devices/:id', async (req, res) => {
 app.delete('/devices/:id', async (req, res) => {
   /* #swagger.tags = ['Devices'] */
   const deviceId = req.params.id;
+  const credential = await prisma.device_credentials.findUnique({
+    where: { device_id: deviceId }, select: { credentials_id: true }
+  });
 
   // 1. Quét dọn rác: Xóa toàn bộ dữ liệu đo lường (telemetry) của thiết bị này trước
   await prisma.telemetry_kv.deleteMany({
     where: { entity_id: deviceId }
   });
 
+  await prisma.attribute_kv.deleteMany({
+    where: { entity_id: deviceId, entity_type: 'DEVICE' }
+  });
+
+  await prisma.relation.deleteMany({
+    where: { OR: [{ from_id: deviceId }, { to_id: deviceId }] }
+  });
+
   // 2. Sau khi đã sạch rác, tiến hành xóa thiết bị
   await prisma.devices.delete({
     where: { id: deviceId }
   });
+  if (credential?.credentials_id) {
+    await invalidateDeviceCredential(credential.credentials_id);
+  }
   
   publishLiveEvent('devices', 'deleted', { id: deviceId });
   res.json({ success: true });
@@ -883,6 +989,9 @@ startTelemetryWorker();
 // Bat Inactivity Worker: Phat hien thiet bi mat mang dot ngot (khong gui DISCONNECT)
 // Ref: ThingsBoard TransportActivityManager.hasExpired()
 startInactivityWorker();
+
+// Tao partition thang tiep theo va ap dung retention neu duoc bat.
+startTelemetryRetentionWorker();
 
 /**
  * Xử lý lỗi cấp cao (Global Error Handler)

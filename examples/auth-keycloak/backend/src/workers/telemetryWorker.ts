@@ -1,194 +1,230 @@
-import { redis } from '../redis/redisClient';
-import { PrismaClient } from '@prisma/client';
+import os from 'os';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
+import {
+  DeviceQueueMessage,
+  QueueDelivery,
+  QueueMessageType,
+  telemetryQueue
+} from '../queue/telemetryQueue';
 
-/**
- * ============================================================================
- * MODULE: TELEMETRY WORKER (Nhà Máy Đóng Gói Dữ Liệu)
- * ============================================================================
- * Nhiệm vụ:
- * - Chạy ngầm liên tục ở Background.
- * - Cứ mỗi 1 giây (1000ms), nó sẽ ra lệnh "Hốt" toàn bộ dữ liệu đang nằm trên
- *   băng chuyền Redis (tối đa 1000 gói hàng/lần).
- * - Sau đó, nó mở kết nối Database 1 lần duy nhất và nhét toàn bộ 1000 gói hàng này
- *   vào bảng `telemetry_kv`.
- * 
- * Tại sao phải làm vậy?
- * - Nếu 1000 thiết bị cùng gửi dữ liệu trong 1 giây, nếu lưu trực tiếp thì Database
- *   sẽ phải mở/đóng kết nối 1000 lần -> Gây treo DB (Overload).
- * - Sử dụng Worker Gom Lô (Batching) giúp DB chỉ phải mở cửa 1 lần để cất 1000 gói.
- *   Giúp hệ thống đạt chuẩn Horizontal Scaling (Mở rộng ngang).
- */
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });
 
-const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+const BATCH_SIZE = Math.max(1, parseInt(process.env.TELEMETRY_BATCH_SIZE || '1000', 10));
+const PROCESS_INTERVAL_MS = Math.max(25, parseInt(process.env.TELEMETRY_PROCESS_INTERVAL_MS || '200', 10));
+const CLAIM_INTERVAL_MS = Math.max(5_000, parseInt(process.env.REDIS_STREAM_CLAIM_INTERVAL_MS || '30000', 10));
+const CONSUMER_NAME = `${os.hostname()}-${process.pid}`;
 
-// Số lượng gói hàng tối đa hốt từ băng chuyền mỗi lần (1000)
-const BATCH_SIZE = 1000;
-// Thời gian nghỉ giữa các lần hốt hàng (1000ms = 1 giây)
-const PROCESS_INTERVAL_MS = 1000;
+type ValueRow = Prisma.telemetry_kvCreateManyInput;
 
-/**
- * Hàm khởi động Worker (Được gọi khi Backend khởi động)
- */
-export const startTelemetryWorker = () => {
-  console.log('👷 Telemetry Worker started (Batching 1000 msgs/sec)');
-  let isProcessing = false;
+const toValueColumns = (value: unknown) => ({
+  bool_v: typeof value === 'boolean' ? value : null,
+  str_v: typeof value === 'string' ? value : null,
+  long_v: typeof value === 'number' && Number.isInteger(value) ? BigInt(value) : null,
+  dbl_v: typeof value === 'number' && !Number.isInteger(value) ? value : null,
+  json_v: typeof value === 'object' && value !== null ? value as Prisma.InputJsonValue : null
+});
 
-  // setInterval: Vòng lặp chạy vô tận, cứ mỗi 1 giây lại thực thi đoạn code bên trong
-  setInterval(async () => {
-    if (isProcessing || redis.status !== 'ready') return;
-    isProcessing = true;
-    try {
-      /**
-       * BƯỚC 1: Đọc hàng loạt dữ liệu từ Redis (Lệnh RPOP)
-       */
-      const messages = [];
-      for (let i = 0; i < BATCH_SIZE; i++) {
-        // RPOP: Lấy phần tử nằm ở cuối danh sách (cũ nhất) và xóa nó khỏi Redis
-        const msg = await redis.rpop('telemetry_queue');
-        if (!msg) break; // Nếu băng chuyền trống thì dừng việc hốt
-        messages.push(JSON.parse(msg)); // Bỏ vào "xe đẩy" messages
-      }
+const validateMessage = (message: DeviceQueueMessage, expectedType: QueueMessageType): void => {
+  if (message.type !== expectedType || !message.deviceId || !message.tenantId || !message.deviceKey) {
+    throw new Error('Queue message thieu device/tenant identity hoac sai loai.');
+  }
+  if (!Number.isFinite(message.ts) || !message.values || typeof message.values !== 'object' || Array.isArray(message.values)) {
+    throw new Error('Queue message co timestamp/payload khong hop le.');
+  }
+};
 
-      // Nếu xe đẩy không có gì thì đi ngủ tiếp
-      if (messages.length === 0) return;
+const updateActivityBatch = async (tx: any, messages: DeviceQueueMessage[]): Promise<void> => {
+  const latestByDevice = new Map<string, number>();
+  for (const message of messages) {
+    latestByDevice.set(message.deviceId, Math.max(latestByDevice.get(message.deviceId) || 0, message.ts));
+  }
+  if (!latestByDevice.size) return;
+  const rows = [...latestByDevice].map(([entity_id, last_update_ts]) => ({
+    entity_id,
+    long_v: last_update_ts,
+    last_update_ts
+  }));
+  await tx.$executeRaw`
+    INSERT INTO attribute_kv
+      (entity_type, entity_id, attribute_type, attribute_key, bool_v, str_v, long_v, dbl_v, json_v, last_update_ts)
+    SELECT 'DEVICE', x.entity_id::uuid, 'SERVER_SCOPE', v.attribute_key,
+      v.bool_v, NULL, v.long_v, NULL, NULL, x.last_update_ts
+    FROM jsonb_to_recordset(${JSON.stringify(rows)}::jsonb)
+      AS x(entity_id text, long_v bigint, last_update_ts bigint)
+    CROSS JOIN LATERAL (VALUES
+      ('lastActivityTime'::text, NULL::boolean, x.long_v),
+      ('active'::text, true, NULL::bigint)
+    ) AS v(attribute_key, bool_v, long_v)
+    ON CONFLICT (entity_type, entity_id, attribute_type, attribute_key)
+    DO UPDATE SET
+      bool_v = CASE WHEN EXCLUDED.attribute_key = 'active' THEN true ELSE attribute_kv.bool_v END,
+      long_v = CASE WHEN EXCLUDED.attribute_key = 'lastActivityTime'
+        THEN GREATEST(attribute_kv.long_v, EXCLUDED.long_v) ELSE attribute_kv.long_v END,
+      last_update_ts = GREATEST(attribute_kv.last_update_ts, EXCLUDED.last_update_ts);
+  `;
+  await tx.$executeRaw`
+    UPDATE devices
+    SET additional_info = COALESCE(additional_info, '{}'::jsonb) || '{"status":"online"}'::jsonb
+    WHERE id IN (
+      SELECT x.entity_id::uuid
+      FROM jsonb_to_recordset(${JSON.stringify(rows)}::jsonb)
+        AS x(entity_id text, long_v bigint, last_update_ts bigint)
+    )
+      AND COALESCE(additional_info->>'status', 'offline') <> 'online';
+  `;
+};
 
-      console.log(`📦 Worker processing batch of ${messages.length} telemetry records...`);
-
-      /**
-       * BƯỚC 2: Kiểm tra tính hợp lệ của Thiết Bị
-       * Dữ liệu từ Redis chỉ chứa deviceKey (Khóa nạp vào ESP32).
-       * Ta phải dò trong Database xem Khóa này thuộc về device_id nào.
-       */
-      const uniqueKeys = [...new Set(messages.map(m => m.deviceKey))]; // Lọc các key trùng lặp để giảm tải truy vấn DB
-      
-      const credentials = await prisma.device_credentials.findMany({
-        where: { credentials_id: { in: uniqueKeys } },
-        select: { device_id: true, credentials_id: true }
-      });
-
-      // Tạo một từ điển (map) để tra cứu nhanh: deviceKey -> device_id
-      const keyToDeviceId = credentials.reduce((acc, curr) => {
-        acc[curr.credentials_id] = curr.device_id;
-        return acc;
-      }, {} as Record<string, string>);
-
-      // Lọc bỏ những dữ liệu rác (do ai đó gửi lên bằng deviceKey giả mạo)
-      const validMessages = messages.filter(m => keyToDeviceId[m.deviceKey]);
-
-      if (validMessages.length === 0) {
-        console.warn('⚠️ No valid devices found in this batch, dropping messages.');
-        return;
-      }
-
-      /**
-       * BƯỚC 3: Tìm Khách Hàng (Tenant) sở hữu Thiết Bị này
-       */
-      const devices = await prisma.devices.findMany({
-        where: { id: { in: validMessages.map(m => keyToDeviceId[m.deviceKey]) } },
-        select: { id: true, tenant_id: true }
-      });
-
-      const deviceToTenant = devices.reduce((acc, curr) => {
-        acc[curr.id] = curr.tenant_id;
-        return acc;
-      }, {} as Record<string, string>);
-
-      /**
-       * BƯỚC 4: Định dạng lại dữ liệu chuẩn bị đưa vào Kho (telemetry_kv)
-       * Bảng telemetry_kv lưu dữ liệu dạng Time-Series (Chuỗi thời gian)
-       */
-      const telemetryData = validMessages.map(m => {
-        const deviceId = keyToDeviceId[m.deviceKey];
-        const tenantId = deviceToTenant[deviceId];
-        return {
-          _internal_tenant_id: tenantId, // Dùng tạm để lọc, sau đó sẽ bị xóa
-          entity_id: deviceId, // Mã thiết bị
-          key: m.key, // Tên dữ liệu (VD: temperature)
-          ts: new Date(m.ts), // Thời gian nhận
-          bool_v: m.bool_v,
-          str_v: m.str_v,
-          long_v: m.long_v,
-          dbl_v: m.dbl_v, // Giá trị số thực (VD: 30.5)
-        };
-      }).filter(t => t._internal_tenant_id).map(t => {
-        const { _internal_tenant_id, ...rest } = t;
-        return rest; // Trả về object đã xóa thuộc tính thừa
-      });
-
-      if (telemetryData.length === 0) return;
-
-      /**
-       * BƯỚC 5: Ghi Lô Dữ Liệu vào Database (Lệnh createMany)
-       * Nhờ dùng createMany, cho dù có 1000 dòng dữ liệu, DB cũng chỉ xử lý 1 câu lệnh SQL.
-       */
-      await prisma.telemetry_kv.createMany({
-        data: telemetryData,
-        skipDuplicates: true // Bỏ qua nếu dữ liệu bị trùng lặp thời gian
-      });
-
-      console.log(`✅ Successfully batch inserted ${telemetryData.length} records to DB!`);
-
-      /**
-       * BƯỚC 6: Xử lý Attributes Queue (Gom Lô giống hệt Telemetry)
-       */
-      const attrMessages = [];
-      for (let i = 0; i < BATCH_SIZE; i++) {
-        const msg = await redis.rpop('attributes_queue');
-        if (!msg) break;
-        attrMessages.push(JSON.parse(msg));
-      }
-
-      if (attrMessages.length > 0) {
-        // Lọc thiết bị hợp lệ
-        const validAttrMessages = attrMessages.filter(m => keyToDeviceId[m.deviceKey] || (Object.keys(keyToDeviceId).length === 0)); 
-        // Note: Nếu trong đợt quét telemetry không có device này, ta phải lấy query lại.
-        // Để đơn giản, gộp chung bộ lọc device:
-        const missingKeys = [...new Set(attrMessages.map(m => m.deviceKey))].filter(k => !keyToDeviceId[k]);
-        if (missingKeys.length > 0) {
-          const extraCreds = await prisma.device_credentials.findMany({
-            where: { credentials_id: { in: missingKeys } },
-            select: { device_id: true, credentials_id: true }
-          });
-          extraCreds.forEach(c => { keyToDeviceId[c.credentials_id] = c.device_id; });
-        }
-
-        const attrData = attrMessages.filter(m => keyToDeviceId[m.deviceKey]).map(m => ({
-          entity_type: 'DEVICE',
-          entity_id: keyToDeviceId[m.deviceKey],
-          attribute_type: 'CLIENT_SCOPE',
-          attribute_key: m.key,
-          bool_v: m.bool_v,
-          str_v: m.str_v,
-          long_v: m.long_v,
-          dbl_v: m.dbl_v,
-          json_v: m.json_v ? JSON.parse(m.json_v) : null,
-          last_update_ts: BigInt(m.ts)
-        }));
-
-        if (attrData.length > 0) {
-          // Prisma createMany on Postgres supports skipDuplicates, but we want an Upsert (ON CONFLICT DO UPDATE).
-          // However, Prisma doesn't support bulk upsert natively, so we either loop upsert or executeRaw.
-          for (const attr of attrData) {
-            await prisma.$executeRaw`
-              INSERT INTO attribute_kv (entity_type, entity_id, attribute_type, attribute_key, bool_v, str_v, long_v, dbl_v, json_v, last_update_ts)
-              VALUES (${attr.entity_type}, ${attr.entity_id}::uuid, ${attr.attribute_type}, ${attr.attribute_key}, ${attr.bool_v}, ${attr.str_v}, ${attr.long_v}, ${attr.dbl_v}, ${attr.json_v}::json, ${attr.last_update_ts})
-              ON CONFLICT (entity_type, entity_id, attribute_type, attribute_key) 
-              DO UPDATE SET bool_v = EXCLUDED.bool_v, str_v = EXCLUDED.str_v, long_v = EXCLUDED.long_v, dbl_v = EXCLUDED.dbl_v, json_v = EXCLUDED.json_v, last_update_ts = EXCLUDED.last_update_ts;
-            `;
-          }
-          console.log(`✅ Successfully upserted ${attrData.length} attributes to DB!`);
-        }
-      }
-
-    } catch (err) {
-      console.error('❌ Telemetry Worker Error:', err);
-    } finally {
-      isProcessing = false;
+const persistTelemetry = async (messages: DeviceQueueMessage[]): Promise<number> => {
+  const rows: ValueRow[] = messages.flatMap(message =>
+    Object.entries(message.values).map(([key, value]) => {
+      const columns = toValueColumns(value);
+      return {
+        entity_id: message.deviceId,
+        key,
+        ts: new Date(message.ts),
+        ...columns,
+        json_v: columns.json_v ?? Prisma.DbNull
+      };
+    })
+  );
+  await prisma.$transaction(async tx => {
+    if (rows.length) {
+      await tx.telemetry_kv.createMany({ data: rows, skipDuplicates: true });
     }
-  }, PROCESS_INTERVAL_MS);
+    await updateActivityBatch(tx, messages);
+  });
+  return rows.length;
+};
+
+const persistAttributes = async (messages: DeviceQueueMessage[]): Promise<number> => {
+  // Cung device/key trong mot batch chi giu sample moi nhat, tranh PostgreSQL
+  // bao loi ON CONFLICT update cung mot row hai lan trong mot statement.
+  const latest = new Map<string, Record<string, unknown>>();
+  for (const message of messages) {
+    for (const [key, value] of Object.entries(message.values)) {
+      const columns = toValueColumns(value);
+      const dedupeKey = `${message.deviceId}:${key}`;
+      const old = latest.get(dedupeKey);
+      if (!old || Number(old.last_update_ts) <= message.ts) {
+        latest.set(dedupeKey, {
+          entity_id: message.deviceId,
+          attribute_key: key,
+          bool_v: columns.bool_v,
+          str_v: columns.str_v,
+          long_v: columns.long_v?.toString() ?? null,
+          dbl_v: columns.dbl_v,
+          json_v: columns.json_v,
+          last_update_ts: message.ts
+        });
+      }
+    }
+  }
+  const rows = [...latest.values()];
+  await prisma.$transaction(async tx => {
+    if (rows.length) {
+      await tx.$executeRaw`
+        INSERT INTO attribute_kv
+          (entity_type, entity_id, attribute_type, attribute_key, bool_v, str_v, long_v, dbl_v, json_v, last_update_ts)
+        SELECT 'DEVICE', x.entity_id::uuid, 'CLIENT_SCOPE', x.attribute_key,
+          x.bool_v, x.str_v, x.long_v, x.dbl_v, x.json_v, x.last_update_ts
+        FROM jsonb_to_recordset(${JSON.stringify(rows)}::jsonb)
+          AS x(entity_id text, attribute_key text, bool_v boolean, str_v text,
+               long_v bigint, dbl_v double precision, json_v jsonb, last_update_ts bigint)
+        ON CONFLICT (entity_type, entity_id, attribute_type, attribute_key)
+        DO UPDATE SET bool_v = EXCLUDED.bool_v, str_v = EXCLUDED.str_v,
+          long_v = EXCLUDED.long_v, dbl_v = EXCLUDED.dbl_v, json_v = EXCLUDED.json_v,
+          last_update_ts = EXCLUDED.last_update_ts
+        WHERE attribute_kv.last_update_ts <= EXCLUDED.last_update_ts;
+      `;
+    }
+    await updateActivityBatch(tx, messages);
+  });
+  return rows.length;
+};
+
+const handleBatch = async (type: QueueMessageType, deliveries: QueueDelivery[]): Promise<void> => {
+  if (!deliveries.length) return;
+  const valid: QueueDelivery[] = [];
+  for (const delivery of deliveries) {
+    try {
+      validateMessage(delivery.message, type);
+      valid.push(delivery);
+    } catch (error) {
+      await telemetryQueue.fail(delivery, error);
+    }
+  }
+  if (!valid.length) return;
+
+  // Mot batch lookup bao dam device van ton tai va van thuoc dung tenant tai
+  // thoi diem commit. Tranh telemetry mo coi neu device bi xoa khi message dang pending.
+  const deviceIds = [...new Set(valid.map(item => item.message.deviceId))];
+  const devices = await prisma.devices.findMany({
+    where: { id: { in: deviceIds } },
+    select: { id: true, tenant_id: true }
+  });
+  const tenantByDevice = new Map(devices.map(device => [device.id, device.tenant_id]));
+  const authorized: QueueDelivery[] = [];
+  for (const delivery of valid) {
+    if (tenantByDevice.get(delivery.message.deviceId) === delivery.message.tenantId) {
+      authorized.push(delivery);
+    } else {
+      await telemetryQueue.fail(delivery, new Error('Device khong ton tai hoac tenant identity khong khop.'));
+    }
+  }
+  if (!authorized.length) return;
+
+  try {
+    const messages = authorized.map(item => item.message);
+    const persisted = type === 'telemetry'
+      ? await persistTelemetry(messages)
+      : await persistAttributes(messages);
+    await telemetryQueue.ack(authorized);
+    console.log(`[QueueWorker] ${type}: committed ${persisted} values from ${authorized.length} messages`);
+  } catch (error) {
+    const results = await Promise.all(authorized.map(item => telemetryQueue.fail(item, error)));
+    const deadLetters = results.filter(result => result === 'dead-letter').length;
+    console.error(`[QueueWorker] ${type} batch failed; retry=${authorized.length - deadLetters}, dlq=${deadLetters}`, error);
+  }
+};
+
+export const startTelemetryWorker = (): void => {
+  console.log(`[QueueWorker] Starting Redis Streams consumer ${CONSUMER_NAME}, batch=${BATCH_SIZE}`);
+  let stopped = false;
+  let lastClaimAt = 0;
+
+  const run = async () => {
+    try {
+      await telemetryQueue.initialize();
+      while (!stopped) {
+        const now = Date.now();
+        const shouldClaim = now - lastClaimAt >= CLAIM_INTERVAL_MS;
+        const [telemetry, attributes] = await Promise.all([
+          shouldClaim
+            ? telemetryQueue.claimStale('telemetry', CONSUMER_NAME, BATCH_SIZE)
+            : telemetryQueue.read('telemetry', CONSUMER_NAME, BATCH_SIZE),
+          shouldClaim
+            ? telemetryQueue.claimStale('attributes', CONSUMER_NAME, BATCH_SIZE)
+            : telemetryQueue.read('attributes', CONSUMER_NAME, BATCH_SIZE)
+        ]);
+        if (shouldClaim) lastClaimAt = now;
+        await Promise.all([
+          handleBatch('telemetry', telemetry),
+          handleBatch('attributes', attributes)
+        ]);
+        if (!telemetry.length && !attributes.length) {
+          await new Promise(resolve => setTimeout(resolve, PROCESS_INTERVAL_MS));
+        }
+      }
+    } catch (error) {
+      console.error('[QueueWorker] Fatal loop error, restarting in 5s:', error);
+      setTimeout(run, 5_000);
+    }
+  };
+
+  void run();
+  process.once('SIGTERM', () => { stopped = true; });
+  process.once('SIGINT', () => { stopped = true; });
 };

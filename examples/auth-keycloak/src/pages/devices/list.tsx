@@ -21,11 +21,9 @@ const { Text, Title } = Typography;
  * hiển thị phân trang, tìm kiếm, và quản lý các Form Tạo/Sửa (useModalForm).
  */
 export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayView }) => {
-  const { tableProps } = useTable({
-    resource: 'devices',
-    filters: {
-      permanent: isGatewayView ? [{ field: "isGateway", operator: "eq", value: true }] : undefined
-    }
+  const resource = isGatewayView ? "gateways" : "devices";
+  const { tableProps, setFilters } = useTable({
+    resource
   });
 
   const { 
@@ -33,8 +31,9 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
     formProps: createFormProps, 
     show: showCreateModal 
   } = useModalForm({
-    resource: "devices",
+    resource,
     action: "create",
+    redirect: false,
   });
 
   const { 
@@ -42,27 +41,42 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
     formProps: editFormProps, 
     show: showEditModal 
   } = useModalForm({
+    resource,
     action: "edit",
     syncWithLocation: false,
+    redirect: false,
   });
 
   const [selectedDevice, setSelectedDevice] = useState<any>(null);
+  const [credentials, setCredentials] = useState<{ deviceKey: string; secret: string } | null>(null);
+  const [search, setSearch] = useState("");
   const [drawerVisible, setDrawerVisible] = useState(false);
   const queryClient = useQueryClient();
-  const editIsGateway = Form.useWatch("isGateway", editFormProps.form);
+  const createIsGateway = Form.useWatch("gateway", createFormProps.form);
+  const editIsGateway = Form.useWatch("gateway", editFormProps.form);
 
   // Đăng ký trực tiếp với LiveProvider (MQTT) để cập nhật Cache Tức Thời (Giống hệt ThingsBoard)
   useSubscription({
     channel: "devices",
-    types: ["updated"],
+    types: ["updated", "created", "deleted"],
     onLiveEvent: (event) => {
-      const { payload } = event;
-      if (payload && payload.id && payload.status) {
+      const { payload, type } = event;
+      
+      // Auto-refresh bảng khi có thiết bị mới được tạo hoặc xóa (VD: Auto-provisioning từ Gateway)
+      if (type === "created" || type === "deleted") {
+        console.log(`⚡ [Cache Invalidation] Thiết bị vừa được ${type}, đang tải lại danh sách...`);
+        queryClient.invalidateQueries({
+          predicate: (query) => query.queryKey.includes(resource)
+        });
+        return;
+      }
+
+      if (type === "updated" && payload && payload.id && payload.status) {
         console.log("⚡ [Cache Patching] Đang vá trạng thái cho thiết bị:", payload.id, "->", payload.status);
         
         // Vá (Patch) dữ liệu trực tiếp vào bộ nhớ đệm (Cache) của Bảng mà không cần gọi lại API
         queryClient.setQueriesData(
-          { predicate: (query) => query.queryKey.includes("devices") },
+          { predicate: (query) => query.queryKey.includes(resource) },
           (oldData: any) => {
             if (!oldData || !Array.isArray(oldData.data)) return oldData;
             return {
@@ -90,11 +104,35 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
 
   const API_URL = import.meta.env.VITE_API_URL || "/api";
 
+  const loadCredentials = async (deviceId: string) => {
+    try {
+      const response = await axios.get(`${API_URL}/devices/${deviceId}/credentials`);
+      setCredentials(response.data);
+      return response.data as { deviceKey: string; secret: string };
+    } catch {
+      setCredentials(null);
+      message.error("Không thể tải thông tin xác thực của thiết bị.");
+      return null;
+    }
+  };
+
+  const openCreateModal = () => {
+    showCreateModal();
+    createFormProps.form?.resetFields();
+    createFormProps.form?.setFieldsValue({
+      type: "default",
+      gateway: !!isGatewayView,
+      overwriteActivityTime: false
+    });
+  };
+
   // Handle row click & hover prefetching
   const onRowClick = (record: any) => {
     return {
       onClick: () => {
         setSelectedDevice(record);
+        setCredentials(null);
+        void loadCredentials(record.id);
         setDrawerVisible(true);
       },
       onMouseEnter: () => {
@@ -119,12 +157,21 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
         headerButtons={
           <Space>
             <Input 
-              placeholder="Tìm kiếm thiết bị..." 
+              placeholder={isGatewayView ? "Tìm kiếm gateway..." : "Tìm kiếm thiết bị..."}
               prefix={<SearchOutlined />} 
-              style={{ width: 250 }} 
+              style={{ width: 250 }}
+              value={search}
+              allowClear
+              onChange={(event) => setSearch(event.target.value)}
+              onPressEnter={() => setFilters([{ field: "name", operator: "contains", value: search }], "replace")}
             />
-            <Button icon={<SyncOutlined />} onClick={() => tableProps.onChange?.(tableProps.pagination || {} as any, {}, {}, { currentDataSource: [] } as any)}>Tải lại</Button>
-            <Button type="primary" icon={<PlusOutlined />} onClick={() => showCreateModal()}>
+            <Button
+              icon={<SyncOutlined />}
+              onClick={() => queryClient.invalidateQueries({ predicate: query => query.queryKey.includes(resource) })}
+            >
+              Tải lại
+            </Button>
+            <Button type="primary" icon={<PlusOutlined />} onClick={openCreateModal}>
               {isGatewayView ? "Thêm Gateway" : "Tạo thiết bị"}
             </Button>
           </Space>
@@ -133,6 +180,7 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
         <Table {...tableProps} dataSource={toList(tableProps.dataSource)} rowKey="id" onRow={onRowClick} rowHoverable>
           <Table.Column dataIndex="name" title="Tên thiết bị" render={(value) => <strong>{value}</strong>} />
           <Table.Column dataIndex="type" title="Loại (Profile)" />
+          {isGatewayView && <Table.Column dataIndex="connectedDeviceCount" title="Thiết bị kết nối" align="center" />}
           <Table.Column dataIndex="label" title="Nhãn (Label)" />
           <Table.Column 
             dataIndex="status" 
@@ -150,11 +198,11 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
           />
           {!isGatewayView && (
             <Table.Column 
-              dataIndex="isGateway" 
+              dataIndex="gateway"
               title="Is gateway" 
               align="center"
-              render={(isGateway) => (
-                <Checkbox checked={isGateway} disabled />
+              render={(gateway) => (
+                <Checkbox checked={gateway} disabled />
               )} 
             />
           )}
@@ -187,13 +235,13 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
                     {selectedDevice.status === "online" ? <Text type="success">Đang hoạt động</Text> : <Text type="secondary">Mất kết nối</Text>}
                   </Descriptions.Item>
                   <Descriptions.Item label="Là Gateway?">
-                    {selectedDevice.type === 'gateway' ? <Tag color="blue">Có (Gateway)</Tag> : <Text type="secondary">Không</Text>}
+                    {selectedDevice.gateway ? <Tag color="blue">Có (Gateway)</Tag> : <Text type="secondary">Không</Text>}
                   </Descriptions.Item>
                 </Descriptions>
               </Card>
               <Space style={{ marginTop: 16 }}>
                 <EditButton 
-                  resource="devices" 
+                  resource={resource}
                   recordItemId={selectedDevice.id} 
                   onClick={() => {
                     setDrawerVisible(false);
@@ -202,8 +250,10 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
                 />
                 <Button 
                   icon={<KeyOutlined />} 
-                  onClick={() => {
-                    navigator.clipboard.writeText(selectedDevice.device_key || "Chưa có Device Key");
+                  onClick={async () => {
+                    const value = credentials || await loadCredentials(selectedDevice.id);
+                    if (!value) return;
+                    await navigator.clipboard.writeText(value.deviceKey);
                     message.success("Đã copy Device Key!");
                   }}
                 >
@@ -211,15 +261,17 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
                 </Button>
                 <Button 
                   icon={<LockOutlined />} 
-                  onClick={() => {
-                    navigator.clipboard.writeText(selectedDevice.secret || "Chưa có Secret");
+                  onClick={async () => {
+                    const value = credentials || await loadCredentials(selectedDevice.id);
+                    if (!value) return;
+                    await navigator.clipboard.writeText(value.secret);
                     message.success("Đã copy Secret!");
                   }}
                 >
                   Copy Secret
                 </Button>
                 <DeleteButton 
-                  resource="devices" 
+                  resource={resource}
                   recordItemId={selectedDevice.id} 
                   onSuccess={() => setDrawerVisible(false)}
                   confirmTitle="Bạn có chắc muốn xóa vĩnh viễn thiết bị này không?"
@@ -234,12 +286,37 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
             </Tabs.TabPane>
 
             <Tabs.TabPane tab="Đo lường (Telemetry)" key="telemetry">
-              <DeviceTelemetry deviceId={selectedDevice.id} deviceKey={selectedDevice.device_key} />
+              <DeviceTelemetry deviceId={selectedDevice.id} deviceKey={credentials?.deviceKey || ""} />
             </Tabs.TabPane>
 
             <Tabs.TabPane tab="Relations" key="relations">
               <DeviceRelations deviceId={selectedDevice.id} />
             </Tabs.TabPane>
+
+            {selectedDevice.gateway && (
+              <Tabs.TabPane tab="Kết nối Gateway" key="gateway-connect">
+                <Card size="small" title="ThingsBoard Gateway MQTT API">
+                  <Descriptions column={1} size="small">
+                    <Descriptions.Item label="Broker">
+                      <Text copyable>{import.meta.env.VITE_MQTT_TCP_URL || "mqtt://mqtt.greeniq.vn:1883"}</Text>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Username">
+                      {credentials?.deviceKey ? <Text copyable>{credentials.deviceKey}</Text> : <Text type="secondary">Đang tải credential...</Text>}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Password">
+                      {credentials?.secret ? <Text copyable>{credentials.secret}</Text> : <Text type="secondary">Đang tải credential...</Text>}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Connect topic"><Text code>v1/gateway/connect</Text></Descriptions.Item>
+                    <Descriptions.Item label="Telemetry topic"><Text code>v1/gateway/telemetry</Text></Descriptions.Item>
+                    <Descriptions.Item label="Attributes topic"><Text code>v1/gateway/attributes</Text></Descriptions.Item>
+                    <Descriptions.Item label="Disconnect topic"><Text code>v1/gateway/disconnect</Text></Descriptions.Item>
+                  </Descriptions>
+                  <Text type="secondary">
+                    Gateway dùng một kết nối MQTT để proxy nhiều thiết bị. Thiết bị downstream sẽ được tự tạo khi gửi connect hoặc dữ liệu lần đầu.
+                  </Text>
+                </Card>
+              </Tabs.TabPane>
+            )}
             
             <Tabs.TabPane tab="Cảnh báo (Alarms)" key="alarms">
               <div style={{ textAlign: "center", padding: 40 }}>
@@ -250,7 +327,7 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
         )}
       </Drawer>
 
-      <Modal {...createModalProps} title="Tạo thiết bị mới (Create Device)" width={600}>
+      <Modal {...createModalProps} title={isGatewayView ? "Tạo Gateway mới" : "Tạo thiết bị mới"} width={600}>
         <Form {...createFormProps} layout="vertical">
           <Form.Item 
             label="Tên thiết bị (Name)" 
@@ -267,7 +344,6 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
                   <Select.Option value="default">Mặc định (default)</Select.Option>
                   <Select.Option value="sensor">Cảm biến (sensor)</Select.Option>
                   <Select.Option value="actuator">Thiết bị chấp hành (actuator)</Select.Option>
-                  <Select.Option value="gateway">Cổng kết nối (gateway)</Select.Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -284,9 +360,32 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
             <Input.TextArea rows={3} placeholder="Mô tả chi tiết về thiết bị..." />
           </Form.Item>
 
-          <Form.Item name="autoGenerateToken" valuePropName="checked" initialValue={true}>
-            <Checkbox>Tự động sinh mã Access Token xác thực (Mặc định)</Checkbox>
-          </Form.Item>
+          <Space direction="vertical" size={12} style={{ width: "100%", marginBottom: 24 }}>
+            {isGatewayView ? (
+              <>
+                <Form.Item name="gateway" hidden initialValue={true}>
+                  <Input />
+                </Form.Item>
+                <Tag color="blue">Thiết bị sẽ được tạo dưới dạng Gateway</Tag>
+              </>
+            ) : (
+              <Space>
+                <Form.Item name="gateway" valuePropName="checked" noStyle initialValue={false}>
+                  <Switch />
+                </Form.Item>
+                <Text>Là gateway</Text>
+              </Space>
+            )}
+            {createIsGateway && (
+              <Space>
+                <Form.Item name="overwriteActivityTime" valuePropName="checked" noStyle initialValue={false}>
+                  <Switch />
+                </Form.Item>
+                <Text>Ghi đè thời gian hoạt động cho thiết bị kết nối</Text>
+              </Space>
+            )}
+          </Space>
+
         </Form>
       </Modal>
 
@@ -309,7 +408,6 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
               <Select.Option value="default">Mặc định (default)</Select.Option>
               <Select.Option value="sensor">Cảm biến (sensor)</Select.Option>
               <Select.Option value="actuator">Thiết bị chấp hành (actuator)</Select.Option>
-              <Select.Option value="gateway">Cổng kết nối (gateway)</Select.Option>
             </Select>
           </Form.Item>
 
@@ -323,7 +421,7 @@ export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayVie
 
           <Space direction="vertical" size={12} style={{ width: "100%", marginBottom: 24 }}>
             <Space>
-              <Form.Item name="isGateway" valuePropName="checked" noStyle>
+              <Form.Item name="gateway" valuePropName="checked" noStyle>
                 <Switch />
               </Form.Item>
               <Text>Là gateway</Text>

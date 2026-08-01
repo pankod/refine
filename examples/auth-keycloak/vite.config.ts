@@ -5,6 +5,12 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
+      // Swagger UI phai duoc bat truoc prefix /api. Neu khong, /api-docs se bi
+      // rewrite thanh "-docs" va roi vao JWT middleware cua backend.
+      "/api-docs": {
+        target: "http://127.0.0.1:3000",
+        changeOrigin: true,
+      },
       // Khi dev local, frontend vẫn gọi /api giống môi trường Ingress.
       // Vite chuyển tiếp request sang backend và bỏ tiền tố /api vì Express
       // hiện khai báo các route ở /devices, /dashboards, ...

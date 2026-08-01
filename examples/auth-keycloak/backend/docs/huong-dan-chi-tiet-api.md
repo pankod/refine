@@ -11,8 +11,8 @@ Hãy tưởng tượng hệ thống IoT của chúng ta giống như một **"Nh
 ```mermaid
 graph TD
     A[Nông Trại - Thiết Bị IoT] -->|Chở hàng tới| B(Trạm Thu Phí - EMQX Broker)
-    B -->|Mở barrier cho xe qua| C{Băng Chuyền - Redis Queue}
-    C -->|Gom đủ 1000 xe| D[Nhà Máy Đóng Gói - Node.js Worker]
+    B -->|Shared subscription| C{Redis Streams - Consumer Group}
+    C -->|Batch + ACK sau commit| D[Node.js Queue Worker]
     D -->|Lưu trữ vào Kho| E[(Kho Hàng - PostgreSQL)]
     
     F[Khách Hàng - Giao diện Web Refine] -->|Gõ cửa xin phép| G(Bảo vệ - Keycloak)
@@ -23,8 +23,8 @@ graph TD
 ### Giải thích vai trò từng thành phần:
 1. **Thiết bị IoT (ESP32/Arduino)**: Đóng vai trò như các "Nông trại" liên tục thu hoạch dữ liệu (Nhiệt độ, độ ẩm) và chở lên mạng.
 2. **EMQX (Trạm thu phí MQTT)**: Đây là một phần mềm siêu mạnh giúp tiếp nhận hàng vạn kết nối cùng lúc. Nó giống như trạm thu phí cao tốc, xe nào có vé (khóa bảo mật) mới được vào. Hiện tại, EMQX đã được bảo vệ bằng hệ thống **HTTP Auth & ACL**, mọi thiết bị bắt buộc phải có tài khoản (Mã thiết bị + Mã bí mật) mới được phép kết nối.
-3. **Redis (Băng chuyền/Hàng đợi)**: Thay vì bắt kho hàng (Database) phải mở cửa liên tục để nhận từng gói hàng một (sẽ làm cháy kho), ta để Redis làm băng chuyền chờ. Hàng cứ tới là quăng lên băng chuyền với tốc độ ánh sáng (Vài micro-giây).
-4. **Node.js Worker (Nhà máy đóng gói)**: Cứ mỗi 1 giây, công nhân ở đây sẽ hốt sạch hàng hóa trên băng chuyền Redis (tối đa 1000 món), đóng thành 1 thùng to và đẩy 1 lần duy nhất vào Kho (Database).
+3. **Redis Streams**: Payload được chia shard theo tenant/device và giữ lại cho tới khi database commit. Redis theo dõi message đang chờ, đang xử lý, retry và dead-letter.
+4. **Node.js Worker**: Nhiều pod cùng consumer group, lấy batch, ghi PostgreSQL trong transaction rồi mới ACK. Worker chết không làm message biến mất ngay sau khi đọc.
 5. **PostgreSQL (Kho hàng)**: Nơi lưu trữ vĩnh viễn mọi dữ liệu, không bao giờ bị quá tải nhờ có Băng chuyền và Nhà máy phía trước bảo vệ.
 6. **Keycloak (Chú bảo vệ)**: Khi bạn mở Giao diện Web, chú bảo vệ này sẽ kiểm tra xem bạn có tài khoản hợp lệ không, sau đó cấp cho bạn 1 cái "Thẻ VIP" (JWT Token).
 7. **Node.js Backend API (Quản lý kho)**: Chỉ khi bạn cầm "Thẻ VIP" đưa ra, Quản lý kho mới cho phép bạn lấy dữ liệu ra xem hoặc tạo thêm thiết bị mới.
@@ -49,11 +49,11 @@ Trong thực tế, khi bạn đăng nhập trên giao diện Web, Web sẽ tự 
     "type": "Cảm biến nhiệt độ"
   }
   ```
-- **Kết quả trả về**: Hệ thống sẽ tự động tạo cho bạn một cái `device_key` (Mã bí mật của thiết bị). Bạn sẽ dùng mã này để nạp vào Code của con chip ESP32.
+- **Kết quả trả về**: API tạo thiết bị chỉ trả metadata, không trả khóa bí mật trong response chung. Sau khi tạo, mở chi tiết thiết bị hoặc gọi `GET /devices/:id/credentials` bằng token Keycloak để lấy `deviceKey` và `secret`.
 
 ### Bước 3: Đẩy dữ liệu từ Thiết bị (ESP32) lên hệ thống
 Con chip ESP32 không gọi API, mà nó kết nối vào **Trạm thu phí EMQX** thông qua giao thức MQTT.
-- **Địa chỉ máy chủ**: Tên miền K3s của bạn (Ví dụ: `mqtt://emqx.greeniq.vn:1883`)
+- **Địa chỉ máy chủ**: `mqtt://mqtt.greeniq.vn:1883`
 - **Tên đăng nhập (Username)**: Mã bí mật thiết bị (`DEVICE_KEY`)
 - **Mật khẩu (Password)**: Mã bảo mật (`SECRET_TOKEN`)
 - **Tên chủ đề (Topic)**: `v1/devices/MÃ_BÍ_MẬT_CỦA_THIẾT_BỊ/telemetry`
@@ -124,8 +124,13 @@ app.post('/devices', async (req, res) => {
     data: { name: data.name, ... }
   });
 
-  // 3. Trả lại thông tin cho khách, bao gồm cả cái Khóa (Key) để họ mang về nạp vào phần cứng
-  res.json({ ...thietBiMoi, device_key: deviceKey });
+  // 3. Response chung chỉ trả metadata, không phát tán credential
+  res.json({ ...thietBiMoi, gateway: false });
+});
+
+// Credential chỉ được lấy theo yêu cầu riêng sau khi đã xác thực Keycloak
+app.get('/devices/:id/credentials', async (req, res) => {
+  // Tra bảng device_credentials theo device_id và trả deviceKey/secret
 });
 
 // Khi khách yêu cầu xem lịch sử đo lường (GET /devices/:id/telemetry)
@@ -140,9 +145,15 @@ app.get('/devices/:id/telemetry', async (req, res) => {
 
 // Khi khách yêu cầu xóa Thiết bị (DELETE /devices/:id)
 app.delete('/devices/:id', async (req, res) => {
-  // 1. Quét dọn rác: Xóa toàn bộ dữ liệu đo lường của thiết bị này trước (Cascading Delete)
+  // Dọn telemetry, attributes và relations trước khi xóa thiết bị
   await prisma.telemetry_kv.deleteMany({
     where: { entity_id: req.params.id }
+  });
+  await prisma.attribute_kv.deleteMany({
+    where: { entity_id: req.params.id, entity_type: 'DEVICE' }
+  });
+  await prisma.relation.deleteMany({
+    where: { OR: [{ from_id: req.params.id }, { to_id: req.params.id }] }
   });
 
   // 2. Sau khi đã sạch rác, tiến hành xóa thiết bị
@@ -157,14 +168,14 @@ app.delete('/devices/:id', async (req, res) => {
 ### File: `backend/src/mqtt/mqttClient.ts` (Người lấy hàng bỏ lên băng chuyền)
 ```typescript
 import mqtt from 'mqtt'; // Công cụ kết nối với Trạm thu phí EMQX
-import { redis } from '../redis/redisClient'; // Băng chuyền Redis
+import { telemetryQueue } from '../queue/telemetryQueue';
 
 export const startMqttClient = () => {
   const client = mqtt.connect('mqtt://emqx:1883'); // Kết nối vào EMQX
 
   client.on('connect', () => {
     // Xin phép Trạm thu phí cho phép tôi lắng nghe tất cả các kênh telemetry của mọi thiết bị
-    client.subscribe('v1/devices/+/telemetry');
+    client.subscribe('$share/telemetry-ingest/v1/devices/+/telemetry');
   });
 
   // Khi có một kiện hàng (Tin nhắn) chạy tới
@@ -173,49 +184,52 @@ export const startMqttClient = () => {
     const deviceKey = topic.split('/')[2]; 
     const payload = JSON.parse(message.toString()); // Mở kiện hàng ra xem bên trong có gì (Ví dụ: nhiệt độ)
 
-    // Đóng gói lại kiện hàng, ghi rõ Mã thiết bị và Thời gian nhận hàng
-    const queueItem = {
-      deviceKey: deviceKey,
-      dulieu: payload,
-      thoigian: new Date().getTime()
-    };
-
-    // QUAN TRỌNG: Quăng mạnh kiện hàng này lên băng chuyền Redis (Lệnh lpush)
-    await redis.lpush('telemetry_queue', JSON.stringify(queueItem));
+    const credential = await getDeviceByCredential(deviceKey);
+    await telemetryQueue.enqueue({
+      type: 'telemetry', tenantId: credential.tenantId,
+      deviceId: credential.deviceId, deviceKey,
+      ts: Date.now(), values: payload
+    });
   });
 };
 ```
 
 ### File: `backend/src/workers/telemetryWorker.ts` (Công nhân Nhà máy đóng gói)
 ```typescript
-import { redis } from '../redis/redisClient'; // Băng chuyền Redis
-import { PrismaClient } from '@prisma/client'; // Công cụ nói chuyện với Kho Database
-
 export const startTelemetryWorker = () => {
-  // Lệnh setInterval này giống như đặt đồng hồ báo thức, cứ mỗi 1000 mili-giây (1 giây) là réo 1 lần
-  setInterval(async () => {
-    
-    const messages = []; // Chuẩn bị 1 cái xe đẩy hàng trống
-    
-    // Lặp 1000 lần để nhặt hàng từ băng chuyền
-    for (let i = 0; i < 1000; i++) {
-      // Lấy 1 món từ cuối băng chuyền ra (Lệnh rpop)
-      const msg = await redis.rpop('telemetry_queue');
-      if (!msg) break; // Nếu băng chuyền hết hàng thì ngưng nhặt
-      messages.push(JSON.parse(msg)); // Quăng lên xe đẩy
-    }
-
-    if (messages.length === 0) return; // Xe rỗng thì đi ngủ tiếp, đợi giây sau
-
-    // Dùng công cụ Prisma để kêu Database mở cửa 1 lần duy nhất
-    // Chèn toàn bộ xe đẩy hàng (tối đa 1000 món) vào Kho chỉ trong vòng 1 nốt nhạc
-    await prisma.telemetry_kv.createMany({
-      data: messages
+  const deliveries = await telemetryQueue.read('telemetry', consumerName, batchSize);
+  await prisma.$transaction(async tx => {
+    await tx.telemetry_kv.createMany({
+      data: rows, skipDuplicates: true
     });
-
-  }, 1000); // Khoảng thời gian lặp lại: 1 giây
+    await updateActivityBatch(tx, messages);
+  });
+  await telemetryQueue.ack(deliveries);
 };
 ```
+
+Consumer chết để lại pending entry; worker khác lấy lại bằng `XAUTOCLAIM`. Batch lỗi được retry, quá giới hạn chuyển DLQ. API Keycloak-protected `GET /api/system/queue/health` dùng để quan sát queue.
+
+### File: `backend/src/mqtt/gatewayService.ts` (Luồng Gateway chuẩn ThingsBoard)
+
+Gateway không đưa Device Key vào topic. EMQX Webhook phải chuyển thêm `username` của publisher để backend xác định đúng Gateway và tenant.
+
+```json
+{
+  "username": "GATEWAY_DEVICE_KEY",
+  "topic": "v1/gateway/telemetry",
+  "payload": "{\"Sensor A\":[{\"values\":{\"temperature\":25.5}}]}"
+}
+```
+
+Các topic đã hỗ trợ:
+
+- `v1/gateway/connect`: tự tạo hoặc kết nối downstream device.
+- `v1/gateway/disconnect`: cập nhật offline và ngừng relation kết nối.
+- `v1/gateway/telemetry`: đưa dữ liệu downstream vào Redis telemetry streams.
+- `v1/gateway/attributes`: đưa client attributes vào Redis attribute streams để batch upsert.
+
+Endpoint `/api/mqtt/gateway` yêu cầu header `x-emqx-hook-secret` khớp `EMQX_WEBHOOK_SECRET`. Đây là xác thực service-to-service riêng; các REST API dành cho người dùng vẫn xác thực bằng Keycloak.
 
 ---
 **Tổng kết:** Với bộ tài liệu này, bạn có thể dễ dàng giải thích cho bất kỳ ai về sự đồ sộ, tính năng bảo mật nhiều lớp và khả năng chịu tải hàng chục ngàn thiết bị của hệ thống IoT mà chúng ta đang xây dựng!

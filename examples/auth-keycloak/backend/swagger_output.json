@@ -3,7 +3,7 @@
   "info": {
     "title": "VTA Pro Backend API",
     "description": "Tài liệu hướng dẫn tích hợp hệ thống IoT VTA Pro (Chuẩn OpenAPI 3.0)",
-    "version": "1.0.0"
+    "version": "2.0.9"
   },
   "servers": [
     {
@@ -169,6 +169,22 @@
         }
       }
     },
+    "/api/system/queue/health": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
     "/api/mqtt/auth": {
       "post": {
         "tags": [
@@ -238,6 +254,54 @@
         }
       }
     },
+    "/api/mqtt/gateway": {
+      "post": {
+        "tags": [
+          "MQTT Auth/ACL"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-emqx-hook-secret",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "example": "any"
+                  },
+                  "topic": {
+                    "example": "any"
+                  },
+                  "payload": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/devices": {
       "get": {
         "tags": [
@@ -260,7 +324,21 @@
             }
           },
           {
+            "name": "gateway",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "isGateway",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
             "in": "query",
             "schema": {
               "type": "string"
@@ -299,6 +377,9 @@
                     "example": "any"
                   },
                   "description": {
+                    "example": "any"
+                  },
+                  "gateway": {
                     "example": "any"
                   },
                   "isGateway": {
@@ -377,6 +458,9 @@
                   "description": {
                     "example": "any"
                   },
+                  "gateway": {
+                    "example": "any"
+                  },
                   "isGateway": {
                     "example": "any"
                   },
@@ -407,6 +491,32 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/devices/{id}/credentials": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
