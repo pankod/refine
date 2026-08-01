@@ -226,14 +226,31 @@ Gateway chỉ được publish/subscribe namespace `v1/gateway/*` khi credential
 | Ngắt kết nối | `v1/gateway/disconnect` | `{"device":"Device A"}` |
 | Telemetry | `v1/gateway/telemetry` | `{"Device A":[{"ts":1700000000000,"values":{"temperature":23.5}}]}` |
 | Client attributes | `v1/gateway/attributes` | `{"Device A":{"firmware":"1.0"}}` |
+| Yêu cầu Attributes | `v1/gateway/attributes/request` | `{"id": 1, "device": "Device A", "clientKeys": "attr1", "sharedKeys": "shared1"}` |
+| Nhận Attributes | `v1/gateway/attributes/response` | `{"id": 1, "device": "Device A", "value": {"shared1": "value1"}}` (Backend tự gửi về qua MQTT) |
+| Nhận lệnh RPC | `v1/gateway/rpc` | `{"device": "Device A", "data": {"id": 123, "method": "test", "params": {}}}` (Gateway subscribe topic này) |
+| Phản hồi RPC | `v1/gateway/rpc/response` | `{"device": "Device A", "id": 123, "data": {"success": true}}` |
 
 EMQX Rule/Webhook gọi nội bộ `POST /api/mqtt/gateway` với body `{"username":"<gateway-device-key>","topic":"...","payload":"<json>"}` và header `x-emqx-hook-secret`. Endpoint này không dùng JWT Keycloak vì do broker gọi, nhưng bắt buộc dùng secret riêng `EMQX_WEBHOOK_SECRET`.
 
 ### Phạm vi hỗ trợ hiện tại
 
-- Đã hỗ trợ: connect, disconnect, telemetry và client attributes.
+- Đã hỗ trợ TOÀN BỘ chuẩn Gateway API (ThingsBoard PE/CE): connect, disconnect, telemetry, client attributes, attribute request/response, và RPC hai chiều (Server-side RPC).
 - Gateway tự tạo downstream device trong cùng tenant và tạo relation `Contains`.
-- Chưa hỗ trợ trong phiên bản này: attribute request/response, shared-attribute push, RPC và remote connector configuration. ACL không quảng bá các luồng publish chưa được backend xử lý.
+
+### Gửi lệnh RPC tới thiết bị (Server-side RPC) qua REST API
+- **Đường dẫn**: `POST http://localhost:3000/devices/:id/rpc`
+- **Mô tả**: Gọi lệnh (RPC) xuống thiết bị. Backend tự động phân luồng: nếu là thiết bị trực tiếp, sẽ gửi qua `v1/devices/me/rpc/request/+`; nếu là thiết bị con của Gateway, sẽ đóng gói gửi qua `v1/gateway/rpc`.
+- **Dữ liệu gửi lên (Body JSON)**:
+  ```json
+  {
+    "method": "setGpio",
+    "params": {
+      "pin": 1,
+      "value": 1
+    }
+  }
+  ```
 
 ### Phân quyền
 
