@@ -108,6 +108,8 @@ Module `backend/src/mqtt/gatewayService.ts` đảm nhiệm:
 
 - tự tạo downstream device khi nhận connect/telemetry/attributes;
 - tạo relation `Contains` giữa Gateway và downstream device;
+- xử lý Server-side RPC (two-way) bằng cách chuyển luồng REST API sang MQTT Topic `v1/gateway/rpc`, và hứng kết quả ở `v1/gateway/rpc/response` (sử dụng Event Emitter);
+- hỗ trợ thiết bị con xin phép lấy Shared Attributes thông qua `v1/gateway/attributes/request`;
 - đẩy cả telemetry và client attributes vào Redis Streams để worker batch/ACK;
 - cập nhật `active`, `lastConnectTime`, `lastDisconnectTime`, `lastActivityTime`;
 - áp dụng `overwriteActivityTime` cho các thiết bị đang kết nối.
