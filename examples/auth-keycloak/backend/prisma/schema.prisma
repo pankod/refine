@@ -1,0 +1,112 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model tenants {
+  id              String      @id @default(uuid()) @db.Uuid
+  title           String      @db.VarChar(255)
+  email           String?     @db.VarChar(255)
+  additional_info Json?
+  created_at      DateTime?   @default(now()) @db.Timestamptz
+
+  customers       customers[]
+  devices         devices[]
+  dashboards      dashboards[]
+}
+
+model customers {
+  id                 String      @id @default(uuid()) @db.Uuid
+  tenant_id          String      @db.Uuid
+  parent_customer_id String?     @db.Uuid
+  title              String      @db.VarChar(255)
+  additional_info    Json?
+  created_at         DateTime?   @default(now()) @db.Timestamptz
+
+  tenant             tenants     @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+  parent_customer    customers?  @relation("ParentChild", fields: [parent_customer_id], references: [id], onDelete: Cascade)
+  child_customers    customers[] @relation("ParentChild")
+
+  devices            devices[]
+  dashboards         dashboards[]
+}
+
+model devices {
+  id              String      @id @default(uuid()) @db.Uuid
+  tenant_id       String      @db.Uuid
+  customer_id     String?     @db.Uuid
+  name            String      @db.VarChar(255)
+  type            String      @db.VarChar(255)
+  additional_info Json?
+  created_at      DateTime?   @default(now()) @db.Timestamptz
+
+  tenant             tenants             @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+  customer           customers?          @relation(fields: [customer_id], references: [id], onDelete: SetNull)
+  device_credentials device_credentials?
+}
+
+model device_credentials {
+  id                String  @id @default(uuid()) @db.Uuid
+  device_id         String  @unique @db.Uuid
+  credentials_type  String  @db.VarChar(50)
+  credentials_id    String  @unique @db.VarChar(255)
+  credentials_value String? @db.VarChar(255)
+
+  device devices @relation(fields: [device_id], references: [id], onDelete: Cascade)
+}
+
+model dashboards {
+  id              String    @id @default(uuid()) @db.Uuid
+  tenant_id       String    @db.Uuid
+  customer_id     String?   @db.Uuid
+  title           String    @db.VarChar(255)
+  configuration   Json
+  created_at      DateTime? @default(now()) @db.Timestamptz
+
+  tenant   tenants    @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+  customer customers? @relation(fields: [customer_id], references: [id], onDelete: SetNull)
+}
+
+model telemetry_kv {
+  ts          DateTime @db.Timestamptz
+  entity_id   String   @db.Uuid
+  entity_type String   @default("DEVICE") @db.VarChar(32)
+  key         String   @db.VarChar(255)
+  bool_v      Boolean?
+  str_v       String?
+  long_v      BigInt?
+  dbl_v       Float?
+  json_v      Json?
+
+  @@id([ts, entity_id, key])
+}
+
+model attribute_kv {
+  entity_type    String   @default("DEVICE") @db.VarChar(32)
+  entity_id      String   @db.Uuid
+  attribute_type String   @db.VarChar(255)
+  attribute_key  String   @db.VarChar(255)
+  bool_v         Boolean?
+  str_v          String?
+  long_v         BigInt?
+  dbl_v          Float?
+  json_v         Json?
+  last_update_ts BigInt
+
+  @@id([entity_type, entity_id, attribute_type, attribute_key])
+}
+
+model relation {
+  from_id             String @db.Uuid
+  from_type           String @db.VarChar(32)
+  to_id               String @db.Uuid
+  to_type             String @db.VarChar(32)
+  relation_type_group String @default("COMMON") @db.VarChar(32)
+  relation_type       String @db.VarChar(32)
+  additional_info     Json?
+
+  @@id([from_id, from_type, relation_type_group, relation_type, to_id, to_type])
+}

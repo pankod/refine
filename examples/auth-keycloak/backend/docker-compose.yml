@@ -1,0 +1,30 @@
+services:
+  # 1. Message Broker (EMQX) - Lắng nghe kết nối MQTT từ thiết bị IoT
+  emqx:
+    image: emqx:5
+    container_name: greeniq_emqx
+    ports:
+      - "1883:1883"     # MQTT Port
+      - "18083:18083"   # Dashboard Port
+    environment:
+      - EMQX_ALLOW_ANONYMOUS=true # Cho phép kết nối nặc danh (môi trường dev)
+    restart: unless-stopped
+
+  # 2. Redis - Làm Message Queue/Buffer cho Telemetry Worker
+  redis:
+    image: redis:alpine
+    container_name: greeniq_redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:-redis_strong_password}"]
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$$REDIS_PASSWORD\" ping | grep PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    environment:
+      REDIS_PASSWORD: "${REDIS_PASSWORD:-redis_strong_password}"
+    restart: unless-stopped
+
+  # Ghi chú: Không đưa PostgreSQL vào đây vì hệ thống đang dùng DB localhost có sẵn dữ liệu của dự án.
+  # Nếu thêm PostgreSQL vào sẽ tạo DB trống mới, làm mất kết nối tới dữ liệu cũ.

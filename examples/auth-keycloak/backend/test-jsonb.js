@@ -1,0 +1,1 @@
+﻿const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); async function main() { try { const res = await prisma.devices.findMany({ where: { additional_info: { path: ['isGateway'], equals: true } } }); console.log(res); } catch(e) { console.error(e); } } main();

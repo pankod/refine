@@ -1,0 +1,729 @@
+import React, { useState } from "react";
+import { List, useTable, useModalForm, DeleteButton, EditButton } from "@refinedev/antd";
+import { Table, Tag, Drawer, Tabs, Descriptions, Typography, Card, Button, Input, Space, Form, Select, Checkbox, Modal, Row, Col, message, InputNumber, Tooltip, Switch } from "antd";
+import { SearchOutlined, SyncOutlined, SettingOutlined, CheckCircleOutlined, CloseCircleOutlined, PlusOutlined, KeyOutlined, LockOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useCustom, useSubscription } from "@refinedev/core";
+
+import { useMqtt } from "../../hooks/useMqtt";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { DeviceRelations } from "./relations";
+import { toList } from "../../providers/listResponse";
+
+const { Text, Title } = Typography;
+
+/**
+ * ============================================================================
+ * COMPONENT: DANH SÁCH THIẾT BỊ (DeviceList)
+ * ============================================================================
+ * Trang này chịu trách nhiệm hiển thị bảng danh sách các thiết bị IoT.
+ * Nó sử dụng sức mạnh của @refinedev/antd để tự động hóa việc lấy dữ liệu (useTable),
+ * hiển thị phân trang, tìm kiếm, và quản lý các Form Tạo/Sửa (useModalForm).
+ */
+export const DeviceList: React.FC<{ isGatewayView?: boolean }> = ({ isGatewayView }) => {
+  const resource = isGatewayView ? "gateways" : "devices";
+  const { tableProps, setFilters } = useTable({
+    resource
+  });
+
+  const { 
+    modalProps: createModalProps, 
+    formProps: createFormProps, 
+    show: showCreateModal 
+  } = useModalForm({
+    resource,
+    action: "create",
+    redirect: false,
+  });
+
+  const { 
+    modalProps: editModalProps, 
+    formProps: editFormProps, 
+    show: showEditModal 
+  } = useModalForm({
+    resource,
+    action: "edit",
+    syncWithLocation: false,
+    redirect: false,
+  });
+
+  const [selectedDevice, setSelectedDevice] = useState<any>(null);
+  const [credentials, setCredentials] = useState<{ deviceKey: string; secret: string } | null>(null);
+  const [search, setSearch] = useState("");
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const queryClient = useQueryClient();
+  const createIsGateway = Form.useWatch("gateway", createFormProps.form);
+  const editIsGateway = Form.useWatch("gateway", editFormProps.form);
+
+  // Đăng ký trực tiếp với LiveProvider (MQTT) để cập nhật Cache Tức Thời (Giống hệt ThingsBoard)
+  useSubscription({
+    channel: "devices",
+    types: ["updated", "created", "deleted"],
+    onLiveEvent: (event) => {
+      const { payload, type } = event;
+      
+      // Auto-refresh bảng khi có thiết bị mới được tạo hoặc xóa (VD: Auto-provisioning từ Gateway)
+      if (type === "created" || type === "deleted") {
+        console.log(`⚡ [Cache Invalidation] Thiết bị vừa được ${type}, đang tải lại danh sách...`);
+        queryClient.invalidateQueries({
+          predicate: (query) => query.queryKey.includes(resource)
+        });
+        return;
+      }
+
+      if (type === "updated" && payload && payload.id && payload.status) {
+        console.log("⚡ [Cache Patching] Đang vá trạng thái cho thiết bị:", payload.id, "->", payload.status);
+        
+        // Vá (Patch) dữ liệu trực tiếp vào bộ nhớ đệm (Cache) của Bảng mà không cần gọi lại API
+        queryClient.setQueriesData(
+          { predicate: (query) => query.queryKey.includes(resource) },
+          (oldData: any) => {
+            if (!oldData || !Array.isArray(oldData.data)) return oldData;
+            return {
+              ...oldData,
+              data: oldData.data.map((item: any) => 
+                item.id === payload.id ? { ...item, status: payload.status } : item
+              )
+            };
+          }
+        );
+        
+        // Cập nhật luôn cả Drawer nếu đang mở
+        setSelectedDevice((prev: any) => {
+          if (prev && prev.id === payload.id) {
+            return { ...prev, status: payload.status };
+          }
+          return prev;
+        });
+      }
+    }
+  });
+
+  // Ghi chú: Logic prefetch background đã được chuyển lên Global CacheWarmer để tối ưu 0ms load cho toàn hệ thống.
+
+
+  const API_URL = import.meta.env.VITE_API_URL || "/api";
+
+  const loadCredentials = async (deviceId: string) => {
+    try {
+      const response = await axios.get(`${API_URL}/devices/${deviceId}/credentials`);
+      setCredentials(response.data);
+      return response.data as { deviceKey: string; secret: string };
+    } catch {
+      setCredentials(null);
+      message.error("Không thể tải thông tin xác thực của thiết bị.");
+      return null;
+    }
+  };
+
+  const openCreateModal = () => {
+    showCreateModal();
+    createFormProps.form?.resetFields();
+    createFormProps.form?.setFieldsValue({
+      type: "default",
+      gateway: !!isGatewayView,
+      overwriteActivityTime: false
+    });
+  };
+
+  // Handle row click & hover prefetching
+  const onRowClick = (record: any) => {
+    return {
+      onClick: () => {
+        setSelectedDevice(record);
+        setCredentials(null);
+        void loadCredentials(record.id);
+        setDrawerVisible(true);
+      },
+      onMouseEnter: () => {
+        // Kỹ thuật "Prefetch on Hover": Tải trước dữ liệu ngay khi người dùng vừa di chuột qua dòng
+        queryClient.prefetchQuery({
+          queryKey: ['telemetry', record.id],
+          queryFn: async () => {
+            const res = await axios.get(`${API_URL}/devices/${record.id}/telemetry`);
+            return res.data;
+          },
+          staleTime: 5 * 60 * 1000 // Giữ cache 5 phút để tránh spam API nếu họ rê chuột liên tục
+        });
+      },
+      style: { cursor: 'pointer' }
+    };
+  };
+
+  return (
+    <>
+      <List 
+        title={isGatewayView ? "Cổng kết nối (Gateways)" : "Thiết bị (Devices)"} 
+        headerButtons={
+          <Space>
+            <Input 
+              placeholder={isGatewayView ? "Tìm kiếm gateway..." : "Tìm kiếm thiết bị..."}
+              prefix={<SearchOutlined />} 
+              style={{ width: 250 }}
+              value={search}
+              allowClear
+              onChange={(event) => setSearch(event.target.value)}
+              onPressEnter={() => setFilters([{ field: "name", operator: "contains", value: search }], "replace")}
+            />
+            <Button
+              icon={<SyncOutlined />}
+              onClick={() => queryClient.invalidateQueries({ predicate: query => query.queryKey.includes(resource) })}
+            >
+              Tải lại
+            </Button>
+            <Button type="primary" icon={<PlusOutlined />} onClick={openCreateModal}>
+              {isGatewayView ? "Thêm Gateway" : "Tạo thiết bị"}
+            </Button>
+          </Space>
+        }
+      >
+        <Table {...tableProps} dataSource={toList(tableProps.dataSource)} rowKey="id" onRow={onRowClick} rowHoverable>
+          <Table.Column dataIndex="name" title="Tên thiết bị" render={(value) => <strong>{value}</strong>} />
+          <Table.Column dataIndex="type" title="Loại (Profile)" />
+          {isGatewayView && <Table.Column dataIndex="connectedDeviceCount" title="Thiết bị kết nối" align="center" />}
+          <Table.Column dataIndex="label" title="Nhãn (Label)" />
+          <Table.Column 
+            dataIndex="status" 
+            title="Trạng thái" 
+            render={(v) => (
+              <Tag color={v === 'online' ? 'success' : 'default'}>
+                {v === 'online' ? '🟢 ONLINE' : '⦻ OFFLINE'}
+              </Tag>
+            )} 
+          />
+          <Table.Column 
+            dataIndex="created_at" 
+            title="Thời gian tạo" 
+            render={(value) => new Date(value).toLocaleString()} 
+          />
+          {!isGatewayView && (
+            <Table.Column 
+              dataIndex="gateway"
+              title="Is gateway" 
+              align="center"
+              render={(gateway) => (
+                <Checkbox checked={gateway} disabled />
+              )} 
+            />
+          )}
+        </Table>
+      </List>
+
+      <Drawer
+        title={
+          <Space>
+            <SettingOutlined />
+            <Text strong style={{ fontSize: 18 }}>{selectedDevice?.name}</Text>
+          </Space>
+        }
+        width={700}
+        placement="right"
+        onClose={() => setDrawerVisible(false)}
+        open={drawerVisible}
+        destroyOnClose
+      >
+        {selectedDevice && (
+          <Tabs defaultActiveKey="details">
+            <Tabs.TabPane tab="Chi tiết" key="details">
+              <Card size="small" title="Thông tin cơ bản" bordered={false}>
+                <Descriptions column={1} labelStyle={{ fontWeight: "bold" }}>
+                  <Descriptions.Item label="ID Thiết bị">{selectedDevice.id}</Descriptions.Item>
+                  <Descriptions.Item label="Tên">{selectedDevice.name}</Descriptions.Item>
+                  <Descriptions.Item label="Loại (Profile)">{selectedDevice.type}</Descriptions.Item>
+                  <Descriptions.Item label="Nhãn (Label)">{selectedDevice.label}</Descriptions.Item>
+                  <Descriptions.Item label="Trạng thái">
+                    {selectedDevice.status === "online" ? <Text type="success">Đang hoạt động</Text> : <Text type="secondary">Mất kết nối</Text>}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Là Gateway?">
+                    {selectedDevice.gateway ? <Tag color="blue">Có (Gateway)</Tag> : <Text type="secondary">Không</Text>}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Card>
+              <Space style={{ marginTop: 16 }}>
+                <EditButton 
+                  resource={resource}
+                  recordItemId={selectedDevice.id} 
+                  onClick={() => {
+                    setDrawerVisible(false);
+                    showEditModal(selectedDevice.id);
+                  }}
+                />
+                <Button 
+                  icon={<KeyOutlined />} 
+                  onClick={async () => {
+                    const value = credentials || await loadCredentials(selectedDevice.id);
+                    if (!value) return;
+                    await navigator.clipboard.writeText(value.deviceKey);
+                    message.success("Đã copy Device Key!");
+                  }}
+                >
+                  Copy Device Key
+                </Button>
+                <Button 
+                  icon={<LockOutlined />} 
+                  onClick={async () => {
+                    const value = credentials || await loadCredentials(selectedDevice.id);
+                    if (!value) return;
+                    await navigator.clipboard.writeText(value.secret);
+                    message.success("Đã copy Secret!");
+                  }}
+                >
+                  Copy Secret
+                </Button>
+                <DeleteButton 
+                  resource={resource}
+                  recordItemId={selectedDevice.id} 
+                  onSuccess={() => setDrawerVisible(false)}
+                  confirmTitle="Bạn có chắc muốn xóa vĩnh viễn thiết bị này không?"
+                  confirmOkText="Xóa"
+                  confirmCancelText="Hủy"
+                />
+              </Space>
+            </Tabs.TabPane>
+            
+            <Tabs.TabPane tab="Thuộc tính (Attributes)" key="attributes">
+              <DeviceAttributes deviceId={selectedDevice.id} />
+            </Tabs.TabPane>
+
+            <Tabs.TabPane tab="Đo lường (Telemetry)" key="telemetry">
+              <DeviceTelemetry deviceId={selectedDevice.id} deviceKey={credentials?.deviceKey || ""} />
+            </Tabs.TabPane>
+
+            <Tabs.TabPane tab="Relations" key="relations">
+              <DeviceRelations deviceId={selectedDevice.id} />
+            </Tabs.TabPane>
+
+            {selectedDevice.gateway && (
+              <Tabs.TabPane tab="Kết nối Gateway" key="gateway-connect">
+                <Card size="small" title="ThingsBoard Gateway MQTT API">
+                  <Descriptions column={1} size="small">
+                    <Descriptions.Item label="Broker">
+                      <Text copyable>{import.meta.env.VITE_MQTT_TCP_URL || "mqtt://mqtt.greeniq.vn:1883"}</Text>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Username">
+                      {credentials?.deviceKey ? <Text copyable>{credentials.deviceKey}</Text> : <Text type="secondary">Đang tải credential...</Text>}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Password">
+                      {credentials?.secret ? <Text copyable>{credentials.secret}</Text> : <Text type="secondary">Đang tải credential...</Text>}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Connect topic"><Text code>v1/gateway/connect</Text></Descriptions.Item>
+                    <Descriptions.Item label="Telemetry topic"><Text code>v1/gateway/telemetry</Text></Descriptions.Item>
+                    <Descriptions.Item label="Attributes topic"><Text code>v1/gateway/attributes</Text></Descriptions.Item>
+                    <Descriptions.Item label="Disconnect topic"><Text code>v1/gateway/disconnect</Text></Descriptions.Item>
+                  </Descriptions>
+                  <Text type="secondary">
+                    Gateway dùng một kết nối MQTT để proxy nhiều thiết bị. Thiết bị downstream sẽ được tự tạo khi gửi connect hoặc dữ liệu lần đầu.
+                  </Text>
+                </Card>
+              </Tabs.TabPane>
+            )}
+            
+            <Tabs.TabPane tab="Cảnh báo (Alarms)" key="alarms">
+              <div style={{ textAlign: "center", padding: 40 }}>
+                <Text type="secondary">Chưa có cảnh báo nào được ghi nhận.</Text>
+              </div>
+            </Tabs.TabPane>
+          </Tabs>
+        )}
+      </Drawer>
+
+      <Modal {...createModalProps} title={isGatewayView ? "Tạo Gateway mới" : "Tạo thiết bị mới"} width={600}>
+        <Form {...createFormProps} layout="vertical">
+          <Form.Item 
+            label="Tên thiết bị (Name)" 
+            name="name" 
+            rules={[{ required: true, message: "Vui lòng nhập tên thiết bị!" }]}
+          >
+            <Input placeholder="Ví dụ: Cảm biến nhiệt độ DHT22" />
+          </Form.Item>
+
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="Loại (Device Profile)" name="type" initialValue="default">
+                <Select>
+                  <Select.Option value="default">Mặc định (default)</Select.Option>
+                  <Select.Option value="sensor">Cảm biến (sensor)</Select.Option>
+                  <Select.Option value="actuator">Thiết bị chấp hành (actuator)</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Nhãn (Label)" name="label">
+                <Input placeholder="Ví dụ: Nhà kính A" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+
+
+          <Form.Item label="Mô tả (Description)" name="description">
+            <Input.TextArea rows={3} placeholder="Mô tả chi tiết về thiết bị..." />
+          </Form.Item>
+
+          <Space direction="vertical" size={12} style={{ width: "100%", marginBottom: 24 }}>
+            {isGatewayView ? (
+              <>
+                <Form.Item name="gateway" hidden initialValue={true}>
+                  <Input />
+                </Form.Item>
+                <Tag color="blue">Thiết bị sẽ được tạo dưới dạng Gateway</Tag>
+              </>
+            ) : (
+              <Space>
+                <Form.Item name="gateway" valuePropName="checked" noStyle initialValue={false}>
+                  <Switch />
+                </Form.Item>
+                <Text>Là gateway</Text>
+              </Space>
+            )}
+            {createIsGateway && (
+              <Space>
+                <Form.Item name="overwriteActivityTime" valuePropName="checked" noStyle initialValue={false}>
+                  <Switch />
+                </Form.Item>
+                <Text>Ghi đè thời gian hoạt động cho thiết bị kết nối</Text>
+              </Space>
+            )}
+          </Space>
+
+        </Form>
+      </Modal>
+
+      <Modal {...editModalProps} title="Sửa thiết bị" width={600} forceRender>
+        <Form {...editFormProps} layout="vertical">
+          <Form.Item 
+            label="Tên thiết bị (Name)" 
+            name="name" 
+            rules={[{ required: true, message: "Vui lòng nhập tên thiết bị!" }]}
+          >
+            <Input placeholder="Ví dụ: Cảm biến nhiệt độ DHT22" />
+          </Form.Item>
+
+          <Form.Item
+            label="Hồ sơ thiết bị (Device profile)"
+            name="type"
+            rules={[{ required: true, message: "Vui lòng chọn hồ sơ thiết bị!" }]}
+          >
+            <Select>
+              <Select.Option value="default">Mặc định (default)</Select.Option>
+              <Select.Option value="sensor">Cảm biến (sensor)</Select.Option>
+              <Select.Option value="actuator">Thiết bị chấp hành (actuator)</Select.Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            label="Nhãn (Label)"
+            name="label"
+            rules={[{ max: 255, message: "Nhãn không được vượt quá 255 ký tự!" }]}
+          >
+            <Input placeholder="Ví dụ: Nhà kính A" />
+          </Form.Item>
+
+          <Space direction="vertical" size={12} style={{ width: "100%", marginBottom: 24 }}>
+            <Space>
+              <Form.Item name="gateway" valuePropName="checked" noStyle>
+                <Switch />
+              </Form.Item>
+              <Text>Là gateway</Text>
+            </Space>
+            {editIsGateway && (
+              <Space>
+                <Form.Item name="overwriteActivityTime" valuePropName="checked" noStyle>
+                  <Switch />
+                </Form.Item>
+                <Text>Ghi đè thời gian hoạt động</Text>
+              </Space>
+            )}
+          </Space>
+
+          <Form.Item label="Mô tả (Description)" name="description">
+            <Input.TextArea rows={3} placeholder="Mô tả chi tiết về thiết bị..." />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
+  );
+};
+
+/**
+ * ============================================================================
+ * COMPONENT CON: HIỂN THỊ THUỘC TÍNH (DeviceAttributes)
+ * ============================================================================
+ * Nhiệm vụ: Lấy cấu hình (Attributes) của thiết bị (Shared, Client, Server scope)
+ * và cho phép chỉnh sửa Server/Shared attributes.
+ */
+const DeviceAttributes: React.FC<{ deviceId: string }> = ({ deviceId }) => {
+  const [activeTab, setActiveTab] = useState("CLIENT_SCOPE");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalMode, setModalMode] = useState<"add" | "edit">("add");
+  const [form] = Form.useForm();
+  const dataType = Form.useWatch('dataType', form);
+  
+  const queryClient = useQueryClient();
+  const API_URL = import.meta.env.VITE_API_URL || "/api";
+
+  const { data: attributes = [], isLoading } = useQuery({
+    queryKey: ['attributes', deviceId, activeTab],
+    queryFn: async () => {
+      const res = await axios.get(`${API_URL}/devices/${deviceId}/attributes`, { params: { scope: activeTab } });
+      return toList(res.data);
+    }
+  });
+
+  const showAddModal = () => {
+    setModalMode("add");
+    form.resetFields();
+    form.setFieldsValue({ dataType: 'string' });
+    setIsModalVisible(true);
+  };
+
+  const showEditModal = (record: any) => {
+    setModalMode("edit");
+    form.resetFields();
+    
+    // Determine type from value
+    let type = 'string';
+    if (typeof record.value === 'boolean') type = 'boolean';
+    else if (typeof record.value === 'number') {
+      type = Number.isInteger(record.value) ? 'integer' : 'double';
+    } else if (typeof record.value === 'object') type = 'json';
+
+    form.setFieldsValue({
+      key: record.key,
+      dataType: type,
+      value: type === 'json' ? JSON.stringify(record.value, null, 2) : record.value
+    });
+    setIsModalVisible(true);
+  };
+
+  const handleAddSubmit = async (values: any) => {
+    try {
+      let parsedValue = values.value;
+      
+      switch (values.dataType) {
+        case 'integer':
+          parsedValue = parseInt(values.value, 10);
+          break;
+        case 'double':
+          parsedValue = parseFloat(values.value);
+          break;
+        case 'boolean':
+          parsedValue = values.value === true || values.value === 'true';
+          break;
+        case 'json':
+          try {
+            parsedValue = JSON.parse(values.value);
+          } catch (e) {
+            message.error("JSON không hợp lệ!");
+            return;
+          }
+          break;
+        default:
+          parsedValue = String(values.value);
+      }
+      
+      const payload = { [values.key]: parsedValue };
+      await axios.post(`${API_URL}/devices/${deviceId}/attributes/${activeTab}`, payload);
+      message.success(modalMode === "add" ? "Thêm thuộc tính thành công!" : "Cập nhật thành công!");
+      setIsModalVisible(false);
+      form.resetFields();
+      queryClient.invalidateQueries({ queryKey: ['attributes', deviceId, activeTab] });
+    } catch (err) {
+      console.error(err);
+      message.error("Lỗi khi lưu thuộc tính");
+    }
+  };
+
+  const handleDelete = async (key: string) => {
+    Modal.confirm({
+      title: 'Xác nhận xóa',
+      content: `Bạn có chắc muốn xóa thuộc tính "${key}"?`,
+      onOk: async () => {
+        try {
+          await axios.delete(`${API_URL}/devices/${deviceId}/attributes/${activeTab}?keys=${key}`);
+          message.success("Đã xóa thuộc tính!");
+          queryClient.invalidateQueries({ queryKey: ['attributes', deviceId, activeTab] });
+        } catch (err) {
+          console.error(err);
+          message.error("Lỗi khi xóa");
+        }
+      }
+    });
+  };
+
+  return (
+    <div>
+      <Tabs activeKey={activeTab} onChange={setActiveTab}>
+        <Tabs.TabPane tab="Client Attributes" key="CLIENT_SCOPE" />
+        <Tabs.TabPane tab="Server Attributes" key="SERVER_SCOPE" />
+        <Tabs.TabPane tab="Shared Attributes" key="SHARED_SCOPE" />
+      </Tabs>
+      
+      <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
+        {activeTab !== 'CLIENT_SCOPE' && (
+          <Button type="primary" icon={<PlusOutlined />} onClick={showAddModal}>
+            Thêm Thuộc Tính
+          </Button>
+        )}
+      </div>
+
+      <Table 
+        dataSource={toList(attributes)}
+        rowKey={(record) => record.scope + record.key} 
+        loading={isLoading}
+        size="small"
+        pagination={{ pageSize: 10 }}
+      >
+        <Table.Column dataIndex="lastUpdateTs" title="Cập nhật lần cuối" render={(v) => new Date(v).toLocaleString()} />
+        <Table.Column dataIndex="key" title="Thuộc tính (Key)" render={(v) => <strong>{v}</strong>} />
+        <Table.Column dataIndex="value" title="Giá trị (Value)" render={(v) => typeof v === 'object' ? JSON.stringify(v) : String(v)} />
+        <Table.Column 
+          title="Hành động" 
+          align="right"
+          render={(_, record: any) => (
+            activeTab !== 'CLIENT_SCOPE' ? (
+              <Space>
+                <Tooltip title="Sửa">
+                  <Button type="text" icon={<EditOutlined />} onClick={() => showEditModal(record)} />
+                </Tooltip>
+                <Tooltip title="Xóa">
+                  <Button type="text" danger icon={<DeleteOutlined />} onClick={() => handleDelete(record.key)} />
+                </Tooltip>
+              </Space>
+            ) : null
+          )} 
+        />
+      </Table>
+
+      <Modal 
+        title={`${modalMode === "add" ? 'Thêm' : 'Sửa'} ${activeTab === 'SERVER_SCOPE' ? 'Server' : 'Shared'} Attribute`} 
+        open={isModalVisible} 
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+        destroyOnClose
+      >
+        <Form form={form} layout="vertical" onFinish={handleAddSubmit} initialValues={{ dataType: 'string' }}>
+          <Form.Item name="key" label="Key" rules={[{ required: true, message: "Vui lòng nhập Key" }]}>
+            <Input disabled={modalMode === "edit"} placeholder="Nhập tên thuộc tính (VD: active, version...)" />
+          </Form.Item>
+          
+          <Form.Item name="dataType" label="Kiểu dữ liệu (Data Type)" rules={[{ required: true }]}>
+            <Select>
+              <Select.Option value="string">String</Select.Option>
+              <Select.Option value="integer">Integer</Select.Option>
+              <Select.Option value="double">Double</Select.Option>
+              <Select.Option value="boolean">Boolean</Select.Option>
+              <Select.Option value="json">JSON</Select.Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="value" label="Giá trị (Value)" rules={[{ required: true, message: "Vui lòng nhập Giá trị" }]}>
+            {dataType === 'boolean' ? (
+              <Select>
+                <Select.Option value={true}>True</Select.Option>
+                <Select.Option value={false}>False</Select.Option>
+              </Select>
+            ) : dataType === 'integer' ? (
+              <InputNumber style={{ width: '100%' }} />
+            ) : dataType === 'double' ? (
+              <InputNumber step={0.1} style={{ width: '100%' }} />
+            ) : dataType === 'json' ? (
+              <Input.TextArea rows={4} placeholder='{"key": "value"}' />
+            ) : (
+              <Input />
+            )}
+          </Form.Item>
+          
+          <Form.Item style={{ textAlign: 'right', marginBottom: 0 }}>
+            <Space>
+              <Button onClick={() => setIsModalVisible(false)}>Hủy</Button>
+              <Button type="primary" htmlType="submit">
+                {modalMode === "add" ? 'Thêm' : 'Cập nhật'}
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </div>
+  );
+};
+
+/**
+ * ============================================================================
+ * COMPONENT CON: HIỂN THỊ DỮ LIỆU ĐO LƯỜNG THỜI GIAN THỰC (DeviceTelemetry)
+ * ============================================================================
+ * Nhiệm vụ:
+ * 1. Lần đầu mở lên: Dùng `useQuery` (React Query) để lấy dữ liệu cuối cùng từ Backend (DB).
+ * 2. Ngay sau đó: Dùng `useMqtt` kết nối thẳng WebSocket tới máy chủ EMQX Broker.
+ * 3. Bất cứ khi nào thiết bị (ESP32) bắn số mới lên EMQX, Component này sẽ nhận được lập tức,
+ *    và tự động chèn (patch) vào Cache của React Query để Giao diện chớp số mới mà không cần Reload API.
+ */
+const DeviceTelemetry: React.FC<{ deviceId: string, deviceKey: string }> = ({ deviceId, deviceKey }) => {
+  const queryClient = useQueryClient();
+  const API_URL = import.meta.env.VITE_API_URL || "/api";
+
+  // Fetch Telemetry (Current Data) with SWR Caching
+  const { data: telemetryData = [], isLoading: isLoadingTelemetry } = useQuery({
+    queryKey: ['telemetry', deviceId],
+    queryFn: async () => {
+      const res = await axios.get(`${API_URL}/devices/${deviceId}/telemetry`);
+      return toList(res.data);
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes cache
+  });
+
+
+
+  // Tích hợp MQTT hook
+  const { payload, isConnected } = useMqtt({
+    topic: `v1/devices/${deviceKey}/telemetry`,
+  });
+
+  // Lắng nghe payload từ MQTT để cập nhật realtime thẳng vào Cache
+  React.useEffect(() => {
+    if (payload) {
+      console.log("Nhận được Telemetry mới:", payload);
+      const currentTime = new Date().toISOString();
+      const currentLabel = new Date(currentTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+      // 1. Cập nhật Bảng (Table) Cache
+      queryClient.setQueryData(['telemetry', deviceId], (oldData: unknown) => {
+        const updated = [...toList<any>(oldData)];
+        Object.keys(payload).forEach(key => {
+          const existingIndex = updated.findIndex(t => t.key === key);
+          if (existingIndex !== -1) {
+            updated[existingIndex] = { ...updated[existingIndex], value: payload[key], lastUpdate: currentTime };
+          } else {
+            updated.push({ key, value: payload[key], lastUpdate: currentTime });
+          }
+        });
+        return updated;
+      });
+
+
+    }
+  }, [payload, deviceId, queryClient]);
+
+  return (
+    <Space direction="vertical" style={{ width: '100%' }} size="large">
+      {isConnected ? (
+        <Tag color="success">🟢 Dashboard: Đã kết nối MQTT (Lắng nghe dữ liệu)</Tag>
+      ) : (
+        <Tag color="warning">🔴 Dashboard: Mất kết nối MQTT</Tag>
+      )}
+      
+      <Table 
+        dataSource={toList(telemetryData)}
+        rowKey="key" 
+        loading={isLoadingTelemetry}
+        size="small"
+        pagination={false}
+      >
+        <Table.Column dataIndex="lastUpdate" title="Thời gian" render={(v) => new Date(v).toLocaleString()} />
+        <Table.Column dataIndex="key" title="Thông số (Key)" render={(v) => <strong>{v}</strong>} />
+        <Table.Column dataIndex="value" title="Giá trị hiện tại" render={(v) => <Text style={{ fontSize: 16, fontWeight: 500, color: "#0B5D3B" }}>{v}</Text>} />
+      </Table>
+    </Space>
+  );
+};

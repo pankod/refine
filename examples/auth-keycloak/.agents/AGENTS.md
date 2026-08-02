@@ -1,0 +1,24 @@
+<RULE[update_swagger_api_docs]>
+
+## Update Swagger when requested
+Whenever the user asks to "cập nhật api-docs", you MUST update the Swagger API documentation (e.g., swagger.ts or swagger.yaml) with any new APIs added to the backend.
+
+</RULE[update_swagger_api_docs]>
+
+<RULE[code_structure_explanation]>
+
+## Code Structure Explanation Workflow
+
+Whenever the user asks 'thuyết minh cấu trúc code', you MUST create or update a comprehensive documentation document detailing the project's folder structure, code files, and a very detailed explanation of the content, features, and purpose of each code file. This is to help amateur programmers easily understand and deploy the project.
+
+</RULE[code_structure_explanation]>
+
+<RULE[docker_registry]>
+
+## Docker Registry Info
+- Docker Hub account: **vtaboss**
+- Frontend image: `vtaboss/greeniq-frontend`
+- Backend image: `vtaboss/greeniq-backend`
+- Always use `vtaboss` as the Docker Hub username when building and pushing images.
+
+</RULE[docker_registry]>

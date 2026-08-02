@@ -1,0 +1,1 @@
+﻿const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient({ datasources: { db: { url: 'postgresql://postgres:postgres@localhost:5432/postgres' } } }); async function main() { const count = await prisma.devices.count({ where: { additional_info: { path: ['isGateway'], equals: true } } }); console.log('Count:', count); } main();
