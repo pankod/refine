@@ -6,7 +6,7 @@
 set -e
 
 KUBECONFIG_PATH="./backend/.kube/lens-kubeconfig.yaml"
-VERSION="2.0.15"
+VERSION="2.0.16"
 DOCKER_USER="${DOCKER_USER:-vtaboss}"
 FRONTEND_IMAGE="${FRONTEND_IMAGE:-$DOCKER_USER/greeniq-frontend}"
 BACKEND_IMAGE="${BACKEND_IMAGE:-$DOCKER_USER/greeniq-backend}"
