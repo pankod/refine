@@ -43,50 +43,7 @@ app.use(express.json());
 // Setup Swagger UI Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-/**
- * Hướng dẫn giao thức MQTT cho thiết bị Gateway
- * (Endpoint này chỉ dùng để hiển thị tài liệu trên Swagger UI)
- */
-app.get('/api/docs/gateway', (req, res) => {
-  /* #swagger.tags = ['Gateway MQTT API']
-     #swagger.summary = 'Tài liệu hướng dẫn kết nối Gateway qua giao thức MQTT'
-     #swagger.description = '
-### 1. Thông Tin Kết Nối
-- **Host**: `mqtt.greeniq.vn`
-- **Port**: `1883` (TCP) / `8083` (WS)
-- **Username/Password**: Lấy từ thông tin thiết bị (Bắt buộc thiết bị phải bật cờ Gateway)
 
-### 2. Các Topic Hỗ Trợ
-**Kết nối thiết bị con**
-- Topic: `v1/gateway/connect`
-- Payload: `{"device":"Device A","type":"sensor"}`
-
-**Ngắt kết nối thiết bị con**
-- Topic: `v1/gateway/disconnect`
-- Payload: `{"device":"Device A"}`
-
-**Gửi Telemetry**
-- Topic: `v1/gateway/telemetry`
-- Payload: `{"Device A":[{"ts":1700000000000,"values":{"temperature":23.5}}]}`
-
-**Gửi Client Attributes**
-- Topic: `v1/gateway/attributes`
-- Payload: `{"Device A":{"firmware":"1.0"}}`
-
-**Yêu cầu Shared Attributes**
-- Topic gửi: `v1/gateway/attributes/request`
-  Payload: `{"id": 1, "device": "Device A", "clientKeys": "attr1", "sharedKeys": "shared1"}`
-- Topic nhận: `v1/gateway/attributes/response`
-
-**Server-side RPC (Nhận lệnh từ Server)**
-- Topic nhận lệnh: `v1/gateway/rpc`
-  Payload: `{"device": "Device A", "data": {"id": 123, "method": "setRelay", "params": {}}}`
-- Topic phản hồi: `v1/gateway/rpc/response`
-  Payload: `{"device": "Device A", "id": 123, "data": {"success": true}}`
-'
-  */
-  res.json({ message: "Vui lòng đọc tài liệu trong description" });
-});
 
 // Tích hợp Keycloak JWT Middleware
 /**
@@ -449,7 +406,43 @@ app.post('/api/mqtt/acl', async (req, res) => {
  * publisher; lam vay se co nguy co ghi cheo tenant.
  */
 app.post('/api/mqtt/gateway', async (req, res) => {
-  /* #swagger.tags = ['MQTT Auth/ACL'] */
+  /* #swagger.tags = ['Gateway MQTT API']
+     #swagger.summary = 'EMQX Webhook xử lý các luồng dữ liệu chuẩn Gateway'
+     #swagger.description = '
+### 1. Thông Tin Kết Nối
+- **Host**: `mqtt.greeniq.vn`
+- **Port**: `1883` (TCP) / `8083` (WS)
+- **Username/Password**: Lấy từ thông tin thiết bị (Bắt buộc thiết bị phải bật cờ Gateway)
+
+### 2. Các Topic Hỗ Trợ
+**Kết nối thiết bị con**
+- Topic: `v1/gateway/connect`
+- Payload: `{"device":"Device A","type":"sensor"}`
+
+**Ngắt kết nối thiết bị con**
+- Topic: `v1/gateway/disconnect`
+- Payload: `{"device":"Device A"}`
+
+**Gửi Telemetry**
+- Topic: `v1/gateway/telemetry`
+- Payload: `{"Device A":[{"ts":1700000000000,"values":{"temperature":23.5}}]}`
+
+**Gửi Client Attributes**
+- Topic: `v1/gateway/attributes`
+- Payload: `{"Device A":{"firmware":"1.0"}}`
+
+**Yêu cầu Shared Attributes**
+- Topic gửi: `v1/gateway/attributes/request`
+  Payload: `{"id": 1, "device": "Device A", "clientKeys": "attr1", "sharedKeys": "shared1"}`
+- Topic nhận: `v1/gateway/attributes/response`
+
+**Server-side RPC (Nhận lệnh từ Server)**
+- Topic nhận lệnh: `v1/gateway/rpc`
+  Payload: `{"device": "Device A", "data": {"id": 123, "method": "setRelay", "params": {}}}`
+- Topic phản hồi: `v1/gateway/rpc/response`
+  Payload: `{"device": "Device A", "id": 123, "data": {"success": true}}`
+'
+  */
   const hookSecret = process.env.EMQX_WEBHOOK_SECRET;
   const providedSecret = req.header('x-emqx-hook-secret');
   const secretMatches = !!hookSecret && !!providedSecret &&
