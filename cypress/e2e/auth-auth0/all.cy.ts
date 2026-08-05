@@ -34,7 +34,10 @@ describe("auth-auth0", () => {
       cy.location("pathname").should("eq", "/login");
       login();
       cy.location("pathname").should("eq", "/posts");
-      cy.visit("/test-route");
+      cy.window().then((window) => {
+        window.history.pushState({}, "", "/test-route");
+        window.dispatchEvent(new PopStateEvent("popstate"));
+      });
       cy.get(".ant-result-404").should("exist");
       cy.clearAllCookies();
       cy.clearAllSessionStorage();
