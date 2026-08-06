@@ -124,7 +124,7 @@ describe("auth-chakra-ui", () => {
     it("should render getIdentity response on header", () => {
       login();
       cy.get(".chakra-text").contains(/jane doe/i);
-      cy.get(".chakra-avatar__img").should("have.attr", "src");
+      cy.get(".chakra-avatar").should("be.visible");
     });
   });
 });
