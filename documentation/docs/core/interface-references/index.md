@@ -203,11 +203,23 @@ type OpenNotificationParams = {
 ### MetaQuery
 
 ```tsx
-type MetaQuery = {
+interface MetaQuery extends QueryBuilderOptions, GraphQLQueryOptions {
   queryContext?: Omit<QueryFunctionContext, "meta">;
   [key: string]: any;
-} & QueryBuilderOptions &
-  GraphQLQueryOptions;
+}
+```
+
+Since `MetaQuery` is an interface, you can use [declaration merging](https://www.typescriptlang.org/docs/handbook/declaration-merging.html) to add typed fields to it (e.g. the `queryParams` your data provider reads) and get autocompletion/type-checking across every hook that accepts `meta`:
+
+```tsx
+declare module "@refinedev/core" {
+  interface MetaQuery {
+    queryParams?: {
+      _pull?: string;
+      [key: string]: unknown;
+    };
+  }
+}
 ```
 
 ### GraphQLQueryOptions
@@ -215,13 +227,13 @@ type MetaQuery = {
 ```tsx
 import type { DocumentNode } from "graphql";
 
-type GraphQLQueryOptions = {
+interface GraphQLQueryOptions {
   gqlQuery?: DocumentNode;
   gqlMutation?: DocumentNode;
   gqlVariables?: {
     [key: string]: any;
   };
-};
+}
 ```
 
 ### QueryFunctionContext
