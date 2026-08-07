@@ -26,23 +26,23 @@ const ProductShow: React.FC<Props> = ({ initialData, handle }) => {
   const { openSidebar, setSidebarView } = useUI();
 
   const {
-    data: {
+    result: {
       data: [record] = [],
     } = {},
   } = useList<Product>({
     resource: "products",
+
     queryOptions: {
       initialData,
     },
-    config: {
-      filters: [
-        {
-          field: "handle",
-          operator: "eq",
-          value: handle,
-        },
-      ],
-    },
+
+    filters: [
+      {
+        field: "handle",
+        operator: "eq",
+        value: handle,
+      },
+    ],
   });
 
   const [selectedOptions, setSelectedOptions] = React.useState<

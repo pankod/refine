@@ -1,6 +1,6 @@
 import MDXComponents from "@theme-original/MDXComponents";
 
-import { BannerRandom } from "@site/src/components/banner/banner-random";
+import { BannerBlog } from "@site/src/components/banner/banner-blog";
 import Checklist from "@site/src/components/checklist";
 import ChecklistItem from "@site/src/components/checklist-item";
 import CodeSandboxExample from "@site/src/components/codesandbox-example";
@@ -13,10 +13,6 @@ import PropTag from "@site/src/components/prop-tag";
 import PropsTable from "@site/src/components/props-table";
 import { RouterBadge } from "@site/src/components/router-badge";
 import UIConditional from "@site/src/components/ui-conditional";
-import CommonDetails from "@site/src/refine-theme/common-details";
-import CommonSummary from "@site/src/refine-theme/common-summary";
-import CommonTabItem from "@site/src/refine-theme/common-tab-item";
-import CommonTabs from "@site/src/refine-theme/common-tabs";
 import { Blockquote } from "@site/src/refine-theme/common-blockquote";
 import { DocThumbsUpDownFeedbackWidget } from "@site/src/refine-theme/doc-thumbs-up-down-feedback-widget";
 import { Image } from "@site/src/components/image";
@@ -25,6 +21,10 @@ import { CreateRefineAppCommand } from "@site/src/partials/npm-scripts/create-re
 import { InstallPackagesCommand } from "@site/src/partials/npm-scripts/install-packages-commands";
 import { TutorialConditional } from "@site/src/refine-theme/tutorial-conditional";
 import { VideoInView } from "@site/src/components/video-in-view";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import Details from "./details";
+import Summary from "./summary";
 
 export default {
   ...MDXComponents,
@@ -33,20 +33,21 @@ export default {
   UIConditional: UIConditional,
   PropsTable: PropsTable,
   PropTag: PropTag,
-  details: CommonDetails,
-  summary: CommonSummary,
-  Tabs: CommonTabs,
-  TabItem: CommonTabItem,
+  details: Details,
+  summary: Summary,
+  Tabs,
+  TabItem,
   blockquote: Blockquote,
   GeneralConceptsLink,
   CodeSandboxExample,
   ExampleLocalPrompt,
   ExampleSourcePrompt,
-  BannerRandom,
+  BannerBlog,
   GuideBadge,
   RouterBadge,
   GlobalConfigBadge,
   Image,
+  img: Image,
   table: Table,
   CreateRefineAppCommand: CreateRefineAppCommand,
   InstallPackagesCommand: InstallPackagesCommand,

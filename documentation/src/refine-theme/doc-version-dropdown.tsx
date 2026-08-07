@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import React, { type SVGProps } from "react";
-import { TriangleDownIcon } from "@site/src/refine-theme/icons/triangle-down";
 import { useActiveDocContext } from "@docusaurus/plugin-content-docs/client";
 import { Menu, Transition } from "@headlessui/react";
 import Link from "@docusaurus/Link";
 import useVersionLinks from "../hooks/use-version-links";
+import { ChevronDownIcon } from "lucide-react";
 
 const Triangle = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -29,7 +29,7 @@ type Props = {
 };
 
 export const DocVersionDropdown = ({ className, wrapperClassName }: Props) => {
-  const docContext = useActiveDocContext();
+  const docContext = useActiveDocContext(undefined);
   const { links } = useVersionLinks();
 
   return (
@@ -41,34 +41,34 @@ export const DocVersionDropdown = ({ className, wrapperClassName }: Props) => {
               className={clsx(
                 "appearance-none",
                 "focus:outline-none",
-                "border border-solid border-gray-300 dark:border-gray-600 lg:dark:border-gray-700",
-                "rounded-[32px]",
-                "py-1.5",
-                "pl-3",
-                "pr-2",
-                "bg-gray-0 dark:bg-gray-800",
+                "border border-solid border-zinc-200 dark:border-zinc-700",
+                "rounded-lg",
+                "px-2.5",
+                "h-10",
+                "bg-white dark:bg-zinc-800",
                 "lg:bg-transparent lg:dark:bg-transparent",
-                "lg:pl-4 lg:pr-3",
-                "lg:py-[9px]",
                 "flex",
                 "items-center",
                 "justify-center",
-                "gap-1",
-                "lg:gap-2",
+                "gap-2",
                 "select-none",
+                "text-zinc-500 dark:text-zinc-300",
+                "font-medium",
                 className,
               )}
             >
               <span
                 className={clsx(
-                  "text-gray-500 dark:text-gray-100",
-                  "text-sm leading-5",
+                  "text-sm",
+                  "text-zinc-500 dark:text-zinc-300",
+                  "tracking-[-0.007em]",
                   "block",
                 )}
               >
                 {docContext.activeVersion.label}
               </span>
-              <TriangleDownIcon className="text-gray-400 w-4 h-4" />
+              {/* @ts-expect-error - lucide-react has issues with react 17 */}
+              <ChevronDownIcon className="w-5 h-5 text-zinc-500 dark:text-zinc-300" />
             </Menu.Button>
 
             <Transition
@@ -84,7 +84,7 @@ export const DocVersionDropdown = ({ className, wrapperClassName }: Props) => {
               <Triangle
                 className={clsx(
                   "absolute right-[11px] top-1 origin-bottom-right",
-                  "text-gray-700 dark:text-white",
+                  "text-white dark:text-[#202023]",
                 )}
               />
               <Menu.Items
@@ -94,8 +94,9 @@ export const DocVersionDropdown = ({ className, wrapperClassName }: Props) => {
                   "flex flex-col gap-2",
                   "w-[112px]",
                   "p-2",
-                  "bg-gray-700 dark:bg-white",
+                  "bg-white dark:bg-[#202023]",
                   "rounded-lg",
+                  "border border-zinc-200 dark:border-zinc-700",
                 )}
               >
                 {links.map((version) => {
@@ -109,13 +110,13 @@ export const DocVersionDropdown = ({ className, wrapperClassName }: Props) => {
                             to={version.to}
                             className={clsx(
                               "px-2 py-1",
-                              "rounded-[4px]",
+                              "rounded",
                               "no-underline",
                               {
                                 "text-white hover:text-white": isActive,
-                                "bg-refine-blue": isActive,
-                                "text-gray-300 dark:text-gray-700": !isActive,
-                                "hover:bg-gray-600 hover:dark:bg-gray-100 hover:text-gray-300 dark:hover:text-gray-700":
+                                "bg-orange-600": isActive,
+                                "text-zinc-700 dark:text-zinc-300": !isActive,
+                                "hover:bg-zinc-100 hover:dark:bg-zinc-800 hover:text-zinc-700 dark:hover:text-zinc-300":
                                   !isActive,
                               },
                             )}

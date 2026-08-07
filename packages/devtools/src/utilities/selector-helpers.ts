@@ -147,7 +147,7 @@ export const traverseDom = (
     }
   }
 
-  for (let i = 0; i < node?.children?.length ?? 0; i++) {
+  for (let i = 0; i < (node?.children?.length ?? 0); i++) {
     items.push(
       ...traverseDom(node.children[i] as HTMLElement, activeTraceItems),
     );

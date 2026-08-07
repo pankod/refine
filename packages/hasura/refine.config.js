@@ -82,10 +82,11 @@ module.exports = {
                 },
             });
 
-            const gqlDataProvider = dataProvider(client, {
-                namingConvention: "graphql-default",
-            });
+            const hasuraProviderOptions = {
+              namingConvention: "graphql-default",
+            };
 
+            const gqlDataProvider = dataProvider(client, hasuraProviderOptions);
 
             // Refine supports GraphQL subscriptions out-of-the-box. For more detailed information, please visit here:
             // https://refine.dev/docs/core/providers/live-provider/
@@ -100,7 +101,7 @@ module.exports = {
                         dataProvider={dataProvider}
                         // Refine supports GraphQL subscriptions as out-of-the-box. For more detailed information, please visit here:
                         // https://refine.dev/docs/core/providers/live-provider/
-                        // liveProvider={liveProvider(gqlWebSocketClient)}
+                        // liveProvider={liveProvider(gqlWebSocketClient, hasuraProviderOptions)}
                         // options={{ liveMode: "auto" }}
                         /* ... */
                     />

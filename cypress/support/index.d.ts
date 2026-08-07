@@ -132,6 +132,7 @@ declare namespace Cypress {
     interceptSupabaseDELETEPost(): Chainable<null>;
     interceptSupabaseGETCategories(): Chainable<null>;
 
+    interceptStrapiV4Login(): Chainable<null>;
     interceptStrapiV4GETPost(): Chainable<null>;
     interceptStrapiV4GETPosts(): Chainable<null>;
     interceptStrapiV4POSTPost(): Chainable<null>;

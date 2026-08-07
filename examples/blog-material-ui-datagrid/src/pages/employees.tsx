@@ -15,8 +15,8 @@ const EmployeeList: React.FC = () => {
         headerName: "Full Name",
         minWidth: 150,
         flex: 1,
-        valueGetter: (params) =>
-          `${params.row.first_name || ""} ${params.row.last_name || ""}`,
+        valueGetter: (_, row) =>
+          `${row.first_name || ""} ${row.last_name || ""}`,
       },
       {
         field: "email",
@@ -65,7 +65,6 @@ const EmployeeList: React.FC = () => {
         {...dataGridProps}
         columns={columns}
         slots={{ toolbar: GridToolbar }}
-        autoHeight
       />
     </List>
   );

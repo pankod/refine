@@ -3,9 +3,11 @@ title: How to Multipart File Upload Using FormData with HTML
 description: In this guide, I'm going to show you how to multipart files upload with using HTML and JavaScript
 slug: how-to-multipart-upload
 authors: melih
-tags: [javascript]
+category: "Ecosystem / Integrations"
+tags: [backend]
 image: https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/placeholder.png
 hide_table_of_contents: false
+last_update: 2022-10-19
 ---
 
 In this guide, we will look at how we can upload a file from HTML form data to a server with the multipart-upload method. Multipart-Upload is commonly used method for sending files or data to a server.
@@ -36,7 +38,7 @@ We will take a file from the user with [FormData](https://developer.mozilla.org/
 </body>
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2021-12-27-multipart-upload/upload.png" alt="upload_screen" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2021/2021-12-27-multipart-upload/upload.png" alt="Multipart upload form screen" />
 <br />
 
 Here we simply created an input and a button. With these HTML elements we have created, we can get the file chosen by the user.
@@ -114,16 +116,16 @@ As you can see, we have created our multer structure and a simple server to run 
 
 The requests we created to send files by JavaScript will now be sent to our local server.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2021-12-27-multipart-upload/overview.gif" alt="upload overview" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2021/2021-12-27-multipart-upload/overview.avif" alt="Multipart upload overview screen" />
 <br />
 
 ## How to Multipart Upload with Refine?
 
 The Multipart file upload process with **Refine** is very simple. How to use it is explained step by step in the guide and example.
 
-[Refer to the **Refine** Multipart Upload guide for more information. →](https://refine.dev/docs/guides-and-concepts/upload/multipart-upload/)
+[Refer to the **Refine** Multipart Upload guide for more information. →](https://refine.dev/core/docs/guides-and-concepts/upload/multipart-upload/)
 
-[View Source](https://github.com/refinedev/refine/tree/master/examples/upload/multipartUpload)
+[View Source](https://github.com/refinedev/refine/tree/main/examples/upload/multipartUpload)
 
 ## Example
 

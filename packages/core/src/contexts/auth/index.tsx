@@ -1,91 +1,20 @@
 import React, { type PropsWithChildren } from "react";
 
-import { useNavigation } from "@hooks";
+import type { IAuthContext } from "./types";
+import { useQueryClient } from "@tanstack/react-query";
 
-import type { IAuthContext, ILegacyAuthContext } from "./types";
-
-/**
- * @deprecated `LegacyAuthContext` is deprecated with refine@4, use `AuthBindingsContext` instead, however, we still support `LegacyAuthContext` for backward compatibility.
- */
-export const LegacyAuthContext = React.createContext<ILegacyAuthContext>({});
-
-/**
- * @deprecated `LegacyAuthContextProvider` is deprecated with refine@4, use `AuthBindingsContextProvider` instead, however, we still support `LegacyAuthContextProvider` for backward compatibility.
- */
-export const LegacyAuthContextProvider: React.FC<
-  PropsWithChildren<ILegacyAuthContext>
-> = ({ children, isProvided, ...authOperations }) => {
-  const { replace } = useNavigation();
-
-  const loginFunc = async (params: any) => {
-    try {
-      const result = await authOperations.login?.(params);
-
-      return result;
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  };
-
-  const registerFunc = async (params: any) => {
-    try {
-      const result = await authOperations.register?.(params);
-
-      return result;
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  };
-
-  const logoutFunc = async (params: any) => {
-    try {
-      const redirectPath = await authOperations.logout?.(params);
-
-      return redirectPath;
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  };
-
-  const checkAuthFunc = async (params: any) => {
-    try {
-      await authOperations.checkAuth?.(params);
-      return Promise.resolve();
-    } catch (error) {
-      if ((error as { redirectPath?: string })?.redirectPath) {
-        replace((error as { redirectPath: string }).redirectPath);
-      }
-
-      return Promise.reject(error);
-    }
-  };
-
-  return (
-    <LegacyAuthContext.Provider
-      value={{
-        ...authOperations,
-        login: loginFunc,
-        logout: logoutFunc,
-        checkAuth: checkAuthFunc,
-        register: registerFunc,
-        isProvided,
-      }}
-    >
-      {children}
-    </LegacyAuthContext.Provider>
-  );
-};
-
-export const AuthBindingsContext = React.createContext<Partial<IAuthContext>>(
+export const AuthProviderContext = React.createContext<Partial<IAuthContext>>(
   {},
 );
 
-export const AuthBindingsContextProvider: React.FC<
+export const AuthProviderContextProvider: React.FC<
   PropsWithChildren<IAuthContext>
-> = ({ children, isProvided, ...authBindings }) => {
+> = ({ children, isProvided, ...authProvider }) => {
+  const queryClient = useQueryClient();
+
   const handleLogin = async (params: unknown) => {
     try {
-      const result = await authBindings.login?.(params);
+      const result = await authProvider.login?.(params);
 
       return result;
     } catch (error) {
@@ -99,7 +28,7 @@ export const AuthBindingsContextProvider: React.FC<
 
   const handleRegister = async (params: unknown) => {
     try {
-      const result = await authBindings.register?.(params);
+      const result = await authProvider.register?.(params);
 
       return result;
     } catch (error) {
@@ -113,7 +42,8 @@ export const AuthBindingsContextProvider: React.FC<
 
   const handleLogout = async (params: unknown) => {
     try {
-      const result = await authBindings.logout?.(params);
+      const result = await authProvider.logout?.(params);
+      queryClient.invalidateQueries();
 
       return result;
     } catch (error) {
@@ -127,7 +57,7 @@ export const AuthBindingsContextProvider: React.FC<
 
   const handleCheck = async (params: unknown) => {
     try {
-      const result = await authBindings.check?.(params);
+      const result = await authProvider.check?.(params);
 
       return Promise.resolve(result);
     } catch (error) {
@@ -141,7 +71,7 @@ export const AuthBindingsContextProvider: React.FC<
 
   const handleForgotPassword = async (params: unknown) => {
     try {
-      const result = await authBindings.forgotPassword?.(params);
+      const result = await authProvider.forgotPassword?.(params);
 
       return Promise.resolve(result);
     } catch (error) {
@@ -155,7 +85,7 @@ export const AuthBindingsContextProvider: React.FC<
 
   const handleUpdatePassword = async (params: unknown) => {
     try {
-      const result = await authBindings.updatePassword?.(params);
+      const result = await authProvider.updatePassword?.(params);
       return Promise.resolve(result);
     } catch (error) {
       console.warn(
@@ -166,35 +96,40 @@ export const AuthBindingsContextProvider: React.FC<
     }
   };
 
+  const handleUpdateIdentity = async (params: unknown) => {
+    try {
+      const result = await authProvider.updateIdentity?.(params);
+      return Promise.resolve(result);
+    } catch (error) {
+      console.warn(
+        "Unhandled Error in updateIdentity: refine always expects a resolved promise.",
+        error,
+      );
+      return Promise.reject(error);
+    }
+  };
+
   return (
-    <AuthBindingsContext.Provider
+    <AuthProviderContext.Provider
       value={{
-        ...authBindings,
+        ...authProvider,
         login: handleLogin as IAuthContext["login"],
         logout: handleLogout as IAuthContext["logout"],
         check: handleCheck as IAuthContext["check"],
         register: handleRegister as IAuthContext["register"],
         forgotPassword: handleForgotPassword as IAuthContext["forgotPassword"],
         updatePassword: handleUpdatePassword as IAuthContext["updatePassword"],
+        updateIdentity: handleUpdateIdentity as IAuthContext["updateIdentity"],
         isProvided,
       }}
     >
       {children}
-    </AuthBindingsContext.Provider>
+    </AuthProviderContext.Provider>
   );
 };
 
-/**
- * @deprecated `useLegacyAuthContext` is deprecated with refine@4, use `useAuthBindingsContext` instead, however, we still support `useLegacyAuthContext` for backward compatibility.
- */
-export const useLegacyAuthContext = () => {
-  const context = React.useContext(LegacyAuthContext);
-
-  return context;
-};
-
-export const useAuthBindingsContext = () => {
-  const context = React.useContext(AuthBindingsContext);
+export const useAuthProviderContext = () => {
+  const context = React.useContext(AuthProviderContext);
 
   return context;
 };

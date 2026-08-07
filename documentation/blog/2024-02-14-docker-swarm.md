@@ -3,8 +3,9 @@ title: Docker Swarm vs. Kubernetes - DevOps Guide
 description: We'll present a detailed comparison between both Docker swarm and Kubernetes.
 slug: docker-swarm-vs-kubernetes
 authors: muhammad_khabbab
-tags: [kubernetes, docker]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-14-docker-swarm/social.png
+category: "Alternatives"
+tags: [docker, kubernetes, comparison]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-14-docker-swarm/social.png
 hide_table_of_contents: false
 ---
 

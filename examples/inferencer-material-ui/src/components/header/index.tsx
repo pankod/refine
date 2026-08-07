@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import { useGetIdentity, useGetLocale, useSetLocale } from "@refinedev/core";
 import {
   HamburgerMenu,
-  type RefineThemedLayoutV2HeaderProps,
+  type RefineThemedLayoutHeaderProps,
 } from "@refinedev/mui";
 import i18n from "i18next";
 import React, { useContext } from "react";
@@ -24,7 +24,7 @@ type IUser = {
   avatar: string;
 };
 
-export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
+export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
   sticky = true,
 }) => {
   const { mode, setMode } = useContext(ColorModeContext);
@@ -51,7 +51,11 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
               <Select
                 disableUnderline
                 defaultValue={currentLocale}
-                inputProps={{ "aria-label": "Without label" }}
+                slotProps={{
+                  input: {
+                    "aria-label": "Without label",
+                  },
+                }}
                 variant="standard"
                 sx={{
                   color: "inherit",

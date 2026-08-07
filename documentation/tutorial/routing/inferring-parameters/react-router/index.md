@@ -27,16 +27,16 @@ import { useTable, useMany } from "@refinedev/core";
 
 export const ListProducts = () => {
   const {
-    tableQuery: { data, isLoading },
-    current,
-    setCurrent,
+    tableQuery: { isLoading },
+    currentPage,
+    setCurrentPage,
     pageCount,
     sorters,
     setSorters,
   } = useTable({
     // removed-line
     resource: "products",
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
     sorters: { initial: [{ field: "id", order: "asc" }] },
   });
 
@@ -50,7 +50,7 @@ export const ListProducts = () => {
 
 Let's update our `<ShowProduct />` component and omit the `resource` and `id` parameters. Remember that previously we've hard-coded the `id` parameter. Now we'll be letting Refine to infer the `id` parameter from the route definition and dynamically fetch the product.
 
-We'll also start using [`useShow`](/docs/data/hooks/use-show) hook which is wrapper around `useOne`. Unlike the useOne hook, it offers inference capabilities, eliminating the need to explicitly pass `resource` and `id` parameters
+We'll also start using [`useShow`](/core/docs/data/hooks/use-show) hook which is wrapper around `useOne`. Unlike the useOne hook, it offers inference capabilities, eliminating the need to explicitly pass `resource` and `id` parameters
 
 Update your `src/pages/products/show.tsx` file by adding the following lines:
 
@@ -60,7 +60,7 @@ import { useShow } from "@refinedev/core";
 
 export const ShowProduct = () => {
   // removed-line
-  const { data, isLoading } = useOne({ resource: "products", id: 123 });
+  const { isLoading } = useOne({ resource: "products", id: 123 });
   // added-line
   const { query } = useShow();
 

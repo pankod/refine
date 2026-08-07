@@ -202,11 +202,11 @@ export const generatePaging = (pagination: Pagination) => {
 
   if (pagination.mode !== "server") return undefined;
 
-  if (!pagination.current || !pagination.pageSize) return undefined;
+  if (!pagination.currentPage || !pagination.pageSize) return undefined;
 
   return {
     limit: pagination.pageSize,
-    offset: (pagination.current - 1) * pagination.pageSize,
+    offset: (pagination.currentPage - 1) * pagination.pageSize,
   };
 };
 

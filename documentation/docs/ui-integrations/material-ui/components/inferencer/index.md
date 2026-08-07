@@ -1,5 +1,8 @@
 ---
-title: Inferencer
+title: "MUI Inferencer Component | UI Component in Refine v5"
+display_title: "Inferencer"
+sidebar_label: "Inferencer"
+description: "Set up Inferencer in Refine v5. Learn best practices. Explore customization options for Material Design, components for polished admin UIs."
 ---
 
 You can automatically generate views for your resources using `@refinedev/inferencer`. Inferencer exports `MuiListInferencer`, `MuiShowInferencer`, `MuiEditInferencer`, `MuiCreateInferencer` components and finally the `MuiInferencer` component, which combines all in one place.
@@ -18,14 +21,14 @@ values={[
 
 ```tsx
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   RefineSnackbarProvider,
 } from "@refinedev/mui";
 import { CssBaseline, GlobalStyles } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { MuiInferencer } from "@refinedev/inferencer/mui";
@@ -50,9 +53,9 @@ const App = () => {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 {/* highlight-next-line */}
@@ -106,7 +109,7 @@ const SampleEdit = () => {
   </TabItem>
 </Tabs>
 
-To learn more about `@refinedev/inferencer` package, please check out [Docs](/docs/packages/list-of-packages)
+To learn more about `@refinedev/inferencer` package, please check out [Docs](/core/docs/packages/list-of-packages/)
 
 ## Views
 
@@ -121,15 +124,15 @@ setInitialRoutes(["/samples"]);
 import { Refine } from "@refinedev/core";
 
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   RefineSnackbarProvider,
 } from "@refinedev/mui";
 import { CssBaseline, GlobalStyles } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import dataProvider from "@refinedev/simple-rest";
 
@@ -158,9 +161,9 @@ const App: React.FC = () => {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 {/* highlight-next-line */}
@@ -190,15 +193,15 @@ setInitialRoutes(["/samples/show/123"]);
 import { Refine } from "@refinedev/core";
 
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   RefineSnackbarProvider,
 } from "@refinedev/mui";
 import { CssBaseline, GlobalStyles } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import dataProvider from "@refinedev/simple-rest";
 
@@ -227,9 +230,9 @@ const App: React.FC = () => {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 {/* highlight-next-line */}
@@ -259,15 +262,15 @@ setInitialRoutes(["/samples/create"]);
 import { Refine } from "@refinedev/core";
 
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   RefineSnackbarProvider,
 } from "@refinedev/mui";
 import { CssBaseline, GlobalStyles } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import dataProvider from "@refinedev/simple-rest";
 
@@ -296,9 +299,9 @@ const App: React.FC = () => {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 {/* highlight-next-line */}
@@ -328,15 +331,15 @@ setInitialRoutes(["/samples/edit/123"]);
 import { Refine } from "@refinedev/core";
 
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   RefineSnackbarProvider,
 } from "@refinedev/mui";
 import { CssBaseline, GlobalStyles } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import dataProvider from "@refinedev/simple-rest";
 
@@ -365,9 +368,9 @@ const App: React.FC = () => {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 {/* highlight-next-line */}

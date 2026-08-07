@@ -1,17 +1,19 @@
 ---
-title: <AuthPage />
-description: <AuthPage> component from Refine is an authentication page that can be used to login, register, forgot password, and update password.
+title: "MUI Auth Page Component | UI Component in Refine v5"
+display_title: "<AuthPage />"
+sidebar_label: "<AuthPage />"
+description: "Learn to integrate Auth Page in Refine v5. Learn integrate login and property for polished admin UIs. See practical code samples."
 swizzle: true
 source: packages/mui/src/components/pages/auth/index.tsx
 ---
 
 `<AuthPage>` component from Refine for **Material UI** contains authentication pages that can be used to login, register, forgot password, and update password.
 
-Before using the `<AuthPage>` component you need to add [authProvider](/docs/authentication/auth-provider) that will be used to handle authentication.
+Before using the `<AuthPage>` component you need to add [authProvider](/core/docs/authentication/auth-provider/) that will be used to handle authentication.
 
 :::simple Good to know
 
-You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-packages) to customize it.
+You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 
 :::
 
@@ -148,7 +150,7 @@ import dataProvider from "@refinedev/simple-rest";
 
 import {
   AuthPage,
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   RefineSnackbarProvider,
 } from "@refinedev/mui";
@@ -158,8 +160,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 import { DashboardPage } from "./pages/dashboard";
@@ -180,9 +182,9 @@ const App = () => {
               <Route
                 element={
                   <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >
@@ -236,7 +238,7 @@ import dataProvider from "@refinedev/simple-rest";
 
 import {
   AuthPage,
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   RefineSnackbarProvider,
 } from "@refinedev/mui";
@@ -246,8 +248,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -269,9 +271,9 @@ const App = () => {
               <Route
                 element={
                   <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >
@@ -342,7 +344,7 @@ import dataProvider from "@refinedev/simple-rest";
 
 import {
   AuthPage,
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   RefineSnackbarProvider,
 } from "@refinedev/mui";
@@ -352,9 +354,9 @@ import { ThemeProvider } from "@mui/material/styles";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -376,9 +378,9 @@ const App = () => {
               <Route
                 element={
                   <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >
@@ -453,7 +455,7 @@ import dataProvider from "@refinedev/simple-rest";
 
 import {
   AuthPage,
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   RefineSnackbarProvider,
 } from "@refinedev/mui";
@@ -463,8 +465,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -486,9 +488,9 @@ const App = () => {
               <Route
                 element={
                   <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >
@@ -567,7 +569,7 @@ import dataProvider from "@refinedev/simple-rest";
 
 import {
   AuthPage,
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   RefineSnackbarProvider,
 } from "@refinedev/mui";
@@ -577,8 +579,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -600,9 +602,9 @@ const App = () => {
               <Route
                 element={
                   <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >
@@ -920,7 +922,7 @@ const MyLoginPage = () => {
     <AuthPage
       type="login"
       title={
-        <ThemedTitleV2
+        <ThemedTitle
           title="My Title"
           icon={<img src="https://refine.dev/img/logo.png" />}
         />
@@ -1012,7 +1014,7 @@ const authProvider = {
 wrapperProps-type="[`CardProps`](https://mui.com/material-ui/api/card/#props)"
 contentProps-type="[`CardContentProps`](https://mui.com/material-ui/api/card-content/#props)"
 headerProps-type="[`CardHeaderProps`](https://mui.com/material-ui/api/card-header/#props)"
-rememberMe-default="[`<Checkbox>Remember me</Checkbox>`](/docs/ui-integrations/material-ui/components/auth-page#rememberme)"
+rememberMe-default="[`<Checkbox>Remember me</Checkbox>`](/core/docs/ui-integrations/material-ui/components/auth-page#rememberme)"
 />
 
 ### Interface
@@ -1033,8 +1035,8 @@ interface FormPropsType extends UseFormProps {
 }
 ```
 
-[auth-provider]: /docs/authentication/auth-provider
-[login]: /docs/authentication/auth-provider#login-
-[register]: /docs/authentication/auth-provider#register
-[forgot-password]: /docs/authentication/auth-provider#forgotpassword
-[update-password]: /docs/authentication/auth-provider#updatepassword
+[auth-provider]: /core/docs/authentication/auth-provider
+[login]: /core/docs/authentication/auth-provider#login-
+[register]: /core/docs/authentication/auth-provider#register
+[forgot-password]: /core/docs/authentication/auth-provider#forgotpassword
+[update-password]: /core/docs/authentication/auth-provider#updatepassword

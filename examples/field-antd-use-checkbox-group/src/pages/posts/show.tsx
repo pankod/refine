@@ -13,7 +13,10 @@ export const PostShow = () => {
   const { data, isLoading } = queryResult;
   const record = data?.data;
 
-  const { data: tagsData, isLoading: tagsIsLoading } = useMany<ITag>({
+  const {
+    result: tagsData,
+    query: { isLoading: tagsIsLoading },
+  } = useMany<ITag>({
     resource: "tags",
     ids: record?.tags || [""],
     queryOptions: {

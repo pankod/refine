@@ -3,9 +3,11 @@ title: React Admin Panel Tutorial with Chakra UI and Strapi
 description: We'll build a React admin tutorial app with Refine
 slug: react-admin-tutorial
 authors: peter_osah
-tags: [Refine, react, strapi, tutorial, chakra-ui]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-03-03-ra-chakra-tutorial/Group%20818%20(1).png
+category: "How To Build"
+tags: [react, admin-panel]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-03-03-ra-chakra-tutorial/Group%20818%20(1).png
 hide_table_of_contents: false
+last_update: 2025-08-28
 ---
 
 ## Introduction
@@ -38,12 +40,12 @@ Before delving in to build the CRUD React admin tutorial app, we need to know th
 
 ### The `<Refine/>` Component
 
-The [`<Refine/>`](https://refine.dev/docs/api-reference/core/components/refine-config/) acts as the entrypoint of the application. it is a component that receives the configurations passed into it as [react props](https://reactjs.org/docs/components-and-props.html).
+The [`<Refine/>`](https://refine.dev/core/docs/api-reference/core/components/refine-config/) acts as the entrypoint of the application. it is a component that receives the configurations passed into it as [react props](https://reactjs.org/docs/components-and-props.html).
 
 ```tsx title="src/App.tsx"
 import { Refine } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 
 import { PostList, PostCreate, PostEdit, PostShow } from "pages/posts";
 
@@ -114,14 +116,14 @@ export default App;
 
 #### Resource
 
-A [resources](https://refine.dev/docs/guides-concepts/general-concepts/#resource-concept) is a fundamental component of a Refine application. A resource acts as a bridge between the Data/API layer and the Document/Page Layer. A resource enables the application's pages to interact with the API.
+A [resources](https://refine.dev/core/docs/guides-concepts/general-concepts/#resource-concept) is a fundamental component of a Refine application. A resource acts as a bridge between the Data/API layer and the Document/Page Layer. A resource enables the application's pages to interact with the API.
 
 To create a resource; define our resources and their action paths. This will inform **Refine** to use these paths when generating the breadcrumbs, menus, handling redirections and inferring the current resource and action.
 In accordance with the path definitions in a resource object, we have to assign a `<Route />` for each path and an element to display at that path.
 
 The `<Route>` corresponding to the created actions is defined. It is important to remember that the path specified in the resource definition should match the `path` specified in the route definition.
 
-[Refer to React Router docs for more information](https://refine.dev/docs/packages/documentation/routers/react-router-v6/#usage).
+[Refer to React Router docs for more information](https://refine.dev/core/docs/packages/documentation/routers/react-router-v6/#usage).
 
 ```tsx title="src/App.tsx"
 import { Refine } from "@refinedev/core";
@@ -199,7 +201,7 @@ npm run dev
 
 The Refine application should be up and running after you run the command. To access it, go to `http://localhost:5173`.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-03-03-ra-chakra-tutorial/welcome.jpg" className="rounded" alt="react admin tutorial" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-03-03-ra-chakra-tutorial/welcome.jpg" className="rounded" alt="Chakra admin dashboard welcome screen" />
 
 ### Setting AuthProvider
 
@@ -240,11 +242,11 @@ export const authProvider: AuthProvider = {
 
 ### Using `<Authentication>` Component
 
-The [`<Authenticated>`](https://refine.dev/docs/packages/documentation/routers/react-router-v6/#basic-usage) component is used to manage authenticated routes. This component leverages the [`useIsAuthenticated`](https://refine.dev/docs/api-reference/core/hooks/authentication/useIsAuthenticated/) hook to determine the authentication status of the user. It handles redirection and rendering specific elements based on this status through children and `fallback` props.
+The [`<Authenticated>`](https://refine.dev/core/docs/packages/documentation/routers/react-router-v6/#basic-usage) component is used to manage authenticated routes. This component leverages the [`useIsAuthenticated`](https://refine.dev/core/docs/api-reference/core/hooks/authentication/useIsAuthenticated/) hook to determine the authentication status of the user. It handles redirection and rendering specific elements based on this status through children and `fallback` props.
 
 To achieve protected routes, the `<Outlet>` component from `react-router-dom` is utilized, ensuring routes are only accessible when the user is authenticated.
 
-To handle scenarios where a user is not authenticated, we've established a `/login` route. This utilizes the [`<AuthPage>`](https://refine.dev/docs/api-reference/chakra-ui/components/chakra-auth-page/) component found in Refine UI packages, with the 'type' prop set to "login". This configuration effectively renders the login page.
+To handle scenarios where a user is not authenticated, we've established a `/login` route. This utilizes the [`<AuthPage>`](https://refine.dev/core/docs/api-reference/chakra-ui/components/chakra-auth-page/) component found in Refine UI packages, with the 'type' prop set to "login". This configuration effectively renders the login page.
 
 ```tsx title="src/App.tsx"
 import { Authenticated, Refine } from "@refinedev/core";
@@ -261,9 +263,9 @@ function App() {
         <Route
           element={
             <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-              <ThemedLayoutV2>
+              <ThemedLayout>
                 <Outlet />
-              </ThemedLayoutV2>
+              </ThemedLayout>
             </Authenticated>
           }
         >
@@ -291,9 +293,9 @@ export default App;
 
 :::tip
 
-The [`<NavigateToResource>`](https://refine.dev/docs/packages/documentation/routers/react-router-v6/#navigatetoresource) is a basic component to navigate to a resource page. It is useful when you want to navigate to a resource page from the index route of your app.
+The [`<NavigateToResource>`](https://refine.dev/core/docs/packages/documentation/routers/react-router-v6/#navigatetoresource) is a basic component to navigate to a resource page. It is useful when you want to navigate to a resource page from the index route of your app.
 
-The [`<ThemedLayoutV2>`](https://refine.dev/docs/api-reference/chakra-ui/components/chakra-ui-themed-layout/)component offers a convenient way to integrate both a sidebar and a header into your application. This is a helpful feature if you aim to include these elements in your app's layout.
+The [`<ThemedLayout>`](https://refine.dev/core/docs/api-reference/chakra-ui/components/chakra-ui-themed-layout/)component offers a convenient way to integrate both a sidebar and a header into your application. This is a helpful feature if you aim to include these elements in your app's layout.
 
 :::
 
@@ -383,7 +385,9 @@ export const PostList = () => {
     [],
   );
 
-  const { getHeaderGroups, getRowModel, setOptions } = useTable({
+  const {
+    reactTable: { getHeaderGroups, getRowModel, setOptions },
+  } = useTable({
     columns,
   });
 
@@ -434,7 +438,7 @@ export const PostList = () => {
 </p>
 </details>
 
-In the code above, we use the [`useTable()`](https://refine.dev/docs/api-reference/core/hooks/useTable/) hook from the `@refinedev/react-table` package to fetch records from Strapi. the `useTable()` maps the records into rows based on the `columns` variable definition.
+In the code above, we use the [`useTable()`](https://refine.dev/core/docs/api-reference/core/hooks/useTable/) hook from the `@refinedev/react-table` package to fetch records from Strapi. the `useTable()` maps the records into rows based on the `columns` variable definition.
 
 After this, we need to add a path (`/posts`) for the `list` action to our `resources` in the `App.tsx` file.
 
@@ -462,7 +466,7 @@ For this, we need to create a `<Route>` with the same path. To do this, we shoul
 
 ```tsx title="src/App.tsx"
 // highlight-start
-import { NavigateToResource, Route, Routes } from "@refinedev/react-router-v6";
+import { NavigateToResource, Route, Routes } from "@refinedev/react-router";
 import { PostList } from "./pages/posts/list";
 // highlight-end
 
@@ -488,7 +492,7 @@ function App() {
 export default App;
 ```
 
-To avoid encountering an empty screen when going to the homepage, we use the [`<NavigateToResource>`](https://refine.dev/docs/packages/documentation/routers/react-router-v6/#navigatetoresource) component to redirect to the `posts` resource.
+To avoid encountering an empty screen when going to the homepage, we use the [`<NavigateToResource>`](https://refine.dev/core/docs/packages/documentation/routers/react-router-v6/#navigatetoresource) component to redirect to the `posts` resource.
 
 It will prompt you to log in to the app. Since we are using Refine's `fake strapi-v4 API`, Try these credentials:
 
@@ -499,16 +503,18 @@ Check that the URL is routed to /posts and that posts are present.
 
 #### Handling Relationships
 
-When retrieving recorda, relations are not populated. Hence, We will use the `metaData` option to populate the Strapi v4 API with relational data (category data in our case).
+When retrieving recorda, relations are not populated. Hence, We will use the `meta` option to populate the Strapi v4 API with relational data (category data in our case).
 
-[Refer to docs for handling relations with strapi](https://refine.dev/docs/packages/documentation/data-providers/strapi-v4/#relations-population)
+[Refer to docs for handling relations with strapi](https://refine.dev/core/docs/packages/documentation/data-providers/strapi-v4/#relations-population)
 
 We will populate records with a `category id` field from the `/posts` endpoint with their respective titles. To automatically get `category titles` from the `/categories `endpoint for each record and display them on our table, we must use Strapi v4's populate feature.
 
-We'll use the populate parameter to specify which fields should be filled in. we will assign an array to the populate parameter which will contain the map the values from the `/categories` endpoint to the records with a `category id` on the `/posts` endpoint. The `populate` parameter will be a property of the `metaData` property which is subsequently a property of the `refineCoreProps` object.
+We'll use the populate parameter to specify which fields should be filled in. we will assign an array to the populate parameter which will contain the map the values from the `/categories` endpoint to the records with a `category id` on the `/posts` endpoint. The `populate` parameter will be a property of the `meta` property which is subsequently a property of the `refineCoreProps` object.
 
 ```tsx title="src/pages/posts/list.tsx"
-const { getHeaderGroups, getRowModel, setOptions } = useTable({
+const {
+  reactTable: { getHeaderGroups, getRowModel, setOptions },
+} = useTable({
   columns,
   // highlight-start
   refineCoreProps: {
@@ -540,7 +546,7 @@ const columns = React.useMemo<GridColumns<IPost>>(
 );
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-03-03-ra-chakra-tutorial/handling-relationships.jpg" className="border border-gray-100 rounded" alt="react admin tutorial" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-03-03-ra-chakra-tutorial/handling-relationships.jpg" className="border border-gray-100 rounded" alt="Handling relationships table view" />
 
 #### Pagination Of Listed Records
 
@@ -548,9 +554,9 @@ Next, we will add Pagination to our application. In order to achieve this, the `
 
 Create a new file called `pagination.tsx` under the `components` folder. This file will contain the code for the pagination component.
 
-- `current`: This property holds the current page number obtained from the `useTable()` hook,
+- `currentPage`: This property holds the current page number obtained from the `useTable()` hook,
 - `pageCount`: This property holds the total amount of pages present from the `useTable()` hook,
-- `setCurrent()`: This property sets the current page number to an value. it handles the navigation to either the next page or the previous page.
+- `setCurrentPage()`: This property sets the current page number to an value. it handles the navigation to either the next page or the previous page.
 
 <details>
 <summary>Show code </summary>
@@ -565,18 +571,18 @@ import { usePagination } from "@refinedev/chakra-ui";
 import { IconButton } from "@chakra-ui/react";
 
 type PaginationProps = {
-  current: number;
+  currentPage: number;
   pageCount: number;
-  setCurrent: (page: number) => void;
+  setCurrentPage: (page: number) => void;
 };
 
 export const Pagination: FC<PaginationProps> = ({
-  current,
+  currentPage,
   pageCount,
-  setCurrent,
+  setCurrentPage,
 }) => {
   const pagination = usePagination({
-    current,
+    currentPage,
     pageCount,
   });
 
@@ -586,7 +592,7 @@ export const Pagination: FC<PaginationProps> = ({
         {pagination?.prev && (
           <IconButton
             aria-label="previous page"
-            onClick={() => setCurrent(current - 1)}
+            onClick={() => setCurrentPage(currentPage - 1)}
             disabled={!pagination?.prev}
             variant="outline"
           >
@@ -600,8 +606,8 @@ export const Pagination: FC<PaginationProps> = ({
           return (
             <Button
               key={page}
-              onClick={() => setCurrent(page)}
-              variant={page === current ? "solid" : "outline"}
+              onClick={() => setCurrentPage(page)}
+              variant={page === currentPage ? "solid" : "outline"}
             >
               {page}
             </Button>
@@ -610,7 +616,7 @@ export const Pagination: FC<PaginationProps> = ({
         {pagination?.next && (
           <IconButton
             aria-label="next page"
-            onClick={() => setCurrent(current + 1)}
+            onClick={() => setCurrentPage(currentPage + 1)}
             variant="outline"
           >
             <IconChevronRight size="18" />
@@ -637,11 +643,14 @@ import { Pagination } from "../../components/pagination";
 export const PostList = () => {
   //...
   const {
-    getHeaderGroups,
-    getRowModel,
+    reactTable: { getHeaderGroups, getRowModel },
     setOptions,
     // highlight-next-line
-    refineCore: { current, pageCount, setCurrent },
+    refineCore: {
+      currentPage: currentPage,
+      pageCount,
+      setCurrentPage: setCurrentPage,
+    },
   } = useTable({
     columns,
     refineCoreProps: {
@@ -656,9 +665,9 @@ export const PostList = () => {
       ...
       {/* highlight-start */}
       <Pagination
-        current={current}
+        currentPage={currentPage}
         pageCount={pageCount}
-        setCurrent={setCurrent}
+        setCurrentPage={setCurrentPage}
       />
       {/* highlight-end */}
     </List>
@@ -671,7 +680,7 @@ export const PostList = () => {
 
 ### Viewing a record
 
-To view a record, we will use the [`useShow()`](https://refine.dev/docs/api-reference/core/hooks/show/useShow/) hook, which is included in the `@refinedev/core` package.
+To view a record, we will use the [`useShow()`](https://refine.dev/core/docs/api-reference/core/hooks/show/useShow/) hook, which is included in the `@refinedev/core` package.
 The hook `useShow()` allows you to retrieve the desired record. It uses the `getOne` method from the dataProvider passed to `<Refine/>` as the query function.
 
 We'll add a `show.tsx` file in the `posts` folder under the `pages` folder next, with the following code:
@@ -686,12 +695,12 @@ import { Show, NumberField, TextField, DateField } from "@refinedev/chakra-ui";
 import { Heading } from "@chakra-ui/react";
 
 export const PostShow = () => {
-  const { queryResult } = useShow({
-    metaData: {
+  const { query } = useShow({
+    meta: {
       populate: ["category"],
     },
   });
-  const { data, isLoading } = queryResult;
+  const { data, isLoading } = query;
 
   const record = data?.data;
 
@@ -791,7 +800,7 @@ export default App;
 
 At this point, the `Show` page looks like this:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-03-03-ra-chakra-tutorial/show.jpg" className="border border-gray-100 rounded"  alt="react admin tutorial" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-03-03-ra-chakra-tutorial/show.jpg" className="border border-gray-100 rounded"  alt="Record details view" />
 
 ### Creating a record
 
@@ -820,14 +829,14 @@ import { useForm } from "@refinedev/react-hook-form";
 
 export const PostCreate = () => {
   const {
-    refineCore: { formLoading, queryResult },
+    refineCore: { formLoading, query },
     saveButtonProps,
     register,
     resetField,
     formState: { errors },
   } = useForm();
 
-  const postsData = queryResult?.data?.data;
+  const postsData = query?.data?.data;
 
   const { options: categoryOptions } = useSelect({
     resource: "categories",
@@ -891,7 +900,7 @@ export const PostCreate = () => {
 </p>
 </details>
 
-In the code above, we used the `useForm()` hook to create records. This hook comes from the [(@refinedev/react-hook-form)](https://github.com/refinedev/refine/tree/master/packages/react-hook-form) which is a Refine adapter of the [React Hook Form](https://react-hook-form.com/) library. This library allows you to use the [React Hook Form](https://react-hook-form.com/) library with refine. More information about the `useForm()` hook can be obtained [here](https://refine.dev/docs/packages/documentation/react-hook-form/useForm/).
+In the code above, we used the `useForm()` hook to create records. This hook comes from the [(@refinedev/react-hook-form)](https://github.com/refinedev/refine/tree/main/packages/react-hook-form) which is a Refine adapter of the [React Hook Form](https://react-hook-form.com/) library. This library allows you to use the [React Hook Form](https://react-hook-form.com/) library with refine. More information about the `useForm()` hook can be obtained [here](https://refine.dev/core/docs/packages/documentation/react-hook-form/useForm/).
 
 we use methods provided by the `useForm()` hook like `register()` to validate the new post we will add into Strapi.
 The hooks also provide an object like `saveButtonProps` which accepts the properties shown below:
@@ -949,7 +958,7 @@ function App() {
 export default App;
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-03-03-ra-chakra-tutorial/creating-record-min.gif" className="border border-gray-100 rounded" alt="react admin tutorial" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-03-03-ra-chakra-tutorial/creating-record-min.avif" className="border border-gray-100 rounded" alt="Create record form" />
 
 ### Modifying/Editing records
 
@@ -974,7 +983,7 @@ import { useSelect } from "@refinedev/core";
 
 export const PostEdit = () => {
   const {
-    refineCore: { formLoading, queryResult },
+    refineCore: { formLoading, query },
     saveButtonProps,
     register,
     resetField,
@@ -987,7 +996,7 @@ export const PostEdit = () => {
     },
   });
 
-  const postsData = queryResult?.data?.data;
+  const postsData = query?.data?.data;
 
   const { options: categoryOptions } = useSelect({
     resource: "categories",
@@ -1169,7 +1178,7 @@ function App() {
 export default App;
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-03-03-ra-chakra-tutorial/editing-record-min.gif" className="border border-gray-100 rounded" alt="react admin tutorial" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-03-03-ra-chakra-tutorial/editing-record-min.avif" className="border border-gray-100 rounded" alt="Edit record form" />
 
 ### Deleting post record
 
@@ -1239,7 +1248,7 @@ function App() {
 export default App;
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-03-03-ra-chakra-tutorial/deleting-record-min.gif" className="border border-gray-100 rounded" alt="react admin tutorial" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-03-03-ra-chakra-tutorial/deleting-record-min.avif" className="border border-gray-100 rounded" alt="Delete record confirmation" />
 
 ### Implement sorting of listed records
 
@@ -1353,7 +1362,7 @@ You can set the `enableSorting` property of the column to false in the column de
 },
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-03-03-ra-chakra-tutorial/sorting-record-min.gif" className="border border-gray-100 rounded" alt="react admin tutorial" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-03-03-ra-chakra-tutorial/sorting-record-min.avif" className="border border-gray-100 rounded" alt="Sorting records table" />
 
 ### Implement filters on listed records
 
@@ -1562,7 +1571,7 @@ We can also disable filtering for the `actions` column by setting the column's e
 },
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-03-03-ra-chakra-tutorial/filtering-min.gif" className="border border-gray-100 rounded" alt="react admin tutorial" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-03-03-ra-chakra-tutorial/filtering-min.avif" className="border border-gray-100 rounded" alt="Filtering records table" />
 
 ### Implementing mutation mode.
 
@@ -1596,7 +1605,7 @@ function App() {
 export default App;
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-03-03-ra-chakra-tutorial/mutationmode-min.gif" className="border border-gray-100 rounded"  alt="react admin tutorial" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-03-03-ra-chakra-tutorial/mutationmode-min.avif" className="border border-gray-100 rounded"  alt="Mutation mode options UI" />
 
 ## Conclusion
 
@@ -1610,7 +1619,7 @@ If you're looking to build a robust and dynamic admin panel for your web applica
 
 This article demonstrates the flexibility that comes with using Refine to create web applications. Refine is a fantastic tool that accelerates development by abstracting many time-consuming tasks, giving the developer more time to focus on the application's core business logic.
 
-It also comes with detailed documentation that will get you started. Visit [here](https://refine.dev/docs/getting-started/overview/) to access the documentation.
+It also comes with detailed documentation that will get you started. Visit [here](https://refine.dev/core/docs/getting-started/overview/) to access the documentation.
 
 ## Live CodeSandbox Example
 

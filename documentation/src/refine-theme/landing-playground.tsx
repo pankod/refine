@@ -67,7 +67,7 @@ export const LandingPlayground = () => {
               "max-w-screen-landing-2xl",
               "bg-[length:720px_156px]",
               "landing-lg:bg-[length:1440px_312px]",
-              "bg-center bg-no-repeat",
+              "bg-no-repeat",
             )}
           />
           <div
@@ -416,7 +416,7 @@ export const LandingPlayground = () => {
               "max-w-screen-landing-2xl",
               "bg-[length:720px_156px]",
               "landing-lg:bg-[length:1440px_312px]",
-              "bg-center bg-no-repeat",
+              "bg-no-repeat",
             )}
           />
         </div>

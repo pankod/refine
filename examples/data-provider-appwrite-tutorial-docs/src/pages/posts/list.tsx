@@ -12,12 +12,14 @@ import type { IPost } from "../../interfaces";
 
 export const PostList = () => {
   const { tableProps, sorters } = useTable<IPost>({
-    initialSorter: [
-      {
-        field: "$createdAt",
-        order: "asc",
-      },
-    ],
+    sorters: {
+      initial: [
+        {
+          field: "$createdAt",
+          order: "asc",
+        },
+      ],
+    },
   });
 
   return (

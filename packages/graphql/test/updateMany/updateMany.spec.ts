@@ -1,4 +1,4 @@
-import { gql } from "@urql/core";
+import gql from "graphql-tag";
 import dataProvider from "../../src/index";
 import client from "../gqlClient";
 import "./updateMany.mock";
@@ -30,13 +30,13 @@ describe("updateMany", () => {
 
   describe("without operation", () => {
     it("throws error", async () => {
-      expect(
+      await expect(
         dataProvider(client).updateMany({
           resource: "blogPosts",
           ids: [1, 2],
           variables: { status: "PUBLISHED" },
         }),
-      ).rejects.toEqual(new Error("Operation is required."));
+      ).rejects.toEqual(new Error("[Code] Operation is required."));
     });
   });
 });

@@ -32,12 +32,16 @@ export const dataProvider = (
 
   return {
     getList: async ({ resource, pagination, filters, sorters }) => {
-      const { current = 1, pageSize = 10, mode = "server" } = pagination ?? {};
+      const {
+        currentPage = 1,
+        pageSize = 10,
+        mode = "server",
+      } = pagination ?? {};
 
       const appwriteFilters = getAppwriteFilters(filters);
 
       const appwritePagination =
-        mode === "server" ? getAppwritePagination(current, pageSize) : [];
+        mode === "server" ? getAppwritePagination(currentPage, pageSize) : [];
 
       const appwriteSorts = getAppwriteSorting(sorters);
 

@@ -51,7 +51,7 @@ describe("generateLogicalFilterFormula", () => {
       value: 30,
     } as unknown as LogicalFilter;
 
-    expect(() => generateLogicalFilterFormula(filter)).toThrowError(
+    expect(() => generateLogicalFilterFormula(filter)).toThrow(
       "Operator unsupported is not supported for the Airtable data provider",
     );
   });

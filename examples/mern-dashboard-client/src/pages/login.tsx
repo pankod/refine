@@ -8,11 +8,9 @@ import { yariga } from "../assets";
 import type { CredentialResponse } from "../interfaces/google";
 
 export const Login: React.FC = () => {
-  const { mutate: login } = useLogin<CredentialResponse>({
-    v3LegacyAuthProviderCompatible: true,
-  });
+  const { mutate: login } = useLogin<CredentialResponse>();
 
-  const GoogleButton = (): JSX.Element => {
+  const GoogleButton = (): React.JSX.Element => {
     const divRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

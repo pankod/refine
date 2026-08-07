@@ -3,9 +3,11 @@ title: Essentials of Managing Form State with React Hook Form
 description: This post covers the essentials of form state management with React Hook Form library.
 slug: react-hook-form
 authors: abdullah_numan
-tags: [react, react-hook-form]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-26-react-hook-form/social.png
+category: "Ecosystem / Integrations"
+tags: [react]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-26-react-hook-form/social.png
 hide_table_of_contents: false
+last_update: 2024-11-07
 ---
 
 **This article was last updated on November 6, 2024 to include optimization techniques for managing large forms with useFieldArray() and strategies for integrating custom input components using the Controller API in React Hook Form.**
@@ -144,7 +146,7 @@ npm run dev
 4. Navigate to `http://localhost:3000`. You should be presented with a controlled form that logs data to the console, on each value change:
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-26-react-hook-form/1.png" alt="shadcn ui" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-26-react-hook-form/1.png" alt="shadcn ui" />
 </div>
 
 Play around with a bit to explore the limitations, such as unnecessary re-rendering displayed in the `Render count` board, absence of field value validation, no error reporting, etc.
@@ -435,7 +437,7 @@ export default App;
 After the above changes, if you play around a bit with the form, you'll notice that the form now displays validation errors when the user fails to comply with the field rules:
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-26-react-hook-form/2.png" alt="shadcn ui" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-26-react-hook-form/2.png" alt="shadcn ui" />
 </div>
 
 In the sections below, we make sense of the applied React Hook Form APIs for the changes.
@@ -740,7 +742,7 @@ onSubmit={formInstance?.handleSubmit(data => {
 As you can see, we are setting a field level error that would occur in a backend service. This turns out to be very specific, as the error now gets displayed in the JSX `<span>` element, without demanding any change to the data or error particular to the field:
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-26-react-hook-form/3.png" alt="shadcn ui" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-26-react-hook-form/3.png" alt="shadcn ui" />
 </div>
 
 ### Setting Default Values and Resetting Form Fields
@@ -966,7 +968,7 @@ It is also common to use the `watch()` API for collecting analytics about user e
 Notice that when we call `watch()`, the render count increases when the form values change in any of the form fields. This is pretty much what happens with regular React controlled forms.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-26-react-hook-form/4.png" alt="shadcn ui" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-26-react-hook-form/4.png" alt="shadcn ui" />
 </div>
 
 With React Hook Form, we can watch fields individually, by passing in the field name to `watch()`:
@@ -1062,7 +1064,7 @@ const formInstance = useForm({
 Throughout the demo, we have placed the `Render count` scorer in order to keep count of the re-renders happening in `App.js`:
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-26-react-hook-form/5.png" alt="shadcn ui" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-26-react-hook-form/5.png" alt="shadcn ui" />
 </div>
 
 If you compare the render counts in the starter React controlled form with those in the React Hook Form version, you'll notice significantly reduced number of re-renderings due to form field changes in the React Hook Form version. React Hook Form leads to huge performance gains in forms.

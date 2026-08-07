@@ -1,4 +1,5 @@
 import { renderHook, waitFor } from "@testing-library/react";
+import { vi } from "vitest";
 
 import { MockJSONServer, TestWrapper } from "@test";
 
@@ -6,6 +7,7 @@ import { useDataGrid } from "./";
 import type { CrudFilters } from "@refinedev/core";
 import { act } from "react-dom/test-utils";
 import { posts } from "@test/dataMocks";
+import * as core from "@refinedev/core";
 
 describe("useDataGrid Hook", () => {
   it("controlled filtering with 'onSubmit' and 'onSearch'", async () => {
@@ -40,7 +42,7 @@ describe("useDataGrid Hook", () => {
     );
 
     await waitFor(() => {
-      expect(!result.current.tableQueryResult?.isLoading).toBeTruthy();
+      expect(!result.current.tableQuery?.isLoading).toBeTruthy();
     });
 
     await act(async () => {
@@ -59,7 +61,7 @@ describe("useDataGrid Hook", () => {
         value: "draft",
       },
     ]);
-    expect(result.current.current).toEqual(1);
+    expect(result.current.currentPage).toEqual(1);
   });
 
   it.each(["client", "server"] as const)(
@@ -163,7 +165,7 @@ describe("useDataGrid Hook", () => {
   );
 
   it("works correctly with `interval` and `onInterval` params", async () => {
-    const onInterval = jest.fn();
+    const onInterval = vi.fn();
     const { result } = renderHook(
       () =>
         useDataGrid({
@@ -189,13 +191,13 @@ describe("useDataGrid Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.tableQueryResult.isLoading).toBeTruthy();
+      expect(result.current.tableQuery.isLoading).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBe(900);
-      expect(onInterval).toBeCalled();
+      expect(onInterval).toHaveBeenCalled();
     });
 
     await waitFor(() => {
-      expect(!result.current.tableQueryResult.isLoading).toBeTruthy();
+      expect(!result.current.tableQuery.isLoading).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBeUndefined();
     });
   });
@@ -231,6 +233,9 @@ describe("useDataGrid Hook", () => {
         await result.current.dataGridProps.processRowUpdate(
           newPost,
           postToUpdate,
+          {
+            rowId: "test-id",
+          },
         );
       }
     });
@@ -256,6 +261,111 @@ describe("useDataGrid Hook", () => {
       expect(result.current.tableQuery.isSuccess).toBeTruthy();
     });
 
-    expect(result.current.tableQuery).toEqual(result.current.tableQueryResult);
+    expect(result.current.tableQuery).toEqual(result.current.tableQuery);
+  });
+
+  it("should pass meta from updateMutationOptions to mutate function", async () => {
+    const mockMeta = { customData: "test" };
+
+    const mockDataProvider = {
+      ...MockJSONServer,
+      update: vi.fn().mockImplementation((params) => {
+        expect(params).toEqual(
+          expect.objectContaining({
+            meta: mockMeta,
+          }),
+        );
+        return Promise.resolve({ data: params.variables });
+      }),
+    };
+
+    const { result } = renderHook(
+      () =>
+        useDataGrid({
+          resource: "posts",
+          editable: true,
+          updateMutationOptions: {
+            meta: mockMeta,
+          },
+        }),
+      {
+        wrapper: TestWrapper({
+          dataProvider: mockDataProvider,
+          resources: [{ name: "posts" }],
+        }),
+      },
+    );
+
+    const mockRow = { id: "1", title: "Test" };
+    const mockOldRow = { id: "1", title: "Old Test" };
+
+    await act(async () => {
+      await result.current.dataGridProps.processRowUpdate!(
+        mockRow,
+        mockOldRow,
+        { rowId: "1" },
+      );
+    });
+  });
+
+  it("should not change sortModel when page changes", async () => {
+    const { result } = renderHook(
+      () =>
+        useDataGrid({
+          resource: "posts",
+          sorters: {
+            initial: [
+              {
+                field: "title",
+                order: "asc",
+              },
+            ],
+          },
+        }),
+      {
+        wrapper: TestWrapper({
+          dataProvider: MockJSONServer,
+          resources: [{ name: "posts" }],
+        }),
+      },
+    );
+
+    await waitFor(() => {
+      expect(result.current.tableQuery.isSuccess).toBeTruthy();
+    });
+
+    // Capture initial sortModel
+    const initialSortModel = result.current.dataGridProps.sortModel;
+    expect(initialSortModel).toEqual([
+      {
+        field: "title",
+        sort: "asc",
+      },
+    ]);
+
+    // Change page using onPaginationModelChange from dataGridPaginationValues
+    await act(async () => {
+      result.current.dataGridProps.onPaginationModelChange!(
+        {
+          page: 3,
+          pageSize: 25,
+        },
+        {} as any,
+      );
+    });
+
+    await waitFor(() => {
+      expect(result.current.currentPage).toBe(4);
+    });
+
+    // sortModel should remain the same object reference after page change
+    const sortModelAfterPageChange = result.current.dataGridProps.sortModel;
+    expect(sortModelAfterPageChange).toBe(initialSortModel);
+    expect(sortModelAfterPageChange).toEqual([
+      {
+        field: "title",
+        sort: "asc",
+      },
+    ]);
   });
 });

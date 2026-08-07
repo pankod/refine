@@ -7,9 +7,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
 export const Header: React.FC = () => {
-  const { data: user } = useGetIdentity({
-    v3LegacyAuthProviderCompatible: true,
-  });
+  const { data: user } = useGetIdentity();
   const showUserInfo = user && (user.name || user.avatar);
 
   return (

@@ -86,7 +86,7 @@ export const DataProvider = (
     const url = `${apiUrl}/${resource}`;
 
     const {
-      current = 1,
+      currentPage = 1,
       pageSize: _limit = 10,
       mode = "server",
     } = pagination ?? {};
@@ -97,7 +97,7 @@ export const DataProvider = (
     const query = {
       ...(mode === "server"
         ? {
-            _start: (current - 1) * _limit,
+            _start: (currentPage - 1) * _limit,
             _limit,
           }
         : {}),

@@ -4,7 +4,7 @@ import isInternalUrl from "@docusaurus/isInternalUrl";
  * @param {string} URL to be dest for link
  */
 export const getLinkRel = (URL?: string): string => {
-  let rel = "noopener noreferrer nofollow";
+  let rel = "noopener nofollow";
 
   const isInternalURL = isInternalUrl(URL);
 

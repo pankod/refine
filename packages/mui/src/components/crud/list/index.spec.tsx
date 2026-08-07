@@ -1,7 +1,8 @@
 import React, { type ReactNode } from "react";
+import { vi } from "vitest";
 import { crudListTests } from "@refinedev/ui-tests";
 import { RefineButtonTestIds } from "@refinedev/ui-types";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import { CreateButton } from "@components/buttons";
 import { render, TestWrapper } from "@test";
 import { List } from "./index";
@@ -22,7 +23,7 @@ const renderList = (list: ReactNode) => {
 describe("<List/>", () => {
   beforeEach(() => {
     // This is an issue on `mui` side rather than `refine`. Ignoring for now but might need to be fixed.
-    jest.spyOn(console, "error").mockImplementation((message) => {
+    vi.spyOn(console, "error").mockImplementation((message) => {
       if (message?.includes?.("validateDOMNesting")) {
         return;
       }

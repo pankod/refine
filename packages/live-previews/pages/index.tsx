@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Index(): JSX.Element {
+export default function Index(): React.JSX.Element {
   return (
     <div className="page__wrapper index">
       <div className="page__content">

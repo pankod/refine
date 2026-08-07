@@ -13,7 +13,10 @@ export const TableCategoryProductColumn = ({ category }: Props) => {
   const [productId, setProductId] = useState<number | null>(null);
   const [drawerAction, setDrawerAction] = useState<"show" | "edit">("show");
 
-  const { data, isLoading } = useList<IProduct, HttpError>({
+  const {
+    result: data,
+    query: { isLoading },
+  } = useList<IProduct, HttpError>({
     resource: "products",
     queryOptions: {
       enabled: !!category.id,

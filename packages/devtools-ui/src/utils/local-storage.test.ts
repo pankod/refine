@@ -1,10 +1,11 @@
+import { vi } from "vitest";
 import { getLocalStorage } from "./local-storage";
 
 describe("getLocalStorage", () => {
   const mockLocalStorage = {
-    getItem: jest.fn(),
-    setItem: jest.fn(),
-    removeItem: jest.fn(),
+    getItem: vi.fn(),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
   };
 
   beforeEach(() => {
@@ -14,7 +15,7 @@ describe("getLocalStorage", () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("should return default value if localStorage is not available", () => {

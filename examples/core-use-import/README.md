@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example core-use-import
 
 <br/>
 
-[![Open core-use-import example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/core-use-import?view=preview&theme=dark&codemirror=1)
+[![Open core-use-import example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/core-use-import?view=preview&theme=dark&codemirror=1)

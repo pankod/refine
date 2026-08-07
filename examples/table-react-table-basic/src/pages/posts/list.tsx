@@ -39,17 +39,19 @@ export const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    getState,
-    setPageIndex,
-    getCanPreviousPage,
-    getPageCount,
-    getCanNextPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    getPrePaginationRowModel,
+    reactTable: {
+      getHeaderGroups,
+      getRowModel,
+      getState,
+      setPageIndex,
+      getCanPreviousPage,
+      getPageCount,
+      getCanNextPage,
+      nextPage,
+      previousPage,
+      setPageSize,
+      getPrePaginationRowModel,
+    },
   } = useTable({
     columns,
   });

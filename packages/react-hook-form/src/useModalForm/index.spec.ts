@@ -236,8 +236,8 @@ describe("useModalForm Hook", () => {
   });
 
   it("should `meta[syncWithLocationKey]` overrided by default", async () => {
-    const mockGetOne = jest.fn();
-    const mockUpdate = jest.fn();
+    const mockGetOne = vi.fn().mockResolvedValue({ data: { id: 5 } });
+    const mockUpdate = vi.fn().mockResolvedValue({ data: { id: 5 } });
 
     const { result } = renderHook(
       () =>
@@ -270,5 +270,175 @@ describe("useModalForm Hook", () => {
     expect(mockGetOne.mock.calls[0][0].meta?.["modal-posts-edit"]).toBe(
       undefined,
     );
+  });
+
+  it("when 'autoResetFormWhenClose' is true, 'reset' should be called when 'close' is called", async () => {
+    const { result } = renderHook(
+      () =>
+        useModalForm({
+          refineCoreProps: {
+            resource: "posts",
+            action: "create",
+          },
+          modalProps: {
+            autoResetFormWhenClose: true,
+          },
+        }),
+      {
+        wrapper: TestWrapper({}),
+      },
+    );
+
+    await act(async () => {
+      result.current.modal.show();
+    });
+
+    await act(async () => {
+      // register values to form
+      result.current.register("test");
+      result.current.setValue("test", "test");
+    });
+
+    expect(result.current.getValues()).toStrictEqual({ test: "test" });
+
+    await act(async () => {
+      result.current.modal.close();
+    });
+
+    // check if form is reset. (values object should be empty)
+    expect(result.current.getValues()).toStrictEqual({});
+  });
+
+  it("when 'autoResetFormWhenClose' is false, 'reset' should not be called when 'close' is called", async () => {
+    const { result } = renderHook(
+      () =>
+        useModalForm({
+          refineCoreProps: {
+            resource: "posts",
+            action: "create",
+          },
+          modalProps: {
+            autoResetFormWhenClose: false,
+          },
+        }),
+      {
+        wrapper: TestWrapper({}),
+      },
+    );
+
+    await act(async () => {
+      result.current.modal.show();
+      // register values to form
+      result.current.register("test");
+      result.current.setValue("test", "test");
+    });
+
+    await act(async () => {
+      result.current.modal.close();
+    });
+
+    // check if form is not reset. (values object should NOT be empty)
+    expect(result.current.getValues()).toStrictEqual({ test: "test" });
+  });
+
+  it("when 'autoResetFormWhenClose' is true for edit action, 'reset' should be called when 'close' is called", async () => {
+    const { result } = renderHook(
+      () =>
+        useModalForm({
+          refineCoreProps: {
+            resource: "posts",
+            action: "edit",
+            id: "5",
+          },
+          modalProps: {
+            autoResetFormWhenClose: true,
+          },
+        }),
+      {
+        wrapper: TestWrapper({
+          dataProvider: {
+            ...MockJSONServer,
+            getOne: () =>
+              Promise.resolve({ data: { id: 5, title: "default-title" } }),
+          },
+        }),
+      },
+    );
+
+    await act(async () => {
+      result.current.modal.show();
+    });
+
+    await act(async () => {
+      result.current.setValue("title", "new-title");
+    });
+
+    expect(result.current.getValues()).toStrictEqual({
+      id: 5,
+      title: "new-title",
+    });
+
+    await act(async () => {
+      result.current.modal.close();
+    });
+
+    expect(result.current.getValues()).toStrictEqual({
+      id: 5,
+      title: "default-title",
+    });
+  });
+
+  it("should handle action switching correctly - modal should show after switching from edit to create", async () => {
+    // This test reproduces the bug described in the issue
+    const { result, rerender } = renderHook(
+      ({ action }: { action: "create" | "edit" }) =>
+        useModalForm({
+          refineCoreProps: {
+            resource: "posts",
+            action,
+          },
+        }),
+      {
+        wrapper: TestWrapper({}),
+        initialProps: { action: "create" as const },
+      },
+    );
+
+    // Step 1: Open create modal - should work
+    await act(async () => {
+      result.current.modal.show();
+    });
+    expect(result.current.modal.visible).toBe(true);
+
+    // Step 2: Close modal
+    await act(async () => {
+      result.current.modal.close();
+    });
+    expect(result.current.modal.visible).toBe(false);
+
+    // Step 3: Switch to edit action
+    rerender({ action: "edit" });
+
+    // Step 4: Open edit modal with ID - should work
+    await act(async () => {
+      result.current.modal.show("5");
+    });
+    expect(result.current.modal.visible).toBe(true);
+
+    // Step 5: Close modal
+    await act(async () => {
+      result.current.modal.close();
+    });
+    expect(result.current.modal.visible).toBe(false);
+
+    // Step 6: Switch back to create action
+    rerender({ action: "create" });
+
+    // Step 7: Try to open create modal again
+    await act(async () => {
+      result.current.modal.show();
+    });
+
+    expect(result.current.modal.visible).toBe(true);
   });
 });

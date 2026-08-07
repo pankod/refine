@@ -21,7 +21,10 @@ interface IPost {
 }
 
 const PostList: React.FC = () => {
-  const { tableQuery, sorter, setSorter } = useTable<IPost, HttpError>({
+  const { result, tableQuery, sorters, setSorters } = useTable<
+    IPost,
+    HttpError
+  >({
     // highlight-start
     sorters: {
       initial: [
@@ -35,23 +38,23 @@ const PostList: React.FC = () => {
   });
 
   // Fetches the posts for the current page
-  const posts = tableQuery?.data?.data ?? [];
+  const posts = result.data;
 
   // Gets the current sort order for the fields
   // highlight-start
   const currentSorterOrders = useMemo(() => {
     return {
       createdAt:
-        sorter.find((item) => item.field === "createdAt")?.order || "desc",
-      id: sorter.find((item) => item.field === "id")?.order || "desc",
-      title: sorter.find((item) => item.field === "title")?.order || "asc",
+        sorters.find((item) => item.field === "createdAt")?.order || "desc",
+      id: sorters.find((item) => item.field === "id")?.order || "desc",
+      title: sorters.find((item) => item.field === "title")?.order || "asc",
     };
-  }, [sorter]);
+  }, [sorters]);
   // highlight-end
 
   // highlight-start
   const toggleSort = (field: string) => {
-    setSorter([
+    setSorters([
       {
         field,
         order: currentSorterOrders[field] === "asc" ? "desc" : "asc",
@@ -95,7 +98,7 @@ const PostList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {tableQuery.data?.data.map((post) => (
+          {result.data?.map((post) => (
             <tr key={post.id}>
               <td>{post.id}</td>
               <td>{post.title}</td>
@@ -114,10 +117,18 @@ setRefineProps({
   resources: [
     {
       name: "posts",
-      list: PostList,
+      list: "/posts",
     },
   ],
 });
 
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo>
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<PostList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

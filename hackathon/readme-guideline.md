@@ -1,10 +1,10 @@
 # Refine + DEV Open Source Hackathon #2 - README Guideline
 
-[![cover-image](https://refine.ams3.cdn.digitaloceanspaces.com/hackathon-2/hackathon_cover.png)](https://s.refine.dev/hackathon2)
+[![cover-image](https://refine.ams3.cdn.digitaloceanspaces.com/hackathon-2/hackathon_cover.png)](https://github.com/refinedev/refine/blob/main/hackathon/refine-hackathon.md)
 
 Refine Open Source Hackathon #2 is just around the corner and this repository serves as your go-to source for everything you need to know in order to submit a qualifying entry.
 
-[:point_right: refine Open Source Hackathon #2 details.](https://s.refine.dev/hackathon2)
+[:point_right: refine Open Source Hackathon #2 details.](https://github.com/refinedev/refine/blob/main/hackathon/refine-hackathon.md)
 
 [:point_right: Please submit your project on Refine DEV platform announcement post.](#)
 

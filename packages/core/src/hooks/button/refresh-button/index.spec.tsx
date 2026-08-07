@@ -1,4 +1,5 @@
 import { renderHook, waitFor } from "@testing-library/react";
+import { vi } from "vitest";
 
 import { MockJSONServer, TestWrapper, mockRouterProvider } from "@test";
 
@@ -35,9 +36,9 @@ describe("useRefreshButton", () => {
   });
 
   it("onClick should call invalidate fn", async () => {
-    const invalidateMock = jest.fn();
+    const invalidateMock = vi.fn();
 
-    const mock = jest
+    const mock = vi
       .spyOn(UseInvalidateScope, "useInvalidate")
       .mockImplementation(() => {
         return invalidateMock;
@@ -50,7 +51,7 @@ describe("useRefreshButton", () => {
     result.current.onClick();
 
     await waitFor(() => {
-      expect(invalidateMock).toBeCalled();
+      expect(invalidateMock).toHaveBeenCalled();
     });
 
     mock.mockRestore();
@@ -90,9 +91,7 @@ describe("useRefreshButton", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.one.data).toEqual({
-        data: expect.objectContaining({ id: 1, title: "Post 1" }),
-      });
+      expect(result.current.one.result).toEqual({ id: 1, title: "Post 1" });
     });
 
     result.current.refresh.onClick();
@@ -106,8 +105,9 @@ describe("useRefreshButton", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.one.data).toEqual({
-        data: expect.objectContaining({ id: 1, title: "Post 1 updated" }),
+      expect(result.current.one.result).toEqual({
+        id: 1,
+        title: "Post 1 updated",
       });
     });
   });

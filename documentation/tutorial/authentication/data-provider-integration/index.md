@@ -85,7 +85,7 @@ export const dataProvider: DataProvider = {
   },
   getOne: async ({ resource, id, meta }) => {
     // removed-line
-    const response = await fetcher(`${API_URL}/${resource}/${id}`);
+    const response = await fetch(`${API_URL}/${resource}/${id}`);
     // added-line
     const response = await fetcher(`${API_URL}/${resource}/${id}`);
 
@@ -150,22 +150,23 @@ import { useTable, useMany } from "@refinedev/core";
 
 export const ListProducts = () => {
   const {
-    tableQuery: { data, isLoading },
-    current,
-    setCurrent,
+    result,
+    tableQuery: { isLoading },
+    currentPage,
+    setCurrentPage,
     pageCount,
     sorters,
     setSorters,
   } = useTable({
     // highlight-next-line
     resource: "protected-products",
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
     sorters: { initial: [{ field: "id", order: "asc" }] },
   });
 
-  const { data: categories } = useMany({
+  const { result: categoriesResult } = useMany({
     resource: "categories",
-    ids: data?.data?.map((product) => product.category?.id) ?? [],
+    ids: result?.data?.map((product) => product.category?.id) ?? [],
   });
 
   if (isLoading) {
@@ -217,7 +218,11 @@ export const authProvider: AuthProvider = {
     if (error?.status === 401) {
       return {
         logout: true,
-        error: { message: "Unauthorized" },
+        error: {
+          message: "Unauthorized",
+          name: "Error",
+          statusCode: error?.status ?? 403,
+        },
       };
     }
 

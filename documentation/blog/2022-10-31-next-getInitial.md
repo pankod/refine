@@ -3,8 +3,9 @@ title: What is Next.js getInitialProps and getServerSideProps?
 description: We will deep dive into Next.js getInitialProps and getServerSideProps.
 slug: next-js-getinitialprops-and-getserversideprops
 authors: michael
+category: "Tutorials"
 tags: [nextjs]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-31-next-getInitial/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-31-next-getInitial/social.png
 hide_table_of_contents: false
 ---
 
@@ -17,18 +18,6 @@ One of the many interesting features in Next.js are its data fetching methods. N
 At times, it may be confusing as to which of the methods or functions to use for data fetching if you're new to Next.js.
 
 Next.js has two functions for server-side rendering (pre-rendering or pre-population of data/contents on the server) namely: `getInitialProps` and `getServerSideProps`. As we go on, we'll explore both functions, understand how they work and learn when it's appropriate to use them in our applications.
-
-Steps we'll cover:
-
-- [What is `getInitialProps`?](#what-is-getinitialprops)
-  - [Context parameter](#context-parameter)
-- [What is `getServerSideProps`?](#what-is-getserversideprops)
-  - [Context parameter](#context-parameter-1)
-  - [Return value](#return-value)
-  - [Automatic caching capabilities](#automatic-caching-capabilities)
-- [`getInitialProps` vs `getServerSideProps`](#getinitialprops-vs-getserversideprops)
-  - [`getInitialProps`](#getinitialprops)
-  - [`getServerSideProps`](#getserversideprops)
 
 ## What is `getInitialProps`?
 
@@ -180,7 +169,7 @@ We'll go through some examples to see how both functions work in real-world appl
 
 The GIF below shows how `getInitialProps` behaves when it's used to fetch data for server-side rendering.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-31-next-getInitial/getInitProp.gif"  alt="getinitialprops" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-31-next-getInitial/getInitProp.avif"  alt="getInitialProps server and client log behavior demo" />
 
 <br />
 
@@ -231,7 +220,7 @@ However, when we make client-side navigation to the home page `localhost:3000` u
 <br/>
 <div>
 <a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="discord banner" />
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="Join Refine on Discord banner" />
 </a>
 </div>
 
@@ -239,7 +228,7 @@ However, when we make client-side navigation to the home page `localhost:3000` u
 
 The GIF below shows the same example from the previous section using `getServerSideProps` to fetch a list of users from the [JSONPlaceholder](https://jsonplaceholder.typicode.com/) API for server-side rendering.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-31-next-getInitial/getServerProp.gif"  alt="getserversideprops" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-31-next-getInitial/getServerProp.avif"  alt="getServerSideProps server-only log behavior demo" />
 
 <br />
 

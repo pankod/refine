@@ -11,54 +11,36 @@ describe("table-antd-use-table", () => {
   });
 
   it("should work with sorter", () => {
-    cy.intercept(
-      {
-        url: "/posts*",
-        query: {
-          _sort: "id",
-          _order: "asc",
-        },
-      },
-      {
-        fixture: "posts.json",
-      },
-    ).as("getAscPosts");
+    cy.wait("@getPosts").then((interception) => {
+      const { request } = interception;
+      const { _sort, _order } = request.query;
+
+      expect(_sort).to.eq("title");
+      expect(_order).to.eq("asc");
+    });
 
     cy.getAntdLoadingOverlay().should("not.exist", { timeout: 10000 });
     cy.getAntdColumnSorter(0).click();
+    cy.wait("@getPosts").then((interception) => {
+      const { request } = interception;
+      const { _sort, _order } = request.query;
 
+      expect(_sort).to.eq("id");
+      expect(_order).to.eq("asc");
+    });
     cy.url().should("include", "sorters[0][field]=id&sorters[0][order]=asc");
 
-    cy.wait("@getAscPosts");
-
-    cy.intercept(
-      {
-        url: "/posts*",
-        query: {
-          _sort: "id",
-          _order: "desc",
-        },
-      },
-      {
-        fixture: "posts.json",
-      },
-    ).as("getDescPosts");
-
     cy.getAntdColumnSorter(0).click();
+    cy.wait("@getPosts").then((interception) => {
+      const { request } = interception;
+      const { _sort, _order } = request.query;
 
+      expect(_sort).to.eq("id");
+      expect(_order).to.eq("desc");
+    });
     cy.url().should("include", "sorters[0][field]=id&sorters[0][order]=desc");
 
-    cy.wait("@getDescPosts");
-
-    cy.interceptGETPosts();
-
     cy.getAntdColumnSorter(0).click();
-
-    cy.url().should(
-      "not.include",
-      "sorters[0][field]=id&sorters[0][order]=desc",
-    );
-
     cy.wait("@getPosts").then((interception) => {
       const { request } = interception;
       const { _sort, _order } = request.query;
@@ -66,6 +48,7 @@ describe("table-antd-use-table", () => {
       expect(_sort).to.undefined;
       expect(_order).to.undefined;
     });
+    cy.url().should("not.include", "sorters");
   });
 
   it("should work with filter", () => {
@@ -96,7 +79,6 @@ describe("table-antd-use-table", () => {
   });
 
   it("should work with pagination", () => {
-    cy.interceptGETPosts();
     cy.wait("@getPosts");
 
     cy.getAntdLoadingOverlay().should("not.exist");
@@ -116,7 +98,7 @@ describe("table-antd-use-table", () => {
 
     cy.getAntdPaginationItem(2).click();
 
-    cy.url().should("include", "current=2");
+    cy.url().should("include", "currentPage=2");
 
     cy.wait("@getSecondPagePosts");
 
@@ -135,13 +117,12 @@ describe("table-antd-use-table", () => {
 
     cy.get(".ant-pagination-prev").first().click();
 
-    cy.url().should("include", "current=1");
+    cy.url().should("include", "currentPage=1");
 
     cy.wait("@getFirstPagePosts");
   });
 
   it("should set current `1` when filter changed", () => {
-    cy.interceptGETPosts();
     cy.wait("@getPosts");
 
     cy.getAntdLoadingOverlay().should("not.exist");
@@ -154,6 +135,6 @@ describe("table-antd-use-table", () => {
 
     cy.get(".ant-btn-primary").click();
 
-    cy.url().should("include", "current=1");
+    cy.url().should("include", "currentPage=1");
   });
 });

@@ -1,12 +1,12 @@
 ---
 id: useApiUrl
 title: useApiUrl
-source: packages/core/src/hooks/data/useApiUrl.ts
+source: packages/core/src/data/hooks/useApiUrl.ts
 ---
 
 `useApiUrl` is a React hook that returns the API URL.
 
--   It uses the `getApiUrl` method to get the API URL from the [`dataProvider`][data provider].
+- It uses the `getApiUrl` method to get the API URL from the [`dataProvider`][data provider].
 
 It is useful when you want to use the API URL in your custom hooks.
 
@@ -19,21 +19,21 @@ The `useApiUrl` hook does not expect any parameter. It will run the `getApiUrl` 
 import { useCustom, useApiUrl } from "@pankod/refine-core";
 
 interface PostUniqueCheckResponse {
-    isAvailable: boolean;
+  isAvailable: boolean;
 }
 
 //highlight-next-line
 const apiUrl = useApiUrl();
 
 const { data, isLoading } = useCustom<PostUniqueCheckResponse>({
-    //highlight-next-line
-    url: `${apiUrl}/posts-unique-check`,
-    method: "get",
-    config: {
-        query: {
-            title: "Foo bar",
-        },
+  //highlight-next-line
+  url: `${apiUrl}/posts-unique-check`,
+  method: "get",
+  config: {
+    query: {
+      title: "Foo bar",
     },
+  },
 });
 ```
 
@@ -45,4 +45,4 @@ const { data, isLoading } = useCustom<PostUniqueCheckResponse>({
 | ----------- | -------- |
 | API URL     | `string` |
 
-[data provider]: /api-reference/core/providers/data-provider.md
+[data provider]: /core/docs/3.xx.xx/api-reference/core/providers/data-provider

@@ -1,4 +1,4 @@
-import type { ReactChild, ReactNode } from "react";
+import type { ReactNode } from "react";
 import type {
   LinkProps,
   TagProps,
@@ -33,7 +33,7 @@ export type FileFieldProps = RefineFieldFileProps<LinkProps>;
 
 export type MarkdownFieldProps = RefineFieldMarkdownProps<string | undefined>;
 
-export type NumberFieldProps = RefineFieldNumberProps<ReactChild, TextProps>;
+export type NumberFieldProps = RefineFieldNumberProps<ReactNode, TextProps>;
 
 export type TagFieldProps = RefineFieldTagProps<ReactNode, TagProps>;
 

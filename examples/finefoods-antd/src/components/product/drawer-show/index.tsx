@@ -18,7 +18,7 @@ import {
   Typography,
   theme,
 } from "antd";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { Drawer } from "../../drawer";
 import type { ICategory, IProduct } from "../../../interfaces";
 import { DeleteButton, NumberField } from "@refinedev/antd";
@@ -46,14 +46,14 @@ export const ProductDrawerShow = (props: Props) => {
   });
   const product = queryResult.data?.data;
 
-  const { data: categoryData } = useOne<ICategory, HttpError>({
+  const { result: categoryData } = useOne<ICategory, HttpError>({
     resource: "categories",
     id: product?.category?.id,
     queryOptions: {
       enabled: !!product?.category?.id,
     },
   });
-  const category = categoryData?.data;
+  const category = categoryData;
 
   const handleDrawerClose = () => {
     if (props?.onClose) {

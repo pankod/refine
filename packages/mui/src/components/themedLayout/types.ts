@@ -1,13 +1,13 @@
 import type {
   RefineThemedLayoutProps,
-  RefineThemedLayoutHeaderProps,
   RefineThemedLayoutSiderProps,
+  RefineThemedLayoutHeaderProps,
   RefineLayoutThemedTitleProps,
 } from "@refinedev/ui-types";
 
 export type {
   RefineThemedLayoutProps,
-  RefineThemedLayoutHeaderProps,
   RefineThemedLayoutSiderProps,
+  RefineThemedLayoutHeaderProps,
   RefineLayoutThemedTitleProps,
 };

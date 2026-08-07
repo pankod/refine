@@ -1,52 +1,52 @@
 ---
-title: Save
+title: "Mantine Save Button Component | Form Actions in Refine v5"
+display_title: "Save"
+sidebar_label: "Save"
+description: "Integrate Save Button in Refine v5. Learn best practices. Explore customization options for properties and hide for polished admin UIs."
 swizzle: true
 ---
 
 ```tsx live shared
-const { default: routerProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: routerProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  notificationProvider: RefineMantine.useNotificationProvider,
-  Layout: RefineMantine.Layout,
-  Sider: () => null,
-  catchAll: <RefineMantine.ErrorComponent />,
-});
+import * as React from "react";
 
-const Wrapper = ({ children }) => {
+const EditPage = () => {
+  const { list } = RefineCore.useNavigation();
+  const params = RefineCore.useParsed();
+
   return (
-    <MantineCore.MantineProvider
-      theme={RefineMantine.LightTheme}
-      withNormalizeCSS
-      withGlobalStyles
-    >
-      <MantineCore.Global styles={{ body: { WebkitFontSmoothing: "auto" } }} />
-      <MantineNotifications.NotificationsProvider position="top-right">
-        {children}
-      </MantineNotifications.NotificationsProvider>
-    </MantineCore.MantineProvider>
+    <div>
+      <MantineCore.Text italic color="dimmed" size="sm">
+        URL Parameters:
+      </MantineCore.Text>
+      <MantineCore.Code>{JSON.stringify(params, null, 2)}</MantineCore.Code>
+      <MantineCore.Space h="md" />
+      <MantineCore.Button
+        size="xs"
+        variant="outline"
+        onClick={() => list("posts")}
+      >
+        Go back
+      </MantineCore.Button>
+    </div>
   );
 };
 ```
 
-`<SaveButton>` uses Mantine [`<Button>`](https://mantine.dev/core/button) component. It uses it for presantation purposes only. Some of the hooks that Refine has adds features to this button.
+`<SaveButton>` uses Mantine [`<Button>`](https://mantine.dev/core/button) component. It uses it for presentation purposes only. Some of the hooks that Refine has adds features to this button.
 
 :::simple Good to know
 
-You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-packages) to customize it.
+You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 
 :::
 
 ## Usage
 
-For example, let's add logic to the `<SaveButton>` component with the `saveButtonProps` returned by the [`useForm`](/docs/ui-integrations/mantine/hooks/use-form) hook.
+For example, let's add logic to the `<SaveButton>` component with the `saveButtonProps` returned by the [`useForm`](/core/docs/ui-integrations/mantine/hooks/use-form/) hook.
 
 ```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=420px hideCode
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/mantine";
+import * as React from "react";
 
 // visible-block-start
 import { Edit, useForm, useSelect } from "@refinedev/mantine";
@@ -57,7 +57,7 @@ const PostEdit: React.FC = () => {
     // highlight-next-line
     saveButtonProps,
     getInputProps,
-    refineCore: { queryResult },
+    refineCore: { query },
   } = useForm<IPost>({
     initialValues: {
       title: "",
@@ -75,7 +75,7 @@ const PostEdit: React.FC = () => {
     },
   });
 
-  const postData = queryResult?.data?.data;
+  const postData = query?.data?.data;
   const { selectProps } = useSelect<ICategory>({
     resource: "categories",
     defaultValue: postData?.category.id,
@@ -115,30 +115,6 @@ const PostEdit: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
-      resources={[
-        {
-          name: "posts",
-          edit: PostEdit,
-          list: () => (
-            <div>
-              <p>This page is empty.</p>
-              <EditButton recordItemId="123">Edit Item 123</EditButton>
-            </div>
-          ),
-        },
-      ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
-);
-
 interface ICategory {
   id: number;
   title: string;
@@ -150,6 +126,48 @@ interface IPost {
   status: "published" | "draft" | "rejected";
   category: { id: number };
 }
+
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <MantineCore.Button
+                  component={RefineCore.Link}
+                  to="/posts/edit/123"
+                  variant="light"
+                >
+                  Edit Item 123
+                </MantineCore.Button>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 ## Properties
@@ -159,9 +177,8 @@ interface IPost {
 `hideText` is used to show and not show the text of the button. When `true`, only the button icon is visible.
 
 ```tsx live url=http://localhost:3000 previewHeight=200px
-setInitialRoutes(["/"]);
-
-import { Refine } from "@refinedev/core";
+setInitialRoutes(["/posts"]);
+import * as React from "react";
 
 // visible-block-start
 import { SaveButton } from "@refinedev/mantine";
@@ -171,23 +188,30 @@ const MySaveComponent = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
       resources={[
         {
           name: "posts",
-          list: MySaveComponent,
+          list: "/posts",
         },
       ]}
-    />
-  );
-};
-
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<MySaveComponent />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

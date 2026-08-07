@@ -87,16 +87,17 @@ const HomePageTsxCode = `
 import { useList } from "@refinedev/core";
 
 export const HomePage = () => {
-    const { data: products } = useList({
+    const { result } = useList({
         resource: "products",
     });
+    const products = result?.data;
 
     return (
         <div>
             <h2>Products</h2>
             <p> Showing {products?.total} records in total. </p>
             <ul>
-                {products?.data?.map((product) => (
+                {products?.map((product) => (
                     <li key={product.id}>
                         <p>
                             {product.name}

@@ -32,9 +32,6 @@ export const getDefaultSortOrder = (
   return undefined;
 };
 
-/**
- * @deprecated getDefaultFilter moved to `@refinedev/core`. Use from `@refinedev/core`
- */
 export const getDefaultFilter = (
   columnName: string,
   filters?: CrudFilters,

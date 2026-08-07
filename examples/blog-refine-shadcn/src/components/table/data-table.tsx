@@ -35,20 +35,22 @@ import {
 
 export function DataTable({ ...tableProps }: any) {
   const {
-    getHeaderGroups,
-    getRowModel,
+    reactTable: {
+      getHeaderGroups,
+      getRowModel,
+      getState,
+      setPageIndex,
+      getCanPreviousPage,
+      getPageCount,
+      getCanNextPage,
+      nextPage,
+      previousPage,
+      setPageSize,
+      getColumn,
+    },
     refineCore: {
       tableQueryResult: { data: tableData },
     },
-    getState,
-    setPageIndex,
-    getCanPreviousPage,
-    getPageCount,
-    getCanNextPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    getColumn,
   } = tableProps;
 
   return (

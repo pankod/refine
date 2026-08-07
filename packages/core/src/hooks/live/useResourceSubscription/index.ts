@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 import { LiveContext } from "@contexts/live";
 import { RefineContext } from "@contexts/refine";
 import { useInvalidate } from "@hooks/invalidate";
-import { useResource } from "@hooks/resource";
+import { useResourceParams } from "@hooks";
 
 import type {
   BaseKey,
@@ -20,23 +20,6 @@ export type UseResourceSubscriptionProps = {
   params?: {
     ids?: BaseKey[];
     id?: BaseKey;
-    /**
-     * @deprecated `params.meta` is depcerated. Use `meta` directly from the root level instead.
-     */
-    meta?: MetaQuery;
-    /**
-     * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-     */
-    metaData?: MetaQuery;
-    pagination?: Pagination;
-    /**
-     * @deprecated `hasPagination` is deprecated, use `pagination.mode` instead.
-     */
-    hasPagination?: boolean;
-    /**
-     * @deprecated `sort` is deprecated. Use `sorters` instead.
-     */
-    sort?: CrudSort[];
     sorters?: CrudSort[];
     filters?: CrudFilter[];
     subscriptionType: "useList" | "useOne" | "useMany";
@@ -45,10 +28,6 @@ export type UseResourceSubscriptionProps = {
   types: LiveEvent["type"][];
   resource?: string;
   enabled?: boolean;
-  /**
-   * @deprecated use `meta.dataProviderName` instead.
-   */
-  dataProviderName?: string;
   meta?: MetaQuery & { dataProviderName?: string };
 } & LiveModeProps;
 
@@ -62,10 +41,11 @@ export const useResourceSubscription = ({
   enabled = true,
   liveMode: liveModeFromProp,
   onLiveEvent,
-  dataProviderName: dataProviderNameFromProps,
   meta,
 }: UseResourceSubscriptionProps): void => {
-  const { resource, identifier } = useResource(resourceFromProp);
+  const { resource, identifier } = useResourceParams({
+    resource: resourceFromProp,
+  });
 
   const { liveProvider } = useContext(LiveContext);
   const {
@@ -78,9 +58,7 @@ export const useResourceSubscription = ({
   const invalidate = useInvalidate();
 
   const dataProviderName =
-    dataProviderNameFromProps ??
-    meta?.dataProviderName ??
-    resource?.meta?.dataProviderName;
+    meta?.dataProviderName ?? resource?.meta?.dataProviderName;
 
   useEffect(() => {
     let subscription: any;
@@ -112,7 +90,6 @@ export const useResourceSubscription = ({
         },
         types,
         callback,
-        dataProviderName,
         meta: {
           ...meta,
           dataProviderName,

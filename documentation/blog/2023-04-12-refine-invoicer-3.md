@@ -3,14 +3,15 @@ title: Adding CRUD Pages
 description: We'll be adding CRUD pages for Company, Client and Contact resources in this post.
 slug: refine-react-invoice-generator-3
 authors: abdullah_numan
-tags: [refine-week, Refine, strapi, ant-design]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-12-refine-invoicer-3/social.png
+category: "How To Build"
+tags: [react, refine-week]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-12-refine-invoicer-3/social.png
 hide_table_of_contents: false
 ---
 
 In this post, we build on our existing understanding of `dataProvider` and `authProvider` props of `<Refine />` to implement CRUD operations in our **Pdf Invoice Generator** app that we initialized in the previous post. While doing so, we discuss the roles of `<Refine />` component's `resources` and routing conventions as well.
 
-CRUD actions are supported by the [**Strapi**](https://strapi.io/) data provider we chose for our project and in this post we use them to build pages for **Company**, **Client** and **Contact** resources. We implement appropriate pages and partial components with `list`, `create`, `edit` and `delete` actions. We also add auth features we discussed on Day Two of the [**RefineWeek**](https://refine.dev/week-of-refine-strapi/) series.
+CRUD actions are supported by the [**Strapi**](https://strapi.io/) data provider we chose for our project and in this post we use them to build pages for **Company**, **Client** and **Contact** resources. We implement appropriate pages and partial components with `list`, `create`, `edit` and `delete` actions. We also add auth features we discussed on Day Two of the [**RefineWeek**](https://refine.dev/core/week-of-refine-strapi/) series.
 
 We're on Day Three and this **RefineWeek** is a five-part tutorial that aims to help developers learn the ins-and-outs of **Refine**'s powerful capabilities and get going with **Refine** within a week.
 
@@ -21,7 +22,7 @@ We're on Day Three and this **RefineWeek** is a five-part tutorial that aims to 
 
 ## Overview
 
-In the last episode, we explored **Refine**'s auth and data providers in significant details. We saw that `<Refine />`'s `dataProvider` and `authProvider` props were set to support **Strapi** thanks to the [`@refinedev/strapi-v4`](https://github.com/refinedev/refine/tree/master/packages/strapi) package.
+In the last episode, we explored **Refine**'s auth and data providers in significant details. We saw that `<Refine />`'s `dataProvider` and `authProvider` props were set to support **Strapi** thanks to the [`@refinedev/strapi-v4`](https://github.com/refinedev/refine/tree/main/packages/strapi) package.
 
 We mentioned that `dataProvider` methods allow us to communicate with API endpoints and `authProvider` methods help us with authentication and authorization. We are able to access and invoke these methods from consumer components via their corresponding hooks.
 
@@ -62,11 +63,11 @@ import * as Icons from "@ant-design/icons";
 
 const { UserAddOutlined, TeamOutlined, InfoCircleOutlined } = Icons;
 
-import routerBindings, {
+import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import { DataProvider } from "@refinedev/strapi-v4";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { authProvider, axiosInstance } from "./authProvider";
@@ -89,7 +90,7 @@ function App() {
             authProvider={authProvider}
             dataProvider={DataProvider(API_URL + `/api`, axiosInstance)}
             notificationProvider={useNotificationProvider}
-            routerProvider={routerBindings}
+            routerProvider={routerProvider}
             options={{
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
@@ -102,7 +103,7 @@ function App() {
                     <ThemedLayout
                       Header={Header}
                       Title={({ collapsed }) => (
-                        <ThemedTitleV2 collapsed={collapsed} text="Invoicer" />
+                        <ThemedTitle collapsed={collapsed} text="Invoicer" />
                       )}
                     >
                       <Outlet />
@@ -124,7 +125,7 @@ function App() {
                   element={
                     <AuthPage
                       type="login"
-                      title={<ThemedTitleV2 collapsed text="Invoicer" />}
+                      title={<ThemedTitle collapsed text="Invoicer" />}
                       formProps={{
                         initialValues: {
                           email: "demo@refine.dev",
@@ -141,7 +142,7 @@ function App() {
                     <ThemedLayout
                       Header={Header}
                       Title={({ collapsed }) => (
-                        <ThemedTitleV2 collapsed={collapsed} text="Invoicer" />
+                        <ThemedTitle collapsed={collapsed} text="Invoicer" />
                       )}
                     >
                       <Outlet />
@@ -264,7 +265,7 @@ In versions `< v4`, `resources` items used to include view definitions (for exam
 
 However, view definitions are not used in `v4` `resources` items. Instead, as we will see below, **path definitions** are specified. Version `v4` allows flexible routing with `<Route />` components, and so view definitions for each `resources` item are now configured inside `<Route />` components.
 
-In the mean time, legacy resource definitions, data and auth providers are still functional in **Refine** `v4`. If you want to use the legacy `resources` convention, you have to use the `legacyRouterProvider` prop instead of `routerProvider` and `legacyAuthProvider` prop instead of the `authProvider` prop of the `<Refine />` component. More on this [here](https://refine.dev/docs/api-reference/core/providers/router-provider/#legacy-router-provider).
+In the mean time, legacy resource definitions, data and auth providers are still functional in **Refine** `v4`. If you want to use the legacy `resources` convention, you have to use the `legacyRouterProvider` prop instead of `routerProvider` and `legacyAuthProvider` prop instead of the `authProvider` prop of the `<Refine />` component. More on this [here](https://refine.dev/core/docs/api-reference/core/providers/router-provider/#legacy-router-provider).
 
 In this app, we are using the new definitions introduced in `v4`.
 
@@ -357,11 +358,11 @@ import * as Icons from "@ant-design/icons";
 
 const { UserAddOutlined, TeamOutlined, InfoCircleOutlined } = Icons;
 
-import routerBindings, {
+import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import { DataProvider } from "@refinedev/strapi-v4";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { authProvider, axiosInstance } from "./authProvider";
@@ -400,7 +401,7 @@ function App() {
             authProvider={authProvider}
             dataProvider={DataProvider(API_URL + `/api`, axiosInstance)}
             notificationProvider={useNotificationProvider}
-            routerProvider={routerBindings}
+            routerProvider={routerProvider}
             options={{
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
@@ -413,7 +414,7 @@ function App() {
                     <ThemedLayout
                       Header={Header}
                       Title={({ collapsed }) => (
-                        <ThemedTitleV2 collapsed={collapsed} text="Invoicer" />
+                        <ThemedTitle collapsed={collapsed} text="Invoicer" />
                       )}
                     >
                       <Outlet />
@@ -448,7 +449,7 @@ function App() {
                   element={
                     <AuthPage
                       type="login"
-                      title={<ThemedTitleV2 collapsed text="Invoicer" />}
+                      title={<ThemedTitle collapsed text="Invoicer" />}
                       formProps={{
                         initialValues: {
                           email: "demo@refine.dev",
@@ -465,7 +466,7 @@ function App() {
                     <ThemedLayout
                       Header={Header}
                       Title={({ collapsed }) => (
-                        <ThemedTitleV2 collapsed={collapsed} text="Invoicer" />
+                        <ThemedTitle collapsed={collapsed} text="Invoicer" />
                       )}
                     >
                       <Outlet />
@@ -569,7 +570,7 @@ here;
 
 We are using the `useSimpleList()` data hook in the `<CompanyList />` component. It is a higher level hook built on top of the `useList()` hook that comes with the `@refinedev/antd` package. `useList()` is a low level **Refine** core hook.
 
-`useSimpleList()` hook is being used to display our `companies` data in a list. More details about the `useSimpleList()` hook is available [here](https://refine.dev/docs/api-reference/antd/hooks/list/useSimpleList/).
+`useSimpleList()` hook is being used to display our `companies` data in a list. More details about the `useSimpleList()` hook is available [here](https://refine.dev/core/docs/api-reference/antd/hooks/list/useSimpleList/).
 
 Basically, the `useSimpleList()` hook gives us access to the `dataProvider.getList` method from inside the `<CompanyList />` component. We are grabbing the `listProps` object and passing it to the `<AntdList />`, which is an **Ant Design** component that displays the items.
 
@@ -589,7 +590,7 @@ For example, with the below object, we are setting the behavior of the button to
 }}
 ```
 
-More elaboration about it is available in the [docs section here](https://refine.dev/docs/api-reference/antd/components/basic-views/list/#cancreate-and-createbuttonprops).
+More elaboration about it is available in the [docs section here](https://refine.dev/core/docs/api-reference/antd/components/basic-views/list/#cancreate-and-createbuttonprops).
 
 In the `<CompanyList />` page above, by specifying the value of `createButtonProps` prop for `<List />`, we are activating the `<CreateButton />`. And then we are invoking the `createShow` modal function for the `onClick` event on the button.
 
@@ -610,7 +611,7 @@ const {
 });
 ```
 
-We are picking `modalProps` and `formProps` and passing them to the `<CreateCompany />` modal. To get more comprehensive understanding, please feel free to go over the [`useModalForm()` API reference here](https://refine.dev/docs/api-reference/antd/hooks/form/useModalForm/).
+We are picking `modalProps` and `formProps` and passing them to the `<CreateCompany />` modal. To get more comprehensive understanding, please feel free to go over the [`useModalForm()` API reference here](https://refine.dev/core/docs/api-reference/antd/hooks/form/useModalForm/).
 
 **refine-Ant Design `<Modal />` Component**
 
@@ -779,7 +780,7 @@ export const CompanyItem: React.FC<CompanyItemProps> = ({ item, editShow }) => {
               padding: 24,
             }}
             src={image}
-            alt="logo"
+            alt="Company logo"
           />
         </div>
       }
@@ -815,7 +816,7 @@ export const CompanyItem: React.FC<CompanyItemProps> = ({ item, editShow }) => {
 };
 ```
 
-In the above code, the [`<EditButton />`](https://refine.dev/docs/api-reference/antd/components/buttons/edit-button/) and [`<DeleteButton />`](https://refine.dev/docs/api-reference/antd/components/buttons/delete-button/) components are provided by the `@refinedev/antd` package.
+In the above code, the [`<EditButton />`](https://refine.dev/core/docs/api-reference/antd/components/buttons/edit-button/) and [`<DeleteButton />`](https://refine.dev/core/docs/api-reference/antd/components/buttons/delete-button/) components are provided by the `@refinedev/antd` package.
 
 The `<EditButton />` opens up the `<EditCompany />` modal when clicked. It uses a separate instance of the `useModalForm()` hook for forwarding editable data to the `edit` action inside `<EditCompany />`:
 
@@ -836,7 +837,7 @@ These are pretty much everything we need for the `list`, `create`, `edit` and `d
 
 At this point, let's run the **Refine** server and the **Strapi** server at `http://localhost:1337`. And we should be presented with a login screen at `http://localhost:3000/login`:
 
-<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-12-refine-invoicer-3/login.png" alt="react invoice generator" />
+<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-12-refine-invoicer-3/login.png" alt="Invoice app login screen" />
 
 <br />
 
@@ -864,7 +865,7 @@ The routing and components involved are the following:
       element={
         <AuthPage
           type="login"
-          title={<ThemedTitleV2 collapsed text="Invoicer" />}
+          title={<ThemedTitle collapsed text="Invoicer" />}
           formProps={{
             initialValues: {
               email: "demo@refine.dev",
@@ -884,13 +885,13 @@ The routing and components involved are the following:
 
 The component being rendered at `/login` is the **refine-Ant Design** `<AuthPage />` component which is provided by the `@refinedev/antd` package. The `<AuthPage />` component is a special component that has variants for `login`, `register`, `forgotPassword` and `updatePassword`, which are generated based on the prop passed. For example in the code snippet above, we are asking for the `login` type of the `<AuthPage />` component at the `/login` route.
 
-More on the `<AuthPage />` component is available [here](https://refine.dev/docs/api-reference/antd/components/antd-auth-page/).
+More on the `<AuthPage />` component is available [here](https://refine.dev/core/docs/api-reference/antd/components/antd-auth-page/).
 
 At this point, if we attempt to log in to our **Pdf Invoice Generator** app using the default credentials on the form, we should be redirected to the `/companies` route. And we should expect a blank page.
 
 When we create a few companies, they should be displayed in the page:
 
-<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-12-refine-invoicer-3/compaines.png" alt="react invoice generator" />
+<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-12-refine-invoicer-3/compaines.png" alt="Companies list view in the invoice app" />
 
 <br />
 
@@ -1113,7 +1114,7 @@ export const CreateClient: React.FC<CreateClientProps> = ({
 
 The `formProps` is tailored to match the props of the **Ant Design** `<Form />` component and by specifying `action: "create"`, we are sending a `POST` request to `/clients` endpoint in our **Strapi** app.
 
-Please feel free to explore the [`useDrawerForm()` documentation](https://refine.dev/docs/api-reference/antd/hooks/form/useDrawerForm/) for more details.
+Please feel free to explore the [`useDrawerForm()` documentation](https://refine.dev/core/docs/api-reference/antd/hooks/form/useDrawerForm/) for more details.
 
 Our `edit` action for `clients`, similar to the `create` action, also leverages `useDrawerForm()` hook to manage operations and fetch data for the `<EditClient />` component:
 
@@ -1313,7 +1314,7 @@ We are invoking `useDelete()` hook and picking the `mutate()` function for delet
 
 With these views completed, now we should be able to create, list, update and delete `clients` records from within our **Refine** app.
 
-<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-12-refine-invoicer-3/clients.png" alt="react invoice generator" />
+<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-12-refine-invoicer-3/clients.png" alt="Clients list view in the invoice app" />
 
 <br />
 
@@ -1536,11 +1537,11 @@ import { Form, Select, Input } from "antd";
 import { IContact } from "interfaces";
 
 export const EditContact = () => {
-  const { formProps, saveButtonProps, queryResult } = useForm<IContact>({
+  const { formProps, saveButtonProps, query } = useForm<IContact>({
     meta: { populate: ["client"] },
   });
 
-  const defaultClientCompany = queryResult?.data?.data;
+  const defaultClientCompany = query?.data?.data;
 
   const { selectProps } = useSelect({
     resource: "clients",
@@ -1592,7 +1593,7 @@ The `delete` action is implemented inside the `<DeleteButton />` for each row in
 
 With these completed, we should now be able to create, list, edit and delete `contacts`.
 
-<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-12-refine-invoicer-3/contacts.png" alt="react invoice generator" />
+<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-12-refine-invoicer-3/contacts.png" alt="Contacts list view in the invoice app" />
 
 <br />
 

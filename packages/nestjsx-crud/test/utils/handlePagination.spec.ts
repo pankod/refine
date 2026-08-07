@@ -6,7 +6,7 @@ describe("handlePagination", () => {
   it("should apply pagination for server mode", () => {
     let query = RequestQueryBuilder.create();
     const pagination: Pagination = {
-      current: 2,
+      currentPage: 2,
       pageSize: 20,
       mode: "server",
     };
@@ -31,7 +31,7 @@ describe("handlePagination", () => {
   it("should not apply pagination for client mode", () => {
     let query = RequestQueryBuilder.create();
     const pagination: Pagination = {
-      current: 3,
+      currentPage: 3,
       pageSize: 15,
       mode: "client",
     };
@@ -47,7 +47,7 @@ describe("handlePagination", () => {
     let query = RequestQueryBuilder.create();
 
     const pagination: Pagination = {
-      current: 3,
+      currentPage: 3,
       pageSize: 15,
     };
 

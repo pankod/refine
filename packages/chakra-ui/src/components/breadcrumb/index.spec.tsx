@@ -1,7 +1,13 @@
 import React, { type ReactNode } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
+import { vi } from "vitest";
 
-import { render, TestWrapper, type ITestWrapperProps } from "@test";
+import {
+  render,
+  TestWrapper,
+  type ITestWrapperProps,
+  MockRouterProvider,
+} from "@test";
 
 import { Breadcrumb } from "./";
 import { breadcrumbTests } from "@refinedev/ui-tests";
@@ -15,7 +21,22 @@ const renderBreadcrumb = (
       <Route path="/:resource/:action" element={children} />
     </Routes>,
     {
-      wrapper: TestWrapper(wrapperProps),
+      wrapper: TestWrapper({
+        routerProvider: {
+          ...MockRouterProvider(),
+          parse: () => () => ({
+            params: { id: "1" },
+            action: "create",
+            resource: {
+              name: "posts",
+              list: "/posts",
+              create: "/posts/create",
+            },
+            pathname: "/posts/create",
+          }),
+        },
+        ...wrapperProps,
+      }),
     },
   );
 };
@@ -24,33 +45,37 @@ const DummyDashboard = () => <div>Dashboard</div>;
 
 describe("Breadcrumb", () => {
   beforeAll(() => {
-    jest.spyOn(console, "warn").mockImplementation(jest.fn());
+    vi.spyOn(console, "warn").mockImplementation(vi.fn());
   });
 
   breadcrumbTests.bind(this)(Breadcrumb);
 
   it("should render home icon", async () => {
-    const { container } = renderBreadcrumb(<Breadcrumb />, {
-      resources: [{ name: "posts" }],
+    const { container } = renderBreadcrumb(<Breadcrumb minItems={1} />, {
+      resources: [
+        { name: "posts", list: "/posts", create: "/posts/create" },
+        { name: "", list: "/" },
+      ],
       routerInitialEntries: ["/posts/create"],
-      DashboardPage: DummyDashboard,
     });
 
     expect(container.querySelector("svg")).toBeTruthy();
   });
 
   it("should not render home icon with 'showhHome' props", async () => {
-    const { container } = renderBreadcrumb(<Breadcrumb showHome={false} />, {
-      resources: [{ name: "posts" }],
-      routerInitialEntries: ["/posts/create"],
-      DashboardPage: DummyDashboard,
-    });
+    const { container } = renderBreadcrumb(
+      <Breadcrumb showHome={false} minItems={1} />,
+      {
+        resources: [{ name: "posts" }],
+        routerInitialEntries: ["/posts/create"],
+      },
+    );
 
     expect(container.querySelector("svg")).toBeFalsy();
   });
 
   it("should render breadcrumb items", async () => {
-    const { getByText } = renderBreadcrumb(<Breadcrumb />, {
+    const { getByText } = renderBreadcrumb(<Breadcrumb minItems={1} />, {
       resources: [{ name: "posts" }],
       routerInitialEntries: ["/posts/create"],
     });

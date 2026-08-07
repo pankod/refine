@@ -19,7 +19,6 @@ import {
   redirectPage,
   asyncDebounce,
   deferExecution,
-  pickNotDeprecated,
 } from "@definitions/helpers";
 
 import type { UpdateParams } from "../data/useUpdate";
@@ -42,7 +41,6 @@ export type {
   AutoSaveReturnType,
   FormAction,
   RedirectAction,
-  RedirectionTypes,
   FormWithSyncWithLocationParams,
 } from "./types";
 
@@ -91,7 +89,7 @@ export const useForm = <
   const { setWarnWhen } = useWarnAboutChange();
   const handleSubmitWithRedirect = useRedirectionAfterSubmission();
 
-  const pickedMeta = pickNotDeprecated(props.meta, props.metaData);
+  const pickedMeta = props.meta;
   const mutationMode = props.mutationMode ?? defaultMutationMode;
 
   const {
@@ -161,32 +159,36 @@ export const useForm = <
     id,
     queryOptions: {
       // Only enable the query if it's not a create action and the `id` is defined
-      enabled: !isCreate && id !== undefined,
       ...props.queryOptions,
+      // AND the external enabled condition (if provided) is also true
+      enabled:
+        !isCreate && id !== undefined && (props.queryOptions?.enabled ?? true),
     },
     liveMode: props.liveMode,
     onLiveEvent: props.onLiveEvent,
     liveParams: props.liveParams,
     meta: { ...combinedMeta, ...props.queryMeta },
     dataProviderName: props.dataProviderName,
+    overtimeOptions: { enabled: false },
   });
 
   const createMutation = useCreate<TResponse, TResponseError, TVariables>({
     mutationOptions: props.createMutationOptions,
+    overtimeOptions: { enabled: false },
   });
 
   const updateMutation = useUpdate<TResponse, TResponseError, TVariables>({
     mutationOptions: props.updateMutationOptions,
+    overtimeOptions: { enabled: false },
   });
 
   const mutationResult = isEdit ? updateMutation : createMutation;
-  const isMutationLoading = mutationResult.isLoading;
-  const formLoading = isMutationLoading || queryResult.isFetching;
+  const isMutationLoading = mutationResult.mutation.isPending;
+  const formLoading = isMutationLoading || queryResult.query.isFetching;
 
   const { elapsedTime } = useLoadingOvertime({
+    ...props.overtimeOptions,
     isLoading: formLoading,
-    interval: props.overtimeOptions?.interval,
-    onInterval: props.overtimeOptions?.onInterval,
   });
 
   React.useEffect(() => {
@@ -252,7 +254,6 @@ export const useForm = <
         values,
         resource: identifier ?? resource.name,
         meta: { ...combinedMeta, ...props.mutationMeta },
-        metaData: { ...combinedMeta, ...props.mutationMeta },
         dataProviderName: props.dataProviderName,
         invalidates: isAutosave ? [] : props.invalidates,
         successNotification: isAutosave ? false : props.successNotification,
@@ -301,30 +302,44 @@ export const useForm = <
     return submissionPromise;
   };
 
-  const onFinishAutoSave = asyncDebounce(
-    (values: TVariables) => onFinish(values, { isAutosave: true }),
-    props.autoSave?.debounce || 1000,
-    "Cancelled by debounce",
+  const onFinishRef = React.useRef(onFinish);
+  React.useEffect(() => {
+    onFinishRef.current = onFinish;
+  }, [onFinish]);
+
+  const onFinishAutoSave = React.useMemo(
+    () =>
+      asyncDebounce(
+        (values: TVariables) =>
+          onFinishRef.current(values, { isAutosave: true }),
+        props.autoSave?.debounce ?? 1000,
+        "Cancelled by debounce",
+      ),
+    [props.autoSave?.debounce],
   );
+
+  React.useEffect(() => {
+    return () => {
+      onFinishAutoSave.cancel();
+    };
+  }, [onFinishAutoSave]);
 
   const overtime = {
     elapsedTime,
   };
 
   const autoSaveProps = {
-    status: updateMutation.status,
-    data: updateMutation.data,
-    error: updateMutation.error,
+    status: updateMutation.mutation.status,
+    data: updateMutation.mutation.data,
+    error: updateMutation.mutation.error,
   };
 
   return {
     onFinish,
     onFinishAutoSave,
     formLoading,
-    mutationResult,
-    mutation: mutationResult,
-    queryResult,
-    query: queryResult,
+    mutation: mutationResult.mutation,
+    query: queryResult.query,
     autoSaveProps,
     id,
     setId,

@@ -7,17 +7,18 @@ export default function LayoutRemix() {
       showNavigator
       hidePreview
       dependencies={{
-        "@refinedev/mui": "5.0.0",
+        "@refinedev/mui": "latest",
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-router-v6": "latest",
-        "@refinedev/react-hook-form": "^4.8.12",
+        "@refinedev/react-router": "latest",
+        "@refinedev/react-hook-form": "latest",
         "@emotion/react": "^11.8.2",
         "@emotion/styled": "^11.8.1",
-        "@mui/lab": "^5.0.0-alpha.85",
-        "@mui/material": "^5.14.2",
-        "@mui/system": "latest",
-        "@mui/x-data-grid": "^6.6.0",
+        "@mui/utils": "^7.1.0",
+        "@mui/lab": "^6.0.0-beta.14",
+        "@mui/material": "^6.1.7",
+        "@mui/system": "^6.4.11",
+        "@mui/x-data-grid": "7.23.5",
         "@refinedev/remix-router": "latest",
       }}
       startRoute="/products"
@@ -98,7 +99,7 @@ export default function App() {
 `.trim();
 
 const ProtectedTsxCode = /* jsx */ `
-import { ThemedLayoutV2 } from "@refinedev/mui";
+import { ThemedLayout } from "@refinedev/mui";
 import { Outlet } from "@remix-run/react";
 import { LoaderFunctionArgs, redirect } from "@remix-run/node";
 
@@ -107,9 +108,9 @@ import { LoaderFunctionArgs, redirect } from "@remix-run/node";
  */
 export default function Layout() {
     return (
-        <ThemedLayoutV2>
+        <ThemedLayout>
             <Outlet />
-        </ThemedLayoutV2>
+        </ThemedLayout>
     );
 }
 `.trim();
@@ -138,7 +139,7 @@ export default function ProductList() {
 
   return (
     <List>
-        <DataGrid {...dataGridProps} columns={columns} autoHeight />
+        <DataGrid {...dataGridProps} columns={columns}  />
     </List>
   );
 };

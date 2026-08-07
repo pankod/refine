@@ -20,12 +20,15 @@ interface IProduct {
 const ProductList: React.FC = () => {
   const [ids, setIds] = useState([1, 2, 3]);
 
-  const { data, isLoading, isError } = useMany<IProduct, HttpError>({
+  const {
+    result,
+    query: { isLoading, isError },
+  } = useMany<IProduct, HttpError>({
     resource: "products",
     ids,
   });
 
-  const products = data?.data ?? [];
+  const products = result?.data ?? [];
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -54,7 +57,7 @@ const ProductList: React.FC = () => {
 
       <button
         onClick={() => {
-          setIds((prev) => [...prev, Math.floor(Math.random() * 1000) + 1]);
+          setIds((prev) => [...prev, Math.floor(Math.random() * 150) + 1]);
         }}
       >
         Add new product
@@ -68,9 +71,17 @@ setRefineProps({
   resources: [
     {
       name: "products",
-      list: ProductList,
+      list: "/products",
     },
   ],
 });
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo>
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/products" element={<ProductList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

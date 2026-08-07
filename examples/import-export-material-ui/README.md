@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example import-export-material-ui
 
 <br/>
 
-[![Open import-export-material-ui example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/import-export-material-ui?view=preview&theme=dark&codemirror=1)
+[![Open import-export-material-ui example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/import-export-material-ui?view=preview&theme=dark&codemirror=1)

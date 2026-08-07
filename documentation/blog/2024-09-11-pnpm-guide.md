@@ -3,9 +3,11 @@ title: A Complete guide to pnpm
 description: We'll explore pnpm, an efficient alternative to npm.
 slug: how-to-use-pnpm
 authors: joseph_mawa
-tags: [javascript, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-27-pnpm-guide/social.jpg
+category: "Tutorials"
+tags: [dev-tools]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-27-pnpm-guide/social.webp
 hide_table_of_contents: false
+last_update: 2024-09-12
 ---
 
 **This article was last updated on September 11, 2024, to add sections on Advantages of pnpm in Monorepos, Optimizing CI/CD with pnpm and pnpm’s Dependency Audit and Security Features.**

@@ -32,6 +32,7 @@ export const EditPostDrawer: React.FC<
     resource: "categories",
     pagination: {
       pageSize: 9999,
+      mode: "server",
     },
   });
 

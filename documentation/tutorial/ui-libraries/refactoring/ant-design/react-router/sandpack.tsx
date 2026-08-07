@@ -35,7 +35,7 @@ export const ListProducts = () => {
     syncWithLocation: true,
   });
 
-  const { data: categories, isLoading } = useMany({
+  const { result: categories, query: { isLoading } } = useMany({
     resource: "categories",
     ids: tableProps?.dataSource?.map((product) => product.category?.id) ?? [],
   });
@@ -92,7 +92,7 @@ export const ListProducts = () => {
     syncWithLocation: true,
   });
 
-  const { data: categories, isLoading } = useMany({
+  const { result: categories, query: { isLoading } } = useMany({
     resource: "categories",
     ids: tableProps?.dataSource?.map((product) => product.category?.id) ?? [],
   });
@@ -164,7 +164,7 @@ export const ListProducts = () => {
     syncWithLocation: true,
   });
 
-  const { data: categories, isLoading } = useMany({
+  const { result: categories, query: { isLoading } } = useMany({
     resource: "categories",
     ids: tableProps?.dataSource?.map((product) => product.category?.id) ?? [],
   });
@@ -241,42 +241,43 @@ import { Typography } from "antd";
 
 export const ShowProduct = () => {
   const {
-    query: { data, isLoading },
+    result: product,
+    query: { isLoading },
   } = useShow();
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useOne({
+  const { data: category, query: { isLoading: categoryIsLoading } } = useOne({
     resource: "categories",
-    id: data?.data?.category.id || "",
+    id: product?.category.id || "",
     queryOptions: {
-      enabled: !!data?.data,
+      enabled: !!product,
     },
   });
 
-  if (isLoading) {
+  if (isLoading || !product) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
       <Typography.Title level={5}>Id</Typography.Title>
-      <TextField value={data?.data?.id} />
+      <TextField value={product.id} />
 
       <Typography.Title level={5}>Name</Typography.Title>
-      <TextField value={data?.data?.name} />
+      <TextField value={product.name} />
 
       <Typography.Title level={5}>Description</Typography.Title>
-      <MarkdownField value={data?.data?.description} />
+      <MarkdownField value={product.description} />
 
       <Typography.Title level={5}>Material</Typography.Title>
-      <TextField value={data?.data?.material} />
+      <TextField value={product.material} />
 
       <Typography.Title level={5}>Category</Typography.Title>
       <TextField
-        value={categoryIsLoading ? "Loading..." : categoryData?.data?.title}
+        value={categoryIsLoading ? "Loading..." : categoryproduct.title}
       />
 
       <Typography.Title level={5}>Price</Typography.Title>
-      <NumberField value={data?.data?.price} />
+      <NumberField value={product.price} />
     </div>
   );
 };
@@ -335,7 +336,7 @@ export const EditProduct = () => {
 
   const { selectProps } = useSelect({
     resource: "categories",
-    defaultValue: query?.data?.data?.category?.id,
+    defaultValue: query?.product.category?.id,
   });
 
   return (

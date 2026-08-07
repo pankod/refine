@@ -3,15 +3,11 @@
 
 describe("table-handson", () => {
   beforeEach(() => {
-    cy.interceptGETPosts();
-
     cy.visit("/");
   });
 
   it("the cell should be update", () => {
     cy.wait("@getPosts");
-
-    cy.interceptPATCHPost();
 
     cy.get("tbody tr").eq(0).find("td").eq(1).dblclick();
 

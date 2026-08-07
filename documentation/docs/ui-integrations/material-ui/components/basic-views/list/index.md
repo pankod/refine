@@ -1,5 +1,8 @@
 ---
-title: List
+title: "MUI List Component | UI Component in Refine v5"
+display_title: "List"
+sidebar_label: "List"
+description: "Implement List in Refine v5. Learn the key steps. Learn integrate Material Design, components for polished admin UIs. See practical code samples."
 swizzle: true
 ---
 
@@ -8,16 +11,22 @@ swizzle: true
 We will show what `<List>` does using properties with examples.
 
 ```tsx live hideCode url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import React from "react";
 import { useMany } from "@refinedev/core";
 import { List, useDataGrid, DateField } from "@refinedev/mui";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Button } from "@mui/material";
 
 const SampleList = () => {
   const { dataGridProps } = useDataGrid();
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useMany({
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useMany({
     resource: "categories",
     ids: dataGridProps?.rows?.map((item: any) => item?.category?.id) ?? [],
     queryOptions: {
@@ -47,7 +56,9 @@ const SampleList = () => {
           return value;
         },
         minWidth: 300,
-        renderCell: function render({ value }) {
+        display: "flex",
+        renderCell: function render({ row }) {
+          const value = row?.category?.id;
           return categoryIsLoading ? (
             <>Loading...</>
           ) : (
@@ -59,6 +70,7 @@ const SampleList = () => {
         field: "createdAt",
         headerName: "Created At",
         minWidth: 250,
+        display: "flex",
         renderCell: function render({ value }) {
           return <DateField value={value} />;
         },
@@ -69,23 +81,42 @@ const SampleList = () => {
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 };
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/samples"]}
-    resources={[{ name: "samples", list: SampleList }]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<SampleList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 :::simple Good to know
 
-You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-packages) to customize it.
+You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 
 :::
 
@@ -95,7 +126,9 @@ You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-
 
 `title` allows the addition of titles inside the `<List>` component. If you don't pass title props it uses the plural resource name by default. For example, for the `/posts` resource, it will be "Posts".
 
-```tsx live disableScroll previewHeight=210px url=http://localhost:3000/posts/create
+```tsx live disableScroll previewHeight=210px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import { List } from "@refinedev/mui";
 import { Typography } from "@mui/material";
@@ -113,15 +146,29 @@ const ListPage: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts"]}
-    resources={[
-      {
-        name: "posts",
-        list: ListPage,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<ListPage />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -130,13 +177,8 @@ render(
 The `<List>` component reads the `resource` information from the route by default. If you want to use a custom resource for the `<List>` component, you can use the `resource` prop.
 
 ```tsx live disableScroll previewHeight=210px url=http://localhost:3000/custom
-// handle initial routes in new way
 setInitialRoutes(["/custom"]);
 
-import { Refine } from "@refinedev/core";
-import { Layout } from "@refinedev/mui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
 // visible-block-start
 import { List } from "@refinedev/mui";
 
@@ -150,37 +192,34 @@ const CustomPage: React.FC = () => {
 };
 // visible-block-end
 
-const App: React.FC = () => {
-  return (
-    <Refine
-      legacyRouterProvider={{
-        ...routerProvider,
-        // highlight-start
-        routes: [
-          {
-            element: <CustomPage />,
-            path: "/custom",
-          },
-        ],
-        // highlight-end
-      }}
-      Layout={Layout}
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      resources={[{ name: "posts" }]}
-    />
-  );
-};
-
 render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/custom"
+          element={
+            <div style={{ padding: 16 }}>
+              <CustomPage />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### canCreate and createButtonProps
 
@@ -189,6 +228,7 @@ If you have multiple resources with the same name, you can pass the `identifier`
 Create button redirects to the create page of the resource according to the value it reads from the URL.
 
 ```tsx live disableScroll previewHeight=210px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
 const { default: simpleRest } = RefineSimpleRest;
 
 const dataProvider = simpleRest("https://api.fake-rest.refine.dev");
@@ -252,28 +292,43 @@ const PostList: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    authProvider={authProvider}
-    dataProvider={dataProvider}
-    initialRoutes={["/posts"]}
-    Layout={RefineMui.Layout}
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      authProvider={authProvider}
+      dataProvider={dataProvider}
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`usePermission` documentation &#8594](/docs/authentication/hooks/use-permissions)
+> For more information, refer to the [`usePermission` documentation &#8594](/core/docs/authentication/hooks/use-permissions/)
 
 ### breadcrumb <GlobalConfigBadge id="core/refine-component/#breadcrumb" />
 
 To customize or disable the breadcrumb, you can use the `breadcrumb` property. By default it uses the `Breadcrumb` component from `@refinedev/mui` package.
 
 ```tsx live disableScroll previewHeight=210px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import { List, Breadcrumb } from "@refinedev/mui";
 
@@ -288,7 +343,7 @@ const PostList: React.FC = () => {
             border: "2px dashed cornflowerblue",
           }}
         >
-          <Breadcrumb />
+          <Breadcrumb minItems={0} />
         </div>
       }
       // highlight-end
@@ -300,33 +355,42 @@ const PostList: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts"]}
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-      },
-    ]}
-    DashboardPage={() => {
-      return (
-        <div>
-          <p>This page is empty.</p>
-          <RefineMui.ListButton resource="posts" />
-        </div>
-      );
-    }}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`Breadcrumb` documentation &#8594](/docs/ui-integrations/material-ui/components/breadcrumb)
+> For more information, refer to the [`Breadcrumb` documentation &#8594](/core/docs/ui-integrations/material-ui/components/breadcrumb/)
 
 ### wrapperProps
 
 If you want to customize the wrapper of the `<List/>` component, you can use the `wrapperProps` property.
 
 ```tsx live disableScroll previewHeight=210px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import { List } from "@refinedev/mui";
 
@@ -350,15 +414,29 @@ const PostList: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts"]}
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -369,6 +447,8 @@ render(
 If you want to customize the header of the `<List/>` component, you can use the `headerProps` property.
 
 ```tsx live disableScroll previewHeight=210px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import { List } from "@refinedev/mui";
 
@@ -392,15 +472,29 @@ const PostList: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts"]}
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -411,6 +505,8 @@ render(
 If you want to customize the content of the `<List/>` component, you can use the `contentProps` property.
 
 ```tsx live disableScroll previewHeight=210px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import { List } from "@refinedev/mui";
 
@@ -434,15 +530,29 @@ const PostList: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts"]}
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -457,6 +567,8 @@ You can customize the buttons at the header by using the `headerButtons` propert
 If "create" resource is not defined or [`canCreate`](#cancreate-and-createbuttonprops) is `false`, the [`<CreateButton>`][create-button] will not render and `createButtonProps` will be `undefined`.
 
 ```tsx live disableScroll previewHeight=210px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import { List } from "@refinedev/mui";
 import { Button } from "@mui/material";
@@ -482,21 +594,37 @@ const PostList: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts"]}
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 Or, instead of using the `defaultButtons`, you can create your own buttons. If you want, you can use `createButtonProps` to utilize the default values of the [`<CreateButton>`][create-button] component.
 
 ```tsx live disableScroll previewHeight=210px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import { List, CreateButton } from "@refinedev/mui";
 import { Button } from "@mui/material";
@@ -524,15 +652,29 @@ const PostList: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts"]}
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -541,6 +683,8 @@ render(
 You can customize the wrapper element of the buttons at the header by using the `headerButtonProps` property.
 
 ```tsx live disableScroll previewHeight=210px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import { List } from "@refinedev/mui";
 import { Button } from "@mui/material";
@@ -571,15 +715,29 @@ const PostList: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts"]}
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -593,24 +751,10 @@ render(
 wrapperProps-type="[`CardProps`](https://mui.com/material-ui/api/card/#props)"
 contentProps-type="[`CardContentProps`](https://mui.com/material-ui/api/card-content/#props)"
 headerProps-type="[`CardHeaderProps`](https://mui.com/material-ui/api/card-header/#props)"
-headerButtons-default="[`CreateButton`](/docs/ui-integrations/material-ui/components/buttons/create-button/)"
+headerButtons-default="[`CreateButton`](/core/docs/ui-integrations/material-ui/components/buttons/create-button/)"
 headerButtonProps-type="[`BoxProps`](https://mui.com/material-ui/api/box/#props)"
-breadcrumb-default="[`<Breadcrumb/>`](/docs/ui-integrations/material-ui/components/breadcrumb)"
-createButtonProps-type="[`CreateButtonProps`](/docs/ui-integrations/material-ui/components/buttons/create-button/)"
+breadcrumb-default="[`<Breadcrumb/>`](/core/docs/ui-integrations/material-ui/components/breadcrumb/)"
+createButtonProps-type="[`CreateButtonProps`](/core/docs/ui-integrations/material-ui/components/buttons/create-button/)"
 />
 
-```tsx live shared
-const Wrapper = ({ children }) => {
-  return (
-    <MuiMaterial.ThemeProvider theme={RefineMui.LightTheme}>
-      <MuiMaterial.CssBaseline />
-      <MuiMaterial.GlobalStyles
-        styles={{ html: { WebkitFontSmoothing: "auto" } }}
-      />
-      {children}
-    </MuiMaterial.ThemeProvider>
-  );
-};
-```
-
-[create-button]: /docs/ui-integrations/material-ui/components/buttons/create-button
+[create-button]: /core/docs/ui-integrations/material-ui/components/buttons/create-button

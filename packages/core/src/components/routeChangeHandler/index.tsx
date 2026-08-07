@@ -1,16 +1,16 @@
-import { useEffect } from "react";
-import { useRouterContext } from "@hooks";
-import { useLegacyAuthContext } from "@contexts/auth";
+import { useEffect, useContext } from "react";
+import { useActiveAuthProvider } from "@definitions/index";
+import { RouterContext } from "../../contexts/router";
 
 export const RouteChangeHandler: React.FC = () => {
-  const { useLocation } = useRouterContext();
-
-  const { checkAuth } = useLegacyAuthContext();
-  const location = useLocation();
+  const routerContext = useContext(RouterContext);
+  const authProvider = useActiveAuthProvider();
+  const parse = routerContext.parse?.();
+  const pathname = parse?.()?.pathname || "";
 
   useEffect(() => {
-    checkAuth?.().catch(() => false);
-  }, [location?.pathname]);
+    authProvider?.check?.().catch(() => false);
+  }, [pathname]);
 
   return null;
 };

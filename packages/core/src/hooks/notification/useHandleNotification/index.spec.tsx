@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { renderHook } from "@testing-library/react";
 
 import { TestWrapper } from "@test";
@@ -12,12 +13,12 @@ const dummyNotification: OpenNotificationParams = {
   description: "i am here!!",
 };
 
-const openMock = jest.fn();
-const closeMock = jest.fn();
+const openMock = vi.fn();
+const closeMock = vi.fn();
 
 describe("useHandleNotification Hook", () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const { result } = renderHook(() => useHandleNotification(), {

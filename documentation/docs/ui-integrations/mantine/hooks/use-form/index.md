@@ -1,5 +1,8 @@
 ---
-title: useForm
+title: "useForm Hook | Usage & Patterns in Refine v5: Hooks"
+display_title: "useForm"
+sidebar_label: "useForm"
+description: "Learn to use the useForm hook in Refine v5. Learn integration patterns for mutation and data for polished admin UIs. Explore with code snippets."
 source: packages/mantine/src/hooks/form/useForm/index.ts
 ---
 
@@ -71,9 +74,8 @@ const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    refineCore: { setCurrent, pageCount, current },
+    reactTable: { getHeaderGroups, getRowModel },
+    refineCore: { setCurrentPage, pageCount, currentPage },
   } = useTable({
     columns,
   });
@@ -127,8 +129,8 @@ const PostList: React.FC = () => {
         <MantinePagination
           position="right"
           total={pageCount}
-          page={current}
-          onChange={setCurrent}
+          page={currentPage}
+          onChange={setCurrentPage}
         />
       </MantineList>
     </MantineScrollArea>
@@ -263,13 +265,13 @@ const PostEdit: React.FC = () => {
 };
 ```
 
-In the example if you navigate to `/posts/edit/1234` it will manage the data of the post with id of `1234` in an editing context. See [Actions](/docs/data/hooks/use-form/#actions) on how `useForm` determines this is an editing context.
+In the example if you navigate to `/posts/edit/1234` it will manage the data of the post with id of `1234` in an editing context. See [Actions](/core/docs/data/hooks/use-form/#actions) on how `useForm` determines this is an editing context.
 
 Since this is an edit form it will fill the form with the data of the post with id of `1234` and then the form will be ready to edit further and submit the changes.
 
 Submit functionality is provided by `saveButtonProps` which includes all of the necessary props for a button to submit a form including automatically updating loading states.
 
-If you want to show a form in a modal or drawer where necessary route params might not be there you can use the [useModalForm](/docs/ui-integrations/mantine/hooks/use-modal-form) or the [useDrawerForm](/docs/ui-integrations/mantine/hooks/use-drawer-form) hook.
+If you want to show a form in a modal or drawer where necessary route params might not be there you can use the [useModalForm](/core/docs/ui-integrations/mantine/hooks/use-modal-form/) or the [useDrawerForm](/core/docs/ui-integrations/mantine/hooks/use-drawer-form/) hook.
 
 > For more detailed usage examples please refer to the [Mantine Form](https://mantine.dev/form/use-form/) documentation.
 
@@ -294,7 +296,7 @@ values={[
 
 `action: "create"` is used for creating a new record that didn't exist before.
 
-`useForm` uses [`useCreate`](/docs/data/hooks/use-create) under the hood for mutations on create mode.
+`useForm` uses [`useCreate`](/core/docs/data/hooks/use-create/) under the hood for mutations on create mode.
 
 In the following example, we will show how to use `useForm` with `action: "create"`:
 
@@ -345,18 +347,35 @@ const PostCreatePage: React.FC = () => {
 };
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-      create: PostCreatePage,
-      edit: PostEdit,
-    },
-  ],
-});
-
-render(<RefineMantineDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+          <ReactRouter.Route path="create" element={<PostCreatePage />} />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 </TabItem>
@@ -365,7 +384,7 @@ render(<RefineMantineDemo />);
 
 `action: "edit"` is used for editing an existing record. It requires the `id` for determining the record to edit. By default, it uses the `id` from the route. It can be changed with the `setId` function or `id` property.
 
-It fetches the record data according to the `id` with [`useOne`](/docs/data/hooks/use-one) and returns the `query` for you to fill the form. After the form is submitted, it updates the record with [`useUpdate`](/docs/data/hooks/use-update).
+It fetches the record data according to the `id` with [`useOne`](/core/docs/data/hooks/use-one/) and returns the `query` for you to fill the form. After the form is submitted, it updates the record with [`useUpdate`](/core/docs/data/hooks/use-update/).
 
 In the following example, we will show how to use `useForm` with `action: "edit"`:
 
@@ -416,18 +435,35 @@ const PostEditPage: React.FC = () => {
 };
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-      create: PostCreate,
-      edit: PostEditPage,
-    },
-  ],
-});
-
-render(<RefineMantineDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+          <ReactRouter.Route path="edit/:id" element={<PostEditPage />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 </TabItem>
@@ -438,7 +474,7 @@ render(<RefineMantineDemo />);
 
 You can think `action:clone` like save as. It's similar to `action:edit` but it creates a new record instead of updating the existing one.
 
-It fetches the record data according to the `id` with [`useOne`](/docs/data/hooks/use-one) and returns the `query` for you to fill the form. After the form is submitted, it creates a new record with [`useCreate`](/docs/data/hooks/use-create).
+It fetches the record data according to the `id` with [`useOne`](/core/docs/data/hooks/use-one/) and returns the `query` for you to fill the form. After the form is submitted, it creates a new record with [`useCreate`](/core/docs/data/hooks/use-create/).
 
 In the following example, we will show how to use `useForm` with `action: "clone"`. You will see `action:clone` toggle at the top of the page. You can toggle it to set the action to `clone`.
 
@@ -489,18 +525,35 @@ const PostCreatePage: React.FC = () => {
 };
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-      create: PostCreatePage,
-      edit: PostEdit,
-    },
-  ],
-});
-
-render(<RefineMantineDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+          <ReactRouter.Route path="create" element={<PostCreatePage />} />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 </TabItem>
@@ -511,7 +564,7 @@ render(<RefineMantineDemo />);
 
 `resource`, read from the current URL by default, will be passed to the [`dataProvider`][data-provider]'s method as a params. This parameter is usually used to as a API endpoint path. It all depends on how to handle the `resource` in your [`dataProvider`][data-provider].
 
-See the [`creating a data provider`](/docs/data/data-provider#creating-a-data-provider) section for an example of how `resource` are handled.
+See the [`creating a data provider`](/core/docs/data/data-provider/#creating-a-data-provider) section for an example of how `resource` are handled.
 
 - When `action` is `"create"`, it will be passed to the [`create`][create] method from the [`dataProvider`][data-provider].
 - When `action` is `"edit"`, it will be passed to the [`update`][update] and the [`getOne`][get-one] method from the [`dataProvider`][data-provider].
@@ -559,7 +612,7 @@ setId("123");
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component/#identifier)
 
 ### id
 
@@ -599,7 +652,7 @@ useForm({
 
 It receives the following parameters:
 
-- `data`: Returned value from [`useCreate`](/docs/data/hooks/use-create) or [`useUpdate`](/docs/data/hooks/use-update) depending on the `action`.
+- `data`: Returned value from [`useCreate`](/core/docs/data/hooks/use-create/) or [`useUpdate`](/core/docs/data/hooks/use-update/) depending on the `action`.
 - `variables`: The variables passed to the mutation.
 - `context`: react-query context.
 - `isAutoSave`: It's a boolean value that indicates whether the mutation is triggered by the [`autoSave`](#autoSave) feature or not.
@@ -620,7 +673,7 @@ useForm({
 
 It receives the following parameters:
 
-- `data`: Returned value from [`useCreate`](/docs/data/hooks/use-create) or [`useUpdate`](/docs/data/hooks/use-update) depending on the `action`.
+- `data`: Returned value from [`useCreate`](/core/docs/data/hooks/use-create/) or [`useUpdate`](/core/docs/data/hooks/use-update/) depending on the `action`.
 - `variables`: The variables passed to the mutation.
 - `context`: react-query context.
 - `isAutoSave`: It's a boolean value that indicates whether the mutation is triggered by the [`autoSave`](#autoSave) feature or not.
@@ -658,7 +711,7 @@ If there is more than one `dataProvider`, you should use pass the name of the `d
 
 It is useful when you want to use a different `dataProvider` for a specific resource.
 
-If you want to use a different `dataProvider` on all resource pages, you can use the [`dataProvider` prop](/docs/core/refine-component#dataprovidername) of the `<Refine>` component.
+If you want to use a different `dataProvider` on all resource pages, you can use the [`dataProvider` prop](/core/docs/core/refine-component/#dataprovidername) of the `<Refine>` component.
 
 ```tsx
 useForm({
@@ -673,7 +726,7 @@ useForm({
 Mutation mode determines which mode the mutation runs with. Mutations can run under three different modes: `pessimistic`, `optimistic` and `undoable`. Default mode is `pessimistic`.
 Each mode corresponds to a different type of user experience.
 
-> For more information about mutation modes, please check the [Mutation Mode documentation](/docs/advanced-tutorials/mutation-mode) page.
+> For more information about mutation modes, please check the [Mutation Mode documentation](/core/docs/advanced-tutorials/mutation-mode/) page.
 
 ```tsx
 useForm({
@@ -685,7 +738,7 @@ useForm({
 
 ### successNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 After form is submitted successfully, `useForm` will call the `open` function from [`NotificationProvider`][notification-provider] to show a success notification. With this prop, you can customize that success notification.
 
@@ -705,7 +758,7 @@ useForm({
 
 ### errorNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 After the form submit has failed, `useForm` will call the `open` function from [`NotificationProvider`][notification-provider] to show a error notification. With this prop, you can customize that error notification.
 
@@ -741,7 +794,7 @@ useForm({
 - Generating GraphQL queries using plain JavaScript Objects (JSON).
 - Providing additional parameters to the redirection path after the form is submitted.
 
-> For more information, please refer to the [`meta` section of the General Concepts documentation &#8594](/docs/guides-concepts/general-concepts/#meta-concept)
+> For more information, please refer to the [`meta` section of the General Concepts documentation &#8594](/core/docs/guides-concepts/general-concepts/#meta-concept)
 
 In the following example, we pass the `headers` property in the `meta` object to the `create` method. With similar logic, you can pass any properties to specifically handle the data provider methods.
 
@@ -809,7 +862,7 @@ If you have overlapping properties in both `meta` and `mutationMeta`, the `mutat
 
 Works only in the `action: "edit"` or `action: "clone"` modes.
 
-in `edit` or `clone` modes, Refine uses [`useOne`](/docs/data/hooks/use-one) hook to fetch data. You can pass the [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery) options by passing the `queryOptions` property.
+in `edit` or `clone` modes, Refine uses [`useOne`](/core/docs/data/hooks/use-one/) hook to fetch data. You can pass the [`queryOptions`](https://tanstack.com/query/v5/docs/react/reference/useQuery) options by passing the `queryOptions` property.
 
 ```tsx
 useForm({
@@ -823,7 +876,7 @@ useForm({
 
 ### createMutationOptions
 
-In `create` or `clone` modes, Refine uses [`useCreate`](/docs/data/hooks/use-create) hook to create data. You can pass the [`mutationOptions`](https://tanstack.com/query/v4/docs/react/reference/useMutation) by passing `createMutationOptions` property. This option is only available when `action: "create"` or `action: "clone"`.
+In `create` or `clone` modes, Refine uses [`useCreate`](/core/docs/data/hooks/use-create/) hook to create data. You can pass the [`mutationOptions`](https://tanstack.com/query/v5/docs/react/reference/useMutation) by passing `createMutationOptions` property. This option is only available when `action: "create"` or `action: "clone"`.
 
 ```tsx
 useForm({
@@ -837,7 +890,7 @@ useForm({
 
 ### updateMutationOptions
 
-In `edit` mode, Refine uses [`useUpdate`](/docs/data/hooks/use-update) hook to update data. You can pass [`mutationOptions`](https://tanstack.com/query/v4/docs/react/reference/useMutation) by passing `updateMutationOptions` property. This option is only available when `action: "edit"`.
+In `edit` mode, Refine uses [`useUpdate`](/core/docs/data/hooks/use-update/) hook to update data. You can pass [`mutationOptions`](https://tanstack.com/query/v5/docs/react/reference/useMutation) by passing `updateMutationOptions` property. This option is only available when `action: "edit"`.
 
 ```tsx
 useForm({
@@ -853,7 +906,7 @@ useForm({
 
 When it's true, Shows a warning when the user tries to leave the page with unsaved changes. It can be used to prevent the user from accidentally leaving the page. It is `false` by default.
 
-It can be set globally in [`Refine config`](/docs/core/refine-component#warnwhenunsavedchanges).
+It can be set globally in [`Refine config`](/core/docs/core/refine-component/#warnwhenunsavedchanges).
 
 ```tsx
 useForm({
@@ -867,7 +920,7 @@ useForm({
 
 Whether to update data automatically ("auto") or not ("manual") if a related live event is received. It can be used to update and show data in Realtime throughout your app.
 
-> For more information, refer to the [Live / Realtime documentation](/docs/realtime/live-provider#livemode)
+> For more information, refer to the [Live / Realtime documentation](/core/docs/realtime/live-provider/#livemode)
 
 ```tsx
 useForm({
@@ -893,7 +946,7 @@ useForm({
 
 ### liveParams
 
-`liveParams` are the params to pass to [liveProvider's](/docs/realtime/live-provider#subscribe) subscribe method.
+`liveParams` are the params to pass to [liveProvider's](/core/docs/realtime/live-provider/#subscribe) subscribe method.
 
 ### overtimeOptions
 
@@ -987,7 +1040,7 @@ All [`mantine useForm`][use-form-mantine] and [`core useForm`][use-form-core] re
 
 ### query
 
-If the `action` is set to `"edit"` or `"clone"` or if a `resource` with an `id` is provided, `useForm` will call [`useOne`](/docs/data/hooks/use-one) and set the returned values as the `query` property.
+If the `action` is set to `"edit"` or `"clone"` or if a `resource` with an `id` is provided, `useForm` will call [`useOne`](/core/docs/data/hooks/use-one/) and set the returned values as the `query` property.
 
 ```tsx
 const {
@@ -999,7 +1052,7 @@ const { data } = query;
 
 ### mutation
 
-When in `"create"` or `"clone"` mode, `useForm` will call [`useCreate`](/docs/data/hooks/use-create). When in `"edit"` mode, it will call [`useUpdate`](/docs/data/hooks/use-update) and set the resulting values as the `mutation` property."
+When in `"create"` or `"clone"` mode, `useForm` will call [`useCreate`](/core/docs/data/hooks/use-create/). When in `"edit"` mode, it will call [`useUpdate`](/core/docs/data/hooks/use-update/) and set the resulting values as the `mutation` property."
 
 ```tsx
 const {
@@ -1031,7 +1084,7 @@ return (
 
 ### redirect
 
-"By default, after a successful mutation, `useForm` will `redirect` to the `"list"` page. To redirect to a different page, you can either use the `redirect` function to programmatically specify the destination, or set the redirect [property](/docs/data/hooks/use-form/#redirect) in the hook's options.
+"By default, after a successful mutation, `useForm` will `redirect` to the `"list"` page. To redirect to a different page, you can either use the `redirect` function to programmatically specify the destination, or set the redirect [property](/core/docs/data/hooks/use-form/#redirect) in the hook's options.
 
 In the following example we will redirect to the `"show"` page after a successful mutation:
 
@@ -1056,7 +1109,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 `onFinish` is a function that is called when the form is submitted. It will call the appropriate mutation based on the `action` property.
 You can override the default behavior by passing an `onFinish` function in the hook's options.
 
-For example you can [change values before sending to the API](/docs/ui-integrations/mantine/hooks/use-form#how-can-i-change-the-form-data-before-submitting-it-to-the-api).
+For example you can [change values before sending to the API](/core/docs/ui-integrations/mantine/hooks/use-form#how-can-i-change-the-form-data-before-submitting-it-to-the-api).
 
 ### overtime
 
@@ -1072,19 +1125,11 @@ console.log(overtime.elapsedTime); // undefined, 1000, 2000, 3000 4000, ...
 
 If `autoSave` is enabled, this hook returns `autoSaveProps` object with `data`, `error`, and `status` properties from mutation.
 
-### ~~mutationResult~~ <PropTag deprecated />
-
-This prop is deprecated and will be removed in the future versions. Use [`mutation`](#mutation) instead.
-
-### ~~queryResult~~ <PropTag deprecated />
-
-This prop is deprecated and will be removed in the future versions. Use [`query`](#query) instead.
-
 ## FAQ
 
 ### How can invalidate other resources?
 
-You can invalidate other resources with help of the [`useInvalidate`](/docs/data/hooks/use-invalidate) hook.
+You can invalidate other resources with help of the [`useInvalidate`](/core/docs/data/hooks/use-invalidate/) hook.
 
 It is useful when you want to `invalidate` other resources that don't have relation with the current resource.
 
@@ -1161,7 +1206,7 @@ You can use `meta` property to pass common values to the mutation and the query.
 
 ### How can I handle server-side form validation?
 
-[Refer to the Server-Side form validation documentation for more information. →](/docs/guides-concepts/forms/#server-side-validation-#example-with-mantine-useform)
+[Refer to the Server-Side form validation documentation for more information. →](/core/docs/guides-concepts/forms/#server-side-validation-#example-with-mantine-useform)
 
 ## API Reference
 
@@ -1170,7 +1215,7 @@ You can use `meta` property to pass common values to the mutation and the query.
 It supports all the features of the [`useForm`][use-form-mantine] hook provided by `@mantine/form`.
 Also, we added the following return values.
 
-`refineCoreProps`: You can define all properties provided by [`useForm`][use-form-core] here. You can see all of them in [here](/docs/data/hooks/use-form/#properties).
+`refineCoreProps`: You can define all properties provided by [`useForm`][use-form-core] here. You can see all of them in [here](/core/docs/data/hooks/use-form/#properties).
 
 For example, we can define the `refineCoreProps` property in the `useForm` hook as:
 
@@ -1191,7 +1236,7 @@ const { ... } = useForm({
 
 Returns all the return values of the [`useForm`][use-form-mantine] hook provided by `@mantine/form`. Also, we added the following return values.
 
-`refineCore`: Returns all values returned by [`useForm`][use-form-core]. You can see all of them in [here](/docs/data/hooks/use-form/#return-values).
+`refineCore`: Returns all values returned by [`useForm`][use-form-core]. You can see all of them in [here](/core/docs/data/hooks/use-form/#return-values).
 
 For example, we can access the `refineCore` return value in the `useForm` hook as:
 
@@ -1230,12 +1275,12 @@ const {
 
 <CodeSandboxExample path="form-mantine-use-form" />
 
-[use-form-core]: /docs/data/hooks/use-form/
+[use-form-core]: /core/docs/data/hooks/use-form/
 [use-form-mantine]: https://mantine.dev/form/use-form
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
-[notification-provider]: /docs/notification/notification-provider
-[get-one]: /docs/data/data-provider#getone-
-[create]: /docs/data/data-provider#create-
-[update]: /docs/data/data-provider#update-
-[data-provider]: /docs/data/data-provider
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror
+[notification-provider]: /core/docs/notification/notification-provider
+[get-one]: /core/docs/data/data-provider#getone-
+[create]: /core/docs/data/data-provider#create-
+[update]: /core/docs/data/data-provider#update-
+[data-provider]: /core/docs/data/data-provider

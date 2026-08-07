@@ -11,7 +11,6 @@ describe("base-antd", () => {
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    cy.interceptGETPosts();
     cy.visit("/");
   });
 

@@ -80,7 +80,7 @@ export const EditAddress: React.FC<EditAddressProps> = ({
 
   const { mutate } = useDelete();
 
-  const { data: regions } = useList<Region>({
+  const { result: regions } = useList<Region>({
     resource: "regions",
   });
 

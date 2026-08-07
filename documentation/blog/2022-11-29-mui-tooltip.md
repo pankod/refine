@@ -3,9 +3,11 @@ title: How to use Material UI Tooltip
 description: We'll discover the Material UI Tooltip component with examples
 slug: material-ui-tooltip-component
 authors: doro_onome
-tags: [material-ui, react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-29-mui-tooltip/social.png
+category: "Ecosystem / Integrations"
+tags: [material-ui]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-29-mui-tooltip/social-2.png
 hide_table_of_contents: false
+last_update: 2025-01-09
 ---
 
 ## Introduction
@@ -13,16 +15,6 @@ hide_table_of_contents: false
 Material UI is a dynamic React framework that offers abundant customizable components and utilities that help developers create better web apps with improved UI/UX. One such component is the Material UI Tooltip, which is a custom-made Material UI component that displays informative text on an element’s hover, click, focus, or tap.
 
 This article will deeply dive into the Material UI Tooltip component and highlight its functionalities, variations, and event placements. We will also explore a potential use case in a typical React application.
-
-Steps we'll cover:
-
-- [What is Material UI?](#what-is-material-ui)
-- [Getting started with Material UI Tooltip](#getting-started-with-material-ui-tooltip)
-- [Positioning Material UI Tooltips](#positioning-material-ui-tooltips)
-- [How to customize your Material UI Tooltip component](#how-to-customize-your-material-ui-tooltip-component)
-- [Material UI Tooltip Event Triggers](#material-ui-tooltip-event-triggers)
-- [Material UI Tooltip custom children elements](#material-ui-tooltip-custom-children-elements)
-- [Building a Login form UI with React and Material UI Tooltip](#building-a-login-form-ui-with-react-and-material-ui-tooltip)
 
 ## What is Material UI?
 
@@ -65,7 +57,7 @@ export default function BasicTooltip() {
 Here’s the result:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center", width:"250px"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-29-mui-tooltip/tooltip-1.gif"  alt="Material UI tooltip " />
+  <img style={{alignSelf:"center", width:"250px"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-29-mui-tooltip/tooltip-1.gif"  alt="Basic tooltip on zoom icon button" />
 </div>
 
 ## Positioning Material UI Tooltips
@@ -153,7 +145,7 @@ export default function PositionedTooltips() {
 </details>
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-29-mui-tooltip/tooltip-2.gif"  alt="Material UI tooltip " />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-29-mui-tooltip/tooltip-2.avif"  alt="Tooltip placement grid for 12 positions" />
 </div>
 
 **Note**: Tooltip positioning is critical when using them in a web application. A poorly placed Tooltip may detract from the overall UX of the app.
@@ -188,7 +180,7 @@ export default function ArrowTooltips() {
 Here’s what it looks like:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-29-mui-tooltip/tooltip-3.gif"  alt="Material UI tooltip " />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-29-mui-tooltip/tooltip-3.gif"  alt="Tooltip with arrow indicator" />
 </div>
 
 ### Width variations
@@ -243,7 +235,7 @@ export default function VariableWidth() {
 ```
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-29-mui-tooltip/tooltip-4.gif"  alt="Material UI tooltip " />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-29-mui-tooltip/tooltip-4.avif"  alt="Tooltip width variations demo" />
 </div>
 
 ### Material UI Tooltip Transitions
@@ -287,7 +279,7 @@ In the code above, three tooltips have been set to display with varying transiti
 Here’s the result:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-29-mui-tooltip/tooltip-5.gif"  alt="Material UI tooltip " />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-29-mui-tooltip/tooltip-5.avif"  alt="Tooltip transition styles with grow, fade, and zoom" />
 </div>
 
 ### Virtual element placement
@@ -360,7 +352,7 @@ In the code above,
 Here’s the result:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-29-mui-tooltip/tooltip-6.gif"  alt="Material UI tooltip " />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-29-mui-tooltip/tooltip-6.gif"  alt="Tooltip following cursor using virtual element" />
 </div>
 
 ## Material UI Tooltip Event Triggers
@@ -421,13 +413,13 @@ export default function TriggersTooltips() {
 Here’s the result:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-29-mui-tooltip/tooltip-7.gif"  alt="Material UI tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-29-mui-tooltip/tooltip-7.gif"  alt="Hover and click tooltip triggers" />
 </div>
 
 <br/>
 <div>
 <a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="discord banner" />
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="Join Refine on Discord banner" />
 </a>
 </div>
 
@@ -496,7 +488,7 @@ The code above illustrates a simple login form UI with instructions provided to 
 Here’s the result:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-29-mui-tooltip/tooltip-8.gif"  alt="Material UI tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-29-mui-tooltip/tooltip-8.avif"  alt="Login form with tooltip validation hints" />
 </div>
 
 ## Conclusion

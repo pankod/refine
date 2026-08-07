@@ -1,7 +1,7 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`definitions/table sorters should be prioritized over sorter 1`] = `"current=1&pageSize=10&sorters[0][field]=id&sorters[0][order]=desc"`;
+exports[`definitions/table > sorters should be prioritized over sorter 1`] = `"currentPage=1&pageSize=10&sorters[0][field]=id&sorters[0][order]=desc"`;
 
-exports[`definitions/table stringify table params correctly 1`] = `"foo=bar&current=1&pageSize=10&sorters[0][field]=id&sorters[0][order]=desc&sorters[1][field]=title&sorters[1][order]=desc&filters[0][field]=categoryId&filters[0][operator]=in&filters[0][value][0]=1&filters[0][value][1]=2"`;
+exports[`definitions/table > stringify table params correctly 1`] = `"foo=bar&currentPage=1&pageSize=10&sorters[0][field]=id&sorters[0][order]=desc&sorters[1][field]=title&sorters[1][order]=desc&filters[0][field]=categoryId&filters[0][operator]=in&filters[0][value][0]=1&filters[0][value][1]=2"`;
 
-exports[`definitions/table stringify table single sort params correctly 1`] = `"current=1&pageSize=10&sorters[0][field]=id&sorters[0][order]=desc&filters[0][field]=categoryId&filters[0][operator]=in&filters[0][value][0]=1&filters[0][value][1]=2"`;
+exports[`definitions/table > stringify table single sort params correctly 1`] = `"currentPage=1&pageSize=10&sorters[0][field]=id&sorters[0][order]=desc&filters[0][field]=categoryId&filters[0][operator]=in&filters[0][value][0]=1&filters[0][value][1]=2"`;

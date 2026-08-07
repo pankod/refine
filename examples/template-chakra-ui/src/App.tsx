@@ -4,13 +4,13 @@ import {
   RefineThemes,
   ErrorComponent,
 } from "@refinedev/chakra-ui";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router";
 import { ChakraProvider } from "@chakra-ui/react";
 import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 
 function App() {
   return (

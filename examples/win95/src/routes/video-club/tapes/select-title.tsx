@@ -5,7 +5,7 @@ import {
   useTable,
 } from "@refinedev/core";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button, Separator } from "react95";
 import { Pagination } from "@/components/pagination";
 import {
@@ -50,12 +50,13 @@ export const VideoClubPageTapeSelectTitle = ({
   const {
     tableQuery: titlesQueryResult,
     pageCount,
-    current,
-    setCurrent,
+    currentPage: current,
+    setCurrentPage: setCurrent,
     filters,
     setFilters,
   } = useTable<ExtendedVideoTitle>({
     resource: "titles",
+
     meta: {
       select: "*, tapes(*), rentals(*)",
     },

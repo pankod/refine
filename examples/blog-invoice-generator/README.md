@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example blog-invoice-generator
 
 <br/>
 
-[![Open blog-invoice-generator example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/blog-invoice-generator?view=preview&theme=dark&codemirror=1)
+[![Open blog-invoice-generator example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/blog-invoice-generator?view=preview&theme=dark&codemirror=1)

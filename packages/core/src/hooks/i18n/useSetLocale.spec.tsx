@@ -1,4 +1,5 @@
 import * as React from "react";
+import { vi } from "vitest";
 
 import { useSetLocale } from "@hooks";
 import { TestWrapper, fireEvent, render } from "@test";
@@ -14,7 +15,7 @@ describe("useSetLocale", () => {
   };
 
   it("should trigger i18nProvider changeLocale method", async () => {
-    const setLocale = jest.fn();
+    const setLocale = vi.fn();
 
     const { getByText } = render(<TestComponent />, {
       wrapper: TestWrapper({

@@ -3,8 +3,6 @@
 
 describe("table-mantine-advanced", () => {
   beforeEach(() => {
-    cy.interceptGETPosts();
-
     cy.visit("/");
   });
 
@@ -31,8 +29,6 @@ describe("table-mantine-advanced", () => {
   it("should fill the form with the row data when click the edit button and save the form", () => {
     cy.wait("@getPosts");
 
-    cy.interceptGETPost();
-
     cy.getEditButton().first().click();
 
     cy.get("#title-input").should("exist");
@@ -45,8 +41,6 @@ describe("table-mantine-advanced", () => {
     });
 
     cy.get("#title-input").clear().type("Fuga eos enim autem eos.");
-
-    cy.interceptPATCHPost();
 
     cy.get("button").contains("Save").first().click();
 

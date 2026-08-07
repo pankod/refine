@@ -3,7 +3,7 @@
   "include": ["test", "src/types"],
   "compilerOptions": {
     "rootDir": ".",
-    "types": ["jest"],
+    "types": ["vitest/globals"],
     "typeRoots": ["./node_modules/@types", "../../node_modules/@types"]
   }
 }

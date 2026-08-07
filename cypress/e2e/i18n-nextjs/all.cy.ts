@@ -6,16 +6,28 @@ Cypress.on("uncaught:exception", () => {
 });
 
 describe("i18n-nextjs", () => {
+  const login = () => {
+    cy.fixture("demo-auth-credentials").then((auth) => {
+      cy.get("#email").clear();
+      cy.get("#email").type(auth.email);
+      cy.get("#password").clear();
+      cy.get("#password").type(auth.password);
+    });
+    return cy.get("button[type=submit]").click();
+  };
+
   beforeEach(() => {
     cy.clearAllCookies();
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    cy.interceptGETBlogPosts();
     cy.visit("/");
   });
 
   it("should change", () => {
+    login();
+    cy.location("pathname").should("eq", "/blog-posts");
+
     cy.wait("@getBlogPosts");
 
     // check the elements are in English which is the default language
@@ -71,5 +83,20 @@ describe("i18n-nextjs", () => {
       .contains("Erstellt am")
       .get(".ant-table-thead > tr > :nth-child(7)")
       .contains("Aktionen");
+  });
+
+  it("should translate notifications", () => {
+    login();
+    cy.location("pathname").should("eq", "/blog-posts");
+
+    cy.visit("/blog-posts/edit/123");
+
+    cy.wait("@getBlogPost");
+
+    cy.get(".refine-delete-button").click();
+    cy.getAntdPopoverDeleteButton().click();
+    cy.get(".ant-notification-notice-description").contains(
+      "Successfully deleted Blog Posts",
+    );
   });
 });

@@ -1,63 +1,23 @@
 ---
-title: Create
+title: "Chakra UI Create Button Component | Navigation UI in Refine v5"
+display_title: "Create"
+sidebar_label: "Create"
+description: "Explore how to integrate Create Button in Refine v5. Learn integration patterns for accessibility, components for polished admin UIs."
 swizzle: true
 ---
 
-```tsx live shared
-const { default: sharedRouterProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: sharedRouterProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  Layout: RefineChakra.Layout,
-  Sider: () => null,
-  catchAll: <RefineChakra.ErrorComponent />,
-});
-
-const Wrapper = ({ children }) => {
-  return (
-    <ChakraUI.ChakraProvider theme={RefineChakra.refineTheme}>
-      {children}
-    </ChakraUI.ChakraProvider>
-  );
-};
-
-const CreatePage = () => {
-  const { list } = RefineCore.useNavigation();
-  const params = RefineCore.useRouterContext().useParams();
-
-  return (
-    <ChakraUI.VStack alignItems="flex-start">
-      <ChakraUI.Text as="i" color="gray.700" fontSize="sm">
-        URL Parameters:
-      </ChakraUI.Text>
-      <ChakraUI.Code>{JSON.stringify(params)}</ChakraUI.Code>
-
-      <ChakraUI.Button
-        size="sm"
-        onClick={() => list("posts")}
-        colorScheme="green"
-      >
-        Go back
-      </ChakraUI.Button>
-    </ChakraUI.VStack>
-  );
-};
-```
-
-`<CreateButton>` uses Chakra UI's [`<Button>`](https://www.chakra-ui.com/docs/components/button#usage) component. It uses the `create` method from [`useNavigation`](/docs/routing/hooks/use-navigation) under the hood. It can be useful to redirect the app to the create page route of resource.
+`<CreateButton>` uses Chakra UI's [`<Button>`](https://www.chakra-ui.com/docs/components/button#usage) component. It uses the `create` method from [`useNavigation`](/core/docs/routing/hooks/use-navigation/) under the hood. It can be useful to redirect the app to the create page route of resource.
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
 ## Usage
 
-```tsx live url=http://localhost:3000 previewHeight=420px hideCode
+```tsx live previewHeight=360px hideCode
 setInitialRoutes(["/posts"]);
-import { Refine } from "@refinedev/core";
 
 // visible-block-start
 import {
@@ -94,7 +54,9 @@ const PostList: React.FC = () => {
     [],
   );
 
-  const { getHeaderGroups, getRowModel } = useTable({
+  const {
+    reactTable: { getHeaderGroups, getRowModel },
+  } = useTable({
     columns,
   });
 
@@ -150,24 +112,53 @@ interface IPost {
 }
 // visible-block-end
 
-const App = () => {
+const CreatePage = () => {
+  const { list } = RefineCore.useNavigation();
+  const parsed = RefineCore.useParsed();
   return (
-    <Refine
-      notificationProvider={RefineChakra.notificationProvider()}
+    <ChakraUI.VStack alignItems="flex-start">
+      <ChakraUI.Text as="i" color="gray.700" fontSize="sm">
+        URL Parameters:
+      </ChakraUI.Text>
+      <ChakraUI.Code>{JSON.stringify(parsed, null, 2)}</ChakraUI.Code>
+
+      <ChakraUI.Button
+        size="sm"
+        onClick={() => list("posts")}
+        colorScheme="green"
+      >
+        Go back
+      </ChakraUI.Button>
+    </ChakraUI.VStack>
+  );
+};
+
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          list: PostList,
-          create: CreatePage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+          <ReactRouter.Route path="create" element={<CreatePage />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -177,52 +168,81 @@ render(
 
 `resource` is used to redirect the app to the `create` action path of the given resource name. By default, the app redirects to the inferred resource's `create` action path.
 
-```tsx live url=http://localhost:3000 previewHeight=200px
-setInitialRoutes(["/"]);
-
-import { Refine } from "@refinedev/core";
+```tsx live previewHeight=160px
+setInitialRoutes(["/categories"]);
 
 // visible-block-start
 import { CreateButton } from "@refinedev/chakra-ui";
 
 const MyCreateComponent = () => {
-  return <CreateButton colorScheme="black" resource="categories" />;
+  return <CreateButton colorScheme="blue" resource="categories" />;
 };
 // visible-block-end
 
-const App = () => {
+const CategoryCreate = () => {
+  const { list } = RefineCore.useNavigation();
+  const parsed = RefineCore.useParsed();
   return (
-    <Refine
-      resources={[
-        {
-          name: "posts",
-          list: MyCreateComponent,
-        },
-        {
-          name: "categories",
-          create: CreatePage,
-        },
-      ]}
-    />
+    <ChakraUI.VStack alignItems="flex-start">
+      <ChakraUI.Text as="i" color="gray.700" fontSize="sm">
+        URL Parameters:
+      </ChakraUI.Text>
+      <ChakraUI.Code>{JSON.stringify(parsed, null, 2)}</ChakraUI.Code>
+
+      <ChakraUI.Button
+        size="sm"
+        onClick={() => list("categories")}
+        colorScheme="green"
+      >
+        Go back
+      </ChakraUI.Button>
+    </ChakraUI.VStack>
   );
 };
 
 render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+        {
+          name: "categories",
+          list: "/categories",
+          create: "/categories/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/categories"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<MyCreateComponent />} />
+          <ReactRouter.Route path="create" element={<CategoryCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-Clicking the button will trigger the `create` method of [`useNavigation`](/docs/routing/hooks/use-navigation) and then redirect the app to the `create` action path of the resource, filling the necessary parameters in the route.
+Clicking the button will trigger the `create` method of [`useNavigation`](/core/docs/routing/hooks/use-navigation/) and then redirect the app to the `create` action path of the resource, filling the necessary parameters in the route.
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### meta
 
-It is used to pass additional parameters to the `create` method of [`useNavigation`](/docs/routing/hooks/use-navigation). By default, existing parameters in the route are used by the `create` method. You can pass additional parameters or override the existing ones using the `meta` prop.
+It is used to pass additional parameters to the `create` method of [`useNavigation`](/core/docs/routing/hooks/use-navigation/). By default, existing parameters in the route are used by the `create` method. You can pass additional parameters or override the existing ones using the `meta` prop.
 
 If the `create` action route is defined by the pattern: `/posts/:authorId/create`, the `meta` prop can be used as follows:
 
@@ -234,62 +254,101 @@ const MyComponent = () => {
 
 ### hideText
 
-`hideText` is used to show and not show the text of the button. When `true`, only the button icon is visible.
+It is used to show and not show the text of the button. When `true`, only the button icon is visible.
 
-```tsx live url=http://localhost:3000 previewHeight=200px
-setInitialRoutes(["/"]);
-
-import { Refine } from "@refinedev/core";
+```tsx live previewHeight=120px
+setInitialRoutes(["/posts"]);
 
 // visible-block-start
 import { CreateButton } from "@refinedev/chakra-ui";
 
 const MyCreateComponent = () => {
-  return <CreateButton colorScheme="black" hideText />;
+  return (
+    <CreateButton
+      // highlight-next-line
+      hideText={true}
+    />
+  );
 };
 // visible-block-end
 
-const App = () => {
+const CreatePage = () => {
+  const { list } = RefineCore.useNavigation();
+  const parsed = RefineCore.useParsed();
   return (
-    <Refine
-      resources={[
-        {
-          name: "posts",
-          list: MyCreateComponent,
-          create: CreatePage,
-        },
-      ]}
-    />
+    <ChakraUI.VStack alignItems="flex-start">
+      <ChakraUI.Text as="i" color="gray.700" fontSize="sm">
+        URL Parameters:
+      </ChakraUI.Text>
+      <ChakraUI.Code>{JSON.stringify(parsed, null, 2)}</ChakraUI.Code>
+
+      <ChakraUI.Button
+        size="sm"
+        onClick={() => list("posts")}
+        colorScheme="green"
+      >
+        Go back
+      </ChakraUI.Button>
+    </ChakraUI.VStack>
   );
 };
 
 render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<MyCreateComponent />} />
+          <ReactRouter.Route path="create" element={<CreatePage />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 ### accessControl
 
-The `accessControl` prop can be used to skip the access control check with its `enabled` property or to hide the button when the user does not have the permission to access the resource with `hideIfUnauthorized` property. This is relevant only when an [`accessControlProvider`](/docs/authorization/access-control-provider) is provided to [`<Refine/>`](/docs/core/refine-component)
+This prop can be used to skip access control check with its `enabled` property or to hide the button when the user does not have the permission to access the resource with `hideIfUnauthorized` property. This is relevant only when an [`accessControlProvider`](/core/docs/authorization/access-control-provider/) is provided to [`<Refine/>`](/core/docs/core/refine-component/)
 
 ```tsx
 import { CreateButton } from "@refinedev/chakra-ui";
 
 export const MyListComponent = () => {
   return (
-    <CreateButton accessControl={{ enabled: true, hideIfUnauthorized: true }} />
+    <CreateButton
+      accessControl={{
+        enabled: true,
+        hideIfUnauthorized: true,
+      }}
+    />
   );
 };
 ```
-
-### ~~resourceNameOrRouteName~~ <PropTag deprecated />
-
-Use `resource` prop instead.
 
 ## API Reference
 
 ### Properties
 
-<PropsTable module="@refinedev/chakra-ui/CloneButton" />
+<PropsTable module="@refinedev/chakra-ui/CreateButton" />
+
+:::simple External Props
+
+It also accepts all props of Chakra UI [Button](https://chakra-ui.com/docs/components/button#props).
+
+:::

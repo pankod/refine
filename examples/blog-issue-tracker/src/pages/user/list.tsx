@@ -4,7 +4,7 @@ import { useTable, List } from "@refinedev/antd";
 
 import { Table } from "antd";
 
-import type { IAuthUser } from "interfaces";
+import type { IAuthUser } from "../../types";
 
 export const UserList = () => {
   const { tableProps } = useTable<IAuthUser>();

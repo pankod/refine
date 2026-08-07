@@ -4,18 +4,19 @@ import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import {
   ErrorComponent,
   useNotificationProvider,
-  ThemedLayoutV2,
+  ThemedLayout,
 } from "@refinedev/antd";
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
 import dataProvider from "@refinedev/simple-rest";
-import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
-import routerBindings, {
+import { BrowserRouter, Route, Routes, Outlet } from "react-router";
+import routerProvider, {
   NavigateToResource,
   CatchAllNavigate,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import {
   BlogPostList,
   BlogPostCreate,
@@ -44,7 +45,7 @@ function App() {
           <Refine
             dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
             notificationProvider={useNotificationProvider}
-            routerProvider={routerBindings}
+            routerProvider={routerProvider}
             authProvider={authProvider}
             resources={[
               {
@@ -80,9 +81,9 @@ function App() {
                     key="authenticated-routes"
                     fallback={<CatchAllNavigate to="/login" />}
                   >
-                    <ThemedLayoutV2 Header={Header}>
+                    <ThemedLayout Header={Header}>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >
@@ -117,9 +118,9 @@ function App() {
               <Route
                 element={
                   <Authenticated key="catch-all">
-                    <ThemedLayoutV2 Header={Header}>
+                    <ThemedLayout Header={Header}>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >

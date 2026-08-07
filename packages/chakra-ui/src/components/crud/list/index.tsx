@@ -3,8 +3,7 @@ import {
   useTranslate,
   useUserFriendlyName,
   useRefineContext,
-  useRouterType,
-  useResource,
+  useResourceParams,
 } from "@refinedev/core";
 
 import { Box, Heading } from "@chakra-ui/react";
@@ -32,14 +31,14 @@ export const List: React.FC<ListProps> = (props) => {
     options: { breadcrumb: globalBreadcrumb } = {},
   } = useRefineContext();
 
-  const routerType = useRouterType();
   const getUserFriendlyName = useUserFriendlyName();
 
-  const { resource, identifier } = useResource(resourceFromProps);
+  const { resource, identifier } = useResourceParams({
+    resource: resourceFromProps,
+  });
 
   const isCreateButtonVisible =
-    canCreate ??
-    ((resource?.canCreate ?? !!resource?.create) || createButtonPropsFromProps);
+    canCreate ?? (!!resource?.create || createButtonPropsFromProps);
 
   const breadcrumb =
     typeof breadcrumbFromProps === "undefined"
@@ -48,7 +47,7 @@ export const List: React.FC<ListProps> = (props) => {
 
   const createButtonProps: CreateButtonProps | undefined = isCreateButtonVisible
     ? {
-        resource: routerType === "legacy" ? resource?.route : identifier,
+        resource: identifier,
         ...createButtonPropsFromProps,
       }
     : undefined;
@@ -89,13 +88,7 @@ export const List: React.FC<ListProps> = (props) => {
       <Heading as="h3" size="lg" className={RefinePageHeaderClassNames.Title}>
         {translate(
           `${identifier}.titles.list`,
-          getUserFriendlyName(
-            resource?.meta?.label ??
-              resource?.options?.label ??
-              resource?.label ??
-              identifier,
-            "plural",
-          ),
+          getUserFriendlyName(resource?.meta?.label ?? identifier, "plural"),
         )}
       </Heading>
     );
@@ -114,7 +107,7 @@ export const List: React.FC<ListProps> = (props) => {
       >
         <Box minW={200}>
           {typeof breadcrumb !== "undefined" ? (
-            <>{breadcrumb}</> ?? undefined
+            <>{breadcrumb}</>
           ) : (
             <Breadcrumb />
           )}

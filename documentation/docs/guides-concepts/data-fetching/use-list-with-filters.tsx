@@ -54,7 +54,7 @@ export const dataProvider = (url: string): DataProvider => ({
     getList: async ({ resource, filters, pagination, sorters }) => {
         // We simplified query string generation to keep the example application short and straightforward.
         // For more detailed and complex implementation examples, you can refer to the source code of the data provider packages.
-        // https://github.com/refinedev/refine/blob/master/packages/simple-rest/src/provider.ts
+        // https://github.com/refinedev/refine/blob/main/packages/simple-rest/src/provider.ts
 
         // we know that we only have one filter and one sorter in this example.
         const filter = filters?.[0];
@@ -72,9 +72,9 @@ export const dataProvider = (url: string): DataProvider => ({
         }
 
         // pagination is optional, so we need give default values if it is undefined.
-        const { current = 1, pageSize = 10 } = pagination ?? {};
-        params.push(\`_start=\${(current - 1) * pageSize}\`);
-        params.push(\`_end=\${current * pageSize}\`);
+        const { currentPage = 1, pageSize = 10 } = pagination ?? {};
+        params.push(\`_start=\${(currentPage - 1) * pageSize}\`);
+        params.push(\`_end=\${currentPage * pageSize}\`);
 
         // combine all params with "&" character to create query string.
         const query = params.join("&");
@@ -114,18 +114,19 @@ const HomePageTsxCode = `
 import { useList } from "@refinedev/core";
 
 export const HomePage = () => {
-    const { data: products } = useList({
+    const { result } = useList({
         resource: "products",
-        pagination: { current: 1, pageSize: 5 },
+        pagination: { currentPage: 1, pageSize: 5 },
         sorters: [{ field: "id", order: "DESC" }],
         filters: [{ field: "material", operator: "eq", value: "Wooden" }],
     });
+    const products = result?.data;
 
     return (
         <div>
             <h2>Wooden Products</h2>
             <ul>
-                {products?.data?.map((product) => (
+                {products?.map((product) => (
                     <li key={product.id}>
                        <p>
                             {product.id}

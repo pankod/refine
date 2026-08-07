@@ -145,18 +145,18 @@ export default function App() {
 `.trim();
 
 const ProtectedTsxCode = /* jsx */ `
-import { ThemedLayoutV2 } from "@refinedev/antd";
+import { ThemedLayout } from "@refinedev/antd";
 import { Outlet } from "@remix-run/react";
 import { LoaderFunctionArgs, redirect } from "@remix-run/node";
 
 import authProvider from "../auth-provider";
 
 export default function AuthenticatedLayout() {
-    // \`<ThemedLayoutV2>\` is only applied to the authenticated users
+    // \`<ThemedLayout>\` is only applied to the authenticated users
     return (
-        <ThemedLayoutV2>
+        <ThemedLayout>
             <Outlet />
-        </ThemedLayoutV2>
+        </ThemedLayout>
     );
 }
 
@@ -251,23 +251,20 @@ import { Typography } from "antd";
 const { Title } = Typography;
 
 export default function ProductShow() {
-  const { queryResult } = useShow();
-  const { data, isLoading } = queryResult;
-
-  const record = data?.data;
+  const { result: product, query: { isLoading } } = useShow();
 
   return (
     <Show isLoading={isLoading}>
       <Title level={5}>Id</Title>
-      <NumberField value={record?.id ?? ""} />
+      <NumberField value={product?.id ?? ""} />
       <Title level={5}>Name</Title>
-      <TextField value={record?.name} />
+      <TextField value={product?.name} />
       <Title level={5}>Material</Title>
-      <TextField value={record?.material} />
+      <TextField value={product?.material} />
       <Title level={5}>Description</Title>
-      <MarkdownField value={record?.description} />
+      <MarkdownField value={product?.description} />
       <Title level={5}>Price</Title>
-      <NumberField value={record?.price ?? ""} />
+      <NumberField value={product?.price ?? ""} />
     </Show>
   );
 };

@@ -19,7 +19,6 @@ import type { ListButtonProps } from "../types";
  **/
 export const ListButton: React.FC<ListButtonProps> = ({
   resource: resourceNameFromProps,
-  resourceNameOrRouteName,
   hideText = false,
   accessControl,
   svgIconProps,
@@ -29,14 +28,16 @@ export const ListButton: React.FC<ListButtonProps> = ({
   ...rest
 }) => {
   const { to, label, title, disabled, hidden, LinkComponent } = useListButton({
-    resource: resourceNameFromProps ?? resourceNameOrRouteName,
+    resource: resourceNameFromProps,
     accessControl,
     meta,
   });
-
   const { variant, styles, ...commonProps } = rest;
 
-  if (hidden) return null;
+  const isDisabled = disabled || rest.disabled;
+  const isHidden = hidden || rest.hidden;
+
+  if (isHidden) return null;
 
   return (
     <Anchor
@@ -44,7 +45,7 @@ export const ListButton: React.FC<ListButtonProps> = ({
       to={to}
       replace={false}
       onClick={(e: React.PointerEvent<HTMLButtonElement>) => {
-        if (disabled) {
+        if (isDisabled) {
           e.preventDefault();
           return;
         }
@@ -73,7 +74,7 @@ export const ListButton: React.FC<ListButtonProps> = ({
       ) : (
         <Button
           variant="default"
-          disabled={disabled}
+          disabled={isDisabled}
           leftIcon={<IconList size={18} {...svgIconProps} />}
           title={title}
           data-testid={RefineButtonTestIds.ListButton}

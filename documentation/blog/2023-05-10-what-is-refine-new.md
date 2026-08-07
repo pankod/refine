@@ -3,9 +3,11 @@ title: refine.new - Introducing the Fastest Way to Create Refine Apps
 description: Discover how refine.new and the Refine framework are transforming the way developers create front-end applications in the React ecosystem
 slug: what-is-refine-new
 authors: necati
-tags: [community, Refine]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-10-what-is-refine-new/social.png
+category: "Announcement"
+tags: []
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-10-what-is-refine-new/social.png
 hide_table_of_contents: false
+last_update: 2026-02-03
 ---
 
 ## Introduction
@@ -19,8 +21,7 @@ It is specifically tailored for data-intensive applications like admin panels, d
 
  <div className="centered-image"  >
   <a href="https://github.com/refinedev/refine">
-  <img style={{alignSelf:"center", width:"600px"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/diagram.png
-" alt="refine banner" />
+  <img style={{alignSelf:"center", width:"600px"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/diagram.png" alt="Refine architecture diagram" />
 </a>
 </div>
 
@@ -32,8 +33,8 @@ The Refine is **headless by design**, offering unlimited styling and customizati
 
 Refine has connectors for 15+ backend services, including REST API, [GraphQL](https://graphql.org/), and popular services like [Airtable](https://www.airtable.com/), [Strapi](https://strapi.io/), [Supabase](https://supabase.com/), [Firebase](https://firebase.google.com/), and [Directus](https://directus.io/)
 
-[Refer to documentation for more info about Refine&#8594](https://refine.dev/docs/)
-[Step up to Refine tutorials &#8594](https://refine.dev/tutorial)
+[Refer to documentation for more info about Refine&#8594](https://refine.dev/core/docs/)
+[Step up to Refine tutorials &#8594](https://refine.dev/core/tutorial)
 
 ✨ With the introduction of [refine.new](https://refine.new/), developers can now create Refine apps in just **15 seconds**.
 
@@ -45,7 +46,7 @@ Refine has connectors for 15+ backend services, including REST API, [GraphQL](ht
 
  <div className="centered-image"  >
   <a href="https://refine.new/">
-  <img   src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/quick-start.gif" alt="refine banner" />
+  <img   src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/quick-start.gif" alt="refine.new quick start flow" />
 </a>
 </div>
 
@@ -72,7 +73,7 @@ View the example Refine app built using refine.new from [this link](https://refi
 
  <div className="centered-image"  >
 <a href="https://refine.new/preview/8606c751-2ea8-47cd-a8fe-b8a01b4a0951">
-  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/tutorial/antd-intro.png" alt="tutorial antd" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/tutorial/antd-intro.png" alt="Refine Ant Design app preview" />
   </a>
 </div>
 

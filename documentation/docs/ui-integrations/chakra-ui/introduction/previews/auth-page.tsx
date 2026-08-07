@@ -8,19 +8,18 @@ export default function AuthPage() {
       //   showFiles
       initialPercentage={40}
       dependencies={{
-        "@refinedev/chakra-ui": "^2.26.17",
+        "@refinedev/chakra-ui": "latest",
         "@tabler/icons-react": "^3.1.0",
-        "@refinedev/core": "^4.45.1",
-        "@refinedev/react-router-v6": "^4.5.4",
-        "@refinedev/simple-rest": "^4.5.4",
-        "@refinedev/react-table": "^5.6.4",
+        "@refinedev/core": "latest",
+        "@refinedev/react-router": "latest",
+        "@refinedev/simple-rest": "latest",
+        "@refinedev/react-table": "latest",
         "@tanstack/react-table": "^8.2.6",
-        "@refinedev/react-hook-form": "^4.8.12",
+        "@refinedev/react-hook-form": "latest",
         "@chakra-ui/react": "^2.5.1",
         "react-dom": "^18.0.0",
-        "react-router": "latest",
-        "react-router-dom": "^6.8.1",
-        "react-hook-form": "^7.43.5",
+        "react-router": "^7.0.2",
+        "react-hook-form": "^7.57.0",
       }}
       startRoute="/login"
       files={{
@@ -87,10 +86,10 @@ import React from "react";
 
 import { Refine, Authenticated } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
-import { BrowserRouter, Route, Routes, Outlet, Navigate } from "react-router-dom";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
+import { BrowserRouter, Route, Routes, Outlet, Navigate } from "react-router";
 
-import { ErrorComponent, RefineThemes, ThemedLayoutV2, notificationProvider, AuthPage } from "@refinedev/chakra-ui";
+import { ErrorComponent, RefineThemes, ThemedLayout, notificationProvider, AuthPage } from "@refinedev/chakra-ui";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import authProvider from "./auth-provider";
@@ -122,9 +121,9 @@ export default function App() {
             <Route element={<Authenticated fallback={<Navigate to="/login" />}><Outlet /></Authenticated>}>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 <Route path="/products" element={<ProductList />} />
@@ -193,24 +192,24 @@ export const ProductList = () => {
     );
 
     const {
-        getHeaderGroups,
-        getRowModel,
-        setOptions,
+        reactTable: { getHeaderGroups, getRowModel, setOptions },
         refineCore: {
-            setCurrent,
+            setCurrentPage,
             pageCount,
-            current,
+            currentPage,
             tableQuery: { data: tableData },
         },
     } = useTable({
         columns,
         refineCoreProps: {
-            initialSorter: [
-                {
-                    field: "id",
-                    order: "desc",
-                },
-            ],
+            sorters: {
+              initial: [
+                  {
+                      field: "id",
+                      order: "desc",
+                  },
+              ],
+            },
         },
     });
 

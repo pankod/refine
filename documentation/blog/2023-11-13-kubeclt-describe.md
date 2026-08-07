@@ -3,8 +3,9 @@ title: A Detailed Guide on kubectl describe
 description: In this article, we will discuss the kubectl describe command in detail.
 slug: kubectl-describe-pod
 authors: muhammad_khabbab
-tags: [kubernetes, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-13-kubeclt-describe/social.png
+category: "Ecosystem / Integrations"
+tags: [kubernetes]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-13-kubeclt-describe/social.png
 hide_table_of_contents: false
 ---
 
@@ -75,7 +76,7 @@ It gets a lot of errors since it heavily depends on the pod manifest or applicat
 **For Example, using the above command, we can describe the 'my-demo-pod' running on our minikube node:**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-13-kubeclt-describe/1.png"  alt="kubectl describe pod" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-13-kubeclt-describe/1.png"  alt="Detailed pod description showing status, containers, and events for my-demo-pod" />
 </div>
 
 <br/>
@@ -91,7 +92,7 @@ Deployments are basically controllers used for determining and keeping the desir
 **The below output shows that using the above command, we have described the 'my-demo-deployment':**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-13-kubeclt-describe/2.png"  alt="kubectl describe pod" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-13-kubeclt-describe/2.png"  alt="Deployment details showing labels, strategy, selector, and replicas for my-demo-deployment" />
 </div>
 
 <br/>
@@ -107,7 +108,7 @@ The network connectivity between the Kubernetes components is provided by these 
 **For Example, in our case, we have a service with the name 'example-service' in a namespace named 'example-namespace'. By utilizing the command above, we could see that the service has no endpoint, meaning it is unable to reach any of the pods:**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-13-kubeclt-describe/3.png"  alt="kubectl describe pod" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-13-kubeclt-describe/3.png"  alt="Service description showing no endpoints, indicating service cannot reach pods" />
 </div>
 
 <br/>
@@ -133,7 +134,7 @@ This part consists of different key-value pairs, which are used to identify and 
 **The Below Output Highlights the common Sections:**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-13-kubeclt-describe/4.png"  alt="kubectl describe pod" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-13-kubeclt-describe/4.png"  alt="Kubectl describe output highlighting Events, Annotations, and Labels sections" />
 </div>
 
 <br/>
@@ -188,7 +189,7 @@ Custom resources are extensions of the Kubernetes API. It allows you to define a
 **The output will show you a detailed description of the custom resource definition:**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-13-kubeclt-describe/5.png"  alt="kubectl describe pod" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-13-kubeclt-describe/5.png"  alt="Custom Resource Definition description showing name, scope, version, and validation schema" />
 </div>
 
 <br/>

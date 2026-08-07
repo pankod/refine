@@ -74,7 +74,7 @@ useExport<IPost>({
 
 If you want to sort the data before exporting it, you can use the `sorter` property. It will be passed to the `getList` method of your data provider.
 
-[Refer to the `CrudSorting` interface for more information &#8594](/docs/3.xx.xx/api-reference/core/interfaceReferences#crudsorting)
+[Refer to the `CrudSorting` interface for more information &#8594](/core/docs/3.xx.xx/api-reference/core/interfaceReferences#crudsorting)
 
 ```ts
 useExport({
@@ -91,7 +91,7 @@ useExport({
 
 If you want to filter the data before exporting it, you can use the `filters` property. It will be passed to the `getList` method of your data provider.
 
-[Refer to the `CrudFilters` interface for more information &#8594](/docs/3.xx.xx/api-reference/core/interfaceReferences#crudfilters)
+[Refer to the `CrudFilters` interface for more information &#8594](/core/docs/3.xx.xx/api-reference/core/interfaceReferences#crudfilters)
 
 ```ts
 useExport({
@@ -313,4 +313,4 @@ This will save the data as follows:
 | TVariables | Values for params                                                          | `any`                      |
 
 [export-to-csv]: https://github.com/alexcaza/export-to-csv
-[baserecord]: /api-reference/core/interfaces.md#baserecord
+[baserecord]: /core/docs/3.xx.xx/api-reference/core/interfaces#baserecord

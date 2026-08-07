@@ -8,11 +8,11 @@ import { Sandpack, AddRouterProviderToApp } from "./sandpack.tsx";
 
 Now we've learned the data fetching essentials and basics of authentication in Refine. In this unit, we'll learn how to add a router provider to our app and the features we're unlocking with a router provider.
 
-Refine provides integrations for the most popular routing options such as [React Router](/docs/routing/integrations/react-router), [Next.js](/docs/routing//integrations/next-js) and [Remix](/docs/routing/integrations/remix).
+Refine provides integrations for the most popular routing options such as [React Router](/core/docs/routing/integrations/react-router), [Next.js](/core/docs/routing/integrations/next-js) and [Remix](/core/docs/routing/integrations/remix).
 
 :::simple Implementation Tips
 
-- It's recommended to pick a built-in integration for your router but if you want to use a custom solution you can create your own provider with Refine's easy to use [router provider interface](/docs/routing/router-provider).
+- It's recommended to pick a built-in integration for your router but if you want to use a custom solution you can create your own provider with Refine's easy to use [router provider interface](/core/docs/routing/router-provider).
 
 - Refine won't interfere with your router's way of handling navigation. You'll be generating the routes/pages as you would normally do with your router.
 
@@ -32,21 +32,21 @@ This unit will be UI framework agnostic. Related parts of routing for the UI fra
 
 ## Adding Router Provider
 
-Let's get started with adding our dependencies. For routing, we will use `react-router-dom`, and to integrate it with Refine, we'll be using `@refinedev/react-router-v6` package.
+Let's get started with adding our dependencies. For routing, we will use `react-router`, and to integrate it with Refine, we'll be using `@refinedev/react-router` package.
 
-<InstallPackagesCommand args="react-router-dom @refinedev/react-router-v6"/>
+<InstallPackagesCommand args="react-router @refinedev/react-router"/>
 
-Then we'll pass our router provider to the `<Refine />` component. Additionally, we'll be wrapping our app with `<BrowserRouter />` from `react-router-dom`.
+Then we'll pass our router provider to the `<Refine />` component. Additionally, we'll be wrapping our app with `<BrowserRouter />` from `react-router`.
 
 Update your `src/App.tsx` file by adding the following lines:
 
 ```tsx title="src/App.tsx"
 import { Refine, Authenticated } from "@refinedev/core";
 // highlight-next-line
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 
 // highlight-next-line
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 
 import { dataProvider } from "./providers/data-provider";
 import { authProvider } from "./providers/auth-provider";

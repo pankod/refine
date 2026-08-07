@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useApiUrl, useCustom, useTranslate } from "@refinedev/core";
 import dayjs from "dayjs";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import { NumberField } from "@refinedev/mui";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
@@ -73,7 +73,7 @@ export const DashboardPage: React.FC = () => {
     }
   }, [selecetedDateFilter]);
 
-  const { data: dailyRevenueData } = useCustom<{
+  const { result: dailyRevenueData } = useCustom<{
     data: ISalesChart[];
     total: number;
     trend: number;
@@ -86,7 +86,7 @@ export const DashboardPage: React.FC = () => {
   });
   const dailyRevenue = dailyRevenueData?.data;
 
-  const { data: dailyOrdersData } = useCustom<{
+  const { result: dailyOrdersData } = useCustom<{
     data: IOrderChart[];
     total: number;
     trend: number;
@@ -99,7 +99,7 @@ export const DashboardPage: React.FC = () => {
   });
   const dailyOrders = dailyOrdersData?.data;
 
-  const { data: newCustomersData } = useCustom<{
+  const { result: newCustomersData } = useCustom<{
     data: ISalesChart[];
     total: number;
     trend: number;
@@ -138,12 +138,13 @@ export const DashboardPage: React.FC = () => {
     >
       <Grid container columns={24} spacing={3}>
         <Grid
-          item
-          xs={24}
-          sm={24}
-          md={24}
-          lg={24}
-          xl={10}
+          size={{
+            xs: 24,
+            sm: 24,
+            md: 24,
+            lg: 24,
+            xl: 10,
+          }}
           sx={{
             height: "264px",
           }}
@@ -182,12 +183,13 @@ export const DashboardPage: React.FC = () => {
           </Card>
         </Grid>
         <Grid
-          item
-          xs={24}
-          sm={24}
-          md={24}
-          lg={12}
-          xl={7}
+          size={{
+            xs: 24,
+            sm: 24,
+            md: 24,
+            lg: 12,
+            xl: 7,
+          }}
           sx={{
             height: "264px",
           }}
@@ -218,12 +220,13 @@ export const DashboardPage: React.FC = () => {
           </Card>
         </Grid>
         <Grid
-          item
-          xs={24}
-          sm={24}
-          md={24}
-          lg={12}
-          xl={7}
+          size={{
+            xs: 24,
+            sm: 24,
+            md: 24,
+            lg: 12,
+            xl: 7,
+          }}
           sx={{
             height: "264px",
           }}
@@ -254,12 +257,13 @@ export const DashboardPage: React.FC = () => {
           </Card>
         </Grid>
         <Grid
-          item
-          xs={24}
-          sm={24}
-          md={24}
-          lg={15}
-          xl={15}
+          size={{
+            xs: 24,
+            sm: 24,
+            md: 24,
+            lg: 15,
+            xl: 15,
+          }}
           sx={{
             height: "504px",
           }}
@@ -277,12 +281,13 @@ export const DashboardPage: React.FC = () => {
           </Card>
         </Grid>
         <Grid
-          item
-          xs={24}
-          sm={24}
-          md={24}
-          lg={9}
-          xl={9}
+          size={{
+            xs: 24,
+            sm: 24,
+            md: 24,
+            lg: 9,
+            xl: 9,
+          }}
           sx={{
             height: "504px",
           }}
@@ -295,12 +300,13 @@ export const DashboardPage: React.FC = () => {
           </Card>
         </Grid>
         <Grid
-          item
-          xs={24}
-          sm={24}
-          md={24}
-          lg={15}
-          xl={15}
+          size={{
+            xs: 24,
+            sm: 24,
+            md: 24,
+            lg: 15,
+            xl: 15,
+          }}
           sx={{
             height: "800px",
           }}
@@ -318,12 +324,13 @@ export const DashboardPage: React.FC = () => {
           </Card>
         </Grid>
         <Grid
-          item
-          xs={24}
-          sm={24}
-          md={24}
-          lg={9}
-          xl={9}
+          size={{
+            xs: 24,
+            sm: 24,
+            md: 24,
+            lg: 9,
+            xl: 9,
+          }}
           sx={{
             height: "max-content",
           }}

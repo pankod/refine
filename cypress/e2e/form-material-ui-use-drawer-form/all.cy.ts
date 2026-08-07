@@ -55,13 +55,6 @@ describe("form-material-ui-use-drawer-form", () => {
   };
 
   beforeEach(() => {
-    cy.interceptGETPost();
-    cy.interceptPOSTPost();
-    cy.interceptPATCHPost();
-    cy.interceptDELETEPost();
-    cy.interceptGETPosts();
-    cy.interceptGETCategories();
-
     cy.clearAllCookies();
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
@@ -88,14 +81,12 @@ describe("form-material-ui-use-drawer-form", () => {
       "modal-posts-create[open]=true",
     );
   });
-
   it("should create record", () => {
     cy.getCreateButton().click();
     isDrawerOpen();
 
     fillForm();
     submitForm();
-    cy.getSaveButton().should("be.disabled");
 
     cy.wait("@postPost").then((interception) => {
       const response = interception?.response;

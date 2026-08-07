@@ -66,16 +66,17 @@ export const RecentSalesTable = () => {
   const {
     tableQuery: tableQueryResult,
     pageCount,
-    current,
+    currentPage: current,
     pageSize,
     sorters,
     filters,
-    setCurrent,
+    setCurrentPage: setCurrent,
     setPageSize,
     setSorters,
     setFilters,
   } = useTable<IOrder>({
     resource: "orders",
+
     pagination: {
       pageSize: 5,
     },

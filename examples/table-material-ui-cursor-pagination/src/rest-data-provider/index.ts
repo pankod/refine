@@ -10,11 +10,11 @@ export const dataProvider = (
   Required<DataProvider>,
   "createMany" | "updateMany" | "deleteMany"
 > => ({
-  getList: async ({ resource, metaData, pagination }) => {
+  getList: async ({ resource, meta, pagination }) => {
     let url = `${apiUrl}/${resource}?per_page=${pagination?.pageSize || 10}`;
 
-    if (metaData?.cursor?.next) {
-      url = `${url}&until=${metaData.cursor.next}`;
+    if (meta?.cursor?.next) {
+      url = `${url}&until=${meta.cursor.next}`;
     }
 
     const { data } = await httpClient.get(url);

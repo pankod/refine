@@ -13,11 +13,11 @@ The package exports components for **List**, **Show**, **Create** and **Edit** v
 
 ## Available UI Inferencers
 
-- [Ant Design](/docs/3.xx.xx/api-reference/antd/components/inferencer)
-- [Material UI](/docs/3.xx.xx/api-reference/mui/components/inferencer)
-- [Mantine](/docs/3.xx.xx/api-reference/mantine/components/inferencer)
-- [Chakra UI](/docs/3.xx.xx/api-reference/chakra-ui/components/inferencer)
-- [Headless](/docs/3.xx.xx/api-reference/core/components/inferencer)
+- [Ant Design](/core/docs/3.xx.xx/api-reference/antd/components/inferencer)
+- [Material UI](/core/docs/3.xx.xx/api-reference/mui/components/inferencer)
+- [Mantine](/core/docs/3.xx.xx/api-reference/mantine/components/inferencer)
+- [Chakra UI](/core/docs/3.xx.xx/api-reference/chakra-ui/components/inferencer)
+- [Headless](/core/docs/3.xx.xx/api-reference/core/components/inferencer)
 
 :::info
 `@pankod/refine-inferencer` is an experimental package and it is now in the early stages of development. We are working on improving the package and adding new features.

@@ -3,9 +3,11 @@ title: How to create a notification provider with react-toastify
 description: We'll create a custom notification provider in a Refine application using react-toastify.
 slug: react-toastify
 authors: joseph_mawa
-tags: [react, Refine]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-01-react-toastify/social-2.png
+category: "Ecosystem / Integrations"
+tags: [react]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-01-react-toastify/social-2.png
 hide_table_of_contents: false
+last_update: 2024-08-09
 ---
 
 **This article was last updated on August 09, 2024 to add sections for Performance Considerations with Notifications.**
@@ -20,7 +22,7 @@ Any Refine project that uses a supported design system or component libraries, s
 
 In the react ecosystem, there are several notification packages to choose from. React-toastify is one of the popular toast packages you can use to integrate a custom notification system in a React or Refine project. In this article, you will create a custom notification provider in a Refine application using react-toastify.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-01-react-toastify/react-toastify-min.gif" alt="react toastify" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-01-react-toastify/react-toastify-min.avif" alt="Toast notifications demo" />
 
 <br/>
 
@@ -70,7 +72,7 @@ Your project should look like the image below.
 <br/>
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-01-react-toastify/blog-post-list-page.png"  alt="react toastify" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-01-react-toastify/blog-post-list-page.png"  alt="Refine blog post list page" />
 </div>
 
 <br/>
@@ -134,7 +136,7 @@ return (
 );
 ```
 
-The Refine notification feature is customizable. You can also pass a custom notification implementation as the value of the [`notificationProvider`](https://refine.dev/docs/api-reference/core/providers/notification-provider/) prop if the built-in notification provider of a design system or UI library doesn't meet your needs.
+The Refine notification feature is customizable. You can also pass a custom notification implementation as the value of the [`notificationProvider`](https://refine.dev/core/docs/api-reference/core/providers/notification-provider/) prop if the built-in notification provider of a design system or UI library doesn't meet your needs.
 
 In Refine, a notification provider is an object with two properties. These properties are `open` and `close`, whose values are functions with the shapes below.
 
@@ -193,7 +195,7 @@ The screenshot below shows a success notification with the message "Successfully
 <br/>
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-01-react-toastify/success-toast.png"  alt="react toastify" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-01-react-toastify/success-toast.png"  alt="Success toast notification" />
 </div>
 
 <br/>
@@ -203,7 +205,7 @@ Similarly, the screenshot below shows an error message with the text "Oops faile
 <br/>
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-01-react-toastify/error-toast.png"  alt="react toastify" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-01-react-toastify/error-toast.png"  alt="Error toast notification" />
 </div>
 
 <br/>
@@ -214,7 +216,7 @@ Unlike the `open` method, Refine invokes the `close` method when closing a notif
 
 ### The `useNotification` hook
 
-The section above describes the contents of a notification provider. You need the [`useNotification`](https://refine.dev/docs/api-reference/core/hooks/useNotification/) hook to trigger a notification from within a component. The `useNotification` hook returns the `open` and `close` methods of the notification provider highlighted above.
+The section above describes the contents of a notification provider. You need the [`useNotification`](https://refine.dev/core/docs/api-reference/core/hooks/useNotification/) hook to trigger a notification from within a component. The `useNotification` hook returns the `open` and `close` methods of the notification provider highlighted above.
 
 You can then invoke the `open` method to display the notification and the `close` method to close it. The code below illustrates the `useNotification` hook at a very basic level.
 
@@ -249,7 +251,7 @@ npm install react-toastify
 
 ### Step 2 — Set up the notification provider
 
-As explained above, the [`<Refine>`](https://refine.dev/docs/api-reference/core/components/refine-config/) component is one of the main components of a Refine application. You will almost always use it to configure the settings for your application.
+As explained above, the [`<Refine>`](https://refine.dev/core/docs/api-reference/core/components/refine-config/) component is one of the main components of a Refine application. You will almost always use it to configure the settings for your application.
 
 Let's start by creating a dedicated file for our notification provider. Inside the `src` directory, create a new directory and name it `providers`. Inside the `providers` directory, create the `notificationProvider.tsx` file. Copy and paste the code below into it.
 

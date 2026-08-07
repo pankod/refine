@@ -10,8 +10,12 @@
     "lerna": "lerna"
   },
   "devDependencies": {
+    "@types/node": "^20",
     "lerna": "^6.1.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

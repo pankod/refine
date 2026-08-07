@@ -1,8 +1,10 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
+import { vi } from "vitest";
 
 import {
   MockJSONServer,
   TestWrapper,
+  mockAuthProvider,
   mockRouterProvider,
   queryClient,
 } from "@test";
@@ -24,10 +26,10 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    const { status, data } = result.current;
+    const { status, data } = result.current.mutation;
 
     expect(status).toBe("success");
     expect(data?.data[0].slug).toBe("ut-ad-et");
@@ -35,7 +37,7 @@ describe("useCreateMany Hook [with params]", () => {
   });
 
   it("should only pass meta from the hook parameter and query parameters to the dataProvider", async () => {
-    const createManyMock = jest.fn();
+    const createManyMock = vi.fn();
 
     const { result } = renderHook(() => useCreateMany(), {
       wrapper: TestWrapper({
@@ -59,10 +61,10 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(createManyMock).toBeCalled();
+      expect(createManyMock).toHaveBeenCalled();
     });
 
-    expect(createManyMock).toBeCalledWith(
+    expect(createManyMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -76,15 +78,15 @@ describe("useCreateMany Hook [with params]", () => {
     it.each(["default", "categories"])(
       "publish event on success [dataProviderName: %s]",
       async (dataProviderName) => {
-        const onPublishMock = jest.fn();
+        const onPublishMock = vi.fn();
 
         const { result } = renderHook(() => useCreateMany(), {
           wrapper: TestWrapper({
             dataProvider: MockJSONServer,
             resources: [{ name: "posts" }],
             liveProvider: {
-              unsubscribe: jest.fn(),
-              subscribe: jest.fn(),
+              unsubscribe: vi.fn(),
+              subscribe: vi.fn(),
               publish: onPublishMock,
             },
           }),
@@ -99,10 +101,10 @@ describe("useCreateMany Hook [with params]", () => {
         });
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.mutation.isSuccess).toBeTruthy();
         });
 
-        expect(onPublishMock).toBeCalled();
+        expect(onPublishMock).toHaveBeenCalled();
         expect(onPublishMock).toHaveBeenCalledWith({
           channel: "resources/posts",
           date: expect.any(Date),
@@ -120,16 +122,24 @@ describe("useCreateMany Hook [with params]", () => {
 
   describe("useLog", () => {
     it("publish log on success", async () => {
-      const createMock = jest.fn();
+      const createMock = vi.fn();
 
       const { result } = renderHook(() => useCreateMany(), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
           resources: [{ name: "posts" }],
+          authProvider: {
+            ...mockAuthProvider,
+            getIdentity: () =>
+              Promise.resolve({
+                name: "John Doe",
+                id: "1",
+              }),
+          },
           auditLogProvider: {
             create: createMock,
-            get: jest.fn(),
-            update: jest.fn(),
+            get: vi.fn(),
+            update: vi.fn(),
           },
         }),
       });
@@ -147,13 +157,16 @@ describe("useCreateMany Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(createMock).toBeCalled();
+      expect(createMock).toHaveBeenCalled();
       expect(createMock).toHaveBeenCalledWith({
         action: "createMany",
-        author: {},
+        author: {
+          id: "1",
+          name: "John Doe",
+        },
         data: [
           {
             title: "title1",
@@ -172,7 +185,7 @@ describe("useCreateMany Hook [with params]", () => {
   });
 
   it("should use `create` method if does not exist `createMany` method in dataProvider", async () => {
-    const createMock = jest.fn();
+    const createMock = vi.fn();
 
     const { result } = renderHook(() => useCreateMany(), {
       wrapper: TestWrapper({
@@ -193,10 +206,10 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(createMock).toBeCalled();
+      expect(createMock).toHaveBeenCalled();
     });
 
-    expect(createMock).toBeCalledTimes(2);
+    expect(createMock).toHaveBeenCalledTimes(2);
     expect(createMock).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
@@ -215,14 +228,14 @@ describe("useCreateMany Hook [with params]", () => {
 
   describe("useNotification", () => {
     it("should call `open` from the notification provider on success", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCreateMany(), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -234,10 +247,10 @@ describe("useCreateMany Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Success",
         key: "createMany-posts-notification",
         message: "Successfully created posts",
@@ -246,8 +259,8 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     it("should call `open` from the notification provider on error", async () => {
-      const createManyMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const openNotificationMock = jest.fn();
+      const createManyMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCreateMany(), {
         wrapper: TestWrapper({
@@ -259,7 +272,7 @@ describe("useCreateMany Hook [with params]", () => {
           },
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -271,10 +284,10 @@ describe("useCreateMany Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Error",
         key: "createMany-posts-notification",
         message: "There was an error creating posts (status code: undefined",
@@ -283,14 +296,14 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     it("should call `open` from notification provider on success with custom notification params", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCreateMany(), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -307,10 +320,10 @@ describe("useCreateMany Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Successfully created post",
         message: "Success",
         type: "success",
@@ -318,14 +331,14 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     it("should not call `open` from notification provider on return `false`", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCreateMany(), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -338,15 +351,15 @@ describe("useCreateMany Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledTimes(0);
+      expect(openNotificationMock).toHaveBeenCalledTimes(0);
     });
 
     it("should call `open` from notification provider on error with custom notification params", async () => {
-      const createManyMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const openNotificationMock = jest.fn();
+      const createManyMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCreateMany(), {
         wrapper: TestWrapper({
@@ -358,7 +371,7 @@ describe("useCreateMany Hook [with params]", () => {
           },
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -375,10 +388,10 @@ describe("useCreateMany Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "There was an error creating post",
         message: "Error",
         type: "error",
@@ -387,8 +400,8 @@ describe("useCreateMany Hook [with params]", () => {
   });
 
   it("should select correct dataProviderName", async () => {
-    const createManyDefaultMock = jest.fn();
-    const createManyFooMock = jest.fn();
+    const createManyDefaultMock = vi.fn();
+    const createManyFooMock = vi.fn();
 
     const { result } = renderHook(() => useCreateMany(), {
       wrapper: TestWrapper({
@@ -426,19 +439,19 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(createManyFooMock).toBeCalledWith(
+    expect(createManyFooMock).toHaveBeenCalledWith(
       expect.objectContaining({
         resource: "posts",
       }),
     );
-    expect(createManyDefaultMock).not.toBeCalled();
+    expect(createManyDefaultMock).not.toHaveBeenCalled();
   });
 
   it("should get correct `meta` of related resource", async () => {
-    const createManyMock = jest.fn();
+    const createManyMock = vi.fn();
 
     const { result } = renderHook(() => useCreateMany(), {
       wrapper: TestWrapper({
@@ -469,10 +482,10 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(createManyMock).toBeCalledWith(
+    expect(createManyMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -483,8 +496,8 @@ describe("useCreateMany Hook [with params]", () => {
 
   describe("when passing `identifier` instead of `name`", () => {
     it("should select correct dataProviderName", async () => {
-      const createManyDefaultMock = jest.fn();
-      const createManyFooMock = jest.fn();
+      const createManyDefaultMock = vi.fn();
+      const createManyFooMock = vi.fn();
 
       const { result } = renderHook(() => useCreateMany(), {
         wrapper: TestWrapper({
@@ -523,23 +536,21 @@ describe("useCreateMany Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(createManyFooMock).toBeCalledWith(
+      expect(createManyFooMock).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "posts",
         }),
       );
-      expect(createManyDefaultMock).not.toBeCalled();
+      expect(createManyDefaultMock).not.toHaveBeenCalled();
     });
 
     it("should invalidate query store with `identifier`", async () => {
-      const invalidateStore = jest.fn();
-      jest
-        .spyOn(UseInvalidate, "useInvalidate")
-        .mockReturnValue(invalidateStore);
-      const createManyMock = jest.fn();
+      const invalidateStore = vi.fn();
+      vi.spyOn(UseInvalidate, "useInvalidate").mockReturnValue(invalidateStore);
+      const createManyMock = vi.fn();
 
       const { result } = renderHook(() => useCreateMany(), {
         wrapper: TestWrapper({
@@ -568,10 +579,10 @@ describe("useCreateMany Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(invalidateStore).toBeCalledWith(
+      expect(invalidateStore).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "featured-posts",
         }),
@@ -579,7 +590,7 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     it("should get correct `meta` of related resource", async () => {
-      const createManyMock = jest.fn();
+      const createManyMock = vi.fn();
 
       const { result } = renderHook(() => useCreateMany(), {
         wrapper: TestWrapper({
@@ -618,10 +629,10 @@ describe("useCreateMany Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(createManyMock).toBeCalledWith(
+      expect(createManyMock).toHaveBeenCalledWith(
         expect.objectContaining({
           meta: expect.objectContaining({
             bar: "baz",
@@ -632,7 +643,7 @@ describe("useCreateMany Hook [with params]", () => {
   });
 
   it("works correctly with `interval` and `onInterval` params", async () => {
-    const onInterval = jest.fn();
+    const onInterval = vi.fn();
     const { result } = renderHook(
       () =>
         useCreateMany({
@@ -664,20 +675,20 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeTruthy();
+      expect(result.current.mutation.isPending).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBe(900);
-      expect(onInterval).toBeCalled();
+      expect(onInterval).toHaveBeenCalled();
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeFalsy();
+      expect(result.current.mutation.isPending).toBeFalsy();
       expect(result.current.overtime.elapsedTime).toBeUndefined();
     });
   });
 
   it("should override `mutationFn` with mutationOptions.mutationFn", async () => {
-    const createManyMock = jest.fn();
-    const mutationFnMock = jest.fn();
+    const createManyMock = vi.fn();
+    const mutationFnMock = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -707,11 +718,11 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(createManyMock).not.toBeCalled();
-    expect(mutationFnMock).toBeCalled();
+    expect(createManyMock).not.toHaveBeenCalled();
+    expect(mutationFnMock).toHaveBeenCalled();
   });
 
   it("should override `mutationKey` with `mutationOptions.mutationKey`", async () => {
@@ -736,7 +747,7 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
     expect(
@@ -761,8 +772,8 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error(
           "[useCreateMany]: `resource` is not defined or not matched but is required",
         ),
@@ -785,8 +796,8 @@ describe("useCreateMany Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error("[useCreateMany]: `values` is not provided but is required"),
       );
     });
@@ -814,10 +825,10 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    const { status, data } = result.current;
+    const { status, data } = result.current.mutation;
 
     expect(status).toBe("success");
     expect(data?.data[0].slug).toBe("ut-ad-et");
@@ -825,7 +836,7 @@ describe("useCreateMany Hook [with props]", () => {
   });
 
   it("should only pass meta from the hook parameter and query parameters to the dataProvider", async () => {
-    const createManyMock = jest.fn();
+    const createManyMock = vi.fn();
 
     const { result } = renderHook(
       () => useCreateMany({ resource: "posts", meta: { foo: "bar" } }),
@@ -850,10 +861,10 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(createManyMock).toBeCalled();
+      expect(createManyMock).toHaveBeenCalled();
     });
 
-    expect(createManyMock).toBeCalledWith(
+    expect(createManyMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -867,7 +878,7 @@ describe("useCreateMany Hook [with props]", () => {
     it.each(["default", "categories"])(
       "publish event on success [dataProviderName: %s]",
       async (dataProviderName) => {
-        const onPublishMock = jest.fn();
+        const onPublishMock = vi.fn();
 
         const { result } = renderHook(
           () => useCreateMany({ resource: "posts", dataProviderName }),
@@ -876,8 +887,8 @@ describe("useCreateMany Hook [with props]", () => {
               dataProvider: MockJSONServer,
               resources: [{ name: "posts" }],
               liveProvider: {
-                unsubscribe: jest.fn(),
-                subscribe: jest.fn(),
+                unsubscribe: vi.fn(),
+                subscribe: vi.fn(),
                 publish: onPublishMock,
               },
             }),
@@ -891,10 +902,10 @@ describe("useCreateMany Hook [with props]", () => {
         });
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.mutation.isSuccess).toBeTruthy();
         });
 
-        expect(onPublishMock).toBeCalled();
+        expect(onPublishMock).toHaveBeenCalled();
         expect(onPublishMock).toHaveBeenCalledWith({
           channel: "resources/posts",
           date: expect.any(Date),
@@ -912,7 +923,7 @@ describe("useCreateMany Hook [with props]", () => {
 
   describe("useLog", () => {
     it("publish log on success", async () => {
-      const createMock = jest.fn();
+      const createMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -923,10 +934,18 @@ describe("useCreateMany Hook [with props]", () => {
           wrapper: TestWrapper({
             dataProvider: MockJSONServer,
             resources: [{ name: "posts" }],
+            authProvider: {
+              ...mockAuthProvider,
+              getIdentity: () =>
+                Promise.resolve({
+                  name: "John Doe",
+                  id: "1",
+                }),
+            },
             auditLogProvider: {
               create: createMock,
-              get: jest.fn(),
-              update: jest.fn(),
+              get: vi.fn(),
+              update: vi.fn(),
             },
           }),
         },
@@ -944,13 +963,13 @@ describe("useCreateMany Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(createMock).toBeCalled();
+      expect(createMock).toHaveBeenCalled();
       expect(createMock).toHaveBeenCalledWith({
         action: "createMany",
-        author: {},
+        author: { id: "1", name: "John Doe" },
         data: [
           {
             title: "title1",
@@ -969,7 +988,7 @@ describe("useCreateMany Hook [with props]", () => {
   });
 
   it("should use `create` method if does not exist `createMany` method in dataProvider", async () => {
-    const createMock = jest.fn();
+    const createMock = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -995,10 +1014,10 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(createMock).toBeCalled();
+      expect(createMock).toHaveBeenCalled();
     });
 
-    expect(createMock).toBeCalledTimes(2);
+    expect(createMock).toHaveBeenCalledTimes(2);
     expect(createMock).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
@@ -1017,7 +1036,7 @@ describe("useCreateMany Hook [with props]", () => {
 
   describe("useNotification", () => {
     it("should call `open` from the notification provider on success", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1029,7 +1048,7 @@ describe("useCreateMany Hook [with props]", () => {
             dataProvider: MockJSONServer,
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1041,10 +1060,10 @@ describe("useCreateMany Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Success",
         key: "createMany-posts-notification",
         message: "Successfully created posts",
@@ -1053,8 +1072,8 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     it("should call `open` from the notification provider on error", async () => {
-      const createManyMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const openNotificationMock = jest.fn();
+      const createManyMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1071,7 +1090,7 @@ describe("useCreateMany Hook [with props]", () => {
             },
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1083,10 +1102,10 @@ describe("useCreateMany Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Error",
         key: "createMany-posts-notification",
         message: "There was an error creating posts (status code: undefined",
@@ -1095,7 +1114,7 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     it("should call `open` from notification provider on success with custom notification params", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1112,7 +1131,7 @@ describe("useCreateMany Hook [with props]", () => {
             dataProvider: MockJSONServer,
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1124,10 +1143,10 @@ describe("useCreateMany Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Successfully created post",
         message: "Success",
         type: "success",
@@ -1135,7 +1154,7 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     it("should not call `open` from notification provider on return `false`", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1148,7 +1167,7 @@ describe("useCreateMany Hook [with props]", () => {
             dataProvider: MockJSONServer,
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1160,15 +1179,15 @@ describe("useCreateMany Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledTimes(0);
+      expect(openNotificationMock).toHaveBeenCalledTimes(0);
     });
 
     it("should call `open` from notification provider on error with custom notification params", async () => {
-      const createManyMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const openNotificationMock = jest.fn();
+      const createManyMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1190,7 +1209,7 @@ describe("useCreateMany Hook [with props]", () => {
             },
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1202,10 +1221,10 @@ describe("useCreateMany Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "There was an error creating post",
         message: "Error",
         type: "error",
@@ -1214,8 +1233,8 @@ describe("useCreateMany Hook [with props]", () => {
   });
 
   it("should select correct dataProviderName", async () => {
-    const createManyDefaultMock = jest.fn();
-    const createManyFooMock = jest.fn();
+    const createManyDefaultMock = vi.fn();
+    const createManyFooMock = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -1258,19 +1277,19 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(createManyFooMock).toBeCalledWith(
+    expect(createManyFooMock).toHaveBeenCalledWith(
       expect.objectContaining({
         resource: "posts",
       }),
     );
-    expect(createManyDefaultMock).not.toBeCalled();
+    expect(createManyDefaultMock).not.toHaveBeenCalled();
   });
 
   it("should get correct `meta` of related resource", async () => {
-    const createManyMock = jest.fn();
+    const createManyMock = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -1306,10 +1325,10 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(createManyMock).toBeCalledWith(
+    expect(createManyMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -1320,8 +1339,8 @@ describe("useCreateMany Hook [with props]", () => {
 
   describe("when passing `identifier` instead of `name`", () => {
     it("should select correct dataProviderName", async () => {
-      const createManyDefaultMock = jest.fn();
-      const createManyFooMock = jest.fn();
+      const createManyDefaultMock = vi.fn();
+      const createManyFooMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1365,23 +1384,21 @@ describe("useCreateMany Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(createManyFooMock).toBeCalledWith(
+      expect(createManyFooMock).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "posts",
         }),
       );
-      expect(createManyDefaultMock).not.toBeCalled();
+      expect(createManyDefaultMock).not.toHaveBeenCalled();
     });
 
     it("should invalidate query store with `identifier`", async () => {
-      const invalidateStore = jest.fn();
-      jest
-        .spyOn(UseInvalidate, "useInvalidate")
-        .mockReturnValue(invalidateStore);
-      const createManyMock = jest.fn();
+      const invalidateStore = vi.fn();
+      vi.spyOn(UseInvalidate, "useInvalidate").mockReturnValue(invalidateStore);
+      const createManyMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1415,10 +1432,10 @@ describe("useCreateMany Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(invalidateStore).toBeCalledWith(
+      expect(invalidateStore).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "featured-posts",
         }),
@@ -1426,7 +1443,7 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     it("should get correct `meta` of related resource", async () => {
-      const createManyMock = jest.fn();
+      const createManyMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1470,10 +1487,10 @@ describe("useCreateMany Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(createManyMock).toBeCalledWith(
+      expect(createManyMock).toHaveBeenCalledWith(
         expect.objectContaining({
           meta: expect.objectContaining({
             bar: "baz",
@@ -1484,7 +1501,7 @@ describe("useCreateMany Hook [with props]", () => {
   });
 
   it("works correctly with `interval` and `onInterval` params", async () => {
-    const onInterval = jest.fn();
+    const onInterval = vi.fn();
     const { result } = renderHook(
       () =>
         useCreateMany({
@@ -1516,20 +1533,20 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeTruthy();
+      expect(result.current.mutation.isPending).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBe(900);
-      expect(onInterval).toBeCalled();
+      expect(onInterval).toHaveBeenCalled();
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeFalsy();
+      expect(result.current.mutation.isPending).toBeFalsy();
       expect(result.current.overtime.elapsedTime).toBeUndefined();
     });
   });
 
   it("should override `mutationFn` with mutationOptions.mutationFn", async () => {
-    const createManyMock = jest.fn();
-    const mutationFnMock = jest.fn();
+    const createManyMock = vi.fn();
+    const mutationFnMock = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -1559,11 +1576,11 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(createManyMock).not.toBeCalled();
-    expect(mutationFnMock).toBeCalled();
+    expect(createManyMock).not.toHaveBeenCalled();
+    expect(mutationFnMock).toHaveBeenCalled();
   });
 
   it("should override `mutationKey` with `mutationOptions.mutationKey`", async () => {
@@ -1588,7 +1605,7 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
     expect(
@@ -1617,8 +1634,8 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error(
           "[useCreateMany]: `resource` is not defined or not matched but is required",
         ),
@@ -1645,8 +1662,8 @@ describe("useCreateMany Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error("[useCreateMany]: `values` is not provided but is required"),
       );
     });
@@ -1683,14 +1700,14 @@ describe("useCreateMany Hook should work with params and props", () => {
       },
     };
 
-    const updateMock = jest.fn();
-    const openNotificationMock = jest.fn();
+    const updateMock = vi.fn();
+    const openNotificationMock = vi.fn();
 
     const { result } = renderHook(() => useCreateMany(options.props), {
       wrapper: TestWrapper({
         notificationProvider: {
           open: openNotificationMock,
-          close: jest.fn(),
+          close: vi.fn(),
         },
         dataProvider: {
           default: MockJSONServer.default,
@@ -1705,14 +1722,13 @@ describe("useCreateMany Hook should work with params and props", () => {
     result.current.mutate(options.params);
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
     expect(updateMock).toHaveBeenCalledWith({
       resource: options.params.resource,
       variables: options.params.values,
       meta: options.params.meta,
-      metaData: options.params.meta,
     });
     expect(openNotificationMock).toHaveBeenCalledWith({
       description: "Successfully created post",
@@ -1722,10 +1738,10 @@ describe("useCreateMany Hook should work with params and props", () => {
   });
 
   it("should life-cycle methods works", async () => {
-    const onSuccessProp = jest.fn();
-    const onSettledProp = jest.fn();
-    const onSuccessFn = jest.fn();
-    const onSettledFn = jest.fn();
+    const onSuccessProp = vi.fn();
+    const onSettledProp = vi.fn();
+    const onSuccessFn = vi.fn();
+    const onSettledFn = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -1763,8 +1779,8 @@ describe("useCreateMany Hook should work with params and props", () => {
   });
 
   it("should onError methods works", async () => {
-    const onErrorProp = jest.fn();
-    const onErrorFn = jest.fn();
+    const onErrorProp = vi.fn();
+    const onErrorFn = vi.fn();
 
     const { result } = renderHook(
       () =>

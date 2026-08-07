@@ -1,75 +1,11 @@
 import React from "react";
 
-import {
-  MockJSONServer,
-  TestWrapper,
-  mockLegacyRouterProvider,
-  mockRouterProvider,
-  render,
-} from "@test";
+import { MockJSONServer, mockRouterProvider, render, TestWrapper } from "@test";
 
 import { Refine } from "./index";
 
-const mockAuthProvider = {
-  login: (params: any) => {
-    if (params.username === "admin") {
-      localStorage.setItem("username", params.username);
-      return Promise.resolve();
-    }
-
-    return Promise.reject();
-  },
-  logout: () => {
-    localStorage.removeItem("username");
-    return Promise.resolve();
-  },
-  checkError: () => Promise.resolve(),
-  checkAuth: () =>
-    localStorage.getItem("username") ? Promise.resolve() : Promise.reject(),
-  getPermissions: () => Promise.resolve(["admin"]),
-  getUserIdentity: () =>
-    Promise.resolve({
-      id: 1,
-      fullName: "Jane Doe",
-      avatar:
-        "https://unsplash.com/photos/IWLOvomUmWU/download?force=true&w=640",
-    }),
-};
-
 describe("Refine Container", () => {
-  it("should render without resource [legacy router provider]", async () => {
-    const { getByText } = render(
-      <Refine
-        legacyAuthProvider={mockAuthProvider}
-        dataProvider={MockJSONServer}
-        legacyRouterProvider={mockLegacyRouterProvider()}
-      />,
-    );
-
-    getByText("Welcome on board");
-  });
-
-  it("should render correctly readyPage with ready prop [legacy router provider]", async () => {
-    const readyPage = () => {
-      return (
-        <div data-testid="readyContainer">
-          <p>readyPage rendered with ready prop</p>
-        </div>
-      );
-    };
-    const { getByTestId, getByText } = render(
-      <Refine
-        legacyAuthProvider={mockAuthProvider}
-        dataProvider={MockJSONServer}
-        legacyRouterProvider={mockLegacyRouterProvider()}
-        ReadyPage={readyPage}
-      />,
-    );
-    expect(getByTestId("readyContainer")).toBeTruthy();
-    getByText("readyPage rendered with ready prop");
-  });
-
-  it("should render resource prop list page [legacy router provider]", async () => {
+  it("should render resource prop list page", async () => {
     const PostList = () => {
       return (
         <>
@@ -88,8 +24,7 @@ describe("Refine Container", () => {
     const { container, getByText } = render(<PostList />, {
       wrapper: TestWrapper({
         dataProvider: MockJSONServer,
-        resources: [{ name: "posts" }],
-        legacyRouterProvider: mockLegacyRouterProvider(),
+        resources: [{ name: "posts", list: "/posts" }],
       }),
     });
 
@@ -100,7 +35,6 @@ describe("Refine Container", () => {
   it("should render the children", async () => {
     const { getByTestId } = render(
       <Refine
-        legacyAuthProvider={mockAuthProvider}
         dataProvider={MockJSONServer}
         routerProvider={mockRouterProvider()}
       >
@@ -109,5 +43,38 @@ describe("Refine Container", () => {
     );
 
     expect(getByTestId("children")).toBeTruthy();
+  });
+
+  it("should render RouteChangeHandler by default", async () => {
+    // Test that Refine renders without errors when RouteChangeHandler is enabled (default behavior)
+    const { container } = render(
+      <Refine
+        dataProvider={MockJSONServer}
+        routerProvider={mockRouterProvider()}
+      >
+        <div>Children</div>
+      </Refine>,
+    );
+
+    // Should render children without errors
+    expect(container.querySelector("div")).toBeTruthy();
+  });
+
+  it("should not render RouteChangeHandler when disableRouteChangeHandler is true", async () => {
+    // Test that Refine renders without errors when RouteChangeHandler is disabled
+    const { container } = render(
+      <Refine
+        dataProvider={MockJSONServer}
+        routerProvider={mockRouterProvider()}
+        options={{
+          disableRouteChangeHandler: true,
+        }}
+      >
+        <div>Children</div>
+      </Refine>,
+    );
+
+    // Should render children without errors
+    expect(container.querySelector("div")).toBeTruthy();
   });
 });

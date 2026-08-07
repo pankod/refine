@@ -1,17 +1,19 @@
 ---
-title: <AuthPage />
-description: <AuthPage> component from Refine is an authentication page that can be used to login, register, forgot password, and update password.
+title: "Ant Design Auth Page Component | UI Component in Refine v5"
+display_title: "<AuthPage />"
+sidebar_label: "<AuthPage />"
+description: "Integrate Auth Page in Refine v5. Learn best practices. Explore customization options for login and property for polished admin UIs."
 swizzle: true
 source: packages/antd/src/components/pages/auth/index.tsx
 ---
 
 `<AuthPage>` component from Refine for **Ant Design** contains authentication pages that can be used for the login, register, forgot password, and update password actions.
 
-Before using `<AuthPage>` component you need to add [authProvider](/docs/authentication/auth-provider) that will be used to handle authentication.
+Before using `<AuthPage>` component you need to add [authProvider](/core/docs/authentication/auth-provider/) that will be used to handle authentication.
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -134,15 +136,15 @@ setRefineProps({ Sider: () => null });
 // visible-block-start
 import { Refine, Authenticated } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
-import { AuthPage, ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { AuthPage, ThemedLayout, RefineThemes } from "@refinedev/antd";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 
 import { ConfigProvider } from "antd";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 import { DashboardPage } from "./pages/dashboard";
@@ -160,9 +162,9 @@ const App = () => {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -212,13 +214,13 @@ import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 
-import { AuthPage, ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { AuthPage, ThemedLayout, RefineThemes } from "@refinedev/antd";
 
 import { ConfigProvider } from "antd";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -237,9 +239,9 @@ const App = () => {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -306,13 +308,13 @@ import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 
-import { AuthPage, ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { AuthPage, ThemedLayout, RefineThemes } from "@refinedev/antd";
 
 import { ConfigProvider } from "antd";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -331,9 +333,9 @@ const App = () => {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -401,13 +403,13 @@ import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 
-import { AuthPage, ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { AuthPage, ThemedLayout, RefineThemes } from "@refinedev/antd";
 
 import { ConfigProvider } from "antd";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -425,9 +427,9 @@ const App = () => {
           <Route
             element={
               <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               </Authenticated>
             }
           >
@@ -498,13 +500,13 @@ import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 
-import { AuthPage, ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { AuthPage, ThemedLayout, RefineThemes } from "@refinedev/antd";
 
 import { ConfigProvider } from "antd";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -522,9 +524,9 @@ const App = () => {
           <Route
             element={
               <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               </Authenticated>
             }
           >
@@ -847,7 +849,7 @@ const MyLoginPage = () => {
     <AuthPage
       type="login"
       title={
-        <ThemedTitleV2
+        <ThemedTitle
           title="My Title"
           icon={<img src="https://refine.dev/img/logo.png" />}
         />
@@ -978,7 +980,7 @@ const MyLoginPage = () => {
 formProps-type="[`FormProps`](https://ant.design/components/form/#API)"
 wrapperProps-type="[`WrapperProps`](https://ant.design/components/layout/#API)"
 contentProps-type="[`CardProps`](https://ant.design/components/card/#API)"
-rememberMe-default="[`<Checkbox>Remember me</Checkbox>`](/docs/ui-integrations/ant-design/components/auth-page#rememberme)"
+rememberMe-default="[`<Checkbox>Remember me</Checkbox>`](/core/docs/ui-integrations/ant-design/components/auth-page#rememberme)"
 />
 
 ### Interface
@@ -991,8 +993,8 @@ interface OAuthProvider {
 }
 ```
 
-[auth-provider]: /docs/authentication/auth-provider
-[login]: /docs/authentication/auth-provider#login-
-[register]: /docs/authentication/auth-provider#register
-[forgot-password]: /docs/authentication/auth-provider#forgotpassword
-[update-password]: /docs/authentication/auth-provider#updatepassword
+[auth-provider]: /core/docs/authentication/auth-provider
+[login]: /core/docs/authentication/auth-provider#login-
+[register]: /core/docs/authentication/auth-provider#register
+[forgot-password]: /core/docs/authentication/auth-provider#forgotpassword
+[update-password]: /core/docs/authentication/auth-provider#updatepassword

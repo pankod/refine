@@ -20,7 +20,6 @@ import type { CloneButtonProps } from "../types";
  */
 export const CloneButton: React.FC<CloneButtonProps> = ({
   resource: resourceNameFromProps,
-  resourceNameOrRouteName,
   recordItemId,
   hideText = false,
   accessControl,
@@ -31,13 +30,16 @@ export const CloneButton: React.FC<CloneButtonProps> = ({
   ...rest
 }) => {
   const { to, label, title, hidden, disabled, LinkComponent } = useCloneButton({
-    resource: resourceNameFromProps ?? resourceNameOrRouteName,
+    resource: resourceNameFromProps,
     id: recordItemId,
     accessControl,
     meta,
   });
 
-  if (hidden) return null;
+  const isDisabled = disabled || rest.disabled;
+  const isHidden = hidden || rest.hidden;
+
+  if (isHidden) return null;
 
   const { variant, styles, ...commonProps } = rest;
 
@@ -47,7 +49,7 @@ export const CloneButton: React.FC<CloneButtonProps> = ({
       to={to}
       replace={false}
       onClick={(e: React.PointerEvent<HTMLButtonElement>) => {
-        if (disabled) {
+        if (isDisabled) {
           e.preventDefault();
           return;
         }
@@ -59,7 +61,7 @@ export const CloneButton: React.FC<CloneButtonProps> = ({
     >
       {hideText ? (
         <ActionIcon
-          disabled={disabled}
+          disabled={isDisabled}
           title={title}
           aria-label={label}
           {...(variant
@@ -75,7 +77,7 @@ export const CloneButton: React.FC<CloneButtonProps> = ({
         </ActionIcon>
       ) : (
         <Button
-          disabled={disabled}
+          disabled={isDisabled}
           variant="default"
           leftIcon={<IconSquarePlus size={18} {...svgIconProps} />}
           title={title}

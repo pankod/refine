@@ -53,9 +53,10 @@ export const TimeOffRequestModal = ({
   const remainingAnnualLeaveDays =
     (employee?.availableAnnualLeaveDays ?? 0) - duration;
 
-  const { data: timeOffsData, isLoading: timeOffsLoading } = useList<
-    TimeOff & { employee: Employee }
-  >({
+  const {
+    result: timeOffsData,
+    query: { isLoading: timeOffsLoading },
+  } = useList<TimeOff & { employee: Employee }>({
     resource: "time-offs",
     pagination: {
       pageSize: 999,

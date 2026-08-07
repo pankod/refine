@@ -5,19 +5,12 @@ import {
   useMutation,
 } from "@tanstack/react-query";
 
-import { useAuthBindingsContext, useLegacyAuthContext } from "@contexts/auth";
-import {
-  useGo,
-  useKeys,
-  useNavigation,
-  useNotification,
-  useRouterType,
-} from "@hooks";
+import { useAuthProviderContext } from "@contexts/auth";
+import { useGo, useKeys, useNotification } from "@hooks";
 
 import type {
   AuthActionResponse,
   SuccessNotificationResponse,
-  TLogoutData,
 } from "../../../contexts/auth/types";
 import type { RefineError } from "../../../contexts/data/types";
 import type { OpenNotificationParams } from "../../../contexts/notification/types";
@@ -27,21 +20,7 @@ type Variables = {
   redirectPath?: string | false;
 };
 
-export type UseLogoutLegacyProps<TVariables> = {
-  v3LegacyAuthProviderCompatible: true;
-  mutationOptions?: Omit<
-    UseMutationOptions<
-      TLogoutData,
-      Error | RefineError,
-      (TVariables & Variables) | void,
-      unknown
-    >,
-    "mutationFn" | "onError" | "onSuccess"
-  >;
-};
-
 export type UseLogoutProps<TVariables> = {
-  v3LegacyAuthProviderCompatible?: false;
   mutationOptions?: Omit<
     UseMutationOptions<
       AuthActionResponse,
@@ -53,51 +32,12 @@ export type UseLogoutProps<TVariables> = {
   >;
 };
 
-export type UseLogoutCombinedProps<TVariables> = {
-  v3LegacyAuthProviderCompatible: boolean;
-  mutationOptions?: Omit<
-    UseMutationOptions<
-      AuthActionResponse | TLogoutData,
-      Error | RefineError,
-      (TVariables & Variables) | void,
-      unknown
-    >,
-    "mutationFn"
-  >;
-};
-
-export type UseLogoutLegacyReturnType<TVariables> = UseMutationResult<
-  TLogoutData,
-  Error | RefineError,
-  (TVariables & Variables) | void,
-  unknown
->;
-
 export type UseLogoutReturnType<TVariables> = UseMutationResult<
   AuthActionResponse,
   Error | RefineError,
   (TVariables & Variables) | void,
   unknown
 >;
-
-export type UseLogoutCombinedReturnType<TVariables> = UseMutationResult<
-  AuthActionResponse | TLogoutData,
-  Error | RefineError,
-  (TVariables & Variables) | void,
-  unknown
->;
-
-export function useLogout<TVariables = {}>(
-  props: UseLogoutLegacyProps<TVariables>,
-): UseLogoutLegacyReturnType<TVariables>;
-
-export function useLogout<TVariables = {}>(
-  props?: UseLogoutProps<TVariables>,
-): UseLogoutReturnType<TVariables>;
-
-export function useLogout<TVariables = {}>(
-  props?: UseLogoutCombinedProps<TVariables>,
-): UseLogoutCombinedReturnType<TVariables>;
 
 /**
  * `useLogout` calls the `logout` method from the {@link https://refine.dev/docs/api-reference/core/providers/auth-provider `authProvider`} under the hood.
@@ -106,19 +46,13 @@ export function useLogout<TVariables = {}>(
  *
  */
 export function useLogout<TVariables = {}>({
-  v3LegacyAuthProviderCompatible,
   mutationOptions,
-}: UseLogoutProps<TVariables> | UseLogoutLegacyProps<TVariables> = {}):
-  | UseLogoutLegacyReturnType<TVariables>
-  | UseLogoutReturnType<TVariables> {
+}: UseLogoutProps<TVariables> = {}): UseLogoutReturnType<TVariables> {
   const invalidateAuthStore = useInvalidateAuthStore();
-  const routerType = useRouterType();
   const go = useGo();
-  const { push } = useNavigation();
   const { open, close } = useNotification();
-  const { logout: legacyLogoutFromContext } = useLegacyAuthContext();
-  const { logout: logoutFromContext } = useAuthBindingsContext();
-  const { keys, preferLegacyKeys } = useKeys();
+  const { logout: logoutFromContext } = useAuthProviderContext();
+  const { keys } = useKeys();
 
   const mutation = useMutation<
     AuthActionResponse,
@@ -126,9 +60,10 @@ export function useLogout<TVariables = {}>({
     (TVariables & Variables) | void,
     unknown
   >({
-    mutationKey: keys().auth().action("logout").get(preferLegacyKeys),
+    mutationKey: keys().auth().action("logout").get(),
     mutationFn: logoutFromContext,
-    onSuccess: async (data, variables) => {
+    ...mutationOptions,
+    onSuccess: (data, variables) => {
       const { success, error, redirectTo, successNotification } = data;
       const { redirectPath } = variables ?? {};
 
@@ -147,75 +82,25 @@ export function useLogout<TVariables = {}>({
       }
 
       if (redirect !== false) {
-        if (routerType === "legacy") {
-          push(redirect ?? "/login");
-        } else {
-          if (redirect) {
-            go({ to: redirect });
-          }
+        if (redirect) {
+          go({ to: redirect });
         }
       }
 
-      await invalidateAuthStore();
+      invalidateAuthStore();
     },
-    onError: (error: any) => {
+    onError: (error) => {
       open?.(buildNotification(error));
     },
-    ...(v3LegacyAuthProviderCompatible === true ? {} : mutationOptions),
     meta: {
-      ...(v3LegacyAuthProviderCompatible === true ? {} : mutationOptions?.meta),
-      ...getXRay("useLogout", preferLegacyKeys),
+      ...mutationOptions?.meta,
+      ...getXRay("useLogout"),
     },
   });
 
-  const v3LegacyAuthProviderCompatibleMutation = useMutation<
-    TLogoutData,
-    Error | RefineError,
-    (TVariables & Variables) | void,
-    unknown
-  >({
-    mutationKey: [
-      ...keys().auth().action("logout").get(preferLegacyKeys),
-      "v3LegacyAuthProviderCompatible",
-    ],
-    mutationFn: legacyLogoutFromContext,
-    onSuccess: async (data, variables) => {
-      const redirectPath = variables?.redirectPath ?? data;
-
-      if (redirectPath === false) {
-        return;
-      }
-
-      if (redirectPath) {
-        if (routerType === "legacy") {
-          push(redirectPath);
-        } else {
-          go({ to: redirectPath });
-        }
-        return;
-      }
-
-      if (routerType === "legacy") {
-        push("/login");
-      } else {
-        go({ to: "/login" });
-      }
-
-      await invalidateAuthStore();
-    },
-    onError: (error: any) => {
-      open?.(buildNotification(error));
-    },
-    ...(v3LegacyAuthProviderCompatible ? mutationOptions : {}),
-    meta: {
-      ...(v3LegacyAuthProviderCompatible ? mutationOptions?.meta : {}),
-      ...getXRay("useLogout", preferLegacyKeys),
-    },
-  });
-
-  return v3LegacyAuthProviderCompatible
-    ? v3LegacyAuthProviderCompatibleMutation
-    : mutation;
+  return {
+    ...mutation,
+  };
 }
 
 const buildNotification = (

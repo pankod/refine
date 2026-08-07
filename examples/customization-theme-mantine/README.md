@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example customization-theme-mantine
 
 <br/>
 
-[![Open customization-theme-mantine example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/customization-theme-mantine?view=preview&theme=dark&codemirror=1)
+[![Open customization-theme-mantine example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/customization-theme-mantine?view=preview&theme=dark&codemirror=1)

@@ -12,7 +12,7 @@ import { DataProvider } from "@refinedev/strapi-v4";
 import { API_URL } from "src/constants";
 import { Layout } from "src/components";
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+function MyApp({ Component, pageProps }: AppProps): React.JSX.Element {
   const dataProvider = DataProvider(`${API_URL}/api`);
 
   return (

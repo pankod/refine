@@ -20,6 +20,7 @@ import type { IPost } from "../../interfaces";
 export const PostList = () => {
   const { tableProps, filters, sorters } = useTable<IPost>({
     syncWithLocation: true,
+
     sorters: {
       initial: [
         {
@@ -28,6 +29,7 @@ export const PostList = () => {
         },
       ],
     },
+
     filters: {
       initial: [
         {

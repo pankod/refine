@@ -102,15 +102,16 @@ const ProductList = () => {
   // We're inferring the resource from the route
   // So we call \`useList\` hook without any arguments.
   // const { ... } = useList({ resource: "products" })
-  const { data, isLoading } = useList();
+  const { result, query } = useList();
+  const products = result?.data;
 
   const go = useGo();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (query.isLoading) return <div>Loading...</div>;
 
   return (
     <ul>
-      {data?.data?.map((product) => (
+      {products?.map((product) => (
         <li key={product.id}>
           <span>{product.name}</span>
           <button
@@ -147,7 +148,7 @@ const ProductShow = () => {
   const result = useShow();
 
   const {
-    queryResult: { data, isLoading },
+    query: { data, isLoading },
   } = result;
 
   const go = useGo();

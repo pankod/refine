@@ -1,5 +1,8 @@
 ---
-title: Inferencer
+title: "Ant Design Inferencer Component | UI Component in Refine v5"
+display_title: "Inferencer"
+sidebar_label: "Inferencer"
+description: "Secure Inferencer in Refine v5. Learn best practices. Learn integration patterns for enterprise UI, components for polished admin UIs. Learn with code examples."
 ---
 
 You can automatically generate views for your resources using `@refinedev/inferencer`. Inferencer exports the `AntdListInferencer`, `AntdShowInferencer`, `AntdEditInferencer`, `AntdCreateInferencer` components and finally the `AntdInferencer` component, which combines all in one place.
@@ -17,8 +20,8 @@ values={[
 <TabItem value="resources">
 
 ```tsx
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter } from "react-router";
 // highlight-next-line
 import { AntdInferencer } from "@refinedev/inferencer/antd";
 
@@ -83,7 +86,7 @@ const SampleEdit = () => {
   </TabItem>
 </Tabs>
 
-> For more information, refer to the [Inferencer documentation](/docs/packages/list-of-packages)
+> For more information, refer to the [Inferencer documentation](/core/docs/packages/inferencer/)
 
 ## Views
 
@@ -96,13 +99,13 @@ setInitialRoutes(["/samples"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
-import routerProvider from "@refinedev/react-router-v6";
+import { ThemedLayout, RefineThemes } from "@refinedev/antd";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
 import { ConfigProvider } from "antd";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { AntdInferencer } from "@refinedev/inferencer/antd";
@@ -126,9 +129,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               {/* highlight-next-line */}
@@ -155,13 +158,13 @@ setInitialRoutes(["/samples/show/123"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import { RefineThemes, ThemedLayoutV2 } from "@refinedev/antd";
-import routerProvider from "@refinedev/react-router-v6";
+import { RefineThemes, ThemedLayout } from "@refinedev/antd";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
 import { ConfigProvider } from "antd";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { AntdInferencer } from "@refinedev/inferencer/antd";
@@ -185,9 +188,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               {/* highlight-next-line */}
@@ -214,13 +217,13 @@ setInitialRoutes(["/samples/create"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
-import routerProvider from "@refinedev/react-router-v6";
+import { ThemedLayout, RefineThemes } from "@refinedev/antd";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
 import { ConfigProvider } from "antd";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { AntdInferencer } from "@refinedev/inferencer/antd";
@@ -244,9 +247,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               {/* highlight-next-line */}
@@ -273,13 +276,13 @@ setInitialRoutes(["/samples/edit/123"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
-import routerProvider from "@refinedev/react-router-v6";
+import { ThemedLayout, RefineThemes } from "@refinedev/antd";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
 import { ConfigProvider } from "antd";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { AntdInferencer } from "@refinedev/inferencer/antd";
@@ -303,9 +306,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               {/* highlight-next-line */}

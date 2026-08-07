@@ -12,11 +12,19 @@ export const ThemedLayoutContext = React.createContext<IThemedLayoutContext>({
 export const ThemedLayoutContextProvider: React.FC<{
   children: ReactNode;
   initialSiderCollapsed?: boolean;
-}> = ({ children, initialSiderCollapsed }) => {
-  const [siderCollapsed, setSiderCollapsed] = useState(
+  onSiderCollapsed?: (collapsed: boolean) => void;
+}> = ({ children, initialSiderCollapsed, onSiderCollapsed }) => {
+  const [siderCollapsed, setSiderCollapsedState] = useState(
     initialSiderCollapsed ?? false,
   );
   const [mobileSiderOpen, setMobileSiderOpen] = useState(false);
+
+  const setSiderCollapsed = (collapsed: boolean) => {
+    setSiderCollapsedState(collapsed);
+    if (onSiderCollapsed) {
+      onSiderCollapsed(collapsed);
+    }
+  };
 
   return (
     <ThemedLayoutContext.Provider

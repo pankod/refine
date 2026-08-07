@@ -5,7 +5,7 @@ import { GithubIcon } from "./icons/github";
 export const SourceCodeBadge = ({ path }: { path?: string }) => {
   const sourcePath = path.startsWith("https://")
     ? path
-    : `https://github.com/refinedev/refine/blob/master${
+    : `https://github.com/refinedev/refine/blob/main${
         path.startsWith("/") ? "" : "/"
       }${path}`;
 
@@ -13,16 +13,16 @@ export const SourceCodeBadge = ({ path }: { path?: string }) => {
     <a
       href={sourcePath}
       target="_blank"
-      rel="noreferrer noopener"
+      rel="noopener"
       className={clsx(
         "text-xs",
-        "font-mono",
-        "text-gray-0",
-        "bg-refine-purple",
+        "font-jetBrains-mono",
+        "text-fuchsia-100",
+        "bg-fuchsia-900",
         "py-2 pl-2 pr-4",
-        "rounded-[32px]",
+        "rounded-md",
         "flex gap-2 items-center",
-        "hover:no-underline hover:text-gray-0",
+        "hover:no-underline hover:text-fuchsia-100",
       )}
     >
       <GithubIcon className="w-4 h-4" />

@@ -1,25 +1,74 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MuiShowInferencer should match the snapshot 1`] = `
+exports[`MuiShowInferencer > should match the snapshot 1`] = `
 <DocumentFragment>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-4ob670-MuiPaper-root-MuiCard-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-1r1z2f6-MuiPaper-root-MuiCard-root"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
+      <nav
+        aria-label="breadcrumb"
+        class="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-d2kzxu-MuiTypography-root-MuiBreadcrumbs-root"
+      >
+        <ol
+          class="MuiBreadcrumbs-ol css-1uwp4ue-MuiBreadcrumbs-ol"
+        >
+          <li
+            class="MuiBreadcrumbs-li"
+          >
+            <div
+              class="MuiGrid2-root MuiGrid2-direction-xs-row css-mnlaf2-MuiGrid2-root"
+            >
+              <a
+                href="/posts"
+              >
+                <span
+                  color="inherit"
+                  sx="[object Object]"
+                  underline="hover"
+                  variant="subtitle1"
+                >
+                  Posts
+                </span>
+              </a>
+            </div>
+          </li>
+          <li
+            aria-hidden="true"
+            class="MuiBreadcrumbs-separator css-jhr02i-MuiBreadcrumbs-separator"
+          >
+            /
+          </li>
+          <li
+            class="MuiBreadcrumbs-li"
+          >
+            <div
+              class="MuiGrid2-root MuiGrid2-direction-xs-row css-mnlaf2-MuiGrid2-root"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-jqpuqe-MuiTypography-root"
+              >
+                Show
+              </p>
+            </div>
+          </li>
+        </ol>
+      </nav>
       <div
-        class="MuiCardHeader-root css-94f51d-MuiCardHeader-root"
+        class="MuiCardHeader-root css-1y6hc0w-MuiCardHeader-root"
       >
         <div
-          class="MuiCardHeader-avatar css-1ssile9-MuiCardHeader-avatar"
+          class="MuiCardHeader-avatar css-1r9wl67-MuiCardHeader-avatar"
         >
           <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-aixiz9-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="ArrowBackIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -28,69 +77,58 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
                 d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"
               />
             </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
         </div>
         <div
-          class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+          class="MuiCardHeader-content css-1jkp9bu-MuiCardHeader-content"
         >
           <h5
-            class="MuiTypography-root MuiTypography-h5 refine-pageHeader-title css-ag7rrr-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-h5 refine-pageHeader-title css-16xl4zq-MuiTypography-root"
           >
             Show Post
           </h5>
         </div>
         <div
-          class="MuiCardHeader-action css-sgoict-MuiCardHeader-action"
+          class="MuiCardHeader-action css-116l9hl-MuiCardHeader-action"
         >
           <div
             class="MuiBox-root css-10egq61"
           >
             <a
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary refine-list-button css-193klso-MuiButtonBase-root-MuiButton-root"
               href="/posts"
-              style="text-decoration: none;"
+              tabindex="0"
+              title=""
             >
-              <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary refine-list-button css-198eyrn-MuiButtonBase-root-MuiButton-root"
-                tabindex="0"
-                title=""
-                type="button"
+              <span
+                class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1jsm74t-MuiButton-startIcon"
               >
-                <span
-                  class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                  data-testid="ListOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                    data-testid="ListOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7zm-4 6h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z"
-                    />
-                  </svg>
-                </span>
-                Posts
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </button>
+                  <path
+                    d="M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7zm-4 6h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z"
+                  />
+                </svg>
+              </span>
+              Posts
             </a>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiLoadingButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiLoadingButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary refine-refresh-button css-1xanul-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root"
-              id=":r0:"
+              class="MuiButtonBase-root MuiButton-root MuiLoadingButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiLoadingButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary refine-refresh-button css-8h169x-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root"
+              id="«r0»"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+                class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1jsm74t-MuiButton-startIcon"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                   data-testid="RefreshOutlinedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -100,52 +138,53 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
                   />
                 </svg>
               </span>
-              Refresh
               <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
+                class="MuiLoadingButton-label css-27yv9x-MuiLoadingButton-label"
+              >
+                Refresh
+              </span>
             </button>
           </div>
         </div>
       </div>
       <div
-        class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+        class="MuiCardContent-root css-1lt5qva-MuiCardContent-root"
       >
         <div
           class="MuiStack-root css-hwnj0i-MuiStack-root"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             Id
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           >
             11
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             Title
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           >
             Nobis exercitationem officia quia est.
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             Slug
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           >
             provident-culpa-facere
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             Content
           </p>
@@ -153,69 +192,73 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
             Non velit blanditiis optio quo quaerat nam aperiam. Odit tempore consequatur voluptatibus molestias. Est nemo aut. Fugit aliquam enim eveniet veritatis. Magni et aut. Consequatur aliquid rerum vero. Quaerat debitis enim magnam. Dolorem est delectus architecto et accusantium. Velit quia vero. Aut necessitatibus quia at consequatur soluta accusantium.
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             Hit
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           >
             920,557
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             Category
           </p>
           Numquam Saepe Illo
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             User
           </p>
-          Eriberto Leannon
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          >
+            Eriberto Leannon
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             Status
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           >
             draft
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             Status Color
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           >
             orange
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             Created At
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           >
             04/02/2022
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             Published At
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           >
             08/10/2021
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             Image
           </p>
@@ -228,7 +271,7 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
             />
           </div>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             Tags
           </p>
@@ -236,38 +279,38 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
             class="MuiStack-root css-niqf4j-MuiStack-root"
           >
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-gavykb-MuiChip-root"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-5c51lm-MuiChip-root"
             >
               <span
-                class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+                class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
               >
                 Error Eos Et
               </span>
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-gavykb-MuiChip-root"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-5c51lm-MuiChip-root"
             >
               <span
-                class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+                class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
               >
                 Nobis Et Ut
               </span>
             </div>
           </div>
           <p
-            class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
           >
             Language
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           >
             2
           </p>
         </div>
       </div>
       <div
-        class="MuiCardActions-root MuiCardActions-spacing css-op0xil-MuiCardActions-root"
+        class="MuiCardActions-root MuiCardActions-spacing css-1nor6r2-MuiCardActions-root"
       />
     </div>
   </div>
@@ -276,7 +319,7 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
     style="position: sticky; bottom: 24px; padding-top: 24px; left: 0px; right: 0px; width: 100%; z-index: 10; display: flex; justify-content: center; transition: all 0.2s ease; opacity: 1; transform: translateY(0);"
   >
     <div
-      style="max-width: 1080px; padding: 20px; background-color: rgb(26, 26, 26); box-shadow: 0px 4px 16px -4px rgba(0, 0, 0, 0.5), 0px 8px 32px -8px rgba(0, 0, 0, 0.35); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; flex-direction: row; gap: 12px;"
+      style="width: calc(100% - 128px); max-width: 1080px; padding: 20px; background-color: rgb(26, 26, 26); box-shadow: 0px 4px 16px -4px rgba(0, 0, 0, 0.5), 0px 8px 32px -8px rgba(0, 0, 0, 0.35); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; flex-direction: row; gap: 12px;"
     >
       <div
         style="display: flex; align-items: flex-start; gap: 8px;"
@@ -354,7 +397,7 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
     style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index: 9999; background-color: rgba(0, 0, 0, 0.5); transition: all 0.2s ease; opacity: 0; pointer-events: none; display: flex; justify-content: center; align-items: center;"
   >
     <div
-      style="transform: scale(0) translateY(-200px); transition: all 0.25s cubic-bezier(.35,1.29,.81,1.08); transition-delay: 0.25; background-color: rgb(255, 255, 255); max-width: 640px; max-height: 720px; border-radius: 8px; padding: 16px;"
+      style="transform: scale(0) translateY(-200px); transition: all 0.25s cubic-bezier(.35,1.29,.81,1.08); transition-delay: 0.25; width: calc(100% - 64px); height: calc(100% - 64px); background-color: rgb(255, 255, 255); max-width: 640px; max-height: 720px; border-radius: 8px; padding: 16px;"
     >
       <div
         style="display: flex; flex-direction: column; height: 100%; width: 100%; gap: 16px;"
@@ -386,7 +429,7 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
           </button>
         </div>
         <div
-          style="font-size: 13px; border-radius: 8px; flex: 1; overflow: scroll; background: rgb(30, 30, 30);"
+          style="font-size: 13px; border-radius: 8px; flex: 1 1 0%; overflow: scroll; background: rgb(30, 30, 30);"
         >
           <pre
             class="prism-code language-tsx"
@@ -938,8 +981,93 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
               </span>
               <span
                 class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
               >
-                 query 
+                        result
+              </span>
+              <span
+                class="token operator"
+                style="color: rgb(212, 212, 212);"
+              >
+                :
+              </span>
+              <span
+                class="token plain"
+              >
+                 record
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                ,
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                        query
+              </span>
+              <span
+                class="token operator"
+                style="color: rgb(212, 212, 212);"
+              >
+                :
+              </span>
+              <span
+                class="token plain"
+              >
+                 
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                {
+              </span>
+              <span
+                class="token plain"
+              >
+                 isLoading 
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                }
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                ,
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                    
               </span>
               <span
                 class="token punctuation"
@@ -997,144 +1125,6 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
             >
               <span
                 class="token plain"
-              >
-                    
-              </span>
-              <span
-                class="token keyword"
-                style="color: rgb(86, 156, 214);"
-              >
-                const
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                {
-              </span>
-              <span
-                class="token plain"
-              >
-                 data
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              >
-                 isLoading 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                }
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                =
-              </span>
-              <span
-                class="token plain"
-              >
-                 query
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ;
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-                style="display: inline-block;"
-              >
-                
-
-              </span>
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                    
-              </span>
-              <span
-                class="token keyword"
-                style="color: rgb(86, 156, 214);"
-              >
-                const
-              </span>
-              <span
-                class="token plain"
-              >
-                 record 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                =
-              </span>
-              <span
-                class="token plain"
-              >
-                 data
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?.
-              </span>
-              <span
-                class="token plain"
-              >
-                data
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ;
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
                 style="display: inline-block;"
               >
                 
@@ -1169,8 +1159,16 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
               </span>
               <span
                 class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
               >
-                 data
+                        result
               </span>
               <span
                 class="token operator"
@@ -1191,6 +1189,36 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
               </span>
               <span
                 class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                        query
+              </span>
+              <span
+                class="token operator"
+                style="color: rgb(212, 212, 212);"
+              >
+                :
+              </span>
+              <span
+                class="token plain"
+              >
+                 
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                {
+              </span>
+              <span
+                class="token plain"
               >
                  isLoading
               </span>
@@ -1204,6 +1232,31 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
                 class="token plain"
               >
                  categoryIsLoading 
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                }
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                ,
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                    
               </span>
               <span
                 class="token punctuation"
@@ -1527,84 +1580,6 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
               </span>
               <span
                 class="token plain"
-              >
-                 data
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 userData
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              >
-                 isLoading
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 userIsLoading 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                }
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                =
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token function"
-                style="color: rgb(220, 220, 170);"
-              >
-                useOne
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                (
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                {
-              </span>
-              <span
-                class="token plain"
               />
             </div>
             <div
@@ -1614,279 +1589,7 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
               <span
                 class="token plain"
               >
-                        resource
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token string"
-                style="color: rgb(206, 145, 120);"
-              >
-                "users"
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                        id
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 record
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?.
-              </span>
-              <span
-                class="token plain"
-              >
-                user
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?.
-              </span>
-              <span
-                class="token plain"
-              >
-                id 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ||
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token string"
-                style="color: rgb(206, 145, 120);"
-              >
-                ""
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                        queryOptions
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                {
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                            enabled
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                !
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                !
-              </span>
-              <span
-                class="token plain"
-              >
-                record
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                        
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                }
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                    
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                }
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                )
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ;
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-                style="display: inline-block;"
-              >
-                
-
-              </span>
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                    
-              </span>
-              <span
-                class="token keyword"
-                style="color: rgb(86, 156, 214);"
-              >
-                const
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                {
-              </span>
-              <span
-                class="token plain"
-              >
-                 data
+                        result
               </span>
               <span
                 class="token operator"
@@ -1907,6 +1610,36 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
               </span>
               <span
                 class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                        query
+              </span>
+              <span
+                class="token operator"
+                style="color: rgb(212, 212, 212);"
+              >
+                :
+              </span>
+              <span
+                class="token plain"
+              >
+                 
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                {
+              </span>
+              <span
+                class="token plain"
               >
                  isLoading
               </span>
@@ -1920,6 +1653,31 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
                 class="token plain"
               >
                  tagsIsLoading 
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                }
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                ,
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                    
               </span>
               <span
                 class="token punctuation"
@@ -3926,17 +3684,6 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
               <span
                 class="token plain"
               >
-                data
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?.
-              </span>
-              <span
-                class="token plain"
-              >
                 title
               </span>
               <span
@@ -4136,61 +3883,8 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
             >
               <span
                 class="token plain-text"
-                style="display: inline-block;"
-              >
-                
-
-              </span>
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain-text"
               >
                                 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                {
-              </span>
-              <span
-                class="token plain"
-              >
-                userIsLoading 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                (
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                    
               </span>
               <span
                 class="token tag punctuation"
@@ -4199,30 +3893,14 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
                 &lt;
               </span>
               <span
-                class="token tag punctuation"
-                style="color: rgb(212, 212, 212);"
+                class="token tag class-name"
+                style="color: rgb(78, 201, 176);"
               >
-                &gt;
+                TextField
               </span>
               <span
-                class="token plain-text"
-              >
-                Loading...
-              </span>
-              <span
-                class="token tag punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                &lt;/
-              </span>
-              <span
-                class="token tag punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                &gt;
-              </span>
-              <span
-                class="token plain"
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
               />
             </div>
             <div
@@ -4230,213 +3908,148 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
               style="color: rgb(156, 220, 254);"
             >
               <span
-                class="token plain"
-              >
-                                
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                )
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                (
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
               >
                                     
               </span>
               <span
-                class="token tag punctuation"
+                class="token tag attr-name"
+                style="color: rgb(156, 220, 254);"
+              >
+                value
+              </span>
+              <span
+                class="token tag script language-javascript script-punctuation punctuation"
                 style="color: rgb(212, 212, 212);"
               >
-                &lt;
+                =
               </span>
               <span
-                class="token tag punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                &gt;
-              </span>
-              <span
-                class="token plain-text"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain-text"
-              >
-                                        
-              </span>
-              <span
-                class="token punctuation"
+                class="token tag script language-javascript punctuation"
                 style="color: rgb(212, 212, 212);"
               >
                 {
               </span>
               <span
-                class="token plain"
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
               >
-                userData
+                                        record
               </span>
               <span
-                class="token operator"
+                class="token tag script language-javascript operator"
                 style="color: rgb(212, 212, 212);"
               >
                 ?.
               </span>
               <span
-                class="token plain"
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
               >
-                data
+                user
               </span>
               <span
-                class="token operator"
+                class="token tag script language-javascript operator"
                 style="color: rgb(212, 212, 212);"
               >
                 ?.
               </span>
               <span
-                class="token plain"
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
               >
                 firstName 
               </span>
               <span
-                class="token operator"
+                class="token tag script language-javascript operator"
                 style="color: rgb(212, 212, 212);"
               >
                 +
               </span>
               <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
               >
-                                            
+                 
               </span>
               <span
-                class="token string"
+                class="token tag script language-javascript string"
                 style="color: rgb(206, 145, 120);"
               >
                 " "
               </span>
               <span
-                class="token plain"
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
               >
                  
               </span>
               <span
-                class="token operator"
+                class="token tag script language-javascript operator"
                 style="color: rgb(212, 212, 212);"
               >
                 +
               </span>
               <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
               >
-                                            userData
+                 record
               </span>
               <span
-                class="token operator"
+                class="token tag script language-javascript operator"
                 style="color: rgb(212, 212, 212);"
               >
                 ?.
               </span>
               <span
-                class="token plain"
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
               >
-                data
+                user
               </span>
               <span
-                class="token operator"
+                class="token tag script language-javascript operator"
                 style="color: rgb(212, 212, 212);"
               >
                 ?.
               </span>
               <span
-                class="token plain"
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
               >
                 lastName
               </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                }
-              </span>
-              <span
-                class="token plain-text"
-              />
             </div>
             <div
               class="token-line"
               style="color: rgb(156, 220, 254);"
             >
               <span
-                class="token plain-text"
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
               >
                                     
               </span>
               <span
-                class="token tag punctuation"
+                class="token tag script language-javascript punctuation"
                 style="color: rgb(212, 212, 212);"
               >
-                &lt;/
+                }
               </span>
               <span
-                class="token tag punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                &gt;
-              </span>
-              <span
-                class="token plain"
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
               />
             </div>
             <div
@@ -4444,21 +4057,16 @@ exports[`MuiShowInferencer should match the snapshot 1`] = `
               style="color: rgb(156, 220, 254);"
             >
               <span
-                class="token plain"
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
               >
                                 
               </span>
               <span
-                class="token punctuation"
+                class="token tag punctuation"
                 style="color: rgb(212, 212, 212);"
               >
-                )
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                }
+                /&gt;
               </span>
               <span
                 class="token plain-text"

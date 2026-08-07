@@ -10,11 +10,10 @@ export function ChakraUILayout() {
         "@refinedev/chakra-ui": "latest",
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-router-v6": "latest",
+        "@refinedev/react-router": "latest",
         "@refinedev/inferencer": "latest",
         "@refinedev/react-table": "latest",
-        "react-router-dom": "latest",
-        "react-router": "latest",
+        "react-router": "^7.0.2",
         "@tabler/icons-react": "^3.1.0",
         "@chakra-ui/react": "^2.5.1",
       }}
@@ -39,15 +38,15 @@ const AppTsxCode = /* tsx */ `
 import React from "react";
 
 import { ChakraProvider } from "@chakra-ui/react";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import {
   ErrorComponent,
   RefineThemes,
-  ThemedLayoutV2,
+  ThemedLayout,
 } from "@refinedev/chakra-ui";
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
 import { ProductList } from "./pages/products/list.tsx";
@@ -80,9 +79,9 @@ export default function App() {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="/my-products" element={<ProductList />} />
@@ -154,9 +153,11 @@ export const ProductList = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    refineCore: { setCurrent, pageCount, current },
+    reactTable: {
+      getHeaderGroups,
+      getRowModel,
+    },
+    refineCore: { setCurrentPage, pageCount, currentPage },
   } = useTable({
     columns,
   });
@@ -194,27 +195,27 @@ export const ProductList = () => {
         </Table>
       </TableContainer>
       <Pagination
-        current={current}
+        currentPage={currentPage}
         pageCount={pageCount}
-        setCurrent={setCurrent}
+        setCurrentPage={setCurrentPage}
       />
     </List>
   );
 };
 
 type PaginationProps = {
-  current: number;
+  currentPage: number;
   pageCount: number;
-  setCurrent: (page: number) => void;
+  setCurrentPage: (page: number) => void;
 };
 
 const Pagination: React.FC<PaginationProps> = ({
-  current,
+  currentPage,
   pageCount,
-  setCurrent,
+  setCurrentPage,
 }) => {
   const pagination = usePagination({
-    current,
+    currentPage,
     pageCount,
   });
 
@@ -224,7 +225,7 @@ const Pagination: React.FC<PaginationProps> = ({
         {pagination?.prev && (
           <IconButton
             aria-label="previous page"
-            onClick={() => setCurrent(current - 1)}
+            onClick={() => setCurrentPage(currentPage - 1)}
             disabled={!pagination?.prev}
             variant="outline"
           >
@@ -238,8 +239,8 @@ const Pagination: React.FC<PaginationProps> = ({
           return (
             <Button
               key={page}
-              onClick={() => setCurrent(page)}
-              variant={page === current ? "solid" : "outline"}
+              onClick={() => setCurrentPage(page)}
+              variant={page === currentPage ? "solid" : "outline"}
             >
               {page}
             </Button>
@@ -248,7 +249,7 @@ const Pagination: React.FC<PaginationProps> = ({
         {pagination?.next && (
           <IconButton
             aria-label="next page"
-            onClick={() => setCurrent(current + 1)}
+            onClick={() => setCurrentPage(currentPage + 1)}
             variant="outline"
           >
             <IconChevronRight size="18" />

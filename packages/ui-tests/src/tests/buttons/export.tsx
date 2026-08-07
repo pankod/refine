@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import React from "react";
 import {
   type RefineExportButtonProps,
@@ -11,7 +12,7 @@ export const buttonExportTests = (
 ): void => {
   describe("[@refinedev/ui-tests] Common Tests / Export Button", () => {
     beforeAll(() => {
-      jest.spyOn(console, "warn").mockImplementation(jest.fn());
+      vi.spyOn(console, "warn").mockImplementation(vi.fn());
     });
 
     it("should render button successfuly", async () => {

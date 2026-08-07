@@ -10,7 +10,7 @@ export const PostShow: React.FC = () => {
   const { data, isLoading } = queryResult;
   const record = data?.data;
 
-  const { data: categoryData } = useOne<ICategory>({
+  const { result: categoryData } = useOne<ICategory>({
     resource: "categories",
     id: record?.category.id || "",
     queryOptions: {
@@ -24,22 +24,18 @@ export const PostShow: React.FC = () => {
         Id
       </Heading>
       <Text mt={2}>{record?.id}</Text>
-
       <Heading as="h5" size="sm" mt={4}>
         Title
       </Heading>
       <Text mt={2}>{record?.title}</Text>
-
       <Heading as="h5" size="sm" mt={4}>
         Status
       </Heading>
       <Text mt={2}>{record?.status}</Text>
-
       <Heading as="h5" size="sm" mt={4}>
         Category
       </Heading>
-      <Text mt={2}>{categoryData?.data?.title}</Text>
-
+      <Text mt={2}>{categoryData?.title}</Text>
       <Heading as="h5" size="sm" mt={4}>
         Content
       </Heading>

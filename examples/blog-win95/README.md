@@ -13,15 +13,15 @@
 <div align="center">
     <a href="https://refine.dev">Home Page</a> |
     <a href="https://discord.gg/refine">Discord</a> |
-    <a href="https://refine.dev/examples/">Examples</a> | 
-    <a href="https://refine.dev/blog/">Blog</a> | 
+    <a href="https://refine.dev/examples/">Examples</a> |
+    <a href="https://refine.dev/blog/">Blog</a> |
     <a href="https://refine.dev/docs/">Documentation</a>
 </div>
 
 <br />
 
 <a href="https://github.com/refinedev/refine">
- <img src="https://github.com/refinedev/refine/blob/master/documentation/static/img/blog/2022-03-22-refine-with-react95/social.jpg?raw=true"   style="width:650px;" align="center" />
+ <img src="https://github.com/refinedev/refine/blob/main/documentation/static/img/blog/2022-03-22-refine-with-react95/social.jpg?raw=true"   style="width:650px;" align="center" />
  </a>
 </div>
 
@@ -37,7 +37,7 @@ This just a fun example app that we built to demonstrate the power of refine. Yo
 
 <div align="center">
 <a href="https://github.com/refinedev/refine">
- <img src="https://github.com/refinedev/refine/blob/master/documentation/static/img/blog/2022-03-22-refine-with-react95/overview.gif?raw=true" style="width:650px;  align="center" />
+ <img src="https://github.com/refinedev/refine/blob/main/documentation/static/img/blog/2022-03-22-refine-with-react95/overview.gif?raw=true" style="width:650px;  align="center" />
  </a>
 </div>
 

@@ -8,17 +8,11 @@ import {
 export type Activity =
   DevtoolsEventPayloads[DevtoolsEvent.DEVTOOLS_ACTIVITY_UPDATE]["updatedActivities"][number];
 
-export const getResourcePath = (
-  hookName: RefineHook,
-  legacyKey: boolean,
-): string | null => {
+export const getResourcePath = (hookName: RefineHook): string | null => {
   if (scopes[hookName] === "auth") {
     return null;
   }
   if (hookName === "useCan") {
-    if (legacyKey) {
-      return "key[1].resource";
-    }
     return "key[1]";
   }
   if (scopes[hookName] === "audit-log") {
@@ -36,9 +30,6 @@ export const getResourcePath = (
       case "useInfiniteList":
       case "useOne":
       case "useMany":
-        if (legacyKey) {
-          return "key[1]";
-        }
         return "key[2]";
       case "useCreate":
       case "useCreateMany":

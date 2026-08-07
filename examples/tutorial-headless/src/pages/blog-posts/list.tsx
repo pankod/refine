@@ -120,25 +120,28 @@ export const BlogPostList = () => {
   const { edit, show, create } = useNavigation();
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    setOptions,
+    reactTable: {
+      getHeaderGroups,
+      getRowModel,
+      setOptions,
+      getState,
+      setPageIndex,
+      getCanPreviousPage,
+      getPageCount,
+      getCanNextPage,
+      nextPage,
+      previousPage,
+      setPageSize,
+    },
+
     refineCore: {
       tableQuery: { data: tableData },
     },
-    getState,
-    setPageIndex,
-    getCanPreviousPage,
-    getPageCount,
-    getCanNextPage,
-    nextPage,
-    previousPage,
-    setPageSize,
   } = useTable({
     columns,
   });
 
-  const { data: categoryData } = useMany({
+  const { result: categoryData } = useMany({
     resource: "categories",
     ids: tableData?.data?.map((item) => item?.category?.id) ?? [],
     queryOptions: {

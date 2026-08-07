@@ -55,5 +55,5 @@
   },
   "nxCloudAccessToken": "NGI2NjNiYWItMWNhYi00MDA4LWI1OTMtM2IwYmFmYzRkMjEzfHJlYWQtd3JpdGU=",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "defaultBase": "master"
+  "defaultBase": "main"
 }

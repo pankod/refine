@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example win95
 
 <br/>
 
-[![Open win95 example from Refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/win95?view=preview&theme=dark&codemirror=1)
+[![Open win95 example from Refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/win95?view=preview&theme=dark&codemirror=1)

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useLogout, useNavigation } from "@refinedev/core";
+import { useGo, useLogout } from "@refinedev/core";
 import { AppBar, Toolbar, Button, MenuList, MenuListItem } from "react95";
 
 export const Footer: React.FC = () => {
   const [open, setOpen] = useState(false);
 
   const { mutate: logout } = useLogout();
-  const { push } = useNavigation();
+  const go = useGo();
 
   return (
     <AppBar style={{ top: "unset", bottom: 0 }}>
@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
             style={{ fontWeight: "bold" }}
           >
             <img
-              src="https://raw.githubusercontent.com/refinedev/refine/master/logo.png"
+              src="https://raw.githubusercontent.com/refinedev/refine/main/logo.png"
               alt="refine logo"
               style={{ height: "20px", marginRight: 4 }}
             />
@@ -34,14 +34,14 @@ export const Footer: React.FC = () => {
             >
               <MenuListItem
                 onClick={() => {
-                  push("posts");
+                  go({ to: "posts", type: "push" });
                 }}
               >
                 Posts
               </MenuListItem>
               <MenuListItem
                 onClick={() => {
-                  push("categories");
+                  go({ to: "categories", type: "push" });
                 }}
               >
                 Categories

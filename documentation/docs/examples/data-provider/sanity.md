@@ -1,6 +1,9 @@
 ---
 id: sanity
-title: Sanity
+title: "Sanity Example | REST API Integration in Refine v5"
+display_title: "Sanity"
+sidebar_label: "Sanity"
+description: "Integrate Sanity in Refine v5. Learn best practices. Explore best practices to scale provider for custom APIs and scalable data flows."
 example-tags: [data-provider, community]
 ---
 

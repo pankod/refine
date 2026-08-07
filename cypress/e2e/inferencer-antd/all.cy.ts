@@ -22,9 +22,6 @@ describe("inferencer-antd", () => {
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    cy.interceptGETCategory();
-    cy.interceptGETCategories();
-    cy.interceptGETBlogPosts();
     cy.visit("/");
 
     login();
@@ -41,8 +38,6 @@ describe("inferencer-antd", () => {
   });
 
   it("should show resource", () => {
-    cy.interceptGETBlogPost();
-
     cy.wait("@getBlogPosts");
     cy.wait("@getCategories");
     cy.getAntdLoadingOverlay().should("not.exist");
@@ -78,9 +73,6 @@ describe("inferencer-antd", () => {
   });
 
   it("should delete resource", () => {
-    cy.interceptGETBlogPost();
-    cy.interceptDELETEBlogPost();
-
     cy.wait("@getBlogPosts");
     cy.wait("@getCategories");
     cy.getAntdLoadingOverlay().should("not.exist");
@@ -106,8 +98,6 @@ describe("inferencer-antd", () => {
   });
 
   it("should create resource", () => {
-    cy.interceptPOSTBlogPost();
-
     cy.getCreateButton().click();
     cy.location("pathname").should("contain", "/blog-posts/create");
     cy.assertDocumentTitle("Blog Post", "create");
@@ -144,9 +134,6 @@ describe("inferencer-antd", () => {
   });
 
   it("should edit resource", () => {
-    cy.interceptPATCHBlogPost();
-    cy.interceptGETBlogPost();
-
     cy.wait("@getCategories");
     cy.wait("@getBlogPosts");
     cy.getAntdLoadingOverlay().should("not.exist");
@@ -171,7 +158,7 @@ describe("inferencer-antd", () => {
       cy.get("#status").should("have.value", body?.status);
       cy.fixture("categories").then((categories) => {
         const category = categories.find(
-          (category) => category.id === body?.category?.id,
+          (category: any) => category.id === body?.category?.id,
         );
         cy.get(`.ant-select-selection-item[title="${category?.title}"]`).should(
           "exist",
@@ -312,7 +299,7 @@ describe("inferencer-antd", () => {
 
     cy.getAntdPaginationItem(2).click();
 
-    cy.url().should("include", "current=2");
+    cy.url().should("include", "currentPage=2");
 
     cy.wait("@getSecondPagePosts");
 
@@ -331,7 +318,7 @@ describe("inferencer-antd", () => {
 
     cy.get(".ant-pagination-prev").first().click();
 
-    cy.url().should("include", "current=1");
+    cy.url().should("include", "currentPage=1");
 
     cy.wait("@getFirstPagePosts");
   });

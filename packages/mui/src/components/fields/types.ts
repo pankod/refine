@@ -1,4 +1,4 @@
-import type { ReactChild, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import type { ChipProps } from "@mui/material/Chip";
 import type { LinkProps } from "@mui/material/Link";
@@ -35,7 +35,7 @@ export type FileFieldProps = RefineFieldFileProps<LinkProps>;
 export type MarkdownFieldProps = RefineFieldMarkdownProps<string | undefined>;
 
 export type NumberFieldProps = RefineFieldNumberProps<
-  ReactChild,
+  ReactNode,
   TypographyProps
 >;
 

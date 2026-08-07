@@ -7,13 +7,12 @@ import {
 } from "antd";
 import {
   useTranslate,
-  useResource,
+  useResourceParams,
   type BaseRecord,
   type HttpError,
   useImport as useImportCore,
   type UseImportReturnType,
   type ImportOptions,
-  pickNotDeprecated,
 } from "@refinedev/core";
 
 /**
@@ -34,13 +33,11 @@ export const useImport = <
   TVariables = any,
 >({
   resource: resourceFromProp,
-  resourceName,
   mapData = (item) => item as unknown as TVariables,
   paparseOptions,
   batchSize = Number.MAX_SAFE_INTEGER,
   onFinish,
   meta,
-  metaData,
   dataProviderName,
   onProgress: onProgressFromProp,
 }: ImportOptions<TItem, TVariables, TData> = {}): Omit<
@@ -52,7 +49,7 @@ export const useImport = <
 } => {
   const t = useTranslate();
 
-  const { resource } = useResource(resourceFromProp ?? resourceName);
+  const { resource } = useResourceParams({ resource: resourceFromProp });
 
   const { mutationResult, isLoading, handleChange } = useImportCore<
     TItem,
@@ -64,8 +61,7 @@ export const useImport = <
     mapData,
     paparseOptions,
     batchSize,
-    meta: pickNotDeprecated(meta, metaData),
-    metaData: pickNotDeprecated(meta, metaData),
+    meta,
     dataProviderName,
     onFinish,
     onProgress:

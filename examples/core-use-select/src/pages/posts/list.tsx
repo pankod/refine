@@ -4,6 +4,10 @@ import { useSelect } from "@refinedev/core";
 export const DummyList: React.FC = () => {
   const { options } = useSelect<ICategory>({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

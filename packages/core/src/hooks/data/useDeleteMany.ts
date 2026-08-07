@@ -6,13 +6,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-import {
-  handleMultiple,
-  pickDataProvider,
-  pickNotDeprecated,
-  queryKeysReplacement,
-  useActiveAuthProvider,
-} from "@definitions";
+import { handleMultiple, pickDataProvider } from "@definitions";
 import {
   useCancelNotification,
   useDataProvider,
@@ -25,7 +19,7 @@ import {
   useOnError,
   usePublish,
   useRefineContext,
-  useResource,
+  useResourceParams,
   useTranslate,
 } from "@hooks";
 
@@ -59,7 +53,7 @@ export type DeleteManyParams<TData, TError, TVariables> = {
    */
   resource: string;
   /**
-   * [Determines when mutations are executed](/advanced-tutorials/mutation-mode.md)
+   * [Determines when mutations are executed](/docs/advanced-tutorials/mutation-mode/)
    */
   mutationMode?: MutationMode;
   /**
@@ -75,9 +69,6 @@ export type DeleteManyParams<TData, TError, TVariables> = {
    */
   meta?: MetaQuery;
   /**
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
   /**
    * If there is more than one `dataProvider`, you should use the `dataProviderName` that you will use.
    * @default "default"
@@ -97,13 +88,26 @@ export type UseDeleteManyReturnType<
   TData extends BaseRecord = BaseRecord,
   TError = HttpError,
   TVariables = {},
-> = UseMutationResult<
-  DeleteManyResponse<TData>,
-  TError,
-  DeleteManyParams<TData, TError, TVariables>,
-  unknown
-> &
-  UseLoadingOvertimeReturnType;
+> = {
+  mutation: UseMutationResult<
+    DeleteManyResponse<TData>,
+    TError,
+    DeleteManyParams<TData, TError, TVariables>,
+    unknown
+  >;
+  mutate: UseMutationResult<
+    DeleteManyResponse<TData>,
+    TError,
+    DeleteManyParams<TData, TError, TVariables>,
+    DeleteContext<TData>
+  >["mutate"];
+  mutateAsync: UseMutationResult<
+    DeleteManyResponse<TData>,
+    TError,
+    DeleteManyParams<TData, TError, TVariables>,
+    DeleteContext<TData>
+  >["mutateAsync"];
+} & UseLoadingOvertimeReturnType;
 
 export type UseDeleteManyProps<
   TData extends BaseRecord = BaseRecord,
@@ -122,7 +126,7 @@ export type UseDeleteManyProps<
 } & UseLoadingOvertimeOptionsProps;
 
 /**
- * `useDeleteMany` is a modified version of `react-query`'s {@link https://react-query.tanstack.com/reference/useMutation `useMutation`} for multiple delete mutations.
+ * `useDeleteMany` is a modified version of `react-query`'s {@link https://tanstack.com/query/v5/docs/framework/react/reference/useMutation `useMutation`} for multiple delete mutations.
  *
  * It uses `deleteMany` method as mutation function from the `dataProvider` which is passed to `<Refine>`.
  *
@@ -145,10 +149,7 @@ export const useDeleteMany = <
   TError,
   TVariables
 > => {
-  const authProvider = useActiveAuthProvider();
-  const { mutate: checkError } = useOnError({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate: checkError } = useOnError();
 
   const {
     mutationMode: mutationModeContext,
@@ -161,13 +162,13 @@ export const useDeleteMany = <
   const handleNotification = useHandleNotification();
   const invalidateStore = useInvalidate();
   const { log } = useLog();
-  const { resources, select } = useResource();
+  const { resources, select } = useResourceParams();
   const queryClient = useQueryClient();
   const getMeta = useMeta();
   const {
     options: { textTransformers },
   } = useRefineContext();
-  const { keys, preferLegacyKeys } = useKeys();
+  const { keys } = useKeys();
 
   const mutation = useMutation<
     DeleteManyResponse<TData>,
@@ -182,7 +183,6 @@ export const useDeleteMany = <
       undoableTimeout,
       onCancel,
       meta,
-      metaData,
       dataProviderName,
       values,
     }: DeleteManyParams<TData, TError, TVariables>) => {
@@ -190,7 +190,7 @@ export const useDeleteMany = <
 
       const combinedMeta = getMeta({
         resource,
-        meta: pickNotDeprecated(meta, metaData),
+        meta: meta,
       });
 
       const mutationModePropOrContext = mutationMode ?? mutationModeContext;
@@ -208,7 +208,6 @@ export const useDeleteMany = <
             resource: resource.name,
             ids,
             meta: combinedMeta,
-            metaData: combinedMeta,
             variables: values,
           });
         }
@@ -218,7 +217,6 @@ export const useDeleteMany = <
               resource: resource.name,
               id,
               meta: combinedMeta,
-              metaData: combinedMeta,
               variables: values,
             }),
           ),
@@ -266,21 +264,10 @@ export const useDeleteMany = <
       mutationMode,
       dataProviderName,
       meta,
-      metaData,
     }) => {
       const { identifier } = select(resourceName);
 
-      const {
-        gqlMutation: _,
-        gqlQuery: __,
-        ...preferredMeta
-      } = pickNotDeprecated(meta, metaData) ?? {};
-
-      const queryKey = queryKeysReplacement(preferLegacyKeys)(
-        identifier,
-        pickDataProvider(identifier, dataProviderName, resources),
-        preferredMeta,
-      );
+      const { gqlMutation: _, gqlQuery: __, ...preferredMeta } = meta ?? {};
 
       const resourceKeys = keys()
         .data(pickDataProvider(identifier, dataProviderName, resources))
@@ -288,24 +275,24 @@ export const useDeleteMany = <
 
       const mutationModePropOrContext = mutationMode ?? mutationModeContext;
 
-      await queryClient.cancelQueries(
-        resourceKeys.get(preferLegacyKeys),
-        undefined,
-        {
-          silent: true,
-        },
-      );
+      await queryClient.cancelQueries({
+        queryKey: resourceKeys.get(),
+      });
 
       const previousQueries: PreviousQuery<TData>[] =
-        queryClient.getQueriesData(resourceKeys.get(preferLegacyKeys));
+        queryClient.getQueriesData({
+          queryKey: resourceKeys.get(),
+        });
 
       if (mutationModePropOrContext !== "pessimistic") {
         // Set the previous queries to the new ones:
         queryClient.setQueriesData(
-          resourceKeys
-            .action("list")
-            .params(preferredMeta ?? {})
-            .get(preferLegacyKeys),
+          {
+            queryKey: resourceKeys
+              .action("list")
+              .params(preferredMeta ?? {})
+              .get(),
+          },
           (previous?: GetListResponse<TData> | null) => {
             if (!previous) {
               return null;
@@ -324,7 +311,9 @@ export const useDeleteMany = <
         );
 
         queryClient.setQueriesData(
-          resourceKeys.action("many").get(preferLegacyKeys),
+          {
+            queryKey: resourceKeys.action("many").get(),
+          },
           (previous?: GetListResponse<TData> | null) => {
             if (!previous) {
               return null;
@@ -346,11 +335,13 @@ export const useDeleteMany = <
 
         for (const id of ids) {
           queryClient.setQueriesData(
-            resourceKeys
-              .action("one")
-              .id(id)
-              .params(preferredMeta)
-              .get(preferLegacyKeys),
+            {
+              queryKey: resourceKeys
+                .action("one")
+                .id(id)
+                .params(preferredMeta)
+                .get(),
+            },
             (previous?: any | null) => {
               if (!previous || previous.data.id === id) {
                 return null;
@@ -365,7 +356,6 @@ export const useDeleteMany = <
 
       return {
         previousQueries,
-        queryKey,
       };
     },
     // Always refetch after error or success:
@@ -403,11 +393,9 @@ export const useDeleteMany = <
         ids,
         resource: resourceName,
         meta,
-        metaData,
         dataProviderName: dataProviderNameFromProp,
         successNotification,
       },
-      context,
     ) => {
       const { resource, identifier } = select(resourceName);
 
@@ -419,12 +407,18 @@ export const useDeleteMany = <
 
       const combinedMeta = getMeta({
         resource,
-        meta: pickNotDeprecated(meta, metaData),
+        meta: meta,
       });
 
       // Remove the queries from the cache:
+      const resourceKeys = keys()
+        .data(pickDataProvider(identifier, dataProviderName, resources))
+        .resource(identifier);
+
       ids.forEach((id) =>
-        queryClient.removeQueries(context?.queryKey.detail(id)),
+        queryClient.removeQueries({
+          queryKey: resourceKeys.action("one").id(id).get(),
+        }),
       );
 
       const notificationConfig =
@@ -472,9 +466,10 @@ export const useDeleteMany = <
         },
       });
 
-      // Remove the queries from the cache:
       ids.forEach((id) =>
-        queryClient.removeQueries(context?.queryKey.detail(id)),
+        queryClient.removeQueries({
+          queryKey: resourceKeys.action("one").id(id).get(),
+        }),
       );
     },
     onError: (
@@ -515,19 +510,23 @@ export const useDeleteMany = <
         });
       }
     },
-    mutationKey: keys().data().mutation("deleteMany").get(preferLegacyKeys),
+    mutationKey: keys().data().mutation("deleteMany").get(),
     ...mutationOptions,
     meta: {
       ...mutationOptions?.meta,
-      ...getXRay("useDeleteMany", preferLegacyKeys),
+      ...getXRay("useDeleteMany"),
     },
   });
 
   const { elapsedTime } = useLoadingOvertime({
-    isLoading: mutation.isLoading,
-    interval: overtimeOptions?.interval,
-    onInterval: overtimeOptions?.onInterval,
+    ...overtimeOptions,
+    isLoading: mutation.isPending,
   });
 
-  return { ...mutation, overtime: { elapsedTime } };
+  return {
+    mutation,
+    mutate: mutation.mutate,
+    mutateAsync: mutation.mutateAsync,
+    overtime: { elapsedTime },
+  };
 };

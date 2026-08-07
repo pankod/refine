@@ -1,176 +1,154 @@
 ---
-title: Edit
+title: "Chakra UI Edit Component | UI Component in Refine v5"
+display_title: "Edit"
+sidebar_label: "Edit"
+description: "Secure Edit in Refine v5. Learn best practices. Explore customization options for hide for polished admin UIs. Explore with code snippets."
 swizzle: true
 ---
 
-```tsx live shared
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  Layout: RefineChakra.Layout,
-  Sider: () => null,
-});
-
-const Wrapper = ({ children }) => {
-  return (
-    <ChakraUI.ChakraProvider theme={RefineChakra.refineTheme}>
-      {children}
-    </ChakraUI.ChakraProvider>
-  );
-};
-
-const DummyListPage = () => (
-  <ChakraUI.VStack alignItems="flex-start">
-    <ChakraUI.Text>This page is empty.</ChakraUI.Text>
-    <EditButton colorScheme="black" recordItemId="123">
-      Edit Item 123
-    </EditButton>
-  </ChakraUI.VStack>
-);
-
-interface ICategory {
-  id: number;
-  title: string;
-}
-
-interface IPost {
-  id: number;
-  title: string;
-  content: string;
-  status: "published" | "draft" | "rejected";
-  category: { id: number };
-}
-```
-
-`<Edit>` provides us a layout for displaying the page. It does not contain any logic and just adds extra functionalities like a refresh button.
+`<Edit>` provides us a layout for displaying the page. It does not contain any logic but adds extra functionalities like a refresh button.
 
 We will show what `<Edit>` does using properties with examples.
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=420px hideCode
+```tsx live  previewHeight=480px hideCode  url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
+import React from "react";
 import { Edit } from "@refinedev/chakra-ui";
 import {
   FormControl,
-  FormErrorMessage,
   FormLabel,
+  FormErrorMessage,
   Input,
+  Box,
   Select,
 } from "@chakra-ui/react";
-import { useSelect } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
+import { useSelect } from "@refinedev/core";
+import { Controller } from "react-hook-form";
 
 const PostEdit: React.FC = () => {
   const {
-    refineCore: { formLoading, query },
     saveButtonProps,
+    refineCore: { query },
     register,
+    control,
     formState: { errors },
-    resetField,
-  } = useForm<IPost>();
+  } = useForm();
 
   const { options } = useSelect({
     resource: "categories",
-
-    defaultValue: query?.data?.data.category.id,
-    queryOptions: { enabled: !!query?.data?.data.category.id },
+    defaultValue: query?.data?.category?.id,
   });
 
-  useEffect(() => {
-    resetField("category.id");
-  }, [options]);
-
   return (
-    <Edit isLoading={formLoading} saveButtonProps={saveButtonProps}>
-      <FormControl mb="3" isInvalid={!!errors?.title}>
-        <FormLabel>Title</FormLabel>
-        <Input
-          id="title"
-          type="text"
-          {...register("title", { required: "Title is required" })}
-        />
-        <FormErrorMessage>{`${errors.title?.message}`}</FormErrorMessage>
-      </FormControl>
-      <FormControl mb="3" isInvalid={!!errors?.status}>
-        <FormLabel>Status</FormLabel>
-        <Select
-          id="content"
-          placeholder="Select Post Status"
-          {...register("status", {
-            required: "Status is required",
-          })}
-        >
-          <option>published</option>
-          <option>draft</option>
-          <option>rejected</option>
-        </Select>
-        <FormErrorMessage>{`${errors.status?.message}`}</FormErrorMessage>
-      </FormControl>
-      <FormControl mb="3" isInvalid={!!errors?.categoryId}>
-        <FormLabel>Category</FormLabel>
-        <Select
-          id="ca"
-          placeholder="Select Category"
-          {...register("category.id", {
-            required: true,
-          })}
-        >
-          {options?.map((option) => (
-            <option value={option.value} key={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </Select>
-        <FormErrorMessage>{`${errors.categoryId?.message}`}</FormErrorMessage>
-      </FormControl>
+    <Edit saveButtonProps={saveButtonProps}>
+      <Box component="form" autoComplete="off">
+        <FormControl mb="3" isInvalid={!!errors?.id}>
+          <FormLabel>Id</FormLabel>
+          <Input
+            disabled
+            type="number"
+            {...register("id", {
+              required: "This field is required",
+            })}
+          />
+          <FormErrorMessage>{`${errors?.id?.message}`}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl mb="3" isInvalid={!!errors?.title}>
+          <FormLabel>Title</FormLabel>
+          <Input
+            type="text"
+            {...register("title", {
+              required: "This field is required",
+            })}
+          />
+          <FormErrorMessage>{`${errors?.title?.message}`}</FormErrorMessage>
+        </FormControl>
+        <FormControl mb="3" isInvalid={!!errors?.status}>
+          <FormLabel>Status</FormLabel>
+          <Select
+            id="content"
+            placeholder="Select Post Status"
+            {...register("status", {
+              required: "Status is required",
+            })}
+          >
+            <option>published</option>
+            <option>draft</option>
+            <option>rejected</option>
+          </Select>
+          <FormErrorMessage>{`${errors.status?.message}`}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl mb="3" isInvalid={!!errors?.category}>
+          <FormLabel>Category</FormLabel>
+          <Controller
+            control={control}
+            name="category.id"
+            rules={{ required: "This field is required" }}
+            render={({ field }) => (
+              <Select placeholder="Select category" {...field}>
+                {options?.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </Select>
+            )}
+          />
+          <FormErrorMessage>{`${errors?.category?.message}`}</FormErrorMessage>
+        </FormControl>
+      </Box>
     </Edit>
   );
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      notificationProvider={RefineChakra.notificationProvider()}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.EditButton recordItemId="123">
+                Edit Item 123
+              </RefineChakra.EditButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 :::simple Good to know
-
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
-
+You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 :::
 
 ## Properties
 
 ### title
 
-`title` allows the addition of titles inside the `<Edit>` component. if you don't pass title props it uses the "Edit" prefix and singular resource name by default. For example, for the "posts" resource, it would be "Edit post".
+`title` allows you to add a title inside the `<Edit>` component. If you don't pass title props, it uses the "Edit" prefix and the singular resource name by default. For example, for the "posts" resource, it will be "Edit post".
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
 import { Edit } from "@refinedev/chakra-ui";
@@ -186,36 +164,101 @@ const PostEdit: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.EditButton recordItemId="123">
+                Edit Item 123
+              </RefineChakra.EditButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
+### resource
+
+The `<Edit>` component reads the `resource` information from the route by default. If you want to use a custom resource for the `<Edit>` component, you can use the `resource` prop.
+
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/custom/123
+setInitialRoutes(["/custom/123"]);
+
+// visible-block-start
+import { Edit } from "@refinedev/chakra-ui";
+
+const CustomPage: React.FC = () => {
+  return (
+    /* highlight-next-line */
+    <Edit resource="posts" recordItemId={123}>
+      <p>Rest of your page here</p>
+    </Edit>
+  );
+};
+// visible-block-end
+
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+        {
+          name: "custom",
+          list: "/custom",
+          edit: "/custom/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.EditButton recordItemId="123">
+                Edit Item 123
+              </RefineChakra.EditButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/custom/:id" element={<CustomPage />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
+);
+```
+
+If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
+
+> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
+
 ### saveButtonProps
 
-`saveButtonProps` can be used to customize the default button of the `<Edit>` component that submits the form:
+The `<Edit>` component has a save button that submits the form by default. If you want to customize this button you can use the `saveButtonProps` property:
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
 import { Edit } from "@refinedev/chakra-ui";
@@ -230,40 +273,46 @@ const PostEdit: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.EditButton recordItemId="123">
+                Edit Item 123
+              </RefineChakra.EditButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`<SaveButton>` documentation &#8594](/docs/ui-integrations/chakra-ui/components/buttons/save-button)
+> For more information, refer to the [`<SaveButton>` documentation &#8594](/core/docs/ui-integrations/chakra-ui/components/buttons/save-button/)
 
 ### canDelete and deleteButtonProps
 
-`canDelete` allows us to add the delete button inside the `<Edit>` component that executes the `useDelete` method provided by the `dataProvider` when clicked on.
+`canDelete` allows you to add a delete button inside the `<Edit>` component. If the resource has the `canDelete` property, Refine adds the delete button by default. If you want to customize this button you can use the `deleteButtonProps` property like the code below.
 
-If the resource has the `canDelete` property, Refine adds the delete button by default. If you want to customize this button, you can use the `deleteButtonProps` property like the code below.
+When clicked on, the delete button executes the `useDelete` method provided by the `dataProvider`.
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
 import { Edit } from "@refinedev/chakra-ui";
@@ -271,11 +320,12 @@ import { usePermissions } from "@refinedev/core";
 
 const PostEdit: React.FC = () => {
   const { data: permissionsData } = usePermissions();
+
   return (
     <Edit
       /* highlight-start */
       canDelete={permissionsData?.includes("admin")}
-      deleteButtonProps={{ colorScheme: "orange" }}
+      deleteButtonProps={{ colorScheme: "red" }}
       /* highlight-end */
     >
       <p>Rest of your page here</p>
@@ -284,159 +334,48 @@ const PostEdit: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  const simpleRestDataProvider = dataProvider(
-    "https://api.fake-rest.refine.dev",
-  );
-
-  const customDataProvider = {
-    ...simpleRestDataProvider,
-    deleteOne: async ({ resource, id, variables }) => {
-      return {
-        data: {},
-      };
-    },
-  };
-
-  const authProvider = {
-    login: async () => {
-      return {
-        success: true,
-        redirectTo: "/",
-      };
-    },
-    register: async () => {
-      return {
-        success: true,
-      };
-    },
-    forgotPassword: async () => {
-      return {
-        success: true,
-      };
-    },
-    updatePassword: async () => {
-      return {
-        success: true,
-      };
-    },
-    logout: async () => {
-      return {
-        success: true,
-        redirectTo: "/",
-      };
-    },
-    check: async () => ({
-      authenticated: true,
-    }),
-    onError: async (error) => {
-      console.error(error);
-      return { error };
-    },
-    getPermissions: async () => ["admin"],
-    getIdentity: async () => null,
-  };
-
-  return (
-    <RefineHeadlessDemo
-      dataProvider={customDataProvider}
-      authProvider={authProvider}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
-);
-```
-
-> For more information, refer to the [`<DeleteButton>` &#8594](/docs/ui-integrations/chakra-ui/components/buttons/delete-button) and [`usePermission` &#8594](/docs/authentication/hooks/use-permissions) documentations
-
-### resource
-
-`<Edit>` component reads the `resource` information from the route by default. If you want to use a custom resource for the `<Edit>` component, you can use the `resource` prop.
-
-```tsx live url=http://localhost:3000/custom/23 previewHeight=280px
-setInitialRoutes(["/custom/23"]);
-
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import { Refine } from "@refinedev/core";
-import dataProvider from "@refinedev/simple-rest";
-import { Layout } from "@refinedev/chakra-ui";
-// visible-block-start
-import { Edit } from "@refinedev/chakra-ui";
-
-const CustomPage: React.FC = () => {
-  return (
-    /* highlight-next-line */
-    <Edit resource="categories">
-      <p>Rest of your page here</p>
-    </Edit>
-  );
-};
-// visible-block-end
-
-const App: React.FC = () => {
-  return (
-    <Refine
-      legacyRouterProvider={{
-        ...routerProvider,
-        // highlight-start
-        routes: [
-          {
-            element: <CustomPage />,
-            path: "/custom/:id",
-          },
-        ],
-        // highlight-end
+      options={{
+        auth: {
+          getPermissions: () => Promise.resolve(["admin"]),
+        },
       }}
-      Layout={Layout}
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      resources={[{ name: "posts" }]}
-    />
-  );
-};
-
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
-
-> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
 
 ### recordItemId
 
-The `<Edit>` component reads the `id` information from the route by default. `recordItemId` is used when it cannot read from the URL(when used on a custom page, modal or drawer).
+The `<Edit>` component reads the `id` information from the route by default. `recordItemId` is used when it cannot read from the URL (when used on a custom page, modal or drawer).
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=350px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
-import { useModalForm } from "@refinedev/react-hook-form";
 import { Edit } from "@refinedev/chakra-ui";
+import { useModalForm } from "@refinedev/react-hook-form";
 import {
   Modal,
-  Button,
   ModalOverlay,
   ModalContent,
   ModalCloseButton,
   ModalHeader,
   ModalBody,
+  Button,
 } from "@chakra-ui/react";
 
 const PostEdit: React.FC = () => {
@@ -454,8 +393,7 @@ const PostEdit: React.FC = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
-          <ModalHeader>Edit</ModalHeader>
-
+          <ModalHeader>Edit Post</ModalHeader>
           <ModalBody>
             {/* highlight-next-line */}
             <Edit recordItemId={id}>
@@ -469,56 +407,39 @@ const PostEdit: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: () => (
-            <div>
-              <p>This page is empty.</p>
-              <EditButton recordItemId="23">Edit Item 23</EditButton>
-            </div>
-          ),
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-:::simple Implementation Tips
-
-The `<Edit>` component needs the `id` information for the `<RefreshButton>` to work properly.
-
-:::
-
 ### mutationMode
 
-`mutationMode` determines which mode the mutation will have while executing `<DeleteButton>`.
+Determines which mode mutation will have while executing `useDelete`.
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
 import { Edit } from "@refinedev/chakra-ui";
 import {
-  Input,
   FormControl,
   FormLabel,
   FormErrorMessage,
+  Input,
 } from "@chakra-ui/react";
 import { useForm } from "@refinedev/react-hook-form";
 
@@ -527,7 +448,7 @@ const PostEdit: React.FC = () => {
     saveButtonProps,
     register,
     formState: { errors },
-  } = useForm<IPost>();
+  } = useForm();
 
   return (
     <Edit
@@ -543,33 +464,40 @@ const PostEdit: React.FC = () => {
           type="text"
           {...register("title", { required: "Title is required" })}
         />
-        <FormErrorMessage>{`${errors.title?.message}`}</FormErrorMessage>
+        <FormErrorMessage>{`${errors?.title?.message}`}</FormErrorMessage>
       </FormControl>
     </Edit>
   );
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      notificationProvider={RefineChakra.notificationProvider()}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.EditButton recordItemId="123">
+                Edit Item 123
+              </RefineChakra.EditButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -579,8 +507,9 @@ If not specified, Refine will use the default data provider. If you have multipl
 
 ```tsx
 import { Refine } from "@refinedev/core";
-import { Edit } from "@refinedev/chakra-ui";
 import dataProvider from "@refinedev/simple-rest";
+
+import { Edit } from "@refinedev/chakra-ui";
 
 // highlight-start
 const PostEdit = () => {
@@ -608,46 +537,50 @@ export const App: React.FC = () => {
 
 To customize the back button or to disable it, you can use the `goBack` property. You can pass `false` or `null` to hide the back button.
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
-setInitialRoutes(["/posts", "/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
 // visible-block-start
 import { Edit } from "@refinedev/chakra-ui";
-/* highlight-next-line */
 import { IconMoodSmile } from "@tabler/icons-react";
 
 const PostEdit: React.FC = () => {
   return (
     /* highlight-next-line */
     <Edit goBack={<IconMoodSmile />}>
-      <p>Rest of your page here 2</p>
+      <p>Rest of your page here</p>
     </Edit>
   );
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.EditButton recordItemId="123">
+                Edit Item 123
+              </RefineChakra.EditButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -655,12 +588,8 @@ render(
 
 To toggle the loading state of the `<Edit/>` component, you can use the `isLoading` property.
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
 import { Edit } from "@refinedev/chakra-ui";
@@ -675,37 +604,31 @@ const PostEdit: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-### breadcrumb <GlobalConfigBadge id="core/refine-component/#breadcrumb" />
+### breadcrumb
 
 To customize or disable the breadcrumb, you can use the `breadcrumb` property. By default it uses the `Breadcrumb` component from `@refinedev/chakra-ui` package.
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
 import { Edit, Breadcrumb } from "@refinedev/chakra-ui";
@@ -728,94 +651,42 @@ const PostEdit: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
-);
-```
-
-> For more information, refer to the [`Breadcrumb` documentation &#8594](/docs/ui-integrations/chakra-ui/components/breadcrumb)
-
-### wrapperProps
-
-If you want to customize the wrapper of the `<Edit/>` component, you can use the `wrapperProps` property. For `@refinedev/chakra-ui` wrapper element is `<Card>`s and `wrapperProps` can get every attribute that `<Card>` can get.
-
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
-setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
-
-// visible-block-start
-import { Edit } from "@refinedev/chakra-ui";
-
-const PostEdit: React.FC = () => {
-  return (
-    <Edit
-      // highlight-start
-      wrapperProps={{
-        borderColor: "blue",
-        borderStyle: "dashed",
-        borderWidth: "2px",
-        p: "2",
-      }}
-      // highlight-end
     >
-      <p>Rest of your page here</p>
-    </Edit>
-  );
-};
-// visible-block-end
-
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      resources={[
-        {
-          name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
-        },
-      ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.EditButton recordItemId="123">
+                Edit Item 123
+              </RefineChakra.EditButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-> For more information, refer to the [`Box` documentation from Chakra UI &#8594](https://www.chakra-ui.com/docs/components/box#usage)
 
 ### headerProps
 
 If you want to customize the header of the `<Edit/>` component, you can use the `headerProps` property.
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
 import { Edit } from "@refinedev/chakra-ui";
@@ -837,83 +708,24 @@ const PostEdit: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
-);
-```
-
-> For more information, refer to the [`Box` documentation from Chakra UI &#8594](https://www.chakra-ui.com/docs/components/box#usage)
-
-### contentProps
-
-If you want to customize the content of the `<Edit/>` component, you can use the `contentProps` property.
-
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
-setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
-
-// visible-block-start
-import { Edit } from "@refinedev/chakra-ui";
-
-const PostEdit: React.FC = () => {
-  return (
-    <Edit
-      // highlight-start
-      contentProps={{
-        borderColor: "blue",
-        borderStyle: "dashed",
-        borderWidth: "2px",
-        p: "2",
-      }}
-      // highlight-end
     >
-      <p>Rest of your page here</p>
-    </Edit>
-  );
-};
-// visible-block-end
-
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      resources={[
-        {
-          name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
-        },
-      ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-> For more information, refer to the [`Box` documentation from Chakra UI &#8594](https://www.chakra-ui.com/docs/components/box#usage)
 
 ### headerButtons
 
@@ -922,21 +734,15 @@ By default, the `<Edit/>` component has a [`<ListButton>`][list-button] and a [`
 You can customize the buttons at the header by using the `headerButtons` property. It accepts `React.ReactNode` or a render function `({ defaultButtons, refreshButtonProps, listButtonProps }) => React.ReactNode` which you can use to keep the existing buttons and add your own.
 
 :::simple Implementation Tips
-
-If the "list" resource is not defined, the [`<ListButton>`][list-button] will not render and `listButtonProps` will be `undefined`.
-
+If "list" resource is not defined, the [`<ListButton>`][list-button] will not render and `listButtonProps` will be `undefined`.
 :::
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
 import { Edit } from "@refinedev/chakra-ui";
-import { Button, HStack, Box } from "@chakra-ui/react";
+import { Button, HStack } from "@chakra-ui/react";
 
 const PostEdit: React.FC = () => {
   return (
@@ -956,79 +762,33 @@ const PostEdit: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
-);
-```
-
-Or, instead of using the `defaultButtons`, you can create your own buttons. If you want, you can use `refreshButtonProps` and `listButtonProps` to utilize the default values of the [`<ListButton>`][list-button] and [`<RefreshButton>`][refresh-button] components.
-
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
-setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton, RefreshButton, ListButton } from "@refinedev/chakra-ui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
-
-// visible-block-start
-import { Edit } from "@refinedev/chakra-ui";
-import { Button, HStack, Box } from "@chakra-ui/react";
-
-const PostEdit: React.FC = () => {
-  return (
-    <Edit
-      // highlight-start
-      headerButtons={({ refreshButtonProps, listButtonProps }) => (
-        <HStack>
-          <RefreshButton {...refreshButtonProps} meta={{ foo: "bar" }} />
-          {listButtonProps && (
-            <ListButton {...listButtonProps} meta={{ foo: "bar" }} />
-          )}
-          <Button colorScheme="red">Custom Button</Button>
-        </HStack>
-      )}
-      // highlight-end
     >
-      <p>Rest of your page here</p>
-    </Edit>
-  );
-};
-// visible-block-end
-
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      resources={[
-        {
-          name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
-        },
-      ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.EditButton recordItemId="123">
+                Edit Item 123
+              </RefineChakra.EditButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -1036,12 +796,8 @@ render(
 
 You can customize the wrapper element of the buttons at the header by using the `headerButtonProps` property.
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
 import { Edit } from "@refinedev/chakra-ui";
@@ -1059,7 +815,7 @@ const PostEdit: React.FC = () => {
       }}
       // highlight-end
       headerButtons={
-        <Button variant="outline" colorScheme="green">
+        <Button colorScheme="green" variant="outline">
           Custom Button
         </Button>
       }
@@ -1070,28 +826,35 @@ const PostEdit: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.EditButton recordItemId="123">
+                Edit Item 123
+              </RefineChakra.EditButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-> For more information, refer to the [`Box` documentation from Chakra UI &#8594](https://www.chakra-ui.com/docs/components/box#usage)
 
 ### footerButtons
 
@@ -1100,17 +863,11 @@ By default, the `<Edit/>` component has a [`<SaveButton>`][save-button] and a [`
 You can customize the buttons at the footer by using the `footerButtons` property. It accepts `React.ReactNode` or a render function `({ defaultButtons, saveButtonProps, deleteButtonProps }) => React.ReactNode` which you can use to keep the existing buttons and add your own.
 
 :::simple Implementation Tips
-
 If [`canDelete`](#candelete-and-deletebuttonprops) is `false`, the [`<DeleteButton>`][delete-button] will not render and `deleteButtonProps` will be `undefined`.
-
 :::
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
 import { Edit } from "@refinedev/chakra-ui";
@@ -1136,81 +893,33 @@ const PostEdit: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
-);
-```
-
-Or, instead of using the `defaultButtons`, you can create your own buttons. If you want, you can use `saveButtonProps` and `deleteButtonProps` to utilize the default values of the [`<SaveButton>`][save-button] and [`<DeleteButton>`][delete-button] components.
-
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
-setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton, SaveButton, DeleteButton } from "@refinedev/chakra-ui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
-
-// visible-block-start
-import { Edit } from "@refinedev/chakra-ui";
-import { Button, HStack } from "@chakra-ui/react";
-
-const PostEdit: React.FC = () => {
-  return (
-    <Edit
-      // highlight-start
-      footerButtons={({ saveButtonProps, deleteButtonProps }) => (
-        <HStack borderColor="blue" borderStyle="dashed" borderWidth="2px" p="2">
-          <SaveButton {...saveButtonProps} hideText />
-          {deleteButtonProps && (
-            <DeleteButton {...deleteButtonProps} hideText />
-          )}
-          <Button colorScheme="red" variant="solid">
-            Custom Button
-          </Button>
-        </HStack>
-      )}
-      // highlight-end
     >
-      <p>Rest of your page here</p>
-    </Edit>
-  );
-};
-// visible-block-end
-
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      resources={[
-        {
-          name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
-        },
-      ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.EditButton recordItemId="123">
+                Edit Item 123
+              </RefineChakra.EditButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -1218,12 +927,8 @@ render(
 
 You can customize the wrapper element of the buttons at the footer by using the `footerButtonProps` property.
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
 import { Edit } from "@refinedev/chakra-ui";
@@ -1247,51 +952,55 @@ const PostEdit: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.EditButton recordItemId="123">
+                Edit Item 123
+              </RefineChakra.EditButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-> For more information, refer to the [`Box` documentation from Chakra UI &#8594](https://www.chakra-ui.com/docs/components/box#usage)
 
 ### autoSaveProps
 
 You can use the auto save feature of the `<Edit/>` component by using the `autoSaveProps` property.
 
-```tsx live url=http://localhost:3000/posts/edit/123 previewHeight=420px
+```tsx live disableScroll previewHeight=420px url=http://localhost:3000/posts/edit/123
 setInitialRoutes(["/posts/edit/123"]);
-import { Refine } from "@refinedev/core";
-import { EditButton } from "@refinedev/chakra-ui";
-import dataProvider from "@refinedev/simple-rest";
 
+// visible-block-start
 import { Edit } from "@refinedev/chakra-ui";
 import {
   FormControl,
-  FormErrorMessage,
   FormLabel,
+  FormErrorMessage,
   Input,
   Select,
 } from "@chakra-ui/react";
-import { useSelect } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
+import { useSelect } from "@refinedev/core";
 
-// visible-block-start
 const PostEdit: React.FC = () => {
   const {
     refineCore: {
@@ -1316,9 +1025,7 @@ const PostEdit: React.FC = () => {
 
   const { options } = useSelect({
     resource: "categories",
-
-    defaultValue: query?.data?.data.category.id,
-    queryOptions: { enabled: !!query?.data?.data.category.id },
+    defaultValue: query?.data?.category?.id,
   });
 
   useEffect(() => {
@@ -1339,7 +1046,7 @@ const PostEdit: React.FC = () => {
           type="text"
           {...register("title", { required: "Title is required" })}
         />
-        <FormErrorMessage>{`${errors.title?.message}`}</FormErrorMessage>
+        <FormErrorMessage>{`${errors?.title?.message}`}</FormErrorMessage>
       </FormControl>
       <FormControl mb="3" isInvalid={!!errors?.status}>
         <FormLabel>Status</FormLabel>
@@ -1354,59 +1061,50 @@ const PostEdit: React.FC = () => {
           <option>draft</option>
           <option>rejected</option>
         </Select>
-        <FormErrorMessage>{`${errors.status?.message}`}</FormErrorMessage>
-      </FormControl>
-      <FormControl mb="3" isInvalid={!!errors?.categoryId}>
-        <FormLabel>Category</FormLabel>
-        <Select
-          id="ca"
-          placeholder="Select Category"
-          {...register("category.id", {
-            required: true,
-          })}
-        >
-          {options?.map((option) => (
-            <option value={option.value} key={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </Select>
-        <FormErrorMessage>{`${errors.categoryId?.message}`}</FormErrorMessage>
+        <FormErrorMessage>{`${errors?.status?.message}`}</FormErrorMessage>
       </FormControl>
     </Edit>
   );
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      notificationProvider={RefineChakra.notificationProvider()}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          edit: PostEdit,
-          list: DummyListPage,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.EditButton recordItemId="123">
+                Edit Item 123
+              </RefineChakra.EditButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 ## API Reference
 
-### Props
+### Properties
 
-<PropsTable module="@refinedev/chakra-ui/Edit" goBack-default="`<IconArrowLeft />`" title-default="`<Title order={3}>Edit {resource.name}</Title>`" />
+<PropsTable module="@refinedev/chakra-ui/Edit" />
 
-[list-button]: /docs/ui-integrations/chakra-ui/components/buttons/list-button
-[refresh-button]: /docs/ui-integrations/chakra-ui/components/buttons/refresh-button
-[save-button]: /docs/ui-integrations/chakra-ui/components/buttons/save-button
-[delete-button]: /docs/ui-integrations/chakra-ui/components/buttons/delete-button
+[list-button]: /core/docs/ui-integrations/chakra-ui/components/buttons/list-button
+[refresh-button]: /core/docs/ui-integrations/chakra-ui/components/buttons/refresh-button
+[save-button]: /core/docs/ui-integrations/chakra-ui/components/buttons/save-button
+[delete-button]: /core/docs/ui-integrations/chakra-ui/components/buttons/delete-button

@@ -11,7 +11,7 @@ export const TwitterButton = ({ href }: Props) => {
     <a
       href={href}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener"
       className={clsx(
         "no-underline",
         "flex items-center justify-center gap-2",

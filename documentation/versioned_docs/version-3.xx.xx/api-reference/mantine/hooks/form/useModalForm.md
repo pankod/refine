@@ -752,7 +752,7 @@ Don't forget to pass the record `"id"` to `show` to fetch the record data. This 
 
 ### `refineCoreProps`
 
-All [`useForm`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) properties also available in `useStepsForm`. You can find descriptions on [`useForm`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#properties) docs.
+All [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) properties also available in `useStepsForm`. You can find descriptions on [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#properties) docs.
 
 ```tsx
 const modalForm = useModalForm({
@@ -823,7 +823,7 @@ const modalForm = useModalForm({
 ## Return Values
 
 :::tip
-All [`useForm`][use-form-refine-mantine] return values also available in `useModalForm`. You can find descriptions on [`useForm`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#return-values) docs.
+All [`useForm`][use-form-refine-mantine] return values also available in `useModalForm`. You can find descriptions on [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#return-values) docs.
 
 All [`mantine useForm`](https://mantine.dev/form/use-form/) return values also available in `useModalForm`. You can find descriptions on [`mantine`](https://mantine.dev/form/use-form/) docs.
 :::
@@ -974,10 +974,10 @@ return (
 
 ### Properties
 
-| Property                               | Description                                                         | Type                                                              |
-| -------------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| modalProps                             | Configuration object for the modal or drawer                        | [`ModalPropsType`](#modalpropstype)                               |
-| refineCoreProps                        | Configuration object for the core of the [`useForm`][use-form-core] | [`UseFormProps`](/api-reference/core/hooks/useForm.md#properties) |
+| Property                               | Description                                                         | Type                                                                             |
+| -------------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| modalProps                             | Configuration object for the modal or drawer                        | [`ModalPropsType`](#modalpropstype)                                              |
+| refineCoreProps                        | Configuration object for the core of the [`useForm`][use-form-core] | [`UseFormProps`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm#properties) |
 | `@mantine/form`'s `useForm` properties | See [useForm][use-form-refine-mantine] documentation                |
 
 <br />
@@ -992,10 +992,10 @@ return (
 
 ### Return values
 
-| Property                                  | Description                                                     | Type                                                                        |
-| ----------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| modal                                     | Relevant states and methods to control the modal or drawer      | [`ModalReturnValues`](#modalreturnvalues)                                   |
-| refineCore                                | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/api-reference/core/hooks/useForm.md#return-values) |
+| Property                                  | Description                                                     | Type                                                                                       |
+| ----------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| modal                                     | Relevant states and methods to control the modal or drawer      | [`ModalReturnValues`](#modalreturnvalues)                                                  |
+| refineCore                                | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm#return-values) |
 | `@mantine/form`'s `useForm` return values | See [useForm][use-form-refine-mantine] documentation            |
 
 <br />
@@ -1015,5 +1015,5 @@ return (
 
 <CodeSandboxExample path="form-mantine-use-modal-form" />
 
-[use-form-refine-mantine]: /api-reference/mantine/hooks/form/useForm.md
-[use-form-core]: /api-reference/core/hooks/useForm.md
+[use-form-refine-mantine]: /core/docs/3.xx.xx/api-reference/mantine/hooks/form/useForm
+[use-form-core]: /core/docs/3.xx.xx/api-reference/core/hooks/useForm

@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import { useGetIdentity } from "@refinedev/core";
 import {
   HamburgerMenu,
-  type RefineThemedLayoutV2HeaderProps,
+  type RefineThemedLayoutHeaderProps,
 } from "@refinedev/mui";
 import React, { useContext } from "react";
 import { ColorModeContext } from "~/contexts/ColorModeContext";
@@ -20,7 +20,7 @@ type IUser = {
   avatar: string;
 };
 
-export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
+export const Header: React.FC<RefineThemedLayoutHeaderProps> = () => {
   const { mode, setMode } = useContext(ColorModeContext);
 
   const { data: user } = useGetIdentity<IUser>();

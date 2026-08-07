@@ -1,5 +1,5 @@
 import { useMenu } from "@refinedev/core";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 
 export const Menu = () => {
   const { menuItems } = useMenu();

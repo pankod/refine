@@ -164,7 +164,7 @@ export const RefineWeekDesktop = ({ variant, data, className }: Props) => {
                   <a
                     href={item.link}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener"
                     className={clsx(
                       "no-underline",
                       "flex items-center gap-2",

@@ -12,14 +12,14 @@ import OnSearchLivePreview from "./on-search-live-preview.md";
 
 `useAutocomplete` hook allows you to manage Material UI [`<Autocomplete>`](https://mui.com/material-ui/react-autocomplete/) component when records in a resource needs to be used as select options.
 
-This hook uses the `useList` hook for fetching data. [Refer to useList hook for details. →](/docs/3.xx.xx/api-reference/core/hooks/data/useList/)
+This hook uses the `useList` hook for fetching data. [Refer to useList hook for details. →](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/)
 
 :::info-tip DERIVATIVES
 If you're looking for a complete select library, refine has out-of-the-box support for the libraries below:
 
-- refine's `useSelect` (for Headless users) - [Documentation](/docs/3.xx.xx/api-reference/core/hooks/useSelect/) - [Example](/docs/3.xx.xx/examples/core/useSelect)
-- [Ant Design Select](https://ant.design/components/select) (for Ant Design users) - [Documentation](/docs/3.xx.xx/api-reference/antd/hooks/field/useSelect) - [Example](/docs/3.xx.xx/examples/field/useSelect)
-- [Mantine Select](https://mantine.dev/core/select/) (for Mantine users) - [Documentation](/docs/3.xx.xx/api-reference/mantine/hooks/useSelect)
+- refine's `useSelect` (for Headless users) - [Documentation](/core/docs/3.xx.xx/api-reference/core/hooks/useSelect/) - [Example](/core/docs/3.xx.xx/examples/core/useSelect)
+- [Ant Design Select](https://ant.design/components/select) (for Ant Design users) - [Documentation](/core/docs/3.xx.xx/api-reference/antd/hooks/field/useSelect) - [Example](/core/docs/3.xx.xx/examples/field/useSelect)
+- [Mantine Select](https://mantine.dev/core/select/) (for Mantine users) - [Documentation](/core/docs/3.xx.xx/api-reference/mantine/hooks/useSelect)
   :::
 
 ## Basic Usage
@@ -30,18 +30,18 @@ Here is a basic example of how to use `useAutocomplete` hook.
 
 ## Realtime Updates
 
-> This feature is only available if you use a [Live Provider](/docs/3.xx.xx/api-reference/core/providers/live-provider)
+> This feature is only available if you use a [Live Provider](/core/docs/3.xx.xx/api-reference/core/providers/live-provider)
 
 When `useAutocomplete` hook is mounted, it passes some parameters (`channel`, `resource` etc.) to the `subscribe` method from the `liveProvider`.
 It is useful when you want to subscribe to the live updates.
 
-[Refer to the `liveProvider` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/providers/live-provider)
+[Refer to the `liveProvider` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/providers/live-provider)
 
 ## Properties
 
 ### `resource` <PropTag required />
 
-It will be passed to the `getList` method from the `dataProvider` as parameter via the `useList` hook. The parameter is usually used as an API endpoint path. It all depends on how to handle the `resource` in the `getList` method. See the [creating a data provider](/docs/3.xx.xx/api-reference/core/providers/data-provider#creating-a-data-provider) section for an example of how resources are handled.
+It will be passed to the `getList` method from the `dataProvider` as parameter via the `useList` hook. The parameter is usually used as an API endpoint path. It all depends on how to handle the `resource` in the `getList` method. See the [creating a data provider](/core/docs/3.xx.xx/api-reference/core/providers/data-provider#creating-a-data-provider) section for an example of how resources are handled.
 
 ```tsx
 useAutocomplete({
@@ -53,7 +53,7 @@ useAutocomplete({
 
 It allows to show the options in the desired order. `sort` will be passed to the `getList` method from the `dataProvider` as parameter via the `useList` hook. It is used to send sort query parameters to the API.
 
-[Refer to the `CrudSorting` interface for more information &#8594](/docs/3.xx.xx/api-reference/core/interfaceReferences#crudsorting)
+[Refer to the `CrudSorting` interface for more information &#8594](/core/docs/3.xx.xx/api-reference/core/interfaceReferences#crudsorting)
 
 ```tsx
 useAutocomplete({
@@ -72,7 +72,7 @@ useAutocomplete({
 
 It is used to show options by filtering them. `filters` will be passed to the `getList` method from the `dataProvider` as parameter via the `useList` hook. It is used to send filter query parameters to the API.
 
-[Refer to the `CrudFilters` interface for more information &#8594](/docs/3.xx.xx/api-reference/core/interfaceReferences#crudfilters)
+[Refer to the `CrudFilters` interface for more information &#8594](/core/docs/3.xx.xx/api-reference/core/interfaceReferences#crudfilters)
 
 ```tsx
 useAutocomplete({
@@ -96,7 +96,7 @@ useAutocomplete({
 });
 ```
 
-[Refer to the `useMany` documentation for detailed usage. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useMany/)
+[Refer to the `useMany` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useMany/)
 
 ### `debounce`
 
@@ -181,7 +181,7 @@ useAutocomplete({
 
 It allows us to `AutoComplete` the `options`.
 
-[Refer to the `CrudFilters` interface for more information &#8594](/docs/3.xx.xx/api-reference/core/interfaceReferences#crudfilters)
+[Refer to the `CrudFilters` interface for more information &#8594](/core/docs/3.xx.xx/api-reference/core/interfaceReferences#crudfilters)
 
 <OnSearchLivePreview />
 
@@ -234,10 +234,10 @@ const filterOptions = createFilterOptions({
 
 ### `metaData`
 
-[`metaData`](/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
+[`metaData`](/core/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
 
 - To pass additional information to data provider methods.
-- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
+- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/core/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
 
 In the following example, we pass the `headers` property in the `metaData` object to the `create` method. With similar logic, you can pass any properties to specifically handle the data provider methods.
 
@@ -288,7 +288,7 @@ useAutocomplete({
 
 ### `successNotification`
 
-> [`NotificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
 
 After data is fetched successfully, `useAutocomplete` can call `open` function from `NotificationProvider` to show a success notification. With this prop, you can customize the success notification.
 
@@ -306,7 +306,7 @@ useAutocomplete({
 
 ### `errorNotification`
 
-> [`NotificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
 
 After data fetching is failed, `useAutocomplete` will call `open` function from `NotificationProvider` to show a error notification. With this prop, you can customize the error notification.
 
@@ -324,10 +324,10 @@ useAutocomplete({
 
 ### `liveMode`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
 Determines whether to update data automatically ("auto") or not ("manual") if a related live event is received. It can be used to update and show data in Realtime throughout your app.
-For more information about live mode, please check [Live / Realtime](/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
+For more information about live mode, please check [Live / Realtime](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
 
 ```tsx
 useAutocomplete({
@@ -337,7 +337,7 @@ useAutocomplete({
 
 ### `onLiveEvent`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
 The callback function that is executed when new events from a subscription are arrived.
 
@@ -351,15 +351,15 @@ useAutocomplete({
 
 ### `liveParams`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
-Params to pass to liveProvider's [subscribe](/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) method.
+Params to pass to liveProvider's [subscribe](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) method.
 
 ## FAQ
 
 ### How to ensure `defaultValue` is included in the options?
 
-In some cases we only have `id`, it may be necessary to show it selected in the selection box. This hook sends the request via [`useMany`](/docs/3.xx.xx/api-reference/core/hooks/data/useMany/), gets the data and mark as seleted.
+In some cases we only have `id`, it may be necessary to show it selected in the selection box. This hook sends the request via [`useMany`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useMany/), gets the data and mark as seleted.
 
 <DefaultValueLivePreview />
 
@@ -382,10 +382,10 @@ return <Autocomplete {...autocompleteProps} options={options || []} />;
 
 <CrudLivePreview />
 
-The use of `useAutocomplete` with [`useForm`](/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/) is demonstrated in the code above. You can use the `useAutocomplete` hook independently of the `useForm` hook.
+The use of `useAutocomplete` with [`useForm`](/core/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/) is demonstrated in the code above. You can use the `useAutocomplete` hook independently of the `useForm` hook.
 
 :::info
-By default, refine does the search using the [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) hook and passes it to the search parameter. If you get a problem you should check your `getList` function in your Data Provider. If you want to change this behavior to make client-side filtering, you can examine [this](https://mui.com/material-ui/react-autocomplete/#search-as-you-type) documentation.
+By default, refine does the search using the [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) hook and passes it to the search parameter. If you get a problem you should check your `getList` function in your Data Provider. If you want to change this behavior to make client-side filtering, you can examine [this](https://mui.com/material-ui/react-autocomplete/#search-as-you-type) documentation.
 :::
 
 ## API Reference

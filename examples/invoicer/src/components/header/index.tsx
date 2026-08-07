@@ -1,5 +1,5 @@
 import React from "react";
-import type { RefineThemedLayoutV2HeaderProps } from "@refinedev/antd";
+import type { RefineThemedLayoutHeaderProps } from "@refinedev/antd";
 import { useNavigation, Link } from "@refinedev/core";
 import { Layout as AntdLayout, Button, theme, Flex, Tabs } from "antd";
 import {
@@ -7,7 +7,7 @@ import {
   ShopOutlined,
   ContainerOutlined,
 } from "@ant-design/icons";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { useConfigProvider } from "@/providers/config-provider";
 import { Search } from "@/components/header/search";
 import { IconMoon, IconSun } from "@/components/icons";
@@ -15,7 +15,7 @@ import { User } from "@/components/header/user";
 import { Logo } from "@/components/logo";
 import { useStyles } from "./styled";
 
-export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
+export const Header: React.FC<RefineThemedLayoutHeaderProps> = () => {
   const { list } = useNavigation();
 
   const location = useLocation();

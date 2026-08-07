@@ -1,4 +1,4 @@
-import { type MetaQuery, pickNotDeprecated } from "@refinedev/core";
+import type { MetaQuery } from "@refinedev/core";
 import axios from "axios";
 import qs from "qs";
 
@@ -44,8 +44,7 @@ export const AuthHelper = (apiUrl: string) => ({
     });
   },
   me: async (token: string, options?: MeOptions) => {
-    const { metaData, meta: _meta } = options ?? {};
-    const meta = pickNotDeprecated(_meta, metaData);
+    const { meta = {} } = options ?? {};
     const locale = meta?.locale;
     const fields = meta?.fields;
     const populate = meta?.populate;

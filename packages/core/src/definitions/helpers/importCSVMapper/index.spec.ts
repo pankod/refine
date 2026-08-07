@@ -1,3 +1,5 @@
+import { vi } from "vitest";
+
 import { importCSVMapper } from ".";
 
 const rawData = [
@@ -25,7 +27,7 @@ describe("importCSVMapper", () => {
   });
 
   it("should run the given mapper callback with correct parameters", () => {
-    const mapperFn = jest.fn((item) => item);
+    const mapperFn = vi.fn((item) => item);
 
     importCSVMapper(rawData, mapperFn);
 

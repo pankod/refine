@@ -6,7 +6,7 @@ sidebar_label: <Refine>
 
 `<Refine>` component is the entry point of a **refine** app. It is where the highest level of configuration of the app occurs.
 
-[`dataProvider`](/api-reference/core/providers/data-provider.md) and [`routerProvider`](#routerprovider) are required to bootstrap the app. After adding them, [`resources`](#resources) can be added as property.
+[`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider) and [`routerProvider`](#routerprovider) are required to bootstrap the app. After adding them, [`resources`](#resources) can be added as property.
 
 ```tsx title="App.tsx"
 import { Refine } from "@pankod/refine-core";
@@ -41,11 +41,11 @@ export default App;
 <br/>
 <br/>
 
-A [`dataProvider`](/api-reference/core/providers/data-provider.md) is the place where a refine app communicates with an API.
-Data providers also act as adapters for refine, making it possible for it to consume different API's and data services.  
-A [`dataProvider`](/api-reference/core/providers/data-provider.md) makes HTTP requests and returns response data back using predefined methods.
+A [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider) is the place where a refine app communicates with an API.
+Data providers also act as adapters for refine, making it possible for it to consume different API's and data services.
+A [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider) makes HTTP requests and returns response data back using predefined methods.
 
-[Refer to the Data Provider documentation for detailed information. &#8594](/api-reference/core/providers/data-provider.md)
+[Refer to the Data Provider documentation for detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/providers/data-provider)
 :::tip
 
 To activate multiple data provider in refine, we have to pass the default key with `dataProvider` for the default data provider and we can pass other data providers with any key to the `<Refine />` component.
@@ -147,11 +147,11 @@ const PostList: React.FC<IResourceComponentsProps> = (props) => {
 }
 ```
 
-The values of `canCreate`, `canEdit`, and `canShow` are determined by whether the associated component is passed as an element to `resources` or not.  
+The values of `canCreate`, `canEdit`, and `canShow` are determined by whether the associated component is passed as an element to `resources` or not.
 `name` and `canDelete` are the values passed to the `resources`.
 
 :::tip
-This props can be get by using the [useResource](/api-reference/core/hooks/resource/useResource.md) hook.
+This props can be get by using the [useResource](/core/docs/3.xx.xx/api-reference/core/hooks/resource/useResource) hook.
 :::
 
 ### `name`
@@ -187,8 +187,8 @@ The component passed to the `list` prop will be rendered on the `/posts` route.
 
 The component passed to `create` will be rendered on the `/posts/create` route by default.
 
-> It will also be rendered on `/posts/clone/:id`. This represents namely a clone page. `id` represent a record and it will be available as a route parameter.  
-> For example [`useForm` uses this parameter to create a clone form](/api-reference/antd/hooks/form/useForm.md#clone-mode)
+> It will also be rendered on `/posts/clone/:id`. This represents namely a clone page. `id` represent a record and it will be available as a route parameter.
+> For example [`useForm` uses this parameter to create a clone form](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm#clone-mode)
 
 > `clone` from `useNavigation` can be used to navigate to a clone page.
 
@@ -205,7 +205,7 @@ The component passed to `show` will be rendered on the `/posts/show/:id` route.
 This value will be passed to all CRUD pages defined as the `resources` element.
 
 :::tip
-**refine**'s <[Edit](/api-reference/antd/components/basic-views/edit.md)> component uses `canDelete` value to whether show delete button in the edit form or not.
+**refine**'s <[Edit](/core/docs/3.xx.xx/api-reference/antd/components/basic-views/edit)> component uses `canDelete` value to whether show delete button in the edit form or not.
 :::
 
 ### `icon`
@@ -259,7 +259,7 @@ Default data provider name to use for the resource. If not specified, the defaul
 Can be used to hide a `resource` in `Sider`. This resource is also filtered in the `useMenu` hook.
 
 :::tip
-You can also pass any type of property into the options object. This property you pass can be received from the [useResource](/api-reference/core/hooks/resource/useResource.md) and [useResourceWithRoute](/api-reference/core/hooks/resource/useResourceWithRoute.md) hooks as well as the components rendered in the `list`, `create`, `edit` and `show` pages.
+You can also pass any type of property into the options object. This property you pass can be received from the [useResource](/core/docs/3.xx.xx/api-reference/core/hooks/resource/useResource) and [useResourceWithRoute](/core/docs/3.xx.xx/api-reference/core/hooks/resource/useResourceWithRoute) hooks as well as the components rendered in the `list`, `create`, `edit` and `show` pages.
 
 ```tsx
 type DataType = {
@@ -286,7 +286,7 @@ const PostList: React.FC<IResourceComponentsProps<DataType, OptionType>> = (prop
 
 `authProvider` handles authentication logic like login, logout flow, and checking user credentials. It is an object with methods that refine uses when necessary.
 
-[Refer to the Auth Provider documentation for detailed information. &#8594](/api-reference/core/providers/auth-provider.md)
+[Refer to the Auth Provider documentation for detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/providers/auth-provider)
 
 <br />
 
@@ -294,7 +294,7 @@ const PostList: React.FC<IResourceComponentsProps<DataType, OptionType>> = (prop
 
 The `i18nProvider` property lets you add i18n support to your app. Making you able to use any i18n framework.
 
-[Refer to i18n documentation for detailed information. &#8594](/api-reference/core/providers/i18n-provider.md)
+[Refer to i18n documentation for detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/providers/i18n-provider)
 
 <br />
 
@@ -302,7 +302,7 @@ The `i18nProvider` property lets you add i18n support to your app. Making you ab
 
 `accessControlProvider` is the entry point for implementing access control for **refine** apps.
 
-[Refer to access control documentation for detailed information. &#8594](/api-reference/core/providers/accessControl-provider.md)
+[Refer to access control documentation for detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/providers/accessControl-provider)
 
 <br />
 
@@ -310,7 +310,7 @@ The `i18nProvider` property lets you add i18n support to your app. Making you ab
 
 **refine** lets you add Realtime support to your app via `liveProvider`. It can be used to update and show data in Realtime throughout your app.
 
-[Refer to live provider documentation for detailed information. &#8594](/api-reference/core/providers/live-provider.md)
+[Refer to live provider documentation for detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/providers/live-provider)
 
 <br />
 
@@ -318,7 +318,7 @@ The `i18nProvider` property lets you add i18n support to your app. Making you ab
 
 `notificationProvider` handles notification logic. It is an object with methods that refine uses when necessary.
 
-[Refer to the Notification Provider documentation for detailed information. &#8594](/api-reference/core/providers/notification-provider.md)
+[Refer to the Notification Provider documentation for detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider)
 
 <br />
 
@@ -330,9 +330,9 @@ The `i18nProvider` property lets you add i18n support to your app. Making you ab
 
 Customize or disable the breadcrumb. By default it uses the Breadcrumb component from respective package.
 
-The value set in individual CRUD components ([ANTD](/docs/3.xx.xx/api-reference/antd/components/basic-views/create/#breadcrumb), [Mantine](/docs/3.xx.xx/api-reference/mantine/components/basic-views/create/#breadcrumb), [Material UI](/docs/3.xx.xx/api-reference/mui/components/basic-views/create/#breadcrumb)) will override the value set with `breadcrumb`.
+The value set in individual CRUD components ([ANTD](/core/docs/3.xx.xx/api-reference/antd/components/basic-views/create/#breadcrumb), [Mantine](/core/docs/3.xx.xx/api-reference/mantine/components/basic-views/create/#breadcrumb), [Material UI](/core/docs/3.xx.xx/api-reference/mui/components/basic-views/create/#breadcrumb)) will override the value set with `breadcrumb`.
 
-[Refer to the Breadcrumb docs for further information. &#8594](/docs/3.xx.xx/api-reference/antd/components/breadcrumb/)
+[Refer to the Breadcrumb docs for further information. &#8594](/core/docs/3.xx.xx/api-reference/antd/components/breadcrumb/)
 
 ```tsx title="App.tsx"
 import { Breadcrumb } from "@pankod/refine-antd";
@@ -405,12 +405,12 @@ const App: React.FC = () => {
 
 `undoable`: The mutation is applied locally, and redirection and UI updates are executed immediately as if the mutation is successful. Waits for a customizable amount of timeout before mutation is applied. During the timeout, mutation can be canceled from the notification with the ?undo? button. UI will revert accordingly.
 
-[Refer to the Mutation Mode docs for further information. &#8594](/advanced-tutorials/mutation-mode.md)
+[Refer to the Mutation Mode docs for further information. &#8594](/core/docs/3.xx.xx/advanced-tutorials/mutation-mode)
 
 ### `undoableTimeout`
 
-The duration of the timeout period in **undoable** mode is shown in milliseconds. Mutations can be canceled during this period. This period can also be set on the supported data hooks.  
-The value set in hooks will override the value set with `undoableTimeout`.  
+The duration of the timeout period in **undoable** mode is shown in milliseconds. Mutations can be canceled during this period. This period can also be set on the supported data hooks.
+The value set in hooks will override the value set with `undoableTimeout`.
 `undoableTimeout` has a default value of `5000`.
 
 ```tsx title="App.tsx"
@@ -459,17 +459,17 @@ The default value is `false`.
 
 Whether to update data automatically (`auto`) or not (`manual`) if a related live event is received. The `off` value is used to avoid creating a subscription.
 
-[Refer to live provider documentation for detailed information. &#8594](/api-reference/core/providers/live-provider.md#livemode)
+[Refer to live provider documentation for detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/providers/live-provider#livemode)
 
 ### `disableTelemetry`
 
 **refine** implements a simple and transparent telemetry module for collecting usage statistics defined in a very limited scope. This telemetry module is used to improve the **refine** experience. You can disable this by setting `disableTelemetry` to `true`.
 
-[Refer to refine telemetry documentation for detailed information. &#8594](/further-readings/telemetry.md)
+[Refer to refine telemetry documentation for detailed information. &#8594](/core/docs/further-readings/telemetry)
 
 ### `redirect`
 
-By default, **refine** redirects to the `list` page of the resource after a successful form mutation. To change this behaviour based on the form [action](/api-reference/core/hooks/useForm.md#actions), set `redirect` as follows:
+By default, **refine** redirects to the `list` page of the resource after a successful form mutation. To change this behaviour based on the form [action](/core/docs/3.xx.xx/api-reference/core/hooks/useForm#actions), set `redirect` as follows:
 
 ```tsx title="App.tsx"
 const App: React.FC = () => {
@@ -596,7 +596,7 @@ const App: React.FC = () => (
 
 Callback to handle all live events.
 
-[Refer to live provider documentation for detailed information. &#8594](/api-reference/core/providers/live-provider.md#refine)
+[Refer to live provider documentation for detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/providers/live-provider#refine)
 
 ## `catchAll`
 
@@ -688,7 +688,7 @@ The default sidebar can be customized by using refine hooks and passing custom c
 
 **refine** uses [Ant Design Sider](https://ant.design/components/layout/#Layout.Sider) component by default.
 
-[Refer to the `useMenu` hook documentation for detailed sidebar customization. &#8594](/api-reference/core/hooks/ui/useMenu.md)
+[Refer to the `useMenu` hook documentation for detailed sidebar customization. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/ui/useMenu)
 
 <br />
 
@@ -783,7 +783,7 @@ const App: React.FC = () => (
 );
 ```
 
-[Refer to the Custom Layout documentation for detailed information. &#8594](/advanced-tutorials/custom-layout.md)
+[Refer to the Custom Layout documentation for detailed information. &#8594](/core/docs/3.xx.xx/advanced-tutorials/custom-layout/)
 
 > `children` will be what is passed as a component for the route in a resource(list, edit..) or a custom route.
 
@@ -835,4 +835,4 @@ const App: React.FC = () => (
 
 <PropsTable module="@pankod/refine-core/Refine"/>
 
-[routerprovider]: /api-reference/core/providers/router-provider.md
+[routerprovider]: /core/docs/3.xx.xx/api-reference/core/providers/router-provider

@@ -30,6 +30,6 @@
 
 <br />
 
-### This example has been moved to [here.](https://github.com/refinedev/refine/tree/master/examples/theme-material-ui-demo)
+### This example has been moved to [here.](https://github.com/refinedev/refine/tree/main/examples/theme-material-ui-demo)
 
 </div>

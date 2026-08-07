@@ -8,17 +8,28 @@ export const ContactCreate = () => {
   const { selectProps: companySelectProps } = useSelect({
     resource: "companies",
     optionLabel: "name",
+
     meta: {
       fields: ["id", "name"],
+    },
+
+    pagination: {
+      mode: "server",
     },
   });
 
   const { selectProps: salesOwnerSelectProps } = useSelect({
     resource: "users",
+
     meta: {
       fields: ["name", "id"],
     },
+
     optionLabel: "name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

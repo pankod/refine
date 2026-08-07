@@ -15,7 +15,10 @@ import type { IPost, ITag } from "../../interfaces";
 export const PostList = () => {
   const { tableProps } = useTable<IPost>();
 
-  const { data, isLoading } = useList<ITag>({ resource: "tags" });
+  const {
+    result: data,
+    query: { isLoading },
+  } = useList<ITag>({ resource: "tags" });
 
   return (
     <List>

@@ -34,6 +34,10 @@ export const PostEdit = () => {
     defaultValue: postData?.category,
     optionLabel: "title",
     optionValue: "id",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

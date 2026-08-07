@@ -18,7 +18,6 @@ import type { ShowButtonProps } from "../types";
  */
 export const ShowButton: React.FC<ShowButtonProps> = ({
   resource: resourceNameFromProps,
-  resourceNameOrRouteName,
   recordItemId,
   hideText = false,
   accessControl,
@@ -29,20 +28,23 @@ export const ShowButton: React.FC<ShowButtonProps> = ({
   ...rest
 }) => {
   const { to, label, title, hidden, disabled, LinkComponent } = useShowButton({
-    resource: resourceNameFromProps ?? resourceNameOrRouteName,
+    resource: resourceNameFromProps,
     id: recordItemId,
     accessControl,
     meta,
   });
 
-  if (hidden) return null;
+  const isDisabled = disabled || rest.disabled;
+  const isHidden = hidden || rest.hidden;
+
+  if (isHidden) return null;
 
   return (
     <LinkComponent
       to={to}
       replace={false}
       onClick={(e: React.PointerEvent<HTMLButtonElement>) => {
-        if (disabled) {
+        if (isDisabled) {
           e.preventDefault();
           return;
         }
@@ -56,7 +58,7 @@ export const ShowButton: React.FC<ShowButtonProps> = ({
         <IconButton
           variant="outline"
           aria-label={label}
-          isDisabled={disabled}
+          isDisabled={isDisabled}
           title={title}
           data-testid={RefineButtonTestIds.ShowButton}
           className={RefineButtonClassNames.ShowButton}
@@ -67,7 +69,7 @@ export const ShowButton: React.FC<ShowButtonProps> = ({
       ) : (
         <Button
           variant="outline"
-          isDisabled={disabled}
+          isDisabled={isDisabled}
           leftIcon={<IconEye size={20} {...svgIconProps} />}
           title={title}
           data-testid={RefineButtonTestIds.ShowButton}

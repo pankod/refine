@@ -1,5 +1,8 @@
 ---
-title: Create
+title: "MUI Create Component | UI Component in Refine v5"
+display_title: "Create"
+sidebar_label: "Create"
+description: "Learn to integrate Create in Refine v5. Learn integrate hide for polished admin UIs. See practical code samples. Fast to follow."
 swizzle: true
 ---
 
@@ -8,12 +11,16 @@ swizzle: true
 We will show what `<Create>` does using properties with examples.
 
 ```tsx live hideCode url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
+
 // visible-block-start
 import React from "react";
 import { Create, useAutocomplete } from "@refinedev/mui";
 import { Autocomplete, Box, TextField } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { Controller } from "react-hook-form";
+import { Breadcrumb } from "@refinedev/mui";
+import { useState } from "react";
 
 const SampleCreate = () => {
   const {
@@ -43,7 +50,9 @@ const SampleCreate = () => {
           helperText={(errors as any)?.title?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            InputLabelProps: { shrink: true },
+          }}
           type="text"
           label="Title"
           name="title"
@@ -56,7 +65,9 @@ const SampleCreate = () => {
           helperText={(errors as any)?.content?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            InputLabelProps: { shrink: true },
+          }}
           multiline
           label="Content"
           name="content"
@@ -100,22 +111,57 @@ const SampleCreate = () => {
           )}
         />
       </Box>
+      <Breadcrumb />
     </Create>
   );
 };
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/samples/create"]}
-    resources={[{ name: "samples", create: SampleCreate, list: SampleList }]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+        {
+          name: "categories",
+          list: "/categories",
+          create: "/categories/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<SampleCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 :::simple Good to know
 
-You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-packages) to customize it.
+You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 
 :::
 
@@ -123,18 +169,19 @@ You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-
 
 ### title
 
-`title` allows the addition of titles inside the `<Create>` component. If you don't pass title props it uses "Create" prefix and singular resource name by default. For example, for the `/posts/create` resource, it would be "Create post".
+You can customize the title of the `<Create/>` component by using the `title` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
+
 // visible-block-start
 import { Create } from "@refinedev/mui";
-import { Typography } from "@mui/material";
 
-const CreatePage: React.FC = () => {
+const PostCreate: React.FC = () => {
   return (
     <Create
       // highlight-next-line
-      title={<Typography variant="h5">Custom Title</Typography>}
+      title="Custom Title"
     >
       <span>Rest of your page here</span>
     </Create>
@@ -143,93 +190,127 @@ const CreatePage: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts/create"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.CreateButton />
-          </div>
-        ),
-        create: CreatePage,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 ### resource
 
-The `<Create>` component reads the `resource` information from the route by default. If you want to use a custom resource for the `<Create>` component, you can use the `resource` prop.
+`resource` property determines which resource to use for the form. By default, it uses the resource from the route. If you want to use a different resource, you can use the `resource` property.
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/custom
-// handle initial routes in new way
-setInitialRoutes(["/custom"]);
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
 
-import { Refine } from "@refinedev/core";
-import { Layout } from "@refinedev/mui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
 // visible-block-start
 import { Create } from "@refinedev/mui";
 
-const CustomPage: React.FC = () => {
+const PostCreate: React.FC = () => {
   return (
-    /* highlight-next-line */
-    <Create resource="posts">
+    <Create
+      // highlight-next-line
+      resource="categories"
+    >
       <span>Rest of your page here</span>
     </Create>
   );
 };
 // visible-block-end
 
-const App: React.FC = () => {
-  return (
-    <Refine
-      legacyRouterProvider={{
-        ...routerProvider,
-        // highlight-start
-        routes: [
-          {
-            element: <CustomPage />,
-            path: "/custom",
-          },
-        ],
-        // highlight-end
-      }}
-      Layout={Layout}
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      resources={[{ name: "posts" }]}
-    />
-  );
-};
-
 render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+        {
+          name: "categories",
+          list: "/categories",
+          create: "/categories/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
-
-> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
 
 ### saveButtonProps
 
-The `<Create>` component has a default button that submits the form. If you want to customize this button you can use the `saveButtonProps` property like the code below:
+You can customize the save button by using the `saveButtonProps` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
+
 // visible-block-start
 import { Create } from "@refinedev/mui";
 
 const PostCreate: React.FC = () => {
   return (
-    /* highlight-next-line */
-    <Create saveButtonProps={{ size: "small" }}>
+    <Create
+      // highlight-start
+      saveButtonProps={{
+        size: "large",
+        variant: "contained",
+        color: "secondary",
+      }}
+      // highlight-end
+    >
       <span>Rest of your page here</span>
     </Create>
   );
@@ -237,66 +318,59 @@ const PostCreate: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts/create"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.CreateButton />
-          </div>
-        ),
-        create: PostCreate,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`<SaveButton>` documentation &#8594](/docs/ui-integrations/material-ui/components/buttons/save-button)
+> For more information, refer to the [`<SaveButton>` documentation &#8594](/core/docs/ui-integrations/material-ui/components/buttons/save-button/)
 
 ### goBack
 
-To customize the back button or to disable it, you can use the `goBack` property.
+`goBack` property determines whether to display a back button in the header. If you want to hide the back button, you can set `goBack` to `false`.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
-import { useNavigation } from "@refinedev/core";
-
-const RealBackButton = () => {
-  const { goBack } = useNavigation();
-
-  return <Button onClick={goBack}>BACK!</Button>;
-};
-
-const RealPostCreate: React.FC = () => {
-  return (
-    <Create
-      // highlight-next-line
-      goBack={<RealBackButton />}
-    >
-      <span>Rest of your page here</span>
-    </Create>
-  );
-};
+setInitialRoutes(["/posts/create"]);
 
 // visible-block-start
 import { Create } from "@refinedev/mui";
-import { Button } from "@mui/material";
-import { useBack } from "@refinedev/core";
-
-const BackButton = () => {
-  const goBack = useBack();
-
-  return <Button onClick={goBack}>BACK!</Button>;
-};
 
 const PostCreate: React.FC = () => {
   return (
     <Create
       // highlight-next-line
-      goBack={<BackButton />}
+      goBack={false}
     >
       <span>Rest of your page here</span>
     </Create>
@@ -305,34 +379,55 @@ const PostCreate: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/create"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.CreateButton />
-          </div>
-        ),
-        create: RealPostCreate,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 ### isLoading
 
-To toggle the loading state of the `<Create/>` component, you can use the `isLoading` property.
+To show a loading state, you can use the `isLoading` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
+
 // visible-block-start
 import { Create } from "@refinedev/mui";
+import { useState } from "react";
 
 const PostCreate: React.FC = () => {
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = useState(true);
 
   return (
     <Create
@@ -346,31 +441,52 @@ const PostCreate: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/create"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.CreateButton />
-          </div>
-        ),
-        create: PostCreate,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-### breadcrumb <GlobalConfigBadge id="core/refine-component/#breadcrumb" />
+### breadcrumb
 
-To customize or disable the breadcrumb, you can use the `breadcrumb` property. By default it uses the `Breadcrumb` component from `@refinedev/mui` package.
+To customize or disable the breadcrumb, you can use the `breadcrumb` property. By default, it uses the `Breadcrumb` component from `@refinedev/mui` package.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
+
 // visible-block-start
-import { Create, Breadcrumb } from "@refinedev/mui";
+import { Create } from "@refinedev/mui";
+import { Breadcrumb } from "@refinedev/mui";
 
 const PostCreate: React.FC = () => {
   return (
@@ -380,7 +496,7 @@ const PostCreate: React.FC = () => {
         <div
           style={{
             padding: "3px 6px",
-            border: "2px dashed cornflowerblue",
+            border: "2px dashed #888",
           }}
         >
           <Breadcrumb />
@@ -395,37 +511,55 @@ const PostCreate: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/create"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.CreateButton />
-          </div>
-        ),
-        create: PostCreate,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`Breadcrumb` documentation &#8594](/docs/ui-integrations/material-ui/components/breadcrumb)
+> For more information, refer to the [`Breadcrumb` documentation &#8594](/core/docs/ui-integrations/material-ui/components/breadcrumb/)
 
 ### wrapperProps
 
 If you want to customize the wrapper of the `<Create/>` component, you can use the `wrapperProps` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
+
 // visible-block-start
 import { Create } from "@refinedev/mui";
 
 const PostCreate: React.FC = () => {
-  const [loading, setLoading] = React.useState(true);
-
   return (
     <Create
       // highlight-start
@@ -443,21 +577,39 @@ const PostCreate: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/create"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.CreateButton />
-          </div>
-        ),
-        create: PostCreate,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -468,12 +620,12 @@ render(
 If you want to customize the header of the `<Create/>` component, you can use the `headerProps` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
+
 // visible-block-start
 import { Create } from "@refinedev/mui";
 
 const PostCreate: React.FC = () => {
-  const [loading, setLoading] = React.useState(true);
-
   return (
     <Create
       // highlight-start
@@ -491,21 +643,39 @@ const PostCreate: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/create"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.CreateButton />
-          </div>
-        ),
-        create: PostCreate,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -516,12 +686,12 @@ render(
 If you want to customize the content of the `<Create/>` component, you can use the `contentProps` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
+
 // visible-block-start
 import { Create } from "@refinedev/mui";
 
 const PostCreate: React.FC = () => {
-  const [loading, setLoading] = React.useState(true);
-
   return (
     <Create
       // highlight-start
@@ -539,21 +709,39 @@ const PostCreate: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/create"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.CreateButton />
-          </div>
-        ),
-        create: PostCreate,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -561,23 +749,32 @@ render(
 
 ### headerButtons
 
-You can customize the buttons at the header by using the `headerButtons` property. It accepts `React.ReactNode` or a render function `({ defaultButtons }) => React.ReactNode` which you can use to keep the existing buttons and add your own.
+You can customize the buttons at the header by using the `headerButtons` property. It accepts `false` or a function that returns `ReactNode`.
+
+By default, the `<Create/>` component has a `list` button in the header.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
+
 // visible-block-start
 import { Create } from "@refinedev/mui";
 import { Button } from "@mui/material";
 
 const PostCreate: React.FC = () => {
-  const [loading, setLoading] = React.useState(true);
-
   return (
     <Create
       // highlight-start
       headerButtons={({ defaultButtons }) => (
         <>
           {defaultButtons}
-          <Button type="primary">Custom Button</Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              console.log("Custom button clicked");
+            }}
+          >
+            Custom Button
+          </Button>
         </>
       )}
       // highlight-end
@@ -589,51 +786,64 @@ const PostCreate: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/create"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.CreateButton />
-          </div>
-        ),
-        create: PostCreate,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 ### headerButtonProps
 
-You can customize the wrapper element of the buttons at the header by using the `headerButtonProps` property.
+You can customize the list button at the header by using the `headerButtonProps` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
+
 // visible-block-start
 import { Create } from "@refinedev/mui";
-import { Button } from "@mui/material";
 
 const PostCreate: React.FC = () => {
-  const [loading, setLoading] = React.useState(true);
-
   return (
     <Create
       // highlight-start
       headerButtonProps={{
-        sx: {
-          backgroundColor: "lightsteelblue",
+        listButtonProps: {
+          size: "large",
+          variant: "contained",
+          color: "secondary",
         },
       }}
       // highlight-end
-      headerButtons={({ defaultButtons }) => (
-        <>
-          {defaultButtons}
-          <Button type="primary">Custom Button</Button>
-        </>
-      )}
     >
       <span>Rest of your page here</span>
     </Create>
@@ -642,99 +852,70 @@ const PostCreate: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/create"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.CreateButton />
-          </div>
-        ),
-        create: PostCreate,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`Box` documentation from Material UI &#8594](https://mui.com/material-ui/api/box/)
-
 ### footerButtons
 
-By default, the `<Create/>` component has a [`<SaveButton>`][save-button] at the header.
+You can customize the buttons at the footer by using the `footerButtons` property. It accepts `false` or a function that returns `ReactNode`.
 
-You can customize the buttons at the footer by using the `footerButtons` property. It accepts `React.ReactNode` or a render function `({ defaultButtons, saveButtonProps }) => React.ReactNode` which you can use to keep the existing buttons and add your own.
+By default, the `<Create/>` component has a `save` button at the footer.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
+
 // visible-block-start
 import { Create } from "@refinedev/mui";
 import { Button } from "@mui/material";
 
 const PostCreate: React.FC = () => {
-  const [loading, setLoading] = React.useState(true);
-
   return (
     <Create
       // highlight-start
       footerButtons={({ defaultButtons }) => (
         <>
           {defaultButtons}
-          <Button type="primary">Custom Button</Button>
-        </>
-      )}
-      // highlight-end
-    >
-      <span>Rest of your page here</span>
-    </Create>
-  );
-};
-// visible-block-end
-
-render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/create"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.CreateButton />
-          </div>
-        ),
-        create: PostCreate,
-      },
-    ]}
-  />,
-);
-```
-
-Or, instead of using the `defaultButtons`, you can create your own buttons. If you want, you can use `saveButtonProps` to utilize the default values of the [`<SaveButton>`][save-button] component.
-
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
-// visible-block-start
-import { Create, SaveButton } from "@refinedev/mui";
-import { Button } from "@mui/material";
-
-const PostCreate: React.FC = () => {
-  const [loading, setLoading] = React.useState(true);
-
-  return (
-    <Create
-      // highlight-start
-      footerButtons={({ saveButtonProps }) => (
-        <>
-          <SaveButton
-            {...saveButtonProps}
-            type="primary"
-            sx={{ marginRight: 8 }}
+          <Button
+            variant="contained"
+            onClick={() => {
+              console.log("Custom button clicked");
+            }}
           >
-            Save
-          </SaveButton>
-          <Button type="primary">Custom Button</Button>
+            Custom Button
+          </Button>
         </>
       )}
       // highlight-end
@@ -746,51 +927,64 @@ const PostCreate: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/create"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.CreateButton />
-          </div>
-        ),
-        create: PostCreate,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 ### footerButtonProps
 
-You can customize the wrapper element of the buttons at the footer by using the `footerButtonProps` property.
+You can customize the save button at the footer by using the `footerButtonProps` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
+
 // visible-block-start
 import { Create } from "@refinedev/mui";
-import { Button } from "@mui/material";
 
 const PostCreate: React.FC = () => {
-  const [loading, setLoading] = React.useState(true);
-
   return (
     <Create
       // highlight-start
       footerButtonProps={{
-        sx: {
-          backgroundColor: "lightsteelblue",
+        saveButtonProps: {
+          size: "large",
+          variant: "contained",
+          color: "secondary",
         },
       }}
       // highlight-end
-      footerButtons={({ defaultButtons }) => (
-        <>
-          {defaultButtons}
-          <Button type="primary">Custom Button</Button>
-        </>
-      )}
     >
       <span>Rest of your page here</span>
     </Create>
@@ -799,25 +993,105 @@ const PostCreate: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/create"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.CreateButton />
-          </div>
-        ),
-        create: PostCreate,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`CardActions` documentation from Material UI &#8594](https://mui.com/material-ui/api/card-actions/)
+### footerProps
+
+If you want to customize the footer of the `<Create/>` component, you can use the `footerProps` property.
+
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
+
+// visible-block-start
+import { Create } from "@refinedev/mui";
+
+const PostCreate: React.FC = () => {
+  return (
+    <Create
+      // highlight-start
+      footerProps={{
+        sx: {
+          backgroundColor: "lightsteelblue",
+        },
+      }}
+      // highlight-end
+    >
+      <span>Rest of your page here</span>
+    </Create>
+  );
+};
+// visible-block-end
+
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMui.CreateButton />
+              </div>
+            }
+          />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
+);
+```
 
 ## API Reference
 
@@ -829,14 +1103,16 @@ render(
 const SampleList = () => {
   const { dataGridProps } = RefineMui.useDataGrid();
 
-  const { data: categoryData, isLoading: categoryIsLoading } =
-    RefineCore.useMany({
-      resource: "categories",
-      ids: dataGridProps?.rows?.map((item: any) => item?.category?.id) ?? [],
-      queryOptions: {
-        enabled: !!dataGridProps?.rows,
-      },
-    });
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = RefineCore.useMany({
+    resource: "categories",
+    ids: dataGridProps?.rows?.map((item: any) => item?.category?.id) ?? [],
+    queryOptions: {
+      enabled: !!dataGridProps?.rows,
+    },
+  });
 
   const columns = React.useMemo<GridColDef<any>[]>(
     () => [
@@ -860,6 +1136,7 @@ const SampleList = () => {
           return value;
         },
         minWidth: 300,
+        display: "flex",
         renderCell: function render({ value }) {
           return categoryIsLoading ? (
             <>Loading...</>
@@ -872,6 +1149,7 @@ const SampleList = () => {
         field: "createdAt",
         headerName: "Created At",
         minWidth: 250,
+        display: "flex",
         renderCell: function render({ value }) {
           return <RefineMui.DateField value={value} />;
         },
@@ -882,22 +1160,10 @@ const SampleList = () => {
 
   return (
     <RefineMui.List>
-      <MuiXDataGrid.DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <MuiXDataGrid.DataGrid {...dataGridProps} columns={columns} />
     </RefineMui.List>
-  );
-};
-
-const Wrapper = ({ children }) => {
-  return (
-    <MuiMaterial.ThemeProvider theme={RefineMui.LightTheme}>
-      <MuiMaterial.CssBaseline />
-      <MuiMaterial.GlobalStyles
-        styles={{ html: { WebkitFontSmoothing: "auto" } }}
-      />
-      {children}
-    </MuiMaterial.ThemeProvider>
   );
 };
 ```
 
-[save-button]: /docs/ui-integrations/material-ui/components/buttons/save-button
+[save-button]: /core/docs/ui-integrations/material-ui/components/buttons/save-button

@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example tutorial-material-ui
 
 <br/>
 
-[![Open tutorial-material-ui example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/tutorial-material-ui?view=preview&theme=dark&codemirror=1)
+[![Open tutorial-material-ui example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/tutorial-material-ui?view=preview&theme=dark&codemirror=1)

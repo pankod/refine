@@ -51,13 +51,13 @@ import React from "react";
 import { useTable, HttpError, useMany } from "@refinedev/core";
 
 export const HomePage: React.FC = () => {
-    const { tableQuery } = useTable<IPost, HttpError>({
+    const { result, tableQuery } = useTable<IPost, HttpError>({
         resource: "posts",
     });
-    const posts = tableQuery?.data?.data ?? [];
+    const posts = result.data
 
     const categoryIds = posts.map((item) => item.category.id);
-    const { data: categoriesData, isLoading } = useMany<ICategory>({
+    const { result, isLoading } = useMany<ICategory>({
         resource: "categories",
         ids: categoryIds,
         queryOptions: {
@@ -89,7 +89,7 @@ export const HomePage: React.FC = () => {
                                 {isLoading ? (
                                     <div>Loading...</div>
                                 ) : (
-                                    categoriesData?.data.find(
+                                    result.data.find(
                                         (item) => item.id === post.category.id,
                                     )?.title
                                 )}

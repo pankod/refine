@@ -1,5 +1,8 @@
 ---
-title: Overview
+title: "Refine Documentation | Guides, Tutorials & API Reference in Refine v5"
+display_title: "Overview"
+sidebar_label: "Overview"
+description: "Implement Refine documentation in Refine v5. Learn the key steps. Explore guides, tutorials, and API reference for real-world React admin panels."
 slug: /
 displayed_sidebar: mainSidebar
 ---
@@ -40,9 +43,9 @@ Offering the best from both worlds, Refine mitigates all risks of “from scratc
 
 ## Overview of the Refine structure
 
-import { MUIExample } from './example/mui';
+<!-- import { MUIExample } from './example/mui'; -->
 
-<MUIExample />
+<!-- <MUIExample /> -->
 
 <br/>
 
@@ -55,13 +58,13 @@ import { MUISandpack } from './example/sandpack';
 **Refine** shines when it comes to _data-intensive_ applications like _admin panels_, _dashboards_ and _internal tools_.
 
 <a href="https://refine.dev/templates/">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/diagram-3.png" alt="Refine diagram" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/diagram-3.webp" alt="Refine diagram" />
 </a>
 
 ## Key Features
 
 - Refine Devtools - dive deeper into your app and provide useful insights
-- Connectors for **15+ backend services** including [REST API](https://github.com/refinedev/refine/tree/master/packages/simple-rest), [GraphQL](https://github.com/refinedev/refine/tree/master/packages/graphql), [NestJs CRUD](https://github.com/refinedev/refine/tree/master/packages/nestjsx-crud), [Airtable](https://github.com/refinedev/refine/tree/master/packages/airtable), [Strapi](https://github.com/refinedev/refine/tree/master/packages/strapi), [Strapi v4](https://github.com/refinedev/refine/tree/master/packages/strapi-v4), [Supabase](https://github.com/refinedev/refine/tree/master/packages/supabase), [Hasura](https://github.com/refinedev/refine/tree/master/packages/hasura), [Appwrite](https://github.com/refinedev/refine/tree/master/packages/appwrite), [Firebase](https://firebase.google.com/), [Nestjs-Query](https://github.com/refinedev/refine/tree/master/packages/nestjs-query) and [Directus](https://directus.io/).
+- Connectors for **15+ backend services** including [REST API](https://github.com/refinedev/refine/tree/main/packages/simple-rest), [GraphQL](https://github.com/refinedev/refine/tree/main/packages/graphql), [NestJs CRUD](https://github.com/refinedev/refine/tree/main/packages/nestjsx-crud), [Airtable](https://github.com/refinedev/refine/tree/main/packages/airtable), [Strapi](https://github.com/refinedev/refine/tree/main/packages/strapi), [Strapi v4](https://github.com/refinedev/refine/tree/main/packages/strapi-v4), [Supabase](https://github.com/refinedev/refine/tree/main/packages/supabase), [Hasura](https://github.com/refinedev/refine/tree/main/packages/hasura), [Appwrite](https://github.com/refinedev/refine/tree/main/packages/appwrite), [Firebase](https://firebase.google.com/), [Nestjs-Query](https://github.com/refinedev/refine/tree/main/packages/nestjs-query) and [Directus](https://directus.io/).
 - SSR support with Next.js & Remix and Advanced routing with any router library of your choice
 - Auto-generation of CRUD UIs based on your API data structure
 - Perfect state management & mutations with React Query
@@ -73,13 +76,12 @@ import { MUISandpack } from './example/sandpack';
 
 **Refine** has a very friendly community and we are always happy to help you get started:
 
-- [🌟 Apply for the Priority support program!](https://s.refine.dev/enterprise) You can apply to priority support program and receive assistance from the Refine **core** team in your **private** channel.
 - [Join the Discord community!](https://discord.gg/refine) It is the easiest way to get help and ask questions to the community.
 - [Join the GitHub Discussions](https://github.com/refinedev/refine/discussions) to ask anything about the Refine project or give feedback; we would love to hear your thoughts!
-- [Learn how to contribute to the Refine!](/docs/guides-concepts/contributing/)
+- [Learn how to contribute to the Refine!](/core/docs/guides-concepts/contributing/)
 
 ## Next Steps
 
-👉 Continue with the [Quickstart guide](/docs/getting-started/quickstart/) to setup and run your first **Refine** project.
+👉 Continue with the [Quickstart guide](/core/docs/getting-started/quickstart/) to setup and run your first **Refine** project.
 
-👉 Jump directly to the [Tutorial](/tutorial) to learn Refine by building a full-blown CRUD application.
+👉 Jump directly to the [Tutorial](/core/tutorial) to learn Refine by building a full-blown CRUD application.

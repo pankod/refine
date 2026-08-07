@@ -3,10 +3,14 @@ title: React Ecosystem in 2024 - Sustaining Popularity
 description: We'll look at the React ecosystem and the tools and libraries that have been created to support React.
 slug: react-js-ecosystem-in-2024
 authors: chidume_nnamdi
-tags: [comparison, react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-11-react-ecosystem-2024/social.png
+category: "Engineering"
+tags: [react, tech-industry]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-11-react-ecosystem-2024/social.png
 hide_table_of_contents: false
+last_update: 2025-10-01
 ---
+
+**Update (September 2025): This article has been updated to include information about React 19's release, the deprecation of Create React App, new ecosystem developments, and current best practices in the React ecosystem as of late 2025.**
 
 ### Introduction
 
@@ -17,6 +21,14 @@ React.js ecosystem boomed with it. Many tools and libraries have been built for 
 However many of the tools and libraries have been created to solve the same problems. For example, there are many routing libraries, data management libraries, and UI component libraries. It is hard to choose the right one for your project.
 
 In this article, we will look at the React ecosystem and the tools and libraries that have been created to support React.
+
+## Major Updates Since 2024
+
+The React ecosystem has undergone significant transformations since early 2024. **React 19 was officially released in December 2024**, bringing revolutionary features like Actions, Server Components, and the new `use()` API that fundamentally change how we handle data mutations and asynchronous operations. The release introduced game-changing hooks like `useActionState` and `useOptimistic` for better form handling and optimistic updates.
+
+In a major shift, **Create React App was officially deprecated in February 2025**, with the React team now strongly recommending production-ready frameworks like Next.js, Remix, and Expo for new projects. This marks the end of an era and signals the ecosystem's maturation toward full-stack, framework-first development. The deprecation reflects the reality that modern React applications require sophisticated tooling for routing, data fetching, server-side rendering, and performance optimization that frameworks provide out-of-the-box.
+
+Additionally, the **React Compiler** has moved from experimental to Release Candidate status, promising automatic optimization of React components without manual memoization. These changes represent the biggest evolution in React development practices since hooks were introduced, pushing the ecosystem toward more sophisticated, performance-oriented, and developer-friendly patterns.
 
 ## React Meta-frameworks
 
@@ -478,6 +490,41 @@ We can easily apply mocks in Jest, and generate clear and concise code coverage 
 
 Jest is used by a lot! Facebook, Twitter, the New York Times, Spotify, Airbnb, Instagram, etc.
 It is sponsored by Airbnb, 777, Prinicipla Financial Group, Katalon, Transloadit, etc. Then backed by more than 20 groups and individuals.
+
+### Vitest
+
+[Vitest](https://vitest.dev/) has emerged as a modern alternative to Jest, especially popular in the Vite ecosystem. It's designed to be fast, lightweight, and compatible with Jest's API, making migration easier for existing projects.
+
+**Key advantages of Vitest:**
+
+- **Native ESM support**: Works seamlessly with modern JavaScript modules without configuration
+- **Vite integration**: Shares the same config, plugins, and transformers as your Vite build setup
+- **Faster execution**: Significantly faster than Jest, especially for large codebases
+- **Jest compatibility**: Most Jest APIs work out of the box, making migration straightforward
+- **Built-in TypeScript support**: No additional setup required for TypeScript projects
+
+Example setup with Vitest:
+
+```bash
+npm install -D vitest
+```
+
+Configuration in `vite.config.ts`:
+
+```tsx
+import { defineConfig } from "vite";
+import { configDefaults } from "vitest/config";
+
+export default defineConfig({
+  test: {
+    environment: "jsdom", // for React component testing
+    globals: true, // enables Jest-like global APIs
+    setupFiles: "./src/test-setup.ts",
+  },
+});
+```
+
+Many modern React projects, especially those using Vite as their build tool, are migrating from Jest to Vitest for better performance and simplified configuration. The choice between Jest and Vitest often depends on your build setup—Jest remains excellent for Create React App and Webpack-based projects, while Vitest excels in Vite-based environments.
 
 ### React Testing Library
 

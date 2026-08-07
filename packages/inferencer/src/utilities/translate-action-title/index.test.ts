@@ -54,10 +54,6 @@ describe("translateActionTitle", () => {
         action: "list",
         i18n: false,
       }),
-    ).toBe(
-      prettyString(
-        toPlural(resource.label ?? resource?.meta?.label ?? resource.name),
-      ),
-    );
+    ).toBe(prettyString(toPlural(resource?.meta?.label ?? resource.name)));
   });
 });

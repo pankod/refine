@@ -8,14 +8,14 @@ export default function UsageRemix() {
       hidePreview
       showFiles
       dependencies={{
-        "@refinedev/chakra-ui": "^2.26.17",
+        "@refinedev/chakra-ui": "latest",
         "@tabler/icons-react": "^3.1.0",
-        "@refinedev/core": "^4.45.1",
-        "@refinedev/react-router-v6": "^4.5.4",
-        "@refinedev/simple-rest": "^4.5.4",
-        "@refinedev/react-table": "^5.6.4",
+        "@refinedev/core": "latest",
+        "@refinedev/react-router": "latest",
+        "@refinedev/simple-rest": "latest",
+        "@refinedev/react-table": "latest",
         "@tanstack/react-table": "^8.2.6",
-        "@refinedev/react-hook-form": "^4.8.12",
+        "@refinedev/react-hook-form": "latest",
         "@chakra-ui/react": "^2.5.1",
         "@refinedev/remix-router": "latest",
       }}
@@ -146,23 +146,23 @@ export default function App() {
 `.trim();
 
 const ProtectedTsxCode = /* jsx */ `
-import { ThemedLayoutV2 } from "@refinedev/chakra-ui";
+import { ThemedLayout } from "@refinedev/chakra-ui";
 import { Outlet } from "@remix-run/react";
 import { LoaderFunctionArgs, redirect } from "@remix-run/node";
 
 import authProvider from "../auth-provider";
 
 export default function AuthenticatedLayout() {
-    // \`<ThemedLayoutV2>\` is only applied to the authenticated users
+    // \`<ThemedLayout>\` is only applied to the authenticated users
     return (
-        <ThemedLayoutV2>
+        <ThemedLayout>
             <Outlet />
-        </ThemedLayoutV2>
+        </ThemedLayout>
     );
 }
 
 /**
- * We're checking if the current session is authenticated.
+ * We're checking if the currentPage session is authenticated.
  * If not, we're redirecting the user to the login page.
  * This is applied for all routes that are nested under this layout (_protected).
  */
@@ -189,7 +189,7 @@ export default function AuthLayout() {
 }
 
 /**
- * If the current session is authenticated, we're redirecting the user to the home page.
+ * If the currentPage session is authenticated, we're redirecting the user to the home page.
  * Alternatively, we could also use the \`Authenticated\` component inside the \`AuthLayout\` to handle the redirect.
  * But, server-side redirects are more performant.
  */
@@ -294,24 +294,24 @@ export default function ProductList() {
     );
 
     const {
-        getHeaderGroups,
-        getRowModel,
-        setOptions,
+        reactTable: { getHeaderGroups, getRowModel, setOptions },
         refineCore: {
-            setCurrent,
+            setCurrentPage,
             pageCount,
-            current,
+            currentPage,
             tableQuery: { data: tableData },
         },
     } = useTable({
         columns,
         refineCoreProps: {
-            initialSorter: [
-                {
-                    field: "id",
-                    order: "desc",
-                },
-            ],
+            sorters: {
+              initial: [
+                  {
+                      field: "id",
+                      order: "desc",
+                  },
+              ],
+            },
         },
     });
 
@@ -353,9 +353,9 @@ export default function ProductList() {
                 </Table>
             </TableContainer>
             <Pagination
-                current={current}
+                currentPage={currentPage}
                 pageCount={pageCount}
-                setCurrent={setCurrent}
+                setCurrentPage={setCurrentPage}
             />
         </List>
     );
@@ -369,8 +369,8 @@ import { Show, TextField, NumberField, MarkdownField } from "@refinedev/chakra-u
 import { Heading } from "@chakra-ui/react";
 
 export default function ProductShow() {
-  const { queryResult } = useShow();
-  const { data, isLoading } = queryResult;
+  const { query } = useShow();
+  const { data, isLoading } = query;
   const record = data?.data;
 
   return (
@@ -417,7 +417,7 @@ import { useForm } from "@refinedev/react-hook-form";
 
 export default function ProductEdit() {
   const {
-    refineCore: { formLoading, queryResult, autoSaveProps },
+    refineCore: { formLoading, query, autoSaveProps },
     saveButtonProps,
     register,
     formState: { errors },

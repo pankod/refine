@@ -41,6 +41,10 @@ export const ClientsPageEdit = () => {
     resource: "accounts",
     optionLabel: "company_name",
     optionValue: "id",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const invoices = queryResult?.data?.data?.invoices || [];

@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import * as packageUtils from "@utils/package";
 import { getInstallCommand } from "./table";
 
@@ -38,10 +39,10 @@ test("Update warning npm command", async () => {
   ];
 
   for (const testCase of testCases) {
-    jest
-      .spyOn(packageUtils, "getDependencies")
-      .mockReturnValue(testCase.dependencies);
-    jest.spyOn(packageUtils, "getScripts").mockReturnValue(testCase.scripts);
+    vi.spyOn(packageUtils, "getDependencies").mockReturnValue(
+      testCase.dependencies,
+    );
+    vi.spyOn(packageUtils, "getScripts").mockReturnValue(testCase.scripts);
 
     expect(await getInstallCommand()).toBe(testCase.output);
   }

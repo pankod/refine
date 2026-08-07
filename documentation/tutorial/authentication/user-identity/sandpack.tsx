@@ -95,7 +95,7 @@ import React from "react";
 import { useLogout, useGetIdentity } from "@refinedev/core";
 
 export const Header = () => {
-  const { mutate, isLoading } = useLogout();
+  const { mutate, isPending } = useLogout();
   const { data: identity } = useGetIdentity();
 
   return (
@@ -104,7 +104,7 @@ export const Header = () => {
         <span>Welcome, </span>
         <span>{identity?.name ?? ""}</span>
       </h2>
-      <button type="button" disabled={isLoading} onClick={mutate}>
+      <button type="button" disabled={isPending} onClick={mutate}>
         Logout
       </button>
     </>

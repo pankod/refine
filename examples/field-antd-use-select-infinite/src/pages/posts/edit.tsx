@@ -12,6 +12,7 @@ export const PostEdit = () => {
   const { selectProps: categorySelectProps } = useSelect<ICategory>({
     resource: "categories",
     defaultValue: postData?.category.id,
+
     onSearch: (value) => [
       {
         field: "title",
@@ -19,6 +20,10 @@ export const PostEdit = () => {
         value,
       },
     ],
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

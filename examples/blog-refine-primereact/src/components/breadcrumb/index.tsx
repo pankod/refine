@@ -1,5 +1,5 @@
 import { useBreadcrumb } from "@refinedev/core";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { BreadCrumb } from "primereact/breadcrumb";
 import type { MenuItem } from "primereact/menuitem";

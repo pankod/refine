@@ -34,10 +34,12 @@ export const CategoryCreate = () => {
           helperText={(errors as any)?.title?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
           type="text"
           label={translate("categories.fields.title")}
           name="title"
+          slotProps={{
+            inputLabel: { shrink: true },
+          }}
         />
         <Controller
           control={control}
@@ -67,10 +69,12 @@ export const CategoryCreate = () => {
           helperText={(errors as any)?.cover?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
           multiline
           label={translate("cover")}
           name="cover"
+          slotProps={{
+            inputLabel: { shrink: true },
+          }}
         />
       </Box>
     </Create>

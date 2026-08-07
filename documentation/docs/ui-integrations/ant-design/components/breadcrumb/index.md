@@ -1,13 +1,16 @@
 ---
-title: Breadcrumb
+title: "Ant Design Breadcrumb Component | UI Component in Refine v5"
+display_title: "Breadcrumb"
+sidebar_label: "Breadcrumb"
+description: "Integrate Breadcrumb in Refine v5. Learn best practices. Explore customization options for home for polished admin UIs. Hands-on examples included."
 swizzle: true
 ---
 
-A breadcrumb displays the current location within a hierarchy. It allows going back to states higher up in the hierarchy. The `<Breadcrumb>` component was built with Ant Design's [Breadcrumb][antd-breadcrumb] components using the [`useBreadcrumb`](/docs/core/hooks/utilities/use-breadcrumb) hook.
+A breadcrumb displays the current location within a hierarchy. It allows going back to states higher up in the hierarchy. The `<Breadcrumb>` component was built with Ant Design's [Breadcrumb][antd-breadcrumb] components using the [`useBreadcrumb`](/core/docs/core/hooks/utilities/use-breadcrumb/) hook.
 
 ```tsx live url=http://localhost:3000/posts/show/123 previewHeight=280px disableScroll
 // visible-block-start
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 import {
   ConfigProvider,
   RefineThemes,
@@ -80,6 +83,9 @@ const PostList = () => {
   return (
     <RefineAntd.List>
       <p>Content of your list page...</p>
+      <RefineAntd.ShowButton recordItemId="123" resource="posts">
+        Show Post 123
+      </RefineAntd.ShowButton>
     </RefineAntd.List>
   );
 };
@@ -87,12 +93,8 @@ const PostList = () => {
 setInitialRoutes(["/posts/show/123"]);
 
 render(
-  <ReactRouterDom.BrowserRouter>
-    <RefineCore.Refine
-      dataProvider={RefineSimpleRest.default(
-        "https://api.fake-rest.refine.dev",
-      )}
-      routerProvider={RefineReactRouterV6.default}
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
       resources={[
         {
           name: "posts",
@@ -103,19 +105,19 @@ render(
       ]}
     >
       <RefineAntd.Layout>
-        <ReactRouterDom.Routes>
-          <ReactRouterDom.Route path="/posts" element={<PostList />} />
-          <ReactRouterDom.Route path="/posts/show/:id" element={<PostShow />} />
-        </ReactRouterDom.Routes>
+        <ReactRouter.Routes>
+          <ReactRouter.Route path="/posts" element={<PostList />} />
+          <ReactRouter.Route path="/posts/show/:id" element={<PostShow />} />
+        </ReactRouter.Routes>
       </RefineAntd.Layout>
-    </RefineCore.Refine>
-  </ReactRouterDom.BrowserRouter>,
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 :::simple Good to know
 
-- You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+- You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 - In the earlier versions of Refine, `<Refine>` component had accepted `DashboardPage`, which could be used to add an index page to your app. With the changes in the `routerProvider` API of Refine however, `DashboardPage` is deprecated. You can now define an index route yourself manually by your router package.
 

@@ -459,3 +459,124 @@ nock("https://ruling-redbird-23.hasura.app:443", { encodedQueryParams: true })
       "8437d43c5966c1c6-BUD",
     ],
   );
+
+nock("https://flowing-mammal-24.hasura.app:443", { encodedQueryParams: true })
+  .post("/v1/graphql", {
+    query:
+      "mutation UpdatePost($id: uuid!, $object: posts_set_input!, $includeCategory: Boolean = false) {\n  update_posts_by_pk(pk_columns: {id: $id}, _set: $object) {\n    id\n    title\n    content\n    category_id\n    category @include(if: $includeCategory) {\n      id\n      title\n    }\n  }\n}\n",
+    variables: {
+      id: "572708c7-840d-430a-befd-1416bdee799a",
+      object: {
+        title: "Updated Title",
+        content: "Updated Content",
+        category_id: "e27156c3-9998-434f-bd5b-2b078283ff26",
+      },
+      includeCategory: true,
+    },
+    operationName: "UpdatePost",
+  })
+  .reply(
+    200,
+    {
+      data: {
+        update_posts_by_pk: {
+          id: "572708c7-840d-430a-befd-1416bdee799a",
+          title: "Updated Title",
+          content: "Updated Content",
+          category_id: "e27156c3-9998-434f-bd5b-2b078283ff26",
+          category: {
+            id: "e27156c3-9998-434f-bd5b-2b078283ff26",
+            title: "lorem1 integer tincidunt",
+          },
+        },
+      },
+    },
+    [
+      "Date",
+      "Wed, 10 Jan 2024 20:56:53 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Content-Length",
+      "274",
+      "Connection",
+      "close",
+      "x-request-id",
+      "83f68d28a0c651f19c430e2a6155ee90",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Content-Security-Policy",
+      "upgrade-insecure-requests",
+      "Referrer-Policy",
+      "strict-origin-when-cross-origin",
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options",
+      "nosniff",
+      "X-Frame-Options",
+      "SAMEORIGIN",
+      "X-XSS-Protection",
+      "0",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "8437d441abf61cf1-BUD",
+    ],
+  );
+
+nock("https://flowing-mammal-24.hasura.app:443", { encodedQueryParams: true })
+  .post("/v1/graphql", {
+    query:
+      "mutation UpdatePost($id: uuid!, $object: posts_set_input!, $includeCategory: Boolean = false) {\n  update_posts_by_pk(pk_columns: {id: $id}, _set: $object) {\n    id\n    title\n    content\n    category_id\n    category @include(if: $includeCategory) {\n      id\n      title\n    }\n  }\n}\n",
+    variables: {
+      id: "572708c7-840d-430a-befd-1416bdee799a",
+      object: {
+        title: "Updated Title",
+        content: "Updated Content",
+        category_id: "e27156c3-9998-434f-bd5b-2b078283ff26",
+      },
+    },
+    operationName: "UpdatePost",
+  })
+  .reply(
+    200,
+    {
+      data: {
+        update_posts_by_pk: {
+          id: "572708c7-840d-430a-befd-1416bdee799a",
+          title: "Updated Title",
+          content: "Updated Content",
+          category_id: "e27156c3-9998-434f-bd5b-2b078283ff26",
+        },
+      },
+    },
+    [
+      "Date",
+      "Wed, 10 Jan 2024 20:56:53 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Content-Length",
+      "274",
+      "Connection",
+      "close",
+      "x-request-id",
+      "83f68d28a0c651f19c430e2a6155ee90",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Content-Security-Policy",
+      "upgrade-insecure-requests",
+      "Referrer-Policy",
+      "strict-origin-when-cross-origin",
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options",
+      "nosniff",
+      "X-Frame-Options",
+      "SAMEORIGIN",
+      "X-XSS-Protection",
+      "0",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "8437d441abf61cf1-BUD",
+    ],
+  );

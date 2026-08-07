@@ -1,4 +1,5 @@
 import React from "react";
+import { vi } from "vitest";
 import { render, TestWrapper } from "@test";
 import * as UseTelemetryData from "../../hooks/useTelemetryData";
 
@@ -8,17 +9,17 @@ describe("Telemetry", () => {
   const originalImage = global.Image;
   const originalFetch = global.fetch;
 
-  const imageMock = jest.fn();
+  const imageMock = vi.fn();
   global.Image = imageMock;
 
-  const fetchMock = jest.fn();
+  const fetchMock = vi.fn();
   global.fetch = fetchMock;
 
   beforeEach(() => {
     global.Image = imageMock;
     global.fetch = fetchMock;
 
-    jest.spyOn(UseTelemetryData, "useTelemetryData").mockReturnValue({
+    vi.spyOn(UseTelemetryData, "useTelemetryData").mockReturnValue({
       providers: {},
       version: "1",
       resourceCount: 1,
@@ -42,8 +43,8 @@ describe("Telemetry", () => {
 
     expect(container).toBeTruthy();
 
-    expect(imageMock).toBeCalledTimes(1);
-    expect(fetchMock).not.toBeCalled();
+    expect(imageMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it("should encode payload", async () => {
@@ -55,8 +56,8 @@ describe("Telemetry", () => {
       wrapper: TestWrapper({}),
     });
 
-    expect(imageMock).toBeCalledTimes(1);
-    expect(fetchMock).not.toBeCalled();
+    expect(imageMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).not.toHaveBeenCalled();
 
     expect(imageMockInstance.src).toBe(
       "https://telemetry.refine.dev/telemetry?payload=eyJwcm92aWRlcnMiOnt9LCJ2ZXJzaW9uIjoiMSIsInJlc291cmNlQ291bnQiOjF9",
@@ -70,8 +71,8 @@ describe("Telemetry", () => {
       wrapper: TestWrapper({}),
     });
 
-    expect(imageMock).not.toBeCalled();
-    expect(fetchMock).toBeCalledTimes(1);
+    expect(imageMock).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it("should encode payload when using fetch", async () => {
@@ -81,10 +82,10 @@ describe("Telemetry", () => {
       wrapper: TestWrapper({}),
     });
 
-    expect(imageMock).not.toBeCalled();
-    expect(fetchMock).toBeCalledTimes(1);
+    expect(imageMock).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
 
-    expect(fetchMock).toBeCalledWith(
+    expect(fetchMock).toHaveBeenCalledWith(
       "https://telemetry.refine.dev/telemetry?payload=eyJwcm92aWRlcnMiOnt9LCJ2ZXJzaW9uIjoiMSIsInJlc291cmNlQ291bnQiOjF9",
     );
   });
@@ -100,8 +101,8 @@ describe("Telemetry", () => {
       wrapper: TestWrapper({}),
     });
 
-    expect(imageMock).not.toBeCalled();
-    expect(fetchMock).not.toBeCalled();
+    expect(imageMock).not.toHaveBeenCalled();
+    expect(fetchMock).not.toHaveBeenCalled();
 
     global.btoa = originalBtoa;
   });

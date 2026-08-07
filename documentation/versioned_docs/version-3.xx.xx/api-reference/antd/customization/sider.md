@@ -9,7 +9,7 @@ There are 2 ways that will allow you to customize your `<Sider />` component if 
 You can access the `logout`, `dashboard`, `items` elements and `collapsed` state that we use in our default `Sider` component by using `render` properties. Customize it to your needs or you can create a custom `<Sider />` component and use it either by passing it to [`<Refine />`][refine] or using a [Custom Layout][antdcustomlayout].
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Customize Sider by Using `render` property
@@ -99,7 +99,7 @@ You can also customize your Sider component by creating the `CustomSider` compon
 When you examine the code of the live-preview example below, you will see the same code that we used for the `default sider` component. You can create a customized `CustomSider` component for yourself by following this code.
 
 :::info-tip Swizzle
-You can also run the `swizzle` command to export the source code of the default sider component. Refer to [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli) for more information.
+You can also run the `swizzle` command to export the source code of the default sider component. Refer to [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli) for more information.
 :::
 
 ```tsx live hideCode disableScroll url=http://localhost:3000/posts
@@ -321,21 +321,21 @@ render(<App />);
 <br />
 
 :::tip
-If you want to create a multi-level menu, you can take a look at this [`multi-level menu`](/docs/3.xx.xx/examples/multi-level-menu) example and also [`here`](/docs/3.xx.xx/advanced-tutorials/multi-level-menu) is the guide.
+If you want to create a multi-level menu, you can take a look at this [`multi-level menu`](/core/docs/3.xx.xx/examples/multi-level-menu) example and also [`here`](/core/docs/3.xx.xx/advanced-tutorials/multi-level-menu) is the guide.
 :::
 
 `useLogout` provides the logout functionality.
 
 :::caution
-`useLogout` hook can only be used if the `authProvider` is provided.  
-[Refer to authProvider docs for more detailed information. &#8594](/api-reference/core/providers/auth-provider.md)  
-[Refer to useLogout docs for more detailed information. &#8594](/api-reference/core/hooks/auth/useLogout.md)
+`useLogout` hook can only be used if the `authProvider` is provided.
+[Refer to authProvider docs for more detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/providers/auth-provider)
+[Refer to useLogout docs for more detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/useLogout)
 :::
 
 :::tip
-You can further customize the Sider and its appearance.  
+You can further customize the Sider and its appearance.
 [Refer to Ant Design docs for more detailed information about Sider. &#8594](https://ant.design/components/layout/#Layout.Sider)
 :::
 
-[refine]: /api-reference/core/components/refine-config.md
-[antdcustomlayout]: /api-reference/antd/customization/layout.md
+[refine]: /core/docs/3.xx.xx/api-reference/core/components/refine-config
+[antdcustomlayout]: /core/docs/3.xx.xx/api-reference/antd/customization/layout

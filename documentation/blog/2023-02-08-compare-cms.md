@@ -3,7 +3,8 @@ title: Comparing the best headless CMS solutions
 description: We compared best headless CMS solutions -  Strapi, Hasura, and Hygraph. We'll highlight their pros and cons.
 slug: best-headless-cms
 authors: joseph_mawa
-tags: [comparison, strapi]
+category: "Alternatives"
+tags: [strapi, comparison, backend]
 image: https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-08-compare-cms%2Fsocial.png
 hide_table_of_contents: false
 ---
@@ -42,13 +43,13 @@ yarn create strapi-starter project-name next-blog
 
 Once the installation is complete, Strapi will launch the admin panel. You will have to create your admin account by filling out the form.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-08-compare-cms%2Fstrapi-login-page.png"  alt="best headless cms" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-08-compare-cms%2Fstrapi-login-page.png"  alt="Strapi admin sign-up screen" />
 
 <br />
 
 After creating your admin account, the Strapi dashboard looks like the image below. The Strapi documentation has detailed getting-started guides you can use to explore the main features of Strapi.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-08-compare-cms%2Fstrapi-dashboard.png"  alt="best headless cms" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-08-compare-cms%2Fstrapi-dashboard.png"  alt="Strapi admin dashboard" />
 
 <br />
 
@@ -64,7 +65,7 @@ yarn create strapi-app project-name --quickstart
 
 #### Refine built-in Strapi data provider
 
-A [data provider](https://refine.dev/docs/api-reference/core/providers/data-provider/#overview) is an interface a [Refine](https://refine.dev/) application uses to communicate with an API. Refine has data providers for most of the popular CMS and platforms. You can use Refine's [Strapi data provider](https://github.com/refinedev/refine/tree/master/packages/strapi-v4) to interact with your Strapi instance from a Refine application.
+A [data provider](https://refine.dev/core/docs/api-reference/core/providers/data-provider/#overview) is an interface a [Refine](https://refine.dev/) application uses to communicate with an API. Refine has data providers for most of the popular CMS and platforms. You can use Refine's [Strapi data provider](https://github.com/refinedev/refine/tree/main/packages/strapi-v4) to interact with your Strapi instance from a Refine application.
 
 You can install the Strapi data provider in a Refine application like so:
 
@@ -72,7 +73,7 @@ You can install the Strapi data provider in a Refine application like so:
 npm install @refinedev/strapi-v4
 ```
 
-The Refine documentation has comprehensive guides on [data providers](https://refine.dev/docs/api-reference/core/providers/data-provider/).
+The Refine documentation has comprehensive guides on [data providers](https://refine.dev/core/docs/api-reference/core/providers/data-provider/).
 
 #### Pros of using Strapi
 
@@ -106,7 +107,7 @@ The Hasura console doesn't provide functionality for managing content like the o
 
 Hasura cloud is the fastest way to start using Hasura. You can create an account using your email id or log in using GitHub or Google.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-08-compare-cms%2Fhasura-cloud-login-page.png"  alt="best headless cms" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-08-compare-cms%2Fhasura-cloud-login-page.png"  alt="Hasura Cloud login page" />
 
 <br />
 
@@ -116,7 +117,7 @@ After creating a database and populating it with entries, you can query, mutate,
 
 #### Refine built-in Hasura data provider
 
-As highlighted above, Refine has data providers for most CMS and platforms. You can use the [Hasura data provider](https://github.com/refinedev/refine/tree/master/packages/hasura) to communicate with your Hasura GraphQL API or REST API endpoints from a Refine application.
+As highlighted above, Refine has data providers for most CMS and platforms. You can use the [Hasura data provider](https://github.com/refinedev/refine/tree/main/packages/hasura) to communicate with your Hasura GraphQL API or REST API endpoints from a Refine application.
 
 You can install the Hasura data provider in your Refine application like so:
 
@@ -124,7 +125,7 @@ You can install the Hasura data provider in your Refine application like so:
 npm install @refinedev/hasura
 ```
 
-Check the [Refine documentation](https://refine.dev/docs/api-reference/core/providers/data-provider/) on using data providers in a Refine application.
+Check the [Refine documentation](https://refine.dev/core/docs/api-reference/core/providers/data-provider/) on using data providers in a Refine application.
 
 #### Pros of Hasura
 
@@ -154,7 +155,7 @@ Hygraph provides a generous community plan for free without even asking for a cr
 
 To start using [Hygraph](https://hygraph.com/), you need to have an account. If you haven't, create an account using your email id or log in with your Google, Facebook, or GitHub account. You can create a new project or use one of the available starter projects after setting up an account to explore Hygraph.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-08-compare-cms%2Fhygraph-login-page.png"  alt="best headless cms" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-08-compare-cms%2Fhygraph-login-page.png"  alt="Hygraph login page" />
 
 <br />
 
@@ -199,7 +200,7 @@ In this section, we will compare Hasura, Strapi, and Hygraph. The table below su
 <br/>
 <div>
 <a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="discord banner" />
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="Join Refine on Discord banner" />
 </a>
 </div>
 

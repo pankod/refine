@@ -1,11 +1,9 @@
 import React from "react";
 
 import { useUserFriendlyName } from "../../../definitions/helpers/useUserFriendlyName";
-import { useRouterType } from "../../../contexts/router/picker";
 import { useResourceParams } from "../../use-resource-params";
 import { useRefineOptions } from "../../use-refine-options";
 import { useButtonCanAccess } from "../button-can-access";
-import { useRouterContext } from "../../legacy-router";
 import { useNavigation } from "../../navigation";
 import { useTranslate } from "../../i18n";
 import { useLink } from "../../router";
@@ -44,9 +42,7 @@ export function useNavigationButton(
   props: NavigationButtonProps,
 ): NavigationButtonValues {
   const navigation = useNavigation();
-  const routerType = useRouterType();
   const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
   const translate = useTranslate();
   const getUserFriendlyName = useUserFriendlyName();
   const {
@@ -61,11 +57,12 @@ export function useNavigationButton(
   const { canAccess, title, hidden, disabled } = useButtonCanAccess({
     action: props.action,
     accessControl: props.accessControl,
+    meta: props.meta,
     id,
     resource,
   });
 
-  const LinkComponent = routerType === "legacy" ? LegacyLink : Link;
+  const LinkComponent = Link;
 
   const to = React.useMemo(() => {
     if (!resource) return "";
@@ -84,10 +81,7 @@ export function useNavigationButton(
       ? translate(
           `${identifier ?? props.resource}.titles.list`,
           getUserFriendlyName(
-            resource?.meta?.label ??
-              resource?.label ??
-              identifier ??
-              props.resource,
+            resource?.meta?.label ?? identifier ?? props.resource,
             "plural",
           ),
         )

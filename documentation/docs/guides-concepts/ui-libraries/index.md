@@ -1,5 +1,8 @@
 ---
-title: UI Libraries
+title: "UI Libraries Guide | Best Practices in Refine v5"
+display_title: "UI Libraries"
+sidebar_label: "UI Libraries"
+description: "Build UI Libraries in Refine v5. Learn the key steps. Explore integrations and these for real-world React admin panels. Real-world snippets included."
 ---
 
 Refine's UI library integrations enhance the core functionality by exposing hooks and components, offering prebuilt UI elements with minimal additional, library-specific logic. Refine offers seamless integration with popular UI libraries, allowing you to choose the one that suits your needs. These integrations don't constrain your application's logic. While they provide advantages, you can still create, extend, or mix components independently.
@@ -12,10 +15,10 @@ Refine has out of the box support for the four libraries that are widely used in
 
 These integrations are made to provide solutions for common use cases such as menus, layouts, action buttons, tables, forms and more while providing a consistent design language with the UI library. Rather than a constraint, these integrations are designed as helpers and extensions to the core functionalities of Refine and the UI libraries.
 
-- [Ant Design with `@refinedev/antd`](/docs/ui-integrations/ant-design/introduction)
-- [Material UI with `@refinedev/mui`](/docs/ui-integrations/material-ui/introduction)
-- [Chakra UI with `@refinedev/chakra-ui`](/docs/ui-integrations/chakra-ui/introduction)
-- [Mantine with `@refinedev/mantine`](/docs/ui-integrations/mantine/introduction)
+- [Ant Design with `@refinedev/antd`](/core/docs/ui-integrations/ant-design/introduction/)
+- [Material UI with `@refinedev/mui`](/core/docs/ui-integrations/material-ui/introduction/)
+- [Chakra UI with `@refinedev/chakra-ui`](/core/docs/ui-integrations/chakra-ui/introduction/)
+- [Mantine with `@refinedev/mantine`](/core/docs/ui-integrations/mantine/introduction/)
 
 ## Prebuilt Components
 
@@ -126,7 +129,7 @@ import { Refine } from "@refinedev/core";
 />
 ```
 
-[To learn more about the options, check out the `<Refine>` component documentation.](/docs/core/refine-component)
+[To learn more about the options, check out the `<Refine>` component documentation.](/core/docs/core/refine-component/)
 
 ### Using the `swizzle` command
 
@@ -155,7 +158,7 @@ Pages
 (Move up and down to reveal more choices)
 ```
 
-[To learn more about the `swizzle` command, check out the CLI documentation.](/docs/packages/list-of-packages)
+[To learn more about the `swizzle` command, check out the CLI documentation.](/core/docs/packages/list-of-packages/)
 
 > While `swizzle` provides a way to customize the components, it's a one time operation and it may be hard to maintain the changes and keep track of the new features in the future. Swizzling a component will detach it from the related package and it will be your responsibility to keep it up to date.
 

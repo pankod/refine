@@ -1,6 +1,8 @@
 ---
 id: advanced-react-table
-title: Advanced Tables with Mantine
+title: "Advanced React Table Example | Pagination in Refine v5: Mantine"
+display_title: "Advanced Tables with Mantine"
+description: "Set up Advanced React Table in Refine v5. Learn best practices. Learn provider for real-world React admin panels. Hands-on examples included."
 sidebar_label: Advanced Table
 example-title: Advanced React Table with Mantine
 example-tags: [table, mantine, react-table]

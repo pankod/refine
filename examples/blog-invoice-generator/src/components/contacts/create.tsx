@@ -24,6 +24,10 @@ export const CreateContact: React.FC<CreateContactProps> = ({
     resource: "clients",
     optionValue: "id",
     optionLabel: "name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

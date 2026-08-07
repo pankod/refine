@@ -3,8 +3,9 @@ title: Docker Alternatives
 description: We'll discuss top alternatives of Docker walking your through their pros and cons and how they compare to Docker.
 slug: docker-alternatives
 authors: muhammad_khabbab
-tags: [kubernetes, docker]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-05-docker-alternatives/social.png
+category: "Alternatives"
+tags: [docker, comparison]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-05-docker-alternatives/social.png
 hide_table_of_contents: false
 ---
 
@@ -25,7 +26,7 @@ Let's start with the first alternative which is Podman.
 - **Compatibility**: Podman is compatible with the Docker CLI and Docker Compose.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-05-docker-alternatives/image1.png" alt="Docker vs podman architecture" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-05-docker-alternatives/image1.png" alt="Architecture comparison diagram of Docker and Podman" />
 </div>
 
 *https://hub.alfresco.com/t5/alfresco-content-services-blog/using-podman-with-alfresco/ba-p/316257*
@@ -70,7 +71,7 @@ Remember, you need to have Podman installed on your machine to run these command
 ## **Alternative 2: LXD**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-05-docker-alternatives/lxd.png" alt="Docker alternatives" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-05-docker-alternatives/lxd.png" alt="LXD system container manager diagram" />
 </div>
 
 ### Overview and Core Features
@@ -117,7 +118,7 @@ This will create a new Ubuntu 18.04 container named “mycontainer” and then l
 ## Alternative 3: Containerd
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-05-docker-alternatives/containerd.png" alt="Docker alternatives" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-05-docker-alternatives/containerd.png" alt="Containerd runtime architecture diagram" />
 </div>
 
 ### Introduction and Key Features
@@ -131,7 +132,7 @@ Containerd, part of the Docker, is an industry-standard container runtime. It’
 **Strong Reliability:** Containerd is built to withstand heavy use and is perfect for deployments of several containers at once.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-05-docker-alternatives/image2.png" alt="Docker vs containerd architecture" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-05-docker-alternatives/image2.png" alt="Docker vs Containerd architecture comparison" />
 </div>
 
 ### Advantages
@@ -213,7 +214,7 @@ This will build the Dockerfile in the current directory with Buildkit, creating 
 ## Alternative 5: Buildah
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-05-docker-alternatives/buildah.png" alt="Docker alternatives" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-05-docker-alternatives/buildah.png" alt="Buildah tool logo and branding" />
 </div>
 
 ### **Overview and Core Features**

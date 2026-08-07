@@ -15,7 +15,7 @@ describe("getList", () => {
       }>({
         resource: "blog_posts",
         pagination: {
-          current: 2,
+          currentPage: 2,
           pageSize: 5,
           mode: "server",
         },
@@ -122,7 +122,7 @@ describe("getList", () => {
               fields: ["id"],
             },
             pagination: {
-              current: 2,
+              currentPage: 2,
               mode: "server",
               pageSize: 10,
             },

@@ -1,21 +1,21 @@
 ---
 title: useCustomMutation
 siderbar_label: useCustomMutation
-source: packages/core/src/hooks/data/useCustomMutation.ts
+source: packages/core/src/data/hooks/useCustomMutation.ts
 ---
 
 `useCustomMutation` is an extended version of TanStack Query's [`useMutation`](https://tanstack.com/query/v4/docs/react/reference/useMutation). It supports all the features of `useMutation` and adds some extra features.
 
-- It uses the `custom` method as the **mutation function** from the [`dataProvider`](/docs/3.xx.xx/api-reference/core/providers/data-provider/) which is passed to `<Refine>`.
+- It uses the `custom` method as the **mutation function** from the [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider/) which is passed to `<Refine>`.
 
 It is useful when you want to send a custom mutation request using the TanStack Query advantages.
 
 :::danger attention
-`useCustomMutation` should **not** be used when creating, updating, or deleting a resource. To do these; [useCreate](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/), [useUpdate](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) or [useDelete](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) hooks should be used instead.
+`useCustomMutation` should **not** be used when creating, updating, or deleting a resource. To do these; [useCreate](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/), [useUpdate](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) or [useDelete](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) hooks should be used instead.
 
 This is because `useCustomMutation`, unlike other data hooks, does not [invalidate queries](https://tanstack.com/query/latest/docs/react/guides/query-invalidation) and therefore will not update the application state either.
 
-If you need to custom query request, use the [useCustom](/docs/3.xx.xx/api-reference/core/hooks/data/useCustomMutation/) hook.
+If you need to custom query request, use the [useCustom](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCustomMutation/) hook.
 :::
 
 ## Basic Usage
@@ -146,7 +146,7 @@ mutate({
 
 ### `successNotification`
 
-> [`NotificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
 
 After data is fetched successfully, `useCustomMutation` can call `open` function from `NotificationProvider` to show a success notification. With this prop, you can customize the success notification.
 
@@ -166,7 +166,7 @@ mutate({
 
 ### `errorNotification`
 
-> [`NotificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
 
 After data fetching is failed, `useCustomMutation` will call `open` function from `NotificationProvider` to show an error notification. With this prop, you can customize the error notification.
 
@@ -186,10 +186,10 @@ mutate({
 
 ### `metaData`
 
-[`metaData`](/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
+[`metaData`](/core/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
 
 - To pass additional information to data provider methods.
-- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
+- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/core/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
 
 In the following example, `metaData` is passed to the `custom` method from the `dataProvider` as a parameter.
 
@@ -246,25 +246,25 @@ Returns an object with TanStack Query's `useMutation` return values.
 
 ### Mutation Parameters
 
-| Property                                         | Description                                                                                        | Type                                                                                     |
-| ------------------------------------------------ | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| url <div className="required">Required</div>     | URL                                                                                                | string                                                                                   |
-| method <div className="required">Required</div>  | Method                                                                                             | `post`, `put`, `patch`, `delete`                                                         |
-| values <div className=" required">Required</div> | Values for mutation function                                                                       | `TVariables`                                                                             |
-| config                                           | The config of your request. You can send `headers` using this field.                               | { headers?: {}; }                                                                        |
-| successNotification                              | Successful mutation notification                                                                   | [`SuccessErrorNotification`](/api-reference/core/interfaces.md#successerrornotification) |
-| errorNotification                                | Unsuccessful mutation notification                                                                 | [`SuccessErrorNotification`](/api-reference/core/interfaces.md#successerrornotification) |
-| metaData                                         | Metadata query for `dataProvider`                                                                  | [`MetaDataQuery`](/api-reference/core/interfaces.md#metadataquery)                       |
-| dataProviderName                                 | If there is more than one `dataProvider`, you should use the `dataProviderName` that you will use. | `string`                                                                                 |
+| Property                                         | Description                                                                                        | Type                                                                                                    |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| url <div className="required">Required</div>     | URL                                                                                                | string                                                                                                  |
+| method <div className="required">Required</div>  | Method                                                                                             | `post`, `put`, `patch`, `delete`                                                                        |
+| values <div className=" required">Required</div> | Values for mutation function                                                                       | `TVariables`                                                                                            |
+| config                                           | The config of your request. You can send `headers` using this field.                               | { headers?: {}; }                                                                                       |
+| successNotification                              | Successful mutation notification                                                                   | [`SuccessErrorNotification`](/core/docs/3.xx.xx/api-reference/core/interfaces#successerrornotification) |
+| errorNotification                                | Unsuccessful mutation notification                                                                 | [`SuccessErrorNotification`](/core/docs/3.xx.xx/api-reference/core/interfaces#successerrornotification) |
+| metaData                                         | Metadata query for `dataProvider`                                                                  | [`MetaDataQuery`](/core/docs/3.xx.xx/api-reference/core/interfaces#metadataquery)                       |
+| dataProviderName                                 | If there is more than one `dataProvider`, you should use the `dataProviderName` that you will use. | `string`                                                                                                |
 
 ### Type Parameters
 
-| Property | Desription                                                                                     | Type                                                         | Default                                                      |
-| -------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| TData    | Result data of the query. Extends [`BaseRecord`](/api-reference/core/interfaces.md#baserecord) | [`BaseRecord`](/api-reference/core/interfaces.md#baserecord) | [`BaseRecord`](/api-reference/core/interfaces.md#baserecord) |
-| TError   | Custom error object that extends [`HttpError`](/api-reference/core/interfaces.md#httperror)    | [`HttpError`](/api-reference/core/interfaces.md#httperror)   | [`HttpError`](/api-reference/core/interfaces.md#httperror)   |
-| TQuery   | Values for query params.                                                                       | `TQuery`                                                     | unknown                                                      |
-| TPayload | Values for params.                                                                             | `TPayload`                                                   | unknown                                                      |
+| Property | Desription                                                                                                    | Type                                                                        | Default                                                                     |
+| -------- | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| TData    | Result data of the query. Extends [`BaseRecord`](/core/docs/3.xx.xx/api-reference/core/interfaces#baserecord) | [`BaseRecord`](/core/docs/3.xx.xx/api-reference/core/interfaces#baserecord) | [`BaseRecord`](/core/docs/3.xx.xx/api-reference/core/interfaces#baserecord) |
+| TError   | Custom error object that extends [`HttpError`](/core/docs/3.xx.xx/api-reference/core/interfaces#httperror)    | [`HttpError`](/core/docs/3.xx.xx/api-reference/core/interfaces#httperror)   | [`HttpError`](/core/docs/3.xx.xx/api-reference/core/interfaces#httperror)   |
+| TQuery   | Values for query params.                                                                                      | `TQuery`                                                                    | unknown                                                                     |
+| TPayload | Values for params.                                                                                            | `TPayload`                                                                  | unknown                                                                     |
 
 ### Return value
 

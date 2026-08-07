@@ -3,12 +3,14 @@ title: React Design Patterns
 description: We'll explore React design patterns and examine how they might improve the development of React applications.
 slug: react-design-patterns
 authors: peter_osah
-tags: [dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-17-react-patterns/social-2.png
+category: "Engineering"
+tags: [react]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-17-react-patterns/social-2.png
 hide_table_of_contents: false
+last_update: 2025-07-28
 ---
 
-**This article was last updated on September 05, 2024, to add sections on Error Boundaries Pattern, Lazy Loading Components, and Memoization Patterns (Memo, useMemo, useCallback).**
+**This article was last updated on July 23, 2025, to add a section on React Server Components and their impact on data fetching patterns.**
 
 ## Introduction
 
@@ -26,7 +28,8 @@ Steps we'll cover
 - [Lazy Loading Components in React](#lazy-loading-components-in-react)
 - [Controlled inputs](#controlled-inputs)
 - [Error Boundaries Pattern in React](#error-boundaries-pattern-in-react)
-- [Manage custom components with forwardRefs](#manage-custom-components-with-fowardrefs)
+- [Manage custom components with forwardRefs](#manage-custom-components-with-forwardrefs)
+- [Data Fetching with React Server Components (RSC)](#data-fetching-with-react-server-components-rsc)
 
 ## Container and presentation patterns
 
@@ -321,7 +324,7 @@ const higherOrderComponent = Component => {
     }
 
     render() {
-      return <Component name={this.state.name {...this.props} />
+      return <Component name={this.state.name} {...this.props} />
     }
  }
 
@@ -469,21 +472,21 @@ We can create an error boundary using a class component, and define lifecycle me
 ```tsx
 class ErrorBoundary extends React.Component {
   constructor(props) {
-    super(props;
+    super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError {
+  static getDerivedStateFromError(error) {
     return { hasError: true };
   }
 
   componentDidCatch(error, errorInfo) {
-    console.log(error, errorInfo);
+    console.error("Uncaught error:", error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
-      return <h1>Something went wrong</h1>;
+      return <h1>Something went wrong.</h1>;
     }
     return this.props.children;
   }
@@ -605,6 +608,40 @@ I'd like to share some quick insights on memoization patterns in React: `React.m
    ```
 
    Here, `handleClick` is memoized, and thus it won't be re-created every render. These memoization patterns will be useful for optimal performance during complex UI interaction and while working with large sets of data.
+
+### Data Fetching with React Server Components (RSC)
+
+A major evolution in React is the introduction of React Server Components (RSC). Unlike the traditional client-side data fetching patterns we've discussed (like using `useEffect` in a Container Component or a custom Hook), Server Components run exclusively on the server.
+
+This allows them to directly access server-side resources like databases or internal APIs without needing to expose an API endpoint to the client. This pattern simplifies data fetching, reduces the amount of JavaScript sent to the browser, and can significantly improve initial page load performance.
+
+A simple example might look like this:
+
+```jsx
+// app/some-page/page.js
+
+// This is a Server Component, so we can use async/await directly!
+async function getCharacters() {
+  const res = await fetch("https://your-internal-api/characters", {
+    cache: "no-store", // Example of fetch options
+  });
+  return res.json();
+}
+
+export default async function CharactersPage() {
+  const characters = await getCharacters();
+
+  return (
+    <ul>
+      {characters.map((char) => (
+        <li key={char.id}>{char.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+In this pattern, the data fetching and rendering happen on the server. The client receives simple HTML, resulting in a faster and more efficient user experience, especially for content-heavy pages. This pattern co-exists with client components, which still handle interactivity and state using hooks like `useState` and `useEffect`.
 
 # Conclusion
 

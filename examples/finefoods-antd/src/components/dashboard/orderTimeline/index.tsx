@@ -32,20 +32,23 @@ export const OrderTimeline = ({ height = "432px" }: Props) => {
   const { token } = theme.useToken();
   const { show } = useNavigation();
 
-  const { data, isLoading, hasNextPage, fetchNextPage } =
-    useInfiniteList<IOrder>({
-      resource: "orders",
-      sorters: [
-        {
-          field: "createdAt",
-          order: "desc",
-        },
-      ],
-      pagination: {
-        current: 1,
-        pageSize: 8,
+  const {
+    query: { isLoading, fetchNextPage },
+
+    result: { data, hasNextPage },
+  } = useInfiniteList<IOrder>({
+    resource: "orders",
+    sorters: [
+      {
+        field: "createdAt",
+        order: "desc",
       },
-    });
+    ],
+    pagination: {
+      currentPage: 1,
+      pageSize: 8,
+    },
+  });
 
   const orders = data?.pages.flatMap((page) => page.data) || [];
 

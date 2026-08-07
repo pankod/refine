@@ -13,7 +13,7 @@ export default function NotificationMantine() {
         "@emotion/react": "^11.8.2",
         "@mantine/core": "^5.10.4",
         "@mantine/hooks": "^5.10.4",
-        "@refinedev/mantine": "^2.28.21",
+        "@refinedev/mantine": "latest",
       }}
       startRoute="/"
       files={{

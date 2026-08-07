@@ -1,18 +1,18 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
 import { render, act, TestWrapper } from "@test";
 import { EditInferencer, renderer } from "../edit";
 
-xdescribe("AntdEditInferencer", () => {
+describe("AntdEditInferencer", () => {
   it("should match the snapshot", async () => {
     const Wrapper = TestWrapper({
       routerInitialEntries: ["/posts/edit/11"],
       resources: [
         {
           name: "posts",
-          list: () => <div>list</div>,
-          edit: EditInferencer,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
         {
           name: "categories",

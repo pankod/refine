@@ -259,7 +259,7 @@ export type RefineCrudEditProps<
    */
   deleteButtonProps?: TDeleteButtonProps;
   /**
-   * [Determines when mutations are executed](/advanced-tutorials/mutation-mode.md)
+   * [Determines when mutations are executed](/docs/advanced-tutorials/mutation-mode/)
    * @default `"pessimistic"`\*
    */
   mutationMode?: MutationMode;
@@ -367,6 +367,10 @@ export type RefineCrudShowProps<
    * @default If the resource has `canDelete` prop it is `true` else `false`
    */
   canDelete?: boolean;
+  /**
+   * Adds properties for `<DeleteButton />`
+   */
+  deleteButtonProps?: TDeleteButtonProps;
   /**
    * Adds a `<EditButton />`
    * @default If the resource is passed a edit component, `true` else `false`

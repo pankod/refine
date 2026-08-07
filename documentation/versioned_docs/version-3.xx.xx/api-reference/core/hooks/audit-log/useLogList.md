@@ -5,7 +5,7 @@ title: useLogList
 
 ## Overview
 
-If you need to list audit log events **refine** provides the `useLogList` hook for it, It uses the `get` method from [`auditLogProvider`](/api-reference/core/providers/audit-log-provider.md#get) under the hood.
+If you need to list audit log events **refine** provides the `useLogList` hook for it, It uses the `get` method from [`auditLogProvider`](/core/docs/3.xx.xx/api-reference/core/providers/audit-log-provider#get) under the hood.
 
 ## Usage
 
@@ -17,7 +17,7 @@ This hook can only be used if `auditLogProvider`'s `get` method is provided.
 import { useLogList } from "@pankod/refine-core";
 
 const postAuditLogResults = useLogList({
-    resource: "posts",
+  resource: "posts",
 });
 ```
 
@@ -25,21 +25,21 @@ const postAuditLogResults = useLogList({
 
 ### Properties
 
-| Property                                                                                            | Type                                                 | Default                         |
-| --------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------- |
-| <div className="required-block"><div>resource</div> <div className=" required">Required</div></div> | `string`                                             | Action that it reads from route |
-| action                                                                                              | `string`                                             |                                 |
-| author                                                                                              | `Record<string, any>`                                |                                 |
-| meta                                                                                                | `Record<string, any>`                                |                                 |
-| metaData                                                                                            | [`MetaDataQuery`](/api-reference/core/interfaces.md#metadataquery) |                                 |
-| queryOptions                                                                                        | `UseQueryOptions<TData, TError>`                     |                                 |
+| Property                                                                                            | Type                                                                              | Default                         |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------- |
+| <div className="required-block"><div>resource</div> <div className=" required">Required</div></div> | `string`                                                                          | Action that it reads from route |
+| action                                                                                              | `string`                                                                          |                                 |
+| author                                                                                              | `Record<string, any>`                                                             |                                 |
+| meta                                                                                                | `Record<string, any>`                                                             |                                 |
+| metaData                                                                                            | [`MetaDataQuery`](/core/docs/3.xx.xx/api-reference/core/interfaces#metadataquery) |                                 |
+| queryOptions                                                                                        | `UseQueryOptions<TData, TError>`                                                  |                                 |
 
 ### Type Parameters
 
-| Property | Desription                                                                       | Type                                           | Default                                        |
-| -------- | -------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
-| TData    | Result data of the query. Extends [`BaseRecord`](/api-reference/core/interfaces.md#baserecord) | [`BaseRecord`](/api-reference/core/interfaces.md#baserecord) | [`BaseRecord`](/api-reference/core/interfaces.md#baserecord) |
-| TError   | Custom error object that extends [`HttpError`](/api-reference/core/interfaces.md#httperror)    | [`HttpError`](/api-reference/core/interfaces.md#httperror)   | [`HttpError`](/api-reference/core/interfaces.md#httperror)   |
+| Property | Desription                                                                                                    | Type                                                                        | Default                                                                     |
+| -------- | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| TData    | Result data of the query. Extends [`BaseRecord`](/core/docs/3.xx.xx/api-reference/core/interfaces#baserecord) | [`BaseRecord`](/core/docs/3.xx.xx/api-reference/core/interfaces#baserecord) | [`BaseRecord`](/core/docs/3.xx.xx/api-reference/core/interfaces#baserecord) |
+| TError   | Custom error object that extends [`HttpError`](/core/docs/3.xx.xx/api-reference/core/interfaces#httperror)    | [`HttpError`](/core/docs/3.xx.xx/api-reference/core/interfaces#httperror)   | [`HttpError`](/core/docs/3.xx.xx/api-reference/core/interfaces#httperror)   |
 
 ### Return values
 

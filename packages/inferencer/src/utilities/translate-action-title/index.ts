@@ -20,9 +20,7 @@ export const translateActionTitle = (payload: {
   }
 
   if (action === "list") {
-    return prettyString(
-      toPlural(resource.label ?? resource?.meta?.label ?? resource.name),
-    );
+    return prettyString(toPlural(resource?.meta?.label ?? resource.name));
   }
 
   return `${prettyString(toSingular(resource.name))} ${prettyString(action)}`;

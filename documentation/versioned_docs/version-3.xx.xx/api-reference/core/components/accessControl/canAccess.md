@@ -35,7 +35,7 @@ const MyComponent = () => (
 
 ## Properties
 
-It's also accepts all the properties of [`useCan`](/docs/3.xx.xx/api-reference/core/hooks/accessControl/useCan/#properties).
+It's also accepts all the properties of [`useCan`](/core/docs/3.xx.xx/api-reference/core/hooks/accessControl/useCan/#properties).
 
 ### `fallback`
 
@@ -53,6 +53,6 @@ Component to render if [`useCan`][use-can] returns false. If `undefined`, it ren
 
 <PropsTable module="@pankod/refine-core/CanAccess"/>
 
-[use-can]: /docs/3.xx.xx/api-reference/core/hooks/accessControl/useCan/
-[access-control-provider]: /docs/3.xx.xx/api-reference/core/providers/accessControl-provider/
-[can]: /docs/3.xx.xx/api-reference/core/hooks/accessControl/useCan/#can
+[use-can]: /core/docs/3.xx.xx/api-reference/core/hooks/accessControl/useCan/
+[access-control-provider]: /core/docs/3.xx.xx/api-reference/core/providers/accessControl-provider/
+[can]: /core/docs/3.xx.xx/api-reference/core/hooks/accessControl/useCan/#can

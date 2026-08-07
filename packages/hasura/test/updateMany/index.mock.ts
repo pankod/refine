@@ -395,3 +395,132 @@ nock("https://ruling-redbird-23.hasura.app:443", { encodedQueryParams: true })
       "845caa0db9c0c1b9-BUD",
     ],
   );
+
+nock("https://flowing-mammal-24.hasura.app:443", { encodedQueryParams: true })
+  .post("/v1/graphql", {
+    query:
+      "mutation UpdateManyPosts($ids: [uuid!]!, $_set: posts_set_input!, $includeTitle: Boolean = false) {\n  update_posts(where: {id: {_in: $ids}}, _set: $_set) {\n    returning {\n      id\n      content\n      title @include(if: $includeTitle)\n    }\n  }\n}\n",
+    variables: {
+      ids: [
+        "85e2f56d-53e9-4d43-8099-4c7622c8e8e1",
+        "881a45fd-a5da-46f4-a045-58eeb647862f",
+      ],
+      _set: { content: "Updated Content" },
+      includeTitle: true,
+    },
+    operationName: "UpdateManyPosts",
+  })
+  .reply(
+    200,
+    {
+      data: {
+        update_posts: {
+          returning: [
+            {
+              id: "85e2f56d-53e9-4d43-8099-4c7622c8e8e1",
+              content: "Updated Content",
+              title: "Aenean ultricies non libero sit amet pellentesque",
+            },
+            {
+              id: "881a45fd-a5da-46f4-a045-58eeb647862f",
+              content: "Updated Content",
+              title: "Etiam tincidunt ex ut auctor faucibus",
+            },
+          ],
+        },
+      },
+    },
+    [
+      "Date",
+      "Mon, 15 Jan 2024 08:14:18 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Content-Length",
+      "300",
+      "Connection",
+      "close",
+      "x-request-id",
+      "7d98c24a10b32a6e7c1f5d9b8e4a2c1d",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Content-Security-Policy",
+      "upgrade-insecure-requests",
+      "Referrer-Policy",
+      "strict-origin-when-cross-origin",
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options",
+      "nosniff",
+      "X-Frame-Options",
+      "SAMEORIGIN",
+      "X-XSS-Protection",
+      "0",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "845caa12c9a1684c-BUD",
+    ],
+  );
+
+nock("https://flowing-mammal-24.hasura.app:443", { encodedQueryParams: true })
+  .post("/v1/graphql", {
+    query:
+      "mutation UpdateManyPosts($ids: [uuid!]!, $_set: posts_set_input!, $includeTitle: Boolean = false) {\n  update_posts(where: {id: {_in: $ids}}, _set: $_set) {\n    returning {\n      id\n      content\n      title @include(if: $includeTitle)\n    }\n  }\n}\n",
+    variables: {
+      ids: [
+        "85e2f56d-53e9-4d43-8099-4c7622c8e8e1",
+        "881a45fd-a5da-46f4-a045-58eeb647862f",
+      ],
+      _set: { content: "Updated Content" },
+    },
+    operationName: "UpdateManyPosts",
+  })
+  .reply(
+    200,
+    {
+      data: {
+        update_posts: {
+          returning: [
+            {
+              id: "85e2f56d-53e9-4d43-8099-4c7622c8e8e1",
+              content: "Updated Content",
+            },
+            {
+              id: "881a45fd-a5da-46f4-a045-58eeb647862f",
+              content: "Updated Content",
+            },
+          ],
+        },
+      },
+    },
+    [
+      "Date",
+      "Mon, 15 Jan 2024 08:14:19 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Content-Length",
+      "194",
+      "Connection",
+      "close",
+      "x-request-id",
+      "3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Content-Security-Policy",
+      "upgrade-insecure-requests",
+      "Referrer-Policy",
+      "strict-origin-when-cross-origin",
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options",
+      "nosniff",
+      "X-Frame-Options",
+      "SAMEORIGIN",
+      "X-XSS-Protection",
+      "0",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "845caa17bd56733a-BUD",
+    ],
+  );

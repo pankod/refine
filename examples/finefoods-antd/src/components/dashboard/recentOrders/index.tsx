@@ -14,21 +14,30 @@ export const RecentOrders: React.FC = () => {
 
   const { tableProps } = useTable<IOrder>({
     resource: "orders",
-    initialSorter: [
-      {
-        field: "createdAt",
-        order: "desc",
-      },
-    ],
-    initialPageSize: 10,
-    permanentFilter: [
-      {
-        field: "status.text",
-        operator: "eq",
-        value: "Pending",
-      },
-    ],
     syncWithLocation: false,
+
+    pagination: {
+      pageSize: 10,
+    },
+
+    filters: {
+      permanent: [
+        {
+          field: "status.text",
+          operator: "eq",
+          value: "Pending",
+        },
+      ],
+    },
+
+    sorters: {
+      initial: [
+        {
+          field: "createdAt",
+          order: "desc",
+        },
+      ],
+    },
   });
 
   const { show } = useNavigation();

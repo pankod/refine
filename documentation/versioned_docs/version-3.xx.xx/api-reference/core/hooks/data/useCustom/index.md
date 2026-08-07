@@ -1,21 +1,21 @@
 ---
 title: useCustom
 siderbar_label: useCustom
-source: packages/core/src/hooks/data/useCustom.ts
+source: packages/core/src/data/hooks/useCustom.ts
 ---
 
 `useCustom` is an extended version of TanStack Query's [`useQuery`](https://tanstack.com/query/v4/docs/react/reference/useQuery). It supports all the features of `useQuery` and adds some extra features.
 
-- It uses the `custom` method as the **query function** from the [`dataProvider`](/api-reference/core/providers/data-provider.md) which is passed to `<Refine>`.
+- It uses the `custom` method as the **query function** from the [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider) which is passed to `<Refine>`.
 
 It is useful when you want to send a custom query request using the TanStack Query advantages.
 
 :::danger attention
-`useCustom` should **not** be used when creating, updating, or deleting a resource. To do these; [useCreate](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/), [useUpdate](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) or [useDelete](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) hooks should be used instead.
+`useCustom` should **not** be used when creating, updating, or deleting a resource. To do these; [useCreate](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/), [useUpdate](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) or [useDelete](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) hooks should be used instead.
 
 This is because `useCustom`, unlike other data hooks, does not [invalidate queries](https://tanstack.com/query/latest/docs/react/guides/query-invalidation) and therefore will not update the application state either.
 
-If you need to custom mutation request, use the [useCustomMutation](/docs/3.xx.xx/api-reference/core/hooks/data/useCustomMutation/) hook.
+If you need to custom mutation request, use the [useCustomMutation](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCustomMutation/) hook.
 :::
 
 ## Basic Usage
@@ -163,10 +163,10 @@ useCustom({
 
 ### `metaData`
 
-[`metaData`](/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
+[`metaData`](/core/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
 
 - To pass additional information to data provider methods.
-- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
+- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/core/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
 
 In the following example, `metaData` is passed to the `custom` method from the `dataProvider` as a parameter.
 
@@ -211,7 +211,7 @@ useCustom({
 
 ### `successNotification`
 
-> [`NotificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
 
 After data is fetched successfully, `useCustom` can call `open` function from `NotificationProvider` to show a success notification. With this prop, you can customize the success notification.
 
@@ -229,7 +229,7 @@ useCustom({
 
 ### `errorNotification`
 
-> [`NotificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
 
 After data fetching is failed, `useCustom` will call `open` function from `NotificationProvider` to show an error notification. With this prop, you can customize the error notification.
 
@@ -253,12 +253,12 @@ useCustom({
 
 ### Type Parameters
 
-| Property | Desription                                                                                     | Type                                                         | Default                                                      |
-| -------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| TData    | Result data of the query. Extends [`BaseRecord`](/api-reference/core/interfaces.md#baserecord) | [`BaseRecord`](/api-reference/core/interfaces.md#baserecord) | [`BaseRecord`](/api-reference/core/interfaces.md#baserecord) |
-| TError   | Custom error object that extends [`HttpError`](/api-reference/core/interfaces.md#httperror)    | [`HttpError`](/api-reference/core/interfaces.md#httperror)   | [`HttpError`](/api-reference/core/interfaces.md#httperror)   |
-| TQuery   | Values for query params.                                                                       | `TQuery`                                                     | unknown                                                      |
-| TPayload | Values for params.                                                                             | `TPayload`                                                   | unknown                                                      |
+| Property | Desription                                                                                                    | Type                                                                        | Default                                                                     |
+| -------- | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| TData    | Result data of the query. Extends [`BaseRecord`](/core/docs/3.xx.xx/api-reference/core/interfaces#baserecord) | [`BaseRecord`](/core/docs/3.xx.xx/api-reference/core/interfaces#baserecord) | [`BaseRecord`](/core/docs/3.xx.xx/api-reference/core/interfaces#baserecord) |
+| TError   | Custom error object that extends [`HttpError`](/core/docs/3.xx.xx/api-reference/core/interfaces#httperror)    | [`HttpError`](/core/docs/3.xx.xx/api-reference/core/interfaces#httperror)   | [`HttpError`](/core/docs/3.xx.xx/api-reference/core/interfaces#httperror)   |
+| TQuery   | Values for query params.                                                                                      | `TQuery`                                                                    | unknown                                                                     |
+| TPayload | Values for params.                                                                                            | `TPayload`                                                                  | unknown                                                                     |
 
 ### Return value
 

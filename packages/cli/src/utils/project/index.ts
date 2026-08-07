@@ -1,4 +1,4 @@
-import { ProjectTypes, UIFrameworks } from "@definitions";
+import { ProjectTypes, UIFrameworks } from "../../definitions";
 import { getDependencies, getDevDependencies } from "@utils/package";
 
 export const getProjectType = (platform?: ProjectTypes): ProjectTypes => {

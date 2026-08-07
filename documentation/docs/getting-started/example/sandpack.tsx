@@ -63,8 +63,8 @@ import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
@@ -72,7 +72,7 @@ import {
   AuthPage,
   ErrorComponent,
   RefineSnackbarProvider,
-  ThemedLayoutV2,
+  ThemedLayout,
   useNotificationProvider,
 } from "@refinedev/mui";
 
@@ -143,9 +143,9 @@ function App() {
                     key="authenticated-inner"
                     fallback={<CatchAllNavigate to="/login" />}
                   >
-                    <ThemedLayoutV2 Header={() => <Header sticky />}>
+                    <ThemedLayout Header={() => <Header sticky />}>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >
@@ -216,11 +216,11 @@ export default App;
 `;
 
 const AuthProviderCode = `
-import type { AuthBindings } from "@refinedev/core";
+import type { AuthProvider } from "@refinedev/core";
 
 export const TOKEN_KEY = "refine-auth";
 
-export const authProvider: AuthBindings = {
+export const authProvider: AuthProvider = {
   login: async ({ username, email, password }) => {
     if ((username || email) && password) {
       localStorage.setItem(TOKEN_KEY, username);
@@ -394,7 +394,7 @@ import Typography from "@mui/material/Typography";
 import { useGetIdentity, useGetLocale, useSetLocale } from "@refinedev/core";
 import {
   HamburgerMenu,
-  type RefineThemedLayoutV2HeaderProps,
+  type RefineThemedLayoutHeaderProps,
 } from "@refinedev/mui";
 import i18n from "i18next";
 import type React from "react";
@@ -407,7 +407,7 @@ type IUser = {
   avatar: string;
 };
 
-export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
+export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
   sticky = true,
 }) => {
   const { mode, setMode } = useContext(ColorModeContext);
@@ -438,7 +438,11 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
               <Select
                 disableUnderline
                 defaultValue={currentLocale}
-                inputProps={{ "aria-label": "Without label" }}
+                slotProps={{
+                  input: {
+                    "aria-label": "Without label",
+                  },
+                }}
                 variant="standard"
                 sx={{
                   color: "inherit",
@@ -559,7 +563,11 @@ export const ProductCreate: React.FC = () => {
           helperText={<>{errors?.name?.message}</>}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           type="text"
           label={translate("products.fields.name")}
           name="name"
@@ -572,7 +580,11 @@ export const ProductCreate: React.FC = () => {
           helperText={<>{errors?.description?.message}</>}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           multiline
           label={translate("products.fields.description")}
           name="description"
@@ -587,7 +599,11 @@ export const ProductCreate: React.FC = () => {
           helperText={<>{errors?.price?.message}</>}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           type="number"
           label={translate("products.fields.price")}
           name="price"
@@ -600,7 +616,11 @@ export const ProductCreate: React.FC = () => {
           helperText={<>{errors?.material?.message}</>}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           type="text"
           label={translate("products.fields.material")}
           name="material"
@@ -684,7 +704,11 @@ export const ProductEdit = () => {
           {...register("id", { valueAsNumber: true })}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           type="number"
           label={translate("products.fields.id")}
           name="id"
@@ -698,7 +722,11 @@ export const ProductEdit = () => {
           helperText={<>{errors?.name?.message}</>}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           type="text"
           label={translate("products.fields.name")}
           name="name"
@@ -711,7 +739,11 @@ export const ProductEdit = () => {
           helperText={<>{errors?.description?.message}</>}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           multiline
           label={translate("products.fields.description")}
           name="description"
@@ -725,7 +757,11 @@ export const ProductEdit = () => {
           helperText={<>{errors?.price?.message}</>}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           type="number"
           label={translate("products.fields.price")}
           name="price"
@@ -738,7 +774,11 @@ export const ProductEdit = () => {
           helperText={<>{errors?.material?.message}</>}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           type="text"
           label={translate("products.fields.material")}
           name="material"
@@ -809,7 +849,7 @@ export const ProductList = () => {
 
   const translate = useTranslate();
 
-  const { data: categoryData, isLoading: categoryLoading } = useList({
+  const { result: { data: categories }, query: { isLoading: categoryLoading } } = useList({
     resource: "categories",
     pagination: {
       mode: "off",
@@ -833,11 +873,12 @@ export const ProductList = () => {
           const value = row?.category;
           return value;
         },
+        display: "flex",
         renderCell: function render({ value }) {
           return categoryLoading ? (
             <>{translate("loading")}</>
           ) : (
-            categoryData?.data?.find((item) => item.id === value?.id)?.title ??
+            categories?.data?.find((item) => item.id === value?.id)?.title ??
               null
           );
         },
@@ -848,6 +889,7 @@ export const ProductList = () => {
         headerName: translate("products.fields.price"),
         minWidth: 100,
         maxWidth: 150,
+        display: "flex",
         renderCell: ({ value }) => {
           return (
             <NumberField
@@ -862,6 +904,7 @@ export const ProductList = () => {
         field: "actions",
         headerName: translate("table.actions"),
         sortable: false,
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <>
@@ -876,12 +919,12 @@ export const ProductList = () => {
         minWidth: 80,
       },
     ],
-    [categoryLoading, categoryData, locale, translate],
+    [categoryLoading, categories, locale, translate],
   );
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 };
@@ -904,13 +947,12 @@ import type { Product } from "./types";
 export const ProductShow: React.FC = () => {
   const translate = useTranslate();
   const {
-    query: { data: productResult, isLoading },
+    result: product,
+    query: { isLoading },
   } = useShow<Product>();
 
-  const product = productResult?.data;
-
   const {
-    data: categoryData,
+    data: categories,
     isLoading: categoryLoading,
     isError: categoryError,
   } = useOne({
@@ -970,7 +1012,7 @@ export const ProductShow: React.FC = () => {
         {categoryError ? null : categoryLoading ? (
           <Skeleton height="20px" width="200px" />
         ) : (
-          <TextField value={categoryData?.data?.title} />
+          <TextField value={categories?.data?.title} />
         )}
       </Stack>
     </Show>
@@ -1024,7 +1066,11 @@ export const CategoryCreate: React.FC = () => {
           helperText={<>{errors?.title?.message}</>}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           type="text"
           label={translate("categories.fields.title")}
           name="title"
@@ -1064,7 +1110,11 @@ export const CategoryEdit: React.FC = () => {
           {...register("id", { valueAsNumber: true })}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           type="number"
           label={translate("categories.fields.id")}
           name="id"
@@ -1078,7 +1128,11 @@ export const CategoryEdit: React.FC = () => {
           helperText={<>{errors?.title?.message}</>}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           type="text"
           label={translate("categories.fields.title")}
           name="title"
@@ -1119,6 +1173,7 @@ export const CategoryList: React.FC = () => {
         field: "actions",
         headerName: translate("table.actions"),
         sortable: false,
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <>
@@ -1138,7 +1193,7 @@ export const CategoryList: React.FC = () => {
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 };
@@ -1164,10 +1219,9 @@ import type { Category } from "./types";
 export const CategoryShow = () => {
   const translate = useTranslate();
   const {
-    query: { data: categoryResult, isLoading },
+    result: category,
+    query: { isLoading },
   } = useShow<Category>();
-
-  const category = categoryResult?.data;
 
   return (
     <Show isLoading={isLoading}>

@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { RefineErrorPageProps } from "@refinedev/ui-types";
-import {
-  useGo,
-  useResource,
-  useRouterType,
-  useTranslate,
-  useNavigation,
-} from "@refinedev/core";
+import { useGo, useResourceParams, useTranslate } from "@refinedev/core";
 import {
   Box,
   Heading,
@@ -22,11 +16,9 @@ import { IconInfoCircle } from "@tabler/icons-react";
 export const ErrorComponent: React.FC<RefineErrorPageProps> = () => {
   const [errorMessage, setErrorMessage] = useState<string>();
   const translate = useTranslate();
-  const { push } = useNavigation();
   const go = useGo();
-  const routerType = useRouterType();
 
-  const { resource, action } = useResource();
+  const { action, resource } = useResourceParams();
 
   useEffect(() => {
     if (resource && action) {
@@ -79,11 +71,7 @@ export const ErrorComponent: React.FC<RefineErrorPageProps> = () => {
         mt={6}
         variant="outline"
         onClick={() => {
-          if (routerType === "legacy") {
-            push("/");
-          } else {
-            go({ to: "/" });
-          }
+          go({ to: "/" });
         }}
       >
         {translate("pages.error.backHome", "Back Home")}

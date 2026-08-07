@@ -5,7 +5,11 @@ import Typography from "@mui/material/Typography";
 import { AgentCard } from "components";
 
 const Agents = () => {
-  const { data, isLoading, isError } = useList({ resource: "users" });
+  const {
+    result: data,
+
+    query: { isLoading, isError },
+  } = useList({ resource: "users" });
 
   const allAgents = data?.data ?? [];
 

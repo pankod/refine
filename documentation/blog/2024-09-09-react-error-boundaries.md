@@ -3,9 +3,11 @@ title: Error Boundaries in React -  Handling Errors Gracefully
 description: We'll see how to handle errors in React using Error Boundaries and how to use the react-error-boundary library to handle errors in React.
 slug: react-error-boundaries
 authors: chidume_nnamdi
-tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-09-react-error-bounderies/social-2.png
+category: "Engineering"
+tags: [react, bugs]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-09-react-error-bounderies/social-2.png
 hide_table_of_contents: false
+last_update: 2024-09-10
 ---
 
 **This article was last updated on September 09, 2024, to add sections on Advanced Error Logging, Best Practices and Handling Asynchronous Errors in React Error Boundaries.**
@@ -15,18 +17,6 @@ hide_table_of_contents: false
 React, a popular JavaScript library for building user interfaces offers a powerful tool called Error Boundaries. These Error Boundaries serve as a safety net for React applications, allowing developers to gracefully catch and manage errors, preventing them from propagating up the component tree and causing application crashes.
 
 Developers can utilize Error Boundaries to present users with informative error messages, log error specifics to aid in debugging, and ensure the application remains resilient even in the face of unforeseen challenges. In the forthcoming sections, we will investigate the critical role of error handling and examine how React Error Boundaries can elevate the user experience by serving as a protective shield for your application.
-
-Steps we'll cover:
-
-- [What Are React Error Boundaries?](#what-are-react-error-boundaries)
-- [Basic Usage of Error Boundaries](#basic-usage-of-error-boundaries)
-- [Error Boundary Limitations](#error-boundary-limitations)
-- [Handling errors using `react-error-boundary` library](#handling-errors-using-react-error-boundary-library)
-- [How Error Boundaries are Used for Logging and Reporting Errors](#how-error-boundaries-are-used-for-logging-and-reporting-errors)
-- [Resetting your app after an Error](#resetting-your-app-after-an-error)
-- [FallbackComponent prop](#fallbackcomponent-prop)
-- [Bonus: Best Practices for Error Boundaries](#bonus-best-practices-for-error-boundaries)
-- [Dealing with Errors in Asynchronous Operations in React\*\*](#dealing-with-errors-in-asynchronous-operations-in-react)
 
 ## What Are React Error Boundaries?
 
@@ -50,7 +40,7 @@ React Error Boundary is like the `try..catch` of React. It is a React component 
 See a component tree below:
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-09-react-error-bounderies/1.jpeg"  alt="mojo framework" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-09-react-error-bounderies/1.jpeg"  alt="mojo framework" />
 </div>
 
 <br/>
@@ -60,13 +50,13 @@ See a component tree below:
 If an error occurs in `COMP V`, it will propagate up the component tree to `COMP III`, then to `COMP I`, and finally to `root`. If there is no error boundary in the component tree, the entire component tree will be corrupted, and the application will crash.
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-09-react-error-bounderies/2.jpeg"  alt="mojo framework" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-09-react-error-bounderies/2.jpeg"  alt="mojo framework" />
 </div>
 
 <br/>
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-09-react-error-bounderies/3.jpeg"  alt="mojo framework" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-09-react-error-bounderies/3.jpeg"  alt="mojo framework" />
 </div>
 
 <br/>
@@ -74,7 +64,7 @@ If an error occurs in `COMP V`, it will propagate up the component tree to `COMP
 However, if there is an error boundary in the component tree, it will catch the error and display a fallback UI instead of the component tree that crashed.
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-09-react-error-bounderies/4.jpeg"  alt="mojo framework" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-09-react-error-bounderies/4.jpeg"  alt="mojo framework" />
 </div>
 
 <br/>

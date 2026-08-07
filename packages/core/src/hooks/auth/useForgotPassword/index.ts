@@ -5,14 +5,8 @@ import {
   useMutation,
 } from "@tanstack/react-query";
 
-import { useAuthBindingsContext, useLegacyAuthContext } from "@contexts/auth";
-import {
-  useGo,
-  useKeys,
-  useNavigation,
-  useNotification,
-  useRouterType,
-} from "@hooks";
+import { useAuthProviderContext } from "@contexts/auth";
+import { useGo, useKeys, useNotification } from "@hooks";
 
 import type {
   AuthActionResponse,
@@ -22,34 +16,7 @@ import type {
 import type { RefineError } from "../../../contexts/data/types";
 import type { OpenNotificationParams } from "../../../contexts/notification/types";
 
-export type UseForgotPasswordLegacyProps<TVariables> = {
-  v3LegacyAuthProviderCompatible: true;
-  mutationOptions?: Omit<
-    UseMutationOptions<
-      TForgotPasswordData,
-      Error | RefineError,
-      TVariables,
-      unknown
-    >,
-    "mutationFn" | "onError" | "onSuccess"
-  >;
-};
-
 export type UseForgotPasswordProps<TVariables> = {
-  v3LegacyAuthProviderCompatible?: false;
-  mutationOptions?: Omit<
-    UseMutationOptions<
-      AuthActionResponse,
-      Error | RefineError,
-      TVariables,
-      unknown
-    >,
-    "mutationFn"
-  >;
-};
-
-export type UseForgotPasswordCombinedProps<TVariables> = {
-  v3LegacyAuthProviderCompatible: boolean;
   mutationOptions?: Omit<
     UseMutationOptions<
       AuthActionResponse | TForgotPasswordData,
@@ -61,13 +28,6 @@ export type UseForgotPasswordCombinedProps<TVariables> = {
   >;
 };
 
-export type UseForgotPasswordLegacyReturnType<TVariables> = UseMutationResult<
-  TForgotPasswordData,
-  Error | RefineError,
-  TVariables,
-  unknown
->;
-
 export type UseForgotPasswordReturnType<TVariables> = UseMutationResult<
   AuthActionResponse,
   Error | RefineError,
@@ -75,52 +35,22 @@ export type UseForgotPasswordReturnType<TVariables> = UseMutationResult<
   unknown
 >;
 
-export type UseForgotPasswordCombinedReturnType<TVariables> = UseMutationResult<
-  AuthActionResponse | TForgotPasswordData,
-  Error | RefineError,
-  TVariables,
-  unknown
->;
-
-export function useForgotPassword<TVariables = {}>(
-  props: UseForgotPasswordLegacyProps<TVariables>,
-): UseForgotPasswordLegacyReturnType<TVariables>;
-
-export function useForgotPassword<TVariables = {}>(
-  props?: UseForgotPasswordProps<TVariables>,
-): UseForgotPasswordReturnType<TVariables>;
-
-export function useForgotPassword<TVariables = {}>(
-  props?: UseForgotPasswordCombinedProps<TVariables>,
-): UseForgotPasswordCombinedReturnType<TVariables>;
-
 /**
  * `useForgotPassword` calls `forgotPassword` method from {@link https://refine.dev/docs/api-reference/core/providers/auth-provider `authProvider`} under the hood.
  *
  * @see {@link https://refine.dev/docs/api-reference/core/hooks/auth/useForgotPassword} for more details.
  *
- * @typeParam TData - Result data of the query
  * @typeParam TVariables - Values for mutation function. default `{}`
  *
  */
 export function useForgotPassword<TVariables = {}>({
-  v3LegacyAuthProviderCompatible,
   mutationOptions,
-}:
-  | UseForgotPasswordProps<TVariables>
-  | UseForgotPasswordLegacyProps<TVariables> = {}):
-  | UseForgotPasswordReturnType<TVariables>
-  | UseForgotPasswordLegacyReturnType<TVariables> {
-  const routerType = useRouterType();
+}: UseForgotPasswordProps<TVariables> = {}): UseForgotPasswordReturnType<TVariables> {
   const go = useGo();
-  const { replace } = useNavigation();
-  const {
-    forgotPassword: v3LegacyAuthProviderCompatibleForgotPasswordFromContext,
-  } = useLegacyAuthContext();
+  const { open, close } = useNotification();
   const { forgotPassword: forgotPasswordFromContext } =
-    useAuthBindingsContext();
-  const { close, open } = useNotification();
-  const { keys, preferLegacyKeys } = useKeys();
+    useAuthProviderContext();
+  const { keys } = useKeys();
 
   const mutation = useMutation<
     AuthActionResponse,
@@ -128,8 +58,9 @@ export function useForgotPassword<TVariables = {}>({
     TVariables,
     unknown
   >({
-    mutationKey: keys().auth().action("forgotPassword").get(preferLegacyKeys),
+    mutationKey: keys().auth().action("forgotPassword").get(),
     mutationFn: forgotPasswordFromContext,
+
     onSuccess: ({ success, redirectTo, error, successNotification }) => {
       if (success) {
         close?.("forgot-password-error");
@@ -144,59 +75,22 @@ export function useForgotPassword<TVariables = {}>({
       }
 
       if (redirectTo) {
-        if (routerType === "legacy") {
-          replace(redirectTo);
-        } else {
-          go({ to: redirectTo, type: "replace" });
-        }
+        go({ to: redirectTo, type: "replace" });
       }
     },
     onError: (error: any) => {
       open?.(buildNotification(error));
     },
-    ...(v3LegacyAuthProviderCompatible === true ? {} : mutationOptions),
+    ...mutationOptions,
     meta: {
-      ...(v3LegacyAuthProviderCompatible === true ? {} : mutationOptions?.meta),
-      ...getXRay("useForgotPassword", preferLegacyKeys),
+      ...mutationOptions?.meta,
+      ...getXRay("useForgotPassword"),
     },
   });
 
-  const v3LegacyAuthProviderCompatibleMutation = useMutation<
-    TForgotPasswordData,
-    Error | RefineError,
-    TVariables,
-    unknown
-  >({
-    mutationKey: [
-      ...keys().auth().action("forgotPassword").get(preferLegacyKeys),
-      "v3LegacyAuthProviderCompatible",
-    ],
-    mutationFn: v3LegacyAuthProviderCompatibleForgotPasswordFromContext,
-    onSuccess: (redirectPathFromAuth) => {
-      if (redirectPathFromAuth !== false) {
-        if (redirectPathFromAuth) {
-          if (routerType === "legacy") {
-            replace(redirectPathFromAuth);
-          } else {
-            go({ to: redirectPathFromAuth, type: "replace" });
-          }
-        }
-      }
-      close?.("forgot-password-error");
-    },
-    onError: (error: any) => {
-      open?.(buildNotification(error));
-    },
-    ...(v3LegacyAuthProviderCompatible ? mutationOptions : {}),
-    meta: {
-      ...(v3LegacyAuthProviderCompatible ? mutationOptions?.meta : {}),
-      ...getXRay("useForgotPassword", preferLegacyKeys),
-    },
-  });
-
-  return v3LegacyAuthProviderCompatible
-    ? v3LegacyAuthProviderCompatibleMutation
-    : mutation;
+  return {
+    ...mutation,
+  };
 }
 
 const buildNotification = (

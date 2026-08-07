@@ -1,9 +1,8 @@
 import { type PropsWithChildren, useMemo } from "react";
 import { useGo, useNavigation, useTranslate } from "@refinedev/core";
 import { CreateButton, EditButton, useDataGrid } from "@refinedev/mui";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { CourierRating, CourierStatus, RefineListView } from "../../components";
@@ -27,6 +26,7 @@ export const CourierList = ({ children }: PropsWithChildren) => {
         field: "id",
         headerName: "ID #",
         width: 64,
+        display: "flex",
         renderCell: function render({ row }) {
           return <Typography>#{row.id}</Typography>;
         },
@@ -35,6 +35,7 @@ export const CourierList = ({ children }: PropsWithChildren) => {
         field: "avatar",
         headerName: t("couriers.fields.avatar.label"),
         width: 64,
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <Avatar
@@ -65,6 +66,7 @@ export const CourierList = ({ children }: PropsWithChildren) => {
         minWidth: 156,
         flex: 1,
         headerName: t("couriers.fields.store.label"),
+        display: "flex",
         renderCell: function render({ row }) {
           return <Typography>{row.store?.title}</Typography>;
         },
@@ -115,7 +117,7 @@ export const CourierList = ({ children }: PropsWithChildren) => {
             size="medium"
             sx={{ height: "40px" }}
             onClick={() => {
-              return go({
+              go({
                 to: `${createUrl("couriers")}`,
                 query: {
                   to: pathname,
@@ -131,15 +133,11 @@ export const CourierList = ({ children }: PropsWithChildren) => {
           </CreateButton>,
         ]}
       >
-        <Paper>
-          <DataGrid
-            {...dataGridProps}
-            columns={columns}
-            sx={{}}
-            autoHeight
-            pageSizeOptions={[10, 20, 50, 100]}
-          />
-        </Paper>
+        <DataGrid
+          {...dataGridProps}
+          columns={columns}
+          pageSizeOptions={[10, 20, 50, 100]}
+        />
       </RefineListView>
       {children}
     </>

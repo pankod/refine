@@ -26,7 +26,7 @@ export const Sandpack = ({ children }: { children: React.ReactNode }) => {
 
 const AppTsxWithAuthentication = /* tsx */ `
 import { Refine, Authenticated } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 
 import {
   BrowserRouter,
@@ -34,7 +34,7 @@ import {
   Route,
   Outlet,
   Navigate,
-} from "react-router-dom";
+} from "react-router";
 
 import { dataProvider } from "./providers/data-provider";
 import { authProvider } from "./providers/auth-provider";

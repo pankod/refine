@@ -1,5 +1,5 @@
 import { DownOutlined } from "@ant-design/icons";
-import type { RefineThemedLayoutV2HeaderProps } from "@refinedev/antd";
+import type { RefineThemedLayoutHeaderProps } from "@refinedev/antd";
 import { useGetIdentity, useGetLocale, useSetLocale } from "@refinedev/core";
 import {
   Layout as AntdLayout,
@@ -25,9 +25,7 @@ type IUser = {
   avatar: string;
 };
 
-export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
-  sticky,
-}) => {
+export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({ sticky }) => {
   const { token } = useToken();
   const { i18n } = useTranslation();
   const locale = useGetLocale();

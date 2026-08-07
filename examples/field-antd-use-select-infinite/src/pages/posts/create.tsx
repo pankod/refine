@@ -10,12 +10,7 @@ export const PostCreate = () => {
 
   const { selectProps: categorySelectProps } = useSelect<ICategory>({
     resource: "categories",
-    sort: [
-      {
-        field: "title",
-        order: "asc",
-      },
-    ],
+
     onSearch: (value) => [
       {
         field: "title",
@@ -23,6 +18,17 @@ export const PostCreate = () => {
         value,
       },
     ],
+
+    sorters: [
+      {
+        field: "title",
+        order: "asc",
+      },
+    ],
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

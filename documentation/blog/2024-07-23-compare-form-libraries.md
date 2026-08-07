@@ -3,9 +3,11 @@ title: React Hook Form vs Formik - Comparing the most popular React form librari
 description: This article will compare React Hook Form and Formik by highlighting their strengths and weaknesses.
 slug: react-hook-form-vs-formik
 authors: joseph_mawa
-tags: [react-hook-form, comparison]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-01-30-compare-form-libraries/social-2.png
+category: "Alternatives"
+tags: [react, comparison]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-01-30-compare-form-libraries/social-2.png
 hide_table_of_contents: false
+last_update: 2024-07-24
 ---
 
 **This article was last updated on July 23, 2024, to add sections for Custom Validation and Accessibility Features.**
@@ -91,7 +93,7 @@ The example above is a basic illustration of React Hook Form. Do check out the R
 - It validates form fields out of the box.
 - It is in active maintenance.
 - It has an active community.
-- You can integrate React Hook Form with UI libraries like Material UI and [Refine](https://refine.dev/). With Refine, you can use the [@refinedev/react-hook-form](https://github.com/refinedev/refine/tree/master/packages/react-hook-form) adapter. You can handle forms using [`useForm`](https://refine.dev/docs/packages/documentation/react-hook-form/useForm/) hook in your Refine CRUD apps with React Hook Form.
+- You can integrate React Hook Form with UI libraries like Material UI and [Refine](https://refine.dev/). With Refine, you can use the [@refinedev/react-hook-form](https://github.com/refinedev/refine/tree/main/packages/react-hook-form) adapter. You can handle forms using [`useForm`](https://refine.dev/core/docs/packages/documentation/react-hook-form/useForm/) hook in your Refine CRUD apps with React Hook Form.
 - [Refer to article on using React Hook Form dynamic form fields with Refine](https://refine.dev/blog/dynamic-forms-in-react-hook-form/).
 
 #### Cons of React Hook Form library

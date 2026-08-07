@@ -17,7 +17,10 @@ export const BlogPostList = () => {
   const { tableProps } = useTable<IPost>();
 
   const categoryIds = tableProps?.dataSource?.flatMap((p) => p.category);
-  const { data, isFetching } = useMany<ICategory>({
+  const {
+    result: data,
+    query: { isFetching },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds || [],
     queryOptions: {

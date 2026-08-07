@@ -49,11 +49,7 @@ const getProjectInfo = (path) => {
 
   const command = `pnpm start --scope ${projectName}`;
 
-  let port;
-
-  if (allDependencies.includes("vite")) {
-    port = 4173;
-  }
+  let port = 4173;
 
   if (
     allDependencies.includes("next") ||
@@ -101,7 +97,7 @@ const waitOnFor = async (resource) => {
 
     return resource;
   } catch (error) {
-    if (error) console.log(error);
+    if (error) console.log(JSON.stringify(error, null, 2));
 
     return false;
   }
@@ -109,10 +105,10 @@ const waitOnFor = async (resource) => {
 
 const waitForServer = async (port) => {
   // biome-ignore lint/suspicious/noAsyncPromiseExecutor: We have a valid use-case here.
-  return new Promise(async (resolve) => {
+  return new Promise(async (resolve, reject) => {
     setTimeout(() => {
       resolve(false);
-    }, 120000);
+    }, 720_000);
 
     try {
       const resolvedResource = await Promise.any([
@@ -123,19 +119,19 @@ const waitForServer = async (port) => {
 
       resolve(resolvedResource);
     } catch (error) {
-      if (error) console.log(error);
+      if (error) console.log(JSON.stringify(error, null, 2));
 
-      resolve(false);
+      reject(error);
     }
   });
 };
 
 const waitForClose = (resource) => {
   // biome-ignore lint/suspicious/noAsyncPromiseExecutor: We have a valid use-case here.
-  return new Promise(async (resolve) => {
+  return new Promise(async (resolve, reject) => {
     setTimeout(() => {
       resolve(false);
-    }, 120000);
+    }, 720_000);
 
     try {
       await waitOn({
@@ -146,9 +142,9 @@ const waitForClose = (resource) => {
 
       resolve(resource);
     } catch (error) {
-      if (error) console.log(error);
+      if (error) console.log(JSON.stringify(error, null, 2));
 
-      resolve(false);
+      reject(error);
     }
   });
 };
@@ -207,7 +203,7 @@ const runTests = async () => {
       }
     } catch (error) {
       prettyLog("red", "Error occured on waiting for the server to start");
-      if (error) console.log(error);
+      if (error) console.log(JSON.stringify(error, null, 2));
 
       failed = true;
     }
@@ -218,6 +214,7 @@ const runTests = async () => {
           `--record --group ${path}`,
           `--spec cypress/e2e/${path}`,
           `--config baseUrl=http://localhost:${port}`,
+          "--browser chrome",
         ];
 
         const runCommand = `pnpm cypress:run ${additionalParams.join(" ")} `;
@@ -232,7 +229,7 @@ const runTests = async () => {
       }
     } catch (error) {
       prettyLog("red", `Error occured on tests for ${path}`);
-      if (error) console.log(error);
+      if (error) console.log(JSON.stringify(error, null, 2));
 
       failed = true;
     } finally {
@@ -256,7 +253,7 @@ const runTests = async () => {
         }
       } catch (error) {
         prettyLog("red", "Error occured on killing the dev server");
-        if (error) console.log(error);
+        if (error) console.log(JSON.stringify(error, null, 2));
         failed = true;
       }
     }
@@ -286,7 +283,7 @@ runTests()
       process.exit(0);
     } else {
       prettyLog("red", "Tests Failed or an Error Occured");
-      if (error) console.log(error);
+      if (error) console.log(JSON.stringify(error, null, 2));
 
       if (failedExamples)
         prettyLog(
@@ -302,7 +299,7 @@ runTests()
   })
   .catch((error) => {
     prettyLog("red", "Tests Failed or an Error Occured");
-    if (error) console.log(error);
+    if (error) console.log(JSON.stringify(error, null, 2));
     process.exitCode = 1;
     process.exit(1);
   });

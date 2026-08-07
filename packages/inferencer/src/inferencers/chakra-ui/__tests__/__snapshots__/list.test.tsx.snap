@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ChakraListInferencer should match the snapshot 1`] = `
+exports[`ChakraListInferencer > should match the snapshot 1`] = `
 <DocumentFragment>
   <div>
     <div
@@ -20,7 +20,47 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
         </div>
         <div
           class="css-i08qke"
-        />
+        >
+          <a
+            href="/posts/create"
+          >
+            <button
+              class="chakra-button refine-create-button css-4xx2wk"
+              title=""
+              type="button"
+            >
+              <span
+                class="chakra-button__icon css-1wh2kri"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="tabler-icon tabler-icon-square-plus "
+                  fill="none"
+                  focusable="false"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9 12h6"
+                  />
+                  <path
+                    d="M12 9v6"
+                  />
+                  <path
+                    d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"
+                  />
+                </svg>
+              </span>
+              Create
+            </button>
+          </a>
+        </div>
       </div>
       <div
         class="css-0"
@@ -70,11 +110,6 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
                 <th
                   class="css-0"
                 >
-                  User
-                </th>
-                <th
-                  class="css-0"
-                >
                   Status
                 </th>
                 <th
@@ -106,6 +141,11 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
                   class="css-0"
                 >
                   Language
+                </th>
+                <th
+                  class="css-0"
+                >
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -146,11 +186,6 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
                   class="css-0"
                 >
                   Numquam Saepe Illo
-                </td>
-                <td
-                  class="css-0"
-                >
-                  Eriberto Leannon
                 </td>
                 <td
                   class="css-0"
@@ -210,6 +245,78 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
                 >
                   2
                 </td>
+                <td
+                  class="css-0"
+                >
+                  <div
+                    class="chakra-stack css-1igwmid"
+                  >
+                    <a
+                      href="/posts/show/11"
+                    >
+                      <button
+                        aria-label="Show"
+                        class="chakra-button refine-show-button css-p7mkev"
+                        title=""
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="tabler-icon tabler-icon-eye "
+                          fill="none"
+                          focusable="false"
+                          height="20"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"
+                          />
+                          <path
+                            d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"
+                          />
+                        </svg>
+                      </button>
+                    </a>
+                    <a
+                      href="/posts/edit/11"
+                    >
+                      <button
+                        aria-label="Edit"
+                        class="chakra-button refine-edit-button css-p7mkev"
+                        title=""
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="tabler-icon tabler-icon-pencil "
+                          fill="none"
+                          focusable="false"
+                          height="20"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"
+                          />
+                          <path
+                            d="M13.5 6.5l4 4"
+                          />
+                        </svg>
+                      </button>
+                    </a>
+                  </div>
+                </td>
               </tr>
               <tr
                 class="css-0"
@@ -245,11 +352,6 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
                   class="css-0"
                 >
                   Sit Natus Voluptatibus
-                </td>
-                <td
-                  class="css-0"
-                >
-                  Tressie Reichel
                 </td>
                 <td
                   class="css-0"
@@ -314,6 +416,78 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
                 >
                   2
                 </td>
+                <td
+                  class="css-0"
+                >
+                  <div
+                    class="chakra-stack css-1igwmid"
+                  >
+                    <a
+                      href="/posts/show/21"
+                    >
+                      <button
+                        aria-label="Show"
+                        class="chakra-button refine-show-button css-p7mkev"
+                        title=""
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="tabler-icon tabler-icon-eye "
+                          fill="none"
+                          focusable="false"
+                          height="20"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"
+                          />
+                          <path
+                            d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"
+                          />
+                        </svg>
+                      </button>
+                    </a>
+                    <a
+                      href="/posts/edit/21"
+                    >
+                      <button
+                        aria-label="Edit"
+                        class="chakra-button refine-edit-button css-p7mkev"
+                        title=""
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="tabler-icon tabler-icon-pencil "
+                          fill="none"
+                          focusable="false"
+                          height="20"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"
+                          />
+                          <path
+                            d="M13.5 6.5l4 4"
+                          />
+                        </svg>
+                      </button>
+                    </a>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -340,7 +514,7 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
     style="position: sticky; bottom: 24px; padding-top: 24px; left: 0px; right: 0px; width: 100%; z-index: 10; display: flex; justify-content: center; transition: all 0.2s ease; opacity: 1; transform: translateY(0);"
   >
     <div
-      style="max-width: 1080px; padding: 20px; background-color: rgb(26, 26, 26); box-shadow: 0px 4px 16px -4px rgba(0, 0, 0, 0.5), 0px 8px 32px -8px rgba(0, 0, 0, 0.35); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; flex-direction: row; gap: 12px;"
+      style="width: calc(100% - 128px); max-width: 1080px; padding: 20px; background-color: rgb(26, 26, 26); box-shadow: 0px 4px 16px -4px rgba(0, 0, 0, 0.5), 0px 8px 32px -8px rgba(0, 0, 0, 0.35); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; flex-direction: row; gap: 12px;"
     >
       <div
         style="display: flex; align-items: flex-start; gap: 8px;"
@@ -418,7 +592,7 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
     style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index: 9999; background-color: rgba(0, 0, 0, 0.5); transition: all 0.2s ease; opacity: 0; pointer-events: none; display: flex; justify-content: center; align-items: center;"
   >
     <div
-      style="transform: scale(0) translateY(-200px); transition: all 0.25s cubic-bezier(.35,1.29,.81,1.08); transition-delay: 0.25; background-color: rgb(255, 255, 255); max-width: 640px; max-height: 720px; border-radius: 8px; padding: 16px;"
+      style="transform: scale(0) translateY(-200px); transition: all 0.25s cubic-bezier(.35,1.29,.81,1.08); transition-delay: 0.25; width: calc(100% - 64px); height: calc(100% - 64px); background-color: rgb(255, 255, 255); max-width: 640px; max-height: 720px; border-radius: 8px; padding: 16px;"
     >
       <div
         style="display: flex; flex-direction: column; height: 100%; width: 100%; gap: 16px;"
@@ -450,7 +624,7 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
           </button>
         </div>
         <div
-          style="font-size: 13px; border-radius: 8px; flex: 1; overflow: scroll; background: rgb(30, 30, 30);"
+          style="font-size: 13px; border-radius: 8px; flex: 1 1 0%; overflow: scroll; background: rgb(30, 30, 30);"
         >
           <pre
             class="prism-code language-tsx"
@@ -718,6 +892,54 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
                 class="token imports"
               >
                     usePagination
+              </span>
+              <span
+                class="token imports punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                ,
+              </span>
+              <span
+                class="token imports"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token imports"
+              >
+                    
+              </span>
+              <span
+                class="token imports maybe-class-name"
+              >
+                EditButton
+              </span>
+              <span
+                class="token imports punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                ,
+              </span>
+              <span
+                class="token imports"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token imports"
+              >
+                    
+              </span>
+              <span
+                class="token imports maybe-class-name"
+              >
+                ShowButton
               </span>
               <span
                 class="token imports punctuation"
@@ -3405,799 +3627,6 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
                 style="color: rgb(206, 145, 120);"
               >
                 "Loading..."
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ;
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                }
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                            
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                }
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                            
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                {
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                id
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token string"
-                style="color: rgb(206, 145, 120);"
-              >
-                "user"
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                header
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token string"
-                style="color: rgb(206, 145, 120);"
-              >
-                "User"
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                accessorKey
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token string"
-                style="color: rgb(206, 145, 120);"
-              >
-                "user.id"
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                
-              </span>
-              <span
-                class="token function-variable function"
-                style="color: rgb(220, 220, 170);"
-              >
-                cell
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token keyword"
-                style="color: rgb(86, 156, 214);"
-              >
-                function
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token function"
-                style="color: rgb(220, 220, 170);"
-              >
-                render
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                (
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                {
-              </span>
-              <span
-                class="token plain"
-              >
-                 getValue
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              >
-                 table 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                }
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                )
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                {
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                    
-              </span>
-              <span
-                class="token keyword"
-                style="color: rgb(86, 156, 214);"
-              >
-                const
-              </span>
-              <span
-                class="token plain"
-              >
-                 meta 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                =
-              </span>
-              <span
-                class="token plain"
-              >
-                 table
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                .
-              </span>
-              <span
-                class="token property-access"
-              >
-                options
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                .
-              </span>
-              <span
-                class="token property-access"
-              >
-                meta
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token keyword"
-                style="color: rgb(86, 156, 214);"
-              >
-                as
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                {
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                        userData
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token maybe-class-name"
-              >
-                GetManyResponse
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ;
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                    
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                }
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ;
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-                style="display: inline-block;"
-              >
-                
-
-              </span>
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                    
-              </span>
-              <span
-                class="token keyword"
-                style="color: rgb(86, 156, 214);"
-              >
-                const
-              </span>
-              <span
-                class="token plain"
-              >
-                 user 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                =
-              </span>
-              <span
-                class="token plain"
-              >
-                 meta
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                .
-              </span>
-              <span
-                class="token property-access"
-              >
-                userData
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?.
-              </span>
-              <span
-                class="token plain"
-              >
-                data
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?.
-              </span>
-              <span
-                class="token method function property-access"
-                style="color: rgb(220, 220, 170);"
-              >
-                find
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                (
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                        
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                (
-              </span>
-              <span
-                class="token plain"
-              >
-                item
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                )
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token arrow operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                =&gt;
-              </span>
-              <span
-                class="token plain"
-              >
-                 item
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                .
-              </span>
-              <span
-                class="token property-access"
-              >
-                id
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ==
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token generic-function function"
-                style="color: rgb(220, 220, 170);"
-              >
-                getValue
-              </span>
-              <span
-                class="token generic-function generic class-name operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                &lt;
-              </span>
-              <span
-                class="token generic-function generic class-name builtin"
-                style="color: rgb(86, 156, 214);"
-              >
-                any
-              </span>
-              <span
-                class="token generic-function generic class-name operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                &gt;
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                (
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                )
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                    
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                )
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ;
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-                style="display: inline-block;"
-              >
-                
-
-              </span>
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                    
-              </span>
-              <span
-                class="token keyword"
-                style="color: rgb(86, 156, 214);"
-              >
-                return
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                (
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                        user
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?.
-              </span>
-              <span
-                class="token plain"
-              >
-                firstName 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                +
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token string"
-                style="color: rgb(206, 145, 120);"
-              >
-                " "
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                +
-              </span>
-              <span
-                class="token plain"
-              >
-                 user
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?.
-              </span>
-              <span
-                class="token plain"
-              >
-                lastName 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ??
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token string"
-                style="color: rgb(206, 145, 120);"
-              >
-                "Loading..."
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                                    
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                )
               </span>
               <span
                 class="token punctuation"
@@ -7627,6 +7056,683 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
               <span
                 class="token plain"
               >
+                            
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                {
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                                id
+              </span>
+              <span
+                class="token operator"
+                style="color: rgb(212, 212, 212);"
+              >
+                :
+              </span>
+              <span
+                class="token plain"
+              >
+                 
+              </span>
+              <span
+                class="token string"
+                style="color: rgb(206, 145, 120);"
+              >
+                "actions"
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                ,
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                                accessorKey
+              </span>
+              <span
+                class="token operator"
+                style="color: rgb(212, 212, 212);"
+              >
+                :
+              </span>
+              <span
+                class="token plain"
+              >
+                 
+              </span>
+              <span
+                class="token string"
+                style="color: rgb(206, 145, 120);"
+              >
+                "id"
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                ,
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                                header
+              </span>
+              <span
+                class="token operator"
+                style="color: rgb(212, 212, 212);"
+              >
+                :
+              </span>
+              <span
+                class="token plain"
+              >
+                 
+              </span>
+              <span
+                class="token string"
+                style="color: rgb(206, 145, 120);"
+              >
+                "Actions"
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                ,
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                                
+              </span>
+              <span
+                class="token function-variable function"
+                style="color: rgb(220, 220, 170);"
+              >
+                cell
+              </span>
+              <span
+                class="token operator"
+                style="color: rgb(212, 212, 212);"
+              >
+                :
+              </span>
+              <span
+                class="token plain"
+              >
+                 
+              </span>
+              <span
+                class="token keyword"
+                style="color: rgb(86, 156, 214);"
+              >
+                function
+              </span>
+              <span
+                class="token plain"
+              >
+                 
+              </span>
+              <span
+                class="token function"
+                style="color: rgb(220, 220, 170);"
+              >
+                render
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                (
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                {
+              </span>
+              <span
+                class="token plain"
+              >
+                 getValue 
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                }
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                )
+              </span>
+              <span
+                class="token plain"
+              >
+                 
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                {
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                                    
+              </span>
+              <span
+                class="token keyword"
+                style="color: rgb(86, 156, 214);"
+              >
+                return
+              </span>
+              <span
+                class="token plain"
+              >
+                 
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                (
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                                        
+              </span>
+              <span
+                class="token tag punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                &lt;
+              </span>
+              <span
+                class="token tag class-name"
+                style="color: rgb(78, 201, 176);"
+              >
+                HStack
+              </span>
+              <span
+                class="token tag punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                &gt;
+              </span>
+              <span
+                class="token plain-text"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain-text"
+              >
+                                            
+              </span>
+              <span
+                class="token tag punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                &lt;
+              </span>
+              <span
+                class="token tag class-name"
+                style="color: rgb(78, 201, 176);"
+              >
+                ShowButton
+              </span>
+              <span
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
+              >
+                                                
+              </span>
+              <span
+                class="token tag attr-name"
+                style="color: rgb(156, 220, 254);"
+              >
+                hideText
+              </span>
+              <span
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
+              >
+                                                
+              </span>
+              <span
+                class="token tag attr-name"
+                style="color: rgb(156, 220, 254);"
+              >
+                recordItemId
+              </span>
+              <span
+                class="token tag script language-javascript script-punctuation punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                =
+              </span>
+              <span
+                class="token tag script language-javascript punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                {
+              </span>
+              <span
+                class="token tag script language-javascript function"
+                style="color: rgb(220, 220, 170);"
+              >
+                getValue
+              </span>
+              <span
+                class="token tag script language-javascript punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                (
+              </span>
+              <span
+                class="token tag script language-javascript punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                )
+              </span>
+              <span
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
+              >
+                 
+              </span>
+              <span
+                class="token tag script language-javascript keyword"
+                style="color: rgb(86, 156, 214);"
+              >
+                as
+              </span>
+              <span
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
+              >
+                 
+              </span>
+              <span
+                class="token tag script language-javascript builtin"
+                style="color: rgb(86, 156, 214);"
+              >
+                string
+              </span>
+              <span
+                class="token tag script language-javascript punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                }
+              </span>
+              <span
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
+              >
+                                            
+              </span>
+              <span
+                class="token tag punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                /&gt;
+              </span>
+              <span
+                class="token plain-text"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain-text"
+              >
+                                            
+              </span>
+              <span
+                class="token tag punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                &lt;
+              </span>
+              <span
+                class="token tag class-name"
+                style="color: rgb(78, 201, 176);"
+              >
+                EditButton
+              </span>
+              <span
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
+              >
+                                                
+              </span>
+              <span
+                class="token tag attr-name"
+                style="color: rgb(156, 220, 254);"
+              >
+                hideText
+              </span>
+              <span
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
+              >
+                                                
+              </span>
+              <span
+                class="token tag attr-name"
+                style="color: rgb(156, 220, 254);"
+              >
+                recordItemId
+              </span>
+              <span
+                class="token tag script language-javascript script-punctuation punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                =
+              </span>
+              <span
+                class="token tag script language-javascript punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                {
+              </span>
+              <span
+                class="token tag script language-javascript function"
+                style="color: rgb(220, 220, 170);"
+              >
+                getValue
+              </span>
+              <span
+                class="token tag script language-javascript punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                (
+              </span>
+              <span
+                class="token tag script language-javascript punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                )
+              </span>
+              <span
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
+              >
+                 
+              </span>
+              <span
+                class="token tag script language-javascript keyword"
+                style="color: rgb(86, 156, 214);"
+              >
+                as
+              </span>
+              <span
+                class="token tag script language-javascript"
+                style="color: rgb(78, 201, 176);"
+              >
+                 
+              </span>
+              <span
+                class="token tag script language-javascript builtin"
+                style="color: rgb(86, 156, 214);"
+              >
+                string
+              </span>
+              <span
+                class="token tag script language-javascript punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                }
+              </span>
+              <span
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token tag"
+                style="color: rgb(78, 201, 176);"
+              >
+                                            
+              </span>
+              <span
+                class="token tag punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                /&gt;
+              </span>
+              <span
+                class="token plain-text"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain-text"
+              >
+                                        
+              </span>
+              <span
+                class="token tag punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                &lt;/
+              </span>
+              <span
+                class="token tag class-name"
+                style="color: rgb(78, 201, 176);"
+              >
+                HStack
+              </span>
+              <span
+                class="token tag punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                &gt;
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                                    
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                )
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                ;
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                                
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                }
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                ,
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
+                            
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                }
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                ,
+              </span>
+              <span
+                class="token plain"
+              />
+            </div>
+            <div
+              class="token-line"
+              style="color: rgb(156, 220, 254);"
+            >
+              <span
+                class="token plain"
+              >
                         
               </span>
               <span
@@ -7750,7 +7856,29 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
               <span
                 class="token plain"
               >
-                        getHeaderGroups
+                        reactTable
+              </span>
+              <span
+                class="token operator"
+                style="color: rgb(212, 212, 212);"
+              >
+                :
+              </span>
+              <span
+                class="token plain"
+              >
+                 
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                {
+              </span>
+              <span
+                class="token plain"
+              >
+                 getHeaderGroups
               </span>
               <span
                 class="token punctuation"
@@ -7760,16 +7888,8 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
               </span>
               <span
                 class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
               >
-                        getRowModel
+                 getRowModel
               </span>
               <span
                 class="token punctuation"
@@ -7779,16 +7899,14 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
               </span>
               <span
                 class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
               >
-                        setOptions
+                 setOptions 
+              </span>
+              <span
+                class="token punctuation"
+                style="color: rgb(212, 212, 212);"
+              >
+                }
               </span>
               <span
                 class="token punctuation"
@@ -7837,7 +7955,7 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
               <span
                 class="token plain"
               >
-                            setCurrent
+                            setCurrentPage
               </span>
               <span
                 class="token punctuation"
@@ -7875,7 +7993,7 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
               <span
                 class="token plain"
               >
-                            current
+                            currentPage
               </span>
               <span
                 class="token punctuation"
@@ -7894,7 +8012,7 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
               <span
                 class="token plain"
               >
-                            tableQueryResult
+                            tableQuery
               </span>
               <span
                 class="token operator"
@@ -8114,7 +8232,7 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
               <span
                 class="token plain"
               >
-                 data
+                 result
               </span>
               <span
                 class="token operator"
@@ -8540,433 +8658,7 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
               <span
                 class="token plain"
               >
-                 data
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 userData 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                }
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                =
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token function"
-                style="color: rgb(220, 220, 170);"
-              >
-                useMany
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                (
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                {
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                        resource
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token string"
-                style="color: rgb(206, 145, 120);"
-              >
-                "users"
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                        ids
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 tableData
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?.
-              </span>
-              <span
-                class="token plain"
-              >
-                data
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?.
-              </span>
-              <span
-                class="token method function property-access"
-                style="color: rgb(220, 220, 170);"
-              >
-                map
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                (
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                (
-              </span>
-              <span
-                class="token plain"
-              >
-                item
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                )
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token arrow operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                =&gt;
-              </span>
-              <span
-                class="token plain"
-              >
-                 item
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?.
-              </span>
-              <span
-                class="token plain"
-              >
-                user
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?.
-              </span>
-              <span
-                class="token plain"
-              >
-                id
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                )
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ??
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                [
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ]
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                        queryOptions
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                {
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                            enabled
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                :
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                !
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                !
-              </span>
-              <span
-                class="token plain"
-              >
-                tableData
-              </span>
-              <span
-                class="token operator"
-                style="color: rgb(212, 212, 212);"
-              >
-                ?.
-              </span>
-              <span
-                class="token plain"
-              >
-                data
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                        
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                }
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                    
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                }
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                )
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ;
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-                style="display: inline-block;"
-              >
-                
-
-              </span>
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                    
-              </span>
-              <span
-                class="token keyword"
-                style="color: rgb(86, 156, 214);"
-              >
-                const
-              </span>
-              <span
-                class="token plain"
-              >
-                 
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                {
-              </span>
-              <span
-                class="token plain"
-              >
-                 data
+                 result
               </span>
               <span
                 class="token operator"
@@ -9590,25 +9282,6 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
                 class="token plain"
               >
                             categoryData
-              </span>
-              <span
-                class="token punctuation"
-                style="color: rgb(212, 212, 212);"
-              >
-                ,
-              </span>
-              <span
-                class="token plain"
-              />
-            </div>
-            <div
-              class="token-line"
-              style="color: rgb(156, 220, 254);"
-            >
-              <span
-                class="token plain"
-              >
-                            userData
               </span>
               <span
                 class="token punctuation"
@@ -11460,7 +11133,7 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
                 class="token tag script language-javascript"
                 style="color: rgb(78, 201, 176);"
               >
-                current
+                currentPage
               </span>
               <span
                 class="token tag script language-javascript punctuation"
@@ -11550,7 +11223,7 @@ exports[`ChakraListInferencer should match the snapshot 1`] = `
                 class="token tag script language-javascript"
                 style="color: rgb(78, 201, 176);"
               >
-                setCurrent
+                setCurrentPage
               </span>
               <span
                 class="token tag script language-javascript punctuation"

@@ -104,7 +104,11 @@ const Form = ({
                 color="info"
                 displayEmpty
                 required
-                inputProps={{ "aria-label": "Without label" }}
+                slotProps={{
+                  input: {
+                    "aria-label": "Without label",
+                  },
+                }}
                 defaultValue="apartment"
                 {...register("propertyType", {
                   required: true,

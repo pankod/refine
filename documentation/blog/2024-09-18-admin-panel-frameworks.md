@@ -1,11 +1,13 @@
 ---
 title: Top Frameworks for Building Admin Panels and Dashboards in 2024
 description: We'll look at the best frameworks for building admin panels and dashboards in 2024.
-slug: admin-panels
+slug: top-frameworks-for-building-admin-panel
 authors: chidume_nnamdi
-tags: [comparison]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-29-admin-panel-frameworks/social.png
+category: "Alternatives"
+tags: [admin-panel, comparison]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-29-admin-panel-frameworks/social.png
 hide_table_of_contents: false
+last_update: 2024-09-19
 ---
 
 **This article was last updated on September 18, 2024, to add sections on Accessibility Features, Performance Optimization, and SEO Considerations for Admin Panels and Dashboards.**
@@ -38,7 +40,7 @@ We will look into them one by one in the sections below.
 ### [1. Refine Framework](https://github.com/refinedev/refine)
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-29-admin-panel-frameworks/refine.png" alt="admin panels" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-29-admin-panel-frameworks/refine.png" alt="admin panels" />
 </div>
 
 > From internal tools to admin panels, B2B apps, and dashboards, it serves as a comprehensive solution for building any type of CRUD application. - [Refine Github Repo](https://github.com/refinedev/refine)
@@ -107,7 +109,7 @@ We see that Refine.js came well-stocked to the brim. They have core built-in Rea
 
 There are tons of examples of how to build different applications with features in Refine.js. For example, there are examples on building Access Control, Audit log, Calendar, Multi-tenancy etc.
 
-We can create a Refine project via [CLI or Browser-based scaffolder](https://refine.dev/docs/getting-started/quickstart/). It is a great way to get started with Refine.js.
+We can create a Refine project via [CLI or Browser-based scaffolder](https://refine.dev/core/docs/getting-started/quickstart/). It is a great way to get started with Refine.js.
 
 **Integration and Compatibility**
 Refine.js powerhouses a ton of features and components that we can use to build applications. It also allows us to integrate with other tools and services. We can integrate
@@ -132,7 +134,7 @@ It has a Discord server with 6000+ people.
 ## [2.Angular - ngx-admin](https://github.com/akveo/ngx-admin)
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-29-admin-panel-frameworks/angular.png" alt="admin panels" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-29-admin-panel-frameworks/angular.png" alt="admin panels" />
 </div>
 
 ngx-admin is a admin panel template based on Angular 9+, Bootstrap 4+ and Nebular.
@@ -182,7 +184,7 @@ It has 63 PRs currently which is a good sign of a healthy community.
 ## [3.Vue - Vuetify](https://github.com/vuetifyjs/vuetify)
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-29-admin-panel-frameworks/vue.png" alt="admin panels" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-29-admin-panel-frameworks/vue.png" alt="admin panels" />
 </div>
 
 Vuetify is a Vue UI Library with beautifully handcrafted Material Components. No design skills are required — everything you need to create amazing applications is at your fingertips.
@@ -223,7 +225,7 @@ Vuetify has a lot of project sponsors. Some of them are Vercel, Cloudflare, Gore
 ## [4.Laravel - Laravel Nova](https://nova.laravel.com/)
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-29-admin-panel-frameworks/laravel.png" alt="admin panels" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-29-admin-panel-frameworks/laravel.png" alt="admin panels" />
 </div>
 
 Nova is a beautifully designed administration panel for Laravel. Carefully crafted by the creators of Laravel to make you the most productive developer in the galaxy. It was developed for PHP-based web applications and is compatible with the Laravel framework.
@@ -262,7 +264,7 @@ Nova is a closed source and paid. It has a large and active community of users.
 ## [5.Django - Django Admin](https://docs.djangoproject.com/en/5.0/ref/contrib/admin/)
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-29-admin-panel-frameworks/django.png" alt="admin panels" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-29-admin-panel-frameworks/django.png" alt="admin panels" />
 </div>
 
 Django Admin is a powerful Django framework for creating admin interfaces. It is a free and open-source framework for building admin panels and dashboards. It is compatible with the Django framework.
@@ -308,7 +310,7 @@ Django Admin is open-source and free. It has a large and active community of dev
 ## [6.Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-29-admin-panel-frameworks/blazor.png" alt="admin panels" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-29-admin-panel-frameworks/blazor.png" alt="admin panels" />
 </div>
 
 Blazor is a web framework built utilizing the power of .NET and C#. It is used to build full-stack web apps.

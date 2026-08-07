@@ -3,8 +3,6 @@ import {
   type LoginPageProps,
   type LoginFormTypes,
   useLink,
-  useRouterType,
-  useActiveAuthProvider,
 } from "@refinedev/core";
 import {
   Row,
@@ -22,7 +20,7 @@ import {
   type FormProps,
   theme,
 } from "antd";
-import { useLogin, useTranslate, useRouterContext } from "@refinedev/core";
+import { useLogin, useTranslate } from "@refinedev/core";
 
 import {
   bodyStyles,
@@ -31,7 +29,7 @@ import {
   layoutStyles,
   titleStyles,
 } from "../styles";
-import { ThemedTitleV2 } from "@components";
+import { ThemedTitle } from "@components";
 
 type LoginProps = LoginPageProps<LayoutProps, CardProps, FormProps>;
 /**
@@ -55,16 +53,9 @@ export const LoginPage: React.FC<LoginProps> = ({
   const { token } = theme.useToken();
   const [form] = Form.useForm<LoginFormTypes>();
   const translate = useTranslate();
-  const routerType = useRouterType();
   const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
 
-  const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
-
-  const authProvider = useActiveAuthProvider();
-  const { mutate: login, isLoading } = useLogin<LoginFormTypes>({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate: login, isPending } = useLogin<LoginFormTypes>();
 
   const PageTitle =
     title === false ? null : (
@@ -76,7 +67,7 @@ export const LoginPage: React.FC<LoginProps> = ({
           fontSize: "20px",
         }}
       >
-        {title ?? <ThemedTitleV2 collapsed={false} />}
+        {title ?? <ThemedTitle collapsed={false} />}
       </div>
     );
 
@@ -141,8 +132,10 @@ export const LoginPage: React.FC<LoginProps> = ({
   const CardContent = (
     <Card
       title={CardTitle}
-      headStyle={headStyles}
-      bodyStyle={bodyStyles}
+      styles={{
+        header: headStyles,
+        body: bodyStyles,
+      }}
       style={{
         ...containerStyles,
         backgroundColor: token.colorBgElevated,
@@ -225,7 +218,7 @@ export const LoginPage: React.FC<LoginProps> = ({
               </Form.Item>
             )}
             {forgotPasswordLink ?? (
-              <ActiveLink
+              <Link
                 style={{
                   color: token.colorPrimaryTextHover,
                   fontSize: "12px",
@@ -237,7 +230,7 @@ export const LoginPage: React.FC<LoginProps> = ({
                   "pages.login.buttons.forgotPassword",
                   "Forgot password?",
                 )}
-              </ActiveLink>
+              </Link>
             )}
           </div>
           {!hideForm && (
@@ -246,7 +239,7 @@ export const LoginPage: React.FC<LoginProps> = ({
                 type="primary"
                 size="large"
                 htmlType="submit"
-                loading={isLoading}
+                loading={isPending}
                 block
               >
                 {translate("pages.login.signin", "Sign in")}
@@ -267,7 +260,7 @@ export const LoginPage: React.FC<LoginProps> = ({
               "pages.login.buttons.noAccount",
               "Don’t have an account?",
             )}{" "}
-            <ActiveLink
+            <Link
               to="/register"
               style={{
                 fontWeight: "bold",
@@ -275,7 +268,7 @@ export const LoginPage: React.FC<LoginProps> = ({
               }}
             >
               {translate("pages.login.signup", "Sign up")}
-            </ActiveLink>
+            </Link>
           </Typography.Text>
         </div>
       )}

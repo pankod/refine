@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from "react";
 
 import { RouterContext } from "@contexts/router";
-import { useResource } from "@hooks/resource";
+import { useResourceParams } from "@hooks/use-resource-params";
 
 import type { BaseKey } from "../../../contexts/data/types";
 import type { IResourceItem } from "../../../contexts/resource/types";
@@ -39,7 +39,7 @@ export type GoConfigWithResource = Omit<GoConfigBase, "to"> & {
 
 export const useGo = () => {
   const routerContext = useContext(RouterContext);
-  const { select: resourceSelect } = useResource();
+  const { select: resourceSelect } = useResourceParams();
   const getToPath = useGetToPath();
 
   const useGo = React.useMemo(

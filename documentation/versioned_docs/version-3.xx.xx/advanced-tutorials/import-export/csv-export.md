@@ -13,21 +13,21 @@ Internally, it uses [`export-to-csv`][export-to-csv] to create the `CSV` file.
 import { useExport } from "@pankod/refine-core";
 
 interface IPost {
-    id: number;
-    slug: string;
-    title: string;
-    content: string;
+  id: number;
+  slug: string;
+  title: string;
+  content: string;
 }
 
 export const PostList: React.FC = () => {
-    const { triggerExport } = useExport<IPost>();
+  const { triggerExport } = useExport<IPost>();
 
-    return (
-        <div>
-            <button onClick={triggerExport}>Export Button</button>
-            ...
-        </div>
-    );
+  return (
+    <div>
+      <button onClick={triggerExport}>Export Button</button>
+      ...
+    </div>
+  );
 };
 ```
 
@@ -43,5 +43,5 @@ Manually running the `triggerExport` function is another option.
 
 <CodeSandboxExample path="import-export-antd" />
 
-[useexport]: /api-reference/core/hooks/import-export/useExport.md
+[useexport]: /core/docs/3.xx.xx/api-reference/core/hooks/import-export/useExport
 [export-to-csv]: https://github.com/alexcaza/export-to-csv

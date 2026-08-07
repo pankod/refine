@@ -1,12 +1,15 @@
 ---
-title: useNavigation
+title: "useNavigation Hook | Options, Patterns & Edge Cases | Refine v5"
+display_title: "useNavigation"
+sidebar_label: "useNavigation"
+description: "Explore how to use the useNavigation hook in Refine v5. Explore SSR, navigation for real-world React admin panels. Hands-on examples included."
 ---
 
 `useNavigation` is a hook that provides methods to navigate the app. Internally, it uses the `go` method of the [`routerProvider`][routerprovider].
 
 This hook is a legacy hook and is not recommended, despite not being deprecated. You should use your router libraries' hooks and methods instead when dealing with the custom navigations.
 
-If you're in need of a navigation hook to use to navigate between your actions and resources, we recommend using the [`useGo`](/docs/routing/hooks/use-go) and [`useGetToPath`](/docs/routing/hooks/use-get-to-path) hooks.
+If you're in need of a navigation hook to use to navigate between your actions and resources, we recommend using the [`useGo`](/core/docs/routing/hooks/use-go/) and [`useGetToPath`](/core/docs/routing/hooks/use-get-to-path/) hooks.
 
 ```tsx
 import { useNavigation } from "@refinedev/core";
@@ -17,9 +20,6 @@ const {
   edit,
   show,
   clone,
-  push,
-  replace,
-  goBack,
   listUrl,
   createUrl,
   editUrl,
@@ -30,7 +30,7 @@ const {
 
 ## Return Values
 
-All functions the `useNavigation` hook returns, except `push`, `replace` and `goBack`, accept a `meta` parameter. This is an optional parameter that can be used to pass additional parameters to the routes if they contain multiple parameters other than `id`.
+All functions the `useNavigation` hook returns accept a `meta` parameter. This is an optional parameter that can be used to pass additional parameters to the routes if they contain multiple parameters other than `id`.
 
 ### list
 
@@ -102,48 +102,6 @@ clone("posts", "1"); // It navigates to the `/posts/clone/1` page
 
 You can also give a `type` property as a third parameter to the `clone` method.
 
-### push
-
-This method pushes a new entry onto the history stack. It uses the `push` method of the `useHistory` from the [`routerProvider`][routerprovider].
-
-```tsx
-import { useNavigation } from "@refinedev/core";
-
-const { push } = useNavigation();
-
-push("custom-page"); // It navigates to the `/custom-page` page
-```
-
-`push` method parameters are dependent on your router provider.
-
-### replace
-
-This method replaces the current entry on the history stack. It uses the `replace` method of the `useHistory` from the [`routerProvider`][routerprovider].
-
-```tsx
-import { useNavigation } from "@refinedev/core";
-
-const { replace } = useNavigation();
-
-replace("custom-page"); // It navigates to the `/custom-page` page
-```
-
-`replace` method parameters are dependent on your router provider.
-
-### goBack
-
-This method navigates to the previous page. It uses the `goBack` method of the `useHistory` from the [`routerProvider`][routerprovider].
-
-```tsx
-import { useNavigation } from "@refinedev/core";
-
-const { goBack } = useNavigation();
-
-goBack(); // It navigates to the previous page
-```
-
-`goBack` method parameters are dependent on your router provider.
-
 ### listUrl
 
 This method returns the list page URL of the given resource.
@@ -208,26 +166,23 @@ cloneUrl("posts", "1"); // It returns the `/posts/clone/1` URL
 
 ### Return values
 
-| Property  | Description                                                 | Type                                                                                     |
-| --------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| list      | Method that navigates to the list page                      | `(resource: string, type: HistoryType, meta?: Record<string, any>) => void`              |
-| create    | Method that navigates to the create page                    | `(resource: string, type: HistoryType, meta?: Record<string, any>) => void`              |
-| edit      | Method that navigates to the edit page                      | `(resource: string, id: BaseKey, type: HistoryType, meta?: Record<string, any>) => void` |
-| show      | Method that navigates to the show page                      | `(resource: string, id: BaseKey, type: HistoryType, meta?: Record<string, any>) => void` |
-| clone     | Method that navigates to the clone page                     | `(resource: string, id: BaseKey, type: HistoryType, meta?: Record<string, any>) => void` |
-| push      | Method that pushes the given path to the history stack      | `(path: string, ...rest: unknown[]) => void`                                             |
-| replace   | Method that replaces the current entry on the history stack | `(path: string, ...rest: unknown[]) => void`                                             |
-| goBack    | Method that navigates to the previous page                  | `() => void`                                                                             |
-| listUrl   | Method that returns the list page URL                       | `(resource: string, meta?: Record<string, any>) => string`                               |
-| createUrl | Method that returns the create page URL                     | `(resource: string, meta?: Record<string, any>) => string`                               |
-| editUrl   | Method that returns the edit page URL                       | `(resource: string, id: BaseKey, meta?: Record<string, any>) => string`                  |
-| showUrl   | Method that returns the show page URL                       | `(resource: string, id: BaseKey, meta?: Record<string, any>) => string`                  |
-| cloneUrl  | Method that returns the clone page URL                      | `(resource: string, id: BaseKey, meta?: Record<string, any>) => string`                  |
+| Property  | Description                              | Type                                                                                     |
+| --------- | ---------------------------------------- | ---------------------------------------------------------------------------------------- |
+| list      | Method that navigates to the list page   | `(resource: string, type: HistoryType, meta?: Record<string, any>) => void`              |
+| create    | Method that navigates to the create page | `(resource: string, type: HistoryType, meta?: Record<string, any>) => void`              |
+| edit      | Method that navigates to the edit page   | `(resource: string, id: BaseKey, type: HistoryType, meta?: Record<string, any>) => void` |
+| show      | Method that navigates to the show page   | `(resource: string, id: BaseKey, type: HistoryType, meta?: Record<string, any>) => void` |
+| clone     | Method that navigates to the clone page  | `(resource: string, id: BaseKey, type: HistoryType, meta?: Record<string, any>) => void` |
+| listUrl   | Method that returns the list page URL    | `(resource: string, meta?: Record<string, any>) => string`                               |
+| createUrl | Method that returns the create page URL  | `(resource: string, meta?: Record<string, any>) => string`                               |
+| editUrl   | Method that returns the edit page URL    | `(resource: string, id: BaseKey, meta?: Record<string, any>) => string`                  |
+| showUrl   | Method that returns the show page URL    | `(resource: string, id: BaseKey, meta?: Record<string, any>) => string`                  |
+| cloneUrl  | Method that returns the clone page URL   | `(resource: string, id: BaseKey, meta?: Record<string, any>) => string`                  |
 
 #### Interfaces
 
 - [`type BaseKey`][basekey]
 - `type HistoryType = "push" | "replace";`
 
-[routerprovider]: /docs/routing/router-provider
-[basekey]: /docs/core/interface-references#basekey
+[routerprovider]: /core/docs/routing/router-provider
+[basekey]: /core/docs/core/interface-references#basekey

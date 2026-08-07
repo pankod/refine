@@ -39,10 +39,12 @@ export const ProductCreate = () => {
           helperText={(errors as any)?.name?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
           type="text"
           label={translate("Name")}
           name="name"
+          slotProps={{
+            inputLabel: { shrink: true },
+          }}
         />
         <Controller
           control={control}
@@ -72,10 +74,12 @@ export const ProductCreate = () => {
           helperText={(errors as any)?.description?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
           multiline
           label={translate("description")}
           name="description"
+          slotProps={{
+            inputLabel: { shrink: true },
+          }}
         />
         <TextField
           {...register("price", {
@@ -86,10 +90,12 @@ export const ProductCreate = () => {
           helperText={(errors as any)?.price?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
           type="number"
           label={translate("Price")}
           name="price"
+          slotProps={{
+            inputLabel: { shrink: true },
+          }}
         />
         <Controller
           control={control}

@@ -1,5 +1,6 @@
+import { vi } from "vitest";
 import { renderHook } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
+import { act } from "react";
 
 import { defaultRefineOptions } from "@contexts/refine";
 import { TestWrapper, mockRouterProvider } from "@test";
@@ -7,7 +8,7 @@ import { TestWrapper, mockRouterProvider } from "@test";
 import { useLoadingOvertime } from "./";
 
 describe("useLoadingOvertime Hook", () => {
-  jest.useFakeTimers();
+  vi.useFakeTimers();
 
   it("should elapsedTime undefined when isLoading false", () => {
     const { result } = renderHook(
@@ -38,7 +39,7 @@ describe("useLoadingOvertime Hook", () => {
 
     act(() => {
       // default 1000
-      jest.advanceTimersByTime(999);
+      vi.advanceTimersByTime(999);
     });
 
     const { elapsedTime } = result.current;
@@ -59,7 +60,7 @@ describe("useLoadingOvertime Hook", () => {
 
     act(() => {
       // default 1000
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     const { elapsedTime } = result.current;
@@ -67,8 +68,8 @@ describe("useLoadingOvertime Hook", () => {
   });
 
   it("should override global interval and onInverval", () => {
-    const onInterval = jest.fn();
-    const onIntervalGlobal = jest.fn();
+    const onInterval = vi.fn();
+    const onIntervalGlobal = vi.fn();
     const { result } = renderHook(
       () =>
         useLoadingOvertime({
@@ -79,7 +80,6 @@ describe("useLoadingOvertime Hook", () => {
       {
         wrapper: TestWrapper({
           refineProvider: {
-            hasDashboard: false,
             ...defaultRefineOptions,
             options: {
               ...defaultRefineOptions,
@@ -94,18 +94,18 @@ describe("useLoadingOvertime Hook", () => {
     );
 
     act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     const { elapsedTime } = result.current;
     expect(elapsedTime).toBe(2000);
-    expect(onInterval).toBeCalledTimes(1);
+    expect(onInterval).toHaveBeenCalledTimes(1);
     // should not be called global interval
-    expect(onIntervalGlobal).toBeCalledTimes(0);
+    expect(onIntervalGlobal).toHaveBeenCalledTimes(0);
   });
 
   it("should run global interval and onInterval", () => {
-    const onInterval = jest.fn();
+    const onInterval = vi.fn();
     const { result } = renderHook(
       () =>
         useLoadingOvertime({
@@ -119,7 +119,6 @@ describe("useLoadingOvertime Hook", () => {
             },
           ],
           refineProvider: {
-            hasDashboard: false,
             ...defaultRefineOptions,
             options: {
               ...defaultRefineOptions,
@@ -139,12 +138,33 @@ describe("useLoadingOvertime Hook", () => {
     );
 
     act(() => {
-      jest.advanceTimersByTime(1000);
+      vi.advanceTimersByTime(1000);
     });
 
     const { elapsedTime } = result.current;
     expect(elapsedTime).toBe(1000);
-    expect(onInterval).toBeCalledTimes(1);
-    expect(onInterval).toBeCalledWith(1000);
+    expect(onInterval).toHaveBeenCalledTimes(1);
+    expect(onInterval).toHaveBeenCalledWith(1000);
+  });
+
+  it("should not run interval when enabled is false", () => {
+    const { result } = renderHook(
+      () =>
+        useLoadingOvertime({
+          isLoading: true,
+          enabled: false,
+        }),
+      {
+        wrapper: TestWrapper({}),
+      },
+    );
+
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
+
+    const { elapsedTime } = result.current;
+
+    expect(elapsedTime).toBeUndefined();
   });
 });

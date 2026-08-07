@@ -39,4 +39,4 @@ npm create refine-app@latest -- --example inferencer-material-ui
 
 <br/>
 
-[![Open inferencer-material-ui example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/inferencer-material-ui?view=preview&theme=dark&codemirror=1)
+[![Open inferencer-material-ui example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/inferencer-material-ui?view=preview&theme=dark&codemirror=1)

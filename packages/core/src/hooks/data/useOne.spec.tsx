@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 
 import { defaultRefineOptions } from "@contexts/refine";
@@ -12,7 +13,6 @@ import type { IRefineContextProvider } from "../../contexts/refine/types";
 import { useOne } from "./useOne";
 
 const mockRefineProvider: IRefineContextProvider = {
-  hasDashboard: false,
   ...defaultRefineOptions,
   options: defaultRefineOptions,
 };
@@ -30,17 +30,20 @@ describe("useOne Hook", () => {
     );
 
     await waitFor(() => {
-      expect(!result.current.isLoading).toBeTruthy();
+      expect(!result.current.query.isPending).toBeTruthy();
     });
 
-    const { status, data } = result.current;
+    const {
+      result: data,
+      query: { status },
+    } = result.current;
 
     expect(status).toBe("success");
-    expect(data?.data.slug).toBe("ut-ad-et");
+    expect(data?.slug).toBe("ut-ad-et");
   });
 
   it("should only pass meta from the hook parameter and query parameters to the dataProvider", async () => {
-    const getOneMock = jest.fn();
+    const getOneMock = vi.fn();
 
     renderHook(
       () => useOne({ resource: "posts", meta: { foo: "bar" }, id: "" }),
@@ -61,10 +64,10 @@ describe("useOne Hook", () => {
     );
 
     await waitFor(() => {
-      expect(getOneMock).toBeCalled();
+      expect(getOneMock).toHaveBeenCalled();
     });
 
-    expect(getOneMock).toBeCalledWith(
+    expect(getOneMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -78,7 +81,7 @@ describe("useOne Hook", () => {
     it.each(["default", "categories"])(
       "useSubscription [dataProviderName: %s]",
       async (dataProviderName) => {
-        const onSubscribeMock = jest.fn();
+        const onSubscribeMock = vi.fn();
 
         const { result } = renderHook(
           () =>
@@ -92,7 +95,7 @@ describe("useOne Hook", () => {
               dataProvider: MockJSONServer,
               resources: [{ name: "posts" }],
               liveProvider: {
-                unsubscribe: jest.fn(),
+                unsubscribe: vi.fn(),
                 subscribe: onSubscribeMock,
               },
               refineProvider: {
@@ -104,10 +107,10 @@ describe("useOne Hook", () => {
         );
 
         await waitFor(() => {
-          expect(!result.current.isLoading).toBeTruthy();
+          expect(!result.current.query.isPending).toBeTruthy();
         });
 
-        expect(onSubscribeMock).toBeCalled();
+        expect(onSubscribeMock).toHaveBeenCalled();
         expect(onSubscribeMock).toHaveBeenCalledWith({
           channel: "resources/posts",
           callback: expect.any(Function),
@@ -116,9 +119,11 @@ describe("useOne Hook", () => {
             id: "1",
             resource: "posts",
             subscriptionType: "useOne",
+            meta: {
+              route: undefined,
+            },
           }),
           types: ["*"],
-          dataProviderName,
           meta: {
             dataProviderName,
           },
@@ -127,7 +132,7 @@ describe("useOne Hook", () => {
     );
 
     it("liveMode = Off useSubscription", async () => {
-      const onSubscribeMock = jest.fn();
+      const onSubscribeMock = vi.fn();
 
       const { result } = renderHook(
         () => useOne({ resource: "posts", id: "1" }),
@@ -136,7 +141,7 @@ describe("useOne Hook", () => {
             dataProvider: MockJSONServer,
             resources: [{ name: "posts" }],
             liveProvider: {
-              unsubscribe: jest.fn(),
+              unsubscribe: vi.fn(),
               subscribe: onSubscribeMock,
             },
             refineProvider: {
@@ -148,14 +153,14 @@ describe("useOne Hook", () => {
       );
 
       await waitFor(() => {
-        expect(!result.current.isLoading).toBeTruthy();
+        expect(!result.current.query.isPending).toBeTruthy();
       });
 
-      expect(onSubscribeMock).not.toBeCalled();
+      expect(onSubscribeMock).not.toHaveBeenCalled();
     });
 
     it("liveMode = Off and liveMode hook param auto", async () => {
-      const onSubscribeMock = jest.fn();
+      const onSubscribeMock = vi.fn();
 
       const { result } = renderHook(
         () => useOne({ resource: "posts", id: "1", liveMode: "auto" }),
@@ -164,7 +169,7 @@ describe("useOne Hook", () => {
             dataProvider: MockJSONServer,
             resources: [{ name: "posts" }],
             liveProvider: {
-              unsubscribe: jest.fn(),
+              unsubscribe: vi.fn(),
               subscribe: onSubscribeMock,
             },
             refineProvider: {
@@ -176,15 +181,15 @@ describe("useOne Hook", () => {
       );
 
       await waitFor(() => {
-        expect(!result.current.isLoading).toBeTruthy();
+        expect(!result.current.query.isPending).toBeTruthy();
       });
 
-      expect(onSubscribeMock).toBeCalled();
+      expect(onSubscribeMock).toHaveBeenCalled();
     });
 
     it("unsubscribe call on unmount", async () => {
-      const onSubscribeMock = jest.fn(() => true);
-      const onUnsubscribeMock = jest.fn();
+      const onSubscribeMock = vi.fn(() => true);
+      const onUnsubscribeMock = vi.fn();
 
       const { result, unmount } = renderHook(
         () => useOne({ resource: "posts", id: "1" }),
@@ -205,18 +210,18 @@ describe("useOne Hook", () => {
       );
 
       await waitFor(() => {
-        expect(!result.current.isLoading).toBeTruthy();
+        expect(!result.current.query.isPending).toBeTruthy();
       });
 
-      expect(onSubscribeMock).toBeCalled();
+      expect(onSubscribeMock).toHaveBeenCalled();
 
       unmount();
-      expect(onUnsubscribeMock).toBeCalledWith(true);
-      expect(onUnsubscribeMock).toBeCalledTimes(1);
+      expect(onUnsubscribeMock).toHaveBeenCalledWith(true);
+      expect(onUnsubscribeMock).toHaveBeenCalledTimes(1);
     });
 
     it("should not subscribe if `queryOptions.enabled` is false", async () => {
-      const onSubscribeMock = jest.fn();
+      const onSubscribeMock = vi.fn();
 
       renderHook(
         () =>
@@ -232,7 +237,7 @@ describe("useOne Hook", () => {
             dataProvider: MockJSONServer,
             resources: [{ name: "posts" }],
             liveProvider: {
-              unsubscribe: jest.fn(),
+              unsubscribe: vi.fn(),
               subscribe: onSubscribeMock,
             },
             refineProvider: {
@@ -243,13 +248,13 @@ describe("useOne Hook", () => {
         },
       );
 
-      expect(onSubscribeMock).not.toBeCalled();
+      expect(onSubscribeMock).not.toHaveBeenCalled();
     });
 
     describe("useNotification", () => {
       it("should call `open` from the notification provider on error", async () => {
-        const getOneMock = jest.fn().mockRejectedValue(new Error("Error"));
-        const notificationMock = jest.fn();
+        const getOneMock = vi.fn().mockRejectedValue(new Error("Error"));
+        const notificationMock = vi.fn();
 
         const { result } = renderHook(
           () =>
@@ -267,7 +272,7 @@ describe("useOne Hook", () => {
               },
               notificationProvider: {
                 open: notificationMock,
-                close: jest.fn(),
+                close: vi.fn(),
               },
               resources: [{ name: "posts" }],
             }),
@@ -275,10 +280,10 @@ describe("useOne Hook", () => {
         );
 
         await waitFor(() => {
-          expect(result.current.isError).toBeTruthy();
+          expect(result.current.query.isError).toBeTruthy();
         });
 
-        expect(notificationMock).toBeCalledWith({
+        expect(notificationMock).toHaveBeenCalledWith({
           description: "Error",
           key: "1-posts-getOne-notification",
           message: "Error (status code: undefined)",
@@ -287,7 +292,7 @@ describe("useOne Hook", () => {
       });
 
       it("should call `open` from notification provider on success with custom notification params", async () => {
-        const openNotificationMock = jest.fn();
+        const openNotificationMock = vi.fn();
 
         const { result } = renderHook(
           () =>
@@ -305,7 +310,7 @@ describe("useOne Hook", () => {
               dataProvider: MockJSONServer,
               notificationProvider: {
                 open: openNotificationMock,
-                close: jest.fn(),
+                close: vi.fn(),
               },
               resources: [{ name: "posts" }],
             }),
@@ -313,10 +318,10 @@ describe("useOne Hook", () => {
         );
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.query.isSuccess).toBeTruthy();
         });
 
-        expect(openNotificationMock).toBeCalledWith({
+        expect(openNotificationMock).toHaveBeenCalledWith({
           description: "Successfully created post",
           message: "Success",
           type: "success",
@@ -324,7 +329,7 @@ describe("useOne Hook", () => {
       });
 
       it("should call `open` from notification provider on success with custom notification params", async () => {
-        const openNotificationMock = jest.fn();
+        const openNotificationMock = vi.fn();
 
         const { result } = renderHook(
           () =>
@@ -338,7 +343,7 @@ describe("useOne Hook", () => {
               dataProvider: MockJSONServer,
               notificationProvider: {
                 open: openNotificationMock,
-                close: jest.fn(),
+                close: vi.fn(),
               },
               resources: [{ name: "posts" }],
             }),
@@ -346,15 +351,15 @@ describe("useOne Hook", () => {
         );
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.query.isSuccess).toBeTruthy();
         });
 
-        expect(openNotificationMock).toBeCalledTimes(0);
+        expect(openNotificationMock).toHaveBeenCalledTimes(0);
       });
 
       it("should call `open` from notification provider on error with custom notification params", async () => {
-        const getOneMock = jest.fn().mockRejectedValue(new Error("Error"));
-        const openNotificationMock = jest.fn();
+        const getOneMock = vi.fn().mockRejectedValue(new Error("Error"));
+        const openNotificationMock = vi.fn();
 
         const { result } = renderHook(
           () =>
@@ -377,7 +382,7 @@ describe("useOne Hook", () => {
               },
               notificationProvider: {
                 open: openNotificationMock,
-                close: jest.fn(),
+                close: vi.fn(),
               },
               resources: [{ name: "posts" }],
             }),
@@ -385,10 +390,10 @@ describe("useOne Hook", () => {
         );
 
         await waitFor(() => {
-          expect(result.current.isError).toBeTruthy();
+          expect(result.current.query.isError).toBeTruthy();
         });
 
-        expect(openNotificationMock).toBeCalledWith({
+        expect(openNotificationMock).toHaveBeenCalledWith({
           description: "There was an error creating post",
           message: "Error",
           type: "error",
@@ -398,8 +403,8 @@ describe("useOne Hook", () => {
 
     describe("useOnError", () => {
       it("should call `onError` from the auth provider on error", async () => {
-        const getOneMock = jest.fn().mockRejectedValue(new Error("Error"));
-        const onErrorMock = jest.fn();
+        const getOneMock = vi.fn().mockRejectedValue(new Error("Error"));
+        const onErrorMock = vi.fn();
 
         const { result } = renderHook(
           () =>
@@ -416,6 +421,9 @@ describe("useOne Hook", () => {
                 },
               },
               authProvider: {
+                login: () => Promise.resolve({ success: true }),
+                logout: () => Promise.resolve({ success: true }),
+                check: () => Promise.resolve({ authenticated: true }),
                 onError: onErrorMock,
               } as any,
               resources: [{ name: "posts" }],
@@ -424,15 +432,15 @@ describe("useOne Hook", () => {
         );
 
         await waitFor(() => {
-          expect(result.current.isError).toBeTruthy();
+          expect(result.current.query.isError).toBeTruthy();
         });
 
-        expect(onErrorMock).toBeCalledWith(new Error("Error"));
+        expect(onErrorMock).toHaveBeenCalledWith(new Error("Error"));
       });
 
       it("should call `checkError` from the legacy auth provider on error", async () => {
-        const getOneMock = jest.fn().mockRejectedValue(new Error("Error"));
-        const onErrorMock = jest.fn();
+        const getOneMock = vi.fn().mockRejectedValue(new Error("Error"));
+        const onErrorMock = vi.fn();
 
         const { result } = renderHook(
           () =>
@@ -448,8 +456,11 @@ describe("useOne Hook", () => {
                   getOne: getOneMock,
                 },
               },
-              legacyAuthProvider: {
-                checkError: onErrorMock,
+              authProvider: {
+                login: () => Promise.resolve({ success: true }),
+                logout: () => Promise.resolve({ success: true }),
+                check: () => Promise.resolve({ authenticated: true }),
+                onError: onErrorMock,
               },
               resources: [{ name: "posts" }],
             }),
@@ -457,86 +468,16 @@ describe("useOne Hook", () => {
         );
 
         await waitFor(() => {
-          expect(result.current.isError).toBeTruthy();
+          expect(result.current.query.isError).toBeTruthy();
         });
 
-        expect(onErrorMock).toBeCalledWith(new Error("Error"));
+        expect(onErrorMock).toHaveBeenCalledWith(new Error("Error"));
       });
     });
 
     describe("queryOptions", () => {
-      it("should run `queryOptions.onSuccess` callback on success", async () => {
-        const onSuccessMock = jest.fn();
-        const getOneMock = jest.fn().mockResolvedValue({
-          data: [{ id: 1, title: "foo" }],
-        });
-
-        const { result } = renderHook(
-          () =>
-            useOne({
-              resource: "posts",
-              id: "1",
-              queryOptions: {
-                onSuccess: onSuccessMock,
-              },
-            }),
-          {
-            wrapper: TestWrapper({
-              dataProvider: {
-                default: {
-                  ...MockJSONServer.default,
-                  getOne: getOneMock,
-                },
-              },
-              resources: [{ name: "posts" }],
-            }),
-          },
-        );
-
-        await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
-        });
-
-        expect(onSuccessMock).toBeCalledWith({
-          data: [{ id: 1, title: "foo" }],
-        });
-      });
-
-      it("should run `queryOptions.onError` callback on error", async () => {
-        const onErrorMock = jest.fn();
-        const getOneMcok = jest.fn().mockRejectedValue(new Error("Error"));
-
-        const { result } = renderHook(
-          () =>
-            useOne({
-              resource: "posts",
-              id: "1",
-              queryOptions: {
-                onError: onErrorMock,
-              },
-            }),
-          {
-            wrapper: TestWrapper({
-              dataProvider: {
-                default: {
-                  ...MockJSONServer.default,
-                  getOne: getOneMcok,
-                },
-              },
-              resources: [{ name: "posts" }],
-            }),
-          },
-        );
-
-        await waitFor(() => {
-          expect(result.current.isError).toBeTruthy();
-        });
-
-        expect(onErrorMock).toBeCalledWith(new Error("Error"));
-      });
-
       it("should override `queryKey` with `queryOptions.queryKey`", async () => {
-        const getOneMock = jest.fn().mockResolvedValue({
+        const getOneMock = vi.fn().mockResolvedValue({
           data: { id: 1, title: "foo" },
         });
 
@@ -563,15 +504,13 @@ describe("useOne Hook", () => {
         );
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.query.isSuccess).toBeTruthy();
         });
 
-        expect(getOneMock).toBeCalledWith(
+        expect(getOneMock).toHaveBeenCalledWith(
           expect.objectContaining({
             meta: expect.objectContaining({
-              queryContext: expect.objectContaining({
-                queryKey: ["foo", "bar"],
-              }),
+              queryKey: ["foo", "bar"],
             }),
           }),
         );
@@ -584,10 +523,10 @@ describe("useOne Hook", () => {
       });
 
       it("should override `queryFn` with `queryOptions.queryFn`", async () => {
-        const getOneMock = jest.fn().mockResolvedValue({
+        const getOneMock = vi.fn().mockResolvedValue({
           data: [{ id: 1, title: "foo" }],
         });
-        const queryFnMock = jest.fn().mockResolvedValue({
+        const queryFnMock = vi.fn().mockResolvedValue({
           data: [{ id: 1, title: "foo" }],
         });
 
@@ -614,19 +553,19 @@ describe("useOne Hook", () => {
         );
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.query.isSuccess).toBeTruthy();
         });
 
-        expect(getOneMock).not.toBeCalled();
-        expect(queryFnMock).toBeCalled();
+        expect(getOneMock).not.toHaveBeenCalled();
+        expect(queryFnMock).toHaveBeenCalled();
       });
     });
 
     it("should select correct dataProviderName", async () => {
-      const getOneDefaultMock = jest.fn().mockResolvedValue({
+      const getOneDefaultMock = vi.fn().mockResolvedValue({
         data: [{ id: 1, title: "foo" }],
       });
-      const getOneFooMock = jest.fn().mockResolvedValue({
+      const getOneFooMock = vi.fn().mockResolvedValue({
         data: [{ id: 1, title: "foo" }],
       });
 
@@ -664,19 +603,19 @@ describe("useOne Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.query.isSuccess).toBeTruthy();
       });
 
-      expect(getOneFooMock).toBeCalledWith(
+      expect(getOneFooMock).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "posts",
         }),
       );
-      expect(getOneDefaultMock).not.toBeCalled();
+      expect(getOneDefaultMock).not.toHaveBeenCalled();
     });
 
     it("should get correct `meta` of related resource", async () => {
-      const getOneMock = jest.fn().mockResolvedValue({
+      const getOneMock = vi.fn().mockResolvedValue({
         data: [{ id: 1, title: "foo" }],
       });
 
@@ -707,10 +646,10 @@ describe("useOne Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.query.isSuccess).toBeTruthy();
       });
 
-      expect(getOneMock).toBeCalledWith(
+      expect(getOneMock).toHaveBeenCalledWith(
         expect.objectContaining({
           meta: expect.objectContaining({
             foo: "bar",
@@ -721,10 +660,10 @@ describe("useOne Hook", () => {
 
     describe("when passing `identifier` instead of `name`", () => {
       it("should select correct dataProviderName", async () => {
-        const getOneDefaultMock = jest.fn().mockResolvedValue({
+        const getOneDefaultMock = vi.fn().mockResolvedValue({
           data: [{ id: 1, title: "foo" }],
         });
-        const getOneFooMock = jest.fn().mockResolvedValue({
+        const getOneFooMock = vi.fn().mockResolvedValue({
           data: [{ id: 1, title: "foo" }],
         });
 
@@ -763,19 +702,19 @@ describe("useOne Hook", () => {
         );
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.query.isSuccess).toBeTruthy();
         });
 
-        expect(getOneFooMock).toBeCalledWith(
+        expect(getOneFooMock).toHaveBeenCalledWith(
           expect.objectContaining({
             resource: "posts",
           }),
         );
-        expect(getOneDefaultMock).not.toBeCalled();
+        expect(getOneDefaultMock).not.toHaveBeenCalled();
       });
 
       it("should create queryKey with `identifier`", async () => {
-        const getOneMock = jest.fn().mockResolvedValue({
+        const getOneMock = vi.fn().mockResolvedValue({
           data: [{ id: 1, title: "foo" }],
         });
 
@@ -804,28 +743,27 @@ describe("useOne Hook", () => {
         );
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.query.isSuccess).toBeTruthy();
         });
 
-        expect(getOneMock).toBeCalledWith(
+        expect(getOneMock).toHaveBeenCalledWith(
           expect.objectContaining({
             meta: expect.objectContaining({
-              queryContext: expect.objectContaining({
-                queryKey: [
-                  "default",
-                  "featured-posts",
-                  "detail",
-                  "1",
-                  expect.any(Object),
-                ],
-              }),
+              queryKey: [
+                "data",
+                "default",
+                "featured-posts",
+                "one",
+                "1",
+                expect.any(Object),
+              ],
             }),
           }),
         );
       });
 
       it("should get correct `meta` of related resource", async () => {
-        const getOneMock = jest.fn().mockResolvedValue({
+        const getOneMock = vi.fn().mockResolvedValue({
           data: [{ id: 1, title: "foo" }],
         });
 
@@ -864,10 +802,10 @@ describe("useOne Hook", () => {
         );
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.query.isSuccess).toBeTruthy();
         });
 
-        expect(getOneMock).toBeCalledWith(
+        expect(getOneMock).toHaveBeenCalledWith(
           expect.objectContaining({
             meta: expect.objectContaining({
               bar: "baz",
@@ -879,7 +817,7 @@ describe("useOne Hook", () => {
   });
 
   it("works correctly with `interval` and `onInterval` params", async () => {
-    const onInterval = jest.fn();
+    const onInterval = vi.fn();
     const { result } = renderHook(
       () =>
         useOne({
@@ -908,13 +846,13 @@ describe("useOne Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeTruthy();
+      expect(result.current.query.isPending).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBe(900);
-      expect(onInterval).toBeCalled();
+      expect(onInterval).toHaveBeenCalled();
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeFalsy();
+      expect(result.current.query.isPending).toBeFalsy();
       expect(result.current.overtime.elapsedTime).toBeUndefined();
     });
   });

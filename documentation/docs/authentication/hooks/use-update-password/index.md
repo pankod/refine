@@ -1,12 +1,14 @@
 ---
-title: useUpdatePassword
-description: useUpdatePassword data hook from Refine is a modified version of react-query's useMutation for registration.
+title: "useUpdatePassword Hook | Options, Patterns & Edge Cases in Refine v5"
+display_title: "useUpdatePassword"
+sidebar_label: "useUpdatePassword"
+description: "Set up Use Update Password in Refine v5. Learn best practices. Learn how to secure OAuth, JWT for secure enterprise React apps. Explore with code snippets."
 source: /packages/core/src/hooks/auth/useUpdatePassword/index.ts
 ---
 
-`useUpdatePassword` calls `updatePassword` method from [`authProvider`](/docs/authentication/auth-provider) under the hood.
+`useUpdatePassword` calls `updatePassword` method from [`authProvider`](/core/docs/authentication/auth-provider/) under the hood.
 
-It returns the result of `react-query`'s [useMutation](https://react-query.tanstack.com/reference/useMutation).
+It returns the result of `react-query`'s [useMutation](https://tanstack.com/query/v5/docs/react/reference/useMutation).
 
 Data that is resolved from `updatePassword` will be returned as the `data` in the query result with the following type:
 

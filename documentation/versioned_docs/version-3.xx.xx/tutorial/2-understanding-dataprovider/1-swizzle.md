@@ -8,7 +8,7 @@ tutorial:
 
 ## What is Swizzle?
 
-The [`swizzle`](../../packages/documentation/cli.md#swizzle) is a command in [`refine-cli`](../../packages/documentation/cli.md) that allows you to customize the refine's supported components and data providers. It allows you to eject selected files from the **refine** packages and modify depending on your needs.
+The [`swizzle`](../../packages/documentation/cli#swizzle) is a command in [`refine-cli`](../../packages/documentation/cli) that allows you to customize the refine's supported components and data providers. It allows you to eject selected files from the **refine** packages and modify depending on your needs.
 
 Instead of starting from scratch, you can use the ejected file code logic as a starting point and make changes to fit your specific needs.
 

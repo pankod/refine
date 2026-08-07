@@ -2,9 +2,6 @@ import React, { createContext, type PropsWithChildren } from "react";
 
 import type { INotificationContext } from "./types";
 
-/** @deprecated default value for notification context has no use and is an empty object.  */
-export const defaultNotificationProvider: INotificationContext = {};
-
 export const NotificationContext = createContext<INotificationContext>({});
 
 export const NotificationContextProvider: React.FC<

@@ -1,12 +1,14 @@
 ---
-title: useOnError
-description: useOnError data hook from Refine is a modified version of react-query's useMutation for create mutations
+title: "useOnError Hook | Options, Patterns & Edge Cases | Refine v5"
+display_title: "useOnError"
+sidebar_label: "useOnError"
+description: "Secure Use On Error in Refine v5. Learn best practices. Learn secure OAuth, JWT for secure enterprise React apps. Explore with code snippets."
 source: /packages/core/src/hooks/auth/useOnError/index.ts
 ---
 
 `useOnError` calls the [`onError`][on-error] method from the [`authProvider`][auth-provider] under the hood.
 
-It returns the result of `react-query`'s [useMutation](https://tanstack.com/query/v4/docs/react/reference/useMutation), which includes many properties like `isSuccess` and `isError`.
+It returns the result of `react-query`'s [useMutation](https://tanstack.com/query/v5/docs/react/reference/useMutation), which includes many properties like `isSuccess` and `isError`.
 
 Data that is resolved from the [`onError`][on-error] will be returned as the `data` in the query result with the following type:
 
@@ -52,7 +54,7 @@ const authProvider: AuthProvider = {
 };
 ```
 
-> For more information about data hooks, refer to the [Data Provider documentation&#8594](/docs/data/data-provider#supported-hooks)
+> For more information about data hooks, refer to the [Data Provider documentation&#8594](/core/docs/data/data-provider#supported-hooks)
 
 ## Usage
 
@@ -70,7 +72,7 @@ fetch("http://example.com/payment")
   .catch((error) => onError(error));
 ```
 
-We have a logic in [`authProvider`](/docs/authentication/auth-provider)'s `onError` method like below.
+We have a logic in [`authProvider`](/core/docs/authentication/auth-provider/) 's `onError` method like below.
 
 ```tsx
 import type { AuthProvider } from "@refinedev/core";
@@ -93,5 +95,5 @@ const authProvider: AuthProvider = {
 };
 ```
 
-[on-error]: /docs/authentication/auth-provider#onerror-
-[auth-provider]: /docs/authentication/auth-provider
+[on-error]: /core/docs/authentication/auth-provider#onerror-
+[auth-provider]: /core/docs/authentication/auth-provider

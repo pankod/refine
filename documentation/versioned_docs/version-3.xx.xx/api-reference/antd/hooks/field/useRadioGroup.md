@@ -59,7 +59,7 @@ interface ILanguage {
 
 All we have to do is pass the `radioGroupProps` it returns to the `<Radio.Group>` component.
 
-`useRadioGroup` uses the `useList` hook for fetching data. [Refer to Ant Design `useList` hook for details. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useList)
+`useRadioGroup` uses the `useList` hook for fetching data. [Refer to Ant Design `useList` hook for details. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList)
 
 ## Options
 
@@ -71,7 +71,7 @@ const { radioGroupProps } = useRadioGroup({
 });
 ```
 
-`resource` property determines API resource endpoint to fetch records from [`dataProvider`](/api-reference/core/providers/data-provider.md). It returns properly configured `options` values for radio buttons.
+`resource` property determines API resource endpoint to fetch records from [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider). It returns properly configured `options` values for radio buttons.
 
 [Refer to the Ant Design's `Radio.Group` component documentation for detailed info on `options`. &#8594](https://ant.design/components/radio)
 

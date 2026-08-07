@@ -14,11 +14,18 @@ import { getDefaultFilter } from "@refinedev/core";
 import type { IOrder, IOrderStatus } from "../../interfaces";
 
 export function RecentSales() {
-  const { dataGridProps, setCurrent, setFilters, filters } =
-    useDataGrid<IOrder>({
-      resource: "orders",
-      initialPageSize: 5,
-    });
+  const {
+    dataGridProps,
+    setCurrentPage: setCurrent,
+    setFilters,
+    filters,
+  } = useDataGrid<IOrder>({
+    resource: "orders",
+
+    pagination: {
+      pageSize: 5,
+    },
+  });
 
   const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -66,6 +73,7 @@ export function RecentSales() {
         field: "user.fullName",
         headerName: "Ordered By",
         width: 200,
+        display: "flex",
         renderCell: ({ row }) => <>{row["user"]["fullName"]}</>,
       },
       {
@@ -73,18 +81,20 @@ export function RecentSales() {
         headerName: "Amount",
         type: "singleSelect",
         width: 150,
-        valueFormatter: ({ value }) => currencyFormatter.format(value),
+        valueFormatter: (value) => currencyFormatter.format(value),
       },
       {
         field: "user.gender",
         headerName: "Gender",
         width: 120,
+        display: "flex",
         renderCell: ({ row }) => <>{row["user"]["gender"]}</>,
       },
       {
         field: "user.gsm",
         headerName: "Tel",
         width: 170,
+        display: "flex",
         renderCell: ({ row }) => <>{row["user"]["gsm"]}</>,
       },
       {
@@ -99,6 +109,7 @@ export function RecentSales() {
           "Pending",
           "Delivered",
         ],
+        display: "flex",
         renderCell: ({ row }) => (
           <Chip
             label={row["status"]["text"]}
@@ -112,12 +123,14 @@ export function RecentSales() {
         headerName: "Address",
         width: 350,
         headerAlign: "left",
+        display: "flex",
         renderCell: ({ row }) => <>{row["adress"]["text"]}</>,
       },
       {
         field: "createdAt",
         headerName: "Created At",
         width: 200,
+        display: "flex",
         renderCell: ({ row }) => <>{formatDate(row["createdAt"])}</>,
       },
     ],
@@ -153,22 +166,23 @@ export function RecentSales() {
               },
             ]);
           }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
           size="small"
           placeholder="Keyword Search"
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            },
+          }}
         />
       </Stack>
       <DataGrid
         {...dataGridProps}
         columns={columns as any}
         sx={{ pl: 3 }}
-        autoHeight
         pageSizeOptions={[5, 10, 25, 50]}
       />
     </Card>

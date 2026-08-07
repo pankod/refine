@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example field-antd-use-select-basic
 
 <br/>
 
-[![Open field-antd-use-select-basic example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/field-antd-use-select-basic?view=preview&theme=dark&codemirror=1)
+[![Open field-antd-use-select-basic example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/field-antd-use-select-basic?view=preview&theme=dark&codemirror=1)

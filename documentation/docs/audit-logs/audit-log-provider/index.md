@@ -1,5 +1,8 @@
 ---
-title: Audit Log Provider
+title: "Audit Log Provider Guide | Activity Logs in Refine v5"
+display_title: "Audit Log Provider"
+sidebar_label: "Audit Log Provider"
+description: "Build Audit Log Provider in Refine v5. Learn the key steps. Explore best practices for event for compliance and traceability. Hands-on examples included."
 ---
 
 import Tabs from '@theme/Tabs';
@@ -48,7 +51,6 @@ const auditLogProvider = {
         action?: string;
         meta?: Record<string, any>;
         author?: Record<string, any>;
-        metaData?: MetaDataQuery;
     }) => Promise<any>;
     update: (params: {
         id: BaseKey;
@@ -87,7 +89,7 @@ Now let's see how we can handle these events in our audit log provider.
 ```ts title="audit-log-provider.ts"
 export const auditLogProvider: AuditLogProvider = {
   get: async (params) => {
-    const { resource, meta, action, author, metaData } = params;
+    const { resource, meta, action, author } = params;
 
     const response = await fetch(
       `https://example.com/api/audit-logs/${resource}/${meta.id}`,
@@ -121,7 +123,7 @@ When the mutations is successful, the `create` method is called with the followi
 
 - In create mutations, if the request response has an `id` field, it will be added to the `meta` object.
 
-- If [`getUserIdentity`](/docs/authentication/auth-provider) is defined in your auth provider, the `author` object will be added to the event with the value returned by `getUserIdentity`.
+- If [`getUserIdentity`](/core/docs/authentication/auth-provider/) is defined in your auth provider, the `author` object will be added to the event with the value returned by `getUserIdentity`.
 
 :::
 
@@ -291,7 +293,7 @@ export const auditLogProvider: AuditLogProvider = {
 };
 ```
 
-For more information, refer to the [`useLog` documentation&#8594](/docs/audit-logs/hooks/use-log)
+For more information, refer to the [`useLog` documentation&#8594](/core/docs/audit-logs/hooks/use-log/)
 
 ### update
 
@@ -324,18 +326,18 @@ export const auditLogProvider: AuditLogProvider = {
 };
 ```
 
-For more information, refer to the [`useLog` documentation&#8594](/docs/audit-logs/hooks/use-log)
+For more information, refer to the [`useLog` documentation&#8594](/core/docs/audit-logs/hooks/use-log/)
 
 ## Supported Hooks
 
 The following hooks will call **Audit Log Provider**'s `create` method when a mutation is successful.
 
-| Package                    | Hooks                                                                                                                                                                                                                                                                             |
-| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| @refinedev/core            | [useForm](/docs/data/hooks/use-form/)                                                                                                                                                                                                                                             |
-| @refinedev/antd            | [useForm](/docs/ui-integrations/ant-design/hooks/use-form), [useModalForm](/docs/ui-integrations/ant-design/hooks/use-modal-form), [useDrawerForm](/docs/ui-integrations/ant-design/hooks/use-drawer-form), [useStepsForm](/docs/ui-integrations/ant-design/hooks/use-steps-form) |
-| @refinedev/mantine         | [useForm](/docs/ui-integrations/mantine/hooks/use-form), [useModalForm](/docs/ui-integrations/mantine/hooks/use-modal-form), [useDrawerForm](/docs/ui-integrations/mantine/hooks/use-drawer-form), [useStepsForm](/docs/ui-integrations/mantine/hooks/use-steps-form)             |
-| @refinedev/react-hook-form | [useForm](/docs/packages/list-of-packages), [useModalForm](/docs/packages/list-of-packages), [useStepsForm](/docs/packages/list-of-packages)                                                                                                                                      |
+| Package                    | Hooks                                                                                                                                                                                                                                                                                                     |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| @refinedev/core            | [useForm](/core/docs/data/hooks/use-form/)                                                                                                                                                                                                                                                                |
+| @refinedev/antd            | [useForm](/core/docs/ui-integrations/ant-design/hooks/use-form/), [useModalForm](/core/docs/ui-integrations/ant-design/hooks/use-modal-form/), [useDrawerForm](/core/docs/ui-integrations/ant-design/hooks/use-drawer-form/), [useStepsForm](/core/docs/ui-integrations/ant-design/hooks/use-steps-form/) |
+| @refinedev/mantine         | [useForm](/core/docs/ui-integrations/mantine/hooks/use-form/), [useModalForm](/core/docs/ui-integrations/mantine/hooks/use-modal-form/), [useDrawerForm](/core/docs/ui-integrations/mantine/hooks/use-drawer-form/), [useStepsForm](/core/docs/ui-integrations/mantine/hooks/use-steps-form/)             |
+| @refinedev/react-hook-form | [useForm](/core/docs/packages/list-of-packages/), [useModalForm](/core/docs/packages/list-of-packages/), [useStepsForm](/core/docs/packages/list-of-packages/)                                                                                                                                            |
 
 Here are the parameters each hook send to `create`:
 
@@ -351,7 +353,7 @@ mutate({
     status: "published",
     content: "New Post Content",
   },
-  metaData: {
+  meta: {
     foo: "bar",
   },
 });
@@ -368,7 +370,7 @@ mutate({
   },
   "meta": {
     "id": "1",
-    // `metaData` is included in `meta`.
+    // Additional metadata is included in `meta`.
     "foo": "bar"
   }
 }
@@ -393,7 +395,7 @@ mutate({
       content: "New Post Content2",
     },
   ],
-  metaData: {
+  meta: {
     foo: "bar",
   },
 });
@@ -417,7 +419,7 @@ mutate({
   ],
   "meta": {
     "ids": [1, 2],
-    // `metaData` is included in `meta`.
+    // Additional metadata is included in `meta`.
     "foo": "bar"
   }
 }

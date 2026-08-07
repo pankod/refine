@@ -1,5 +1,8 @@
 ---
-title: Refresh
+title: "MUI Refresh Button Component | UI Button in Refine v5"
+display_title: "Refresh"
+sidebar_label: "Refresh"
+description: "Secure Refresh Button in Refine v5. Learn best practices. Explore customization options for Material Design, components for polished admin UIs."
 swizzle: true
 ---
 
@@ -7,13 +10,15 @@ swizzle: true
 
 :::simple Good to know
 
-You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-packages) to customize it.
+You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 
 :::
 
 ## Usage
 
-```tsx live url=http://localhost:3000/posts previewHeight=340px
+```tsx live previewHeight=360px
+setInitialRoutes(["/posts/show/123"]);
+
 // visible-block-start
 import { useShow } from "@refinedev/core";
 // highlight-next-line
@@ -21,9 +26,8 @@ import { Show, RefreshButton } from "@refinedev/mui";
 import { Typography, Stack } from "@mui/material";
 
 const PostShow: React.FC = () => {
-  const { queryResult } = useShow<IPost>();
-  const { data, isLoading } = queryResult;
-  const record = data?.data;
+  const { result: post, query } = useShow<IPost>();
+  const { data, isLoading } = query;
 
   return (
     <Show
@@ -35,9 +39,9 @@ const PostShow: React.FC = () => {
       }
     >
       <Typography fontWeight="bold">Id</Typography>
-      <Typography>{record?.id}</Typography>
+      <Typography>{post?.id}</Typography>
       <Typography fontWeight="bold">Title</Typography>
-      <Typography>{record?.title}</Typography>
+      <Typography>{post?.title}</Typography>
     </Show>
   );
 };
@@ -49,20 +53,31 @@ interface IPost {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts/show/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <RefineMui.List>
-            <p>Rest of the page here...</p>
-          </RefineMui.List>
-        ),
-        show: PostShow,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          show: "/posts/show/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<div>List page here...</div>} />
+          <ReactRouter.Route path="show/:id" element={<PostShow />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -70,10 +85,11 @@ render(
 
 ### recordItemId
 
-`recordItemId` allows us to manage which data is going to be refreshed. By default, `recordItemId` will be inferred from the route.
+`recordItemId` allows us to manage which data is going to be refreshed. By default, the `recordItemId` is inferred from the route params.
 
-```tsx live disableScroll previewHeight=120px
-const { useRouterContext } = RefineCore;
+```tsx live previewHeight=120px
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import { RefreshButton } from "@refinedev/mui";
 
@@ -82,33 +98,48 @@ const MyRefreshComponent = () => {
     <RefreshButton
       resource="posts"
       // highlight-next-line
-      recordItemId="1"
+      recordItemId="123"
     />
   );
 };
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/"]}
-    resources={[
-      {
-        name: "posts",
-      },
-    ]}
-    DashboardPage={MyRefreshComponent}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<MyRefreshComponent />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-Clicking the button will trigger the [`useInvalidate`][use-invalidate] hook and then fetch the record whose resource is "post" and whose id is "1".
+Clicking the button will trigger the [`useInvalidate`][use-invalidate] hook and then fetch the record whose resource is "post" and whose id is "123".
 
 ### resource
 
-`resource` allows us to manage which resource is going to be refreshed. By default, `<RefreshButton>` uses the inferred resource from the route.
+`resource` allows us to manage which resource is going to be refreshed. By default, the `resource` is inferred from the route params.
 
-```tsx live disableScroll previewHeight=120px
-const { useRouterContext } = RefineCore;
+```tsx live previewHeight=120px
+setInitialRoutes(["/categories"]);
+
 // visible-block-start
 import { RefreshButton } from "@refinedev/mui";
 
@@ -118,22 +149,38 @@ const MyRefreshComponent = () => {
       // highlight-next-line
       resource="categories"
       // highlight-next-line
-      recordItemId="2"
+      recordItemId="123"
     />
   );
 };
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/"]}
-    resources={[
-      {
-        name: "posts",
-      },
-    ]}
-    DashboardPage={MyRefreshComponent}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+        {
+          name: "categories",
+          list: "/categories",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/categories"
+          element={
+            <div style={{ padding: 16 }}>
+              <MyRefreshComponent />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -141,45 +188,56 @@ Clicking the button will trigger the [`useInvalidate`][use-invalidate] hook and 
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### hideText
 
 `hideText` is used to show and hide the text of the button. When `true`, only the button icon is visible.
 
-```tsx live disableScroll previewHeight=120px
-const { useRouterContext } = RefineCore;
+```tsx live previewHeight=120px
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import { RefreshButton } from "@refinedev/mui";
 
 const MyRefreshComponent = () => {
   return (
     <RefreshButton
+      resource="posts"
+      recordItemId="123"
       // highlight-next-line
       hideText
-      resourceNameOrRouteName="posts"
-      recordItemId="1"
     />
   );
 };
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/"]}
-    resources={[
-      {
-        name: "posts",
-      },
-    ]}
-    DashboardPage={MyRefreshComponent}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<MyRefreshComponent />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-### ~~resourceNameOrRouteName~~ <PropTag deprecated />
-
-Use the `resource` prop instead.
 
 ## API Reference
 
@@ -193,4 +251,4 @@ It also accepts all props of Material UI [Button](https://mui.com/material-ui/ap
 
 :::
 
-[use-invalidate]: /docs/data/hooks/use-invalidate
+[use-invalidate]: /core/docs/data/hooks/use-invalidate

@@ -5,14 +5,8 @@ import routerProvider, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
   CatchAllNavigate,
-} from "@refinedev/react-router-v6";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Outlet,
-  Navigate,
-} from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router";
 import { Toaster } from "react-hot-toast";
 import { CommonLayout } from "@/components/layout";
 import { AboutWindow } from "@/components/about-window";

@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { MetaContextProvider, useMetaContext } from "./index";
-import "@testing-library/jest-dom";
+import "@testing-library/jest-dom/vitest";
 
 describe("MetaContextProvider", () => {
   it("provides the correct meta context value to child components", () => {

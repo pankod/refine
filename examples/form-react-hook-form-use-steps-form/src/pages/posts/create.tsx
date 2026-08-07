@@ -18,6 +18,10 @@ export const PostCreate: React.FC = () => {
 
   const { options } = useSelect({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const renderFormByStep = (step: number) => {

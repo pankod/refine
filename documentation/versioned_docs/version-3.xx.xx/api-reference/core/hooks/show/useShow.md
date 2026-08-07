@@ -6,7 +6,7 @@ title: useShow
 import BasicUsageLivePreview from "./basic-usage-live-preview.md";
 import PropResource from "@site/src/partials/prop-resource";
 
-`useShow` is an extended version of [`useOne`](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/). It supports all the features of `useOne` and adds some extra features.
+`useShow` is an extended version of [`useOne`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/). It supports all the features of `useOne` and adds some extra features.
 
 It is useful when you want to fetch a single record from the API. It will return the data and some functions to control the query.
 
@@ -20,11 +20,11 @@ If you define `resource` and `id` on the hook, when these properties are changed
 
 ## Realtime Updates
 
-> This feature is only available if you use a [Live Provider](/docs/3.xx.xx/api-reference/core/providers/live-provider).
+> This feature is only available if you use a [Live Provider](/core/docs/3.xx.xx/api-reference/core/providers/live-provider).
 
 When the `useShow` hook is mounted, it will call the `subscribe` method from the `liveProvider` with some parameters such as `channel`, `resource` etc. It is useful when you want to subscribe to live updates.
 
-[Refer to the `liveProvider` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/providers/live-provider)
+[Refer to the `liveProvider` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/providers/live-provider)
 
 ## Properties
 
@@ -61,10 +61,10 @@ useShow({
 
 ### `metaData`
 
-[`metaData`](/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
+[`metaData`](/core/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
 
 - To pass additional information to data provider methods.
-- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
+- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/core/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
 
 In the following example, we pass the `headers` property in the `metaData` object to the `create` method. With similar logic, you can pass any properties to specifically handle the data provider methods.
 
@@ -130,7 +130,7 @@ useShow({
 
 ### `successNotification`
 
-> [`NotificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
 
 After data is fetched successfully, `useShow` can call `open` function from `NotificationProvider` to show a success notification. With this prop, you can customize the success notification.
 
@@ -148,7 +148,7 @@ useShow({
 
 ### `errorNotification`
 
-> [`NotificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
 
 After data fetching is failed, `useShow` will call the `open` function from `NotificationProvider` to show an error notification. With this prop, you can customize the error notification.
 
@@ -166,10 +166,10 @@ useShow({
 
 ### `liveMode`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
 Determines whether to update data automatically ("auto") or not ("manual") if a related live event is received. It can be used to update and show data in Realtime throughout your app.
-For more information about live mode, please check the [Live / Realtime](/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
+For more information about live mode, please check the [Live / Realtime](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
 
 ```tsx
 useShow({
@@ -179,7 +179,7 @@ useShow({
 
 ### `onLiveEvent`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
 The callback function is executed when new events from a subscription have arrived.
 
@@ -193,9 +193,9 @@ useShow({
 
 ### `liveParams`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
-Params to pass to liveProvider's [subscribe](/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) method.
+Params to pass to liveProvider's [subscribe](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) method.
 
 ## Return Values
 

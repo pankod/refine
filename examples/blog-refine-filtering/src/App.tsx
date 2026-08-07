@@ -1,11 +1,11 @@
 import { Refine, GitHubBanner, ErrorComponent } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import dataProvider from "@refinedev/simple-rest";
-import routerBindings, {
+import routerProvider, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import { Posts } from "./pages/posts";
 
@@ -19,7 +19,7 @@ function App() {
         <Refine
           dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
           resources={[{ name: "posts", list: "/" }]}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           options={{
             syncWithLocation: true,
             warnWhenUnsavedChanges: true,

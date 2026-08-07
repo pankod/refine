@@ -10,7 +10,6 @@ export * from "./meet";
 export * from "./refine-week";
 export * from "./store";
 export * from "./use-cases";
-export * from "./github-star";
 export * from "./github";
 export * from "./discord";
 export * from "./twitter";

@@ -9,7 +9,7 @@ Features
 - #### Added swizzle support for `@pankod/refine-core` package
 
   - The swizzle is a command in refine-cli that allows you to customize the Refine's supported components and data providers. It allows you to eject selected files from the Refine packages and modify depending on your needs.
-  - [Refer to Swizzle Docs for more information](https://refine.dev/docs/packages/documentation/cli/#swizzle)
+  - [Refer to Swizzle Docs for more information](https://refine.dev/docs/packages/cli/#swizzle)
 
   Swizzleable components:
 

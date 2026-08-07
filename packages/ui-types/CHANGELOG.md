@@ -1,5 +1,117 @@
 # @refinedev/ui-types
 
+## 2.0.1
+
+### Patch Changes
+
+- [#7086](https://github.com/refinedev/refine/pull/7086) [`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3) Thanks [@BatuhanW](https://github.com/BatuhanW)! - feat: disable minify
+
+  Resolves #6417
+
+- Updated dependencies [[`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3)]:
+  - @refinedev/core@5.0.5
+
+## 2.0.0
+
+### Major Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: upgrade UI TypeScript definitions for Refine 5.0
+
+  - Updated TypeScript definitions for Refine 5.0 and TanStack Query v5 compatibility.
+  - Enhanced type safety and improved component interfaces for better developer experience.
+
+  > 🚨 Breaking changes require migration - check our guide at https://refine.dev/docs/migration-guide/4x-to-5x/
+
+### Patch Changes
+
+- Updated dependencies [[`807099eecb4e8d41b1cf9ab557d71d34d12bec35`](https://github.com/refinedev/refine/commit/807099eecb4e8d41b1cf9ab557d71d34d12bec35), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/core@5.0.0
+
+## 1.24.2
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- - Add `deleteButtonProps` prop to the `Show` component of UI packages: AntDesign, Manitine, Charka-UI, Material-UI
+  - Add documentation for this addition
+
+  [Resolves #6692](https://github.com/refinedev/refine/issues/6692)
+
+📢 **Refine Community Release** 📢
+
+- fix: wrong JSDoc links in components
+
+- Updated dependencies []:
+  - @refinedev/core@4.57.9
+
+## 1.24.1
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6728](https://github.com/refinedev/refine/pull/6728) [`1663501c9c9f37b98434af83afd8d0fc41d27af2`](https://github.com/refinedev/refine/commit/1663501c9c9f37b98434af83afd8d0fc41d27af2) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix: wrong JSDoc links in components
+
+- Updated dependencies [[`1663501c9c9f37b98434af83afd8d0fc41d27af2`](https://github.com/refinedev/refine/commit/1663501c9c9f37b98434af83afd8d0fc41d27af2)]:
+  - @refinedev/core@4.57.8
+
+## 1.24.0
+
+### Minor Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6699](https://github.com/refinedev/refine/pull/6699) [`cd938b04cb004b61174d65811467469abaf2db3f`](https://github.com/refinedev/refine/commit/cd938b04cb004b61174d65811467469abaf2db3f) Thanks [@arndom](https://github.com/arndom)! - - Add `deleteButtonProps` prop to the `Show` component of UI packages: AntDesign, Manitine, Charka-UI, Material-UI
+
+  - Add documenation for this addition
+
+  [Resolves #6692](https://github.com/refinedev/refine/issues/6692)
+
+## 1.23.1
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- chore: update package descriptions
+
+📢 **Refine Community Release** 📢
+
+- feat: added `minItems` prop to specify the minimum number of items required for rendering breadcrumbs. #6497
+
+  Resolves [#6497](https://github.com/refinedev/refine/issues/6497)
+
+📢 **Refine Community Release** 📢
+
+- Enhanced the ThemedSideV2 component with new functionality to support dynamic onSiderCollapsed handling. This allows better customization of sider collapse/expand events and improved responsiveness for mobile and desktop views. Added additional type definitions and ensured compatibility across all layout contexts. resolves #6508
+
+- Updated dependencies []:
+  - @refinedev/core@4.57.1
+
+## 1.23.0
+
+### Minor Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6503](https://github.com/refinedev/refine/pull/6503) [`29d00f8dc49485e0f5c42d208417e158118d11f2`](https://github.com/refinedev/refine/commit/29d00f8dc49485e0f5c42d208417e158118d11f2) Thanks [@aress31](https://github.com/aress31)! - feat: added `minItems` prop to specify the minimum number of items required for rendering breadcrumbs. #6497
+
+  Resolves [#6497](https://github.com/refinedev/refine/issues/6497)
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6527](https://github.com/refinedev/refine/pull/6527) [`1d2613381c50f438270d6a3e486595d54496ef92`](https://github.com/refinedev/refine/commit/1d2613381c50f438270d6a3e486595d54496ef92) Thanks [@OmkarBansod02](https://github.com/OmkarBansod02)! - Enhanced the ThemedSideV2 component with new functionality to support dynamic onSiderCollapsed handling. This allows better customization of sider collapse/expand events and improved responsiveness for mobile and desktop views. Added additional type definitions and ensured compatibility across all layout contexts. resolves #6508
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6554](https://github.com/refinedev/refine/pull/6554) [`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706) Thanks [@necatiozmen](https://github.com/necatiozmen)! - chore: update package descriptions
+
+- Updated dependencies [[`42d730aa2908003cfb0dcf0c57e9b70793c88ddc`](https://github.com/refinedev/refine/commit/42d730aa2908003cfb0dcf0c57e9b70793c88ddc), [`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706), [`8309c5690e7c49529f07d288e79896636c6ce7c2`](https://github.com/refinedev/refine/commit/8309c5690e7c49529f07d288e79896636c6ce7c2), [`f32af58283bdaf7712805520bd9feb8bfd27ba38`](https://github.com/refinedev/refine/commit/f32af58283bdaf7712805520bd9feb8bfd27ba38)]:
+  - @refinedev/core@4.57.0
+
 ## 1.22.9
 
 ### Patch Changes

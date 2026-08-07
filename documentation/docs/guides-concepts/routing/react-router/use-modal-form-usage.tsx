@@ -9,10 +9,9 @@ export function ReactRouterUseModalFormUsage() {
       dependencies={{
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-router-v6": "latest",
+        "@refinedev/react-router": "latest",
         "@refinedev/react-hook-form": "latest",
-        "react-router-dom": "latest",
-        "react-router": "latest",
+        "react-router": "^7.0.2",
       }}
       startRoute="/my-products"
       files={{
@@ -61,9 +60,9 @@ const AppTsxCode = /* tsx */ `
 import React from "react";
 
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router";
 
 import "./style.css";
 
@@ -160,7 +159,8 @@ import { useModalForm } from "@refinedev/react-hook-form";
 import { Modal } from "../../components/modal.tsx";
 
 export const ProductList: React.FC = () => {
-  const { data, isLoading } = useList();
+  const { result, query } = useList();
+  const products = result?.data;
 
   const {
     modal: { visible, close, show },
@@ -173,7 +173,7 @@ export const ProductList: React.FC = () => {
     syncWithLocation: true,
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (query.isLoading) return <div>Loading...</div>;
 
   return (
     <>
@@ -189,7 +189,7 @@ export const ProductList: React.FC = () => {
         </form>
       </Modal>
       <ul>
-        {data?.data?.map((product) => (
+        {products?.map((product) => (
           <li key={product.id}>
             <span>{product.name}</span>
             <button

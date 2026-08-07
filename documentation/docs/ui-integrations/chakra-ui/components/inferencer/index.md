@@ -1,5 +1,8 @@
 ---
-title: Inferencer
+title: "Chakra UI Inferencer Component | UI Component in Refine v5"
+display_title: "Inferencer"
+sidebar_label: "Inferencer"
+description: "Integrate Inferencer in Refine v5. Learn best practices. Learn integrate accessibility, components for polished admin UIs. Hands-on examples included."
 ---
 
 You can automatically generate views for your resources using `@refinedev/inferencer`. Inferencer exports `ChakraUIListInferencer`, `ChakraUIShowInferencer`, `ChakraUIEditInferencer`, `ChakraUICreateInferencer` components and finally the `ChakraUIInferencer` component, which combines all in one place.
@@ -20,7 +23,7 @@ values={[
 import { Layout, refineTheme } from "@refinedev/chakra-ui";
 import { ChakraProvider } from "@chakra-ui/react";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { ChakraUIInferencer } from "@refinedev/inferencer/chakra-ui";
@@ -88,7 +91,7 @@ const SampleEdit = () => {
   </TabItem>
 </Tabs>
 
-To learn more about `@refinedev/inferencer` package, please check out its [documentation](/docs/packages/list-of-packages)
+To learn more about `@refinedev/inferencer` package, please check out its [documentation](/core/docs/packages/list-of-packages/)
 
 ## Views
 
@@ -101,12 +104,12 @@ setInitialRoutes(["/samples"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/chakra-ui";
+import { ThemedLayout, RefineThemes } from "@refinedev/chakra-ui";
 import { ChakraProvider } from "@chakra-ui/react";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { ChakraUIInferencer } from "@refinedev/inferencer/chakra-ui";
@@ -130,9 +133,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               {/* highlight-next-line */}
@@ -159,12 +162,12 @@ setInitialRoutes(["/samples/show/123"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/chakra-ui";
+import { ThemedLayout, RefineThemes } from "@refinedev/chakra-ui";
 import { ChakraProvider } from "@chakra-ui/react";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { ChakraUIInferencer } from "@refinedev/inferencer/chakra-ui";
@@ -188,9 +191,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               {/* highlight-next-line */}
@@ -220,12 +223,12 @@ setInitialRoutes(["/samples/create"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/chakra-ui";
+import { ThemedLayout, RefineThemes } from "@refinedev/chakra-ui";
 import { ChakraProvider } from "@chakra-ui/react";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { ChakraUIInferencer } from "@refinedev/inferencer/chakra-ui";
@@ -249,9 +252,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               {/* highlight-next-line */}
@@ -278,12 +281,12 @@ setInitialRoutes(["/samples/edit/123"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/chakra-ui";
+import { ThemedLayout, RefineThemes } from "@refinedev/chakra-ui";
 import { ChakraProvider } from "@chakra-ui/react";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { ChakraUIInferencer } from "@refinedev/inferencer/chakra-ui";
@@ -307,9 +310,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               {/* highlight-next-line */}

@@ -3,9 +3,11 @@ title: Understanding the React useRef Hook
 description: We will explain the differences between useRef and React ref.
 slug: react-useref-hook-and-ref
 authors: joel_adewole
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-26-react-useref/social2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-26-react-useref/social2.png
 hide_table_of_contents: false
+last_update: 2024-10-16
 ---
 
 **This article was last updated on October 16, 2024 to add more use cases for the React useRef hook, address common misconceptions, explain performance optimizations, and provide a more detailed comparison between useRef and React ref.**
@@ -19,19 +21,6 @@ As a result, hooks were introduced in React version 16.8.0. With hooks, you can 
 React hooks only work with functional components. You can't use them with ES6 classes. In addition to the built-in hooks, you can also create custom hooks if necessary.
 
 React has several built-in hooks such as `useState`, `useReducer`, `useRef`, and `useEffect`. In this article, we will explore the React `useRef` hook. We will also discuss how to use refs to access DOM elements and highlight the differences between the `createRef` function and the `useRef` hook.
-
-Steps we'll cover:
-
-- [What is useRef hook?](#what-is-useref-hook)
-- [What is createRef function?](#what-is-createref-function)
-- [Using refs to Access DOM Elements in React](#using-refs-to-access-dom-elements-in-react)
-- [Differences between the useRef hook and the createRef function](#differences-between-the-useref-hook-and-the-createref-function)
-- [Best practices when working with refs](#best-practices-when-working-with-refs)
-- [Using the useRef hook in an Application](#using-the-useref-hook-in-an-application)
-- [Common Pitfalls using useRef](#common-pitfalls-using-useref)
-- [When to use React useRef hook?](#when-to-use-react-useref-hook)
-- [Use-cases of refs in React](#use-cases-of-refs-in-react)
-- [Performance Optimization with useRef](#performance-optimization-with-useref)
 
 ## What is useRef hook?
 
@@ -224,19 +213,22 @@ export default function Storefront() {
   return (
     <div className="gallery">
       <div className="col" ref={targetElement}>
-        <img src="https://i.postimg.cc/G207QNV7/image.png" alt="Product 1" />
+        <img
+          src="https://i.postimg.cc/G207QNV7/image.png"
+          alt="iWatch Series 6 product photo"
+        />
         <p>iWatch Series 6</p>
         <div className="btns">
           <button>
             <img
               src="https://api.iconify.design/flat-color-icons:like.svg?color=%23888888"
-              alt="like"
+              alt="Like icon"
             />
           </button>
           <button>
             <img
               src="https://api.iconify.design/icon-park:buy.svg?color=%23888888"
-              alt="add"
+              alt="Buy icon"
             />
           </button>
         </div>
@@ -250,7 +242,7 @@ In the code above, we we invoked the `useClickAway` custom hook in the `Storefro
 
 Now let’s see the output:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-26-react-useref/useref.gif"  alt="useRef" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-26-react-useref/useref.avif"  alt="Storefront card with click-away example" />
 
 <br />
 

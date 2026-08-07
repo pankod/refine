@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useShow, useSubscription } from "@refinedev/core";
 import dayjs from "dayjs";
 import {

@@ -11,14 +11,10 @@ describe("server-side-form-validation-mantine", () => {
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    cy.interceptGETCategories();
-    cy.interceptGETPosts();
     cy.visit("/");
   });
 
   it("should render edit form errors ", () => {
-    cy.interceptGETPost();
-
     cy.wait("@getPosts");
     cy.getMantineLoadingOverlay().should("not.exist");
     cy.wait("@getCategories");

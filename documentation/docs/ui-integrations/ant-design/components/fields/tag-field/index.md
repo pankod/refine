@@ -1,5 +1,8 @@
 ---
-title: Tag
+title: "Ant Design Tag Field Component | UI Component in Refine v5"
+display_title: "Tag"
+sidebar_label: "Tag"
+description: "Integrate Tag Field in Refine v5. Learn best practices. Explore customization options for Ant Design for polished admin UIs. Explore with code snippets."
 swizzle: true
 ---
 
@@ -7,7 +10,7 @@ This field lets you display a value in a tag. It uses Ant Design's [`<Tag>`](htt
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -15,14 +18,11 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 
 Let's see how we can use it in a basic list page:
 
-```tsx live
+```tsx live previewHeight=280px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
-import {
-  List,
-  // highlight-next-line
-  TagField,
-  useTable,
-} from "@refinedev/antd";
+import { List, TagField, useTable } from "@refinedev/antd";
 import { Table } from "antd";
 
 const PostList: React.FC = () => {
@@ -31,13 +31,11 @@ const PostList: React.FC = () => {
   return (
     <List>
       <Table {...tableProps} rowKey="id">
-        <Table.Column dataIndex="title" title="Sitle" width="50%" />
+        <Table.Column dataIndex="title" title="Title" />
         <Table.Column
           dataIndex="status"
           title="Status"
-          // highlight-next-line
           render={(value: string) => <TagField value={value} />}
-          width="50%"
         />
       </Table>
     </List>
@@ -52,14 +50,27 @@ interface IPost {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <PostList />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

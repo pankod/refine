@@ -36,7 +36,7 @@ const Wrapper = ({ children }) => {
 This field lets you show basic text. It uses Mantine [`<Text>`](https://mantine.dev/core/text/) component.
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Usage

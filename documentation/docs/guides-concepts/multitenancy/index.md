@@ -1,5 +1,8 @@
 ---
-title: Multitenancy
+title: "Multitenancy Guide | Guides Concepts in Refine v5"
+display_title: "Multitenancy"
+sidebar_label: "Multitenancy"
+description: "Learn to implement Multitenancy in Refine v5. Learn best practices for tenant and data for real-world React admin panels. Hands-on examples included."
 ---
 
 Refine's architecture allows you to customize your app's data providers, access control and routing to support multi tenant features easily. This guide will provide you with a high level overview of the concepts and how to implement them. To see multi tenant app examples, check out the [Examples](#examples) section.
@@ -25,13 +28,13 @@ Multitenancy, especially in cloud-based systems or software solutions, refers to
 
 ## Implementing Multitenancy in Refine
 
-In the next sections, we'll show you how to set up multitenancy in Refine using a route-based approach. We'll use the [`multitenancyProvider`](/docs/enterprise-edition/multitenancy/) from the `"@refinedev-ee/enterprise"` package. This Multi-Tenancy Provider is part of the [Refine Enterprise Edition](https://refine.dev/enterprise/). It makes managing multi-tenant applications easier by providing tools like context, hooks, and components that are designed to handle tenants.
+In the next sections, we'll show you how to set up multitenancy in Refine using a route-based approach. We'll use the [`multitenancyProvider`](/core/docs/enterprise-edition/multitenancy/) from the `"@refinedev/enterprise"` package.
 
 ### 1. Setting up the Multitenancy Provider
 
-First, we need to install the `@refinedev-ee/enterprise` and `@refinedev-ee/multitenancy` packages.
+First, we need to install the `@refinedev/enterprise` and `@refinedev/multitenancy` packages.
 
-<InstallPackagesCommand args="@refinedev-ee/enterprise @refinedev-ee/multitenancy"/>
+<InstallPackagesCommand args="@refinedev/enterprise @refinedev/multitenancy"/>
 
 Then we need to change `<Refine />` component to `<RefineEnterprise />` in your `App.tsx` file. You can use same props of `<Refine />` component in `<RefineEnterprise />` component.
 
@@ -39,7 +42,7 @@ Then we need to change `<Refine />` component to `<RefineEnterprise />` in your 
 
 ```diff
 - import { Refine } from "@refinedev/core";
-+ import { RefineEnterprise } from "@refinedev-ee/enterprise";
++ import { RefineEnterprise } from "@refinedev/enterprise";
 
 export const App = () => {
   return (
@@ -52,7 +55,7 @@ export const App = () => {
 };
 ```
 
-After that, we need to provide the [`multitenancyProvider`](/docs/enterprise-edition/multitenancy/) to the `<RefineEnterprise />` component. The [`multitenancyProvider`](/docs/enterprise-edition/multitenancy/) prop accepts an object with two properties: `adapter` and `fetchTenants`.
+After that, we need to provide the [`multitenancyProvider`](/core/docs/enterprise-edition/multitenancy/) to the `<RefineEnterprise />` component. The [`multitenancyProvider`](/core/docs/enterprise-edition/multitenancy/) prop accepts an object with two properties: `adapter` and `fetchTenants`.
 
 - `adapter`: The adapter is a function that extracts the tenantId from the current route. You can use the provided `useRouterAdapter` or create your own custom adapter.
 
@@ -62,11 +65,11 @@ After that, we need to provide the [`multitenancyProvider`](/docs/enterprise-edi
   - `fallback`: You can provide a custom fallback component to be displayed while the tenant is not available.
   - `loadingComponent`: You can provide a custom loading component to be displayed while the tenant is loading.
 
-When you mount `<RefineEnterprise />` and `<WithTenant />` components and provide the [`multitenancyProvider`](/docs/enterprise-edition/multitenancy/) prop, Refine will automatically extract the `tenantId` from the route and pass it to the data provider in the `meta` object.
+When you mount `<RefineEnterprise />` and `<WithTenant />` components and provide the [`multitenancyProvider`](/core/docs/enterprise-edition/multitenancy/) prop, Refine will automatically extract the `tenantId` from the route and pass it to the data provider in the `meta` object.
 
 ```tsx
-import { RefineEnterprise } from "@refinedev-ee/enterprise";
-import { useRouterAdapter, WithTenant } from "@refinedev-ee/multitenancy";
+import { RefineEnterprise } from "@refinedev/enterprise";
+import { useRouterAdapter, WithTenant } from "@refinedev/multitenancy";
 
 // ... other imports
 
@@ -142,12 +145,12 @@ import RemixRouteDefinitions from "./examples/remix.tsx";
 
 We'll be using the `tenantId` from the route to determine which tenant is being accessed. Refine will infer the `tenantId` from the current route and pass it to the data provider in `meta`. You can access the `tenantId` from the `meta` object in your data provider and use it in your API calls.
 
-To customize the data providers, you can override each method in the data provider instance or use the [`swizzle`](/docs/packages/cli/#swizzle) command to be fully able to customize the data provider for your needs.
+To customize the data providers, you can override each method in the data provider instance or use the [`swizzle`](/core/docs/packages/cli/#swizzle) command to be fully able to customize the data provider for your needs.
 
 An example implementation of a custom `getList` method is shown below.
 
 ```ts
-import dataProvider from "@refinedev-ee/simple-rest";
+import dataProvider from "@refinedev/simple-rest";
 
 const API_URL = "<API_URL>";
 const baseDataProvider = dataProvider(API_URL);
@@ -182,14 +185,14 @@ const customDataProvider = {
 
 Now we've defined our routes and data providers to use `tenantId` to determine which tenant is being accessed. We'll need to add a tenant selector to the UI to allow users to switch between tenants.
 
-You can use the Tenant selector components from the `@refinedev-ee/multitenancy` package to easily add a tenant selector to your app.
+You can use the Tenant selector components from the `@refinedev/multitenancy` package to easily add a tenant selector to your app.
 
 <Tabs wrapContent={false}>
 
 <TabItem value="Ant Design">
 
 ```tsx
-import { TenantSelect } from "@refinedev-ee/multitenancy/antd";
+import { TenantSelect } from "@refinedev/multitenancy/antd";
 
 <TenantSelect />;
 ```
@@ -199,7 +202,7 @@ import { TenantSelect } from "@refinedev-ee/multitenancy/antd";
 <TabItem value="Material UI">
 
 ```tsx
-import { TenantSelect } from "@refinedev-ee/multitenancy/mui";
+import { TenantSelect } from "@refinedev/multitenancy/mui";
 
 <TenantSelect />;
 ```
@@ -210,7 +213,7 @@ import { TenantSelect } from "@refinedev-ee/multitenancy/mui";
 
 ### Examples
 
-Here are some examples of multi-tenant apps built with [Refine Enterprise Edition](https://refine.dev/enterprise/):
+Here are some examples of multi-tenant apps:
 
 - [Multitenancy App with Strapi](https://refine.dev/templates/multitenancy-strapi/)
 - [Isolated Multitenancy App with Rest API](https://multitenancy-isolated.netlify.app/)

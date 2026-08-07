@@ -90,25 +90,30 @@ export const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    setOptions,
+    reactTable: {
+      getHeaderGroups,
+      getRowModel,
+      setOptions,
+      getState,
+      setPageIndex,
+      getCanPreviousPage,
+      getPageCount,
+      getCanNextPage,
+      nextPage,
+      previousPage,
+      setPageSize,
+    },
+
     refineCore: {
       tableQuery: { data: tableData },
     },
-    getState,
-    setPageIndex,
-    getCanPreviousPage,
-    getPageCount,
-    getCanNextPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-  } = useTable<IPost>({ columns });
+  } = useTable<IPost>({
+    columns,
+  });
 
   const categoryIds = tableData?.data?.map((item) => item.category?.[0]) ?? [];
 
-  const { data: categoriesData } = useMany<ICategory>({
+  const { result: categoriesData } = useMany<ICategory>({
     resource: "category",
     ids: categoryIds,
     queryOptions: {

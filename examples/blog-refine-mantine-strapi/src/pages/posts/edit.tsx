@@ -34,6 +34,10 @@ export const PostEdit = () => {
   const { selectProps } = useSelect<ICategory>({
     resource: "categories",
     defaultValue: postData?.category?.id,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

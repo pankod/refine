@@ -1,12 +1,9 @@
 import React from "react";
+import { vi } from "vitest";
 
 import { fireEvent, render, waitFor } from "@testing-library/react";
 
-import {
-  TestWrapper,
-  mockLegacyRouterProvider,
-  mockRouterProvider,
-} from "@test";
+import { TestWrapper, mockRouterProvider } from "@test";
 
 import { ErrorComponent } from ".";
 
@@ -44,33 +41,8 @@ describe("ErrorComponent", () => {
     );
   });
 
-  it("back home button should work with legacy router provider", async () => {
-    const pushMock = jest.fn();
-
-    const { getByText } = render(<ErrorComponent />, {
-      wrapper: TestWrapper({
-        legacyRouterProvider: {
-          ...mockLegacyRouterProvider(),
-          useHistory: () => ({
-            goBack: jest.fn(),
-            push: pushMock,
-            replace: jest.fn(),
-          }),
-        },
-      }),
-    });
-
-    fireEvent.click(getByText("Back Home"));
-
-    await waitFor(() => {
-      expect(pushMock).toBeCalledTimes(1);
-    });
-
-    expect(pushMock).toBeCalledWith("/");
-  });
-
   it("back home button should work with router provider", async () => {
-    const goMock = jest.fn();
+    const goMock = vi.fn();
 
     const { getByText } = render(<ErrorComponent />, {
       wrapper: TestWrapper({
@@ -85,9 +57,9 @@ describe("ErrorComponent", () => {
     fireEvent.click(getByText("Back Home"));
 
     await waitFor(() => {
-      expect(goMock).toBeCalledTimes(1);
+      expect(goMock).toHaveBeenCalledTimes(1);
     });
 
-    expect(goMock).toBeCalledWith({ to: "/" });
+    expect(goMock).toHaveBeenCalledWith({ to: "/" });
   });
 });

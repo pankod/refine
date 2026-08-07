@@ -1,5 +1,8 @@
 ---
-title: useModalForm
+title: "useModalForm Hook | Options, Patterns & Edge Cases | Refine v5"
+display_title: "useModalForm"
+sidebar_label: "useModalForm"
+description: "Build Use Modal Form in Refine v5. Learn the key steps. Learn best practices for values for real-world React admin panels. See practical code samples."
 ---
 
 ```tsx live shared
@@ -118,7 +121,7 @@ import { useModalForm } from "@refinedev/react-hook-form";
 import { Modal } from "@components";
 
 const PostList = () => {
-  const { tableQuery } = useTable<IPost>({
+  const { result, tableQuery } = useTable<IPost>({
     sorters: {
       initial: [
         {
@@ -186,7 +189,7 @@ const PostList = () => {
           </tr>
         </thead>
         <tbody>
-          {tableQuery.data?.data.map((post) => (
+          {result?.data?.map((post) => (
             <tr key={post.id}>
               <td>{post.id}</td>
               <td>{post.title}</td>
@@ -206,16 +209,22 @@ export interface IPost {
 }
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
-
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<PostList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 </TabItem>
@@ -232,7 +241,7 @@ import { useModalForm } from "@refinedev/react-hook-form";
 import { Modal } from "@components";
 
 const PostList = () => {
-  const { tableQuery } = useTable<IPost>({
+  const { result, tableQuery } = useTable<IPost>({
     sorters: {
       initial: [
         {
@@ -300,7 +309,7 @@ const PostList = () => {
           </tr>
         </thead>
         <tbody>
-          {tableQuery.data?.data.map((post) => (
+          {result?.data.map((post) => (
             <tr key={post.id}>
               <td>{post.id}</td>
               <td>{post.title}</td>
@@ -325,16 +334,22 @@ export interface IPost {
 }
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
-
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<PostList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 :::simple Implementation Tips
@@ -369,13 +384,15 @@ import { useModalForm } from "@refinedev/react-hook-form";
 import { Modal } from "@components";
 
 const PostList = () => {
-  const { tableQuery } = useTable<IPost>({
-    initialSorter: [
-      {
-        field: "id",
-        order: "desc",
-      },
-    ],
+  const { result, tableQuery } = useTable<IPost>({
+    sorters: {
+      initial: [
+        {
+          field: "id",
+          order: "desc",
+        },
+      ],
+    },
   });
 
   // highlight-start
@@ -435,7 +452,7 @@ const PostList = () => {
           </tr>
         </thead>
         <tbody>
-          {tableQuery.data?.data.map((post) => (
+          {result?.data.map((post) => (
             <tr key={post.id}>
               <td>{post.id}</td>
               <td>{post.title}</td>
@@ -460,16 +477,22 @@ export interface IPost {
 }
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
-
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<PostList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 :::simple Implementation Tips
@@ -593,7 +616,7 @@ textarea {
 
 ## Properties
 
-All [`useForm`][refine-react-hook-form-use-form] props also available in `useModalForm`. You can find descriptions on [`useForm`](/docs/packages/list-of-packages#properties) docs.
+All [`useForm`][refine-react-hook-form-use-form] props also available in `useModalForm`. You can find descriptions on [`useForm`](/core/docs/packages/list-of-packages#properties) docs.
 
 All [`React Hook Form useForm`][react-hook-form-use-form] props also available in `useModalForm`. You can find descriptions on [`React Hook Form`][react-hook-form-use-form] docs.
 
@@ -645,11 +668,23 @@ const modalForm = useModalForm({
 });
 ```
 
+### autoResetFormWhenClose
+
+When `true`, form will be reset when modal closes. Defaults to `true`.
+
+```tsx
+const modalForm = useModalForm({
+  modalProps: {
+    autoResetFormWhenClose: false,
+  },
+});
+```
+
 ### warnWhenUnsavedChanges
 
 When you have unsaved changes and try to leave the current page, Refine shows a confirmation modal box. To activate this feature. By default, this feature is disabled.
 
-You can also set this value in [`<Refine>`](/docs/core/refine-component#warnwhenunsavedchanges) component.
+You can also set this value in [`<Refine>`](/core/docs/core/refine-component#warnwhenunsavedchanges) component.
 
 ```tsx
 const modalForm = useModalForm({
@@ -767,9 +802,9 @@ useDrawerForm({
 
 ## Return Values
 
-All [`useForm`][refine-react-hook-form-use-form] return values also available in `useModalForm`. You can find descriptions on [`useForm`](/docs/packages/list-of-packages#return-values) docs.
+All [`useForm`][refine-react-hook-form-use-form] return values also available in `useModalForm`. You can find descriptions on [`useForm`](/core/docs/packages/list-of-packages#return-values) docs.
 
-All [`React Hook Form useForm`][react-hook-form-use-form] return values also available in `useModalForm`. You can find descriptions on [`useForm`](/docs/packages/list-of-packages#return-values) docs.
+All [`React Hook Form useForm`][react-hook-form-use-form] return values also available in `useModalForm`. You can find descriptions on [`useForm`](/core/docs/packages/list-of-packages#return-values) docs.
 
 ### visible
 
@@ -970,10 +1005,10 @@ It also accepts all props of [useForm](https://react-hook-form.com/api/useform) 
 
 ### Return values
 
-| Property                      | Description                                                     | Type                                                              |
-| ----------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------- |
-| modal                         | Relevant states and methods to control the modal                | [`ModalReturnValues`](#modalreturnvalues)                         |
-| refineCore                    | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/docs/data/hooks/use-form/#return-values) |
+| Property                      | Description                                                     | Type                                                                   |
+| ----------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| modal                         | Relevant states and methods to control the modal                | [`ModalReturnValues`](#modalreturnvalues)                              |
+| refineCore                    | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/core/docs/data/hooks/use-form/#return-values) |
 | React Hook Form Return Values | See [React Hook Form][react-hook-form-use-form] documentation   |
 
 #### ModalReturnValues
@@ -991,9 +1026,9 @@ It also accepts all props of [useForm](https://react-hook-form.com/api/useform) 
 
 <CodeSandboxExample path="form-react-hook-form-use-modal-form" />
 
-[@refinedev/react-hook-form]: https://github.com/refinedev/refine/tree/master/packages/react-hook-form
-[refine-react-hook-form-use-form]: /docs/packages/list-of-packages
+[@refinedev/react-hook-form]: https://github.com/refinedev/refine/tree/main/packages/react-hook-form
+[refine-react-hook-form-use-form]: /core/docs/packages/list-of-packages
 [react-hook-form-use-form]: https://react-hook-form.com/api/useform
-[use-form-core]: /docs/data/hooks/use-form/
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
+[use-form-core]: /core/docs/data/hooks/use-form/
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror

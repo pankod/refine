@@ -1,4 +1,4 @@
-import type { ProjectTypes } from "@definitions/projectTypes";
+import type { ProjectTypes } from "../../../../../definitions/projectTypes";
 import { AntDesignIntegration } from "./ant-design";
 import { ReactRouterIntegration } from "./react-router";
 

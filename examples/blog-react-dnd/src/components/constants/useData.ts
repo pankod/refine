@@ -7,13 +7,12 @@ function useData() {
   //Fetching data from the products endpoint
   //using refine's useList hook
 
-  const { data } = useList<IProduct>({
-    config: {
-      pagination: {
-        current: 2,
-      },
-    },
+  const { result: data } = useList<IProduct>({
     resource: "products",
+
+    pagination: {
+      currentPage: 2,
+    },
   });
 
   //modifying fecthed data and adding column property

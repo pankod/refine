@@ -19,7 +19,7 @@ import {
 import InputMask from "react-input-mask";
 import type { ICourier, IStore, IVehicle } from "../../interfaces";
 import { useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { CourierFormItemAvatar } from "../../components";
 
 export const CourierCreate = () => {
@@ -130,12 +130,20 @@ const useFormList = (props: UseFormListProps) => {
 
   const { selectProps: storeSelectProps } = useSelect<IStore>({
     resource: "stores",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { selectProps: vehicleSelectProps } = useSelect<IVehicle>({
     resource: "vehicles",
     optionLabel: "model",
     optionValue: "id",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const formList = useMemo(() => {

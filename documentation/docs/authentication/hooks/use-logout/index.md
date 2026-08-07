@@ -1,12 +1,14 @@
 ---
-title: useLogout
-description: useLogout data hook from Refine is a modified version of react-query's useMutation for unauthentication.
+title: "useLogout Hook | Best Practices for Authentication in Refine v5"
+display_title: "useLogout"
+sidebar_label: "useLogout"
+description: "Build Use Logout in Refine v5. Learn the key steps. Learn secure OAuth, JWT for secure enterprise React apps. Explore with code snippets."
 source: /packages/core/src/hooks/auth/useLogout/index.ts
 ---
 
-`useLogout` calls the `logout` method from the [`authProvider`](/docs/authentication/auth-provider) under the hood.
+`useLogout` calls the `logout` method from the [`authProvider`](/core/docs/authentication/auth-provider/) under the hood.
 
-It returns the result of `react-query`'s [useMutation](https://react-query.tanstack.com/reference/useMutation) which includes many properties, some of which being `isSuccess` and `isError`.
+It returns the result of `react-query`'s [useMutation](https://tanstack.com/query/v5/docs/react/reference/useMutation) which includes many properties, some of which being `isSuccess` and `isError`.
 
 Data that is resolved from `logout` will be returned as the `data` in the query result with the following type:
 

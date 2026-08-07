@@ -7,7 +7,11 @@ import { AuditOutlined, ShopOutlined, TeamOutlined } from "@ant-design/icons";
 type MetricType = "companies" | "contacts" | "deals";
 
 export const MetricCard = ({ variant }: { variant: MetricType }) => {
-  const { data, isLoading, isError, error } = useList({
+  const {
+    result: data,
+
+    query: { isLoading, isError, error },
+  } = useList({
     resource: variant,
     liveMode: "off",
     meta: {

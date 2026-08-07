@@ -31,6 +31,10 @@ export const CreateClient: React.FC<CreateClientProps> = ({
   const { selectProps } = useSelect<IContact>({
     resource: "contacts",
     optionLabel: "first_name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const {

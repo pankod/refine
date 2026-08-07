@@ -1,7 +1,7 @@
 "use client";
 
 import { useNotificationProvider } from "@refinedev/antd";
-import { type AuthBindings, GitHubBanner, Refine } from "@refinedev/core";
+import { type AuthProvider, GitHubBanner, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import routerProvider from "@refinedev/nextjs-router";
 import { SessionProvider, signIn, signOut, useSession } from "next-auth/react";
@@ -10,6 +10,7 @@ import React from "react";
 
 import { ColorModeContextProvider } from "@contexts/color-mode";
 import { dataProvider } from "@providers/data-provider";
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
 type RefineContextProps = {
@@ -38,7 +39,7 @@ const App = ({ children, defaultMode }: React.PropsWithChildren<AppProps>) => {
     return <span>loading...</span>;
   }
 
-  const authProvider: AuthBindings = {
+  const authProvider: AuthProvider = {
     login: async ({ providerName, email, password }: any) => {
       if (providerName) {
         signIn(providerName, {
@@ -162,7 +163,6 @@ const App = ({ children, defaultMode }: React.PropsWithChildren<AppProps>) => {
             options={{
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
-              useNewQueryKeys: true,
             }}
           >
             {children}

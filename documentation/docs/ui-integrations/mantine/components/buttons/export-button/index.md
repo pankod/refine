@@ -1,41 +1,50 @@
 ---
-title: Export
+title: "Mantine Export Button Component | Data Tools in Refine v5"
+display_title: "Export"
+sidebar_label: "Export"
+description: "Set up Export Button in Refine v5. Learn best practices. Explore customization options for React UI library, components for polished admin UIs."
 swizzle: true
 ---
 
 ```tsx live shared
-const { default: routerProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: routerProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  notificationProvider: RefineMantine.useNotificationProvider,
-  Layout: RefineMantine.Layout,
-  Sider: () => null,
-  catchAll: <RefineMantine.ErrorComponent />,
-});
+import * as React from "react";
 
-const Wrapper = ({ children }) => {
+const ListPage = () => {
+  const { list } = RefineCore.useNavigation();
+  const params = RefineCore.useParsed();
+
   return (
-    <MantineCore.MantineProvider
-      theme={RefineMantine.LightTheme}
-      withNormalizeCSS
-      withGlobalStyles
-    >
-      <MantineCore.Global styles={{ body: { WebkitFontSmoothing: "auto" } }} />
-      <MantineNotifications.NotificationsProvider position="top-right">
-        {children}
-      </MantineNotifications.NotificationsProvider>
-    </MantineCore.MantineProvider>
+    <div>
+      <MantineCore.Text italic color="dimmed" size="sm">
+        URL Parameters:
+      </MantineCore.Text>
+      <MantineCore.Code>{JSON.stringify(params, null, 2)}</MantineCore.Code>
+      <MantineCore.Space h="md" />
+      <MantineCore.Button
+        size="xs"
+        variant="outline"
+        onClick={() => list("posts")}
+      >
+        Go back
+      </MantineCore.Button>
+    </div>
   );
 };
 ```
 
-`<ExportButton>` is an Mantine [`<Button>`](https://mantine.dev/core/button) with a default export icon and a default text with "Export". It only has presentational value.
+`<ExportButton>` is a Mantine [`<Button>`](https://mantine.dev/core/button) with a default export icon and a default text with "Export". It only has presentational value.
 
-```tsx live url=http://localhost:3000 previewHeight=420px hideCode
+:::simple Good to know
+
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
+
+:::
+
+## Usage
+
+```tsx live url=http://localhost:3000/posts previewHeight=420px hideCode
 setInitialRoutes(["/posts"]);
-import { Refine } from "@refinedev/core";
+import * as React from "react";
 
 // visible-block-start
 //highlight-next-line
@@ -67,9 +76,8 @@ const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    refineCore: { setCurrent, pageCount, current },
+    reactTable: { getHeaderGroups, getRowModel },
+    refineCore: { setCurrentPage, pageCount, currentPage },
   } = useTable({
     columns,
   });
@@ -127,8 +135,8 @@ const PostList: React.FC = () => {
       <Pagination
         position="right"
         total={pageCount}
-        page={current}
-        onChange={setCurrent}
+        page={currentPage}
+        onChange={setCurrentPage}
       />
     </List>
   );
@@ -140,30 +148,32 @@ interface IPost {
 }
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
       resources={[
         {
           name: "posts",
-          list: PostList,
+          list: "/posts",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-:::simple Good to know
-
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
-
-:::
 
 ## Properties
 
@@ -172,9 +182,8 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 `hideText` is used to show and not show the text of the button. When `true`, only the button icon is visible.
 
 ```tsx live url=http://localhost:3000 previewHeight=200px
-setInitialRoutes(["/"]);
-
-import { Refine } from "@refinedev/core";
+setInitialRoutes(["/posts"]);
+import * as React from "react";
 
 // visible-block-start
 import { ExportButton } from "@refinedev/mantine";
@@ -184,23 +193,30 @@ const MyExportComponent = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
       resources={[
         {
           name: "posts",
-          list: MyExportComponent,
+          list: "/posts",
         },
       ]}
-    />
-  );
-};
-
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<MyExportComponent />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

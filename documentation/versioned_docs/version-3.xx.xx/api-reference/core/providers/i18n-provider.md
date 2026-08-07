@@ -811,7 +811,7 @@ export interface IPost {
 
 <br/>
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/i18n/changing-language.gif" alt="Language change action" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/i18n/changing-language.avif" alt="Language change action" />
 
 ## Methods
 
@@ -919,9 +919,9 @@ You can use the [`useGetLocale`][use-getlocale] hook to call `getLocale` method.
 
 <CodeSandboxExample path="i18n-react" />
 
-[i18nnextjs]: /examples/i18n/i18n-nextjs.md
+[i18nnextjs]: /core/docs/examples/i18n/i18n-nextjs
 [react-i18next]: https://react.i18next.com/
-[create-refine-app]: /docs/3.xx.xx/getting-started/quickstart/
-[use-translate]: /docs/3.xx.xx/api-reference/core/hooks/translate/useTranslate/
-[use-getlocale]: /docs/3.xx.xx/api-reference/core/hooks/translate/useGetLocale/
-[use-setlocale]: /docs/3.xx.xx/api-reference/core/hooks/translate/useSetLocale/
+[create-refine-app]: /core/docs/3.xx.xx/getting-started/quickstart/
+[use-translate]: /core/docs/3.xx.xx/api-reference/core/hooks/translate/useTranslate/
+[use-getlocale]: /core/docs/3.xx.xx/api-reference/core/hooks/translate/useGetLocale/
+[use-setlocale]: /core/docs/3.xx.xx/api-reference/core/hooks/translate/useSetLocale/

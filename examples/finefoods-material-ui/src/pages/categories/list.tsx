@@ -22,10 +22,10 @@ export const CategoryList = () => {
     },
   });
 
-  const { data: productsData, isLoading: productsIsLoading } = useList<
-    IProduct,
-    HttpError
-  >({
+  const {
+    result: productsData,
+    query: { isLoading: productsIsLoading },
+  } = useList<IProduct, HttpError>({
     resource: "products",
     pagination: {
       mode: "off",
@@ -44,6 +44,7 @@ export const CategoryList = () => {
         field: "product",
         headerName: t("categories.fields.products"),
         flex: 1,
+        display: "flex",
         renderCell: function render({ row }) {
           const categoryProducts = products.filter(
             (product) => product.category.id === row.id,
@@ -90,6 +91,7 @@ export const CategoryList = () => {
         field: "isActive",
         headerName: t("categories.fields.isActive.label"),
         width: 116,
+        display: "flex",
         renderCell: function render({ row }) {
           return <CategoryStatus value={row.isActive} />;
         },
@@ -100,15 +102,7 @@ export const CategoryList = () => {
 
   return (
     <RefineListView>
-      <Paper>
-        <DataGrid
-          {...dataGridProps}
-          sx={{}}
-          columns={columns}
-          autoHeight
-          hideFooter
-        />
-      </Paper>
+      <DataGrid {...dataGridProps} columns={columns} hideFooter />
     </RefineListView>
   );
 };

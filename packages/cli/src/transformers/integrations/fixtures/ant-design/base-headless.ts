@@ -9,9 +9,9 @@ import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
     UnsavedChangesNotifier,
     DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router";
 
 const App = () => {
     return (

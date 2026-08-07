@@ -6,9 +6,9 @@ import { Sandpack, FocusOnDataProviderFile, AddDataProviderToRefine } from "./sa
 
 <Sandpack>
 
-In this step, we'll be learning about the basics of data fetching in Refine. `<Refine />` component accepts a [`dataProvider`](/docs/core/refine-component/#dataprovider-) prop which is used to handle all the data fetching and mutation operations with a simple interface. While Refine supports many data providers out of the box, for sake of this tutorial, we'll be creating our own data provider and connecting it to a [fake REST API](https://api.fake-rest.refine.dev/).
+In this step, we'll be learning about the basics of data fetching in Refine. `<Refine />` component accepts a [`dataProvider`](/core/docs/core/refine-component/#dataprovider-) prop which is used to handle all the data fetching and mutation operations with a simple interface. While Refine supports many data providers out of the box, for sake of this tutorial, we'll be creating our own data provider and connecting it to a [fake REST API](https://api.fake-rest.refine.dev/).
 
-To learn more about the supported data providers, refer to the [Supported Data Providers](/docs/guides-concepts/data-fetching/#supported-data-providers) section in the Data Fetching guide.
+To learn more about the supported data providers, refer to the [Supported Data Providers](/core/docs/guides-concepts/data-fetching/#supported-data-providers) section in the Data Fetching guide.
 
 ## Creating a Data Provider
 
@@ -42,7 +42,7 @@ export default function App(): JSX.Element {
 
 :::tip
 
-It's also possible to use multiple data providers with Refine. You can learn more about it in the [Multiple Data Providers](/docs/guides-concepts/data-fetching/#multiple-data-providers) section of the Data Fetching guide.
+It's also possible to use multiple data providers with Refine. You can learn more about it in the [Multiple Data Providers](/core/docs/guides-concepts/data-fetching/#multiple-data-providers) section of the Data Fetching guide.
 
 :::
 

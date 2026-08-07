@@ -1,93 +1,46 @@
 import { getXRay } from "@refinedev/devtools-internal";
-import { type UseQueryResult, useQuery } from "@tanstack/react-query";
+import {
+  type UseQueryOptions,
+  type UseQueryResult,
+  useQuery,
+} from "@tanstack/react-query";
 
-import { useAuthBindingsContext, useLegacyAuthContext } from "@contexts/auth";
-import { useKeys } from "@hooks/useKeys";
+import { useAuthProviderContext } from "@contexts/auth";
+import { useKeys } from "@hooks";
 
 import type { CheckResponse } from "../../../contexts/auth/types";
 
-export type UseIsAuthenticatedLegacyProps = {
-  v3LegacyAuthProviderCompatible: true;
-  params?: any;
-};
-
 export type UseIsAuthenticatedProps = {
-  v3LegacyAuthProviderCompatible?: false;
+  // Make queryKey and queryFn optional
+  queryOptions?: Omit<UseQueryOptions<CheckResponse>, "queryKey" | "queryFn">;
   params?: any;
 };
-
-export type UseIsAuthenticatedCombinedProps = {
-  v3LegacyAuthProviderCompatible: boolean;
-  params?: any;
-};
-
-export type UseIsAuthenticatedLegacyReturnType = UseQueryResult<any, any>;
 
 export type UseIsAuthenticatedReturnType = UseQueryResult<CheckResponse, any>;
 
-export type UseIsAuthenticatedCombinedReturnType = UseQueryResult<
-  CheckResponse | any,
-  any
->;
-
-export function useIsAuthenticated(
-  props: UseIsAuthenticatedLegacyProps,
-): UseIsAuthenticatedLegacyReturnType;
-
-export function useIsAuthenticated(
-  props?: UseIsAuthenticatedProps,
-): UseIsAuthenticatedReturnType;
-
-export function useIsAuthenticated(
-  props?: UseIsAuthenticatedCombinedProps,
-): UseIsAuthenticatedCombinedReturnType;
-
 /**
- *  `useIsAuthenticated` calls the `checkAuth` method from the {@link https://refine.dev/docs/core/providers/auth-provider `authProvider`} under the hood.
+ * `useIsAuthenticated` calls `check` method from {@link https://refine.dev/docs/authentication/auth-provider/#check   `authProvider`} under the hood.
  *
- * @see {@link https://refine.dev/docs/api-reference/core/hooks/auth/useAuthenticated} for more details.
+ * @see {@link https://refine.dev/docs/api-reference/core/hooks/auth/useIsAuthenticated} for more details.
+ *
  */
 export function useIsAuthenticated({
-  v3LegacyAuthProviderCompatible = false,
+  queryOptions,
   params,
-}: UseIsAuthenticatedProps | UseIsAuthenticatedLegacyProps = {}):
-  | UseIsAuthenticatedReturnType
-  | UseIsAuthenticatedLegacyReturnType {
-  const { checkAuth } = useLegacyAuthContext();
-  const { check } = useAuthBindingsContext();
-  const { keys, preferLegacyKeys } = useKeys();
+}: UseIsAuthenticatedProps = {}): UseIsAuthenticatedReturnType {
+  const { check } = useAuthProviderContext();
+  const { keys } = useKeys();
 
-  const queryResponse = useQuery({
-    queryKey: keys()
-      .auth()
-      .action("check")
-      .params(params)
-      .get(preferLegacyKeys),
-    queryFn: async () => (await check?.(params)) ?? {},
+  const queryResponse = useQuery<CheckResponse>({
+    queryKey: keys().auth().action("check").get(),
+    queryFn: async () => (await check?.(params)) ?? { authenticated: true },
     retry: false,
-    enabled: !v3LegacyAuthProviderCompatible,
+    ...queryOptions,
     meta: {
-      ...getXRay("useIsAuthenticated", preferLegacyKeys),
+      ...queryOptions?.meta,
+      ...getXRay("useIsAuthenticated"),
     },
   });
 
-  const legacyQueryResponse = useQuery({
-    queryKey: [
-      ...keys().auth().action("check").params(params).get(preferLegacyKeys),
-      "v3LegacyAuthProviderCompatible",
-    ],
-    queryFn: async () => (await checkAuth?.(params)) ?? {},
-    retry: false,
-    enabled: v3LegacyAuthProviderCompatible,
-    meta: {
-      ...getXRay("useIsAuthenticated", preferLegacyKeys),
-    },
-  });
-
-  return v3LegacyAuthProviderCompatible ? legacyQueryResponse : queryResponse;
+  return queryResponse;
 }
-
-/**
- * @deprecated `useAuthenticated` is deprecated with refine@4, use `useIsAuthenticated` instead, however, we still support `useAuthenticated` for backward compatibility.
- */
-export const useAuthenticated = useIsAuthenticated;

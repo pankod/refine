@@ -1,6 +1,9 @@
 ---
 id: elide
-title: Elide
+title: "Elide Example | Best Practices in Refine v5"
+display_title: "Elide"
+sidebar_label: "Elide"
+description: "Explore how to build with the Elide example in Refine v5. Explore best practices to scale provider for custom APIs and scalable data flows."
 example-tags: [community, data-provider]
 ---
 

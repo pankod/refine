@@ -1,18 +1,12 @@
 ---
-title: Boolean
+title: "Chakra UI Boolean Field Component | UI Component in Refine v5"
+display_title: "Boolean"
+sidebar_label: "Boolean"
+description: "Learn to integrate Boolean Field in Refine v5. Learn integration patterns for accessibility, components for polished admin UIs. Hands-on examples included."
 swizzle: true
 ---
 
 ```tsx live shared
-const { default: routerProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: routerProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  Layout: RefineChakra.Layout,
-  Sider: () => null,
-});
-
 const Wrapper = ({ children }) => {
   return (
     <ChakraUI.ChakraProvider theme={RefineChakra.refineTheme}>
@@ -26,7 +20,7 @@ This field is used to display boolean values. It uses the [`<Tooltip>`](https://
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -36,8 +30,6 @@ Let's see how we can use `<BooleanField>` with the example in the post list.
 
 ```tsx live url=http://localhost:3000/posts previewHeight=420px hideCode
 setInitialRoutes(["/posts"]);
-import { Refine } from "@refinedev/core";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
 import {
@@ -94,7 +86,9 @@ const PostList: React.FC = () => {
     [],
   );
 
-  const { getHeaderGroups, getRowModel } = useTable({
+  const {
+    reactTable: { getHeaderGroups, getRowModel },
+  } = useTable({
     columns,
   });
 
@@ -144,23 +138,31 @@ const PostList: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
-      notificationProvider={RefineChakra.notificationProvider()}
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      resources={[
-        {
-          name: "posts",
-          list: PostList,
-        },
-      ]}
-    />
-  );
-};
 render(
   <Wrapper>
-    <App />
+    <ReactRouter.BrowserRouter>
+      <RefineChakraDemo
+        resources={[
+          {
+            name: "posts",
+            list: "/posts",
+          },
+        ]}
+      >
+        <ReactRouter.Routes>
+          <ReactRouter.Route
+            path="/posts"
+            element={
+              <div style={{ padding: 16 }}>
+                <ReactRouter.Outlet />
+              </div>
+            }
+          >
+            <ReactRouter.Route index element={<PostList />} />
+          </ReactRouter.Route>
+        </ReactRouter.Routes>
+      </RefineChakraDemo>
+    </ReactRouter.BrowserRouter>
   </Wrapper>,
 );
 ```

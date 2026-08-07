@@ -14,7 +14,7 @@ In this guide, we will create an application with you in the logic of Multi Tena
 We will make a Cake House application using **refine** and [Strapi-v4](https://docs.strapi.io/developer-docs/latest/getting-started/introduction.html). Our Cake House will consist of two separate stores and there will be special products for these stores. We will explain step by step how to manage these stores, products, and orders separately.
 
 :::caution
-This guide has been prepared to assume you know the basics of **refine**. If you haven't learned these basics yet, we recommend reading the [Tutorial](https://refine.dev/docs/).
+This guide has been prepared to assume you know the basics of **refine**. If you haven't learned these basics yet, we recommend reading the [Tutorial](https://refine.dev/core/docs/).
 :::
 
 ## Setup
@@ -296,7 +296,7 @@ Here we have created a select component. Then we fetch the store id and title we
 
 Let's define the select component in the **refine** Sider Menu. First, we need to customize the default Sider.
 
-[Check out how you can customize Sider Menu →](https://refine.dev/docs/examples/customization/customSider/)
+[Check out how you can customize Sider Menu →](https://refine.dev/docs/3.xx.xx/examples/customization/customSider/)
 
 <details>
 <summary>Show Code</summary>

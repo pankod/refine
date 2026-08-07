@@ -1,7 +1,7 @@
 import { useLogin } from "@refinedev/core";
 import { useEffect, useRef } from "react";
 
-import { ThemedTitleV2 } from "@refinedev/antd";
+import { ThemedTitle as ThemedTitleV2 } from "@refinedev/antd";
 import { Layout, Space, Typography } from "antd";
 
 // Todo: Update your Google Client ID here
@@ -11,7 +11,7 @@ const GOOGLE_CLIENT_ID =
 export const Login: React.FC = () => {
   const { mutate: login } = useLogin<CredentialResponse>();
 
-  const GoogleButton = (): JSX.Element => {
+  const GoogleButton = (): React.JSX.Element => {
     const divRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

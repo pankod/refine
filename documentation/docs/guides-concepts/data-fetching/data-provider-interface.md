@@ -166,7 +166,7 @@ const generateFilter = (filters?: CrudFilters) => {
     filters.map((filter) => {
       if (filter.operator === "or" || filter.operator === "and") {
         throw new Error(
-          `[@refinedev/simple-rest]: /docs/data/data-provider#creating-a-data-provider`,
+          `[@refinedev/simple-rest]: /core/docs/data/data-provider#creating-a-data-provider`,
         );
       }
 
@@ -210,7 +210,7 @@ const generateSort = (sorters?: CrudSorting) => {
 // generate query string from Refine Pagination to the format that API accepts.
 const generatePagination = (pagination?: Pagination) => {
   // pagination is optional on data hooks, so we need to set default values.
-  const { current = 1, pageSize = 10, mode = "server" } = pagination ?? {};
+  const { currentPage = 1, pageSize = 10, mode = "server" } = pagination ?? {};
 
   const query: {
     _start?: number;
@@ -218,8 +218,8 @@ const generatePagination = (pagination?: Pagination) => {
   } = {};
 
   if (mode === "server") {
-    query._start = (current - 1) * pageSize;
-    query._end = current * pageSize;
+    query._start = (currentPage - 1) * pageSize;
+    query._end = currentPage * pageSize;
   }
 
   return query;

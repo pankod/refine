@@ -34,7 +34,7 @@ export const autoSaveIndicatorTests = (
 
     it("should render loading", async () => {
       const { findByText, getByText } = render(
-        <AutoSaveIndicator status="loading" />,
+        <AutoSaveIndicator status="pending" />,
       );
 
       await findByText("saving...");

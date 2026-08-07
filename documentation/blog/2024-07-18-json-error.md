@@ -3,9 +3,11 @@ title: Unexpected token in JSON at position 0 error
 description: We will look into the various possible causes of this error message and suggest methods to rectify it.
 slug: unexpected-token-in-json-at-position-0-error
 authors: chukwuka_reuben
-tags: [javascript]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-09-json-error/social-2.png
+category: "Tutorials"
+tags: [javascript, bugs]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-09-json-error/social-2.png
 hide_table_of_contents: false
+last_update: 2024-07-18
 ---
 
 **This article was last updated on July 18, 2024, to add sections for JSON Validation Tools and Best Practices for Working with JSON.**
@@ -13,17 +15,6 @@ hide_table_of_contents: false
 ## Introduction.
 
 This post aims to address the "Unexpected token in JSON at position 0" error message. We will look into the various possible causes of this message and suggest methods to rectify it.
-
-Steps we'll cover:
-
-- [What is JSON?](#what-is-json)
-- [What does the "Unexpected token \< in JSON at position 0" error mean?](#what-does-the-unexpected-token--in-json-at-position-0-error-mean)
-- [Different Reasons Why You Might Have This Error and Their Fixes.](#different-reasons-why-you-might-have-this-error-and-their-fixes)
-- [Hitting Any API endpoint that does not exist:](#hitting-any-api-endpoint-that-does-not-exist)
-- [Spelling Error](#spelling-error)
-- [Forgetting to stringify your object:](#forgetting-to-stringify-your-object)
-- [Tools to Validate JSON](#tools-to-validate-json)
-- [Best Practices for Working with JSON](#best-practices-for-working-with-json)
 
 ## What is JSON?
 
@@ -55,7 +46,7 @@ JSON.parse(undefined);
 
 The code snippet above will produce this type of error:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-09-json-error/json-error-1.png"  alt="json error" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-09-json-error/json-error-1.png"  alt="json error" />
 
 <br />
 
@@ -102,7 +93,7 @@ fetch("https://dummyjson.com/products/1")
 
 Using the code snippet above, I want to clarify that `JSON.parse()` is being done by `res.json()` under the hood.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-09-json-error/json-error-2.png"  alt="json error" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-09-json-error/json-error-2.png"  alt="json error" />
 
 <br />
 
@@ -118,7 +109,7 @@ fetch("https://dummyjson.com/myProduct/1")
 
 "https://dummyjson.com/myProduct/1" that has been used as our API is an endpoint that I made up, so it is not a valid API endpoint and as you know parsing it will be you trying to parse something that isn't JSON, as it is not a formatted JSON.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-09-json-error/json-error-3.png"  alt="json error" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-09-json-error/json-error-3.png"  alt="json error" />
 
 <br />
 
@@ -177,7 +168,7 @@ const getLocalStorage = () => {
 };
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-09-json-error/json-error-4.png"  alt="json error" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-09-json-error/json-error-4.png"  alt="json error" />
 
 <br />
 

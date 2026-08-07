@@ -33,7 +33,7 @@ const authProvider: AuthProvider = {
 
 > Above methods are required. You can find other optional methods in next section.
 
-These methods are used to perform auth operations by **refine** hooks. You can check [Auth Provider](/docs/3.xx.xx/api-reference/core/providers/auth-provider/) documentation to see the details of each method.
+These methods are used to perform auth operations by **refine** hooks. You can check [Auth Provider](/core/docs/3.xx.xx/api-reference/core/providers/auth-provider/) documentation to see the details of each method.
 
 ## Using Auth Providers in refine
 
@@ -58,11 +58,11 @@ const authProvider: AuthProvider = {
 />;
 ```
 
-[Refer to the `<Refine/>` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/components/refine-config/)
+[Refer to the `<Refine/>` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/components/refine-config/)
 
 ## How are auth provider methods used in the app?
 
-Each method of auth provider is corresponding to a hook in **refine**. So, you can use these hooks to perform auth operations in your app. You can check [Auth Hooks](/docs/3.xx.xx/api-reference/core/hooks/auth/useAuthenticated/) documentation to see the details of each hook.
+Each method of auth provider is corresponding to a hook in **refine**. So, you can use these hooks to perform auth operations in your app. You can check [Auth Hooks](/core/docs/3.xx.xx/api-reference/core/hooks/auth/useAuthenticated/) documentation to see the details of each hook.
 
 For example, you can use `useLogin` hook to perform login operation like below:
 

@@ -12,7 +12,8 @@ export const PostCreate = () => {
   const { radioGroupProps: languageRadioGroupProps } = useRadioGroup<ILanguage>(
     {
       resource: "languages",
-      sort: [
+
+      sorters: [
         {
           field: "title",
           order: "asc",

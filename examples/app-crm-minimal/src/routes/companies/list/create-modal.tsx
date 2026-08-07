@@ -51,10 +51,16 @@ export const CompanyCreateModal = () => {
     GetFieldsFromList<UsersSelectQuery>
   >({
     resource: "users",
+
     meta: {
       gqlQuery: USERS_SELECT_QUERY,
     },
+
     optionLabel: "name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (
@@ -79,7 +85,7 @@ export const CompanyCreateModal = () => {
           rules={[{ required: true }]}
         >
           <Select
-            placeholder="Please sales owner user"
+            placeholder="Please enter sales owner user"
             {...selectProps}
             options={
               queryResult.data?.data?.map((user) => ({

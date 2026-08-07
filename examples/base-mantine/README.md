@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example base-mantine
 
 <br/>
 
-[![Open base-mantine example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/base-mantine?view=preview&theme=dark&codemirror=1)
+[![Open base-mantine example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/base-mantine?view=preview&theme=dark&codemirror=1)

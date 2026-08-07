@@ -9,13 +9,12 @@ export const PostList: React.FC = () => {
   const [page, setPage] = useState(1);
   const { edit, create, show, clone } = useNavigation();
 
-  const { data } = useList<IPost>({
+  const { result: data } = useList<IPost>({
     resource: "posts",
-    config: {
-      pagination: {
-        current: page,
-        pageSize: PAGE_SIZE,
-      },
+
+    pagination: {
+      currentPage: page,
+      pageSize: PAGE_SIZE,
     },
   });
 

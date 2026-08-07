@@ -17,7 +17,6 @@ import type { DeleteButtonProps } from "../types";
  */
 export const DeleteButton: React.FC<DeleteButtonProps> = ({
   resource: resourceNameFromProps,
-  resourceNameOrRouteName: propResourceNameOrRouteName,
   recordItemId,
   onSuccess,
   mutationMode: mutationModeProp,
@@ -26,7 +25,6 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({
   errorNotification,
   hideText = false,
   accessControl,
-  metaData,
   meta,
   dataProviderName,
   confirmTitle,
@@ -46,7 +44,7 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({
     cancelLabel: defaultCancelLabel,
     onConfirm,
   } = useDeleteButton({
-    resource: resourceNameFromProps ?? propResourceNameOrRouteName,
+    resource: resourceNameFromProps,
     id: recordItemId,
     dataProviderName,
     invalidates,
@@ -58,7 +56,10 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({
     accessControl,
   });
 
-  if (hidden) return null;
+  const isDisabled = disabled || rest.disabled;
+  const isHidden = hidden || rest.hidden;
+
+  if (isHidden) return null;
 
   return (
     <Popconfirm
@@ -69,16 +70,14 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({
       title={confirmTitle ?? defaultConfirmTitle}
       okButtonProps={{ disabled: loading }}
       onConfirm={onConfirm}
-      disabled={
-        typeof rest?.disabled !== "undefined" ? rest.disabled : disabled
-      }
+      disabled={isDisabled}
     >
       <Button
         danger
         loading={loading}
         icon={<DeleteOutlined />}
         title={title}
-        disabled={disabled}
+        disabled={isDisabled}
         data-testid={RefineButtonTestIds.DeleteButton}
         className={RefineButtonClassNames.DeleteButton}
         {...rest}

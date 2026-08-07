@@ -3,8 +3,9 @@ title: Kubernetes Persistent Volumes - Best Practices and Use Cases
 description: Kubernetes Persistent Volumes (PVs) and Persistent Volume Claims (PVCs) are key tools for storing data in containerized environments.
 slug: kubernetes-persistent-volumes
 authors: muhammad_khabbab
-tags: [kubernetes, docker]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-14-k8s-persistent-volumes/social.png
+category: "Engineering"
+tags: [kubernetes]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-14-k8s-persistent-volumes/social.png
 hide_table_of_contents: false
 ---
 
@@ -13,15 +14,6 @@ hide_table_of_contents: false
 Welcome to our guide on Kubernetes Persistent Volumes (PVs) and Persistent Volume Claims (PVCs). In this article, we'll explore how Kubernetes handles data storage, a key part of running applications that need to save data permanently. We'll start with a basic introduction to Kubernetes and why keeping data safe and accessible is important in systems where applications are in containers.
 
 Our goal is to give you a clear and straightforward understanding of PVs and PVCs—how they work, how they differ from temporary storage, and how to set them up and use them in different scenarios. This guide is designed for anyone interested in Kubernetes, whether you're just starting out or looking to deepen your knowledge about Kubernetes storage.
-
-Steps we'll cover:
-
-- [Conceptual Overview of Persistent Volumes and Claims](#conceptual-overview-of-persistent-volumes-and-claims)
-- [Setting Up Your Environment for PV](#setting-up-your-environment-for-pv)
-- [Deep Dive into Persistent Volume Types](#deep-dive-into-persistent-volume-types)
-- [Creating and Configuring a Persistent Volume](#creating-and-configuring-a-persistent-volume)
-- [Working with Persistent Volume Claims](#working-with-persistent-volume-claims)
-- [Advanced Scenarios and Best Practices](#advanced-scenarios-and-best-practices)
 
 ## Conceptual Overview of Persistent Volumes and Claims
 
@@ -33,7 +25,7 @@ A **Persistent Volume Claim (PVC)** is a user's request for storage. Analogous t
 Here is a conceptual diagram showing difference between the two. Image credit: stackoverflow.com
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-14-k8s-persistent-volumes/image3.PNG" alt="Difference between PV and PVC" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-14-k8s-persistent-volumes/image3.PNG" alt="Conceptual diagram showing relationship between Persistent Volumes and Persistent Volume Claims" />
 </div>
 
 ### Highlighting the difference between ephemeral and persistent storage in Kubernetes
@@ -56,7 +48,7 @@ Screenshot Suggestion: Diagram illustrating PV and PVC relationship
 **Enable Necessary Add-ons**: Some add-ons might be needed for PVs, like the storage-provisioner. Enable them using `minikube addons enable <addon-name>`.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-14-k8s-persistent-volumes/image1.PNG" alt="Difference between PV and PVC" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-14-k8s-persistent-volumes/image1.PNG" alt="Minikube environment setup with kubectl version verification" />
 </div>
 
 ## Deep Dive into Persistent Volume Types
@@ -160,7 +152,7 @@ kubectl apply -f pv.yaml
 The output will show you following:
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-14-k8s-persistent-volumes/image2.PNG" alt="Difference between PV and PVC" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-14-k8s-persistent-volumes/image2.PNG" alt="Kubectl apply output showing PersistentVolume example-pv created successfully" />
 </div>
 
 ### Configuring access modes and storage classes
@@ -201,7 +193,7 @@ spec:
 Apply it with `kubectl apply -f pvc.yaml` just like below screenshot.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-14-k8s-persistent-volumes/image4.PNG" alt="Difference between PV and PVC" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-14-k8s-persistent-volumes/image4.PNG" alt="Creating PersistentVolumeClaim mypvc with kubectl apply command" />
 </div>
 
 You can manage it with commands like `kubectl get pvc` to list PVCs, or `kubectl delete pvc mypvc` to delete.
@@ -232,7 +224,7 @@ A Pod's successful binding to a PVC is checked by:
 `kubectl describe pod mypod`
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-14-k8s-persistent-volumes/image5.PNG" alt="Difference between PV and PVC" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-14-k8s-persistent-volumes/image5.PNG" alt="Pod description showing successful PVC binding to mypod volume mount" />
 </div>
 
 ## Advanced Scenarios and Best Practices

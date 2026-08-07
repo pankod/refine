@@ -3,8 +3,9 @@ title: Unraveling the Kubernetes ImagePullBackOff Error
 description: We'll discuss the ImagePullBackOff error in Kubernetes, its causes, and how to resolve it.
 slug: kubernetes-imagepullbackoff-error
 authors: muhammad_khabbab
-tags: [kubernetes, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-04-kubecti-image-pull/social.png
+category: "Engineering"
+tags: [kubernetes, bugs]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-04-kubecti-image-pull/social.png
 hide_table_of_contents: false
 ---
 
@@ -60,7 +61,7 @@ When creating a pod, Kubernetes will attempt to obtain container images defined 
 A variety of reasons, such as network connectivity problems, incorrect image names or tags, and invalid credentials and permissions, are responsible for causing this error.
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-04-kubecti-image-pull/1.png"  alt="kuberneste imagepullbackoff" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-04-kubecti-image-pull/1.png"  alt="ImagePullBackOff error occurring due to network or authentication issues" />
 </div>
 
 <br/>
@@ -70,7 +71,7 @@ A variety of reasons, such as network connectivity problems, incorrect image nam
 Kubernetes will keep trying to pull an image if the initial attempt fails, delaying and increasing amounts of time between attempts. If five minutes have passed since the last try, it gives up. Kubernetes gradually '**backs off**' of attempts to pull the image, which is why ImagePullBackOff gets its name from this interval-based method of retrying the pulls.
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-04-kubecti-image-pull/2.png"  alt="kuberneste imagepullbackoff" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-04-kubecti-image-pull/2.png"  alt="Kubernetes retry mechanism with exponential backoff for failed image pulls" />
 </div>
 
 <br/>
@@ -98,7 +99,7 @@ If every Pod is in the state of Running or Completed and every container in a Ru
 `kubectl get nodes`
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-04-kubecti-image-pull/3.png"  alt="kuberneste imagepullbackoff" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-04-kubecti-image-pull/3.png"  alt="Cluster health check showing all pods and nodes running status" />
 </div>
 
 <br/>
@@ -114,7 +115,7 @@ An incorrect image name is one of the most common causes of the ImagePullBackOff
 **The Following Output Shows the Above Cause:**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-04-kubecti-image-pull/4.png"  alt="kuberneste imagepullbackoff" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-04-kubecti-image-pull/4.png"  alt="ImagePullBackOff caused by incorrect image name or tag" />
 </div>
 
 <br/>
@@ -126,7 +127,7 @@ To retrieve images from private container registries, Kubernetes needs valid log
 **The Following Output Shows the Above Cause:**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-04-kubecti-image-pull/5.png"  alt="kuberneste imagepullbackoff" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-04-kubecti-image-pull/5.png"  alt="Authentication failure error when pulling from private container registry" />
 </div>
 
 <br/>
@@ -138,7 +139,7 @@ Connectivity problems between the Kubernetes cluster and the container registry 
 **The Following Output Shows the Above Cause:**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-04-kubecti-image-pull/6.png"  alt="kuberneste imagepullbackoff" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-04-kubecti-image-pull/6.png"  alt="Network connectivity issues blocking image pull from registry" />
 </div>
 
 <br/>
@@ -150,7 +151,7 @@ Another cause of ImagePullBackOff is an unavailable or down registry that contai
 **The Following Output Shows the Above Cause:**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-04-kubecti-image-pull/7.png"  alt="kuberneste imagepullbackoff" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-04-kubecti-image-pull/7.png"  alt="Container registry downtime causing ImagePullBackOff error" />
 </div>
 
 <br/>
@@ -172,7 +173,7 @@ Executing '**kubectl describe pod [NAME_OF_POD]**' unveils a plethora of informa
 **The below output portrays the detailed information rendered, serving as a diagnostic cornerstone:**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-04-kubecti-image-pull/8.png"  alt="kuberneste imagepullbackoff" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-04-kubecti-image-pull/8.png"  alt="Detailed pod description showing ImagePullBackOff events and configuration" />
 </div>
 
 <br/>
@@ -187,7 +188,7 @@ Utilizing the command below enables the extraction of runtime logs for a specifi
 **This alternative promotes a Kubernetes-native way of accessing crucial log data, as depicted in the following output:**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-04-kubecti-image-pull/9.png"  alt="kuberneste imagepullbackoff" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-04-kubecti-image-pull/9.png"  alt="Container runtime logs accessed using kubectl logs command" />
 </div>
 
 <br/>
@@ -199,7 +200,7 @@ Invoking '**kubectl get events --namespace [NAME_OF_NAMESPACE]**' enumerates a l
 **The below output shows the list of events in the specified namespace(i.e., default). It is important to note that 'docker-desktop' is the name of the node to which the Pod is assigned:**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-04-kubecti-image-pull/10.png"  alt="kuberneste imagepullbackoff" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-04-kubecti-image-pull/10.png"  alt="Namespace events showing image pull failures and pod activities" />
 </div>
 
 <br/>
@@ -226,7 +227,7 @@ In order to address the imagePullbackOff error due to authentication failure, th
 **The above command will return the output below once it creates a secret with the name 'my-docker-credentials':**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-04-kubecti-image-pull/11.png"  alt="kuberneste imagepullbackoff" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-04-kubecti-image-pull/11.png"  alt="Creating Docker registry secret my-docker-credentials for private registry authentication" />
 </div>
 
 <br/>
@@ -234,7 +235,7 @@ In order to address the imagePullbackOff error due to authentication failure, th
 **When the secret is created, you can reference it in your pod specification like this:**
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-04-kubecti-image-pull/12.png"  alt="kuberneste imagepullbackoff" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-04-kubecti-image-pull/12.png"  alt="Pod specification referencing imagePullSecrets for private registry access" />
 </div>
 
 <br/>

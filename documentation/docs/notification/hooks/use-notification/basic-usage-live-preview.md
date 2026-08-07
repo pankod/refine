@@ -59,14 +59,20 @@ const ExamplePage: React.FC = () => {
   );
 };
 // visible-block-end
-setRefineProps({
-  DashboardPage: () => <ExamplePage />,
-  resources: [
-    {
-      name: "post",
-      create: () => {},
-    },
-  ],
-});
-render(<RefineMuiDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo resources={[]}>
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          index
+          element={
+            <div style={{ padding: 24 }}>
+              <ExamplePage />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

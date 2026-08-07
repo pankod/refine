@@ -18,5 +18,11 @@
     "express": "^4.21.0",
     "mongoose": "^6.9.0",
     "nodemon": "^2.0.20"
+  },
+  "devDependencies": {
+    "@types/node": "^20"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

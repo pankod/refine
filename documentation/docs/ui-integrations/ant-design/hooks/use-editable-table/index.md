@@ -1,5 +1,8 @@
 ---
-title: useEditableTable
+title: "useEditableTable Hook | Options, Patterns & Edge Cases in Refine v5"
+display_title: "useEditableTable"
+sidebar_label: "useEditableTable"
+description: "Set up Use Editable Table in Refine v5. Learn best practices. Learn integration patterns for function for polished admin UIs. Real-world snippets included."
 source: packages/antd/src/hooks/table/useTable
 ---
 
@@ -7,7 +10,7 @@ import LivePreview from "./\_partial-use-editable-table-live-preview.md";
 
 `useEditeableTable` allows you to implement the edit feature on the [`<Table>`][table] with ease and returns properties that can be used on Ant Design's [`<Table>`][table] and [`<Form>`][form] components.
 
-`useEditeableTable` hook is extended from the [`useTable`][usetable] hook from the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/master/packages/antd) package. This means that you can use all the features of [`useTable`][usetable] hook.
+`useEditeableTable` hook is extended from the [`useTable`][usetable] hook from the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/main/packages/antd) package. This means that you can use all the features of [`useTable`][usetable] hook.
 
 ## Usage
 
@@ -361,15 +364,15 @@ Takes a `id` as a parameter and returns `true` if the given `BaseKey` is equal t
 
 [table]: https://ant.design/components/table/#API
 [form]: https://ant.design/components/form/#API
-[useform]: /docs/ui-integrations/ant-design/hooks/use-table
-[usetable]: /docs/ui-integrations/ant-design/hooks/use-table
+[useform]: /core/docs/ui-integrations/ant-design/hooks/use-table
+[usetable]: /core/docs/ui-integrations/ant-design/hooks/use-table
 [usequery]: https://react-query.tanstack.com/reference/useQuery
-[usemutation]: https://react-query.tanstack.com/reference/useMutation
-[baserecord]: /docs/core/interface-references#baserecord
-[basekey]: /docs/core/interface-references#basekey
-[crudsorting]: /docs/core/interface-references#crudsorting
-[crudfilters]: /docs/core/interface-references#crudfilters
-[httperror]: /docs/core/interface-references#httperror
+[usemutation]: https://tanstack.com/query/v5/docs/react/reference/useMutation
+[baserecord]: /core/docs/core/interface-references#baserecord
+[basekey]: /core/docs/core/interface-references#basekey
+[crudsorting]: /core/docs/core/interface-references#crudsorting
+[crudfilters]: /core/docs/core/interface-references#crudfilters
+[httperror]: /core/docs/core/interface-references#httperror
 [table search]: /advanced-tutorials/search/table-search.md
 [table.column]: https://ant.design/components/table/#Column
 [forminstance]: https://ant.design/components/form/#FormInstance

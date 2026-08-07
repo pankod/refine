@@ -1,13 +1,16 @@
 ---
-title: Inferencer
+title: "Inferencer Component | Components in Refine v5"
+display_title: "Inferencer"
+sidebar_label: "Inferencer"
+description: "Set up Inferencer in Refine v5. Learn best practices. Learn best practices for best practices for real-world React admin panels. Real-world snippets included."
 ---
 
 You can automatically generate views for your resources using `@refinedev/inferencer`. Inferencer exports `HeadlessListInferencer`, `HeadlessShowInferencer`, `HeadlessEditInferencer`, `HeadlessCreateInferencer`, and finally `HeadlessInferencer` components, the last of which combines all in one place.
 
 :::simple Good to know
 
-- Headless elements of `@refinedev/inferencer` uses [`@refinedev/react-hook-form`](/docs/packages/list-of-packages) and [`@refinedev/react-table`](/docs/packages/list-of-packages) to create views. These dependencies should be installed in your project in order to use inferencer components.
-- To learn more about the `@refinedev/inferencer` package, please check out [Inferencer](/docs/packages/inferencer) docs.
+- Headless elements of `@refinedev/inferencer` uses [`@refinedev/react-hook-form`](/core/docs/packages/list-of-packages/) and [`@refinedev/react-table`](/core/docs/packages/list-of-packages/) to create views. These dependencies should be installed in your project in order to use inferencer components.
+- To learn more about the `@refinedev/inferencer` package, please check out [Inferencer](/core/docs/packages/inferencer/) docs.
 
 :::
 
@@ -24,8 +27,8 @@ values={[
 <TabItem value="resources">
 
 ```tsx
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter } from "react-router";
 // highlight-next-line
 import { HeadlessInferencer } from "@refinedev/inferencer/headless";
 
@@ -101,10 +104,10 @@ setInitialRoutes(["/samples"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router";
 
 // highlight-next-line
 import { HeadlessInferencer } from "@refinedev/inferencer/headless";
@@ -155,10 +158,10 @@ setInitialRoutes(["/samples/show/123"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router";
 
 // highlight-next-line
 import { HeadlessInferencer } from "@refinedev/inferencer/headless";
@@ -209,10 +212,10 @@ setInitialRoutes(["/samples/create"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router";
 
 // highlight-next-line
 import { HeadlessInferencer } from "@refinedev/inferencer/headless";
@@ -263,10 +266,10 @@ setInitialRoutes(["/samples/edit/123"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router";
 
 // highlight-next-line
 import { HeadlessInferencer } from "@refinedev/inferencer/headless";

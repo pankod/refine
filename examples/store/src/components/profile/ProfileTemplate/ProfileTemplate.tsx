@@ -9,12 +9,12 @@ import {
 } from "@components/profile";
 
 export const ProfileTemplate: React.FC = () => {
-  const { data } = useOne({
+  const { result } = useOne({
     resource: "customers",
     id: "me",
   });
 
-  const customer = data?.data?.customer;
+  const customer = result?.customer;
 
   return (
     customer && (

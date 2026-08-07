@@ -16,7 +16,10 @@ export const BlogPostList = () => {
     syncWithLocation: true,
   });
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useMany({
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useMany({
     resource: "categories",
     ids:
       dataGridProps?.rows
@@ -46,6 +49,7 @@ export const BlogPostList = () => {
         flex: 1,
         headerName: "content",
         minWidth: 250,
+        display: "flex",
         renderCell: function render({ value }) {
           if (!value) return "-";
           return <MarkdownField value={`${value?.slice(0, 80)}...` || ""} />;
@@ -56,10 +60,11 @@ export const BlogPostList = () => {
         flex: 1,
         headerName: "Category",
         minWidth: 300,
-        valueGetter: ({ row }) => {
+        valueGetter: (_, row) => {
           const value = row?.category;
           return value;
         },
+        display: "flex",
         renderCell: function render({ value }) {
           return categoryIsLoading ? (
             <>Loading...</>
@@ -79,6 +84,7 @@ export const BlogPostList = () => {
         flex: 1,
         headerName: "Created at",
         minWidth: 250,
+        display: "flex",
         renderCell: function render({ value }) {
           return <DateField value={value} />;
         },
@@ -87,6 +93,7 @@ export const BlogPostList = () => {
         field: "actions",
         headerName: "Actions",
         sortable: false,
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <>
@@ -106,7 +113,7 @@ export const BlogPostList = () => {
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 };

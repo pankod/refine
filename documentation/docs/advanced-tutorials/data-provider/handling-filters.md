@@ -1,6 +1,9 @@
 ---
 id: handling-filters
-title: Handling Filters
+title: "Handling Filters Tutorial | REST API Integration in Refine v5"
+display_title: "Handling Filters"
+sidebar_label: "Handling Filters"
+description: "Implement Handling Filters in Refine v5. Learn the key steps. Explore production tips for GraphQL for custom APIs and scalable data flows."
 ---
 
 **Refine** expects an array of type `CrudFilters` to filter results based on some field’s values. So you can use more than one filter. Even the `or` operator can be used to combine multiple filters.
@@ -14,6 +17,8 @@ title: Handling Filters
 type CrudOperators =
   | "eq"
   | "ne"
+  | "eqs"
+  | "nes"
   | "lt"
   | "gt"
   | "lte"
@@ -269,25 +274,25 @@ const dataProvider = (): DataProvider => ({
 
 Data providers that support `or` and `and` filtering logic are as follows:
 
-- [NestJS CRUD](https://github.com/refinedev/refine/tree/master/packages/nestjsx-crud)
-- [Strapi](https://github.com/refinedev/refine/tree/master/packages/strapi) - [Strapi v4](https://github.com/refinedev/refine/tree/master/packages/strapi-v4)
-- [Supabase](https://github.com/refinedev/refine/tree/master/packages/supabase)
-- [Hasura](https://github.com/refinedev/refine/tree/master/packages/hasura)
+- [NestJS CRUD](https://github.com/refinedev/refine/tree/main/packages/nestjsx-crud)
+- [Strapi](https://github.com/refinedev/refine/tree/main/packages/strapi) - [Strapi v4](https://github.com/refinedev/refine/tree/main/packages/strapi-v4)
+- [Supabase](https://github.com/refinedev/refine/tree/main/packages/supabase)
+- [Hasura](https://github.com/refinedev/refine/tree/main/packages/hasura)
 
 :::
 
 ## Handle Custom GraphQL Variables
 
-The [GraphQLQueryOptions](https://refine.dev/docs/core/interface-references/#graphqlqueryoptions) property `gqlVariables` enables dynamic GraphQL variables to be passed to the data provider for more advanced GraphQL queries.
+The [GraphQLQueryOptions](https://refine.dev/core/docs/core/interface-references/#graphqlqueryoptions) property `gqlVariables` enables dynamic GraphQL variables to be passed to the data provider for more advanced GraphQL queries.
 
 Packages that support custom GraphQL variables for more advanced filtering are as follows:
 
-- [Hasura](https://github.com/refinedev/refine/tree/master/packages/hasura)
+- [Hasura](https://github.com/refinedev/refine/tree/main/packages/hasura)
 
 The following data providers do not yet support `meta.gqlVariables`;
 
-- [Nestjs-Query](https://github.com/refinedev/refine/tree/master/packages/nestjs-query)
-- [GraphQL](https://github.com/refinedev/refine/tree/master/packages/graphql)
+- [Nestjs-Query](https://github.com/refinedev/refine/tree/main/packages/nestjs-query)
+- [GraphQL](https://github.com/refinedev/refine/tree/main/packages/graphql)
 
 ```tsx
 // Hasura Data Provider Example

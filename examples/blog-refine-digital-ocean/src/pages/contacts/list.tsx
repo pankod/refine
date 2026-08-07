@@ -25,6 +25,7 @@ export const ContactList = () => {
         "status",
       ],
     },
+
     onSearch: (params: { name: string }) => [
       {
         field: "name",

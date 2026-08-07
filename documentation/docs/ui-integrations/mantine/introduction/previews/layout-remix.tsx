@@ -7,10 +7,10 @@ export default function LayoutRemix() {
       showNavigator
       hidePreview
       dependencies={{
-        "@refinedev/mantine": "^2.28.21",
-        "@refinedev/core": "^4.45.1",
-        "@refinedev/simple-rest": "^4.5.4",
-        "@refinedev/react-table": "^5.6.4",
+        "@refinedev/mantine": "latest",
+        "@refinedev/core": "latest",
+        "@refinedev/simple-rest": "latest",
+        "@refinedev/react-table": "latest",
         "@tanstack/react-table": "^8.2.6",
         "@tabler/icons-react": "^3.1.0",
         "@emotion/react": "^11.8.2",
@@ -52,7 +52,7 @@ import { Refine } from "@refinedev/core";
 import routerProvider from "@refinedev/remix-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { RefineThemes, ThemedLayoutV2, useNotificationProvider } from "@refinedev/mantine";
+import { RefineThemes, ThemedLayout, useNotificationProvider } from "@refinedev/mantine";
 import { NotificationsProvider } from "@mantine/notifications";
 import { MantineProvider, Global } from "@mantine/core";
 
@@ -96,7 +96,7 @@ export default function App() {
 `.trim();
 
 const ProtectedTsxCode = /* jsx */ `
-import { ThemedLayoutV2 } from "@refinedev/mantine";
+import { ThemedLayout } from "@refinedev/mantine";
 import { Outlet } from "@remix-run/react";
 import { LoaderFunctionArgs, redirect } from "@remix-run/node";
 
@@ -105,9 +105,9 @@ import { LoaderFunctionArgs, redirect } from "@remix-run/node";
  */
 export default function Layout() {
     return (
-        <ThemedLayoutV2>
+        <ThemedLayout>
             <Outlet />
-        </ThemedLayoutV2>
+        </ThemedLayout>
     );
 }
 `.trim();
@@ -155,20 +155,22 @@ export default function ProductList() {
       getRowModel,
       setOptions,
       refineCore: {
-          setCurrent,
+          setCurrentPage,
           pageCount,
-          current,
+          currentPage,
           tableQuery: { data: tableData },
       },
   } = useTable({
       columns,
       refineCoreProps: {
-          initialSorter: [
-              {
-                  field: "id",
-                  order: "desc",
-              },
-          ],
+          sorters: {
+            initial: [
+                {
+                    field: "id",
+                    order: "desc",
+                },
+            ],
+          },
       },
   });
 
@@ -210,8 +212,8 @@ export default function ProductList() {
               <Pagination
                   position="right"
                   total={pageCount}
-                  page={current}
-                  onChange={setCurrent}
+                  page={currentPage}
+                  onChange={setCurrentPage}
               />
           </List>
       </ScrollArea>

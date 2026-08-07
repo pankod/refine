@@ -7,11 +7,11 @@ import {
   useGo,
   useModal,
   useParsed,
-  useResource,
   useUserFriendlyName,
   useTranslate,
   useWarnAboutChange,
   useInvalidate,
+  useResourceParams,
 } from "@refinedev/core";
 import type { FieldValues } from "react-hook-form";
 
@@ -64,21 +64,25 @@ export type UseModalFormProps<
   /**
      * @description Configuration object for the modal.
      * `defaultVisible`: Initial visibility state of the modal.
-     * 
+     *
      * `autoSubmitClose`: Whether the form should be submitted when the modal is closed.
-     * 
+     *
      * `autoResetForm`: Whether the form should be reset when the form is submitted.
+     *
+     * `autoResetFormWhenClose`: Whether the form should be reset to defaultValues when the modal is closed.
      * @type `{
       defaultVisible?: boolean;
       autoSubmitClose?: boolean;
       autoResetForm?: boolean;
+      autoResetFormWhenClose?: boolean;
       }`
-     * @default `defaultVisible = false` `autoSubmitClose = true` `autoResetForm = true`
+     * @default `defaultVisible = false` `autoSubmitClose = true` `autoResetForm = true` `autoResetFormWhenClose = true`
      */
   modalProps?: {
     defaultVisible?: boolean;
     autoSubmitClose?: boolean;
     autoResetForm?: boolean;
+    autoResetFormWhenClose?: boolean;
   };
 } & FormWithSyncWithLocationParams;
 
@@ -119,11 +123,13 @@ export const useModalForm = <
 
   const { resource: resourceProp, action: actionProp } = refineCoreProps ?? {};
 
-  const {
-    resource,
-    action: actionFromParams,
-    identifier,
-  } = useResource(resourceProp);
+  const { resource, identifier } = useResourceParams({
+    resource: resourceProp,
+  });
+  const { action: actionFromParams } = useResourceParams({
+    resource: resourceProp,
+    action: actionProp,
+  });
 
   const parsed = useParsed();
   const go = useGo();
@@ -146,6 +152,7 @@ export const useModalForm = <
     defaultVisible = false,
     autoSubmitClose = true,
     autoResetForm = true,
+    autoResetFormWhenClose = true,
   } = modalProps ?? {};
 
   const useHookFormResult = useForm<
@@ -169,7 +176,7 @@ export const useModalForm = <
 
   const {
     reset,
-    refineCore: { onFinish, id, setId, autoSaveProps },
+    refineCore: { onFinish, id, setId, autoSaveProps, query },
     saveButtonProps,
     handleSubmit,
   } = useHookFormResult;
@@ -177,6 +184,20 @@ export const useModalForm = <
   const { visible, show, close } = useModal({
     defaultVisible,
   });
+
+  // compensate for setting of initial form values in useForm since it doesnt track modal visibility
+  React.useEffect(() => {
+    if (!visible || !query?.data?.data) return;
+
+    const formData = query.data.data;
+    if (!formData) return;
+
+    reset(formData as any, {
+      ...(!autoResetFormWhenClose && {
+        keepDirtyValues: true,
+      }),
+    });
+  }, [visible, query?.data?.data, autoResetFormWhenClose]);
 
   React.useEffect(() => {
     if (initiallySynced === false && syncWithLocationKey) {
@@ -271,6 +292,10 @@ export const useModalForm = <
 
     setId?.(undefined);
     close();
+
+    if (autoResetFormWhenClose) {
+      reset();
+    }
   }, [warnWhen, autoSaveProps.status]);
 
   const handleShow = useCallback(
@@ -284,19 +309,14 @@ export const useModalForm = <
         show();
       }
     },
-    [id],
+    [id, action, setId, show],
   );
 
   const title = translate(
     `${identifier}.titles.${actionProp}`,
     undefined,
     `${getUserFriendlyName(
-      `${actionProp} ${
-        resource?.meta?.label ??
-        resource?.options?.label ??
-        resource?.label ??
-        identifier
-      }`,
+      `${actionProp} ${resource?.meta?.label ?? identifier}`,
       "singular",
     )}`,
   );

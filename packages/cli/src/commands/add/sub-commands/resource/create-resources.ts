@@ -17,6 +17,7 @@ import inquirer from "inquirer";
 import { join } from "path";
 import { plural } from "pluralize";
 import temp from "temp";
+import { getCommandRootDir } from "./get-command-root-dir";
 
 export const defaultActions = ["list", "create", "edit", "show"];
 
@@ -178,11 +179,6 @@ export const createResources = async (
   }
 
   return;
-};
-
-// this export is for testing
-export const getCommandRootDir = () => {
-  return __dirname;
 };
 
 const generateTempDir = (): string => {

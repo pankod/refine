@@ -53,7 +53,7 @@ export const PostList: React.FC = () => {
 
 ### Disable `useForm` redirection after successful mutation
 
-When we create our Create Page, we pass `redirect` false to the [`useForm`](/docs/3.xx.xx/api-reference/core/hooks/useForm) hook that we will use to manage the form. Thus, we will be able to do the redirection we want in our buttons.
+When we create our Create Page, we pass `redirect` false to the [`useForm`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm) hook that we will use to manage the form. Thus, we will be able to do the redirection we want in our buttons.
 
 ```tsx title="src/pages/create.tsx"
 // highlight-next-line
@@ -198,7 +198,7 @@ We will use `handleSubmit` function to manage to submit event when clicking the 
 :::info
 `onFinish` function resolves to respect the `mutationMode` property. In `pessimistic` mode, it will resolve after the response is returned from the request, in `optimistic` and `undoable` modes it will resolve immediately. Only real await will happen in pessimistic mode and this will resolve with the response data, others will resolve immediately with undefined data.
 
-[Refer to the `mutationMode` documentation for more details. &#8594](/advanced-tutorials/mutation-mode.md)
+[Refer to the `mutationMode` documentation for more details. &#8594](/core/docs/3.xx.xx/advanced-tutorials/mutation-mode)
 :::
 
 ```tsx title="src/pages/create.tsx"
@@ -340,7 +340,7 @@ export const PostCreate: React.FC = () => {
 ```
 
 :::tip
-We used the `redirect` method to perform the redirection, which returns from [`useForm`](/docs/3.xx.xx/api-reference/core/hooks/useForm) instead of [`useNavigation`](/docs/3.xx.xx/api-reference/core/hooks/navigation/useNavigation) Thus, we can do our routing without dealing with managing resources.
+We used the `redirect` method to perform the redirection, which returns from [`useForm`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm) instead of [`useNavigation`](/core/docs/3.xx.xx/api-reference/core/hooks/navigation/useNavigation) Thus, we can do our routing without dealing with managing resources.
 :::
 
 ## Example

@@ -1,5 +1,33 @@
 # @refinedev/medusa
 
+## 4.0.1
+
+### Patch Changes
+
+- [#7086](https://github.com/refinedev/refine/pull/7086) [`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3) Thanks [@BatuhanW](https://github.com/BatuhanW)! - feat: disable minify
+
+  Resolves #6417
+
+## 4.0.0
+
+### Patch Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix(test): update Jest assertions and configuration for v30 compatibility
+
+  - Updated test infrastructure with modern Jest API usage and improved configuration.
+  - Internal development dependency updates and tooling modernization - no public API changes.
+
+- Updated dependencies [[`807099eecb4e8d41b1cf9ab557d71d34d12bec35`](https://github.com/refinedev/refine/commit/807099eecb4e8d41b1cf9ab557d71d34d12bec35), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/core@5.0.0
+
+## 3.0.7
+
+### Patch Changes
+
+- [#6894](https://github.com/refinedev/refine/pull/6894) [`783a103d4212a3a7ad70477ae96f2fb79a692dd3`](https://github.com/refinedev/refine/commit/783a103d4212a3a7ad70477ae96f2fb79a692dd3) Thanks [@arndom](https://github.com/arndom)! - - Bump `axios` dependency to `^1.11.0` to fix critical vulnerability of `form-data@v4.0.0`
+
+  [Resolves #6888](https://github.com/refinedev/refine/issues/6888)
+
 ## 3.0.6
 
 ### Patch Changes

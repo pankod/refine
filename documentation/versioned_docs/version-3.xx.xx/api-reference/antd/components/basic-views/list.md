@@ -94,7 +94,7 @@ render(
 ```
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Properties
@@ -134,7 +134,7 @@ render(
 
 `<List>` component reads the `resource` information from the route by default. This default behavior will not work on custom pages. If you want to use the `<List>` component in a custom page, you can use the `resource` prop.
 
-[Refer to the custom pages documentation for detailed usage. &#8594](/advanced-tutorials/custom-pages.md)
+[Refer to the custom pages documentation for detailed usage. &#8594](/core/docs/3.xx.xx/advanced-tutorials/custom-pages/)
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/custom
 setInitialRoutes(["/custom"]);
@@ -245,16 +245,16 @@ render(
 );
 ```
 
-[Refer to the `usePermission` documentation for detailed usage. &#8594](/api-reference/core/hooks/auth/usePermissions.md)
+[Refer to the `usePermission` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/usePermissions)
 
 ### `breadcrumb`
 
 To customize or disable the breadcrumb, you can use the `breadcrumb` property. By default it uses the `Breadcrumb` component from `@pankod/refine-antd` package.
 
-[Refer to the `Breadcrumb` documentation for detailed usage. &#8594](/api-reference/antd/components/breadcrumb.md)
+[Refer to the `Breadcrumb` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/antd/components/breadcrumb)
 
 :::tip
-This feature can be managed globally via the `<Refine>` component's [options](/docs/3.xx.xx/api-reference/core/components/refine-config/#breadcrumb)
+This feature can be managed globally via the `<Refine>` component's [options](/core/docs/3.xx.xx/api-reference/core/components/refine-config/#breadcrumb)
 :::
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts
@@ -505,12 +505,12 @@ render(
 
 ### Properties
 
-<PropsTable module="@pankod/refine-antd/List" 
-headerProps-type="[`PageHeaderProps`](https://procomponents.ant.design/en-US/components/page-header)" 
+<PropsTable module="@pankod/refine-antd/List"
+headerProps-type="[`PageHeaderProps`](https://procomponents.ant.design/en-US/components/page-header)"
 headerButtonProps-type="[`SpaceProps`](https://ant.design/components/space/)"
 createButtonProps-type="[`ButtonProps`](https://ant.design/components/button/#API) & `{ resourceName: string }`"
 breadcrumb-default="[`<Breadcrumb>`](https://ant.design/components/breadcrumb/)"
 canCreate-default="If the resource is passed a create component, `true` else `false`"
 />
 
-[breadcrumb-component]: /api-reference/antd/components/breadcrumb.md
+[breadcrumb-component]: /core/docs/3.xx.xx/api-reference/antd/components/breadcrumb

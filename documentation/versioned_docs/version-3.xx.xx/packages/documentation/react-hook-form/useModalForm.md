@@ -598,7 +598,7 @@ textarea {
 ## Properties
 
 :::tip
-All [`useForm`][refine-react-hook-form-use-form] props also available in `useModalForm`. You can find descriptions on [`useForm`](/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/#properties) docs.
+All [`useForm`][refine-react-hook-form-use-form] props also available in `useModalForm`. You can find descriptions on [`useForm`](/core/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/#properties) docs.
 
 All [`React Hook Form useForm`][react-hook-form-use-form] props also available in `useModalForm`. You can find descriptions on [`React Hook Form`][react-hook-form-use-form] docs.
 :::
@@ -665,7 +665,7 @@ const modalForm = useModalForm({
 
 When you have unsaved changes and try to leave the current page, refine shows a confirmation modal box. To activate this feature.
 
-You can also set this value in [`<Refine>`](/docs/3.xx.xx/api-reference/core/components/refine-config/#warnwhenunsavedchanges) component.
+You can also set this value in [`<Refine>`](/core/docs/3.xx.xx/api-reference/core/components/refine-config/#warnwhenunsavedchanges) component.
 
 ```tsx
 const modalForm = useModalForm({
@@ -676,9 +676,9 @@ const modalForm = useModalForm({
 ## Return Values
 
 :::tip
-All [`useForm`][refine-react-hook-form-use-form] return values also available in `useModalForm`. You can find descriptions on [`useForm`](/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/#return-values) docs.
+All [`useForm`][refine-react-hook-form-use-form] return values also available in `useModalForm`. You can find descriptions on [`useForm`](/core/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/#return-values) docs.
 
-All [`React Hook Form useForm`][react-hook-form-use-form] return values also available in `useModalForm`. You can find descriptions on [`useForm`](/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/#return-values) docs.
+All [`React Hook Form useForm`][react-hook-form-use-form] return values also available in `useModalForm`. You can find descriptions on [`useForm`](/core/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/#return-values) docs.
 :::
 
 ### `visible`
@@ -860,7 +860,7 @@ return (
 
 <PropsTable module="@pankod/refine-react-hook-form/useModalForm" />
 
-> `*`: These properties have default values in `RefineContext` and can also be set on the **<[Refine](/api-reference/core/components/refine-config.md)>** component.
+> `*`: These properties have default values in `RefineContext` and can also be set on the **<[Refine](/core/docs/3.xx.xx/api-reference/core/components/refine-config)>** component.
 
 :::tip External Props
 It also accepts all props of [useForm](https://react-hook-form.com/api/useform) hook available in the [React Hook Form](https://react-hook-form.com/).
@@ -868,10 +868,10 @@ It also accepts all props of [useForm](https://react-hook-form.com/api/useform) 
 
 ### Return values
 
-| Property                      | Description                                                     | Type                                                                        |
-| ----------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| modal                         | Relevant states and methods to control the modal                | [`ModalReturnValues`](#modalreturnvalues)                                   |
-| refineCore                    | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/api-reference/core/hooks/useForm.md#return-values) |
+| Property                      | Description                                                     | Type                                                                                       |
+| ----------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| modal                         | Relevant states and methods to control the modal                | [`ModalReturnValues`](#modalreturnvalues)                                                  |
+| refineCore                    | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm#return-values) |
 | React Hook Form Return Values | See [React Hook Form][react-hook-form-use-form] documentation   |
 
 <br />
@@ -892,6 +892,6 @@ It also accepts all props of [useForm](https://react-hook-form.com/api/useform) 
 <CodeSandboxExample path="form-react-hook-form-use-modal-form" />
 
 [@pankod/refine-react-hook-form]: https://github.com/refinedev/refine/tree/v3/packages/react-hook-form
-[refine-react-hook-form-use-form]: /packages/documentation/react-hook-form/useForm.md
+[refine-react-hook-form-use-form]: /core/docs/3.xx.xx/packages/documentation/react-hook-form/useForm
 [react-hook-form-use-form]: https://react-hook-form.com/api/useform
-[use-form-core]: /api-reference/core/hooks/useForm.md
+[use-form-core]: /core/docs/3.xx.xx/api-reference/core/hooks/useForm

@@ -76,11 +76,11 @@ We will go through the show page components and hooks one by one.
 
 - `<Show/>` is a **refine** component that is used to presentation purposes like showing the title of the page, list button, etc.
 
-  [Refer to the `<Show/>` documentation for more information &#8594](/docs/3.xx.xx/api-reference/antd/components/basic-views/show/)
+  [Refer to the `<Show/>` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/antd/components/basic-views/show/)
 
 - `useShow` is a **refine** hook that is used to get single record data by using the `id` in the URL. It sends the parameters to the `dataProvider`'s `getOne` function and returns the result.
 
-  [Refer to the `useShow` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/hooks/show/useShow/)
+  [Refer to the `useShow` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/show/useShow/)
 
 ### Handling Relationships
 
@@ -88,7 +88,7 @@ In the show page, we have a single record. The record may have relationships wit
 
 For example, the `blog_posts` resource has a relationship with the `categories` resource. In this case, we can use the `useOne` hook provided by **refine**. This hook allows us to fetch single record data by using the `id` and `resource` parameters.
 
-[Refer to the `useOne` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/)
+[Refer to the `useOne` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/)
 
 In the auto-generated show page code, Inferencer used the `useOne` hook to fetch the category data of the blog post record.
 

@@ -359,7 +359,7 @@ Only authenticated users can access this page via `/custom-page` path.
 :::caution attention
 For authenticated custom page, your application needs an `authProvider`.
 
-[Refer to the `authProvider` for more detailed information. &#8594](/api-reference/core/providers/auth-provider.md)
+[Refer to the `authProvider` for more detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/providers/auth-provider)
 :::
 
 ## Layout for Custom Pages
@@ -441,7 +441,7 @@ export default App;
 
 By default, custom pages don't have any layout. If you want to show your custom page in a layout, you can use `<LayoutWrapper>` component.
 
-[Refer to the `<LayoutWrapper>` for more detailed information. &#8594](/api-reference/core/components/layout-wrapper.md)
+[Refer to the `<LayoutWrapper>` for more detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/components/layout-wrapper)
 </TabItem>
 </Tabs>
 
@@ -449,7 +449,7 @@ By default, custom pages don't have any layout. If you want to show your custom 
 
 Let's make a custom page for posts. On this page, the editor can approve or reject the posts with the "draft" status.
 
-Before starting the example, let's assume that our [`dataProvider`](/api-reference/core/providers/data-provider.md) has an endpoint that returns posts as follows.
+Before starting the example, let's assume that our [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider) has an endpoint that returns posts as follows.
 
 ```ts title="https://api.fake-rest.refine.dev/posts"
 {
@@ -513,7 +513,7 @@ export default App;
 
 Now, let's create the custom page with the name `<PostReview>`. We will use the properties of `useList`, `filter`, and `pagination` to fetch a post with "draft" status.
 
-[Refer to the `useList` documentation for detailed usage. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useList/)
+[Refer to the `useList` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/)
 
 ```tsx title="src/pages/post-review.tsx"
 import { useList } from "@pankod/refine-core";
@@ -710,7 +710,7 @@ Now our page looks like this:
 
 Now let's put in approve and reject buttons to change the status of the post shown on the page. When these buttons are clicked, we will change the status of the post using `useUpdate`.
 
-[Refer to the `useUpdate` documentation for detailed usage. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/)
+[Refer to the `useUpdate` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/)
 
 ```tsx title="src/pages/post-review.tsx"
 import {

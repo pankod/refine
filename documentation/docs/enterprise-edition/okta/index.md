@@ -1,5 +1,8 @@
 ---
-title: Okta Auth Provider
+title: "Okta Guide | SSO in Refine v5"
+display_title: "Okta Auth Provider"
+sidebar_label: "Okta Auth Provider"
+description: "Integrate Okta in Refine v5. Learn best practices. Explore best practices for auth and npmrc for real-world React admin panels. Real-world snippets included."
 ---
 
 # Okta Auth Provider
@@ -8,27 +11,27 @@ Okta is an enterprise-grade identity management service. Refine's integration of
 
 ## Installation
 
-This package is included in Refine's Enterprise Edition. To learn more about Refine's Enterprise Edition, please [contact us](https://s.refine.dev/okta-enterprise).
+This package is included in Refine's Enterprise Edition. To learn more about Refine's Enterprise Edition, please [contact us](https://refine.dev/).
 
-<InstallPackagesCommand args="@refinedev-ee/okta @okta/okta-auth-js">
+<InstallPackagesCommand args="@refinedev/okta @okta/okta-auth-js">
 
 ```yml title=".npmrc"
-# A registry with the auth token should be added for the @refinedev-ee scope
-@refinedev-ee:registry=https://registry.npmjs.org/
-//registry.npmjs.org/:_authToken=$NPM_TOKEN
+# A registry with the auth token should be added for the @refinedev scope
+@refinedev:registry=https://registry.refine.dev/
+//registry.refine.dev/:_authToken=$NPM_TOKEN
 ```
 
 </InstallPackagesCommand>
 
 ## Usage
 
-First, you'll need to create an `OktaAuth` instance, then use the `createAuthProvider` method to create an auth provider. You can then pass the auth provider to the [`<Refine />`](/docs/core/refine-component) component.
+First, you'll need to create an `OktaAuth` instance, then use the `createAuthProvider` method to create an auth provider. You can then pass the auth provider to the [`<Refine />`](/core/docs/core/refine-component/) component.
 
-The example below uses [`react-router-dom`](/docs/routing/integrations/react-router) for routing, but all [router integrations](/docs/guides-concepts/routing) of Refine will work the same way.
+The example below uses [`react-router`](/core/docs/routing/integrations/react-router/) for routing, but all [router integrations](/core/docs/guides-concepts/routing/) of Refine will work the same way.
 
 ```tsx title="App.tsx"
 import React from "react";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import OktaAuth from "@okta/okta-auth-js";
 
@@ -36,8 +39,8 @@ import { Authenticated, AuthPage, Refine, WelcomePage } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { createAuthProvider, OktaCallback } from "@refinedev-ee/okta";
+} from "@refinedev/react-router";
+import { createAuthProvider, OktaCallback } from "@refinedev/okta";
 
 const oktaAuth = new OktaAuth({
   issuer: "https://{yourOktaDomain}/oauth2/default",

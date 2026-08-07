@@ -1,19 +1,22 @@
 ---
-title: useCustom
-source: packages/core/src/hooks/data/useCustom.ts
+title: "useCustom Hook | Options, Patterns & Edge Cases | Refine v5"
+display_title: "useCustom"
+sidebar_label: "useCustom"
+description: "Explore how to use the useCustom hook in Refine v5. Learn patterns to scale query and passed for custom APIs and scalable data flows."
+source: packages/core/src/data/hooks/useCustom.ts
 ---
 
-`useCustom` is used to send custom query requests using the Tanstack Query advantages. It is an extended version of TanStack Query's [`useQuery`](https://tanstack.com/query/v4/docs/react/reference/useQuery) and not only supports all features of the mutation but also adds some extra features.
+`useCustom` is used to send custom query requests using the Tanstack Query advantages. It is an extended version of TanStack Query's [`useQuery`](https://tanstack.com/query/v5/docs/react/reference/useQuery) and not only supports all features of the mutation but also adds some extra features.
 
-It uses the `custom` method as the **query function** from the [`dataProvider`](/docs/data/data-provider) which is passed to `<Refine>`.
+It uses the `custom` method as the **query function** from the [`dataProvider`](/core/docs/data/data-provider/) which is passed to `<Refine>`.
 
 :::caution Use Cases
 
-`useCustom` should **not** be used when creating, updating, or deleting a resource. Following hooks should be used for these instead: [useCreate](/docs/data/hooks/use-create), [useUpdate](/docs/data/hooks/use-update) or [useDelete](/docs/data/hooks/use-delete)
+`useCustom` should **not** be used when creating, updating, or deleting a resource. Following hooks should be used for these instead: [useCreate](/core/docs/data/hooks/use-create/), [useUpdate](/core/docs/data/hooks/use-update/) or [useDelete](/core/docs/data/hooks/use-delete/)
 
 This is because `useCustom`, unlike other data hooks, does not [invalidate queries](https://tanstack.com/query/latest/docs/react/guides/query-invalidation) and therefore will not update the application state either.
 
-If you need to customize the mutation request, use the [useCustomMutation](/docs/data/hooks/use-custom-mutation) hook instead.
+If you need to customize the mutation request, use the [useCustomMutation](/core/docs/data/hooks/use-custom-mutation/) hook instead.
 
 :::
 
@@ -32,15 +35,12 @@ interface PostUniqueCheckResponse {
 
 const apiUrl = useApiUrl();
 
-const { data, isLoading } = useCustom<PostUniqueCheckResponse>({
+const { query } = useCustom<PostUniqueCheckResponse>({
   url: `${apiUrl}/posts-unique-check`,
   method: "get",
   config: {
     headers: {
       "x-custom-header": "foo-bar",
-    },
-    query: {
-      title: "Foo bar",
     },
   },
 });
@@ -145,15 +145,11 @@ useCustom({
 });
 ```
 
-### ~~`config.sort`~~ <PropTag deprecated />
-
-Use `config.sorters` instead.
-
 ### queryOptions
 
 `queryOptions` is used to pass additional options to the `useQuery` hook. It is useful when you want to pass additional options to the `useQuery` hook.
 
-> For more information, refer to the [`useQuery` documentation &#8594](https://tanstack.com/query/v4/docs/react/reference/useQuery)
+> For more information, refer to the [`useQuery` documentation &#8594](https://tanstack.com/query/v5/docs/react/reference/useQuery)
 
 ```tsx
 useCustom({
@@ -202,7 +198,7 @@ const myDataProvider = {
 };
 ```
 
-> For more information, refer to the [`meta` section of the General Concepts documentation&#8594](/docs/guides-concepts/general-concepts/#meta-concept)
+> For more information, refer to the [`meta` section of the General Concepts documentation&#8594](/core/docs/guides-concepts/general-concepts/#meta-concept)
 
 ### dataProviderName
 
@@ -216,7 +212,7 @@ useCustom({
 
 ### successNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 This prop allows you to customize the success notification that shows up when the data is fetched successfully and `useCustom` calls the `open` function from `NotificationProvider`:
 
@@ -234,7 +230,7 @@ useCustom({
 
 ### errorNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 This prop allows you to customize the error notification that shows up when the data fetching fails and the `useCustom` calls the `open` function from `NotificationProvider`
 
@@ -320,10 +316,10 @@ useCustom({
 
 ### Return value
 
-| Description                             | Type                                                                                                                |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Result of the TanStack Query's useQuery | [`QueryObserverResult<CustomResponse<TData>, TError>`](https://tanstack.com/query/v4/docs/react/reference/useQuery) |
-| overtime                                | `{ elapsedTime?: number }`                                                                                          |
+| Name     | Description                          | Type                                                                                                                |
+| -------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| query    | Result of the TanStack Query's Query | [`QueryObserverResult<CustomResponse<TData>, TError>`](https://tanstack.com/query/v5/docs/react/reference/useQuery) |
+| overtime | Overtime loading props               | `{ elapsedTime?: number }`                                                                                          |
 
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror

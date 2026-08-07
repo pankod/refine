@@ -52,12 +52,6 @@ describe("with-nextjs", () => {
   };
 
   beforeEach(() => {
-    cy.interceptGETBlogPost();
-    cy.interceptPOSTBlogPost();
-    cy.interceptPATCHBlogPost();
-    cy.interceptDELETEBlogPost();
-    cy.interceptGETBlogPosts();
-    cy.interceptGETCategories();
     cy.clearAllCookies();
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
@@ -83,8 +77,7 @@ describe("with-nextjs", () => {
       cy.location("pathname").should("eq", "/login");
     });
 
-    // Not working on React Server Components
-    it.skip("should has 'to' param on URL after redirected to /login", () => {
+    it("should has 'to' param on URL after redirected to /login", () => {
       login();
       cy.location("pathname").should("eq", "/");
 

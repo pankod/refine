@@ -1,5 +1,8 @@
 ---
-title: <Authenticated />
+title: "Authenticated Component | Best Practices in Refine v5"
+display_title: "<Authenticated />"
+sidebar_label: "<Authenticated />"
+description: "Set up Authenticated in Refine v5. Learn best practices. Learn how to secure OAuth, JWT for secure enterprise React apps. Explore with code snippets."
 ---
 
 `<Authenticated>` is the component form of [`useIsAuthenticated`][use-is-authenticated].
@@ -84,6 +87,16 @@ Component to render while checking whether the user is logged in.
 </Authenticated>
 ```
 
+### params
+
+Additional params to be passed to Auth Provider's `check` method via `useIsAuthenticated` hook.
+
+```tsx
+<Authenticated params={{ foo: "bar" }}>
+  <YourComponent />
+</Authenticated>
+```
+
 ## API Reference
 
 ### Properties
@@ -95,4 +108,4 @@ Component to render while checking whether the user is logged in.
   v3LegacyAuthProviderCompatible-description="This must be set to `true` if legacy auth provider is being used."
 />
 
-[use-is-authenticated]: /docs/authentication/hooks/use-is-authenticated
+[use-is-authenticated]: /core/docs/authentication/hooks/use-is-authenticated

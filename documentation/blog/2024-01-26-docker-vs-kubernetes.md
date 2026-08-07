@@ -3,9 +3,11 @@ title: Kubernetes vs Docker - A Detailed Comparison
 description: Explore an in-depth comparison between Docker and Kubernetes, focusing on their unique features, advantages, and ideal use scenarios.
 slug: kubernetes-vs-docker
 authors: muhammad_khabbab
-tags: [docker, dev-tools, kubernetes]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-25-docker-vs-kubernates/social.png
+category: "Alternatives"
+tags: [kubernetes, docker, comparison]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-25-docker-vs-kubernates/social.png
 hide_table_of_contents: false
+last_update: 2024-01-29
 ---
 
 **_This article was last updated on January 26, 2024 to add comparison table and more factors about Docker vs Kubernetes._**
@@ -15,21 +17,6 @@ hide_table_of_contents: false
 Containerization is one of the core aspects of application modernization, and almost all new application development uses containers to package their applications. Enterprise applications even use container orchestration platforms like Kubernetes. Today we will not only discuss Docker and Kubernetes in detail but will also go through how these technologies facilitate containerization, application modernization, and the orchestration of enterprise applications.
 
 We will compare both in terms of features, pros, and cons and in which scenario you should prefer one over another. Note that Docker is just a container runtime, whereas Kubernetes is a container orchestration platform, so both complement each other. Let’s start with a brief introduction of both technologies.
-
-Steps we'll cover:
-
-- [What is Docker?](#what-is-docker)
-- [What are the Containers?](#what-are-the-containers)
-- [Core features of Docker](#core-features-of-docker)
-- [Use cases and benefits of Docker](#use-cases-and-benefits-of-docker)
-- [What is Kubernetes?](#what-is-kubernetes)
-- [Core features of Kubernetes](#core-features-of-kubernetes)
-- [Use cases and benefits of Kubernetes](#use-cases-and-benefits-of-kubernetes)
-- [Challenges of Using Docker](#challenges-of-using-docker)
-- [Challenges of Using Kubernetes](#challenges-of-using-kubernetes)
-- [Docker and Kubernetes: How They Work Together](#docker-and-kubernetes-how-they-work-together)
-- [Comparing Docker and Kubernetes](#comparing-docker-and-kubernetes)
-- [Factors to consider when choosing between Docker and Kubernetes](#factors-to-consider-when-choosing-between-docker-and-kubernetes)
 
 ## What is Docker?
 
@@ -42,7 +29,7 @@ A container, a fundamental unit in containerization, packages applications and t
 Technically, the container comprises of Images, and we have layers of stacked images on top of each other.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-25-docker-vs-kubernates/pic1.png"  alt="Docker architecture diagram" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-25-docker-vs-kubernates/pic1.png"  alt="Docker architecture diagram" />
 </div>
 
 <br/>
@@ -112,7 +99,7 @@ Each worker node/machine has multiple application pods with containers running o
 #####
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-25-docker-vs-kubernates/pic2.png"  alt="Kubernetes architecture" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-25-docker-vs-kubernates/pic2.png"  alt="Kubernetes architecture" />
 </div>
 
 <br/>

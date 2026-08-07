@@ -1,5 +1,8 @@
 import { Query } from "appwrite";
 
-export const getAppwritePagination = (current: number, pageSize: number) => {
-  return [Query.offset((current - 1) * pageSize), Query.limit(pageSize)];
+export const getAppwritePagination = (
+  currentPage: number,
+  pageSize: number,
+) => {
+  return [Query.offset((currentPage - 1) * pageSize), Query.limit(pageSize)];
 };

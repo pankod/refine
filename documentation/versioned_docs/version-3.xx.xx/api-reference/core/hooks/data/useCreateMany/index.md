@@ -1,12 +1,12 @@
 ---
 title: useCreateMany
 siderbar_label: useCreateMany
-source: packages/core/src/hooks/data/useCreateMany.ts
+source: packages/core/src/data/hooks/useCreateMany.ts
 ---
 
 `useCreateMany` is an extended version of TanStack Query's [`useMutation`](https://tanstack.com/query/v4/docs/react/reference/useMutation). It supports all the features of `useMutation` and adds some extra features.
 
-- It uses the `createMany` method as the **mutation function** from the [`dataProvider`](/docs/3.xx.xx/api-reference/core/providers/data-provider/) which is passed to `<Refine>`.
+- It uses the `createMany` method as the **mutation function** from the [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider/) which is passed to `<Refine>`.
 
 It is useful when you want to create multiple records.
 
@@ -40,11 +40,11 @@ mutate({
 
 ## Realtime Updates
 
-> This feature is only available if you use a [Live Provider](/docs/3.xx.xx/api-reference/core/providers/live-provider).
+> This feature is only available if you use a [Live Provider](/core/docs/3.xx.xx/api-reference/core/providers/live-provider).
 
 When the `useCreateMany` mutation runs successfully, it will call the `publish` method from `liveProvider` with some parameters such as `channel`, `type` etc. It is useful when you want to publish the changes to the subscribers on the client side.
 
-[Refer to the `liveProvider` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/providers/live-provider)
+[Refer to the `liveProvider` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/providers/live-provider)
 
 ## Invalidating Queries
 
@@ -54,11 +54,11 @@ When the `useCreateMany` mutation runs successfully, by default it will invalida
 
 ## Audit Logs
 
-> This feature is only available if you use a [Audit Log Provider](/docs/3.xx.xx/api-reference/core/providers/audit-log-provider/).
+> This feature is only available if you use a [Audit Log Provider](/core/docs/3.xx.xx/api-reference/core/providers/audit-log-provider/).
 
 When the `useCreateMany` mutation runs successfully, it will call the `log` method from `auditLogProvider` with some parameters such as `resource`, `action`, `data` etc. It is useful when you want to log the changes to the database.
 
-[Refer to the `auditLogProvider` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/providers/audit-log-provider/)
+[Refer to the `auditLogProvider` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/providers/audit-log-provider/)
 
 ## Properties
 
@@ -114,7 +114,7 @@ mutate(
 
 ### `resource` <PropTag required />
 
-It will be passed to the `create` method from the `dataProvider` as a parameter. The parameter is usually used as an API endpoint path. It all depends on how to handle the `resource` in the `create` method. See the [creating a data provider](/docs/3.xx.xx/tutorial/understanding-dataprovider/create-dataprovider/) section for an example of how resources are handled.
+It will be passed to the `create` method from the `dataProvider` as a parameter. The parameter is usually used as an API endpoint path. It all depends on how to handle the `resource` in the `create` method. See the [creating a data provider](/core/docs/3.xx.xx/tutorial/understanding-dataprovider/create-dataprovider/) section for an example of how resources are handled.
 
 ```tsx
 const { mutate } = useCreateMany();
@@ -147,7 +147,7 @@ mutate({
 
 ### `successNotification`
 
-> [`NotificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
 
 After data is fetched successfully, `useCreateMany` can call `open` function from `NotificationProvider` to show a success notification. With this prop, you can customize the success notification.
 
@@ -167,7 +167,7 @@ mutate({
 
 ### `errorNotification`
 
-> [`NotificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
 
 After data fetching is failed, `useCreateMany` will call `open` function from `NotificationProvider` to show an error notification. With this prop, you can customize the error notification.
 
@@ -187,10 +187,10 @@ mutate({
 
 ### `metaData`
 
-[`metaData`](/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
+[`metaData`](/core/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
 
 - To pass additional information to data provider methods.
-- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
+- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/core/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
 
 In the following example, we pass the `headers` property in the `metaData` object to the `create` method. With similar logic, you can pass any properties to specifically handle the data provider methods.
 
@@ -267,23 +267,23 @@ Returns an object with TanStack Query's `useMutation` return values.
 
 ### Mutation Parameters
 
-| Property                                                                                            | Description                                                                                        | Type                                                                                     | Default                                                              |
-| --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| <div className="required-block"><div>resource</div> <div className=" required">Required</div></div> | Resource name for API data interactions                                                            | `string`                                                                                 |                                                                      |
-| values <div className=" required">Required</div>                                                    | Values for mutation function                                                                       | `TVariables[]`                                                                           | [{}]                                                                 |
-| successNotification                                                                                 | Successful Mutation notification                                                                   | [`SuccessErrorNotification`](/api-reference/core/interfaces.md#successerrornotification) | "Successfully created `resource`s"                                   |
-| errorNotification                                                                                   | Unsuccessful Mutation notification                                                                 | [`SuccessErrorNotification`](/api-reference/core/interfaces.md#successerrornotification) | "There was an error creating `resource` (status code: `statusCode`)" |
-| metaData                                                                                            | Metadata query for `dataProvider`                                                                  | [`MetaDataQuery`](/api-reference/core/interfaces.md#metadataquery)                       | {}                                                                   |
-| dataProviderName                                                                                    | If there is more than one `dataProvider`, you should use the `dataProviderName` that you will use. | `string`                                                                                 | `default`                                                            |
-| invalidates                                                                                         | You can use it to manage the invalidations that will occur at the end of the mutation.             | `all`, `resourceAll`, `list`, `many`, `detail`, `false`                                  | `["list", "many"]`                                                   |
+| Property                                                                                            | Description                                                                                        | Type                                                                                                    | Default                                                              |
+| --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| <div className="required-block"><div>resource</div> <div className=" required">Required</div></div> | Resource name for API data interactions                                                            | `string`                                                                                                |                                                                      |
+| values <div className=" required">Required</div>                                                    | Values for mutation function                                                                       | `TVariables[]`                                                                                          | [{}]                                                                 |
+| successNotification                                                                                 | Successful Mutation notification                                                                   | [`SuccessErrorNotification`](/core/docs/3.xx.xx/api-reference/core/interfaces#successerrornotification) | "Successfully created `resource`s"                                   |
+| errorNotification                                                                                   | Unsuccessful Mutation notification                                                                 | [`SuccessErrorNotification`](/core/docs/3.xx.xx/api-reference/core/interfaces#successerrornotification) | "There was an error creating `resource` (status code: `statusCode`)" |
+| metaData                                                                                            | Metadata query for `dataProvider`                                                                  | [`MetaDataQuery`](/core/docs/3.xx.xx/api-reference/core/interfaces#metadataquery)                       | {}                                                                   |
+| dataProviderName                                                                                    | If there is more than one `dataProvider`, you should use the `dataProviderName` that you will use. | `string`                                                                                                | `default`                                                            |
+| invalidates                                                                                         | You can use it to manage the invalidations that will occur at the end of the mutation.             | `all`, `resourceAll`, `list`, `many`, `detail`, `false`                                                 | `["list", "many"]`                                                   |
 
 ### Type Parameters
 
-| Property   | Desription                                                                                        | Type                                                         | Default                                                      |
-| ---------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| TData      | Result data of the mutation. Extends [`BaseRecord`](/api-reference/core/interfaces.md#baserecord) | [`BaseRecord`](/api-reference/core/interfaces.md#baserecord) | [`BaseRecord`](/api-reference/core/interfaces.md#baserecord) |
-| TError     | Custom error object that extends [`HttpError`](/api-reference/core/interfaces.md#httperror)       | [`HttpError`](/api-reference/core/interfaces.md#httperror)   | [`HttpError`](/api-reference/core/interfaces.md#httperror)   |
-| TVariables | Values for mutation function                                                                      | `{}`                                                         | `{}`                                                         |
+| Property   | Desription                                                                                                       | Type                                                                        | Default                                                                     |
+| ---------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| TData      | Result data of the mutation. Extends [`BaseRecord`](/core/docs/3.xx.xx/api-reference/core/interfaces#baserecord) | [`BaseRecord`](/core/docs/3.xx.xx/api-reference/core/interfaces#baserecord) | [`BaseRecord`](/core/docs/3.xx.xx/api-reference/core/interfaces#baserecord) |
+| TError     | Custom error object that extends [`HttpError`](/core/docs/3.xx.xx/api-reference/core/interfaces#httperror)       | [`HttpError`](/core/docs/3.xx.xx/api-reference/core/interfaces#httperror)   | [`HttpError`](/core/docs/3.xx.xx/api-reference/core/interfaces#httperror)   |
+| TVariables | Values for mutation function                                                                                     | `{}`                                                                        | `{}`                                                                        |
 
 ### Return value
 

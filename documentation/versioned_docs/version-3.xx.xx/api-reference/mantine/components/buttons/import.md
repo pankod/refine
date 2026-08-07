@@ -165,7 +165,7 @@ render(
 ```
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Properties
@@ -213,6 +213,6 @@ render(
 
 <PropsTable module="@pankod/refine-mantine/ImportButton" />
 
-[useimport]: /api-reference/core/hooks/import-export/useImport.md
+[useimport]: /core/docs/3.xx.xx/api-reference/core/hooks/import-export/useImport
 [button]: https://mantine.dev/core/button
 [input]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input

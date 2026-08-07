@@ -1,12 +1,13 @@
 import {
   type GoConfig,
-  type RouterBindings,
+  type RouterProvider,
   ResourceContext,
   matchResourceFromRoute,
   type ParseResponse,
+  QS_PARSE_DEPTH,
 } from "@refinedev/core";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import NextLink from "next/link";
 import qs from "qs";
 import React, { type ComponentProps, useContext } from "react";
 import { paramsFromCurrentPath } from "../common/params-from-current-path";
@@ -20,7 +21,7 @@ export const stringifyConfig = {
   encodeValuesOnly: true,
 };
 
-export const routerBindings: RouterBindings = {
+export const routerProvider: RouterProvider = {
   go: () => {
     const { push, replace, asPath: pathname } = useRouter();
 
@@ -46,6 +47,7 @@ export const routerBindings: RouterBindings = {
           ...(keepQuery
             ? qs.parse(pathname.split("?")[1], {
                 ignoreQueryPrefix: true,
+                depth: QS_PARSE_DEPTH,
               })
             : {}),
           ...query,
@@ -92,7 +94,8 @@ export const routerBindings: RouterBindings = {
   },
   parse: () => {
     const { query, asPath: pathname, isReady } = useRouter();
-    const { resources } = useContext(ResourceContext);
+    const resourceContext = useContext(ResourceContext as any) || {};
+    const resources = (resourceContext as any)?.resources || [];
 
     const cleanPathname = pathname.split("?")[0].split("#")[0];
 
@@ -109,12 +112,16 @@ export const routerBindings: RouterBindings = {
 
     const parsedParams = React.useMemo(() => {
       const searchParams = pathname.split("?")[1];
-      return qs.parse(searchParams, { ignoreQueryPrefix: true });
+      return qs.parse(searchParams, {
+        ignoreQueryPrefix: true,
+        depth: QS_PARSE_DEPTH,
+      });
     }, [pathname]);
 
     const fn = React.useCallback(() => {
       const parsedQuery = qs.parse(query as Record<string, string>, {
         ignoreQueryPrefix: true,
+        depth: QS_PARSE_DEPTH,
       });
       const combinedParams = {
         ...inferredParams,
@@ -130,8 +137,8 @@ export const routerBindings: RouterBindings = {
         pathname: cleanPathname,
         params: {
           ...combinedParams,
-          current: convertToNumberIfPossible(
-            combinedParams.current as string,
+          currentPage: convertToNumberIfPossible(
+            combinedParams.currentPage as string,
           ) as number | undefined,
           pageSize: convertToNumberIfPossible(
             combinedParams.pageSize as string,
@@ -157,8 +164,8 @@ export const routerBindings: RouterBindings = {
   },
   Link: React.forwardRef<
     HTMLAnchorElement,
-    ComponentProps<NonNullable<RouterBindings["Link"]>>
+    React.PropsWithChildren<{ to: string; [prop: string]: any }>
   >(function RefineLink({ to, ...props }, ref) {
-    return <Link href={to} {...props} ref={ref} />;
+    return React.createElement(NextLink as any, { href: to, ...props, ref });
   }),
 };

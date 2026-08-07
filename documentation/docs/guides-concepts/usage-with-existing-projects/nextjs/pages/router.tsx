@@ -111,13 +111,14 @@ import RefineLayout from "../../src/components/refine-layout";
 import type { NextPageWithLayout } from "../_app";
 
 const Page: NextPageWithLayout = () => {
-  const { data: products } = useList();
+  const { result } = useList();
+  const products = result?.data;
 
   return (
     <div>
       <h1>Refine Products Page</h1>
       <ul>
-        {products?.data?.map((record) => (
+        {products?.map((record) => (
           <li key={record.id}>{record.name}</li>
         ))}
       </ul>

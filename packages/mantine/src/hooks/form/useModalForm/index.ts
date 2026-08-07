@@ -7,7 +7,7 @@ import {
   useGo,
   useModal,
   useParsed,
-  useResource,
+  useResourceParams,
   useUserFriendlyName,
   useTranslate,
   useWarnAboutChange,
@@ -74,6 +74,7 @@ export type UseModalFormProps<
     defaultVisible?: boolean;
     autoSubmitClose?: boolean;
     autoResetForm?: boolean;
+    autoResetFormWhenClose?: boolean;
   };
 } & FormWithSyncWithLocationParams;
 
@@ -123,19 +124,18 @@ export const useModalForm = <
     defaultVisible = false,
     autoSubmitClose = true,
     autoResetForm = true,
+    autoResetFormWhenClose = true,
   } = modalProps ?? {};
 
-  const {
-    resource,
-    action: actionFromParams,
-    identifier,
-  } = useResource(resourceProp);
+  const { resource, identifier } = useResourceParams({
+    resource: resourceProp,
+  });
 
   const parsed = useParsed();
   const go = useGo();
   const getUserFriendlyName = useUserFriendlyName();
 
-  const action = actionProp ?? actionFromParams ?? "";
+  const action = actionProp ?? "";
 
   const syncingId = !(
     typeof syncWithLocation === "object" && syncWithLocation?.syncId === false
@@ -277,6 +277,10 @@ export const useModalForm = <
 
     setId?.(undefined);
     close();
+
+    if (autoResetFormWhenClose) {
+      reset();
+    }
   }, [warnWhen, autoSaveProps.status]);
 
   const handleShow = useCallback(
@@ -296,13 +300,8 @@ export const useModalForm = <
   const title = translate(
     `${identifier}.titles.${actionProp}`,
     undefined,
-    `${getUserFriendlyName(
-      `${actionProp} ${
-        resource?.meta?.label ??
-        resource?.options?.label ??
-        resource?.label ??
-        identifier
-      }`,
+    `${actionProp} ${getUserFriendlyName(
+      resource?.meta?.label ?? identifier,
       "singular",
     )}`,
   );

@@ -114,7 +114,7 @@ export const BlogPostList: React.FC<IResourceComponentsProps> = () => {
   const catList =
     tableData?.data?.map((item: IBlogPost) => item?.category?.id) ?? [];
 
-  const { data: categoryData } = useMany({
+  const { result: categoryData } = useMany({
     resource: "categories",
     ids: catList,
     queryOptions: {

@@ -10,6 +10,10 @@ export const PostCreate = () => {
 
   const { selectProps: categorySelectProps } = useSelect({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

@@ -1,19 +1,13 @@
 import React from "react";
+import { vi } from "vitest";
 
 import { renderHook, waitFor } from "@testing-library/react";
 
-import {
-  MockJSONServer,
-  TestWrapper,
-  act,
-  mockLegacyRouterProvider,
-  mockRouterProvider,
-} from "@test";
+import { MockJSONServer, TestWrapper, act, mockRouterProvider } from "@test";
 import { posts } from "@test/dataMocks";
 
 import type { IResourceItem } from "../../contexts/resource/types";
 import * as pickResource from "../../definitions/helpers/pick-resource";
-import * as useResourceWithRoute from "../resource/useResourceWithRoute";
 
 import { useShow } from "./index";
 
@@ -40,10 +34,10 @@ describe("useShow Hook", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.queryResult.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
-    expect(result.current.queryResult.data?.data.id).toEqual(posts[0].id);
+    expect(result.current.query.data?.data.id).toEqual(posts[0].id);
   });
 
   it("should fetch data with hook params succesfully", async () => {
@@ -55,10 +49,10 @@ describe("useShow Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.queryResult.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
-    expect(result.current.queryResult.data?.data.id).toEqual(posts[0].id);
+    expect(result.current.query.data?.data.id).toEqual(posts[0].id);
     expect(result.current.showId).toEqual("1");
   });
 
@@ -75,7 +69,7 @@ describe("useShow Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.queryResult.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
     expect(result.current.showId).toEqual("2");
@@ -87,7 +81,7 @@ describe("useShow Hook", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.queryResult.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
     expect(result.current.showId).toEqual("1");
@@ -134,7 +128,7 @@ describe("useShow Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.queryResult.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
     expect(result.current.showId).toEqual("2");
@@ -170,7 +164,7 @@ describe("useShow Hook", () => {
   });
 
   it("should pass meta from resource defination, hook parameter and query parameters to dataProvider", async () => {
-    const getOneMock = jest.fn();
+    const getOneMock = vi.fn();
 
     renderHook(() => useShow({ resource: "posts", meta: { foo: "bar" } }), {
       wrapper: TestWrapper({
@@ -192,10 +186,10 @@ describe("useShow Hook", () => {
     });
 
     await waitFor(() => {
-      expect(getOneMock).toBeCalled();
+      expect(getOneMock).toHaveBeenCalled();
     });
 
-    expect(getOneMock).toBeCalledWith(
+    expect(getOneMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -207,7 +201,7 @@ describe("useShow Hook", () => {
   });
 
   it("two resources with same name, should pass resource meta according to identifier", async () => {
-    const getOneMock = jest.fn();
+    const getOneMock = vi.fn();
 
     renderHook(() => useShow({ resource: "recentPosts", id: "1" }), {
       wrapper: TestWrapper({
@@ -243,10 +237,10 @@ describe("useShow Hook", () => {
     });
 
     await waitFor(() => {
-      expect(getOneMock).toBeCalled();
+      expect(getOneMock).toHaveBeenCalled();
     });
 
-    expect(getOneMock).toBeCalledWith(
+    expect(getOneMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           startDate: "2021-01-01",
@@ -254,7 +248,7 @@ describe("useShow Hook", () => {
       }),
     );
 
-    expect(getOneMock).not.toBeCalledWith(
+    expect(getOneMock).not.toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           likes: 100,
@@ -263,37 +257,11 @@ describe("useShow Hook", () => {
     );
   });
 
-  it.each(["resourceFromRouter", "resourceFromProp"] as const)(
-    "should work with both %s with legacy router provider",
-    async (testCase) => {
-      const isFromProp = testCase === "resourceFromProp";
-
-      const { result } = renderHook(
-        () => useShow(isFromProp ? { resource: "posts", id: "1" } : {}),
-        {
-          wrapper: TestWrapper({
-            dataProvider: {
-              default: {
-                ...MockJSONServer.default,
-              },
-            },
-            resources: [{ name: "posts" }],
-            routerProvider,
-          }),
-        },
-      );
-
-      await waitFor(() => {
-        expect(result.current.queryResult.isSuccess).toBeTruthy();
-        expect(result.current.queryResult.data?.data).toEqual(posts[0]);
-      });
-    },
-  );
-
   it("should work resourceFromRouter is string", async () => {
-    jest.spyOn(pickResource, "pickResource").mockReturnValueOnce({
+    vi.spyOn(pickResource, "pickResource").mockReturnValueOnce({
       name: "posts",
-      route: "/posts",
+      list: "/posts",
+      show: "/posts/show/:id",
     });
 
     const { result, rerender } = renderHook(() => useShow(), {
@@ -303,75 +271,35 @@ describe("useShow Hook", () => {
             ...MockJSONServer.default,
           },
         },
-        resources: [{ name: "posts" }],
+        resources: [{ name: "posts", show: "/posts/show/:id" }],
         routerProvider: mockRouterProvider({
           action: "show",
-          resource: "posts" as unknown as IResourceItem,
+          resource: {
+            name: "posts",
+            show: "/posts/show/:id",
+          },
           id: "1",
-          pathname: "/posts/show/1",
         }),
       }),
     });
 
     await waitFor(() => {
-      expect(result.current.queryResult.isSuccess).toBeTruthy();
-      expect(result.current.queryResult.data?.data).toEqual(posts[0]);
+      expect(result.current.query.isSuccess).toBeTruthy();
+      expect(result.current.query.data?.data).toEqual(posts[0]);
     });
 
-    jest.spyOn(pickResource, "pickResource").mockReturnValueOnce(undefined);
+    vi.spyOn(pickResource, "pickResource").mockReturnValueOnce(undefined);
 
     rerender();
 
     await waitFor(() => {
-      expect(result.current.queryResult.isSuccess).toBeTruthy();
-      expect(result.current.queryResult.data?.data).toEqual(posts[0]);
+      expect(result.current.query.isSuccess).toBeTruthy();
+      expect(result.current.query.data?.data).toEqual(posts[0]);
     });
   });
 
-  // NOTE : Will be removed in v5
-  it.each([{ resource: "posts", id: "1" }, undefined])(
-    "should work with legacy router provider. params: %s",
-    async (useShowParams) => {
-      const mockResourceWithRoute = jest.fn();
-      jest
-        .spyOn(useResourceWithRoute, "useResourceWithRoute")
-        .mockReturnValue(mockResourceWithRoute);
-      mockResourceWithRoute.mockReturnValue({
-        name: "posts",
-        route: "/posts/show/1",
-      });
-
-      const { result } = renderHook(() => useShow(useShowParams), {
-        wrapper: TestWrapper({
-          dataProvider: {
-            default: {
-              ...MockJSONServer.default,
-            },
-          },
-          resources: [{ name: "posts" }],
-          legacyRouterProvider: {
-            ...mockLegacyRouterProvider(),
-            useParams: () =>
-              ({
-                resource: "posts",
-                id: "1",
-              }) as any,
-          },
-        }),
-      });
-
-      expect(result.current.showId).toEqual("1");
-      expect(mockResourceWithRoute).toBeCalled();
-
-      await waitFor(() => {
-        expect(result.current.queryResult.isSuccess).toBeTruthy();
-        expect(result.current.queryResult.data?.data).toEqual(posts[0]);
-      });
-    },
-  );
-
   it("works correctly with `interval` and `onInterval` params", async () => {
-    const onInterval = jest.fn();
+    const onInterval = vi.fn();
     const { result } = renderHook(
       () =>
         useShow({
@@ -400,25 +328,25 @@ describe("useShow Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.queryResult.isLoading).toBeTruthy();
+      expect(result.current.query.isLoading).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBe(900);
-      expect(onInterval).toBeCalled();
+      expect(onInterval).toHaveBeenCalled();
     });
 
     await waitFor(() => {
-      expect(!result.current.queryResult.isLoading).toBeTruthy();
+      expect(!result.current.query.isLoading).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBeUndefined();
     });
   });
 
-  it("should work with queryResult and query", async () => {
+  it("should work with query and query", async () => {
     const { result } = renderHook(() => useShow(), {
       wrapper: WrapperWithRoute,
     });
 
     await waitFor(() => {
       expect(result.current.query.isSuccess).toBeTruthy();
-      expect(result.current.query).toEqual(result.current.queryResult);
+      expect(result.current.query).toEqual(result.current.query);
     });
   });
 });

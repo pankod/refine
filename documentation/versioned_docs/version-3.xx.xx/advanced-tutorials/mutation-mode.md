@@ -5,7 +5,7 @@ title: Mutation Mode
 
 ## Overview
 
-Mutation mode determines which mode the mutation runs with. Mutations can run under three different modes: `pessimistic`, `optimistic` and `undoable`.  
+Mutation mode determines which mode the mutation runs with. Mutations can run under three different modes: `pessimistic`, `optimistic` and `undoable`.
 Each mode corresponds to a different type of user experience.
 
 ## Modes
@@ -54,7 +54,7 @@ The mutation is applied locally, redirection and UI updates are executed immedia
 
 ## Usage
 
-Mutation mode can be set application-wide in [`<Refine>`](/api-reference/core/components/refine-config.md#mutationmode) component.
+Mutation mode can be set application-wide in [`<Refine>`](/core/docs/3.xx.xx/api-reference/core/components/refine-config#mutationmode) component.
 
 ```tsx title="App.tsx"
 <Refine
@@ -67,7 +67,7 @@ Mutation mode can be set application-wide in [`<Refine>`](/api-reference/core/co
 
 <br />
 
-It can also be set in supported [data hooks](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate#mutation-mode) and [form hooks](/api-reference/core/hooks/useForm.md#properties) for fine-grained configuration.
+It can also be set in supported [data hooks](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) and [form hooks](/core/docs/3.xx.xx/api-reference/core/hooks/useForm#properties) for fine-grained configuration.
 
 ```tsx
 import { useUpdate } from "@pankod/refine-core";
@@ -87,10 +87,10 @@ mutate({
 
 ### Supported data hooks
 
-- [`useUpdate` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/)
-- [`useUpdateMany` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdateMany/)
-- [`useDelete` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/)
-- [`useDeleteMany` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useDeleteMany/)
+- [`useUpdate` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/)
+- [`useUpdateMany` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdateMany/)
+- [`useDelete` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/)
+- [`useDeleteMany` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDeleteMany/)
 
 <br />
 

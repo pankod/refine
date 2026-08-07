@@ -3,9 +3,11 @@ title: Refine vs AdminBro - Comparison Admin Panel Framework
 description: Refine vs AdminBro
 slug: refine-vs-adminbro
 authors: melih
-tags: [Refine, react, comparison]
+category: "Alternatives"
+tags: [admin-panel, comparison]
 image: https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/placeholder.png
 hide_table_of_contents: false
+last_update: 2022-08-12
 ---
 
 import Tabs from '@theme/Tabs';
@@ -15,7 +17,7 @@ import TabItem from '@theme/TabItem';
 
 This post was created using version 3.x.x of **Refine**. Although we plan to update it with the latest version of **Refine** as soon as possible, you can still benefit from the post in the meantime.
 
-You should know that **Refine** version 4.x.x is backward compatible with version 3.x.x, so there is no need to worry. If you want to see the differences between the two versions, check out the [migration guide](https://refine.dev/docs/migration-guide/).
+You should know that **Refine** version 4.x.x is backward compatible with version 3.x.x, so there is no need to worry. If you want to see the differences between the two versions, check out the [migration guide](https://refine.dev/core/docs/migration-guide/).
 
 :::
 
@@ -51,7 +53,7 @@ Although **Refine** is a newer framework, it is successful in identifying defici
 npm create refine-app@latest demo-refine-project -- -b v3
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2021-11-29-refine-vs-adminbro/project_setup.gif" alt="setup" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2021/2021-11-29-refine-vs-adminbro/project_setup.avif" alt="Refine CLI project setup output" />
 
 ### Features
 
@@ -104,7 +106,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
 export default MyApp;
 ```
 
-[For more information on how to add SSR-Next.js to your Refine project ->](https://refine.dev/docs/guides-and-concepts/ssr/nextjs/)
+[For more information on how to add SSR-Next.js to your Refine project ->](https://refine.dev/core/docs/guides-and-concepts/ssr/nextjs/)
 
 ### Routing
 
@@ -140,7 +142,7 @@ Refine includes many router providers to use in your projects like:
 
 :::
 
-[To take a look at how other router providers are defined and working](https://refine.dev/docs/packages/documentation/routers/)
+[To take a look at how other router providers are defined and working](https://refine.dev/core/docs/packages/documentation/routers/)
 
 To activate router provider in **Refine**, we have to pass the routerProvider to the `<Refine />` component.
 
@@ -195,7 +197,7 @@ You just need to tell the route of your component to the routerProvider.
 
 A data provider is the place where a **Refine** app communicates with an API.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2021-11-29-refine-vs-adminbro/refine_flow.png" alt="refine" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2021/2021-11-29-refine-vs-adminbro/refine_flow.png" alt="Refine data provider flow diagram" />
 
 A data provider must include following methods:
 
@@ -363,20 +365,20 @@ query ($sort: String, $where: JSON, $start: Int, $limit: Int) {
 
 Here we only make requests for queries that are necessary. As you can see, all you have to do is specify the field you want to select with `meta`.
 
-[Refer to the GraphQL for detailed usage. → ](https://refine.dev/docs/packages/documentation/data-providers/graphql/)
+[Refer to the GraphQL for detailed usage. → ](https://refine.dev/core/docs/packages/documentation/data-providers/graphql/)
 
 ### Refine Available Providers
 
 Connects to any REST or GraphQL custom backend.
 
-- NestJs CRUD: [https://github.com/refinedev/refine/tree/master/examples/data-provider-nestjsx-crud](https://github.com/refinedev/refine/tree/master/examples/data-provider-nestjsx-crud)
-- Airtable: [https://github.com/refinedev/refine/tree/master/examples/data-provider-airtable](https://github.com/refinedev/refine/tree/master/examples/data-provider-airtable)
-- Strapi: [https://github.com/refinedev/refine/tree/master/examples/data-provider-strapi](https://github.com/refinedev/refine/tree/master/examples/data-provider-strapi)
-- Strapi v4: [https://github.com/refinedev/refine/tree/master/examples/data-provider-strapi-v4](https://github.com/refinedev/refine/tree/master/examples/data-provider-strapi-v4)
-- Supabase: [https://github.com/refinedev/refine/tree/master/examples/data-provider-supabase](https://github.com/refinedev/refine/tree/master/examples/data-provider-supabase)
-- Hasura: [https://github.com/refinedev/refine/tree/master/examples/data-provider-hasura](https://github.com/refinedev/refine/tree/master/examples/data-provider-hasura)
-- Appwrite: [https://github.com/refinedev/refine/tree/master/examples/data-provider-appwrite](https://github.com/refinedev/refine/tree/master/examples/data-provider-appwrite)
-- Medusa: [https://github.com/refinedev/refine/tree/master/packages/medusa](https://github.com/refinedev/refine/tree/master/packages/medusa)
+- NestJs CRUD: [https://github.com/refinedev/refine/tree/main/examples/data-provider-nestjsx-crud](https://github.com/refinedev/refine/tree/main/examples/data-provider-nestjsx-crud)
+- Airtable: [https://github.com/refinedev/refine/tree/main/examples/data-provider-airtable](https://github.com/refinedev/refine/tree/main/examples/data-provider-airtable)
+- Strapi: [https://github.com/refinedev/refine/tree/main/examples/data-provider-strapi](https://github.com/refinedev/refine/tree/main/examples/data-provider-strapi)
+- Strapi v4: [https://github.com/refinedev/refine/tree/main/examples/data-provider-strapi-v4](https://github.com/refinedev/refine/tree/main/examples/data-provider-strapi-v4)
+- Supabase: [https://github.com/refinedev/refine/tree/main/examples/data-provider-supabase](https://github.com/refinedev/refine/tree/main/examples/data-provider-supabase)
+- Hasura: [https://github.com/refinedev/refine/tree/main/examples/data-provider-hasura](https://github.com/refinedev/refine/tree/main/examples/data-provider-hasura)
+- Appwrite: [https://github.com/refinedev/refine/tree/main/examples/data-provider-appwrite](https://github.com/refinedev/refine/tree/main/examples/data-provider-appwrite)
+- Medusa: [https://github.com/refinedev/refine/tree/main/packages/medusa](https://github.com/refinedev/refine/tree/main/packages/medusa)
 
 ### Customization
 
@@ -400,10 +402,7 @@ All features of **Refine** are available as **open source**.
 - Search
 - Navigation and more features are available
 
-If you want to get information about the Enterprise, Refine ready to help you for Support and Training.
-[For more info about Enterprise->](https://refine.dev/enterprise/)
-
-**Refine** Docs & Demo: [Documentation](https://refine.dev/docs/) - [Live Demo](https://refine.dev/demo/)
+**Refine** Docs & Demo: [Documentation](https://refine.dev/core/docs/) - [Live Demo](https://refine.dev/core/templates/)
 
 ## AdminBro
 

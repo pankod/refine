@@ -1,6 +1,8 @@
 ---
 id: azure-ad
-title: Azure AD Login
+title: "Azure AD SSO Guide | Enterprise Authentication & SSO in Refine v5"
+display_title: "Azure AD Login"
+description: "Build Azure AD in Refine v5. Learn the key steps. Learn secure Microsoft Entra ID, SSO for secure enterprise React apps. See practical code samples."
 sidebar_label: Azure AD Login
 ---
 
@@ -180,13 +182,13 @@ import { Layout, ErrorComponent } from "@refinedev/antd";
 import routerProvider, {
   NavigateToResource,
   CatchAllNavigate,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { AccountInfo, SilentRequest } from "@azure/msal-browser";
 import axios from "axios";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import LoginPage from "./login";
 import { tokenRequest } from "./config";

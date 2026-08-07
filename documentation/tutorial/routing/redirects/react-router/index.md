@@ -121,6 +121,6 @@ export const authProvider: AuthProvider = {
 
 <AddRedirectsToAuthProvider />
 
-Now we've learned about the redirects and how to benefit from them in our forms and auth provider, let's move on to the next step. In the next step, we'll be learning about how to store the current table state in the URL.
+Now we've learned about the redirects and how to benefit from them in our forms and auth provider, let's move on to the next step. In the next step, we'll be learning about how to store the currentPage table state in the URL.
 
 </Sandpack>

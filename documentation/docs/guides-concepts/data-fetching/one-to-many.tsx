@@ -63,7 +63,7 @@ export const dataProvider = (url: string): DataProvider => ({
   getList: async ({ resource, filters }) => {
     // We simplified query string generation to keep the example application short and straightforward.
     // For more detailed and complex implementation examples, you can refer to the source code of the data provider packages.
-    // https://github.com/refinedev/refine/blob/master/packages/simple-rest/src/provider.ts
+    // https://github.com/refinedev/refine/blob/main/packages/simple-rest/src/provider.ts
 
     // we know that we only have one filter in this example.
     const filter = filters?.[0];
@@ -109,13 +109,12 @@ import React from "react";
 import { useOne, useList, BaseKey } from "@refinedev/core";
 
 export const Product: React.FC = () => {
-    const { data: productData, isLoading: productLoading } = useOne<IProduct>({
+    const { result: product, query: { isLoading: productLoading } } = useOne<IProduct>({
         resource: "products",
         id: 123,
     });
-    const product = productData?.data;
 
-    const { data: reviewsData, isLoading: reviewsLoading } =
+    const { result: reviewResult, query: { isLoading: reviewsLoading } } =
         useList<IProductReview>({
             resource: "product-reviews",
             filters: [{ field: "product.id", operator: "eq", value: product?.id }],
@@ -123,7 +122,7 @@ export const Product: React.FC = () => {
                 enabled: !!product,
             },
         });
-    const rewiews = reviewsData?.data;
+    const reviews = reviewResult?.data;
 
     const loading = productLoading || reviewsLoading;
 
@@ -139,7 +138,7 @@ export const Product: React.FC = () => {
 
             <h5>Reviews</h5>
             <ul>
-                {rewiews?.map((review) => (
+                {reviews?.map((review) => (
                     <li key={review.id}>
                         <p>Rating: {review.rating}</p>
                         <p>{review.comment}</p>

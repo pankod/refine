@@ -8,7 +8,7 @@ import { Sandpack, AddAntDesignToApp, AddLayoutToApp } from "./sandpack.tsx";
 
 In the previous unit, we learned about the router integrations of Refine. Now, we'll dive into its UI integrations, layouts, CRUD view components, and hooks to build a CRUD application with Refine and Ant Design.
 
-Refine provides integrations for the popular UI libraries including [Ant Design](/docs/ui-integrations/ant-design/introduction), [Material UI](/docs/ui-integrations/material-ui/introduction), [Chakra UI](/docs/ui-integrations/chakra-ui/introduction) and [Mantine](/docs/ui-integrations/mantine/introduction), offering set of components and hooks that simplify using Refine for form and table management, layouts, views, buttons, and more.
+Refine provides integrations for the popular UI libraries including [Ant Design](/core/docs/ui-integrations/ant-design/introduction), [Material UI](/core/docs/ui-integrations/material-ui/introduction), [Chakra UI](/core/docs/ui-integrations/chakra-ui/introduction) and [Mantine](/core/docs/ui-integrations/mantine/introduction), offering set of components and hooks that simplify using Refine for form and table management, layouts, views, buttons, and more.
 
 This unit will cover the following topics:
 
@@ -30,9 +30,9 @@ Update your `src/App.tsx` file by adding the following lines:
 
 ```tsx title="src/App.tsx"
 import { Refine, Authenticated } from "@refinedev/core";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-start
 // We'll wrap our app with Ant Design's ConfigProvider to set the theme and App component to use the theme properly.
@@ -126,17 +126,17 @@ With our dependencies now in place, let's proceed by adding a layout into our ap
 
 ## Adding a Layout
 
-Refine provides a [`<ThemedLayoutV2 />`](/docs/ui-integrations/ant-design/components/themed-layout) component has out of the box features, which we'll delve into in the next step. Now to see it in action, let's wrap our authenticated routes with it.
+Refine provides a [`<ThemedLayout />`](/core/docs/ui-integrations/ant-design/components/themed-layout) component has out of the box features, which we'll delve into in the next step. Now to see it in action, let's wrap our authenticated routes with it.
 
 Update your `src/App.tsx` file by adding the following lines:
 
 ```tsx title="src/App.tsx"
 import { Refine, Authenticated } from "@refinedev/core";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 // highlight-next-line
-import { ThemedLayoutV2 } from "@refinedev/antd";
+import { ThemedLayout } from "@refinedev/antd";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { ConfigProvider, App as AntdApp } from "antd";
 
@@ -180,9 +180,9 @@ export default function App(): JSX.Element {
                     redirectOnFail="/login"
                   >
                     {/* highlight-start */}
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                     {/* highlight-end */}
                   </Authenticated>
                 }

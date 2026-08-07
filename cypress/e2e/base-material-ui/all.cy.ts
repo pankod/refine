@@ -11,7 +11,6 @@ describe("base-material-ui", () => {
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    cy.interceptGETPosts();
     cy.visit("/");
   });
 

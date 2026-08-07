@@ -4,12 +4,11 @@ import { NodeResolvePlugin } from "@esbuild-plugins/node-resolve";
 export default defineConfig((options) => ({
   entry: {
     index: "src/index.ts",
-    legacy: "src/legacy/index.ts",
   },
   splitting: false,
   sourcemap: true,
   clean: false,
-  minify: true,
+  minify: false,
   format: ["cjs", "esm"],
   outExtension: ({ format }) => ({ js: format === "cjs" ? ".cjs" : ".mjs" }),
   platform: "browser",

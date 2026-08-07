@@ -6,7 +6,6 @@ import {
   type UpdatePasswordPageProps,
   type BaseRecord,
   type HttpError,
-  useActiveAuthProvider,
 } from "@refinedev/core";
 import {
   Box,
@@ -23,7 +22,7 @@ import { useForm } from "@refinedev/react-hook-form";
 
 import { layoutProps, cardProps } from "../styles";
 import type { FormPropsType } from "../..";
-import { ThemedTitleV2 } from "@components";
+import { ThemedTitle } from "@components";
 
 type UpdatePasswordProps = UpdatePasswordPageProps<
   BoxProps,
@@ -41,10 +40,7 @@ export const UpdatePasswordPage: React.FC<UpdatePasswordProps> = ({
 }) => {
   const { onSubmit, ...useFormProps } = formProps || {};
   const translate = useTranslate();
-  const authProvider = useActiveAuthProvider();
-  const { mutate } = useUpdatePassword<UpdatePasswordFormTypes>({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate } = useUpdatePassword<UpdatePasswordFormTypes>();
   const {
     register,
     watch,
@@ -66,7 +62,7 @@ export const UpdatePasswordPage: React.FC<UpdatePasswordProps> = ({
           fontSize: "20px",
         }}
       >
-        {title ?? <ThemedTitleV2 collapsed={false} />}
+        {title ?? <ThemedTitle collapsed={false} />}
       </div>
     );
 

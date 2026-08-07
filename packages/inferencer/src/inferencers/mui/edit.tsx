@@ -48,8 +48,14 @@ export const renderer = ({
   id,
   i18n,
 }: RendererContext) => {
-  const COMPONENT_NAME = componentName(resource.label ?? resource.name, "edit");
-  const recordName = getVariableName(resource.label ?? resource.name, "Data");
+  const COMPONENT_NAME = componentName(
+    resource.meta?.label ?? resource.name,
+    "edit",
+  );
+  const recordName = getVariableName(
+    resource.meta?.label ?? resource.name,
+    "Data",
+  );
   const imports: Array<ImportElement> = [
     ["Edit", "@refinedev/mui"],
     ["Box", "@mui/material"],
@@ -254,7 +260,11 @@ export const renderer = ({
                                 helperText={${errorVal}?.message as string}
                                 margin="normal"
                                 fullWidth
-                                InputLabelProps={{ shrink: true }}
+                                slotProps={{
+                                    inputLabel: {
+                                         shrink: true,
+                                    },
+                                }}
                                 ${
                                   field.type !== "date" &&
                                   field.type !== "richtext"
@@ -301,7 +311,11 @@ export const renderer = ({
                     )}?.message}
                     margin="normal"
                     fullWidth
-                    InputLabelProps={{ shrink: true }}
+                    slotProps={{
+                        inputLabel: {
+                            shrink: true,
+                        },
+                    }}
                     ${
                       field.type !== "date" && field.type !== "richtext"
                         ? `type="${field.type}"`

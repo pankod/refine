@@ -3,9 +3,11 @@ title: Top 6 Free Online Code Editors and IDEs with Pros and Cons
 description: We'll compare the best online IDEs and code editors for web development. We'll also look at the pros and cons of each.
 slug: 6-best-online-code-editors-comparison
 authors: joseph_mawa
-tags: [comparison]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-01-online-ide/social.png
+category: "Alternatives"
+tags: [comparison, dev-tools]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-01-online-ide/social.png
 hide_table_of_contents: false
+last_update: 2024-11-11
 ---
 
 **This article was last updated on November 11, 2024 to include best practices for collaboration and security in cloud-based development environments.**
@@ -19,14 +21,6 @@ This article will introduce you to some of the most popular free online Editors 
 Your choice of an online IDE largely depends on whether you want to build a front-end, back-end, or full-stack application. We will explore the pros and cons of these IDEs and text editors.
 
 It is worth pointing out that this article will explore the main features of the most popular online editors and IDEs. It will not identify which editor is the best. We will also go above and beyond to explore the strengths and weaknesses of each editor so that you can choose one which meets your needs.
-
-Steps we will cover:
-
-- [What Is an Online Code Editor](#what-is-an-online-code-editor)
-- [Why We Need Online Code Editors](#why-we-need-online-code-editors)
-- [Bootstrapping a project for demonstration](#bootstrapping-a-project-for-demonstration)
-- [Top free online Editors and IDEs with free plans for hobby projects](#top-free-online-editors-and-ides-with-free-plans-for-hobby-projects)
-- [Comparing top online Editors and IDEs](#comparing-top-online-editors-and-ides)
 
 ## What Is an Online Code Editor
 
@@ -96,7 +90,7 @@ We will go above and beyond to highlight the pros and cons of online text editor
 
 To start using Codepen, sign up using your e-mail id, Facebook, Twitter, or GitHub account. After login, type your HTML, CSS, and JavaScript code in their respective panels. Codepen will automatically update the preview. You can also change the default behavior in the settings.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-01-online-ide/codepen-ide.png"  alt="codepen ide" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-01-online-ide/codepen-ide.png"  alt="codepen ide" />
 
 <br />
 
@@ -129,7 +123,7 @@ To start using StackBlitz, sign in using your GitHub account. You can create a p
 
 As a [Refine](https://github.com/refinedev/refine) team, we use +100 example code projects on StackBlitz to showcase the features of the framework.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-01-online-ide/stackbltiz-2"  alt="stackblitz ide" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-01-online-ide/stackbltiz-2"  alt="stackblitz ide" />
 
 <br />
 
@@ -139,7 +133,7 @@ Instead of using the starter projects to create a new project on StackBlitz, you
 
 ### Deploy the example project to GitHub
 
-Host the **Refine** example project we created on GitHub. You can also use one of the [tutorial examples](https://github.com/refinedev/refine/tree/master/examples/tutorial) if you don't want to deploy the example project.
+Host the **Refine** example project we created on GitHub. You can also use one of the [tutorial examples](https://github.com/refinedev/refine/tree/main/examples/tutorial) if you don't want to deploy the example project.
 
 ### How to open a public GitHub repository in StackBlitz?
 
@@ -152,10 +146,10 @@ https://www.stackblitz.com/github/{GITHUB_USERNAME}/{REPOSITORY_NAME}/{BRANCH|TA
 You can also specify the script in your `package.json` file StackBlitz will use to set up the development serve as a query string. In the example below, StackBlitz will use the `dev` script.
 
 ```txt
-https://www.stackblitz.com/github/refinedev/refine/tree/master/examples/tutorial-antd?view=preview&theme=dark&codemirror=1
+https://www.stackblitz.com/github/refinedev/refine/tree/main/examples/tutorial-antd?view=preview&theme=dark&codemirror=1
 ```
 
-You can open one of the tutorial examples in StackBlitz by following [this link](https://www.stackblitz.com/github/refinedev/refine/tree/master/examples/tutorial-antd?view=preview&theme=dark&codemirror=1).
+You can open one of the tutorial examples in StackBlitz by following [this link](https://www.stackblitz.com/github/refinedev/refine/tree/main/examples/tutorial-antd?view=preview&theme=dark&codemirror=1).
 
 ### Pros of using StackBlitz
 
@@ -228,7 +222,7 @@ You must first log into your CodeSandbox account. As pointed out above, you can 
 
 After logging into your CodeSandbox account, grant CodeSandbox access to your GitHub account. Click the button with three dots on the top right. In the drop-down menu, click Preferences and then Integrations. After that, sign into your GitHub account.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-01-online-ide/codesandbox-form.png"  alt="codesandboxForm ide" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-01-online-ide/codesandbox-form.png"  alt="codesandboxForm ide" />
 
 <br />
 
@@ -236,7 +230,7 @@ After logging into your CodeSandbox account, grant CodeSandbox access to your Gi
 
 After successfully connecting your GitHub account as described above, you can import your GitHub repository by clicking the "Create" button at the top right. After that, select the "Import from GitHub" option. CodeSandbox will prompt you for the GitHub repository URL. Enter the GitHub repository URL and then click the "Import" button.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-01-online-ide/codesandbox-settings.png"  alt="codesandboxSettings ide" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-01-online-ide/codesandbox-settings.png"  alt="codesandboxSettings ide" />
 
 <br />
 
@@ -269,7 +263,7 @@ The process of importing a GitHub repository to CodeSandbox described above requ
 
 JsFiddle is very similar to Codepen. You can use it to work with HTML, CSS, and JavaScript. It also supports some of the most popular front-end frameworks like React, Vue, and Preact. You don't need to log in to start using JsFiddle. Navigate to the [JsFiddle landing page](https://jsfiddle.net/) to launch the editor straight away.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-01-online-ide/jsfiddle-editor.png"  alt="jsFiddle ide" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-01-online-ide/jsfiddle-editor.png"  alt="jsFiddle ide" />
 
 <br />
 
@@ -310,7 +304,7 @@ Though anybody can view a public Repl, you need a Repl.it account to create one.
 
 In your Repl account, create a new Repl by clicking the "Create" button on the left panel or the top right. You can create a Repl from an existing template or import a project from GitHub. Click the "Import from GitHub" button.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-01-online-ide/repl-form.png"  alt="replForm ide" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-01-online-ide/repl-form.png"  alt="replForm ide" />
 
 <br />
 
@@ -340,7 +334,7 @@ You can use Glitch to prototype, share, and showcase web projects. Like most of 
 
 Select the "Import from GitHub" option when creating a new project. Enter the full URL of the GitHub repository. Glitch will clone the repository and create a new project for you.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-01-online-ide/glitch.png"  alt="glitch ide" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-01-online-ide/glitch.png"  alt="glitch ide" />
 
 <br />
 
@@ -379,7 +373,7 @@ The free online editors and IDEs highlighted above have similarities and differe
 ## Bonus: GitPod
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-01-online-ide/gitpod.png" alt="gitpod online ide" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-01-online-ide/gitpod.png" alt="gitpod online ide" />
 </div>
 
 [Gitpod](https://www.gitpod.io/) is an in-browser code editor with all the required functionality developers expect as an IDE or text editor to write code. This is in line with providing developers instant development environments in the cloud. Gitpod works seamlessly with repositories hosted on GitHub, GitLab, and Bitbucket, ensuring that you can start coding instantly.

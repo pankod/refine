@@ -3,17 +3,18 @@ import React from "react";
 export const CautionIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={24}
-    viewBox="0 0 24 24"
+    width={20}
+    height={20}
+    viewBox="0 0 20 20"
     fill="none"
     {...props}
   >
     <path
-      fill="currentColor"
-      fillRule="evenodd"
-      d="M13.789 5.106a2 2 0 0 0-3.578 0l-6 12A2 2 0 0 0 6 20h12a2 2 0 0 0 1.789-2.894l-6-12ZM13 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-2-6a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0V9Z"
-      clipRule="evenodd"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.25}
+      d="M10 7.5v3.333m0 3.333h.008m8.1.834L11.442 3.333a1.667 1.667 0 0 0-2.9 0L1.875 15a1.666 1.666 0 0 0 1.459 2.5h13.333a1.667 1.667 0 0 0 1.441-2.5Z"
     />
   </svg>
 );

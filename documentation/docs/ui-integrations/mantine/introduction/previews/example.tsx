@@ -7,11 +7,11 @@ export default function Example() {
       showNavigator
       previewOnly
       dependencies={{
-        "@refinedev/mantine": "^2.28.21",
-        "@refinedev/core": "^4.45.1",
-        "@refinedev/react-router-v6": "^4.5.4",
-        "@refinedev/simple-rest": "^4.5.4",
-        "@refinedev/react-table": "^5.6.4",
+        "@refinedev/mantine": "^3.0.2",
+        "@refinedev/core": "^5.0.0",
+        "@refinedev/react-router": "latest",
+        "@refinedev/simple-rest": "^6.0.0",
+        "@refinedev/react-table": "latest",
         "@tanstack/react-table": "^8.2.6",
         "@tabler/icons-react": "^3.1.0",
         "@emotion/react": "^11.8.2",
@@ -19,8 +19,7 @@ export default function Example() {
         "@mantine/hooks": "^5.10.4",
         "@mantine/form": "^5.10.4",
         "@mantine/notifications": "^5.10.4",
-        "react-router": "latest",
-        "react-router-dom": "^6.8.1",
+        "react-router": "^7.0.2",
       }}
       startRoute="/products"
       files={{
@@ -95,7 +94,7 @@ const AppTsxCode = /* jsx */ `
 import { Refine, Authenticated } from "@refinedev/core";
 import {
     ErrorComponent,
-    ThemedLayoutV2,
+    ThemedLayout,
     RefineThemes,
     useNotificationProvider,
     AuthPage
@@ -105,8 +104,8 @@ import { MantineProvider, Global } from "@mantine/core";
 import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
     NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router";
 
 import authProvider from "./auth-provider";
 
@@ -146,9 +145,9 @@ const App: React.FC = () => {
                             <Route element={<Authenticated fallback={<Navigate to="/login" />}><Outlet /></Authenticated>}>
                             <Route
                                 element={
-                                    <ThemedLayoutV2>
+                                    <ThemedLayout>
                                         <Outlet />
-                                    </ThemedLayoutV2>
+                                    </ThemedLayout>
                                 }
                             >
                                 <Route index element={<NavigateToResource resource="products" />} />
@@ -256,24 +255,24 @@ export const ProductList = () => {
     );
 
     const {
-        getHeaderGroups,
-        getRowModel,
-        setOptions,
+        reactTable: { getHeaderGroups, getRowModel, setOptions },
         refineCore: {
-            setCurrent,
+            setCurrentPage,
             pageCount,
-            current,
+            currentPage,
             tableQuery: { data: tableData },
         },
     } = useTable({
         columns,
         refineCoreProps: {
-            initialSorter: [
-                {
-                    field: "id",
-                    order: "desc",
-                },
-            ],
+            sorters: {
+              initial: [
+                  {
+                      field: "id",
+                      order: "desc",
+                  },
+              ],
+            },
         },
     });
 
@@ -315,8 +314,8 @@ export const ProductList = () => {
                 <Pagination
                     position="right"
                     total={pageCount}
-                    page={current}
-                    onChange={setCurrent}
+                    page={currentPage}
+                    onChange={setCurrentPage}
                 />
             </List>
         </ScrollArea>
@@ -331,26 +330,25 @@ import { Show, TextField, NumberField, MarkdownField } from "@refinedev/mantine"
 import { Title } from "@mantine/core";
 
 export const ProductShow = () => {
-    const { queryResult } = useShow();
-    const { data, isLoading } = queryResult;
-    const record = data?.data;
+    const { result: product, query } = useShow();
+    const { data, isLoading } = query;
 
     return (
         <Show isLoading={isLoading}>
             <Title order={5}>Id</Title>
-            <TextField value={record?.id} />
+            <TextField value={product?.id} />
 
             <Title mt="xs" order={5}>Name</Title>
-            <TextField value={record?.name} />
+            <TextField value={product?.name} />
 
             <Title mt="xs" order={5}>Material</Title>
-            <TextField value={record?.material} />
+            <TextField value={product?.material} />
 
             <Title mt="xs" order={5}>Description</Title>
-            <MarkdownField value={record?.description} />
+            <MarkdownField value={product?.description} />
 
             <Title mt="xs" order={5}>Price</Title>
-            <NumberField value={record?.price}  options={{ style: "currency", currency: "USD" }} />
+            <NumberField value={product?.price}  options={{ style: "currency", currency: "USD" }} />
         </Show>
     );
 };
@@ -365,7 +363,7 @@ export const ProductEdit = () => {
       saveButtonProps,
       getInputProps,
       errors,
-      refineCore: { queryResult, autoSaveProps },
+      refineCore: { query, autoSaveProps },
   } = useForm({
         initialValues: {
           name: "",

@@ -5,19 +5,47 @@ export const ChevronLeft = (
   props: React.SVGProps<SVGSVGElement>,
 ): JSX.Element => (
   <svg
-    aria-hidden="true"
-    className="h-5 w-5"
-    fill="currentColor"
-    viewBox="0 0 20 20"
     xmlns="http://www.w3.org/2000/svg"
+    width={20}
+    height={20}
+    viewBox="0 0 20 20"
+    fill="none"
     {...props}
   >
     <path
-      fill="currentColor"
-      fillRule="evenodd"
-      d="M10 18.75a8.75 8.75 0 1 1 0-17.5 8.75 8.75 0 0 1 0 17.5ZM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10Zm1.692-12.683a.625.625 0 1 0-.884-.884L7.683 9.558a.625.625 0 0 0 0 .884l3.125 3.125a.625.625 0 1 0 .884-.884L9.009 10l2.683-2.683Z"
-      clipRule="evenodd"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.25}
+      d="m12.5 15-5-5 5-5"
     />
+  </svg>
+);
+
+export const ChevronLeftCircle = (
+  props: React.SVGProps<SVGSVGElement>,
+): JSX.Element => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    {...props}
+  >
+    <g clipPath="url(#a)">
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9.333 10.667 6.667 8l2.666-2.667M14.667 8A6.667 6.667 0 1 1 1.333 8a6.667 6.667 0 0 1 13.334 0Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h16v16H0z" />
+      </clipPath>
+    </defs>
   </svg>
 );
 
@@ -25,18 +53,19 @@ export const ChevronRight = (
   props: React.SVGProps<SVGSVGElement>,
 ): JSX.Element => (
   <svg
-    aria-hidden="true"
-    className="h-5 w-5"
-    fill="currentColor"
-    viewBox="0 0 20 20"
     xmlns="http://www.w3.org/2000/svg"
+    width={20}
+    height={20}
+    viewBox="0 0 20 20"
+    fill="none"
     {...props}
   >
     <path
-      fill="currentColor"
-      fillRule="evenodd"
-      d="M10 18.75a8.75 8.75 0 1 0 0-17.5 8.75 8.75 0 0 0 0 17.5ZM10 20c5.523 0 10-4.477 10-10S15.523 0 10 0 0 4.477 0 10s4.477 10 10 10ZM8.308 7.317a.625.625 0 1 1 .884-.884l3.125 3.125a.625.625 0 0 1 0 .884l-3.125 3.125a.625.625 0 1 1-.884-.884L10.99 10 8.308 7.317Z"
-      clipRule="evenodd"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.25}
+      d="m7.5 15 5-5-5-5"
     />
   </svg>
 );
@@ -59,45 +88,91 @@ export const Github = (props: React.SVGProps<SVGSVGElement>): JSX.Element => (
   </svg>
 );
 
-export const Twitter = (props: React.SVGProps<SVGSVGElement>): JSX.Element => (
+export const TwitterIcon = (
+  props: React.SVGProps<SVGSVGElement>,
+): JSX.Element => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={24}
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
     fill="none"
+    className="dark:text-white text-[#000]"
     {...props}
-    className={clsx("text-black dark:text-white", props.className)}
   >
-    <title>Twitter</title>
-    <rect
-      width={24}
-      height={24}
-      fill="currentColor"
-      rx={12}
-      className={clsx("text-refine-react-1 dark:text-black", props.className)}
-    />
+    <mask id="twitter-a" fill="currentColor">
+      <path
+        fillRule="evenodd"
+        d="M10.157 13.333 7.249 9.191l-3.641 4.142h-.941L6.83 8.597l-4.164-5.93h3.176l2.754 3.921 3.45-3.921h.94L9.016 7.184l4.317 6.15h-3.176ZM5.392 3.361H3.947l6.653 9.312h1.446L5.392 3.361Z"
+        clipRule="evenodd"
+      />
+    </mask>
     <path
       fill="currentColor"
       fillRule="evenodd"
-      d="m6 6 4.62 6.75L6.098 18H7.1l3.963-4.604L14.214 18H18l-4.827-7.052L17.433 6h-1l-3.703 4.3L9.786 6H6Zm1.196.632h2.258l7.35 10.736h-2.258L7.196 6.632Z"
+      d="M10.157 13.333 7.249 9.191l-3.641 4.142h-.941L6.83 8.597l-4.164-5.93h3.176l2.754 3.921 3.45-3.921h.94L9.016 7.184l4.317 6.15h-3.176ZM5.392 3.361H3.947l6.653 9.312h1.446L5.392 3.361Z"
       clipRule="evenodd"
+    />
+    <path
+      fill="currentColor"
+      d="m7.249 9.191.818-.574-.73-1.04-.84.954.752.66Zm2.908 4.142-.818.575.298.425h.52v-1Zm-6.55 0v1h.453l.299-.34-.751-.66Zm-.94 0-.751-.66-1.46 1.66h2.21v-1ZM6.83 8.597l.751.66.52-.59-.452-.645-.819.575Zm-4.164-5.93v-1H.742L1.848 3.24l.819-.574Zm3.176 0 .819-.575-.3-.425h-.519v1Zm2.754 3.921-.819.575.73 1.04.84-.954-.751-.661Zm3.45-3.921v-1h-.453l-.298.34.75.66Zm.94 0 .751.66 1.46-1.66h-2.21v1ZM9.016 7.184l-.751-.66-.52.59.453.644.818-.574Zm4.317 6.15v1h1.924l-1.105-1.575-.819.574ZM5.393 3.36l.813-.582-.299-.418h-.515v1Zm-1.446 0v-1H2.003l1.13 1.581.814-.581Zm6.653 9.312-.813.581.299.42h.514v-1Zm1.446 0v1h1.944l-1.13-1.581-.814.581ZM7.249 9.191l-.819.575 2.909 4.142.818-.575.818-.574-2.908-4.142-.818.574Zm-3.641 4.142.75.66L8 9.852l-.751-.66-.752-.66-3.64 4.141.75.66Zm-.941 0v1h.94v-2h-.94v1ZM6.83 8.597l-.75-.66-4.165 4.736.75.66.752.66 4.164-4.736-.75-.66Zm-4.164-5.93-.819.574 4.165 5.93.818-.574.819-.575-4.165-5.93-.818.575Zm3.176 0v-1H2.667v2h3.176v-1Zm2.754 3.921.818-.575-2.753-3.921-.819.575-.818.574 2.753 3.922.819-.575Zm3.45-3.921-.751-.66-3.45 3.92.75.661.751.66 3.45-3.92-.75-.661Zm.94 0v-1h-.94v2h.94v-1ZM9.016 7.184l.751.66 3.971-4.517-.75-.66-.752-.66-3.971 4.516.751.66Zm4.317 6.15.819-.575-4.318-6.15-.818.575-.818.574 4.317 6.15.818-.575Zm-3.176 0v1h3.176v-2h-3.176v1ZM3.947 3.36v1h1.445v-2H3.947v1Zm6.653 9.312.814-.581-6.653-9.313-.814.582-.814.581 6.654 9.312.813-.58Zm1.446 0v-1H10.6v2h1.446v-1ZM5.392 3.361l-.813.581 6.653 9.312.814-.58.814-.582-6.654-9.313-.814.582Z"
+      mask="url(#twitter-a)"
     />
   </svg>
 );
 
-export const Linkedin = (props: React.SVGProps<SVGSVGElement>): JSX.Element => (
+export const LinkedinIcon = (
+  props: React.SVGProps<SVGSVGElement>,
+): JSX.Element => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={24}
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
     fill="none"
     {...props}
   >
-    <title>LinkedIn</title>
-    <rect width={24} height={24} fill="#0A66C2" rx={12} />
     <path
-      fill="#fff"
-      d="M9.364 16.762H7.385V10.4h1.979v6.362ZM8.375 9.53a1.146 1.146 0 1 1 0-2.293 1.146 1.146 0 0 1 0 2.293Zm8.395 7.233h-1.977v-3.094c0-.738-.013-1.687-1.027-1.687-1.03 0-1.188.803-1.188 1.633v3.148h-1.974V10.4H12.5v.87h.027c.263-.5.908-1.028 1.871-1.028 2.003 0 2.372 1.318 2.372 3.031v3.49h-.001Z"
+      fill="#007FB1"
+      d="M13.904 1.317H2.016c-.569 0-1.03.45-1.03 1.006v12.026c0 .555.461 1.005 1.03 1.005h11.888c.57 0 1.03-.45 1.03-1.005V2.323c0-.556-.46-1.006-1.03-1.006Zm-8.69 11.751H3.107V6.73h2.107v6.338ZM4.161 5.864h-.014c-.707 0-1.164-.487-1.164-1.095 0-.622.471-1.095 1.192-1.095.72 0 1.164.473 1.178 1.095 0 .608-.458 1.095-1.192 1.095Zm8.65 7.204h-2.107V9.676c0-.852-.305-1.433-1.067-1.433-.582 0-.928.392-1.08.77-.057.136-.07.325-.07.515v3.54H6.38s.028-5.745 0-6.339h2.107v.897c.28-.431.78-1.046 1.899-1.046 1.386 0 2.425.906 2.425 2.853v3.635Z"
+    />
+  </svg>
+);
+
+export const RedditIcon = (
+  props: React.SVGProps<SVGSVGElement>,
+): JSX.Element => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    {...props}
+  >
+    <path
+      fill="#FF4500"
+      d="M14.97 8.027c0-.885-.72-1.606-1.606-1.606-.394 0-.765.143-1.059.4-1.061-.679-2.478-1.107-4.04-1.153l.955-3.27 2.348.436c0 .019-.004.037-.003.056a1.016 1.016 0 0 0 2.027-.103 1.012 1.012 0 0 0-1.896-.442h-.001l-2.83-.526L7.74 5.667c-1.567.042-2.988.468-4.054 1.146a1.594 1.594 0 0 0-1.049-.392c-.885 0-1.605.72-1.605 1.606 0 .548.281 1.053.738 1.347-.028.16-.044.323-.044.488 0 2.318 2.81 4.203 6.263 4.203s6.263-1.885 6.263-4.203c0-.16-.015-.318-.041-.474.469-.292.76-.805.76-1.361ZM5.011 9.12a.987.987 0 1 1 1.973 0 .987.987 0 0 1-1.973 0Zm5.302 2.669c-.03.03-.737.75-2.337.75-1.609 0-2.252-.73-2.279-.76a.252.252 0 0 1 .382-.33c.015.015.552.586 1.897.586 1.368 0 1.968-.59 1.974-.597a.252.252 0 0 1 .363.35Zm-.196-1.682a.987.987 0 1 1-.001-1.974.987.987 0 0 1 0 1.974Z"
+    />
+  </svg>
+);
+
+export const ArrowLeft = (
+  props: React.SVGProps<SVGSVGElement>,
+): JSX.Element => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    {...props}
+  >
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M8 12.667 3.333 8m0 0L8 3.333M3.333 8h9.334"
     />
   </svg>
 );

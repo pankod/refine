@@ -29,6 +29,7 @@ export const CategoryList = () => {
         field: "actions",
         headerName: "Actions",
         sortable: false,
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <>
@@ -48,7 +49,7 @@ export const CategoryList = () => {
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 };

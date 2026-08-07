@@ -177,5 +177,5 @@ export const addAntDesignImports = (j: JSCodeshift, source: Collection) => {
 };
 
 const addOutletImport = (j: JSCodeshift, source: Collection) => {
-  addOrUpdateImports(j, source, "react-router-dom", ["Outlet"]);
+  addOrUpdateImports(j, source, "react-router", ["Outlet"]);
 };

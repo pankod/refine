@@ -3,9 +3,11 @@ title: A Detailed Guide on Docker run Command
 description: We'll discuss the Docker run command in detail, including its syntax, options, and examples.
 slug: docker-run-command
 authors: muhammad_khabbab
-tags: [docker, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-24-docker-run-command/social.png
+category: "Ecosystem / Integrations"
+tags: [docker]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-24-docker-run-command/social.png
 hide_table_of_contents: false
+last_update: 2023-07-11
 ---
 
 ## What is the Docker run command?
@@ -63,7 +65,7 @@ The IMAGE parameter is specified right after 'docker run' in the command(if opti
 **For Example, Let's run an image that exists locally:** We have an image with the name '**sample_docker_run**' in our local repository.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-24-docker-run-command/image1.png"  alt="docker run command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-24-docker-run-command/image1.png"  alt="Docker run command with local image sample_docker_run" />
 </div>
 
 <br/>
@@ -71,7 +73,7 @@ The IMAGE parameter is specified right after 'docker run' in the command(if opti
 **Example:** Let's run an image that does not exist locally but in the docker hub. We will use the 'Nginx' image that is not available locally but on the docker hub.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-24-docker-run-command/image2.png"  alt="docker run command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-24-docker-run-command/image2.png"  alt="Docker pulling nginx image from Docker Hub" />
 </div>
 
 <br/>
@@ -89,7 +91,7 @@ Using different OPTIONS in the 'docker run' command, you can name the containers
 **For example:** I want to name the container with the sample image in the docker run command.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-24-docker-run-command/image3.png"  alt="docker run command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-24-docker-run-command/image3.png"  alt="Docker run with --name option assigning custom container name" />
 </div>
 
 <br/>
@@ -103,7 +105,7 @@ Using different OPTIONS in the 'docker run' command, you can name the containers
 **For example:** I want to map the port between the container and the host system that allows access to the containerized application on the host. Let's run my sample image container by mapping the port '8080:80'
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-24-docker-run-command/image4.png"  alt="docker run command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-24-docker-run-command/image4.png"  alt="Docker run with -p option mapping port 8080:80" />
 </div>
 
 <br/>
@@ -119,7 +121,7 @@ Using different OPTIONS in the 'docker run' command, you can name the containers
 **Here is the default value of my environment variable:**
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-24-docker-run-command/image5.png"  alt="docker run command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-24-docker-run-command/image5.png"  alt="Default environment variable value in container" />
 </div>
 
 <br/>
@@ -129,7 +131,7 @@ Using different OPTIONS in the 'docker run' command, you can name the containers
 **Now, I have to change the default value to 'custom_value_set_up_via_docker_run'**
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-24-docker-run-command/image6.png"  alt="docker run command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-24-docker-run-command/image6.png"  alt="Docker run with -e option setting custom environment variable" />
 </div>
 
 <br/>
@@ -147,7 +149,7 @@ The command parameter comes at the end of the 'docker run' command and allows yo
 **Example:** I want to change my default image(sample_docker_run) command by overriding the command passed through 'docker run'.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-24-docker-run-command/image7.png"  alt="docker run command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-24-docker-run-command/image7.png"  alt="Docker run overriding default image command with echo" />
 </div>
 
 <br/>
@@ -165,7 +167,7 @@ The command parameter comes at the end of the 'docker run' command and allows yo
 **Example:** Let's run the Friendica container, a platform for distributed messaging such as social media communication.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-24-docker-run-command/image8.png"  alt="docker run command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-24-docker-run-command/image8.png"  alt="Docker pulling and running Friendica container" />
 </div>
 
 <br/>
@@ -175,7 +177,7 @@ The command parameter comes at the end of the 'docker run' command and allows yo
 **Example:** Now, we run another container of Friendica in detached mode with the port mapping so that you can access the Friendica installation wizard at <http://localhost:8080/> from your host system.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-24-docker-run-command/image9.png"  alt="docker run command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-24-docker-run-command/image9.png"  alt="Friendica container in detached mode accessible at localhost:8080" />
 </div>
 
 <br/>
@@ -191,7 +193,7 @@ The command parameter comes at the end of the 'docker run' command and allows yo
 **Example**: Let's create a network named 'advance-friendica-example' and run the Friendica container in that specific network as it allows the Friendica container to communicate with other containers in the same network.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-24-docker-run-command/image10.png"  alt="docker run command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-24-docker-run-command/image10.png"  alt="Creating network and running Friendica container with --network option" />
 </div>
 
 <br/>
@@ -207,7 +209,7 @@ The command parameter comes at the end of the 'docker run' command and allows yo
 **Example:** We want to run the Friendica container with the volume, allowing us to mount the directory of our host system with the container.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-24-docker-run-command/image11.png"  alt="docker run command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-24-docker-run-command/image11.png"  alt="Docker run with -v option mounting host directory to container" />
 </div>
 
 <br/>
@@ -221,7 +223,7 @@ The command parameter comes at the end of the 'docker run' command and allows yo
 **Example:** Let's run the Redis container along with the friendica container in the newly created network name '**_advance-containers-connection_**' and ensure that both containers are connected by accessing the Redis container from the friendica container command line.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-24-docker-run-command/image12.png"  alt="docker run command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-24-docker-run-command/image12.png"  alt="Connecting Redis and Friendica containers in same network" />
 </div>
 
 <br/>

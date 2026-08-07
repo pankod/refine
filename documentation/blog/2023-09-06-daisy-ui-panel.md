@@ -1,12 +1,13 @@
 ---
-title: Building a React Admin Panel with Refine and daisyUI
-description: We'll build a simple React admin panel using Refine and daisyUI.
+title: "daisyUI Guide: Setup & Integration for React Admin Panels"
+description: Learn how to create a lightweight, customizable React admin panel using Tailwind CSS, DaisyUI components, and the Refine framework.
 slug: daisy-ui-react-admin-panel
 authors: abdullah_numan
-tags: [Refine, tutorial, react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-06-daisy-ui-panel/daisyui.jpg
+category: "How To Build"
+tags: [react, admin-panel, tailwind]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-06-daisy-ui-panel/daisyui.jpg
 hide_table_of_contents: false
-is_featured: true
+last_update: 2026-02-06
 ---
 
 ## Introduction
@@ -39,11 +40,11 @@ Towards the end, we see how to customize the layout of a **Refine** app. We repl
 
 ### Architecture
 
-**Refine** separates app concerns such as data fetching, authentication, access control, etc., into layers of React contexts each backed by a provider object, a set of corresponding hooks as well as relevant components. For example, the data layer represents a context dependent on a [`dataProvider`](https://refine.dev/docs/api-reference/core/providers/data-provider/#methods) object with a set of methods for handling CRUD actions. The data layer is accessed with a set of data hooks that help invoke the CRUD methods from UI components.
+**Refine** separates app concerns such as data fetching, authentication, access control, etc., into layers of React contexts each backed by a provider object, a set of corresponding hooks as well as relevant components. For example, the data layer represents a context dependent on a [`dataProvider`](https://refine.dev/core/docs/api-reference/core/providers/data-provider/#methods) object with a set of methods for handling CRUD actions. The data layer is accessed with a set of data hooks that help invoke the CRUD methods from UI components.
 
-This means, we would have all CRUD related methods such as `getList()`, `create()`, `show()`, `update()` and `delete()` inside a `dataProvider` object and we are able to access them from a UI component using [`useList()`](https://refine.dev/docs/api-reference/core/hooks/data/useList/), [`useCreate()`](https://refine.dev/docs/api-reference/core/hooks/data/useCreate/), etc., data hooks. The data hooks, in turn, make use of [**React Query**](https://tanstack.com/query/v3/) for data fetching, caching state management and error handling.
+This means, we would have all CRUD related methods such as `getList()`, `create()`, `show()`, `update()` and `delete()` inside a `dataProvider` object and we are able to access them from a UI component using [`useList()`](https://refine.dev/core/docs/data/hooks/use-list/), [`useCreate()`](https://refine.dev/core/docs/data/hooks/use-create/), etc., data hooks. The data hooks, in turn, make use of [**React Query**](https://tanstack.com/query/v3/) for data fetching, caching state management and error handling.
 
-The **Refine** data hooks mentioned above are basically core hooks. Higher level hooks which are built top of these hooks exist, such as the [`useTable()`](https://refine.dev/docs/packages/documentation/react-table/#installation) hook provided by `@refinedev/react-table` support package that integrates [**React Table**](https://tanstack.com/table/v8/docs/api/core/table) with **Refine** core. Higher level hooks adds additional features that increase development efficiency. For example, the `useList()` hook is employed by the `useTable()` hook that helps present data in a table using all the features of React Table. Similarly, the `useCreate()` core data hook is utilized inside the `useForm()` high level hook provided by the `@refinedev/react-hook-form` package which augments form related CRUD actions with [**React Hook Form**](https://react-hook-form.com/get-started).
+The **Refine** data hooks mentioned above are basically core hooks. Higher level hooks which are built top of these hooks exist, such as the [`useTable()`](https://refine.dev/core/docs/packages/documentation/react-table/#installation) hook provided by `@refinedev/react-table` support package that integrates [**React Table**](https://tanstack.com/table/v8/docs/api/core/table) with **Refine** core. Higher level hooks adds additional features that increase development efficiency. For example, the `useList()` hook is employed by the `useTable()` hook that helps present data in a table using all the features of React Table. Similarly, the `useCreate()` core data hook is utilized inside the `useForm()` high level hook provided by the `@refinedev/react-hook-form` package which augments form related CRUD actions with [**React Hook Form**](https://react-hook-form.com/get-started).
 
 ### Resource Definitions
 
@@ -55,7 +56,7 @@ Routing in **Refine** is supported by the `react-router-dom` package. **Refine**
 
 ### Inferencer
 
-**Refine**'s [**Inferencer**](https://refine.dev/docs/api-reference/core/components/inferencer/#usage) is a powerful tool for quickly scaffolding CRUD pages and automatically generating code for a resource page. The **Inferencer** works by first polling a particular API endpoint to get the shape of the data and then placing all the hooks and UI elements necessary to fetch and present the data on a page.
+**Refine**'s [**Inferencer**](https://refine.dev/core/docs/api-reference/core/components/inferencer/#usage) is a powerful tool for quickly scaffolding CRUD pages and automatically generating code for a resource page. The **Inferencer** works by first polling a particular API endpoint to get the shape of the data and then placing all the hooks and UI elements necessary to fetch and present the data on a page.
 
 ### UI Framework Integration
 
@@ -64,7 +65,7 @@ Routing in **Refine** is supported by the `react-router-dom` package. **Refine**
 ## What is daisyUI?
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-06-daisy-ui-panel/daisy-intro.png"  alt="react admin panel daisy ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-06-daisy-ui-panel/daisy-intro.png"  alt="DaisyUI admin panel preview" />
 </div>
 
 <br/>
@@ -81,7 +82,7 @@ For this app, we are going to start with **Refine**'s headless core, using `crea
 
 So, let's get started with initializing the **Refine** app first.
 
-We'll create a local repository by using the [`create refine-app`](https://refine.dev/docs/packages/documentation/cli/) CLI-based app scaffolder. Run the following `npm` command from the directory of your choice to interactively initialize the project.
+We'll create a local repository by using the [`create refine-app`](https://refine.dev/core/docs/packages/cli/) CLI-based app scaffolder. Run the following `npm` command from the directory of your choice to interactively initialize the project.
 
 ```bash
 npm create refine-app@latest refine-daisyui
@@ -118,11 +119,11 @@ We'll replace the **Fake REST** API with **Fine Foods** URL in the `dataProvider
 import { ErrorComponent, GitHubBanner, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -136,7 +137,7 @@ function App() {
         <Refine
           //highlight-next-line
           dataProvider={dataProvider("https://api.finefoods.refine.dev")}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           options={{
             syncWithLocation: true,
             warnWhenUnsavedChanges: true,
@@ -461,11 +462,11 @@ Update the `App.tsx` as below:
 import { ErrorComponent, GitHubBanner, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 //highlight-next-line
 import {
@@ -487,7 +488,7 @@ function App() {
       <RefineKbarProvider>
         <Refine
           dataProvider={dataProvider("https://api.finefoods.refine.dev")}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           //highlight-start
           resources={[
             {
@@ -538,7 +539,7 @@ We have updated our imports and passed the `resources` prop to `<Refine />`. We 
 With these additions and changes, when we navigate to `/` or `/dashboard`, we should be able to see the dashboard page. It looks somewhat dashing like this:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-06-daisy-ui-panel/dashboard.png"  alt="react admin panel daisy ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-06-daisy-ui-panel/dashboard.png"  alt="DaisyUI dashboard overview page" />
 </div>
 
 <br/>
@@ -713,17 +714,23 @@ const filters: CrudFilter[] = [
 ];
 
 export const Dashboard: React.FC = () => {
-  const { data: dailyRevenue } = useList<IChartDatum>({
+  const {
+    result: { data: dailyRevenue },
+  } = useList<IChartDatum>({
     resource: "dailyRevenue",
     filters,
   });
 
-  const { data: dailyOrders } = useList<IChartDatum>({
+  const {
+    result: { data: dailyOrders },
+  } = useList<IChartDatum>({
     resource: "dailyOrders",
     filters,
   });
 
-  const { data: newCustomers } = useList<IChartDatum>({
+  const {
+    result: { data: newCustomers },
+  } = useList<IChartDatum>({
     resource: "newCustomers",
     filters,
   });
@@ -744,12 +751,12 @@ export const Dashboard: React.FC = () => {
 
 Notice we are fetching data from three **Fine Foods** API end points: `/dailyRevenue`, `/dailyOrders` and `/newCustomers`. We are fetching them with the `useList()` **Refine** core hook. We are querying them as resources although in our **Refine** admin panel app they are not. The `filters` object is used to get the past 7 days' data.
 
-You can find more details in the [**Refine** `useList()` docs here](https://refine.dev/docs/api-reference/core/hooks/data/useList/).
+You can find more details in the [**Refine** `useList()` docs here](https://refine.dev/core/docs/data/hooks/use-list/).
 
 With these changes, our dashboard page has three KPI cards displayed at the top:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-06-daisy-ui-panel/kpi-cards.png"  alt="react admin panel daisy ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-06-daisy-ui-panel/kpi-cards.png"  alt="DaisyUI KPI cards row" />
 </div>
 
 <br/>
@@ -1163,17 +1170,23 @@ const filters: CrudFilter[] = [
 ];
 
 export const Dashboard: React.FC = () => {
-  const { data: dailyRevenue } = useList<IChartDatum>({
+  const {
+    result: { data: dailyRevenue },
+  } = useList<IChartDatum>({
     resource: "dailyRevenue",
     filters,
   });
 
-  const { data: dailyOrders } = useList<IChartDatum>({
+  const {
+    result: { data: dailyOrders },
+  } = useList<IChartDatum>({
     resource: "dailyOrders",
     filters,
   });
 
-  const { data: newCustomers } = useList<IChartDatum>({
+  const {
+    result: { data: newCustomers },
+  } = useList<IChartDatum>({
     resource: "newCustomers",
     filters,
   });
@@ -1263,7 +1276,7 @@ Notice we are defining a `useMemoizedChartData()` hook to transform the fetched 
 With these changes, our dashboard page displays a panel of charts accessible from a top tabbed menu:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-06-daisy-ui-panel/recensales.gif"  alt="react admin panel daisy ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-06-daisy-ui-panel/recensales.gif"  alt="DaisyUI recent sales table animation" />
 </div>
 
 <br/>
@@ -1372,7 +1385,7 @@ export const RecentSales = () => {
   );
 
   const {
-    refineCore: { filters, setCurrent, setFilters },
+    refineCore: { filters, setCurrentPage, setFilters },
     getHeaderGroups,
     getRowModel,
   } = useTable({
@@ -1395,7 +1408,7 @@ export const RecentSales = () => {
           <button
             className="btn btn-outline btn-primary btn-sm font-light normal-case"
             onClick={() => {
-              setCurrent(1);
+              setCurrentPage(1);
               setFilters([], "replace");
               filterForm?.current?.reset();
             }}
@@ -1410,7 +1423,7 @@ export const RecentSales = () => {
                 type="search"
                 value={getDefaultFilter("q", filters)}
                 onChange={(e) => {
-                  setCurrent(1);
+                  setCurrentPage(1);
                   setFilters([
                     {
                       field: "q",
@@ -1517,17 +1530,23 @@ const filters: CrudFilter[] = [
 ];
 
 export const Dashboard: React.FC = () => {
-  const { data: dailyRevenue } = useList<IChartDatum>({
+  const {
+    result: { data: dailyRevenue },
+  } = useList<IChartDatum>({
     resource: "dailyRevenue",
     filters,
   });
 
-  const { data: dailyOrders } = useList<IChartDatum>({
+  const {
+    result: { data: dailyOrders },
+  } = useList<IChartDatum>({
     resource: "dailyOrders",
     filters,
   });
 
-  const { data: newCustomers } = useList<IChartDatum>({
+  const {
+    result: { data: newCustomers },
+  } = useList<IChartDatum>({
     resource: "newCustomers",
     filters,
   });
@@ -1616,7 +1635,7 @@ export const Dashboard: React.FC = () => {
 With all these updates, we have completed implementing the dashboard page. It now looks like this:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-06-daisy-ui-panel/recent_last.png"  alt="react admin panel daisy ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-06-daisy-ui-panel/recent_last.png"  alt="DaisyUI recent orders table" />
 </div>
 
 <br/>
@@ -1667,11 +1686,11 @@ We have to **manually** add the route definitions for each action individually t
 import { ErrorComponent, GitHubBanner, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import {
   BrowserRouter,
@@ -1698,7 +1717,7 @@ function App() {
       <RefineKbarProvider>
         <Refine
           dataProvider={dataProvider("https://api.finefoods.refine.dev")}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           resources={[
             {
               name: "dashboard",
@@ -1766,7 +1785,7 @@ With the above changes, we have added possible actions and their routes for the 
 
 **Refine** maps resource paths to page components via route definitions, and using the map infers the resource name of a page at the current URL of the browser. That way, hooks like `useTable()` and `useNavigation()`, and **Inferencer** components like `<HeadlessInferencer />` are always able to infer the default resource name from inside a resource page.
 
-You can find more information about [resources and routing](https://refine.dev/docs/guides-concepts/general-concepts/#resource-concept#resources-and-routes) on the **Refine** documentation.
+You can find more information about [resources and routing](https://refine.dev/core/docs/guides-concepts/general-concepts/#resource-concept#resources-and-routes) on the **Refine** documentation.
 
 Now when we navigate along the `/products` paths, we can see some clumsy looking pages in need of proper styling. So, we're interested in getting their code and modifying them according to our needs. We are going to do that one by one in the following sections.
 
@@ -1896,21 +1915,23 @@ export const ProductList = () => {
   const { edit, show, create } = useNavigation();
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    setOptions,
+    reactTable: {
+      getHeaderGroups,
+      getRowModel,
+      setOptions,
+      getState,
+      setPageIndex,
+      getCanPreviousPage,
+      getPageCount,
+      getCanNextPage,
+      nextPage,
+      previousPage,
+      setPageSize,
+      getColumn,
+    },
     refineCore: {
       tableQuery: { data: tableData },
     },
-    getState,
-    setPageIndex,
-    getCanPreviousPage,
-    getPageCount,
-    getCanNextPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    getColumn,
   } = useTable({
     columns,
   });
@@ -2021,7 +2042,7 @@ export const ProductList = () => {
 
 The generated code implements a handful of features, including data fetching, button actions, pagination, and JSX markup with minimal styles for presenting the data in a table. This is pretty much the skeleton of what we want in a table of data that we want to improve with daisyUI.
 
-It uses the [`useTable()`](https://refine.dev/docs/guides-concepts/general-concepts/#resource-concept#resources-and-routes) hook provided by `@refinedev/react-table` package, which augments **Refine**'s `useTable()` core hook with **React Table**'s `useReactTable()` hook. More on this below.
+It uses the [`useTable()`](https://refine.dev/core/docs/guides-concepts/general-concepts/#resource-concept#resources-and-routes) hook provided by `@refinedev/react-table` package, which augments **Refine**'s `useTable()` core hook with **React Table**'s `useReactTable()` hook. More on this below.
 
 We want to keep most of it and add filter functionality at the top, modify the pagination and apply daisyUI classes for tables, buttons, and groups.
 
@@ -2126,9 +2147,8 @@ export const ProductList = () => {
   const { edit, show, create } = useNavigation();
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    refineCore: { filters, setCurrent, setFilters },
+    reactTable: { getHeaderGroups, getRowModel },
+    refineCore: { filters, setCurrentPage, setFilters },
     getState,
     setPageIndex,
     getCanPreviousPage,
@@ -2158,7 +2178,7 @@ export const ProductList = () => {
           <button
             className="btn btn-outline btn-primary btn-sm font-light normal-case"
             onClick={() => {
-              setCurrent(1);
+              setCurrentPage(1);
               setFilters([], "replace");
               filterForm?.current?.reset();
             }}
@@ -2173,7 +2193,7 @@ export const ProductList = () => {
                 type="search"
                 value={getDefaultFilter("q", filters)}
                 onChange={(e) => {
-                  setCurrent(1);
+                  setCurrentPage(1);
                   setFilters([
                     {
                       field: "q",
@@ -2302,7 +2322,7 @@ It is definitely possible to refactor the components into smaller, testable ones
 
 **1. Data Fetching and Processing**
 
-The [`useTable()`](https://refine.dev/docs/packages/documentation/react-table/#basic-usage) hook from the `@refinedev/react-table` package is used to fetch data from the **Fine Foods** `/products` endpoint. The refine-React Table's `useTable()` hook is a higher level hook built on top of **Refine**'s core [`useTable()`](https://refine.dev/docs/api-reference/core/hooks/useTable/) hook provided by `@refinedev/core`. It combines the power of `useTable()` core hook with React Table's [`useReactTable()`](https://tanstack.com/table/v8/docs/api/core/table) APIs:
+The [`useTable()`](https://refine.dev/core/docs/packages/documentation/react-table/#basic-usage) hook from the `@refinedev/react-table` package is used to fetch data from the **Fine Foods** `/products` endpoint. The refine-React Table's `useTable()` hook is a higher level hook built on top of **Refine**'s core [`useTable()`](https://refine.dev/core/docs/api-reference/core/hooks/useTable/) hook provided by `@refinedev/core`. It combines the power of `useTable()` core hook with React Table's [`useReactTable()`](https://tanstack.com/table/v8/docs/api/core/table) APIs:
 
 ```tsx
 // Inside ProductList component
@@ -2311,7 +2331,7 @@ const {
   getHeaderGroups,
   getRowModel,
   setOptions,
-  refineCore: { filters, setCurrent, setFilters },
+  refineCore: { filters, setCurrentPage, setFilters },
   getState,
   setPageIndex,
   getCanPreviousPage,
@@ -2329,7 +2349,7 @@ Notice that we are passing **React Table** column definitions, the `columns` obj
 
 We are making use of pagination props such as `setPageIndex`, `getPageCount`, and `previousPage` returned by `useReactTable()` to build the client side pagination strip.
 
-Filtering utilities such as `filters`, `setCurrent`, `setFilters` are accessed from the `refineCore` object returned from the query. Inside the JSX, we are using them to build the filter by keywords feature.
+Filtering utilities such as `filters`, `setCurrentPage`, `setFilters` are accessed from the `refineCore` object returned from the query. Inside the JSX, we are using them to build the filter by keywords feature.
 
 Notice, we **don't** need to specify the `resource` argument to `useTable()`. It is already inferred from the current URL thanks to the resource and routes definitions in `App.tsx`.
 
@@ -2380,7 +2400,7 @@ Inside the React Table `columns` definition object, using the `cell` property we
 },
 ```
 
-Notice also, we are using the [`useNavigation()`](https://refine.dev/docs/api-reference/core/hooks/navigation/useNavigation/) core hook to pick the `show()` and `edit()` methods and use them inside the buttons to navigate to their respective routes:
+Notice also, we are using the [`useNavigation()`](https://refine.dev/core/docs/api-reference/core/hooks/navigation/useNavigation/) core hook to pick the `show()` and `edit()` methods and use them inside the buttons to navigate to their respective routes:
 
 ```tsx
 const { edit, show, create } = useNavigation();
@@ -2397,7 +2417,7 @@ Notice throughout the markup that we are able to seamlessly apply regular Tailwi
 With these changes, when we navigate to the `/products` route, our products list page looks like below:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-06-daisy-ui-panel/products.png"  alt="react admin panel daisy ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-06-daisy-ui-panel/products.png"  alt="DaisyUI products list page" />
 </div>
 
 <br/>
@@ -2531,7 +2551,7 @@ Here's the break down of the component:
 
 **1. Data Fetching and Form Management**
 
-The most significant part of the product `create` page lies in the use of the [`useForm()`](https://refine.dev/docs/packages/documentation/react-hook-form/useForm/) hook imported from `@refinedev/react-hook-form` supplementary package. The refine-React Hook Form `useForm()` hook combines the power of the `useForm()` **Refine** core hook that primarily handles form submission, data fetching, caching, state management and serverside error handling. Integrating `react-hook-form` augments form features to include better form fields state management and error handling.
+The most significant part of the product `create` page lies in the use of the [`useForm()`](https://refine.dev/core/docs/packages/documentation/react-hook-form/useForm/) hook imported from `@refinedev/react-hook-form` supplementary package. The refine-React Hook Form `useForm()` hook combines the power of the `useForm()` **Refine** core hook that primarily handles form submission, data fetching, caching, state management and serverside error handling. Integrating `react-hook-form` augments form features to include better form fields state management and error handling.
 
 ```ts
 const {
@@ -2548,7 +2568,7 @@ Notice that we are not passing any resource name to `useForm()`. Like `useTable(
 
 We are also using the `useSelect()` core hook to fetch and populate `categories` items to present inside `<select />` fields.
 
-More on the [`useSelect()` hook in the Refine docs here](https://refine.dev/docs/api-reference/core/hooks/useSelect/#defaultvalue).
+More on the [`useSelect()` hook in the Refine docs here](https://refine.dev/core/docs/api-reference/core/hooks/useSelect/#defaultvalue).
 
 **2. daisyUI Style**
 
@@ -2559,7 +2579,7 @@ Inside the `App.css` file, we are still able to compose smaller class names from
 With the above `<ProductCreate />` page, when we navigate to the `/products/create` route, we should be presented with a form to create a product:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-06-daisy-ui-panel/product_create.png"  alt="react admin panel daisy ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-06-daisy-ui-panel/product_create.png"  alt="DaisyUI create product form" />
 </div>
 
 <br/>
@@ -2582,14 +2602,14 @@ export const ProductEdit = () => {
   const { list } = useNavigation();
 
   const {
-    refineCore: { onFinish, queryResult },
+    refineCore: { onFinish, query },
     register,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm();
 
-  const productsData = queryResult?.data?.data;
+  const productsData = query?.data?.data;
 
   const { options: categoryOptions } = useSelect({
     resource: "categories",
@@ -2617,7 +2637,7 @@ export const ProductEdit = () => {
         <div>
           <button
             className="btn btn-sm btn-primary btn-outline flex items-center justify-center font-normal normal-case"
-            onClick={() => queryResult?.refetch()}
+            onClick={() => query?.refetch()}
           >
             <ArrowPathIcon className="h-5 w-5" />
             Refresh
@@ -2706,7 +2726,7 @@ Additionally, we are setting the current option of the `<select />` dropdown wit
 With the `<ProductEdit />` component worked out, the page at `/product/edit/:id` looks like this:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-06-daisy-ui-panel/product_edit.png"  alt="react admin panel daisy ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-06-daisy-ui-panel/product_edit.png"  alt="DaisyUI edit product form" />
 </div>
 
 <br/>
@@ -2728,7 +2748,7 @@ import { IProduct } from "../../interfaces";
 export const ProductShow = () => {
   const { edit, list } = useNavigation();
   const {
-    queryResult: { data },
+    query: { data },
   } = useShow<IProduct>();
 
   const record = data?.data;
@@ -2783,14 +2803,14 @@ export const ProductShow = () => {
 
 </details>
 
-In the code above, we are using the [`useShow()`](https://refine.dev/docs/api-reference/core/hooks/show/useShow/) hook and grabbing product details from the `queryResult` object to display the details in the JSX.
+In the code above, we are using the [`useShow()`](https://refine.dev/core/docs/api-reference/core/hooks/show/useShow/) hook and grabbing product details from the `query` object to display the details in the JSX.
 
 We are also invoking the familiar `useNavigation()` hook to access the `edit()` and `list()` methods and call them from `Edit` and back buttons respectively.
 
 With the `<ProductShow />` page completed, when we navigate to the `/products/show/:id` path, we can see the product details as below:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-06-daisy-ui-panel/product_show.png"  alt="react admin panel daisy ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-06-daisy-ui-panel/product_show.png"  alt="DaisyUI product details page" />
 </div>
 
 <br/>
@@ -2819,11 +2839,11 @@ Eventually you'll need to update the `resources` and routes in `App.tsx` to this
 import { ErrorComponent, GitHubBanner, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import {
   BrowserRouter,
@@ -2856,7 +2876,7 @@ function App() {
       <RefineKbarProvider>
         <Refine
           dataProvider={dataProvider("https://api.finefoods.refine.dev")}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           resources={[
             {
               name: "dashboard",
@@ -3026,9 +3046,8 @@ export const CategoryList = () => {
   const { edit, show, create } = useNavigation();
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    refineCore: { setCurrent, filters, setFilters },
+    reactTable: { getHeaderGroups, getRowModel },
+    refineCore: { setCurrentPage, filters, setFilters },
     getState,
     setPageIndex,
     getCanPreviousPage,
@@ -3058,7 +3077,7 @@ export const CategoryList = () => {
           <button
             className="btn btn-outline btn-primary btn-sm font-light normal-case"
             onClick={() => {
-              setCurrent(1);
+              setCurrentPage(1);
               setFilters([], "replace");
               filterForm?.current?.reset();
             }}
@@ -3073,7 +3092,7 @@ export const CategoryList = () => {
                 type="search"
                 value={getDefaultFilter("q", filters)}
                 onChange={(e) => {
-                  setCurrent(1);
+                  setCurrentPage(1);
                   setFilters([
                     {
                       field: "q",
@@ -3286,7 +3305,7 @@ export const CategoryEdit = () => {
   const { list } = useNavigation();
 
   const {
-    refineCore: { onFinish, queryResult },
+    refineCore: { onFinish, query },
     register,
     handleSubmit,
     formState: { errors },
@@ -3309,7 +3328,7 @@ export const CategoryEdit = () => {
         <div>
           <button
             className="btn btn-sm btn-primary btn-outline flex items-center justify-center font-normal normal-case"
-            onClick={() => queryResult?.refetch()}
+            onClick={() => query?.refetch()}
           >
             <ArrowPathIcon className="h-5 w-5" />
             Refresh
@@ -3362,7 +3381,7 @@ import { ICategory } from "../../interfaces";
 export const CategoryShow = () => {
   const { edit, list } = useNavigation();
   const {
-    queryResult: { data },
+    query: { data },
   } = useShow<ICategory>();
 
   const record = data?.data;
@@ -3411,7 +3430,7 @@ export const CategoryShow = () => {
 After all these changes for the `category` resource, we should be able to navigate across the category pages as below:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-06-daisy-ui-panel/layout-gif.gif"  alt="react admin panel daisy ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-06-daisy-ui-panel/layout-gif.avif"  alt="DaisyUI dashboard responsive layout preview" />
 </div>
 
 <br/>
@@ -3472,10 +3491,10 @@ Notice it renders the `<Menu />` and `<Breadcrumb />` components. We'll update t
 import { ErrorComponent, GitHubBanner, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import {
   BrowserRouter,
@@ -3509,7 +3528,7 @@ function App() {
       <RefineKbarProvider>
         <Refine
           dataProvider={dataProvider("https://api.finefoods.refine.dev")}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           resources={[
             {
               name: "dashboard",
@@ -3681,7 +3700,7 @@ With these changes, we should now see a sticky top navbar with items that give a
 Here's the walkthrough of all the resource list pages:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-06-daisy-ui-panel/ezgif.com-optimize-min.gif"  alt="react admin panel daisy ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-06-daisy-ui-panel/ezgif.com-optimize-min.avif"  alt="DaisyUI layout animation preview" />
 </div>
 
 <br/>

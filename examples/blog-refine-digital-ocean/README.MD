@@ -1,8 +1,6 @@
 <div align="center" style="margin: 30px;">
 
-
 [![Cover Image](https://refine.ams3.cdn.digitaloceanspaces.com/example-readmes/CRM/crm-readme-temp.png "Cover Image")](https://github.com/refinedev/refine)
-
 
 <div align="center">
     <a href="https://refine.dev">Home Page</a> |
@@ -21,9 +19,7 @@
 [![Discord](https://img.shields.io/discord/837692625737613362.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/refine)
 [![Twitter Follow](https://img.shields.io/twitter/follow/refine_dev?style=social)](https://twitter.com/refine_dev)
 
-
 </div>
-
 
 ## About
 
@@ -33,8 +29,7 @@ This is a CRM (Customer Relationship Management) example project built using [Re
 
 The application includes features such as dashboard analytics, a calendar for scheduling appointments, a scrum board for task management, and CRUD operations for managing companies, contacts, and quotes.
 
-Refine is a React-based powerful framework for building  data-heavy internal tools like  dashboards, admin panels, storefronts and all type of CRUD apps. It comes with a core package that simplifies app requirements like data handling, authentication, access control, etc.
-
+Refine is a React-based powerful framework for building data-heavy internal tools like dashboards, admin panels, storefronts and all type of CRUD apps. It comes with a core package that simplifies app requirements like data handling, authentication, access control, etc.
 
 ## Try this example on your local
 
@@ -46,4 +41,4 @@ npm create refine-app@latest -- --example blog-refine-digital-ocean
 
 <br/>
 
-[![Open auth-antd example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/auth-antd?view=preview&theme=dark&codemirror=1)
+[![Open auth-antd example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/auth-antd?view=preview&theme=dark&codemirror=1)

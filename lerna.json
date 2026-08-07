@@ -1,8 +1,9 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "packages": ["packages/*", "examples/*"],
-  "ignore": "{monorepo-*,with-nx,blog-react-aria,blog-sveltekit-crud}",
+  "ignore": "{monorepo-*,with-nx,blog-*,mern-dashboard-client,with-nextjs-headless,store}",
   "version": "4.0.0",
   "stream": true,
-  "npmClient": "pnpm"
+  "npmClient": "pnpm",
+  "bail": false
 }

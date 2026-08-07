@@ -8,7 +8,7 @@
     "packages/nextjs-router",
     "packages/react-hook-form",
     "packages/react-location",
-    "packages/react-router-v6",
+    "packages/react-router",
     "packages/react-table",
     "packages/simple-rest"
   ],

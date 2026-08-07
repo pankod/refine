@@ -28,17 +28,13 @@ import type {
 import type { LiveModeProps } from "../../contexts/live/types";
 import type { SuccessErrorNotification } from "../../contexts/notification/types";
 import type { Action } from "../../contexts/router/types";
+import type { MakeOptional } from "../../definitions/types";
 
 export type FormAction = Extract<Action, "create" | "edit" | "clone">;
 
 export type RedirectAction =
   | Extract<Action, "create" | "edit" | "list" | "show">
   | false;
-
-/**
- * @deprecated use RedirectAction type instead
- */
-export type RedirectionTypes = RedirectAction;
 
 export type AutoSaveProps<TVariables> = {
   autoSave?: {
@@ -56,7 +52,7 @@ export type AutoSaveReturnType<
   TVariables = {},
 > = {
   autoSaveProps: Pick<
-    UseUpdateReturnType<TData, TError, TVariables>,
+    UseUpdateReturnType<TData, TError, TVariables>["mutation"],
     "data" | "error" | "status"
   >;
   onFinishAutoSave: (
@@ -105,11 +101,6 @@ type ActionFormProps<
    */
   meta?: MetaQuery;
   /**
-   * Metadata query for dataProvider
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
-  /**
    * Metadata to pass for the `useOne` query
    */
   queryMeta?: MetaQuery;
@@ -118,7 +109,7 @@ type ActionFormProps<
    */
   mutationMeta?: MetaQuery;
   /**
-   * [Determines when mutations are executed](/advanced-tutorials/mutation-mode.md)
+   * [Determines when mutations are executed](/docs/advanced-tutorials/mutation-mode/)
    * @default `"pessimistic"*`
    */
   mutationMode?: MutationMode;
@@ -156,15 +147,18 @@ type ActionFormProps<
    */
   invalidates?: Array<keyof IQueryKeys>;
   /**
-   * react-query's [useQuery](https://tanstack.com/query/v4/docs/reference/useQuery) options of useOne hook used while in edit mode.
+   * react-query's [useQuery](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery) options of useOne hook used while in edit mode.
    */
-  queryOptions?: UseQueryOptions<
-    GetOneResponse<TQueryFnData>,
-    TError,
-    GetOneResponse<TData>
+  queryOptions?: MakeOptional<
+    UseQueryOptions<
+      GetOneResponse<TQueryFnData>,
+      TError,
+      GetOneResponse<TData>
+    >,
+    "queryFn" | "queryKey"
   >;
   /**
-   * react-query's [useMutation](https://tanstack.com/query/v4/docs/reference/useMutation) options of useCreate hook used while submitting in create and clone modes.
+   * react-query's [useMutation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation) options of useCreate hook used while submitting in create and clone modes.
    */
   createMutationOptions?: UseCreateProps<
     TResponse,
@@ -172,7 +166,7 @@ type ActionFormProps<
     TVariables
   >["mutationOptions"];
   /**
-   * react-query's [useMutation](https://tanstack.com/query/v4/docs/reference/useMutation) options of useUpdate hook used while submitting in edit mode.
+   * react-query's [useMutation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation) options of useUpdate hook used while submitting in edit mode.
    */
   updateMutationOptions?: UseUpdateProps<
     TResponse,
@@ -227,19 +221,10 @@ export type UseFormReturnType<
   id?: BaseKey;
   setId: Dispatch<SetStateAction<BaseKey | undefined>>;
   query?: QueryObserverResult<GetOneResponse<TData>, TError>;
-  /**
-   * @deprecated use `query` instead
-   */
-  queryResult?: QueryObserverResult<GetOneResponse<TData>, TError>;
+
   mutation:
-    | UseUpdateReturnType<TResponse, TResponseError, TVariables>
-    | UseCreateReturnType<TResponse, TResponseError, TVariables>;
-  /**
-   * @deprecated use `mutation` instead
-   */
-  mutationResult:
-    | UseUpdateReturnType<TResponse, TResponseError, TVariables>
-    | UseCreateReturnType<TResponse, TResponseError, TVariables>;
+    | UseUpdateReturnType<TResponse, TResponseError, TVariables>["mutation"]
+    | UseCreateReturnType<TResponse, TResponseError, TVariables>["mutation"];
   formLoading: boolean;
   onFinish: (
     values: TVariables,

@@ -1,7 +1,7 @@
 import { useDoc } from "@docusaurus/theme-common/internal";
 import clsx from "clsx";
 import React from "react";
-import { useHistory, useLocation } from "@docusaurus/router";
+import { useLocation } from "@docusaurus/router";
 
 export const TOCItem = ({
   id,
@@ -41,6 +41,8 @@ export const TOCItem = ({
     }
   }, [id]);
 
+  const isActive = activeId === id;
+
   return (
     <a
       href={`#${id}`}
@@ -51,18 +53,16 @@ export const TOCItem = ({
         level === 3 && "pl-6",
         level === 4 && "pl-8",
         level === 5 && "pl-8",
-        activeId === id &&
-          "bg-refine-blue-2-light dark:bg-refine-blue-2 dark:bg-opacity-10",
-        activeId === id &&
-          "text-refine-react-light-link dark:text-refine-react-dark-link",
-        activeId !== id && "text-refine-600 dark:text-refine-300",
-        activeId !== id && "hover:bg-gray-100 dark:hover:bg-gray-700",
-        activeId !== id && "hover:text-gray-600 dark:hover:text-gray-300",
-        "rounded-[18px]",
+        isActive && "bg-zinc-200 dark:bg-zinc-700",
+        isActive && "text-zinc-900 dark:text-white",
+        !isActive && "text-zinc-700 dark:text-zinc-300",
+        !isActive && "hover:bg-zinc-100 dark:hover:bg-[#303035]",
+        "rounded-md",
         "block",
         "text-sm",
         "no-underline hover:no-underline",
         "transition-colors duration-200 ease-in-out",
+        "tracking-[-0.007em]",
       )}
       // biome-ignore lint/security/noDangerouslySetInnerHtml: explicitly disabled
       dangerouslySetInnerHTML={{
@@ -74,17 +74,12 @@ export const TOCItem = ({
 
 export const DocTOC = () => {
   const location = useLocation();
-  const history = useHistory();
 
   const { toc, hasTOC, activeId, setActiveId } = useTOC();
 
   const onIdChange = (id) => {
     if (id !== `${location.hash ?? ""}`.replace("#", "")) {
       setActiveId(id);
-      // history.replace({
-      //     ...location,
-      //     hash: `#${id}`,
-      // });
       window.history.replaceState({}, "", `#${id}`);
     }
   };
@@ -94,13 +89,13 @@ export const DocTOC = () => {
       className={clsx(
         "hidden xl:block",
         "w-full",
-        "sticky right-0 top-[65px]",
-        "max-w-[260px]",
+        "sticky right-0 top-[69px]",
+        "max-w-[240px]",
         "overflow-auto",
-        "h-[calc(100vh-65px)]",
-        "px-4",
-        "py-4",
-        "border-l border-l-gray-300 dark:border-l-gray-700",
+        "h-[calc(100vh-69px)]",
+        "rounded-tl-xl",
+        "bg-zinc-50 dark:bg-[#27272A80]",
+        "p-4",
         !hasTOC && "invisible",
       )}
     >

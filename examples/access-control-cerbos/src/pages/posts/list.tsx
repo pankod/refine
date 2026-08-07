@@ -21,7 +21,10 @@ export const PostList = () => {
 
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-  const { data, isLoading } = useMany<ICategory>({
+  const {
+    result: data,
+    query: { isLoading },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -33,6 +36,10 @@ export const PostList = () => {
     resource: "categories",
     optionLabel: "title",
     optionValue: "id",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { data: canAccess } = useCan({

@@ -1,17 +1,19 @@
 ---
-title: useInfiniteList
+title: "useInfiniteList Hook | Usage & Patterns in Refine v5"
+display_title: "useInfiniteList"
+sidebar_label: "useInfiniteList"
 siderbar_label: useInfiniteList
-source: https://github.com/refinedev/refine/blob/master/packages/core/src/hooks/data/useInfiniteList.ts
-description: useInfiniteList data hook from Refine is a modified version of TanStack Query's useInfiniteQuery for retrieving items from a resource with pagination, search, sort, and filter configurations.
+source: https://github.com/refinedev/refine/blob/main/packages/core/src/data/hooks/useInfiniteList.ts
+description: "Learn to use the useInfiniteList hook in Refine v5. Learn patterns to scale data and query for custom APIs and scalable data flows."
 ---
 
 import BasicUsageLivePreview from "./\_basic-usage-live-preview.md";
 import SortingLivePreview from "./\_sorting-live-preview.md";
 import FilteringLivePreview from "./\_filtering-live-preview.md";
 
-The `useInfiniteList` hook is an extended version of TanStack Query's [`useInfiniteQuery`](https://tanstack.com/query/v4/docs/react/reference/useInfiniteQuery) used for retrieving items from a `resource` with pagination, sort, and filter configurations. It is ideal for lists where the total number of records is unknown and the user loads the next pages with a button.
+The `useInfiniteList` hook is an extended version of TanStack Query's [`useInfiniteQuery`](https://tanstack.com/query/v5/docs/react/reference/useInfiniteQuery) used for retrieving items from a `resource` with pagination, sort, and filter configurations. It is ideal for lists where the total number of records is unknown and the user loads the next pages with a button.
 
-- It uses the `getList` method as the query function from the [`dataProvider`](/docs/data/data-provider) which is passed to `<Refine>`.
+- It uses the `getList` method as the query function from the [`dataProvider`](/core/docs/data/data-provider/) which is passed to `<Refine>`.
 
 - It uses a query key to cache the data. The **query key** is generated from the provided properties. You can see the query key by using the TanStack Query devtools.
 
@@ -23,27 +25,28 @@ Here is a basic example of how to use the `useInfiniteList` hook.
 
 ## Pagination
 
-The `useInfiniteList` hook supports pagination properties just like [`useList`](/docs/data/hooks/use-list). To handle pagination, the `useInfiniteList` hook passes the `pagination` property to the `getList` method from the `dataProvider`.
+The `useInfiniteList` hook supports pagination properties just like [`useList`](/core/docs/data/hooks/use-list/). To handle pagination, the `useInfiniteList` hook passes the `pagination` property to the `getList` method from the `dataProvider`.
 
-Dynamically changing the `pagination` properties will trigger a new request. The `fetchNextPage` method will increase the `pagination.current` property by one and trigger a new request as well.
+Dynamically changing the `pagination` properties will trigger a new request. The `fetchNextPage` method will increase the `pagination.currentPage` property by one and trigger a new request as well.
 
 ### Retrieving the Total Row Count
 
 When the `getList` method is called via `useInfiniteList`, it should ideally return the total count of rows (`rowCount`). The way this count is obtained depends on the data provider in use:
+
 - **REST Providers:** Commonly obtain the total count from the `x-total-count` header.
 - **GraphQL Providers:** Often source the count from specific data fields like `pageInfo.total`.
 - **Other Providers:** Follow their own practices for obtaining the total count.
 
 If the data provider doesn't return a specific count, the `getList` method may fall back to using the length of the paginated data array as the `rowCount`.
 
-For more information on how this works, refer to the [`getList` method documentation](https://refine.dev/docs/data/data-provider/#getlist).
+For more information on how this works, refer to the [`getList` method documentation](https://refine.dev/core/docs/data/data-provider/#getlist).
 
 ```ts
 import { useInfiniteList } from "@refinedev/core";
 
 const postListQueryResult = useInfiniteList({
   resource: "posts",
-  pagination: { current: 3, pageSize: 8 },
+  pagination: { currentPage: 3, pageSize: 8 },
 });
 ```
 
@@ -65,7 +68,7 @@ Dynamically changing the `filters` property will trigger a new request.
 
 ## Realtime Updates
 
-> This feature is only available if you use a [Live Provider](/docs/realtime/live-provider).
+> This feature is only available if you use a [Live Provider](/core/docs/realtime/live-provider/).
 
 When the `useInfiniteList` hook is mounted, it will call the `subscribe` method from the `liveProvider` with some parameters such as `channel`, `resource` etc. This is useful when you want to subscribe to live updates.
 
@@ -81,11 +84,11 @@ useInfiniteList({
 });
 ```
 
-> For more information, refer to the [creating a data provider tutorial &#8594](/docs/data/data-provider)
+> For more information, refer to the [creating a data provider tutorial &#8594](/core/docs/data/data-provider/)
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### dataProviderName
 
@@ -113,7 +116,7 @@ useInfiniteList({
 });
 ```
 
-> For more information, refer to the [`CrudFilters` interface &#8594](/docs/core/interface-references#crudfilters)
+> For more information, refer to the [`CrudFilters` interface &#8594](/core/docs/core/interface-references#crudfilters)
 
 ### sorters
 
@@ -130,20 +133,20 @@ useInfiniteList({
 });
 ```
 
-> For more information, refer to the [`CrudSorting` interface &#8594](/docs/core/interface-references#crudsorting)
+> For more information, refer to the [`CrudSorting` interface &#8594](/core/docs/core/interface-references#crudsorting)
 
 ### pagination
 
 `pagination` will be passed to the `getList` method from the `dataProvider` as a parameter. It is used to send pagination query parameters to the API.
 
-#### current
+#### currentPage
 
-You can pass the `current` page number to the `pagination` property.
+You can pass the `currentPage` page number to the `pagination` property.
 
 ```tsx
 useInfiniteList({
   pagination: {
-    current: 2,
+    currentPage: 2,
   },
 });
 ```
@@ -184,7 +187,7 @@ useInfiniteList({
 });
 ```
 
-> For more information, refer to the [`useQuery` documentation&#8594](https://tanstack.com/query/v4/docs/react/reference/useQuery)
+> For more information, refer to the [`useQuery` documentation&#8594](https://tanstack.com/query/v5/docs/react/reference/useQuery)
 
 ### meta
 
@@ -229,11 +232,11 @@ const myDataProvider = {
 };
 ```
 
-> For more information, refer to the [`meta` section of the General Concepts documentation&#8594](/docs/guides-concepts/general-concepts/#meta-concept)
+> For more information, refer to the [`meta` section of the General Concepts documentation&#8594](/core/docs/guides-concepts/general-concepts/#meta-concept)
 
 ### successNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 After data is fetched successfully, `useInfiniteList` can call `open` function from `NotificationProvider` to show a success notification. With this prop, you can customize the success notification.
 
@@ -251,7 +254,7 @@ useInfiniteList({
 
 ### errorNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 After data fetching is failed, `useInfiniteList` will call the `open` function from `NotificationProvider` to show an error notification. With this prop, you can customize the error notification.
 
@@ -269,7 +272,7 @@ useInfiniteList({
 
 ### liveMode
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
 Determines whether to update data automatically ("auto") or not ("manual") if a related live event is received. It can be used to update and show data in Realtime throughout your app.
 
@@ -281,7 +284,7 @@ useInfiniteList({
 
 ### onLiveEvent
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
 The callback function is executed when new events from a subscription have arrived.
 
@@ -295,9 +298,9 @@ useInfiniteList({
 
 ### liveParams
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
-Params to pass to liveProvider's [subscribe](/docs/realtime/live-provider#subscribe) method.
+Params to pass to liveProvider's [subscribe](/core/docs/realtime/live-provider#subscribe) method.
 
 ### overtimeOptions
 
@@ -324,14 +327,6 @@ console.log(overtime.elapsedTime); // undefined, 1000, 2000, 3000 4000, ...
   elapsedTime >= 4000 && <div>this takes a bit longer than expected</div>;
 }
 ```
-
-### ~~config~~ <PropTag deprecated />
-
-Use `pagination`, `hasPagination`, `sorters` and `filters` instead.
-
-### ~~hasPagination~~ <PropTag deprecated />
-
-Use `pagination.mode` instead.
 
 ## Return Values
 
@@ -363,9 +358,9 @@ Consumes data from data provider `useInfiniteList` with the `getList` method. Fi
 
 ```ts
 getList: async ({ resource, pagination }) => {
-    const { current } = pagination;
+    const { currentPage } = pagination;
     const { data } = await axios.get(
-        `https://api.fake-rest.refine.dev/${resource}?cursor=${current || 0}`,
+        `https://api.fake-rest.refine.dev/${resource}?cursor=${currentPage || 0}`,
     );
 
     return {
@@ -385,9 +380,9 @@ After this process, we successfully retrieved the first page of data. Let's fill
 
 ```ts
 getList: async ({ resource, pagination }) => {
-    const { current } = pagination;
+    const { currentPage } = pagination;
     const { data } = await axios.get(
-        `https://api.fake-rest.refine.dev/${resource}?cursor=${current || 0}`,
+        `https://api.fake-rest.refine.dev/${resource}?cursor=${currentPage || 0}`,
     );
 
     return {
@@ -461,5 +456,5 @@ errorNotification-default='"Error (status code: `statusCode`)"'
 
 <CodeSandboxExample path="use-infinite-list" />
 
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror

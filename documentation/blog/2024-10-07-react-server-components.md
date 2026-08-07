@@ -3,9 +3,11 @@ title: An Intro to Server Components in React
 description: We will discuss what React server components are as well as how to incorporate them into building applications.
 slug: react-server-components
 authors: peter_osah
-tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-09-react-server-components/social-3.png
+category: "Engineering"
+tags: [react, nextjs]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-09-react-server-components/social-3.png
 hide_table_of_contents: false
+last_update: 2024-10-07
 ---
 
 **_This article was last updated on October 07, 2024 to include sections on Hydration, Performance Benefits, and Error Handling for React Server Components._**

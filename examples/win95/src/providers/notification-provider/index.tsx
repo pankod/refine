@@ -1,5 +1,5 @@
 import type { NotificationProvider } from "@refinedev/core";
-import toast from "react-hot-toast";
+import toast, { type Toast } from "react-hot-toast";
 import { Notification } from "@/components/notification";
 
 export const notificationProvider: NotificationProvider = {
@@ -8,7 +8,7 @@ export const notificationProvider: NotificationProvider = {
       case "success":
       case "error":
         toast.custom(
-          (t) => {
+          (t: Toast) => {
             return (
               <Notification
                 {...props}

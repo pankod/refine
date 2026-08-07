@@ -27,14 +27,10 @@ describe("form-antd-use-form", () => {
     cy.clearAllCookies();
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
-
-    cy.interceptGETPosts();
     cy.visit("/");
   });
 
   it("should create form render errors", () => {
-    cy.interceptGETPost();
-
     cy.getCreateButton().click();
 
     submitForm();
@@ -56,8 +52,6 @@ describe("form-antd-use-form", () => {
   });
 
   it("should edit form render errors", () => {
-    cy.interceptGETPost();
-
     cy.getEditButton().first().click();
 
     // wait loading state and render to be finished
@@ -82,8 +76,6 @@ describe("form-antd-use-form", () => {
   });
 
   it("should create form warn when unsaved changes", () => {
-    cy.interceptGETPost();
-
     cy.wait("@getPosts");
     cy.getCreateButton().click();
     cy.get("#title").type("any value");
@@ -94,8 +86,6 @@ describe("form-antd-use-form", () => {
   });
 
   it("should edit form warn when unsaved changes", () => {
-    cy.interceptGETPost();
-
     cy.wait("@getPosts");
     cy.getEditButton().first().click();
 

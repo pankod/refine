@@ -13,6 +13,7 @@ export const CourierReviewTable = (props: Props) => {
 
   const { tableProps } = useTable<IReview>({
     resource: "reviews",
+
     filters: {
       permanent: [
         {
@@ -22,9 +23,11 @@ export const CourierReviewTable = (props: Props) => {
         },
       ],
     },
+
     pagination: {
       mode: "off",
     },
+
     queryOptions: {
       enabled: !!props.courier,
     },

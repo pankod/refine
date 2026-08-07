@@ -3,8 +3,6 @@
 
 describe("table-mantine-basic", () => {
   beforeEach(() => {
-    cy.interceptGETPosts();
-
     cy.visit("/");
   });
 
@@ -48,8 +46,6 @@ describe("table-mantine-basic", () => {
     cy.url().should("include", "sorters[0][field]=id&sorters[0][order]=asc");
 
     cy.wait("@getAscPosts");
-
-    cy.interceptGETPosts();
 
     cy.get(".tabler-icon-chevron-down").first().click();
 
@@ -95,7 +91,7 @@ describe("table-mantine-basic", () => {
   it("should work with pagination", () => {
     cy.get(".mantine-Pagination-item").contains("2").click();
 
-    cy.url().should("include", "current=2");
+    cy.url().should("include", "currentPage=2");
 
     cy.wait("@getPosts").then((interception) => {
       const { request } = interception;
@@ -107,7 +103,7 @@ describe("table-mantine-basic", () => {
 
     cy.get(".mantine-Pagination-item").contains("1").click();
 
-    cy.url().should("include", "current=1");
+    cy.url().should("include", "currentPage=1");
 
     cy.wait("@getPosts").then((interception) => {
       const { request } = interception;
@@ -127,6 +123,6 @@ describe("table-mantine-basic", () => {
     cy.get("#title").type("lorem");
     cy.get(".tabler-icon-check").click();
 
-    cy.url().should("include", "current=1");
+    cy.url().should("include", "currentPage=1");
   });
 });

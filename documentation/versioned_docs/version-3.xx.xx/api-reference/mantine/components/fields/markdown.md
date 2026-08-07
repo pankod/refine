@@ -36,7 +36,7 @@ const Wrapper = ({ children }) => {
 This field lets you display markdown content. It supports [GitHub Flavored Markdown](https://github.github.com/gfm/).
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Usage

@@ -1,60 +1,24 @@
 ---
-title: Create
+title: "Chakra UI Create Component | UI Component in Refine v5"
+display_title: "Create"
+sidebar_label: "Create"
+description: "Implement Create in Refine v5. Learn the key steps. Explore customization options for accessibility, components for polished admin UIs."
 swizzle: true
 ---
-
-```tsx live shared
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  Layout: RefineChakra.Layout,
-  Sider: () => null,
-});
-
-const Wrapper = ({ children }) => {
-  return (
-    <ChakraUI.ChakraProvider theme={RefineChakra.refineTheme}>
-      {children}
-    </ChakraUI.ChakraProvider>
-  );
-};
-
-const DummyListPage = () => (
-  <ChakraUI.VStack alignItems="flex-start">
-    <ChakraUI.Text>This page is empty.</ChakraUI.Text>
-    <CreateButton colorScheme="black" />
-  </ChakraUI.VStack>
-);
-
-interface ICategory {
-  id: number;
-  title: string;
-}
-
-interface IPost {
-  id: number;
-  title: string;
-  content: string;
-  status: "published" | "draft" | "rejected";
-  category: { id: number };
-}
-```
 
 `<Create>` provides us a layout to display the page. It does not contain any logic and just adds extra functionalities like action buttons and being able to give titles to the page.
 
 We will show what `<Create>` does using properties with examples.
 
-```tsx live url=http://localhost:3000/posts/create previewHeight=420px hideCode
+```tsx live previewHeight=420px hideCode url=http://localhost:3000/posts/create
 setInitialRoutes(["/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton } from "@refinedev/chakra-ui";
 
 // visible-block-start
 import { Create } from "@refinedev/chakra-ui";
 import {
   FormControl,
-  FormErrorMessage,
   FormLabel,
+  FormErrorMessage,
   Input,
   Select,
 } from "@chakra-ui/react";
@@ -67,7 +31,7 @@ const PostCreate: React.FC = () => {
     saveButtonProps,
     register,
     formState: { errors },
-  } = useForm<IPost>();
+  } = useForm();
 
   const { options } = useSelect({
     resource: "categories",
@@ -82,7 +46,7 @@ const PostCreate: React.FC = () => {
           type="text"
           {...register("title", { required: "Title is required" })}
         />
-        <FormErrorMessage>{`${errors.title?.message}`}</FormErrorMessage>
+        <FormErrorMessage>{`${errors?.title?.message}`}</FormErrorMessage>
       </FormControl>
       <FormControl mb="3" isInvalid={!!errors?.status}>
         <FormLabel>Status</FormLabel>
@@ -97,14 +61,14 @@ const PostCreate: React.FC = () => {
           <option>draft</option>
           <option>rejected</option>
         </Select>
-        <FormErrorMessage>{`${errors.status?.message}`}</FormErrorMessage>
+        <FormErrorMessage>{`${errors?.status?.message}`}</FormErrorMessage>
       </FormControl>
-      <FormControl mb="3" isInvalid={!!errors?.categoryId}>
+      <FormControl mb="3" isInvalid={!!errors?.category}>
         <FormLabel>Category</FormLabel>
         <Select
           id="categoryId"
           placeholder="Select Category"
-          {...register("categoryId", {
+          {...register("category.id", {
             required: "Category is required",
           })}
         >
@@ -114,36 +78,44 @@ const PostCreate: React.FC = () => {
             </option>
           ))}
         </Select>
-        <FormErrorMessage>{`${errors.categoryId?.message}`}</FormErrorMessage>
+        <FormErrorMessage>{`${errors?.category?.message}`}</FormErrorMessage>
       </FormControl>
     </Create>
   );
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.CreateButton>Create Post</RefineChakra.CreateButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 :::simple Good to know
 
-You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-packages) to customize it.
+You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 
 :::
 
@@ -151,12 +123,10 @@ You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-
 
 ### title
 
-`title` allows the addition of titles inside the `<Create>` component by passing title props. If you don't pass title props, however, it uses the "Create" prefix and the singular resource name by default. For example, for the `/posts/create` resource, it would be "Create post".
+`title` allows you to add a title inside the `<Create>` component. If you don't pass title props, it uses the "Create" prefix and the singular resource name by default. For example, for the "posts" resource, it will be "Create post".
 
-```tsx live url=http://localhost:3000/posts/create previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
 setInitialRoutes(["/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton } from "@refinedev/chakra-ui";
 
 // visible-block-start
 import { Create } from "@refinedev/chakra-ui";
@@ -172,34 +142,40 @@ const PostCreate: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.CreateButton>Create Post</RefineChakra.CreateButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 ### saveButtonProps
 
-`saveButtonProps` can be used to customize the default button of the `<Create>` component that submits the form:
+The `<Create>` component has a save button that submits the form by default. If you want to customize this button you can use the `saveButtonProps` property:
 
-```tsx live url=http://localhost:3000/posts/create previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
 setInitialRoutes(["/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton } from "@refinedev/chakra-ui";
 
 // visible-block-start
 import { Create } from "@refinedev/chakra-ui";
@@ -214,125 +190,124 @@ const PostCreate: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.CreateButton>Create Post</RefineChakra.CreateButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-> For more information, refer to the [`<SaveButton>` documentation &#8594](/docs/ui-integrations/chakra-ui/components/buttons/save-button)
 
 ### resource
 
 The `<Create>` component reads the `resource` information from the route by default. If you want to use a custom resource for the `<Create>` component, you can use the `resource` prop.
 
-```tsx live url=http://localhost:3000/custom previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/custom
 setInitialRoutes(["/custom"]);
 
-import { Refine } from "@refinedev/core";
-import dataProvider from "@refinedev/simple-rest";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import { Layout } from "@refinedev/chakra-ui";
 // visible-block-start
 import { Create } from "@refinedev/chakra-ui";
 
 const CustomPage: React.FC = () => {
   return (
     /* highlight-next-line */
-    <Create resource="categories">
+    <Create resource="posts">
       <p>Rest of your page here</p>
     </Create>
   );
 };
 // visible-block-end
 
-const App: React.FC = () => {
-  return (
-    <Refine
-      legacyRouterProvider={{
-        ...routerProvider,
-        // highlight-start
-        routes: [
-          {
-            element: <CustomPage />,
-            path: "/custom",
-          },
-        ],
-        // highlight-end
-      }}
-      Layout={Layout}
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      resources={[{ name: "posts" }]}
-    />
-  );
-};
-
 render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+        {
+          name: "custom",
+          list: "/custom",
+          create: "/custom/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/custom" element={<CustomPage />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
-
-> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
-
 ### goBack
 
-To customize the back button or to disable it, you can use the `goBack` property. You can pass `false` or `null` to hide the back button.
+To customize the back button or to disable it, you can use the `goBack` property.
 
-```tsx live url=http://localhost:3000/posts/create previewHeight=280px
-setInitialRoutes(["/posts", "/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton } from "@refinedev/chakra-ui";
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+setInitialRoutes(["/posts/create"]);
 
 // visible-block-start
 import { Create } from "@refinedev/chakra-ui";
-/* highlight-next-line */
 import { IconMoodSmile } from "@tabler/icons-react";
 
 const PostCreate: React.FC = () => {
   return (
     /* highlight-next-line */
     <Create goBack={<IconMoodSmile />}>
-      <p>Rest of your page here 2</p>
+      <p>Rest of your page here</p>
     </Create>
   );
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.CreateButton>Create Post</RefineChakra.CreateButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -340,10 +315,8 @@ render(
 
 To toggle the loading state of the `<Create/>` component, you can use the `isLoading` property.
 
-```tsx live url=http://localhost:3000/posts/create previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
 setInitialRoutes(["/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton } from "@refinedev/chakra-ui";
 
 // visible-block-start
 import { Create } from "@refinedev/chakra-ui";
@@ -358,34 +331,40 @@ const PostCreate: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.CreateButton>Create Post</RefineChakra.CreateButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-### breadcrumb <GlobalConfigBadge id="core/refine-component/#breadcrumb" />
+### breadcrumb
 
 To customize or disable the breadcrumb, you can use the `breadcrumb` property. By default it uses the `Breadcrumb` component from `@refinedev/chakra-ui` package.
 
-```tsx live url=http://localhost:3000/posts/create previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
 setInitialRoutes(["/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton } from "@refinedev/chakra-ui";
 
 // visible-block-start
 import { Create, Breadcrumb } from "@refinedev/chakra-ui";
@@ -408,36 +387,40 @@ const PostCreate: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.CreateButton>Create Post</RefineChakra.CreateButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-> For more information, refer to the [`Breadcrumb` documentation &#8594](/docs/ui-integrations/chakra-ui/components/breadcrumb)
 
 ### wrapperProps
 
 If you want to customize the wrapper of the `<Create/>` component, you can use the `wrapperProps` property. For `@refinedev/chakra-ui` wrapper element is `<Card>`s and `wrapperProps` can get every attribute that `<Box>` can get.
 
-```tsx live url=http://localhost:3000/posts/create previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
 setInitialRoutes(["/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton } from "@refinedev/chakra-ui";
 
 // visible-block-start
 import { Create } from "@refinedev/chakra-ui";
@@ -459,36 +442,40 @@ const PostCreate: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.CreateButton>Create Post</RefineChakra.CreateButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-> For more information, refer to the [`Box` documentation from Chakra UI &#8594](https://www.chakra-ui.com/docs/components/box#usage)
 
 ### headerProps
 
 If you want to customize the header of the `<Create/>` component, you can use the `headerProps` property.
 
-```tsx live url=http://localhost:3000/posts/create previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
 setInitialRoutes(["/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton } from "@refinedev/chakra-ui";
 
 // visible-block-start
 import { Create } from "@refinedev/chakra-ui";
@@ -510,103 +497,54 @@ const PostCreate: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
-);
-```
-
-> For more information, refer to the [`Box` documentation from Chakra UI &#8594](https://www.chakra-ui.com/docs/components/box#usage)
-
-### contentProps
-
-If you want to customize the content of the `<Create/>` component, you can use the `contentProps` property.
-
-```tsx live url=http://localhost:3000/posts/create previewHeight=320px
-setInitialRoutes(["/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton } from "@refinedev/chakra-ui";
-
-// visible-block-start
-import { Create } from "@refinedev/chakra-ui";
-
-const PostCreate: React.FC = () => {
-  return (
-    <Create
-      // highlight-start
-      contentProps={{
-        borderColor: "blue",
-        borderStyle: "dashed",
-        borderWidth: "2px",
-      }}
-      // highlight-end
     >
-      <p>Rest of your page here</p>
-    </Create>
-  );
-};
-// visible-block-end
-
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      resources={[
-        {
-          name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
-        },
-      ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.CreateButton>Create Post</RefineChakra.CreateButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-> For more information, refer to the [`Box` documentation from Chakra UI &#8594](https://www.chakra-ui.com/docs/components/box#usage)
 
 ### headerButtons
 
 You can customize the buttons at the header by using the `headerButtons` property. It accepts `React.ReactNode` or a render function `({ defaultButtons }) => React.ReactNode` which you can use to keep the existing buttons and add your own.
 
-```tsx live url=http://localhost:3000/posts/create previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
 setInitialRoutes(["/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton } from "@refinedev/chakra-ui";
 
 // visible-block-start
 import { Create } from "@refinedev/chakra-ui";
-import { Button, Box } from "@chakra-ui/react";
+import { Button, HStack } from "@chakra-ui/react";
 
 const PostCreate: React.FC = () => {
   return (
     <Create
       // highlight-start
       headerButtons={({ defaultButtons }) => (
-        <Box borderColor="blue" borderStyle="dashed" borderWidth="2px" p="2">
+        <HStack>
           {defaultButtons}
-          <Button colorScheme="red" variant="solid">
-            Custom Button
-          </Button>
-        </Box>
+          <Button colorScheme="red">Custom Button</Button>
+        </HStack>
       )}
       // highlight-end
     >
@@ -616,23 +554,31 @@ const PostCreate: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.CreateButton>Create Post</RefineChakra.CreateButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -640,10 +586,8 @@ render(
 
 You can customize the wrapper element of the buttons at the header by using the `headerButtonProps` property.
 
-```tsx live url=http://localhost:3000/posts/create previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
 setInitialRoutes(["/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton } from "@refinedev/chakra-ui";
 
 // visible-block-start
 import { Create } from "@refinedev/chakra-ui";
@@ -657,9 +601,14 @@ const PostCreate: React.FC = () => {
         borderColor: "blue",
         borderStyle: "dashed",
         borderWidth: "2px",
+        p: "2",
       }}
       // highlight-end
-      headerButtons={<Button type="primary">Custom Button</Button>}
+      headerButtons={
+        <Button colorScheme="green" variant="outline">
+          Custom Button
+        </Button>
+      }
     >
       <p>Rest of your page here</p>
     </Create>
@@ -667,38 +616,42 @@ const PostCreate: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.CreateButton>Create Post</RefineChakra.CreateButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`Box` documentation from Chakra UI &#8594](https://www.chakra-ui.com/docs/components/box#usage)
-
 ### footerButtons
 
-By default, the `<Create/>` component has a [`<SaveButton>`][save-button] at the header.
+By default, the `<Create/>` component has a [`<SaveButton>`][save-button] at the footer.
 
 You can customize the buttons at the footer by using the `footerButtons` property. It accepts `React.ReactNode` or a render function `({ defaultButtons, saveButtonProps }) => React.ReactNode` which you can use to keep the existing buttons and add your own.
 
-```tsx live url=http://localhost:3000/posts/create previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
 setInitialRoutes(["/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton } from "@refinedev/chakra-ui";
 
 // visible-block-start
 import { Create } from "@refinedev/chakra-ui";
@@ -724,74 +677,31 @@ const PostCreate: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
-);
-```
-
-Or, instead of using the `defaultButtons`, you can create your own buttons. If you want, you can use `saveButtonProps` to utilize the default values of the [`<SaveButton>`][save-button] component.
-
-```tsx live url=http://localhost:3000/posts/create previewHeight=280px
-setInitialRoutes(["/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton, SaveButton } from "@refinedev/chakra-ui";
-
-// visible-block-start
-import { Create } from "@refinedev/chakra-ui";
-import { Button, HStack } from "@chakra-ui/react";
-
-const PostCreate: React.FC = () => {
-  return (
-    <Create
-      // highlight-start
-      footerButtons={({ saveButtonProps }) => (
-        <HStack borderColor="blue" borderStyle="dashed" borderWidth="2px" p="2">
-          <SaveButton {...saveButtonProps} hideText />
-          <Button colorScheme="red" variant="solid">
-            Custom Button
-          </Button>
-        </HStack>
-      )}
-      // highlight-end
     >
-      <p>Rest of your page here</p>
-    </Create>
-  );
-};
-// visible-block-end
-
-const App = () => {
-  return (
-    <RefineHeadlessDemo
-      resources={[
-        {
-          name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
-        },
-      ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.CreateButton>Create Post</RefineChakra.CreateButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -799,10 +709,8 @@ render(
 
 You can customize the wrapper element of the buttons at the footer by using the `footerButtonProps` property.
 
-```tsx live url=http://localhost:3000/posts/create previewHeight=280px
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
 setInitialRoutes(["/posts/create"]);
-import { Refine } from "@refinedev/core";
-import { CreateButton } from "@refinedev/chakra-ui";
 
 // visible-block-start
 import { Create } from "@refinedev/chakra-ui";
@@ -826,32 +734,38 @@ const PostCreate: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <RefineHeadlessDemo
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          create: PostCreate,
-          list: DummyListPage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div>
+              <p>This page is empty.</p>
+              <RefineChakra.CreateButton>Create Post</RefineChakra.CreateButton>
+            </div>
+          }
+        />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`Box` documentation from Chakra UI &#8594](https://www.chakra-ui.com/docs/components/box#usage)
-
 ## API Reference
 
-### Props
+### Properties
 
-<PropsTable module="@refinedev/chakra-ui/Create" goBack-default="`<IconArrowLeft />`" title-default="`<Title order={3}>Create {resource.name}</Title>`"/>
+<PropsTable module="@refinedev/chakra-ui/Create" />
 
-[save-button]: /docs/ui-integrations/chakra-ui/components/buttons/save-button
+[save-button]: /core/docs/ui-integrations/chakra-ui/components/buttons/save-button

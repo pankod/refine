@@ -1,17 +1,25 @@
+import { vi } from "vitest";
 import React from "react";
 import {
   type RefineListButtonProps,
   RefineButtonTestIds,
 } from "@refinedev/ui-types";
 
-import { act, fireEvent, render, TestWrapper, waitFor } from "@test";
-import { Route, Routes } from "react-router-dom";
+import {
+  act,
+  fireEvent,
+  render,
+  TestWrapper,
+  waitFor,
+  mockRouterProvider,
+} from "@test";
+import { Route, Routes } from "react-router";
 
 export const buttonListTests = (
   ListButton: React.ComponentType<RefineListButtonProps<any, any>>,
 ): void => {
   describe("[@refinedev/ui-tests] Common Tests / List Button", () => {
-    const list = jest.fn();
+    const list = vi.fn();
 
     it("should render button successfuly", async () => {
       const { container, getByText } = render(<ListButton>List</ListButton>, {
@@ -20,7 +28,7 @@ export const buttonListTests = (
 
       expect(container).toBeTruthy();
 
-      expect(getByText("List").closest("button")).not.toBeDisabled();
+      expect(getByText("List").closest("button, a")).not.toBeDisabled();
     });
 
     it("should have the correct test-id", async () => {
@@ -29,6 +37,37 @@ export const buttonListTests = (
       });
 
       expect(queryByTestId(RefineButtonTestIds.ListButton)).toBeTruthy();
+    });
+
+    it("should be disabled by prop", async () => {
+      const mockOnClick = vi.fn();
+
+      const { getByText } = render(
+        <ListButton disabled onClick={mockOnClick}>
+          List
+        </ListButton>,
+        {
+          wrapper: TestWrapper({}),
+        },
+      );
+
+      expect(getByText("List").closest("button, a")).toBeDisabled();
+
+      fireEvent.click(getByText("List").closest("button, a") as Element);
+      expect(mockOnClick).not.toHaveBeenCalled();
+    });
+
+    it("should be hidden by prop", async () => {
+      const { queryByText } = render(
+        <ListButton disabled hidden>
+          List
+        </ListButton>,
+        {
+          wrapper: TestWrapper({}),
+        },
+      );
+
+      expect(queryByText("List")).not.toBeInTheDocument();
     });
 
     it("should render text by children", async () => {
@@ -49,6 +88,22 @@ export const buttonListTests = (
         {
           wrapper: TestWrapper({
             resources: [{ name: "posts", meta: { label: "test" } }],
+            routerProvider: {
+              ...mockRouterProvider,
+              parse() {
+                return () => ({
+                  params: {},
+                  pathname: "/posts",
+                  resource: {
+                    name: "posts",
+                    list: "/posts",
+                    meta: { label: "test" },
+                  },
+                  action: "list",
+                  id: undefined,
+                });
+              },
+            },
             routerInitialEntries: ["/posts"],
           }),
         },
@@ -111,12 +166,12 @@ export const buttonListTests = (
               expect(container).toBeTruthy();
 
               await waitFor(() =>
-                expect(getByText("List").closest("button")).toBeDisabled(),
+                expect(getByText("List").closest("button, a")).toBeDisabled(),
               );
 
               waitFor(() =>
                 expect(
-                  getByText("List").closest("button")?.getAttribute("title"),
+                  getByText("List").closest("button, a")?.getAttribute("title"),
                 ).toBe("Access Denied"),
               );
             });
@@ -147,8 +202,26 @@ export const buttonListTests = (
               expect(container).toBeTruthy();
 
               await waitFor(() =>
-                expect(getByText("List").closest("button")).not.toBeDisabled(),
+                expect(
+                  getByText("List").closest("button, a"),
+                ).not.toBeDisabled(),
               );
+            });
+
+            it("should respect the disabled prop even with access control enabled", async () => {
+              const { getByText } = render(
+                <ListButton disabled>List</ListButton>,
+                {
+                  wrapper: TestWrapper({
+                    accessControlProvider: {
+                      can: async () => ({ can: true }),
+                    },
+                  }),
+                },
+              );
+
+              const button = getByText("List").closest("button, a");
+              expect(button).toBeDisabled();
             });
           });
         });
@@ -198,7 +271,7 @@ export const buttonListTests = (
 
             expect(container).toBeTruthy();
 
-            expect(getByText("List").closest("button")).not.toBeDisabled();
+            expect(getByText("List").closest("button, a")).not.toBeDisabled();
           });
         });
       });
@@ -233,7 +306,9 @@ export const buttonListTests = (
               expect(container).toBeTruthy();
 
               await waitFor(() =>
-                expect(getByText("List").closest("button")).not.toBeDisabled(),
+                expect(
+                  getByText("List").closest("button, a"),
+                ).not.toBeDisabled(),
               );
             });
           });
@@ -295,12 +370,12 @@ export const buttonListTests = (
               expect(container).toBeTruthy();
 
               await waitFor(() =>
-                expect(getByText("List").closest("button")).toBeDisabled(),
+                expect(getByText("List").closest("button, a")).toBeDisabled(),
               );
 
               waitFor(() =>
                 expect(
-                  getByText("List").closest("button")?.getAttribute("title"),
+                  getByText("List").closest("button, a")?.getAttribute("title"),
                 ).toBe("Access Denied"),
               );
             });
@@ -345,7 +420,7 @@ export const buttonListTests = (
 
     it("should render called function successfully if click the button", async () => {
       const { getByText } = render(
-        <ListButton onClick={() => list()} resourceNameOrRouteName="posts" />,
+        <ListButton onClick={() => list()} resource="posts" />,
         {
           wrapper: TestWrapper({
             resources: [{ name: "posts" }],
@@ -358,37 +433,6 @@ export const buttonListTests = (
       });
 
       expect(list).toHaveBeenCalledTimes(1);
-    });
-
-    it("should redirect with custom route called function successfully if click the button", async () => {
-      const { getByText } = render(
-        <Routes>
-          <Route
-            path="/:resource"
-            element={
-              <ListButton resourceNameOrRouteName="custom-route-posts" />
-            }
-          />
-        </Routes>,
-        {
-          wrapper: TestWrapper({
-            resources: [
-              {
-                name: "posts",
-                options: { route: "custom-route-posts" },
-              },
-              { name: "posts" },
-            ],
-            routerInitialEntries: ["/posts"],
-          }),
-        },
-      );
-
-      await act(async () => {
-        fireEvent.click(getByText("Posts"));
-      });
-
-      expect(window.location.pathname).toBe("/custom-route-posts");
     });
   });
 };

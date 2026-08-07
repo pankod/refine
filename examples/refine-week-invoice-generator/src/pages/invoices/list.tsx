@@ -24,6 +24,7 @@ export const InvoiceList: React.FC = () => {
 
   const { tableProps } = useTable<IInvoice>({
     sorters: { initial: [{ field: "id", order: "desc" }] },
+
     meta: {
       populate: {
         contact: { populate: ["client"] },

@@ -1,6 +1,6 @@
 import { AuthPage as AntdAuthPage, type AuthProps } from "@refinedev/antd";
 import { Flex } from "antd";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { FinefoodsLogoIcon, FinefoodsLogoText } from "../../components";
 
 const authWrapperProps = {

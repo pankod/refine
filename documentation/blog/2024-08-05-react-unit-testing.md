@@ -3,9 +3,11 @@ title: A Comprehensive Guide of React Unit Testing
 description: We'll learn how to unit test our component down to hooks and Context.
 slug: react-unit-testing
 authors: chidume_nnamdi
-tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-26-react-unit-testing/social-2.png
+category: "Engineering"
+tags: [react, dev-tools]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-26-react-unit-testing/social-2.png
 hide_table_of_contents: false
+last_update: 2024-08-05
 ---
 
 **This article was last updated on August 05, 2024 to add sections for Accessibility Testing and Custom Hooks Testing.**

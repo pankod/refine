@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example customization-login
 
 <br/>
 
-[![Open customization-login example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/customization-login?view=preview&theme=dark&codemirror=1)
+[![Open customization-login example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/customization-login?view=preview&theme=dark&codemirror=1)

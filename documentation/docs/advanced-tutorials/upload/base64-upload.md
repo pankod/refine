@@ -1,6 +1,9 @@
 ---
 id: base64-upload
-title: Base64 Upload
+title: "Base64 Upload Guide | Ant Design File Handling in Refine v5"
+display_title: "Base64 Upload"
+sidebar_label: "Base64 Upload"
+description: "Secure Base64 Upload in Refine v5. Learn best practices. Learn optimize files and change for production-ready workflows. Explore with code snippets."
 ---
 
 By encoding your files and images from your forms to Base64 you can change all files needed for the upload to Base64 format before the submit. This can be done via the `onFinish` property of the [`<Form>`](https://ant.design/components/form/#Form) component that comes with [Ant Design](https://ant.design/)

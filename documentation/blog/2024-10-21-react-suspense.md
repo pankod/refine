@@ -3,9 +3,11 @@ title: A Quick Start Guide to React Suspense
 description: We will discuss how React Suspense works and common use cases
 slug: react-suspense-guide
 authors: joel_adewole
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-23-react-suspense/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-23-react-suspense/social-2.png
 hide_table_of_contents: false
+last_update: 2024-10-22
 ---
 
 **_This article was last updated on October 21, to include advanced use cases of React Suspense, such as streaming data and progressive loading, along with best practices for using Suspense with server-side rendering (SSR)._**
@@ -19,17 +21,6 @@ Traditionally, you need to use state to manage the different stages when fetchin
 Similarly, you can use React suspense to split large React components into chunks and lazy load them to reduce the initial load time and bundle size.
 
 In this article, we will discuss the React Suspense API and some of its common use cases. You must have a working knowledge of React and JavaScript to follow along.
-
-Steps we'll cover:
-
-- [What is React Suspense?](#what-is-react-suspense)
-- [Comparing React Suspense to Transitions](#comparing-react-suspense-to-transitions)
-- [Use cases of React Suspense](#use-cases-of-react-suspense)
-- [When to use React Suspense](#when-to-use-react-suspense)
-- [React suspense and Error boundaries](#react-suspense-and-error-boundaries)
-- [Using React Suspense along with Server-Side Rendering (SSR)](#using-react-suspense-along-with-server-side-rendering-ssr)
-- [Common Mistakes When Using React Suspense](#common-mistakes-when-using-react-suspense)
-- [Advanced React Suspense Use Cases: Streaming and Progressive Loading](#advanced-react-suspense-use-cases-streaming-and-progressive-loading)
 
 ## What is React Suspense?
 

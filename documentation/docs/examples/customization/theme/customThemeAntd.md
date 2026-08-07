@@ -1,6 +1,8 @@
 ---
 id: customThemeAntd
-title: Custom Theme in Ant Design
+title: "CustomThemeAntd Example | Theme in Refine v5"
+display_title: "Custom Theme in Ant Design"
+description: "Set up CustomThemeAntd in Refine v5. Learn best practices. Learn provider for real-world React admin panels. Hands-on examples included."
 sidebar_label: Custom Theme
 example-title: Custom Theme Ant Design
 example-tags: [antd, customization]

@@ -3,9 +3,11 @@ title: Nextjs image optimization with examples
 description: Built-in image optimization using the next image component
 slug: using-next-image
 authors: michael
+category: "Tutorials"
 tags: [nextjs]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-17-using-next-image/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-17-using-next-image/social-2.png
 hide_table_of_contents: false
+last_update: 2024-06-05
 ---
 
 **_This article was last updated on Jun 05, 2024 to add new sections on common pitfalls, advanced techniques and benefit consideration on Next.js Image Component_**
@@ -16,20 +18,6 @@ Images are a significant part of modern-day web application development. Dependi
 Traditionally, images are added to web pages with the HTML `img` tag. This might prove to be efficient for simple use cases, but things quickly get untidy when dealing with a sizable amount of images.
 
 NextJS introduced a solution for delivering performant images on the web in v.10. It features a new Image component and built-in automatic image optimization. In the coming sections, you'll learn how to leverage this solution for optimizing and developing performant applications, thereby improving developer and end-user experiences.
-
-Steps we'll cover:
-
-- [Preparing your images for optimization](#preparing-your-images-for-optimization)
-- [The NextJS image component](#the-nextjs-image-component)
-- [Using the `<Image/>` component](#using-the-image-component)
-- [The image component properties](#the-image-component-properties)
-- [`next/image` optional props](#nextimage-optional-props)
-  - [`next/image` advanced props](#nextimage-advanced-props)
-- [`next/image` configuration options](#nextimage-configuration-options)
-- [Optimization of Image: Advantages](#optimization-of-image-advantages)
-- [Common Pitfalls in Optimizing Images](#common-pitfalls-in-optimizing-images)
-- [Troubleshooting Ergonomic Problems](#troubleshooting-ergonomic-problems)
-- [Commonly Asked Questions About NextJS Image Optimization](#commonly-asked-questions-about-nextjs-image-optimization)
 
 ## Preparing your images for optimization
 
@@ -363,7 +351,7 @@ Lets you add custom CSS styles to the underlying image element. To enable custom
 ```tsx
 <Image
   src="/background.webp"
-  alt="Waterfall"
+  alt="Waterfall photo"
   width={800}
   height={800}
   style={{ opacity: 0.5 }}

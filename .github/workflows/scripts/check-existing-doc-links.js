@@ -4,40 +4,57 @@ const getUrlToCheck = (currentUrl, deploymentUrl) => {
   return url.toString();
 };
 
-const checkUrl = async (url) => {
-  const { status } = await fetch(url, {
-    method: "GET",
-  });
-  return [status, new URL(url).pathname];
-};
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const toChunks = (array, chunkSize) => {
-  const chunks = [];
-  for (let i = 0; i < array.length; i += chunkSize) {
-    chunks.push(array.slice(i, i + chunkSize));
-  }
-  return chunks;
-};
-
-const checkChunk = (chunk, deploymentUrl, success, fail) => {
-  return new Promise((resolve) => {
-    const promises = chunk.map((url) => {
-      return checkUrl(getUrlToCheck(url, deploymentUrl));
-    });
-
-    Promise.all(promises).then((results) => {
-      results.forEach(([status, url]) => {
-        if (status === 200) {
-          success.push(url);
-        } else {
-          fail.push(url);
-        }
+const checkUrl = async (url, retries = 3) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const { status } = await fetch(url, {
+        method: "GET",
+        headers: {
+          "User-Agent": "refine-link-checker",
+        },
       });
-      resolve();
-    });
-  });
+      return [status, new URL(url).pathname];
+    } catch (error) {
+      if (i === retries - 1) {
+        console.error(
+          `Failed to fetch ${new URL(url).pathname} after ${retries} attempts:`,
+          error.message,
+        );
+        return [500, new URL(url).pathname];
+      }
+      // Wait before retrying
+      await sleep(1000 * (i + 1));
+    }
+  }
 };
 
+const checkUrls = async (urls, deploymentUrl, success, fail) => {
+  for (let i = 0; i < urls.length; i++) {
+    const url = urls[i];
+    const [status, pathname] = await checkUrl(
+      getUrlToCheck(url, deploymentUrl),
+    );
+    if (status === 200) {
+      success.push(pathname);
+    } else {
+      fail.push(pathname);
+    }
+
+    // Log progress every 50 URLs
+    if ((i + 1) % 50 === 0 || i === urls.length - 1) {
+      console.log(
+        `Progress: ${i + 1}/${urls.length} URLs checked (${
+          success.length
+        } successful, ${fail.length} failed)`,
+      );
+    }
+
+    // Small delay between requests to avoid overwhelming the server
+    await sleep(100);
+  }
+};
 const checkExistingLinks = async (sitemapUrl, deploymentUrl) => {
   const data = await (await fetch(sitemapUrl)).text();
 
@@ -50,16 +67,11 @@ const checkExistingLinks = async (sitemapUrl, deploymentUrl) => {
 
   console.log("Checking for existing urls in:", sitemapUrl);
   console.log("Deployment url:", deploymentUrl);
+  console.log(`Total URLs to check: ${urls.length}`);
 
-  const chunks = toChunks(urls, 10);
+  await checkUrls(urls, deploymentUrl, success, fail);
 
-  let done = 0;
-
-  for (const chunk of chunks) {
-    console.log(`Checking chunk ${done + 1}/${chunks.length}`);
-    done++;
-    await checkChunk(chunk, deploymentUrl, success, fail);
-  }
+  console.log(`\nResults: ${success.length} successful, ${fail.length} failed`);
 
   if (fail.length > 0) {
     console.log("Broken links:");
@@ -76,6 +88,6 @@ if (!process.env.DEPLOY_URL) {
 }
 
 checkExistingLinks(
-  process.env.SITEMAP_URL ?? "https://refine.dev/sitemap.xml",
+  process.env.SITEMAP_URL ?? "https://refine.dev/core/sitemap.xml",
   process.env.DEPLOY_URL,
 );

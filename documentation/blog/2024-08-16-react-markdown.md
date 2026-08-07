@@ -3,9 +3,11 @@ title: Creating Polished Content with React Markdown
 description: We will explore the process of integrating the markdown editor into a Refine application
 slug: react-markdown
 authors: david_omotayo
-tags: [react, Refine]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-24-react-markdown/social-2.png
+category: "Ecosystem / Integrations"
+tags: [react]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-24-react-markdown/social-2.png
 hide_table_of_contents: false
+last_update: 2024-08-16
 ---
 
 **This article was last updated on August 16, 2024, to add sections on Advanced Markdown Customization and Performance Optimization.**
@@ -17,15 +19,6 @@ Prior to John Gruber's invention of Markdown in 2004, WYSIWYG editors were commo
 Markdown has gained popularity due to its straightforward syntax, making it accessible to anyone familiar with basic text formatting tools. It offers a wide range of features compared to traditional methods, leading to the widespread adoption of Markdown in enterprise web applications that require text formatting capabilities.
 
 In this article, we will explore the process of integrating the [**uiw/react-md-editor**](https://www.npmjs.com/package/@uiw/react-md-editor) library into a React application to create a standard Markdown editor.
-
-Steps we'll cover:
-
-- [What is react-md-editor](#what-is-react-md-editor)
-- [Using the MDEditor component](#using-the-mdeditor-component)
-- [Advanced Customization](#advanced-customization)
-- [Sanitize Markdown](#sanitize-markdown)
-- [rehype-sanitize plugin](#rehype-sanitize-plugin)
-- [Optimizing Performance in Markdown Editor](#optimizing-performance-in-markdown-editor)
 
 ## What is react-md-editor
 
@@ -65,7 +58,7 @@ Once you have executed the commands, the development server will automatically l
 Upon accessing the URL, the application will be displayed, and you should see a similar screen to the image depicted below.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-24-react-markdown/project-setup.png"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-24-react-markdown/project-setup.png"  alt="docker exec" />
 </div>
 
 <br/>
@@ -106,7 +99,7 @@ import MDEditor from "@uiw/react-md-editor";
 This will render a native `Textarea` element with support for markdown editing and a preview pane on the form.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-24-react-markdown/using-md-editor-min.gif"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-24-react-markdown/using-md-editor-min.avif"  alt="docker exec" />
 </div>
 
 <br/>
@@ -161,7 +154,7 @@ When the `commands` property is provided, it automatically replaces the default 
 Every command on the toolbar will be removed.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-24-react-markdown/command-prop.png"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-24-react-markdown/command-prop.png"  alt="docker exec" />
 </div>
 
 <br/>
@@ -240,7 +233,7 @@ Then, we pass it to the `commands` array on the `MDEditor` component:
 ```
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-24-react-markdown/common-prop2.gif"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-24-react-markdown/common-prop2.avif"  alt="docker exec" />
 </div>
 
 <br/>
@@ -401,7 +394,7 @@ The code above is specifying how the `code` component should behave when it enco
 Now, if we input KaTeX expressions into the editor, they will be previewed as mathematical expressions.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-24-react-markdown/katex-preview.gif"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-24-react-markdown/katex-preview.avif"  alt="docker exec" />
 </div>
 
 <br/>
@@ -540,7 +533,7 @@ Now, if you try to parse malicious codes into the editor, the rehype-sanitize pl
 Before integrating rehype-sanitize:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-24-react-markdown/rehype-sanitize.gif"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-24-react-markdown/rehype-sanitize.avif"  alt="docker exec" />
 </div>
 
 <br/>
@@ -548,7 +541,7 @@ Before integrating rehype-sanitize:
 After integrating rehype-sanitize:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-24-react-markdown/rehype-sanitze-2.gif"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-24-react-markdown/rehype-sanitze-2.avif"  alt="docker exec" />
 </div>
 
 <br/>

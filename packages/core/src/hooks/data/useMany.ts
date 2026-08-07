@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { getXRay } from "@refinedev/devtools-internal";
 import {
   type QueryObserverResult,
@@ -8,9 +9,7 @@ import {
 import {
   handleMultiple,
   pickDataProvider,
-  pickNotDeprecated,
   prepareQueryContext,
-  useActiveAuthProvider,
 } from "@definitions/helpers";
 import {
   useDataProvider,
@@ -18,7 +17,7 @@ import {
   useKeys,
   useMeta,
   useOnError,
-  useResource,
+  useResourceParams,
   useResourceSubscription,
   useTranslate,
 } from "@hooks";
@@ -37,6 +36,27 @@ import {
   type UseLoadingOvertimeReturnType,
   useLoadingOvertime,
 } from "../useLoadingOvertime";
+import warnOnce from "warn-once";
+import type { MakeOptional } from "../../definitions/types";
+
+export type UseManyQueryOptions<TQueryFnData, TError, TData> = MakeOptional<
+  UseQueryOptions<
+    GetManyResponse<TQueryFnData>,
+    TError,
+    GetManyResponse<TData>
+  >,
+  "queryKey" | "queryFn"
+>;
+
+export type UseManyReturnType<
+  TData extends BaseRecord = BaseRecord,
+  TError extends HttpError = HttpError,
+> = {
+  query: QueryObserverResult<GetManyResponse<TData>, TError>;
+  result: {
+    data: TData[];
+  };
+} & UseLoadingOvertimeReturnType;
 
 export type UseManyProps<TQueryFnData, TError, TData> = {
   /**
@@ -49,22 +69,13 @@ export type UseManyProps<TQueryFnData, TError, TData> = {
    */
   ids: BaseKey[];
   /**
-   * react-query's [useQuery](https://tanstack.com/query/v4/docs/reference/useQuery) options
+   * react-query's [useQuery](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery) options
    */
-  queryOptions?: UseQueryOptions<
-    GetManyResponse<TQueryFnData>,
-    TError,
-    GetManyResponse<TData>
-  >;
+  queryOptions?: UseManyQueryOptions<TQueryFnData, TError, TData>;
   /**
-   * Metadata query for `dataProvider`,
+   * Meta data for `dataProvider`
    */
   meta?: MetaQuery;
-  /**
-   * Metadata query for `dataProvider`,
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
   /**
    * If there is more than one `dataProvider`, you should use the `dataProviderName` that you will use.
    * @default "default"
@@ -74,8 +85,10 @@ export type UseManyProps<TQueryFnData, TError, TData> = {
   LiveModeProps &
   UseLoadingOvertimeOptionsProps;
 
+const EMPTY_ARRAY = Object.freeze([]) as [];
+
 /**
- * `useMany` is a modified version of `react-query`'s {@link https://react-query.tanstack.com/guides/queries `useQuery`} used for retrieving multiple items from a `resource`.
+ * `useMany` is a modified version of `react-query`'s {@link https://tanstack.com/query/v5/docs/framework/react/guides/queries `useQuery`} used for retrieving multiple items from a `resource`.
  *
  * It uses `getMany` method as query function from the `dataProvider` which is passed to `<Refine>`.
  *
@@ -98,29 +111,27 @@ export const useMany = <
   successNotification,
   errorNotification,
   meta,
-  metaData,
   liveMode,
   onLiveEvent,
   liveParams,
   dataProviderName,
   overtimeOptions,
-}: UseManyProps<TQueryFnData, TError, TData>): QueryObserverResult<
-  GetManyResponse<TData>,
+}: UseManyProps<TQueryFnData, TError, TData>): UseManyReturnType<
+  TData,
   TError
 > &
   UseLoadingOvertimeReturnType => {
-  const { resources, resource, identifier } = useResource(resourceFromProp);
+  const { resources, resource, identifier } = useResourceParams({
+    resource: resourceFromProp,
+  });
   const dataProvider = useDataProvider();
   const translate = useTranslate();
-  const authProvider = useActiveAuthProvider();
-  const { mutate: checkError } = useOnError({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate: checkError } = useOnError();
   const handleNotification = useHandleNotification();
   const getMeta = useMeta();
-  const { keys, preferLegacyKeys } = useKeys();
+  const { keys } = useKeys();
 
-  const preferredMeta = pickNotDeprecated(meta, metaData);
+  const preferredMeta = meta;
   const pickedDataProvider = pickDataProvider(
     identifier,
     dataProviderName,
@@ -133,24 +144,32 @@ export const useMany = <
 
   const combinedMeta = getMeta({ resource, meta: preferredMeta });
 
+  const hasIds = Array.isArray(ids);
+  const hasResource = Boolean(resource?.name);
+  const manuallyEnabled = queryOptions?.enabled === true;
+
+  warnOnce(
+    !hasIds && !manuallyEnabled,
+    idsWarningMessage(ids, resource?.name || resource?.identifier || ""),
+  );
+  warnOnce(!hasResource && !manuallyEnabled, resourceWarningMessage());
+
   useResourceSubscription({
     resource: identifier,
     types: ["*"],
     params: {
-      ids: ids,
+      ids: ids ?? [],
       meta: combinedMeta,
-      metaData: combinedMeta,
       subscriptionType: "useMany",
       ...liveParams,
     },
-    channel: `resources/${resource.name}`,
+    channel: `resources/${resource?.name ?? ""}`,
     enabled: isEnabled,
     liveMode,
     onLiveEvent,
-    dataProviderName: pickedDataProvider,
     meta: {
       ...meta,
-      dataProviderName,
+      dataProviderName: pickedDataProvider,
     },
   });
 
@@ -163,78 +182,95 @@ export const useMany = <
       .data(pickedDataProvider)
       .resource(identifier)
       .action("many")
-      .ids(...ids)
+      .ids(...(ids ?? []))
       .params({
         ...(preferredMeta || {}),
       })
-      .get(preferLegacyKeys),
+      .get(),
     queryFn: (context) => {
-      const meta = {
-        ...combinedMeta,
-        queryContext: prepareQueryContext(context),
-      };
+      const meta = prepareQueryContext(context as any, combinedMeta);
 
       if (getMany) {
         return getMany({
-          resource: resource?.name,
+          resource: resource?.name || "",
           ids,
           meta,
-          metaData: meta,
         });
       }
       return handleMultiple(
         ids.map((id) =>
           getOne<TQueryFnData>({
-            resource: resource?.name,
+            resource: resource?.name || "",
             id,
             meta,
-            metaData: meta,
           }),
         ),
       );
     },
+    enabled: hasIds && hasResource,
     ...queryOptions,
-    onSuccess: (data) => {
-      queryOptions?.onSuccess?.(data);
+    meta: {
+      ...queryOptions?.meta,
+      ...getXRay("useMany", resource?.name),
+    },
+  });
 
+  // Handle success
+  useEffect(() => {
+    if (queryResponse.isSuccess && queryResponse.data) {
       const notificationConfig =
         typeof successNotification === "function"
-          ? successNotification(data, ids, identifier)
+          ? successNotification(queryResponse.data, ids, identifier)
           : successNotification;
 
       handleNotification(notificationConfig);
-    },
-    onError: (err: TError) => {
-      checkError(err);
-      queryOptions?.onError?.(err);
+    }
+  }, [queryResponse.isSuccess, queryResponse.data, successNotification]);
+
+  // Handle error
+  useEffect(() => {
+    if (queryResponse.isError && queryResponse.error) {
+      checkError(queryResponse.error);
 
       const notificationConfig =
         typeof errorNotification === "function"
-          ? errorNotification(err, ids, identifier)
+          ? errorNotification(queryResponse.error, ids, identifier)
           : errorNotification;
 
       handleNotification(notificationConfig, {
         key: `${ids[0]}-${identifier}-getMany-notification`,
         message: translate(
           "notifications.error",
-          { statusCode: err.statusCode },
-          `Error (status code: ${err.statusCode})`,
+          { statusCode: queryResponse.error.statusCode },
+          `Error (status code: ${queryResponse.error.statusCode})`,
         ),
-        description: err.message,
+        description: queryResponse.error.message,
         type: "error",
       });
-    },
-    meta: {
-      ...queryOptions?.meta,
-      ...getXRay("useMany", preferLegacyKeys, resource?.name),
-    },
-  });
+    }
+  }, [queryResponse.isError, queryResponse.error?.message]);
 
   const { elapsedTime } = useLoadingOvertime({
+    ...overtimeOptions,
     isLoading: queryResponse.isFetching,
-    interval: overtimeOptions?.interval,
-    onInterval: overtimeOptions?.onInterval,
   });
 
-  return { ...queryResponse, overtime: { elapsedTime } };
+  return {
+    query: queryResponse,
+    result: {
+      data: queryResponse?.data?.data || EMPTY_ARRAY,
+    },
+    overtime: { elapsedTime },
+  };
 };
+
+const idsWarningMessage = (
+  ids: BaseKey[],
+  resource: string,
+) => `[useMany]: Missing "ids" prop. Expected an array of ids, but got "${typeof ids}". Resource: "${resource}"
+
+See https://refine.dev/docs/data/hooks/use-many/#ids-`;
+
+const resourceWarningMessage = () => `[useMany]: Missing "resource" prop. Expected a string, but got undefined.
+
+See https://refine.dev/docs/data/hooks/use-many/#resource-`;

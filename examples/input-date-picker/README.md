@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example input-date-picker
 
 <br/>
 
-[![Open input-date-picker example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/input-date-picker?view=preview&theme=dark&codemirror=1)
+[![Open input-date-picker example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/input-date-picker?view=preview&theme=dark&codemirror=1)

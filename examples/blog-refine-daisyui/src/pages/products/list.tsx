@@ -92,17 +92,20 @@ export const ProductList = () => {
   const { edit, show, create } = useNavigation();
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    refineCore: { filters, setCurrent, setFilters },
-    getState,
-    setPageIndex,
-    getCanPreviousPage,
-    getPageCount,
-    getCanNextPage,
-    nextPage,
-    previousPage,
-    setPageSize,
+    reactTable: {
+      getHeaderGroups,
+      getRowModel,
+      getState,
+      setPageIndex,
+      getCanPreviousPage,
+      getPageCount,
+      getCanNextPage,
+      nextPage,
+      previousPage,
+      setPageSize,
+    },
+
+    refineCore: { filters, setCurrentPage: setCurrent, setFilters },
   } = useTable({
     columns,
   });

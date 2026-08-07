@@ -4,8 +4,11 @@ import { Table } from "antd";
 
 export const UserList = () => {
   const { tableProps } = useTable({
-    hasPagination: false,
     syncWithLocation: true,
+
+    pagination: {
+      mode: "off",
+    },
   });
 
   return (

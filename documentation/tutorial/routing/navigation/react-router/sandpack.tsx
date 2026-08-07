@@ -26,10 +26,10 @@ const HeaderWithLinks = /* tsx */ `
 import React from "react";
 import { useLogout, useGetIdentity, useNavigation } from "@refinedev/core";
 
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const Header = () => {
-  const { mutate, isLoading } = useLogout();
+  const { mutate, mutation: { isPending } } = useLogout();
   const { data: identity } = useGetIdentity();
 
   // You can also use methods like list or create to trigger navigation.
@@ -44,7 +44,7 @@ export const Header = () => {
       </h2>
       <Link to={listUrl("protected-products")}>List Products</Link>{" "}
       <Link to={createUrl("protected-products")}>Create Product</Link>{" "}
-      <button type="button" disabled={isLoading} onClick={mutate}>
+      <button type="button" disabled={isPending} onClick={mutate}>
         Logout
       </button>
     </>
@@ -55,19 +55,20 @@ export const Header = () => {
 const ListProductsWithNavigation = /* tsx */ `
 import { useTable, useMany, useNavigation } from "@refinedev/core";
 
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const ListProducts = () => {
   const {
-    tableQuery: { data, isLoading },
-    current,
-    setCurrent,
+    result,
+    tableQuery: { isLoading },
+    currentPage,
+    setCurrentPage,
     pageCount,
     sorters,
     setSorters,
   } = useTable({
     resource: "protected-products",
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
     sorters: { initial: [{ field: "id", order: "asc" }] },
   });
 
@@ -75,9 +76,9 @@ export const ListProducts = () => {
   // We're using url methods to provide more semantically correct html.
   const { showUrl, editUrl } = useNavigation();
 
-  const { data: categories } = useMany({
+  const { result: categories } = useMany({
     resource: "categories",
-    ids: data?.data?.map((product) => product.category?.id) ?? [],
+    ids: result?.data?.map((product) => product.category?.id) ?? [],
   });
 
   if (isLoading) {
@@ -85,19 +86,19 @@ export const ListProducts = () => {
   }
 
   const onPrevious = () => {
-    if (current > 1) {
-      setCurrent(current - 1);
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
   const onNext = () => {
-    if (current < pageCount) {
-      setCurrent(current + 1);
+    if (currentPage < pageCount) {
+      setCurrentPage(currentPage + 1);
     }
   };
 
   const onPage = (page: number) => {
-    setCurrent(page);
+    setCurrentPage(page);
   };
 
   const getSorter = (field: string) => {
@@ -147,7 +148,7 @@ export const ListProducts = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.data?.map((product) => (
+          {result?.data?.map((product) => (
             <tr key={product.id}>
               <td>{product.id}</td>
               <td>{product.name}</td>
@@ -173,12 +174,12 @@ export const ListProducts = () => {
           {"<"}
         </button>
         <div>
-          {current - 1 > 0 && (
-            <span onClick={() => onPage(current - 1)}>{current - 1}</span>
+          {currentPage - 1 > 0 && (
+            <span onClick={() => onPage(currentPage - 1)}>{currentPage - 1}</span>
           )}
-          <span className="current">{current}</span>
-          {current + 1 < pageCount && (
-            <span onClick={() => onPage(current + 1)}>{current + 1}</span>
+          <span className="currentPage">{currentPage}</span>
+          {currentPage + 1 <= pageCount && (
+            <span onClick={() => onPage(currentPage + 1)}>{currentPage + 1}</span>
           )}
         </div>
         <button type="button" onClick={onNext}>

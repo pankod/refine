@@ -3,8 +3,9 @@ title: Kubernetes Statefulset vs Deployment with Examples
 description: We'll discuss the practical differences between Deployments and StatefulSets.
 slug: kubernetes-statefulset-vs-deployment
 authors: muhammad_khabbab
-tags: [kubernetes, docker]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-04-k8s-statefulset/social.png
+category: "Alternatives"
+tags: [kubernetes, comparison]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-04-k8s-statefulset/social.png
 hide_table_of_contents: false
 ---
 
@@ -161,7 +162,7 @@ Create the Statefulset through YAML file. Let's create a Mysql database, which i
 Now we just need to apply this YAML file through the command `kubectl apply -f mysql.yaml`
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-04-k8s-statefulset/image1.PNG" alt="Creating statefulset" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-04-k8s-statefulset/image1.PNG" alt="kubectl apply output creating mysql StatefulSet from YAML" />
 </div>
 
 ### Verify the statefulset successfully running
@@ -169,13 +170,13 @@ Now we just need to apply this YAML file through the command `kubectl apply -f m
 Let's verify if our statefulset is actually created or not. This can be checked by the command `kubectl get statefulsets`
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-04-k8s-statefulset/image2.PNG" alt="Getting list of statefulsets" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-04-k8s-statefulset/image2.PNG" alt="kubectl get statefulsets output showing mysql statefulset status" />
 </div>
 
 You can also see the pods associated with this statefulset, Just run the command `kubectl get pods -l <label-key>=<label-value>` In my case, it was `app=mysql` so I executed below command. You can see the pods running for this statefulset.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-04-k8s-statefulset/image3.PNG" alt="Getting list of pods of statefulset" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-04-k8s-statefulset/image3.PNG" alt="Listing mysql pods with kubectl get pods -l app=mysql" />
 </div>
 
 To scale your statefulset, you can use the command `kubectl scale statefulsets [statefulset-name] --replicas=[new-replica-count]`. Similalry you can update the container image used in your statefulset to deploy a new version of your application.
@@ -246,7 +247,7 @@ In this YAML file:
 Now we just need to apply this YAML file through the command `kubectl apply -f stateless-app1.yaml`
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-04-k8s-statefulset/image4.PNG" alt="Creating deployment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-04-k8s-statefulset/image4.PNG" alt="kubectl apply output creating stateless-app1 deployment" />
 </div>
 
 ### Verify the deployment is successfully running
@@ -254,7 +255,7 @@ Now we just need to apply this YAML file through the command `kubectl apply -f s
 Let's verify if our deployment is actually created or not. This can be checked by the command `kubectl rollout status deployment/[deployment-name]` Let's verify this
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-04-k8s-statefulset/image5.PNG" alt="Verify successful deployment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-04-k8s-statefulset/image5.PNG" alt="kubectl rollout status confirming deployment successfully rolled out" />
 </div>
 
 As you can see from the above screenshot, the deployment was rolled out successfully. To confirm how many pods for this deployment are currently running, the command is `kubectl get pods -l app=[deployment-label]` The above screenshots shows 3 pods (replicas) running for this deployment.

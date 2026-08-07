@@ -20,36 +20,36 @@ interface IProduct {
 
 const ProductList: React.FC = () => {
   //highlight-start
-  const [current, setCurrent] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   //highlight-end
 
-  const { data, isLoading, isError } = useList<IProduct, HttpError>({
+  const { result, query } = useList<IProduct, HttpError>({
     resource: "products",
     //highlight-start
     pagination: {
-      current,
+      currentPage,
       pageSize,
     },
     //highlight-end
   });
 
-  const products = data?.data ?? [];
+  const products = result.data ?? [];
 
-  if (isLoading) {
+  if (query.isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (isError) {
+  if (query.isError) {
     return <div>Something went wrong!</div>;
   }
 
   return (
     <div>
       {/* highlight-start */}
-      <button onClick={() => setCurrent((prev) => prev - 1)}>{"<"}</button>
-      <span> page: {current} </span>
-      <button onClick={() => setCurrent((prev) => prev + 1)}>{">"}</button>
+      <button onClick={() => setCurrentPage((prev) => prev - 1)}>{"<"}</button>
+      <span> page: {currentPage} </span>
+      <button onClick={() => setCurrentPage((prev) => prev + 1)}>{">"}</button>
       <span> per page: </span>
       <select
         value={pageSize}
@@ -81,10 +81,18 @@ setRefineProps({
   resources: [
     {
       name: "products",
-      list: ProductList,
+      list: "/products",
     },
   ],
 });
 
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo>
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/products" element={<ProductList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

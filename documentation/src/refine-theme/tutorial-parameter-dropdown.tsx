@@ -90,7 +90,7 @@ export const TutorialParameterDropdown = ({
                 "pl-4 pr-3",
                 "rounded-[40px]",
                 "border border-solid",
-                "border-gray-300 dark:border-gray-700",
+                "border-zinc-300 dark:border-zinc-700",
                 "text-xs",
                 "tutorial-lg:text-sm",
                 "flex",
@@ -101,15 +101,15 @@ export const TutorialParameterDropdown = ({
             >
               <div className={clsx("select-none", "whitespace-nowrap")}>
                 <span
-                  className={clsx("text-gray-500 dark:text-gray-400")}
+                  className={clsx("text-zinc-500 dark:text-zinc-400")}
                 >{`${label}: `}</span>
-                <span className="text-gray-800 dark:text-gray-100">
+                <span className="text-zinc-800 dark:text-zinc-100">
                   {options[parameter].find(
                     (el) => el.value === parameters?.[parameter],
                   )?.label ?? "Unknown"}
                 </span>
               </div>
-              <TriangleDownIcon className={clsx("w-4 h-4", "text-gray-400")} />
+              <TriangleDownIcon className={clsx("w-4 h-4", "text-zinc-400")} />
             </Menu.Button>
 
             <Transition
@@ -125,7 +125,7 @@ export const TutorialParameterDropdown = ({
               <Triangle
                 className={clsx(
                   "absolute right-[11px] top-1 origin-bottom-right",
-                  "text-gray-700 dark:text-gray-0",
+                  "text-zinc-100 dark:text-zinc-800",
                 )}
               />
               <Menu.Items
@@ -135,7 +135,7 @@ export const TutorialParameterDropdown = ({
                   "flex flex-col gap-2",
                   "w-auto",
                   "p-2",
-                  "bg-gray-700 dark:bg-gray-0",
+                  "bg-zinc-100 dark:bg-zinc-800",
                   "rounded-lg",
                 )}
               >
@@ -172,11 +172,10 @@ export const TutorialParameterDropdown = ({
                               "rounded-[4px]",
                               "no-underline",
                               {
-                                "text-white hover:text-white": isActive,
-                                "bg-refine-react-light-link dark:bg-refine-react-dark-link":
-                                  isActive,
-                                "text-gray-300 dark:text-gray-700": !isActive,
-                                "hover:bg-gray-600 hover:dark:bg-gray-100 hover:text-gray-300 dark:hover:text-gray-700":
+                                "text-zinc-900 dark:text-zinc-100": isActive,
+                                "bg-zinc-200 dark:bg-zinc-700": isActive,
+                                "text-zinc-800 dark:text-zinc-200": !isActive,
+                                "hover:bg-zinc-200 hover:dark:bg-zinc-700 hover:text-zinc-900 dark:hover:text-zinc-100":
                                   !isActive,
                               },
                               option.status === "coming-soon" && [

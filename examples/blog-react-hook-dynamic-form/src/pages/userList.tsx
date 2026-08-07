@@ -41,6 +41,7 @@ function UserList() {
         align: "center",
         flex: 1,
         sortable: false,
+        display: "flex",
         renderCell: function render({ row }: { row: any }) {
           return (
             <Stack direction="row" spacing={1}>
@@ -56,7 +57,7 @@ function UserList() {
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 }

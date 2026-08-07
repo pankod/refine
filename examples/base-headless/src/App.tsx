@@ -4,9 +4,9 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router";
 import { PostList, PostCreate, PostEdit } from "./pages/posts";
 
 import "./App.css";

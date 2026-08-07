@@ -1,40 +1,16 @@
 ---
-title: Markdown
+title: "Mantine Markdown Field Component | UI Component in Refine v5"
+display_title: "Markdown"
+sidebar_label: "Markdown"
+description: "Build Markdown Field in Refine v5. Learn the key steps. Explore customization options for React UI library, components for polished admin UIs."
 swizzle: true
 ---
-
-```tsx live shared
-const { default: routerProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: routerProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  notificationProvider: RefineMantine.useNotificationProvider,
-  Layout: RefineMantine.Layout,
-  Sider: () => null,
-});
-
-const Wrapper = ({ children }) => {
-  return (
-    <MantineCore.MantineProvider
-      theme={RefineMantine.LightTheme}
-      withNormalizeCSS
-      withGlobalStyles
-    >
-      <MantineCore.Global styles={{ body: { WebkitFontSmoothing: "auto" } }} />
-      <MantineNotifications.NotificationsProvider position="top-right">
-        {children}
-      </MantineNotifications.NotificationsProvider>
-    </MantineCore.MantineProvider>
-  );
-};
-```
 
 This field lets you display markdown content. It supports [GitHub Flavored Markdown](https://github.github.com/gfm/).
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -43,28 +19,25 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 Let's see how we can use `<MarkdownField>` in a show page.
 
 ```tsx live url=http://localhost:3000/posts/show/123 previewHeight=420px hideCode
-setInitialRoutes(["/samples", "/samples/show/123"]);
-import { Refine } from "@refinedev/core";
-import { ShowButton } from "@refinedev/mantine";
+setInitialRoutes(["/posts", "/posts/show/123"]);
 
 // visible-block-start
 import { useShow } from "@refinedev/core";
 import { Show, MarkdownField } from "@refinedev/mantine";
 import { Title, Text } from "@mantine/core";
 
-const SampleShow: React.FC = () => {
-  const { queryResult } = useShow<IPost>();
-  const { data, isLoading } = queryResult;
-  const record = data?.data;
+const PostShow: React.FC = () => {
+  const { result: post, query } = useShow<IPost>();
+  const { data, isLoading } = query;
 
   return (
     <Show isLoading={isLoading}>
       <Title order={5}>Id</Title>
-      <Text mt="sm">{record?.id}</Text>
+      <Text mt="sm">{post?.id}</Text>
       <Title mt="sm" order={5}>
         Content
       </Title>
-      <MarkdownField value={record?.content} />
+      <MarkdownField value={post?.content} />
     </Show>
   );
 };
@@ -75,28 +48,42 @@ interface IPost {
 }
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
       resources={[
         {
-          name: "samples",
-          show: SampleShow,
-          list: () => (
-            <div>
-              <p>This page is empty.</p>
-              <ShowButton recordItemId="123">Show Item 123</ShowButton>
-            </div>
-          ),
+          name: "posts",
+          show: "/posts/show/:id",
+          list: "/posts",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route path="show/:id" element={<PostShow />} />
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineMantine.ShowButton recordItemId="123">
+                  Show Item 123
+                </RefineMantine.ShowButton>
+              </div>
+            }
+          />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

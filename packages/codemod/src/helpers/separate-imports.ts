@@ -1,6 +1,19 @@
 import type { Collection, ImportSpecifier, JSCodeshift } from "jscodeshift";
 
 /**
+ * Helper function to safely get the string name from an Identifier/JSXIdentifier/TSTypeParameter
+ */
+export function getNameAsString(node: any): string {
+  if (typeof node === "string") {
+    return node;
+  }
+  if (node && typeof node === "object" && "name" in node) {
+    return node.name;
+  }
+  return "";
+}
+
+/**
  * Separate imports from currentLibName to nextLibName
  * import { Create, Button, Form } from "@pankod/refine-antd";
  * to
@@ -38,11 +51,17 @@ export function separateImports(payload: {
 
   refineImport.replaceWith((path) => {
     for (const item of path.node.specifiers) {
-      if (renameToDefault[(item as ImportSpecifier)?.imported?.name]) {
-        // means the imported element is going to be converted to default import from a package (value of renameToDefault)
-        const pkg = renameToDefault[(item as ImportSpecifier)?.imported?.name];
+      const importedName = getNameAsString(
+        (item as ImportSpecifier)?.imported?.name,
+      );
 
-        const localName = (item as ImportSpecifier)?.local?.name;
+      if (renameToDefault[importedName]) {
+        // means the imported element is going to be converted to default import from a package (value of renameToDefault)
+        const pkg = renameToDefault[importedName];
+
+        const localName = getNameAsString(
+          (item as ImportSpecifier)?.local?.name,
+        );
 
         // remove
         path.node.specifiers = path.node.specifiers.filter((p) => p !== item);
@@ -58,11 +77,11 @@ export function separateImports(payload: {
           );
       } else {
         // also checking for imported name which is actually the correct one to check for renamed ones
-        if (imports.includes((item as ImportSpecifier)?.imported?.name)) {
+        if (imports.includes(importedName)) {
           nextLibImports.push(item as ImportSpecifier);
         }
 
-        if (otherImports[(item as ImportSpecifier)?.imported?.name]) {
+        if (otherImports[importedName]) {
           otherImportItems.push(item as ImportSpecifier);
         }
       }
@@ -78,21 +97,22 @@ export function separateImports(payload: {
   if (nextLibImports.length > 0) {
     // rename imports
     nextLibImports.forEach((item) => {
-      if (renameImports[item.imported.name]) {
+      const importedName = getNameAsString(item.imported.name);
+      const localName = getNameAsString(item.local.name);
+
+      if (renameImports[importedName]) {
         // if imported and local names are different, then means its renamed. we can continue to do our swap
         // if imported and local are same, means we're changing the imported elements name, then we need to change the local name as well
-        if (item.imported.name !== item.local.name) {
+        if (importedName !== localName) {
           // if the renamed name is the same as local name, then we don't need to rename it
-          if (item.local.name === renameImports[item.imported.name]) {
-            item.imported.name = renameImports[item.imported.name];
+          if (localName === renameImports[importedName]) {
+            item.imported.name = renameImports[importedName];
             item.local = undefined;
           } else {
-            item.imported.name = renameImports[item.imported.name];
+            item.imported.name = renameImports[importedName];
           }
-        } else if (item.imported.name === item.local.name) {
-          item.imported.name = `${renameImports[item.imported.name]} as ${
-            item.imported.name
-          }`;
+        } else if (importedName === localName) {
+          item.imported.name = `${renameImports[importedName]} as ${importedName}`;
         }
       }
     });
@@ -117,8 +137,10 @@ export function separateImports(payload: {
     const otherImportPaths: { [key: string]: ImportSpecifier[] } = {};
     otherImportItems.forEach((item) => {
       // find import path
-      const importPath =
-        otherImports[(item as ImportSpecifier)?.imported?.name];
+      const importedName = getNameAsString(
+        (item as ImportSpecifier)?.imported?.name,
+      );
+      const importPath = otherImports[importedName];
 
       if (otherImportPaths[importPath]) {
         otherImportPaths[importPath].push(item);

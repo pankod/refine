@@ -19,12 +19,12 @@ export const TemplatesFilterButton: FC<Props> = ({ className, onClick }) => {
         "gap-2",
         "px-6 py-3",
         "rounded-full",
-        "dark:bg-gray-700 bg-gray-200",
+        "dark:bg-zinc-700 bg-zinc-200",
         className,
       )}
     >
       <FilterIcon />
-      <span className={clsx("dark:text-gray-0 text-gray-900")}>
+      <span className={clsx("dark:text-zinc-300 text-zinc-900")}>
         Filter Templates
       </span>
     </button>

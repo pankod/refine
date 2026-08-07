@@ -6,7 +6,9 @@ import type { IPost } from "../../interfaces";
 
 export const PostList = () => {
   const { tableProps } = useTable<IPost>({
-    initialPageSize: 50,
+    pagination: {
+      pageSize: 50,
+    },
   });
 
   return (

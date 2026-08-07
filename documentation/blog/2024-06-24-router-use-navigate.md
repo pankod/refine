@@ -3,9 +3,11 @@ title: Redirect in React Router V6 with useNavigate hook
 description: We'll discover how to perform a redirect using useNavigate in React Router V6
 slug: usenavigate-react-router-redirect
 authors: joseph_mawa
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-19-router-use-navigate/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-19-router-use-navigate/social-2.png
 hide_table_of_contents: false
+last_update: 2024-06-24
 ---
 
 **This article was last updated on Jun 24, 2024, to add new examples and use cases for React Router useNavigate hook**
@@ -15,11 +17,6 @@ hide_table_of_contents: false
 React Router is a popular routing library for React. The latest version, React router version 6, shipped with several new features and improved compatibility with the latest version of React. Since hooks have become the preferred way of writing React code, React Router version 6 also heavily uses React hooks.
 
 One such hook is the `useNavigate` hook. The `useNavigate` hook lets you navigate programmatically within your React code. In this article, you will learn the `useNavigate` hook and how to use it. We will also hint at when you might choose the `useNavigate` hook over the `Navigate` component.
-
-Steps we'll cover:
-
-- [How to set up React Router V6](#how-to-set-up-react-router-v6)
-- [How to use the useNavigate hook](#how-to-use-the-usenavigate-hook)
 
 ## Prerequisites
 

@@ -3,14 +3,15 @@ title: Creating Mission and Invoice Pages
 description: We add more CRUD views to the Pdf Invoice Generator app we have been building using Refine and Strapi last few days.
 slug: refine-react-invoice-generator-4
 authors: abdullah_numan
-tags: [refine-week, Refine, strapi, ant-design]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-13-refine-invoicer-4/social.png
+category: "How To Build"
+tags: [react, refine-week]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-13-refine-invoicer-4/social.png
 hide_table_of_contents: false
 ---
 
 In this post, we add more CRUD views to the **Pdf Invoice Generator** app we have been building using **Refine** last few days. The resources we cover in this episode are: `missions` and `invoices`. We mainly continue leveraging `dataProvider` methods and adding to the `resources` prop as well as associated route definitions.
 
-We are on Day Four of [**#RefineWeek**](https://refine.dev/week-of-refine-strapi/) series which is a five-part tutorial that aims to help developers learn the ins-and-outs of **Refine**'s powerful capabilities and get going with **Refine** within a week.
+We are on Day Four of [**#RefineWeek**](https://refine.dev/core/week-of-refine-strapi/) series which is a five-part tutorial that aims to help developers learn the ins-and-outs of **Refine**'s powerful capabilities and get going with **Refine** within a week.
 
 ### RefineWeek ft. Strapi series
 
@@ -32,7 +33,7 @@ But before we move into writing code, we have to define the collections for `mis
 
 Let's revisit the ERD for our **Pdf Invoice Generator** app:
 
-<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-13-refine-invoicer-4/database.png" alt="react invoice generator" />
+<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-13-refine-invoicer-4/database.png" alt="Invoice app database schema diagram" />
 
 <br />
 
@@ -44,7 +45,7 @@ With this in mind, let's go ahead and create collections in our **Strapi** app.
 
 We should use the `Content-Type Builder` again to define these collections. The `missions` collection should look like this:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-13-refine-invoicer-4/mission_collection.png"  alt="react crud app airtable" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-13-refine-invoicer-4/mission_collection.png"  alt="Missions collection in Airtable" />
 
 <br />
 
@@ -52,24 +53,24 @@ We should use the `Content-Type Builder` again to define these collections. The 
 
 The `invoices` collection should look as below:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-13-refine-invoicer-4/invoice_collection.png"  alt="react crud app airtable" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-13-refine-invoicer-4/invoice_collection.png"  alt="Invoices collection in Airtable" />
 
 <br />
 
 `invoices` has a `has one` association with `companies`:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-13-refine-invoicer-4/invoice_company.png"  alt="react crud app airtable" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-13-refine-invoicer-4/invoice_company.png"  alt="Invoice company relation setup" />
 
 <br />
 
 It also has the same `has one` association with `contacts`
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-13-refine-invoicer-4/invoice_hasone.png"  alt="react crud app airtable" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-13-refine-invoicer-4/invoice_hasone.png"  alt="Invoice has-one relationship" />
 
 <br />
 
 It also maintains a `has many` association with `missions`:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-13-refine-invoicer-4/invoice_hasmany.png"  alt="react crud app airtable" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-13-refine-invoicer-4/invoice_hasmany.png"  alt="Invoice has-many relationship" />
 
 <br />
 
@@ -81,7 +82,7 @@ Like we did before with the `companies`, `clients` and `contacts` collections, w
 
 We can do this from the following path in our **Strapi** app: `/admin/settings/users-permissions/roles/1`
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-13-refine-invoicer-4/authenticated.png"  alt="react crud app airtable" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-13-refine-invoicer-4/authenticated.png"  alt="Authenticated invoicer dashboard" />
 
 <br />
 
@@ -119,11 +120,11 @@ const {
   FileAddOutlined,
 } = Icons;
 
-import routerBindings, {
+import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import { DataProvider } from "@refinedev/strapi-v4";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { authProvider, axiosInstance } from "./authProvider";
@@ -176,7 +177,7 @@ function App() {
             authProvider={authProvider}
             dataProvider={DataProvider(API_URL + `/api`, axiosInstance)}
             notificationProvider={useNotificationProvider}
-            routerProvider={routerBindings}
+            routerProvider={routerProvider}
             options={{
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
@@ -189,7 +190,7 @@ function App() {
                     <ThemedLayout
                       Header={Header}
                       Title={({ collapsed }) => (
-                        <ThemedTitleV2 collapsed={collapsed} text="Invoicer" />
+                        <ThemedTitle collapsed={collapsed} text="Invoicer" />
                       )}
                     >
                       <Outlet />
@@ -232,7 +233,7 @@ function App() {
                   element={
                     <AuthPage
                       type="login"
-                      title={<ThemedTitleV2 collapsed text="Invoicer" />}
+                      title={<ThemedTitle collapsed text="Invoicer" />}
                       formProps={{
                         initialValues: {
                           email: "demo@refine.dev",
@@ -249,7 +250,7 @@ function App() {
                     <ThemedLayout
                       Header={Header}
                       Title={({ collapsed }) => (
-                        <ThemedTitleV2 collapsed={collapsed} text="Invoicer" />
+                        <ThemedTitle collapsed={collapsed} text="Invoicer" />
                       )}
                     >
                       <Outlet />
@@ -471,7 +472,7 @@ It's render is triggered by a click on the `<EditButton />` placed inside a `<Ta
 
 Ok. With these views completed, we should be able to create, list and show `missions` records from our app.
 
-<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-13-refine-invoicer-4/edit_view.png" alt="react invoice generator" />
+<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-13-refine-invoicer-4/edit_view.png" alt="Invoice edit form view" />
 
 <br />
 
@@ -725,7 +726,7 @@ There are a couple of things important in the code above. First, the use of `<Cr
 
 The `<Create />` component by default places a **refine-Ant Design** `<SaveButton />` component as its child and `saveButtonProps` are passed to it. `saveButtonProps` include props for the form action, button loading and disabling states. Here, when the `<SaveButton />` is clicked `formProps.onFinish()` is triggered, which eventually invokes the `dataProvider.create` method via `useCreate()`.
 
-For the details about how the `<SaveButton />` works, feel free to read through the [docs here](https://refine.dev/docs/api-reference/antd/components/buttons/save-button/).
+For the details about how the `<SaveButton />` works, feel free to read through the [docs here](https://refine.dev/core/docs/api-reference/antd/components/buttons/save-button/).
 
 ### Refine `edit` Views for `invoices`
 
@@ -742,11 +743,11 @@ import { Form, Input, Select } from "antd";
 import { IInvoice } from "interfaces";
 
 export const EditInvoice = () => {
-  const { formProps, saveButtonProps, queryResult } = useForm<IInvoice>({
+  const { formProps, saveButtonProps, query } = useForm<IInvoice>({
     meta: { populate: ["company", "contact", "missions"] },
   });
 
-  const defaultValue = queryResult?.data?.data;
+  const defaultValue = query?.data?.data;
 
   const { selectProps: companySelectProps } = useSelect({
     resource: "companies",
@@ -841,11 +842,11 @@ This time, the `meta.populate` property includes multiple associated resources i
 
 **Refine `useSelect()` Hook**
 
-We are using multiple `useSelect()` hooks that allow us fetch `companies`, `missions` and `contacts` data and avail them to `<Form.Item />`s. Under the hood, a `useSelect()` hook counts on the `useList()` data hook to access and invoke the `dataProvider.getList` method for fetching data from our **Strapi** backend. The argument object passed is, therefore, the same as that of `useList()`. For more details, please see [the `useSelect()` API reference here](https://refine.dev/docs/api-reference/antd/hooks/field/useSelect/).
+We are using multiple `useSelect()` hooks that allow us fetch `companies`, `missions` and `contacts` data and avail them to `<Form.Item />`s. Under the hood, a `useSelect()` hook counts on the `useList()` data hook to access and invoke the `dataProvider.getList` method for fetching data from our **Strapi** backend. The argument object passed is, therefore, the same as that of `useList()`. For more details, please see [the `useSelect()` API reference here](https://refine.dev/core/docs/api-reference/antd/hooks/field/useSelect/).
 
 With these components added, we should be able to create, list and edit invoices.
 
-<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-13-refine-invoicer-4/useselect.png" alt="react invoice generator" />
+<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-13-refine-invoicer-4/useselect.png" alt="useSelect dropdown in the invoice form" />
 
 <br />
 
@@ -868,8 +869,8 @@ Endowed a due patience, we can see this in action among many others in the `@ref
 ```tsx title="node_modules/@refinedev/antd/src/hooks/table/useTable/useTable.ts"
 const {
   tableQuery,
-  current,
-  setCurrent,
+  currentPage,
+  setCurrentPage,
   pageSize,
   setPageSize,
   filters,
@@ -901,7 +902,7 @@ const {
   onLiveEvent,
   liveParams,
   meta: pickNotDeprecated(meta, metaData),
-  metaData: pickNotDeprecated(meta, metaData),
+  meta: pickNotDeprecated(meta, metaData),
   dataProviderName,
 });
 ```
@@ -916,17 +917,17 @@ Then, it's the core `useTable()` hook that is leveraging `useList()` data hook i
 <p>
 
 ```tsx title="node_modules/@refinedev/core/src/hooks/useTable/index.ts"
-const queryResult = useList<TData, TError>({
+const { result, query } = useList<TData, TError>({
   resource: resourceInUse,
   hasPagination,
-  pagination: { current, pageSize, mode: pagination?.mode },
+  pagination: { currentPage, pageSize, mode: pagination?.mode },
   filters: unionFilters(preferredPermanentFilters, filters),
   sorters: unionSorters(preferredPermanentSorters, sorters),
   queryOptions,
   successNotification,
   errorNotification,
   meta: preferredMeta,
-  metaData: preferredMeta,
+  meta: preferredMeta,
   liveMode,
   liveParams,
   onLiveEvent,
@@ -960,7 +961,7 @@ The `useList()` hook is also being utilized **for** the `useSelect()` **refine-A
 The source code of `useSelect()` inside `@refinedev/antd` package uses `useSelectCore()` in the following snippet:
 
 ```tsx title="node_modules/@refinedev/antd/src/hooks/field/useSelect/index.ts"
-const { queryResult, defaultValueQueryResult, onSearch, options } =
+const { query, defaultValueQueryResult, onSearch, options } =
   useSelectCore(props);
 
 return {
@@ -971,7 +972,7 @@ return {
     showSearch: true,
     filterOption: false,
   },
-  queryResult,
+  query,
   defaultValueQueryResult,
 };
 ```
@@ -983,12 +984,12 @@ Inside the core version, `useList()` is key to fetching data from the backend AP
 <p>
 
 ```tsx title="node_modules/@refinedev/core/src/hooks/useSelect/index.ts"
-const queryResult = useList<TData, TError>({
+const { result, query } = useList<TData, TError>({
   resource,
   sorters: pickNotDeprecated(sorters, sort),
   filters: filters.concat(search),
   pagination: {
-    current: pagination?.current,
+    currentPage: pagination?.currentPage,
     pageSize: pagination?.pageSize ?? fetchSize,
     mode: pagination?.mode,
   },
@@ -1003,7 +1004,6 @@ const queryResult = useList<TData, TError>({
   successNotification,
   errorNotification,
   meta: pickNotDeprecated(meta, metaData),
-  metaData: pickNotDeprecated(meta, metaData),
   liveMode,
   liveParams,
   onLiveEvent,
@@ -1025,7 +1025,7 @@ return {
     showSearch: true,
     filterOption: false,
   },
-  queryResult,
+  query,
   defaultValueQueryResult,
 };
 ```
@@ -1035,7 +1035,10 @@ return {
 The `<DeleteButton />` implements `useDelete` directly. In `@refinedev/antd` `v5.1.2`, it is invoked like so:
 
 ```tsx title="node_modules/@refinedev/antd/src/components/buttons/delete/index.tsx"
-const { mutate, isLoading, variables } = useDelete();
+const {
+  mutate,
+  mutation: { isLoading, variables },
+} = useDelete();
 ```
 
 And the returned JSX has a `<Popconfirm />` component with an `onConfirm` prop. The delete `mutate` function is passed to `onConfirm` prop, which basically means to invoke `dataProvider.delete` upon confirmation of a delete pop up:
@@ -1054,7 +1057,6 @@ return (
                         successNotification,
                         errorNotification,
                         meta: pickNotDeprecated(meta, metaData),
-                        metaData: pickNotDeprecated(meta, metaData),
                         dataProviderName,
                         invalidates,
                     },

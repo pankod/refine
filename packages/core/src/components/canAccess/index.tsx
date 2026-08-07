@@ -5,10 +5,15 @@ import { useCan, useResourceParams } from "@hooks";
 
 import type { CanReturnType } from "../../contexts/accessControl/types";
 import type { BaseKey } from "../../contexts/data/types";
-import type { IResourceItem, ITreeMenu } from "../../contexts/resource/types";
+import type { IResourceItem } from "../../contexts/resource/types";
+
+type ITreeResource = IResourceItem & {
+  key?: string;
+  children: ITreeResource[];
+};
 
 type CanParams = {
-  resource?: IResourceItem & { children?: ITreeMenu[] };
+  resource?: IResourceItem & { children?: ITreeResource[] };
   id?: BaseKey;
   [key: string]: any;
 };
@@ -43,7 +48,13 @@ type CanAccessBaseProps = {
    */
   onUnauthorized?: (props: OnUnauthorizedProps) => void;
   children: React.ReactNode;
-  queryOptions?: UseQueryOptions<CanReturnType>;
+  queryOptions?: Omit<
+    UseQueryOptions<CanReturnType>,
+    "queryKey" | "queryFn"
+  > & {
+    queryKey?: UseQueryOptions<CanReturnType>["queryKey"];
+    queryFn?: UseQueryOptions<CanReturnType>["queryFn"];
+  };
 };
 
 type CanAccessWithoutParamsProps = {

@@ -16,6 +16,7 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "noEmit": false,
-    "declarationMap": true
+    "declarationMap": true,
+    "jsx": "react-jsx"
   }
 }

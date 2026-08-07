@@ -5,7 +5,7 @@ title: Live Provider
 
 ## Overview
 
-**refine** lets you add Realtime support to your app via `liveProvider` prop for [`<Refine>`](/api-reference/core/components/refine-config.md). It can be used to update and show data in Realtime throughout your app. **refine** remains agnostic in its API to allow different solutions([Ably](https://ably.com), [Socket.IO](https://socket.io/), [Mercure](https://mercure.rocks/), [supabase](https://supabase.com), [Hasura](https://hasura.io/), GraphQL Subscriptions, etc.) to be integrated.
+**refine** lets you add Realtime support to your app via `liveProvider` prop for [`<Refine>`](/core/docs/3.xx.xx/api-reference/core/components/refine-config). It can be used to update and show data in Realtime throughout your app. **refine** remains agnostic in its API to allow different solutions([Ably](https://ably.com), [Socket.IO](https://socket.io/), [Mercure](https://mercure.rocks/), [supabase](https://supabase.com), [Hasura](https://hasura.io/), GraphQL Subscriptions, etc.) to be integrated.
 
 A live provider must include following methods:
 
@@ -18,7 +18,7 @@ const liveProvider = {
 ```
 
 :::note
-**refine** uses these methods in [`useSubscription`](/api-reference/core/hooks/live/useSubscription.md) and [`usePublish`](/api-reference/core/hooks/live/usePublish.md).
+**refine** uses these methods in [`useSubscription`](/core/docs/3.xx.xx/api-reference/core/hooks/live/useSubscription) and [`usePublish`](/core/docs/3.xx.xx/api-reference/core/hooks/live/usePublish).
 :::
 
 :::tip
@@ -106,7 +106,7 @@ const liveProvider = (client: Ably.Realtime): LiveProvider => {
 | params   | `{ids?: string[]; [key: string]: any;}`                               |         |
 | callback | `(event: LiveEvent) => void;`                                         |         |
 
-> [`LiveEvent`](/api-reference/core/interfaces.md#liveevent)
+> [`LiveEvent`](/core/docs/3.xx.xx/api-reference/core/interfaces#liveevent)
 
 #### Return Type
 
@@ -120,7 +120,7 @@ The values returned from the `subscribe` method are passed to the `unsubscribe` 
 
 <br/>
 
-**refine** will use this subscribe method in the [`useSubscription`](/api-reference/core/hooks/live/useSubscription.md) hook.
+**refine** will use this subscribe method in the [`useSubscription`](/core/docs/3.xx.xx/api-reference/core/hooks/live/useSubscription) hook.
 
 ```ts
 import { useSubscription } from "@pankod/refine-core";
@@ -131,7 +131,7 @@ useSubscription({
 });
 ```
 
-> [Refer to the useSubscription documentation for more information. &#8594](/api-reference/core/hooks/live/useSubscription.md)
+> [Refer to the useSubscription documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/live/useSubscription)
 
 <br />
 
@@ -177,7 +177,7 @@ If you don't handle unsubscription it could lead to memory leaks.
 
 This method is used to publish an event on client side. Beware that publishing events on client side is not recommended and best practice is to publish events from server side. You can refer [Publish Events from API](#publish-events-from-api) to see which events must be published from the server.
 
-This `publish` is used in [realated hooks](#publish-events-from-hooks). When `publish` is used, subscribers to these events are notified. You can also publish your custom events using [`usePublish`](/api-reference/core/hooks/live/usePublish.md).
+This `publish` is used in [realated hooks](#publish-events-from-hooks). When `publish` is used, subscribers to these events are notified. You can also publish your custom events using [`usePublish`](/core/docs/3.xx.xx/api-reference/core/hooks/live/usePublish).
 
 ```ts title="liveProvider.ts"
 const liveProvider = (client: Ably.Realtime): LiveProvider => {
@@ -203,7 +203,7 @@ If `publish` is used on client side you must handle the security of it by yourse
 | ----- | ----------- |
 | event | `LiveEvent` |
 
-> [`LiveEvent`](/api-reference/core/interfaces.md#liveevent)
+> [`LiveEvent`](/core/docs/3.xx.xx/api-reference/core/interfaces#liveevent)
 
 #### Return Type
 
@@ -213,7 +213,7 @@ If `publish` is used on client side you must handle the security of it by yourse
 
 <br/>
 
-**refine** will provide this publish method via the [`usePublish`](/api-reference/core/hooks/live/usePublish.md) hook.
+**refine** will provide this publish method via the [`usePublish`](/core/docs/3.xx.xx/api-reference/core/hooks/live/usePublish) hook.
 
 ```ts
 import { usePublish } from "@pankod/refine-core";
@@ -221,7 +221,7 @@ import { usePublish } from "@pankod/refine-core";
 const publish = usePublish();
 ```
 
-> [Refer to the usePublish documentation for more information. &#8594](/api-reference/core/hooks/live/usePublish.md)
+> [Refer to the usePublish documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/live/usePublish)
 
 ## `liveMode`
 
@@ -297,15 +297,15 @@ const { data } = useList({
 
 ## Supported Hooks
 
-| Supported data hooks                                                     | Supported form hooks                                                      | Supported other hooks                                                            |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| [`useList` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) | [`useForm` &#8594](/api-reference/core/hooks/useForm.md)                  | [`useTable` &#8594](/docs/3.xx.xx/api-reference/core/hooks/useTable)             |
-| [`useOne` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/)   | [`useModalForm` &#8594](/api-reference/antd/hooks/form/useModalForm.md)   | [`useEditableTable` &#8594](/api-reference/antd/hooks/table/useEditableTable.md) |
-| [`useMany` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useMany/) | [`useDrawerForm` &#8594](/api-reference/antd/hooks/form/useDrawerForm.md) | [`useSimpleList` &#8594](/api-reference/antd/hooks/list/useSimpleList.md)        |
-|                                                                          | [`useStepsForm` &#8594](/api-reference/antd/hooks/form/useStepsForm.md)   | [`useShow` &#8594](/api-reference/core/hooks/show/useShow.md)                    |
-|                                                                          |                                                                           | [`useCheckboxGroup` &#8594](/api-reference/antd/hooks/field/useCheckboxGroup.md) |
-|                                                                          |                                                                           | [`useSelect` &#8594](/docs/3.xx.xx/api-reference/core/hooks/useSelect/)          |
-|                                                                          |                                                                           | [`useRadioGroup` &#8594](/api-reference/antd/hooks/field/useRadioGroup.md)       |
+| Supported data hooks                                                          | Supported form hooks                                                                     | Supported other hooks                                                                           |
+| ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| [`useList` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) | [`useForm` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/useForm)                  | [`useTable` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/useTable)                       |
+| [`useOne` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/)   | [`useModalForm` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useModalForm)   | [`useEditableTable` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/table/useEditableTable) |
+| [`useMany` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useMany/) | [`useDrawerForm` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useDrawerForm) | [`useSimpleList` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/list/useSimpleList)        |
+|                                                                               | [`useStepsForm` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useStepsForm)   | [`useShow` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/show/useshow)                    |
+|                                                                               |                                                                                          | [`useCheckboxGroup` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/field/useCheckboxGroup) |
+|                                                                               |                                                                                          | [`useSelect` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/useSelect/)                    |
+|                                                                               |                                                                                          | [`useRadioGroup` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/field/useRadioGroup)       |
 
 ## Supported Hooks Subscriptions
 
@@ -327,12 +327,12 @@ useList({ resource: "posts" });
 :::tip
 Following hooks uses `useList` under the hood and subscribe to same event.
 
-- [`useTable`](/docs/3.xx.xx/api-reference/core/hooks/useTable)
-- [`useEditableTable`](/api-reference/antd/hooks/table/useEditableTable.md)
-- [`useSimpleList`](/api-reference/antd/hooks/list/useSimpleList.md)
-- [`useCheckboxGroup`](/api-reference/antd/hooks/field/useCheckboxGroup.md)
-- [`useSelect`](/docs/3.xx.xx/api-reference/core/hooks/useSelect/)
-- [`useRadioGroup`](/api-reference/antd/hooks/field/useRadioGroup.md)
+- [`useTable`](/core/docs/3.xx.xx/api-reference/core/hooks/useTable)
+- [`useEditableTable`](/core/docs/3.xx.xx/api-reference/antd/hooks/table/useEditableTable)
+- [`useSimpleList`](/core/docs/3.xx.xx/api-reference/antd/hooks/list/useSimpleList)
+- [`useCheckboxGroup`](/core/docs/3.xx.xx/api-reference/antd/hooks/field/useCheckboxGroup)
+- [`useSelect`](/core/docs/3.xx.xx/api-reference/core/hooks/useSelect/)
+- [`useRadioGroup`](/core/docs/3.xx.xx/api-reference/antd/hooks/field/useRadioGroup)
 
 :::
 
@@ -353,11 +353,11 @@ useOne({ resource: "posts", id: "1" });
 :::tip
 Following hooks uses `useOne` under the hood and subscribe to same event.
 
-- [`useForm`](/api-reference/core/hooks/useForm.md)
-- [`useModalForm`](/api-reference/antd/hooks/form/useModalForm.md)
-- [`useDrawerForm`](/api-reference/antd/hooks/form/useDrawerForm.md)
-- [`useStepsForm`](/api-reference/antd/hooks/form/useStepsForm.md)
-- [`useShow`](/api-reference/core/hooks/show/useShow.md)
+- [`useForm`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm)
+- [`useModalForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useModalForm)
+- [`useDrawerForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useDrawerForm)
+- [`useStepsForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useStepsForm)
+- [`useShow`](/core/docs/3.xx.xx/api-reference/core/hooks/show/useshow)
 
 :::
 
@@ -378,7 +378,7 @@ useMany({ resource: "posts", ids: ["1", "2"] });
 :::tip
 Following hooks uses `useMany` under the hood and subscribe to same event.
 
-- [`useSelect`](/docs/3.xx.xx/api-reference/core/hooks/useSelect/)
+- [`useSelect`](/core/docs/3.xx.xx/api-reference/core/hooks/useSelect/)
 
 :::
 

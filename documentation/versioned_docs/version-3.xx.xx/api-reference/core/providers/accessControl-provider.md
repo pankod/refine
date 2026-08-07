@@ -41,31 +41,31 @@ A basic example looks like:
 
 ```tsx
 const App: React.FC = () => {
-    <Refine
-        // other providers and props
-        accessControlProvider={{
-            can: async ({ resource, action, params }) => {
-                if (resource === "posts" && action === "edit") {
-                    return Promise.resolve({
-                        can: false,
-                        reason: "Unauthorized",
-                    });
-                }
+  <Refine
+    // other providers and props
+    accessControlProvider={{
+      can: async ({ resource, action, params }) => {
+        if (resource === "posts" && action === "edit") {
+          return Promise.resolve({
+            can: false,
+            reason: "Unauthorized",
+          });
+        }
 
-                // or you can access directly *resource object
-                // const resourceName = params?.resource?.name;
-                // const anyUsefulOption = params?.resource?.options?.yourUsefulOption;
-                // if (resourceName === "posts" && anyUsefulOption === true && action === "edit") {
-                //     return Promise.resolve({
-                //         can: false,
-                //         reason: "Unauthorized",
-                //     });
-                // }
+        // or you can access directly *resource object
+        // const resourceName = params?.resource?.name;
+        // const anyUsefulOption = params?.resource?.options?.yourUsefulOption;
+        // if (resourceName === "posts" && anyUsefulOption === true && action === "edit") {
+        //     return Promise.resolve({
+        //         can: false,
+        //         reason: "Unauthorized",
+        //     });
+        // }
 
-                return { can: true };
-            },
-        }}
-    />;
+        return { can: true };
+      },
+    }}
+  />;
 };
 ```
 
@@ -78,8 +78,8 @@ You can pass a `reason` along with `can`. It will be accessible using `useCan`. 
 :::tip
 You can find access control examples made with **refine**
 
--   **Casbin** &#8594 [Source Code](https://github.com/refinedev/refine/tree/v3/examples/access-control-casbin) - [Demo](https://codesandbox.io/embed/github/refinedev/refine/tree/v3/examples/access-control-casbin/?view=preview&theme=dark&codemirror=1)
--   **Cerbos** &#8594 [Source Code](https://github.com/refinedev/refine/tree/v3/examples/access-control-cerbos) - [Demo](https://codesandbox.io/embed/github/refinedev/refine/tree/v3/examples/access-control-cerbos/?view=preview&theme=dark&codemirror=1)
+- **Casbin** &#8594 [Source Code](https://github.com/refinedev/refine/tree/v3/examples/access-control-casbin) - [Demo](https://codesandbox.io/embed/github/refinedev/refine/tree/v3/examples/access-control-casbin/?view=preview&theme=dark&codemirror=1)
+- **Cerbos** &#8594 [Source Code](https://github.com/refinedev/refine/tree/v3/examples/access-control-cerbos) - [Demo](https://codesandbox.io/embed/github/refinedev/refine/tree/v3/examples/access-control-cerbos/?view=preview&theme=dark&codemirror=1)
 
 :::
 
@@ -95,9 +95,9 @@ You can find access control examples made with **refine**
 
 ```tsx
 const { data } = useCan({
-    resource: "resource-you-ask-for-access",
-    action: "action-type-on-resource",
-    params: { foo: "optional-params" },
+  resource: "resource-you-ask-for-access",
+  action: "action-type-on-resource",
+  params: { foo: "optional-params" },
 });
 ```
 
@@ -112,7 +112,7 @@ const useCan: ({
 }) => UseQueryResult<CanReturnType*>
 ```
 
-> `*`: Too see &#8594 [`CanParams`](/api-reference/core/interfaces.md#canparams), [`CanReturnType`](/api-reference/core/interfaces.md#canreturntype)
+> `*`: Too see &#8594 [`CanParams`](/core/docs/3.xx.xx/api-reference/core/interfaces#canparams), [`CanReturnType`](/core/docs/3.xx.xx/api-reference/core/interfaces#canreturntype)
 
 ### `<CanAccess />`
 
@@ -120,12 +120,12 @@ const useCan: ({
 
 ```tsx
 <CanAccess
-    resource="posts"
-    action="edit"
-    params={{ id: 1 }}
-    fallback={<CustomFallback />}
+  resource="posts"
+  action="edit"
+  params={{ id: 1 }}
+  fallback={<CustomFallback />}
 >
-    <YourComponent />
+  <YourComponent />
 </CanAccess>
 ```
 
@@ -156,12 +156,12 @@ const { data } = useCan({
 
 They will check access control with parameters:
 
--   dashboard (`/`): `{ resource: "dashboard", action: "list" }`
--   list (e.g. `/posts`): `{ resource: "posts", action: "list", params: { *resource } }`
--   create (e.g. `/posts/create`): `{ resource: "posts", action: "create", params: { *resource } }`
--   clone (e.g. `/posts/clone/1`): `{ resource: "posts", action: "create", params: { id: 1, *resource }}`
--   edit (e.g. `/posts/edit/1`): `{ resource: "posts", action: "edit", params: { id: 1, *resource } }`
--   show (e.g. `/posts/show/1`): `{ resource: "posts", action: "show", params: { id: 1, *resource } }`
+- dashboard (`/`): `{ resource: "dashboard", action: "list" }`
+- list (e.g. `/posts`): `{ resource: "posts", action: "list", params: { *resource } }`
+- create (e.g. `/posts/create`): `{ resource: "posts", action: "create", params: { *resource } }`
+- clone (e.g. `/posts/clone/1`): `{ resource: "posts", action: "create", params: { id: 1, *resource }}`
+- edit (e.g. `/posts/edit/1`): `{ resource: "posts", action: "edit", params: { id: 1, *resource } }`
+- show (e.g. `/posts/show/1`): `{ resource: "posts", action: "show", params: { id: 1, *resource } }`
 
 In case access control returns `false` they will show [`cathcAll`][catchall] if provided or a standard error page otherwise.
 
@@ -180,12 +180,12 @@ For example if your app has resource `posts` it will be checked with `{ resource
 These buttons will check for access control.
 Let's say these buttons are rendered where `resource` is `posts` and `id` is `1` where applicable.
 
--   [**List**](/api-reference/antd/components/buttons/list.md): `{ resource: "posts", action: "list", params: { *resource } }`
--   [**Create**](/api-reference/antd/components/buttons/create.md): `{ resource: "posts", action: "create", params: { *resource } }`
--   [**Clone**](/api-reference/antd/components/buttons/clone.md): `{ resource: "posts", action: "create", params: { id: 1, *resource } }`
--   [**Edit**](/api-reference/antd/components/buttons/edit.md): `{ resource: "posts", action: "edit", params: { id: 1, *resource } }`
--   [**Delete**](/api-reference/antd/components/buttons/delete.md): `{ resource: "posts, action: "delete", params: { id: 1, *resource } }`
--   [**Show**](/api-reference/antd/components/buttons/show.md): `{ resource: "posts", action: "show", params: { id: 1, *resource } }`
+- [**List**](/core/docs/3.xx.xx/api-reference/antd/components/buttons/list): `{ resource: "posts", action: "list", params: { *resource } }`
+- [**Create**](/core/docs/3.xx.xx/api-reference/antd/components/buttons/create): `{ resource: "posts", action: "create", params: { *resource } }`
+- [**Clone**](/core/docs/3.xx.xx/api-reference/antd/components/buttons/clone): `{ resource: "posts", action: "create", params: { id: 1, *resource } }`
+- [**Edit**](/core/docs/3.xx.xx/api-reference/antd/components/buttons/edit): `{ resource: "posts", action: "edit", params: { id: 1, *resource } }`
+- [**Delete**](/core/docs/3.xx.xx/api-reference/antd/components/buttons/delete): `{ resource: "posts, action: "delete", params: { id: 1, *resource } }`
+- [**Show**](/core/docs/3.xx.xx/api-reference/antd/components/buttons/show): `{ resource: "posts", action: "show", params: { id: 1, *resource } }`
 
 > `*resource`: &#8594 It returns the resource ([ResourceItemProps][iresourceitem]) object you gave to `<Refine />` component. This will enable Attribute Based Access Control (ABAC), for example granting permissions based on the value of a field in the resource object.
 
@@ -198,9 +198,9 @@ These buttons will be disabled if access control returns `{ can: false }`
 [nextjsrouter]: https://www.npmjs.com/package/@pankod/refine-nextjs-router
 [reactrouter]: https://www.npmjs.com/package/@pankod/refine-react-router
 [reactlocation]: https://www.npmjs.com/package/@pankod/refine-react-location
-[catchall]: /api-reference/core/components/refine-config.md#catchall
-[listbtn]: /api-reference/antd/components/buttons/list.md
-[iresourceitem]: /api-reference/core/interfaces.md#resourceitemprops
-[basekey]: /api-reference/core/interfaces.md#basekey
-[canparams]: /api-reference/core/interfaces.md#canparams
-[canreturntype]: /api-reference/core/interfaces.md#canreturntype
+[catchall]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#catchall
+[listbtn]: /core/docs/3.xx.xx/api-reference/antd/components/buttons/list
+[iresourceitem]: /core/docs/3.xx.xx/api-reference/core/interfaces#resourceitemprops
+[basekey]: /core/docs/3.xx.xx/api-reference/core/interfaces#basekey
+[canparams]: /core/docs/3.xx.xx/api-reference/core/interfaces#canparams
+[canreturntype]: /core/docs/3.xx.xx/api-reference/core/interfaces#canreturntype

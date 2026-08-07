@@ -10,15 +10,10 @@ describe("form-core-use-form", () => {
     cy.clearAllCookies();
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
-
-    cy.interceptGETPosts();
     cy.visit("/");
   });
 
   it("should edit resource with autosave", () => {
-    cy.interceptGETCategories();
-    cy.interceptGETPost();
-
     cy.wait("@getPosts");
 
     cy.get("button:contains('Edit')").first().click();
@@ -27,18 +22,19 @@ describe("form-core-use-form", () => {
 
     cy.get("input[name='title']")
       .first()
-      .should("have.value", "Ut Voluptatem Est");
+      .should(
+        "have.value",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      );
     cy.get("textarea[name='content']")
       .first()
       .should(
         "have.value",
-        "Repellendus temporibus provident nobis. Non adipisci quod et est dolorem sed qui. A ut omnis. Et perspiciatis quibusdam maiores aliquid est fugit nam odit. Aut aliquam consectetur deleniti commodi velit. Eum eum aperiam voluptate quos quo. Ut quia doloribus a. Molestiae non est fugit enim fugiat non ea quas accusamus. Consequuntur voluptatem nesciunt dolorum expedita optio deserunt. Illo dolorem et similique.",
+        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       );
     cy.get("button[type='submit']").first().should("not.be.disabled");
 
     cy.get("span:has(+ form)").should("have.text", "waiting for changes");
-
-    cy.interceptPATCHPost();
 
     cy.fixture("mock-post").then((mockPost) => {
       cy.get("input[name='title']").type(`{selectAll}${mockPost.title}`);
@@ -63,9 +59,6 @@ describe("form-core-use-form", () => {
   });
 
   it("should clone resource", () => {
-    cy.interceptGETCategories();
-    cy.interceptGETPost();
-
     cy.wait("@getPosts");
 
     cy.get("button:contains('Clone')").first().click();
@@ -74,20 +67,21 @@ describe("form-core-use-form", () => {
 
     cy.get("input[name='title']")
       .first()
-      .should("have.value", "Ut Voluptatem Est");
+      .should(
+        "have.value",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      );
     cy.get("textarea[name='content']")
       .first()
       .should(
         "have.value",
-        "Repellendus temporibus provident nobis. Non adipisci quod et est dolorem sed qui. A ut omnis. Et perspiciatis quibusdam maiores aliquid est fugit nam odit. Aut aliquam consectetur deleniti commodi velit. Eum eum aperiam voluptate quos quo. Ut quia doloribus a. Molestiae non est fugit enim fugiat non ea quas accusamus. Consequuntur voluptatem nesciunt dolorum expedita optio deserunt. Illo dolorem et similique.",
+        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       );
     cy.get("button[type='submit']").first().should("not.be.disabled");
 
     cy.fixture("mock-post").then((mockPost) => {
       cy.get("input[name='title']").type(`{selectAll}${mockPost.title}`);
       cy.get("textarea[name='content']").type(`{selectAll}${mockPost.content}`);
-
-      cy.interceptPOSTPost();
 
       cy.get("button[type='submit']").first().click();
 
@@ -106,9 +100,6 @@ describe("form-core-use-form", () => {
   });
 
   it("should edit resource with save button", () => {
-    cy.interceptGETCategories();
-    cy.interceptGETPost();
-
     cy.wait("@getPosts");
 
     cy.get("button:contains('Edit')").first().click();
@@ -117,20 +108,21 @@ describe("form-core-use-form", () => {
 
     cy.get("input[name='title']")
       .first()
-      .should("have.value", "Ut Voluptatem Est");
+      .should(
+        "have.value",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      );
     cy.get("textarea[name='content']")
       .first()
       .should(
         "have.value",
-        "Repellendus temporibus provident nobis. Non adipisci quod et est dolorem sed qui. A ut omnis. Et perspiciatis quibusdam maiores aliquid est fugit nam odit. Aut aliquam consectetur deleniti commodi velit. Eum eum aperiam voluptate quos quo. Ut quia doloribus a. Molestiae non est fugit enim fugiat non ea quas accusamus. Consequuntur voluptatem nesciunt dolorum expedita optio deserunt. Illo dolorem et similique.",
+        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       );
     cy.get("button[type='submit']").first().should("not.be.disabled");
 
     cy.fixture("mock-post").then((mockPost) => {
       cy.get("input[name='title']").type(`{selectAll}${mockPost.title}`);
       cy.get("textarea[name='content']").type(`{selectAll}${mockPost.content}`);
-
-      cy.interceptPATCHPost();
 
       cy.wait(1100);
 
@@ -151,9 +143,6 @@ describe("form-core-use-form", () => {
   });
 
   it("should create resource", () => {
-    cy.interceptGETCategories();
-    cy.interceptGETPost();
-
     cy.wait("@getPosts");
 
     cy.get("button:contains('Create Post')").first().click();
@@ -163,8 +152,6 @@ describe("form-core-use-form", () => {
     cy.fixture("mock-post").then((mockPost) => {
       cy.get("input[name='title']").type(`${mockPost.title}`);
       cy.get("textarea[name='content']").type(`${mockPost.content}`);
-
-      cy.interceptPOSTPost();
 
       cy.get("button[type='submit']").first().click();
 

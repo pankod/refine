@@ -36,7 +36,7 @@ export const PostEdit = () => {
     HttpError,
     GetVariables<UpdatePostMutationVariables>
   >({
-    metaData: {
+    meta: {
       gqlMutation: POST_UPDATE_MUTATION,
     },
   });
@@ -47,8 +47,13 @@ export const PostEdit = () => {
   >({
     resource: "categories",
     defaultValue: postData?.category_id,
-    metaData: {
+
+    meta: {
       gqlQuery: POST_CATEGORIES_SELECT_QUERY,
+    },
+
+    pagination: {
+      mode: "server",
     },
   });
 

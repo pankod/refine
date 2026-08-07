@@ -14,7 +14,7 @@ In this guide, we will create an application with you in the logic of Multi Tena
 We will make a Cake House application using **refine** and [Appwrite](https://appwrite.io/). Our Cake House will consist of two separate stores and there will be special products for these stores. We will explain step by step how to manage these stores, products, and orders separately.
 
 :::caution
-This guide has been prepared to assume you know the basics of **refine**. If you haven't learned these basics yet, we recommend reading the [Tutorial](https://refine.dev/docs/).
+This guide has been prepared to assume you know the basics of **refine**. If you haven't learned these basics yet, we recommend reading the [Tutorial](https://refine.dev/core/docs/).
 :::
 
 ## Setup
@@ -193,7 +193,7 @@ Here we have created a select component. Then we fetch the store id and title we
 
 Let's define the select component in the **refine** Sider Menu. First, we need to customize the default Sider.
 
-[Check out how you can customize Sider Menu →](https://refine.dev/docs/examples/customization/customSider/)
+[Check out how you can customize Sider Menu →](https://refine.dev/docs/3.xx.xx/examples/customization/customSider/)
 
 <details>
 <summary>Show Code</summary>
@@ -538,9 +538,9 @@ export const CreateProduct: React.FC<CreateProductProps> = ({
 
 ## Bonus - Realtime Feature
 
-**refine** lets you add Realtime support to your app via `liveProvider` prop for [`<Refine>`](/api-reference/core/components/refine-config.md). It can be used to update and show data in Realtime throughout your app. **refine** remains agnostic in its API to allow different solutions([Ably](https://ably.com), [Socket.IO](https://socket.io/), [Mercure](https://mercure.rocks/), [supabase](https://supabase.com), etc.) to be integrated.
+**refine** lets you add Realtime support to your app via `liveProvider` prop for [`<Refine>`](/core/docs/3.xx.xx/api-reference/core/components/refine-config). It can be used to update and show data in Realtime throughout your app. **refine** remains agnostic in its API to allow different solutions([Ably](https://ably.com), [Socket.IO](https://socket.io/), [Mercure](https://mercure.rocks/), [supabase](https://supabase.com), etc.) to be integrated.
 
-[Refer to the Live Provider documentation for detailed information. →](https://refine.dev/docs/core/providers/live-provider/)
+[Refer to the Live Provider documentation for detailed information. →](https://refine.dev/core/docs/core/providers/live-provider/)
 
 Appwrite Realtime API support is out-of-the-box supported by **refine**, just add two lines to make your App Realtime.
 

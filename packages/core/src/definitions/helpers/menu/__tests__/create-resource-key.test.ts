@@ -31,18 +31,4 @@ describe("createResourceKey", () => {
       ]),
     ).toBe("/foo");
   });
-
-  it("should return custom route with legacy", () => {
-    expect(
-      createResourceKey(
-        {
-          name: "posts",
-          meta: { parent: "orgs" },
-          route: "custom-route",
-        },
-        [{ name: "orgs", meta: { parent: "cms" } }, { name: "cms" }],
-        true,
-      ),
-    ).toBe("/cms/orgs/custom-route");
-  });
 });

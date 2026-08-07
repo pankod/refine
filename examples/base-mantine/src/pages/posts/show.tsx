@@ -10,7 +10,7 @@ export const PostShow: React.FC = () => {
   const { data, isLoading } = queryResult;
   const record = data?.data;
 
-  const { data: categoryData } = useOne<ICategory>({
+  const { result: categoryData } = useOne<ICategory>({
     resource: "categories",
     id: record?.category.id || "",
     queryOptions: {
@@ -18,7 +18,7 @@ export const PostShow: React.FC = () => {
     },
   });
 
-  const { data: tagsData } = useMany<ITag>({
+  const { result: tagsData } = useMany<ITag>({
     resource: "tags",
     ids: record?.tags || [],
     queryOptions: {
@@ -30,22 +30,18 @@ export const PostShow: React.FC = () => {
     <Show isLoading={isLoading}>
       <Title order={5}>Id</Title>
       <Text mt="xs">{record?.id}</Text>
-
       <Title mt="xs" order={5}>
         Title
       </Title>
       <Text mt="xs">{record?.title}</Text>
-
       <Title mt="xs" order={5}>
         Status
       </Title>
       <Text mt="xs">{record?.status}</Text>
-
       <Title mt="xs" order={5}>
         Category
       </Title>
-      <Text mt="xs">{categoryData?.data?.title}</Text>
-
+      <Text mt="xs">{categoryData?.title}</Text>
       <Title mt="xs" order={5}>
         Tags
       </Title>
@@ -62,7 +58,6 @@ export const PostShow: React.FC = () => {
           </Badge>
         ))}
       </Flex>
-
       <Title mt="xs" order={5}>
         Content
       </Title>

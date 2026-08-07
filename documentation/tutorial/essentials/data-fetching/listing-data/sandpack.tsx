@@ -80,8 +80,8 @@ export const dataProvider: DataProvider = {
     const params = new URLSearchParams();
 
     if (pagination) {
-        params.append("_start", (pagination.current - 1) * pagination.pageSize);
-        params.append("_end", pagination.current * pagination.pageSize);
+        params.append("_start", (pagination.currentPage - 1) * pagination.pageSize);
+        params.append("_end", pagination.currentPage * pagination.pageSize);
     }
 
     const response = await fetch(\`\${API_URL}/\${resource}?\${params.toString()}\`);
@@ -135,8 +135,8 @@ export const dataProvider: DataProvider = {
     const params = new URLSearchParams();
 
     if (pagination) {
-      params.append("_start", (pagination.current - 1) * pagination.pageSize);
-      params.append("_end", pagination.current * pagination.pageSize);
+      params.append("_start", (pagination.currentPage - 1) * pagination.pageSize);
+      params.append("_end", pagination.currentPage * pagination.pageSize);
     }
 
     if (sorters && sorters.length > 0) {
@@ -195,8 +195,8 @@ export const dataProvider: DataProvider = {
     const params = new URLSearchParams();
 
     if (pagination) {
-      params.append("_start", (pagination.current - 1) * pagination.pageSize);
-      params.append("_end", pagination.current * pagination.pageSize);
+      params.append("_start", (pagination.currentPage - 1) * pagination.pageSize);
+      params.append("_end", pagination.currentPage * pagination.pageSize);
     }
 
     if (sorters && sorters.length > 0) {
@@ -268,9 +268,9 @@ const ListProductsWithUseListTsxCode = /* tsx */ `
 import { useList } from "@refinedev/core";
 
 export const ListProducts = () => {
-  const { data, isLoading } = useList({ resource: "products" });
+  const { result, query } = useList({ resource: "products" });
 
-  if (isLoading) {
+  if (query.isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -278,7 +278,7 @@ export const ListProducts = () => {
     <div>
       <h1>Products</h1>
       <ul>
-        {data?.data?.map((product) => (
+        {result.data?.map((product) => (
           <li key={product.id}>
             <p>
               {product.name}
@@ -299,12 +299,12 @@ const ListProductsWithPaginationTsxCode = /* tsx */ `
 import { useList } from "@refinedev/core";
 
 export const ListProducts = () => {
-  const { data, isLoading } = useList({
+  const { result, query } = useList({
     resource: "products",
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
   });
 
-  if (isLoading) {
+  if (query.isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -312,7 +312,7 @@ export const ListProducts = () => {
     <div>
       <h1>Products</h1>
       <ul>
-        {data?.data?.map((product) => (
+        {result.data?.map((product) => (
           <li key={product.id}>
             <p>
               {product.name}
@@ -333,13 +333,13 @@ const ListProductsWithSortingTsxCode = /* tsx */ `
 import { useList } from "@refinedev/core";
 
 export const ListProducts = () => {
-  const { data, isLoading } = useList({
+  const { result, query } = useList({
     resource: "products",
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
     sorters: [{ field: "name", order: "asc" }],
   });
 
-  if (isLoading) {
+  if (query.isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -347,7 +347,7 @@ export const ListProducts = () => {
     <div>
       <h1>Products</h1>
       <ul>
-        {data?.data?.map((product) => (
+        {result.data?.map((product) => (
           <li key={product.id}>
             <p>
               {product.name}
@@ -368,14 +368,14 @@ const ListProductsWithFilteringTsxCode = /* tsx */ `
 import { useList } from "@refinedev/core";
 
 export const ListProducts = () => {
-  const { data, isLoading } = useList({
+  const { result, query } = useList({
     resource: "products",
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
     sorters: [{ field: "name", order: "asc" }],
     filters: [{ field: "material", operator: "eq", value: "Aluminum" }],
   });
 
-  if (isLoading) {
+  if (query.isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -383,7 +383,7 @@ export const ListProducts = () => {
     <div>
       <h1>Products</h1>
       <ul>
-        {data?.data?.map((product) => (
+        {result.data?.map((product) => (
           <li key={product.id}>
             <p>
               {product.name}

@@ -1,16 +1,17 @@
 import { ErrorComponent, GitHubBanner, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
-import { ThemedLayoutV2, useNotificationProvider } from "@refinedev/antd";
+import { ThemedLayout, useNotificationProvider } from "@refinedev/antd";
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 
 import { PostCreate, PostEdit, PostList, PostShow } from "./pages/posts";
@@ -24,7 +25,7 @@ function App() {
           <Refine
             dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
             notificationProvider={useNotificationProvider}
-            routerProvider={routerBindings}
+            routerProvider={routerProvider}
             resources={[
               {
                 name: "blog_posts",
@@ -55,9 +56,9 @@ function App() {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 <Route

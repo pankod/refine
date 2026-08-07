@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 
 import {
@@ -13,7 +14,6 @@ import type { IRefineContextProvider } from "../../contexts/refine/types";
 import { useList } from "./useList";
 
 const mockRefineProvider: IRefineContextProvider = {
-  hasDashboard: false,
   ...defaultRefineOptions,
   options: defaultRefineOptions,
 };
@@ -28,26 +28,29 @@ describe("useList Hook", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
-    const { data } = result.current;
+    const { result: listResult } = result.current;
 
-    expect(data?.data).toHaveLength(2);
-    expect(data?.total).toEqual(2);
+    expect(listResult.data).toHaveLength(2);
+    expect(listResult.total).toEqual(2);
   });
 
   it.each(["server", undefined] as const)(
     "should include pagination in queryKey when mode is %s",
     async (mode) => {
-      const getListMock = jest.fn();
+      const getListMock = vi.fn().mockResolvedValue({
+        data: [],
+        total: 0,
+      });
 
       renderHook(
         () =>
           useList({
             resource: "posts",
             pagination: {
-              current: 1,
+              currentPage: 1,
               pageSize: 10,
               mode,
             },
@@ -64,25 +67,25 @@ describe("useList Hook", () => {
           }),
         },
       );
-      expect(getListMock).toBeCalledWith(
+
+      expect(getListMock).toHaveBeenCalledWith(
         expect.objectContaining({
           meta: {
-            queryContext: {
-              queryKey: [
-                "default",
-                "posts",
-                "list",
-                {
-                  hasPagination: true,
-                  pagination: {
-                    current: 1,
-                    mode: "server",
-                    pageSize: 10,
-                  },
+            queryKey: [
+              "data",
+              "default",
+              "posts",
+              "list",
+              {
+                filters: undefined,
+                pagination: {
+                  currentPage: 1,
+                  mode: mode || "server",
+                  pageSize: 10,
                 },
-              ],
-              signal: new AbortController().signal,
-            },
+              },
+            ],
+            signal: new AbortController().signal,
           },
         }),
       );
@@ -92,14 +95,14 @@ describe("useList Hook", () => {
   it.each(["client", "off"] as const)(
     "should not include pagination in queryKey",
     async (mode) => {
-      const getListMock = jest.fn();
+      const getListMock = vi.fn();
 
       renderHook(
         () =>
           useList({
             resource: "posts",
             pagination: {
-              current: 1,
+              currentPage: 1,
               pageSize: 10,
               mode,
             },
@@ -117,19 +120,25 @@ describe("useList Hook", () => {
         },
       );
 
-      expect(getListMock).toBeCalledWith(
+      expect(getListMock).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "posts",
           pagination: {
-            current: 1,
+            currentPage: 1,
             pageSize: 10,
             mode,
           },
           meta: {
-            queryContext: {
-              queryKey: ["default", "posts", "list", { hasPagination: false }],
-              signal: new AbortController().signal,
-            },
+            queryKey: [
+              "data",
+              "default",
+              "posts",
+              "list",
+              {
+                filters: undefined,
+              },
+            ],
+            signal: new AbortController().signal,
           },
         }),
       );
@@ -144,7 +153,7 @@ describe("useList Hook", () => {
           pagination: {
             mode: "client",
             pageSize: 1,
-            current: 1,
+            currentPage: 1,
           },
         }),
       {
@@ -156,10 +165,10 @@ describe("useList Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
-    expect(result.current.data?.data).toHaveLength(1);
+    expect(result.current.result.data).toHaveLength(1);
   });
 
   it("user should be able to use queryOptions's select to transform data when pagination mode is client", async () => {
@@ -190,10 +199,13 @@ describe("useList Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
-    expect(result.current.data?.data).toStrictEqual([{ id: "1" }, { id: "2" }]);
+    expect(result.current.result.data).toStrictEqual([
+      { id: "1" },
+      { id: "2" },
+    ]);
   });
 
   it("when pagination mode is client and the user use queryOptions's select, useList should return the data from dataProvider", async () => {
@@ -229,14 +241,15 @@ describe("useList Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
-    expect(result.current.data?.foo).toBe("bar");
+    expect(result.current.query.data?.foo).toBe("bar");
+    expect(result.current.result.foo).toBe("bar");
   });
 
   it("should only pass meta from the hook parameter and query parameters to the dataProvider", async () => {
-    const getListMock = jest.fn();
+    const getListMock = vi.fn();
 
     renderHook(() => useList({ resource: "posts", meta: { foo: "bar" } }), {
       wrapper: TestWrapper({
@@ -254,10 +267,10 @@ describe("useList Hook", () => {
     });
 
     await waitFor(() => {
-      expect(getListMock).toBeCalled();
+      expect(getListMock).toHaveBeenCalled();
     });
 
-    expect(getListMock).toBeCalledWith(
+    expect(getListMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -271,7 +284,7 @@ describe("useList Hook", () => {
     it.each(["default", "categories"])(
       "useSubscription [dataProviderName: %s]",
       async (dataProviderName) => {
-        const onSubscribeMock = jest.fn();
+        const onSubscribeMock = vi.fn();
 
         const { result } = renderHook(
           () =>
@@ -284,7 +297,7 @@ describe("useList Hook", () => {
               dataProvider: MockJSONServer,
               resources: [{ name: "posts" }],
               liveProvider: {
-                unsubscribe: jest.fn(),
+                unsubscribe: vi.fn(),
                 subscribe: onSubscribeMock,
               },
               refineProvider: {
@@ -296,26 +309,30 @@ describe("useList Hook", () => {
         );
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.query.isSuccess).toBeTruthy();
         });
 
-        expect(onSubscribeMock).toBeCalled();
+        expect(onSubscribeMock).toHaveBeenCalled();
         expect(onSubscribeMock).toHaveBeenCalledWith(
           expect.objectContaining({
             channel: "resources/posts",
             callback: expect.any(Function),
             params: expect.objectContaining({
+              filters: undefined,
               hasPagination: true,
+              meta: {
+                route: undefined,
+              },
               pagination: {
-                current: 1,
+                currentPage: 1,
                 mode: "server",
                 pageSize: 10,
               },
               resource: "posts",
+              sorters: undefined,
               subscriptionType: "useList",
             }),
             types: ["*"],
-            dataProviderName,
             meta: {
               dataProviderName,
             },
@@ -325,7 +342,7 @@ describe("useList Hook", () => {
     );
 
     it("liveMode = Off useSubscription", async () => {
-      const onSubscribeMock = jest.fn();
+      const onSubscribeMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -337,7 +354,7 @@ describe("useList Hook", () => {
             dataProvider: MockJSONServer,
             resources: [{ name: "posts" }],
             liveProvider: {
-              unsubscribe: jest.fn(),
+              unsubscribe: vi.fn(),
               subscribe: onSubscribeMock,
             },
             refineProvider: {
@@ -349,14 +366,14 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.query.isSuccess).toBeTruthy();
       });
 
-      expect(onSubscribeMock).not.toBeCalled();
+      expect(onSubscribeMock).not.toHaveBeenCalled();
     });
 
     it("liveMode = Off and liveMode hook param auto", async () => {
-      const onSubscribeMock = jest.fn();
+      const onSubscribeMock = vi.fn();
 
       const { result } = renderHook(
         () => useList({ resource: "posts", liveMode: "auto" }),
@@ -365,7 +382,7 @@ describe("useList Hook", () => {
             dataProvider: MockJSONServer,
             resources: [{ name: "posts" }],
             liveProvider: {
-              unsubscribe: jest.fn(),
+              unsubscribe: vi.fn(),
               subscribe: onSubscribeMock,
             },
             refineProvider: {
@@ -377,15 +394,15 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.query.isSuccess).toBeTruthy();
       });
 
-      expect(onSubscribeMock).toBeCalled();
+      expect(onSubscribeMock).toHaveBeenCalled();
     });
 
     it("unsubscribe call on unmount", async () => {
-      const onSubscribeMock = jest.fn(() => true);
-      const onUnsubscribeMock = jest.fn();
+      const onSubscribeMock = vi.fn(() => true);
+      const onUnsubscribeMock = vi.fn();
 
       const { result, unmount } = renderHook(
         () =>
@@ -409,18 +426,18 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.query.isSuccess).toBeTruthy();
       });
 
-      expect(onSubscribeMock).toBeCalled();
+      expect(onSubscribeMock).toHaveBeenCalled();
 
       unmount();
-      expect(onUnsubscribeMock).toBeCalledWith(true);
-      expect(onUnsubscribeMock).toBeCalledTimes(1);
+      expect(onUnsubscribeMock).toHaveBeenCalledWith(true);
+      expect(onUnsubscribeMock).toHaveBeenCalledTimes(1);
     });
 
     it("should not subscribe if `queryOptions.enabled` is false", async () => {
-      const onSubscribeMock = jest.fn();
+      const onSubscribeMock = vi.fn();
 
       renderHook(
         () =>
@@ -435,7 +452,7 @@ describe("useList Hook", () => {
             dataProvider: MockJSONServer,
             resources: [{ name: "posts" }],
             liveProvider: {
-              unsubscribe: jest.fn(),
+              unsubscribe: vi.fn(),
               subscribe: onSubscribeMock,
             },
             refineProvider: {
@@ -446,14 +463,14 @@ describe("useList Hook", () => {
         },
       );
 
-      expect(onSubscribeMock).not.toBeCalled();
+      expect(onSubscribeMock).not.toHaveBeenCalled();
     });
   });
 
   describe("useNotification", () => {
     it("should call `open` from the notification provider on error", async () => {
-      const getListMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const notificationMock = jest.fn();
+      const getListMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const notificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -470,7 +487,7 @@ describe("useList Hook", () => {
             },
             notificationProvider: {
               open: notificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -478,10 +495,10 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.query.isError).toBeTruthy();
       });
 
-      expect(notificationMock).toBeCalledWith({
+      expect(notificationMock).toHaveBeenCalledWith({
         description: "Error",
         key: "posts-useList-notification",
         message: "Error (status code: undefined)",
@@ -490,7 +507,7 @@ describe("useList Hook", () => {
     });
 
     it("should call `open` from notification provider on success with custom notification params", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -507,7 +524,7 @@ describe("useList Hook", () => {
             dataProvider: MockJSONServer,
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -515,10 +532,10 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.query.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Successfully created post",
         message: "Success",
         type: "success",
@@ -526,7 +543,7 @@ describe("useList Hook", () => {
     });
 
     it("should not call `open` from notification provider on return `false`", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -539,7 +556,7 @@ describe("useList Hook", () => {
             dataProvider: MockJSONServer,
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -547,15 +564,15 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.query.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledTimes(0);
+      expect(openNotificationMock).toHaveBeenCalledTimes(0);
     });
 
     it("should call `open` from notification provider on error with custom notification params", async () => {
-      const getListMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const openNotificationMock = jest.fn();
+      const getListMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -577,7 +594,7 @@ describe("useList Hook", () => {
             },
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -585,10 +602,10 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.query.isError).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "There was an error creating post",
         message: "Error",
         type: "error",
@@ -598,8 +615,8 @@ describe("useList Hook", () => {
 
   describe("useOnError", () => {
     it("should call `onError` from the auth provider on error", async () => {
-      const getListMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onErrorMock = jest.fn();
+      const getListMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const onErrorMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -623,15 +640,15 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.query.isError).toBeTruthy();
       });
 
-      expect(onErrorMock).toBeCalledWith(new Error("Error"));
+      expect(onErrorMock).toHaveBeenCalledWith(new Error("Error"));
     });
 
     it("should call `checkError` from the legacy auth provider on error", async () => {
-      const getListMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onErrorMock = jest.fn();
+      const getListMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const onErrorMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -646,8 +663,11 @@ describe("useList Hook", () => {
                 getList: getListMock,
               },
             },
-            legacyAuthProvider: {
-              checkError: onErrorMock,
+            authProvider: {
+              login: () => Promise.resolve({ success: true }),
+              logout: () => Promise.resolve({ success: true }),
+              check: () => Promise.resolve({ authenticated: true }),
+              onError: onErrorMock,
             },
             resources: [{ name: "posts" }],
           }),
@@ -655,26 +675,32 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.query.isError).toBeTruthy();
       });
 
-      expect(onErrorMock).toBeCalledWith(new Error("Error"));
+      expect(onErrorMock).toHaveBeenCalledWith(new Error("Error"));
     });
   });
 
   describe("queryOptions", () => {
-    it("should run `queryOptions.onSuccess` callback on success", async () => {
-      const onSuccessMock = jest.fn();
-      const getListMock = jest.fn().mockResolvedValue({
+    it("should call successNotification on success", async () => {
+      const successNotificationMock = vi.fn().mockReturnValue({
+        message: "Success",
+        type: "success",
+      });
+      const openNotificationMock = vi.fn();
+      const getListMock = vi.fn().mockResolvedValue({
         data: [{ id: 1, title: "foo" }],
+        total: 1,
       });
 
       const { result } = renderHook(
         () =>
           useList({
             resource: "posts",
+            successNotification: successNotificationMock,
             queryOptions: {
-              onSuccess: onSuccessMock,
+              enabled: true,
             },
           }),
         {
@@ -685,30 +711,56 @@ describe("useList Hook", () => {
                 getList: getListMock,
               },
             },
+            notificationProvider: {
+              open: openNotificationMock,
+              close: vi.fn(),
+            },
             resources: [{ name: "posts" }],
           }),
         },
       );
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.query.isSuccess).toBeTruthy();
       });
 
-      expect(onSuccessMock).toBeCalledWith({
-        data: [{ id: 1, title: "foo" }],
+      expect(successNotificationMock).toHaveBeenCalledWith(
+        {
+          data: [{ id: 1, title: "foo" }],
+          total: 1,
+        },
+        expect.objectContaining({
+          filters: undefined,
+          sorters: undefined,
+          pagination: expect.objectContaining({
+            currentPage: 1,
+            pageSize: 10,
+            mode: "server",
+          }),
+        }),
+        "posts",
+      );
+      expect(openNotificationMock).toHaveBeenCalledWith({
+        message: "Success",
+        type: "success",
       });
     });
 
-    it("should run `queryOptions.onError` callback on error", async () => {
-      const onErrorMock = jest.fn();
-      const getListMcok = jest.fn().mockRejectedValue(new Error("Error"));
+    it("should call errorNotification on error", async () => {
+      const errorNotificationMock = vi.fn().mockReturnValue({
+        message: "Custom Error",
+        type: "error",
+      });
+      const openNotificationMock = vi.fn();
+      const getListMock = vi.fn().mockRejectedValue(new Error("Error"));
 
       const { result } = renderHook(
         () =>
           useList({
             resource: "posts",
+            errorNotification: errorNotificationMock,
             queryOptions: {
-              onError: onErrorMock,
+              enabled: true,
             },
           }),
         {
@@ -716,8 +768,12 @@ describe("useList Hook", () => {
             dataProvider: {
               default: {
                 ...MockJSONServer.default,
-                getList: getListMcok,
+                getList: getListMock,
               },
+            },
+            notificationProvider: {
+              open: openNotificationMock,
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -725,14 +781,30 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.query.isError).toBeTruthy();
       });
 
-      expect(onErrorMock).toBeCalledWith(new Error("Error"));
+      expect(errorNotificationMock).toHaveBeenCalledWith(
+        new Error("Error"),
+        expect.objectContaining({
+          filters: undefined,
+          sorters: undefined,
+          pagination: expect.objectContaining({
+            currentPage: 1,
+            pageSize: 10,
+            mode: "server",
+          }),
+        }),
+        "posts",
+      );
+      expect(openNotificationMock).toHaveBeenCalledWith({
+        message: "Custom Error",
+        type: "error",
+      });
     });
 
     it("should override `queryKey` with `queryOptions.queryKey`", async () => {
-      const getListMock = jest.fn().mockResolvedValue({
+      const getListMock = vi.fn().mockResolvedValue({
         data: [{ id: 1, title: "foo" }],
       });
 
@@ -758,15 +830,13 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.query.isSuccess).toBeTruthy();
       });
 
-      expect(getListMock).toBeCalledWith(
+      expect(getListMock).toHaveBeenCalledWith(
         expect.objectContaining({
           meta: expect.objectContaining({
-            queryContext: expect.objectContaining({
-              queryKey: ["foo", "bar"],
-            }),
+            queryKey: ["foo", "bar"],
           }),
         }),
       );
@@ -779,11 +849,11 @@ describe("useList Hook", () => {
     });
 
     it("should override `queryFn` with `queryOptions.queryFn`", async () => {
-      const getListMock = jest.fn().mockResolvedValue({
+      const getListMock = vi.fn().mockResolvedValue({
         data: [{ id: 1, title: "foo" }],
       });
 
-      const queryFnMock = jest.fn().mockResolvedValue({
+      const queryFnMock = vi.fn().mockResolvedValue({
         data: [{ id: 1, title: "foo" }],
       });
 
@@ -809,16 +879,16 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.query.isSuccess).toBeTruthy();
       });
 
-      expect(getListMock).not.toBeCalled();
-      expect(queryFnMock).toBeCalled();
+      expect(getListMock).not.toHaveBeenCalled();
+      expect(queryFnMock).toHaveBeenCalled();
     });
   });
 
   it("should support deprecated `config` property", async () => {
-    const getListMock = jest.fn().mockResolvedValue({
+    const getListMock = vi.fn().mockResolvedValue({
       data: [{ id: 1, title: "foo" }],
     });
 
@@ -826,16 +896,13 @@ describe("useList Hook", () => {
       () =>
         useList({
           resource: "posts",
-          config: {
-            filters: [{ field: "id", operator: "eq", value: 1 }],
-            hasPagination: false,
-            pagination: {
-              mode: "client",
-              current: 10,
-              pageSize: 5,
-            },
-            sort: [{ field: "id", order: "asc" }],
+          filters: [{ field: "id", operator: "eq", value: 1 }],
+          pagination: {
+            mode: "client",
+            currentPage: 10,
+            pageSize: 5,
           },
+          sorters: [{ field: "id", order: "asc" }],
         }),
       {
         wrapper: TestWrapper({
@@ -851,28 +918,27 @@ describe("useList Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
-    expect(getListMock).toBeCalledWith(
+    expect(getListMock).toHaveBeenCalledWith(
       expect.objectContaining({
         filters: [{ field: "id", operator: "eq", value: 1 }],
-        hasPagination: false,
         pagination: {
-          mode: "off",
-          current: 10,
+          mode: "client",
+          currentPage: 10,
           pageSize: 5,
         },
-        sort: [{ field: "id", order: "asc" }],
+        sorters: [{ field: "id", order: "asc" }],
       }),
     );
   });
 
   it("should select correct dataProviderName", async () => {
-    const getListDefaultMock = jest.fn().mockResolvedValue({
+    const getListDefaultMock = vi.fn().mockResolvedValue({
       data: [{ id: 1, title: "foo" }],
     });
-    const getListFooMock = jest.fn().mockResolvedValue({
+    const getListFooMock = vi.fn().mockResolvedValue({
       data: [{ id: 1, title: "foo" }],
     });
 
@@ -909,19 +975,19 @@ describe("useList Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
-    expect(getListFooMock).toBeCalledWith(
+    expect(getListFooMock).toHaveBeenCalledWith(
       expect.objectContaining({
         resource: "posts",
       }),
     );
-    expect(getListDefaultMock).not.toBeCalled();
+    expect(getListDefaultMock).not.toHaveBeenCalled();
   });
 
   it("should get correct `meta` of related resource", async () => {
-    const getListMock = jest.fn().mockResolvedValue({
+    const getListMock = vi.fn().mockResolvedValue({
       data: [{ id: 1, title: "foo" }],
     });
 
@@ -951,10 +1017,10 @@ describe("useList Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
-    expect(getListMock).toBeCalledWith(
+    expect(getListMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -965,10 +1031,10 @@ describe("useList Hook", () => {
 
   describe("when passing `identifier` instead of `name`", () => {
     it("should select correct dataProviderName", async () => {
-      const getListDefaultMock = jest.fn().mockResolvedValue({
+      const getListDefaultMock = vi.fn().mockResolvedValue({
         data: [{ id: 1, title: "foo" }],
       });
-      const getListFooMock = jest.fn().mockResolvedValue({
+      const getListFooMock = vi.fn().mockResolvedValue({
         data: [{ id: 1, title: "foo" }],
       });
 
@@ -1006,19 +1072,19 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.query.isSuccess).toBeTruthy();
       });
 
-      expect(getListFooMock).toBeCalledWith(
+      expect(getListFooMock).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "posts",
         }),
       );
-      expect(getListDefaultMock).not.toBeCalled();
+      expect(getListDefaultMock).not.toHaveBeenCalled();
     });
 
     it("should create queryKey with `identifier`", async () => {
-      const getListMock = jest.fn().mockResolvedValue({
+      const getListMock = vi.fn().mockResolvedValue({
         data: [{ id: 1, title: "foo" }],
       });
 
@@ -1046,27 +1112,26 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.query.isSuccess).toBeTruthy();
       });
 
-      expect(getListMock).toBeCalledWith(
+      expect(getListMock).toHaveBeenCalledWith(
         expect.objectContaining({
           meta: expect.objectContaining({
-            queryContext: expect.objectContaining({
-              queryKey: [
-                "default",
-                "featured-posts",
-                "list",
-                expect.any(Object),
-              ],
-            }),
+            queryKey: [
+              "data",
+              "default",
+              "featured-posts",
+              "list",
+              expect.any(Object),
+            ],
           }),
         }),
       );
     });
 
     it("should get correct `meta` of related resource", async () => {
-      const getListMock = jest.fn().mockResolvedValue({
+      const getListMock = vi.fn().mockResolvedValue({
         data: [{ id: 1, title: "foo" }],
       });
 
@@ -1104,10 +1169,10 @@ describe("useList Hook", () => {
       );
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.query.isSuccess).toBeTruthy();
       });
 
-      expect(getListMock).toBeCalledWith(
+      expect(getListMock).toHaveBeenCalledWith(
         expect.objectContaining({
           meta: expect.objectContaining({
             bar: "baz",
@@ -1118,7 +1183,7 @@ describe("useList Hook", () => {
   });
 
   it("works correctly with `interval` and `onInterval` params", async () => {
-    const onInterval = jest.fn();
+    const onInterval = vi.fn();
     const { result } = renderHook(
       () =>
         useList({
@@ -1153,19 +1218,19 @@ describe("useList Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeTruthy();
+      expect(result.current.query.isPending).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBe(900);
-      expect(onInterval).toBeCalled();
+      expect(onInterval).toHaveBeenCalled();
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeFalsy();
+      expect(result.current.query.isPending).toBeFalsy();
       expect(result.current.overtime.elapsedTime).toBeUndefined();
     });
   });
 
   it("should infer resource from the route", async () => {
-    const getListMock = jest.fn().mockResolvedValue({
+    const getListMock = vi.fn().mockResolvedValue({
       data: [{ id: 1, title: "foo" }],
     });
 
@@ -1196,10 +1261,10 @@ describe("useList Hook", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
-    expect(getListMock).toBeCalledWith(
+    expect(getListMock).toHaveBeenCalledWith(
       expect.objectContaining({
         resource: "posts",
       }),

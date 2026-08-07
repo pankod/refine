@@ -81,16 +81,18 @@ export const ProductTable: React.FC = () => {
     );
 
     const {
-        getHeaderGroups,
-        getRowModel,
-        getState,
-        setPageIndex,
-        getCanPreviousPage,
-        getPageCount,
-        getCanNextPage,
-        nextPage,
-        previousPage,
-        setPageSize,
+        reactTable: {
+          getHeaderGroups,
+          getRowModel,
+          getState,
+          setPageIndex,
+          getCanPreviousPage,
+          getPageCount,
+          getCanNextPage,
+          nextPage,
+          previousPage,
+          setPageSize,
+        }
     } = useTable<IProduct>({
         refineCoreProps: {
             resource: "products",

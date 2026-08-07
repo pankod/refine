@@ -4,10 +4,10 @@ title: Refresh
 swizzle: true
 ---
 
-`<RefreshButton>` uses Material UI [`<Button>`](https://mui.com/material-ui/react-button/) component to update the data shown on the page via the [`useOne`](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) method provided by your [`dataProvider`](/api-reference/core/providers/data-provider.md).
+`<RefreshButton>` uses Material UI [`<Button>`](https://mui.com/material-ui/react-button/) component to update the data shown on the page via the [`useOne`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) method provided by your [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider).
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Usage
@@ -99,7 +99,7 @@ render(
 );
 ```
 
-Clicking the button will trigger the [`useOne`](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) method and then fetches the record whose resource is "post" and whose id is "1".
+Clicking the button will trigger the [`useOne`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) method and then fetches the record whose resource is "post" and whose id is "1".
 
 :::note
 `<RefreshButton>` component reads the id information from the route by default.
@@ -138,7 +138,7 @@ render(
 );
 ```
 
-Clicking the button will trigger the [`useOne`](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) method and then fetches the record whose resource is "categories" and whose id is "2".
+Clicking the button will trigger the [`useOne`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) method and then fetches the record whose resource is "categories" and whose id is "2".
 
 :::note
 `<RefreshButton>` component reads the resource name from the route by default.

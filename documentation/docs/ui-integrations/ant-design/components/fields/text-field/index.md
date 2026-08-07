@@ -1,5 +1,8 @@
 ---
-title: Text
+title: "Ant Design Text Field Component | UI Component in Refine v5"
+display_title: "Text"
+sidebar_label: "Text"
+description: "Build Text Field in Refine v5. Learn the key steps. Explore customization options for Ant Design for polished admin UIs. See practical code samples."
 swizzle: true
 ---
 
@@ -7,7 +10,7 @@ This field lets you show basic text. It uses Ant Design's [`<Typography.Text>`](
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -15,7 +18,9 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 
 Let's see how to use it in a basic list page:
 
-```tsx live
+```tsx live previewHeight=280px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import { useMany } from "@refinedev/core";
 import {
@@ -26,13 +31,16 @@ import {
 } from "@refinedev/antd";
 import { Table } from "antd";
 
-const PostList: React.FC = (props) => {
+const PostList: React.FC = () => {
   const { tableProps } = useTable<IPost>();
 
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.category.id) ?? [];
 
-  const { data: categoriesData, isLoading } = useMany<ICategory>({
+  const {
+    result: categoriesData,
+    query: { isLoading },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -41,12 +49,12 @@ const PostList: React.FC = (props) => {
   });
 
   return (
-    <List {...props}>
+    <List>
       <Table {...tableProps} rowKey="id">
-        <Table.Column dataIndex="title" title="title" width="50%" />
+        <Table.Column dataIndex="title" title="Title" />
         <Table.Column
           dataIndex={["category", "id"]}
-          title="category"
+          title="Category"
           render={(value: number) => {
             // highlight-start
             if (isLoading) {
@@ -63,7 +71,6 @@ const PostList: React.FC = (props) => {
             );
             // highlight-end
           }}
-          width="50%"
         />
       </Table>
     </List>
@@ -83,14 +90,27 @@ interface IPost {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <PostList />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

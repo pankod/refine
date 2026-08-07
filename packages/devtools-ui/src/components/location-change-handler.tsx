@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { setLastLocation } from "src/utils/last-location";
 
 export const LocationChangeHandler = () => {

@@ -1,13 +1,15 @@
 import React, { type ReactNode } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import type { AccessControlProvider } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
+import { vi } from "vitest";
 
 import {
   act,
   fireEvent,
   type ITestWrapperProps,
   MockJSONServer,
+  MockRouterProvider,
   render,
   TestWrapper,
   waitFor,
@@ -35,6 +37,24 @@ const renderEdit = (
       wrapper: TestWrapper({
         routerInitialEntries: ["/posts/edit/1"],
         accessControlProvider,
+        routerProvider: {
+          ...MockRouterProvider(),
+          parse: () => () => ({
+            params: { id: "1" },
+            action: "edit",
+            id: 1,
+            resource: {
+              name: "posts",
+              list: "/posts",
+              create: "/posts/create",
+              clone: "/posts/clone/1",
+              show: "/posts/show/1",
+              edit: "/posts/edit/1",
+              meta: { canDelete: true },
+            },
+            pathname: "/posts/edit/1",
+          }),
+        },
         ...wrapperOptions,
       }),
     },
@@ -73,14 +93,28 @@ describe("Edit", () => {
         </Routes>,
         {
           wrapper: TestWrapper({
-            resources: [{ name: "posts", canDelete: true }],
+            resources: [{ name: "posts", meta: { canDelete: true } }],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: {
+              ...MockRouterProvider(),
+              parse: () => () => ({
+                params: { id: "1" },
+                action: "edit",
+                id: 1,
+                resource: {
+                  name: "posts",
+                  list: "/posts",
+                  create: "/posts/create",
+                  edit: "/posts/edit/1",
+                  meta: { canDelete: true },
+                },
+                pathname: "/posts/edit/1",
+              }),
+            },
           }),
         },
       );
-
       expect(queryByTestId(RefineButtonTestIds.DeleteButton)).not.toBeNull();
-
       getByText("Edit Post");
     });
 
@@ -101,8 +135,24 @@ describe("Edit", () => {
         </Routes>,
         {
           wrapper: TestWrapper({
-            resources: [{ name: "posts", canDelete: false }],
+            resources: [{ name: "posts", meta: { canDelete: false } }],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: {
+              ...MockRouterProvider(),
+              parse: () => () => ({
+                params: { id: "1" },
+                action: "edit",
+                id: 1,
+                resource: {
+                  name: "posts",
+                  list: "/posts",
+                  create: "/posts/create",
+                  edit: "/posts/edit/1",
+                  meta: { canDelete: false },
+                },
+                pathname: "/posts/edit/1",
+              }),
+            },
           }),
         },
       );
@@ -120,15 +170,29 @@ describe("Edit", () => {
             element={<Edit canDelete={false} />}
           />
         </Routes>,
-
         {
           wrapper: TestWrapper({
-            resources: [{ name: "posts", canDelete: true }],
+            resources: [{ name: "posts", meta: { canDelete: true } }],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: {
+              ...MockRouterProvider(),
+              parse: () => () => ({
+                params: { id: "1" },
+                action: "edit",
+                id: 1,
+                resource: {
+                  name: "posts",
+                  list: "/posts",
+                  create: "/posts/create",
+                  edit: "/posts/edit/1",
+                  meta: { canDelete: true },
+                },
+                pathname: "/posts/edit/1",
+              }),
+            },
           }),
         },
       );
-
       expect(queryByTestId(RefineButtonTestIds.DeleteButton)).toBeNull();
     });
 
@@ -142,12 +206,27 @@ describe("Edit", () => {
         </Routes>,
         {
           wrapper: TestWrapper({
-            resources: [{ name: "posts", canDelete: false }],
+            resources: [{ name: "posts", meta: { canDelete: false } }],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: {
+              ...MockRouterProvider(),
+              parse: () => () => ({
+                params: { id: "1" },
+                action: "edit",
+                id: 1,
+                resource: {
+                  name: "posts",
+                  list: "/posts",
+                  create: "/posts/create",
+                  edit: "/posts/edit/1",
+                  meta: { canDelete: false },
+                },
+                pathname: "/posts/edit/1",
+              }),
+            },
           }),
         },
       );
-
       expect(queryByTestId(RefineButtonTestIds.DeleteButton)).not.toBeNull();
     });
 
@@ -161,12 +240,27 @@ describe("Edit", () => {
         </Routes>,
         {
           wrapper: TestWrapper({
-            resources: [{ name: "posts", canDelete: false }],
+            resources: [{ name: "posts", meta: { canDelete: false } }],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: {
+              ...MockRouterProvider(),
+              parse: () => () => ({
+                params: { id: "1" },
+                action: "edit",
+                id: 1,
+                resource: {
+                  name: "posts",
+                  list: "/posts",
+                  create: "/posts/create",
+                  edit: "/posts/edit/1",
+                  meta: { canDelete: false },
+                },
+                pathname: "/posts/edit/1",
+              }),
+            },
           }),
         },
       );
-
       expect(queryByTestId(RefineButtonTestIds.DeleteButton)).not.toBeNull();
     });
   });
@@ -229,10 +323,25 @@ describe("Edit", () => {
           wrapper: TestWrapper({
             resources: [{ name: "posts" }],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: {
+              ...MockRouterProvider(),
+              parse: () => () => ({
+                params: { id: "1" },
+                action: "edit",
+                id: 1,
+                resource: {
+                  name: "posts",
+                  list: "/posts",
+                  create: "/posts/create",
+                  edit: "/posts/edit/1",
+                  meta: {},
+                },
+                pathname: "/posts/edit/1",
+              }),
+            },
           }),
         },
       );
-
       expect(getAllByLabelText("breadcrumb")).not.toBeNull();
     });
     it("should not render breadcrumb", async () => {
@@ -320,6 +429,20 @@ describe("Edit", () => {
         undefined,
         {
           resources: [{ name: "posts", list: undefined }],
+          routerProvider: {
+            ...MockRouterProvider(),
+            parse: () => () => ({
+              action: "edit",
+              id: "1",
+              pathname: "/posts/edit/1",
+              resource: {
+                name: "posts",
+                list: undefined,
+                create: "/posts/create",
+                edit: "/posts/edit/1",
+              },
+            }),
+          },
         },
       );
       await waitFor(() =>
@@ -366,7 +489,7 @@ describe("Edit", () => {
     };
 
     it("check idle,loading,success statuses", async () => {
-      jest.useFakeTimers();
+      vi.useFakeTimers();
 
       const { getByText, getByTestId } = render(
         <Routes>
@@ -377,8 +500,24 @@ describe("Edit", () => {
         </Routes>,
         {
           wrapper: TestWrapper({
-            resources: [{ name: "posts", canDelete: false }],
+            resources: [{ name: "posts", meta: { canDelete: false } }],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: {
+              ...MockRouterProvider(),
+              parse: () => () => ({
+                params: { id: "1" },
+                action: "edit",
+                id: 1,
+                resource: {
+                  name: "posts",
+                  list: "/posts",
+                  create: "/posts/create",
+                  edit: "/posts/edit/1",
+                  meta: { canDelete: false },
+                },
+                pathname: "/posts/edit/1",
+              }),
+            },
             dataProvider: {
               ...MockJSONServer,
               update: () => {
@@ -387,7 +526,7 @@ describe("Edit", () => {
                     () =>
                       res({
                         data: {
-                          id: "1",
+                          id: 1,
                           title: "ok",
                         } as any,
                       }),
@@ -409,14 +548,14 @@ describe("Edit", () => {
           target: { value: "test" },
         });
 
-        jest.advanceTimersByTime(1100);
+        vi.advanceTimersByTime(1100);
       });
 
       // check saving message
       expect(getByText("saving...")).toBeTruthy();
 
       await act(async () => {
-        jest.advanceTimersByTime(1000);
+        vi.advanceTimersByTime(1000);
       });
 
       // check saved message
@@ -424,7 +563,7 @@ describe("Edit", () => {
     });
 
     it("check error status", async () => {
-      jest.useFakeTimers();
+      vi.useFakeTimers();
 
       const { getByText, getByTestId } = render(
         <Routes>
@@ -435,8 +574,24 @@ describe("Edit", () => {
         </Routes>,
         {
           wrapper: TestWrapper({
-            resources: [{ name: "posts", canDelete: false }],
+            resources: [{ name: "posts", meta: { canDelete: false } }],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: {
+              ...MockRouterProvider(),
+              parse: () => () => ({
+                params: { id: "1" },
+                action: "edit",
+                id: 1,
+                resource: {
+                  name: "posts",
+                  list: "/posts",
+                  create: "/posts/create",
+                  edit: "/posts/edit/1",
+                  meta: { canDelete: false },
+                },
+                pathname: "/posts/edit/1",
+              }),
+            },
             dataProvider: {
               ...MockJSONServer,
               update: () => {
@@ -458,14 +613,14 @@ describe("Edit", () => {
           target: { value: "test" },
         });
 
-        jest.advanceTimersByTime(1100);
+        vi.advanceTimersByTime(1100);
       });
 
       // check saving message
       expect(getByText("saving...")).toBeTruthy();
 
       await act(async () => {
-        jest.advanceTimersByTime(1000);
+        vi.advanceTimersByTime(1000);
       });
 
       // check saved message

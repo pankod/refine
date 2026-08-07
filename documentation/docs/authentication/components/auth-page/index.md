@@ -1,12 +1,14 @@
 ---
-title: <AuthPage />
-description: <AuthPage> component from Refine is an authentication page that can be used to login, register, forgot password, and update password.
+title: "Auth Page Component | Best Practices in Refine v5"
+display_title: "<AuthPage />"
+sidebar_label: "<AuthPage />"
+description: "Integrate Auth Page in Refine v5. Learn best practices. Explore secure patterns for OAuth, JWT for secure enterprise React apps. Hands-on examples included."
 source: packages/core/src/components/pages/auth/index.tsx
 ---
 
 `<AuthPage>` component from Refine contains authentication pages that can be used to login, register, forgot password, and update password.
 
-Before using `<AuthPage>` component you need to add [authProvider](/docs/authentication/auth-provider) that will be used to handle authentication.
+Before using `<AuthPage>` component you need to add [authProvider](/core/docs/authentication/auth-provider/) that will be used to handle authentication.
 
 ```css live shared
 body {
@@ -107,9 +109,9 @@ setInitialRoutes(["/login"]);
 // visible-block-start
 import { Refine, AuthPage, Authenticated } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider, { CatchAllNavigate } from "@refinedev/react-router-v6";
+import routerProvider, { CatchAllNavigate } from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -165,9 +167,9 @@ setInitialRoutes(["/login"]);
 // visible-block-start
 import { Refine, AuthPage, Authenticated } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider, { CatchAllNavigate } from "@refinedev/react-router-v6";
+import routerProvider, { CatchAllNavigate } from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -241,9 +243,9 @@ setInitialRoutes(["/register"]);
 // visible-block-start
 import { Refine, AuthPage, Authenticated } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider, { CatchAllNavigate } from "@refinedev/react-router-v6";
+import routerProvider, { CatchAllNavigate } from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -319,9 +321,9 @@ setRefineProps({ Sider: () => null });
 // visible-block-start
 import { Refine, AuthPage, Authenticated } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider, { CatchAllNavigate } from "@refinedev/react-router-v6";
+import routerProvider, { CatchAllNavigate } from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -401,9 +403,9 @@ setRefineProps({ Sider: () => null });
 // visible-block-start
 import { Refine, AuthPage, Authenticated } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider, { CatchAllNavigate } from "@refinedev/react-router-v6";
+import routerProvider, { CatchAllNavigate } from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -799,8 +801,8 @@ interface OAuthProvider {
 }
 ```
 
-[auth-provider]: /docs/authentication/auth-provider
-[login]: /docs/authentication/auth-provider#login-
-[register]: /docs/authentication/auth-provider#register
-[forgot-password]: /docs/authentication/auth-provider#forgotpassword
-[update-password]: /docs/authentication/auth-provider#updatepassword
+[auth-provider]: /core/docs/authentication/auth-provider
+[login]: /core/docs/authentication/auth-provider#login-
+[register]: /core/docs/authentication/auth-provider#register
+[forgot-password]: /core/docs/authentication/auth-provider#forgotpassword
+[update-password]: /core/docs/authentication/auth-provider#updatepassword

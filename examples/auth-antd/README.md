@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example auth-antd
 
 <br/>
 
-[![Open auth-antd example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/auth-antd?view=preview&theme=dark&codemirror=1)
+[![Open auth-antd example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/auth-antd?view=preview&theme=dark&codemirror=1)

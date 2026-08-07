@@ -1,6 +1,8 @@
 ---
 id: advanced-react-table
-title: Advanced Tables with Chakra UI
+title: "Advanced React Table Example | Pagination in Refine v5"
+display_title: "Advanced Tables with Chakra UI"
+description: "Explore how to build with the Advanced React Table example in Refine v5. Explore pagination, sorting for real-world React admin panels."
 sidebar_label: Advanced Table
 example-title: Advanced React Table with Chakra UI
 example-tags: [table, chakra-ui, react-table]

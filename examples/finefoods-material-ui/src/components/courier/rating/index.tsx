@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const CourierRating = (props: Props) => {
-  const { data } = useList<IReview>({
+  const { result: data } = useList<IReview>({
     resource: "reviews",
     filters: [
       {

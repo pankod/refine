@@ -1,8 +1,6 @@
 import type { QueryFunctionContext, QueryKey } from "@tanstack/react-query";
 import type { DocumentNode } from "graphql";
 
-import type { UseListConfig } from "../../hooks/data/useList";
-
 export type Prettify<T> = {
   [K in keyof T]: T[K];
 } & {};
@@ -16,11 +14,6 @@ export type BaseOption = {
   label: any;
   value: any;
 };
-
-/**
- * @deprecated Use `BaseOption` instead.
- */
-export interface Option extends BaseOption {}
 
 export type NestedField = {
   operation: string;
@@ -181,7 +174,7 @@ export interface Pagination {
    * Initial page index
    * @default 1
    */
-  current?: number;
+  currentPage?: number;
   /**
    * Initial number of items per page
    * @default 10
@@ -194,20 +187,11 @@ export interface Pagination {
   mode?: "client" | "server" | "off";
 }
 
-/**
- * @deprecated `MetaDataQuery` is deprecated with refine@4, use `MetaQuery` instead, however, we still support `MetaDataQuery` for backward compatibility.
- */
-export type MetaDataQuery = {
-  [k: string]: any;
-  queryContext?: Omit<QueryFunctionContext, "meta">;
-} & QueryBuilderOptions;
-
 export interface IQueryKeys {
   all: QueryKey;
   resourceAll: QueryKey;
   list: (
     config?:
-      | UseListConfig
       | {
           pagination?: Required<Pagination>;
           hasPagination?: boolean;
@@ -247,10 +231,6 @@ export type PreviousQuery<TData> = [QueryKey, TData | unknown];
 
 export type PrevContext<TData> = {
   previousQueries: PreviousQuery<TData>[];
-  /**
-   * @deprecated `QueryKeys` is deprecated in favor of `keys`. Please use `keys` instead to construct query keys for queries and mutations.
-   */
-  queryKey: IQueryKeys;
 };
 
 export type Context = {
@@ -268,6 +248,8 @@ export type ContextQuery<T = BaseRecord> = {
 // | ------------------- | --------------------------------- |
 // | `eq`                | Equal                             |
 // | ne                  | Not equal                         |
+// | eqs                 | Equal, case sensitive             |
+// | nes                 | Not equal, case sensitive         |
 // | lt                  | Less than                         |
 // | gt                  | Greater than                      |
 // | lte                 | Less than or equal to             |
@@ -290,6 +272,8 @@ export type ContextQuery<T = BaseRecord> = {
 export type CrudOperators =
   | "eq"
   | "ne"
+  | "eqs"
+  | "nes"
   | "lt"
   | "gt"
   | "lte"
@@ -384,21 +368,9 @@ export interface DeleteManyResponse<TData = BaseRecord> {
 export interface GetListParams {
   resource: string;
   pagination?: Pagination;
-  /**
-   * @deprecated `hasPagination` is deprecated, use `pagination.mode` instead.
-   */
-  hasPagination?: boolean;
-  /**
-   * @deprecated `sort` is deprecated, use `sorters` instead.
-   */
-  sort?: CrudSort[];
   sorters?: CrudSort[];
   filters?: CrudFilter[];
   meta?: MetaQuery;
-  /**
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
   dataProviderName?: string;
 }
 
@@ -406,10 +378,6 @@ export interface GetManyParams {
   resource: string;
   ids: BaseKey[];
   meta?: MetaQuery;
-  /**
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
   dataProviderName?: string;
 }
 
@@ -417,30 +385,18 @@ export interface GetOneParams {
   resource: string;
   id: BaseKey;
   meta?: MetaQuery;
-  /**
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
 }
 
 export interface CreateParams<TVariables = {}> {
   resource: string;
   variables: TVariables;
   meta?: MetaQuery;
-  /**
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
 }
 
 export interface CreateManyParams<TVariables = {}> {
   resource: string;
   variables: TVariables[];
   meta?: MetaQuery;
-  /**
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
 }
 
 export interface UpdateParams<TVariables = {}> {
@@ -448,10 +404,6 @@ export interface UpdateParams<TVariables = {}> {
   id: BaseKey;
   variables: TVariables;
   meta?: MetaQuery;
-  /**
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
 }
 
 export interface UpdateManyParams<TVariables = {}> {
@@ -459,10 +411,6 @@ export interface UpdateManyParams<TVariables = {}> {
   ids: BaseKey[];
   variables: TVariables;
   meta?: MetaQuery;
-  /**
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
 }
 
 export interface DeleteOneParams<TVariables = {}> {
@@ -470,10 +418,6 @@ export interface DeleteOneParams<TVariables = {}> {
   id: BaseKey;
   variables?: TVariables;
   meta?: MetaQuery;
-  /**
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
 }
 
 export interface DeleteManyParams<TVariables = {}> {
@@ -481,29 +425,17 @@ export interface DeleteManyParams<TVariables = {}> {
   ids: BaseKey[];
   variables?: TVariables;
   meta?: MetaQuery;
-  /**
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
 }
 
 export interface CustomParams<TQuery = unknown, TPayload = unknown> {
   url: string;
   method: "get" | "delete" | "head" | "options" | "post" | "put" | "patch";
-  /**
-   * @deprecated `sort` is deprecated, use `sorters` instead.
-   */
-  sort?: CrudSort[];
   sorters?: CrudSort[];
   filters?: CrudFilter[];
   payload?: TPayload;
   query?: TQuery;
   headers?: {};
   meta?: MetaQuery;
-  /**
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
 }
 
 export type DataProvider = {

@@ -1,6 +1,9 @@
 ---
 id: hasura
-title: Hasura
+title: "Hasura Example | REST API Integration in Refine v5"
+display_title: "Hasura"
+sidebar_label: "Hasura"
+description: "Implement Hasura in Refine v5. Learn the key steps. Learn scale REST, GraphQL for custom APIs and scalable data flows. Hands-on examples included."
 example-tags: [data-provider, live-provider]
 ---
 

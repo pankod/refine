@@ -3,9 +3,11 @@ title: refine Open Source Hackathon 2
 description: The second Refine Open Source Hackathon is an excellent opportunity for developers to showcase their skills, learn Refine and win prizes!
 slug: refine-hackathon-2
 authors: necati
-tags: [community, Refine]
+category: "Announcement"
+tags: []
 image: https://refine.ams3.cdn.digitaloceanspaces.com/hackathon-2/hackathon_cover.png
 hide_table_of_contents: false
+last_update: 2023-08-05
 ---
 
 ## 🏆 Hackathon Winners
@@ -25,7 +27,7 @@ Let's celebrate their success together!
 ## ⭐ Best Overall Project
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-04-refine-hackathon-2-winners/refine-native.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-04-refine-hackathon-2-winners/refine-native.png"  alt="Refine Native project screenshot" />
 </div>
 
 ### Refine Native
@@ -34,26 +36,26 @@ Refine Native, the empowering library for Refine, opens up a world of possibilit
 
 Inside this project, you'll discover two awesome libraries: [@refinenative/expo-router](https://www.npmjs.com/package/@refinenative/expo-router) and [@refinenative/react-native-paper](https://www.npmjs.com/package/@refinenative/react-native-paper). The first one seamlessly integrates Refine with your expo-router project, while the second one provides handy components built with react-native-paper, speeding up the creation of CRUD pages.
 
-**Author**: [Abdellah](https://github.com/abdellah711) - [GitHub Repo](https://github.com/abdellah711/refinenative) - [Project Details](https://dev.to/abdellah711/refine-native-2p1d)  
+**Author**: [Abdellah](https://github.com/abdellah711) - [GitHub Repo](https://github.com/abdellah711/refinenative) - [Project Details](https://dev.to/abdellah711/refine-native-2p1d)
 **Prize**: **$1000 + Refine, Supabase, MUI Swag kits, $300 USD credit to the DEV Shop!**
 
 ## ⭐ Most Technically Impressive
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-04-refine-hackathon-2-winners/supaheroes.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-04-refine-hackathon-2-winners/supaheroes.png"  alt="Supaheroes project screenshot" />
 </div>
 
 ### Supaheroes
 
 Introducing Supaheroes, the AI-powered platform that crafts character biographies from your favorite games, comics, and movies. Unleash the power of AI to bring your beloved characters to life!
 
-**Author**: [Luis](https://twitter.com/asyncerror) - [GitHub Repo](https://github.com/lvisb/versus-heroes) - [Project Details](https://dev.to/asyncerror/supaheroes-ai-powered-heroes-3f3j)  
+**Author**: [Luis](https://twitter.com/asyncerror) - [GitHub Repo](https://github.com/lvisb/versus-heroes) - [Project Details](https://dev.to/asyncerror/supaheroes-ai-powered-heroes-3f3j)
 **Prize**: **$1000 + Refine, Supabase, MUI Swag kits, $300 USD credit to the DEV Shop!**
 
 ## ⭐ Most Visually Pleasing
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-04-refine-hackathon-2-winners/tripstash.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-04-refine-hackathon-2-winners/tripstash.png"  alt="TripStash travel planning app screenshot" />
 </div>
 
 ### TripStash: Travel planning tool
@@ -62,33 +64,33 @@ TripStash is designed to help users plan their trips efficiently and easily. Col
 
 Creating a project, inviting travel companions, and building a shared itinerary for accommodation, flights, sightseeing, dining, and more is a breeze! Travel planning has never been this easy.
 
-**Authors**: [Brinda](https://twitter.com/brindashree6) - [Akshay](https://github.com/aKshayKadam03) - [Rahul](https://www.linkedin.com/in/rahul-nadendla-34212252) - [GitHub Repo](https://github.com/brindashree/trip-stash) - [Project Details](https://dev.to/brindashree/tripstash-2o7k)  
+**Authors**: [Brinda](https://twitter.com/brindashree6) - [Akshay](https://github.com/aKshayKadam03) - [Rahul](https://www.linkedin.com/in/rahul-nadendla-34212252) - [GitHub Repo](https://github.com/brindashree/trip-stash) - [Project Details](https://dev.to/brindashree/tripstash-2o7k)
 **Prize**: **$1000 + Refine, Supabase, MUI Swag kits, $300 USD credit to the DEV Shop!**
 
 ## ⭐ Best Project Using Supabase
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-04-refine-hackathon-2-winners/anisong.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-04-refine-hackathon-2-winners/anisong.png"  alt="Anisong anime playlist app screenshot" />
 </div>
 
 ### Anisong: Anime playlist creator
 
 Anisong, a web app that lets you curate personalized playlists filled with the most captivating opening and ending theme songs from your beloved anime series. Enjoy the perfect anime soundtrack tailored just for you!
 
-**Author**: [Darius Pasca](https://twitter.com/pasca_darius) - [GitHub Repo](https://github.com/dariuspasca/anisong) - [Project Details](https://dev.to/dariuspasca/anisong-your-personal-anime-playlist-creator-3cmd)  
+**Author**: [Darius Pasca](https://twitter.com/pasca_darius) - [GitHub Repo](https://github.com/dariuspasca/anisong) - [Project Details](https://dev.to/dariuspasca/anisong-your-personal-anime-playlist-creator-3cmd)
 **Prize**: **$1000 + Refine, Supabase, MUI Swag kits, $300 USD credit to the DEV Shop!**
 
 ## ⭐ Best Project Using Material UI
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-04-refine-hackathon-2-winners/rvsquick.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-04-refine-hackathon-2-winners/rvsquick.png"  alt="RSVQuick online invitation app screenshot" />
 </div>
 
 ### RSVQuick: Online Invitation App
 
 RSVP Plus, your one-stop solution for creating and sending personalized online RSVP invitations with optional surveys and questions to gather valuable insights from your potential attendees in no time!
 
-**Author**: [Ansell Maximilian](https://twitter.com/AnsellMax) - [GitHub Repo](https://github.com/AnsellMaximilian/rsvquick) - [Project Details](https://dev.to/ansellmaximilian/rsvquick-online-invitation-app-made-using-refine-148e)  
+**Author**: [Ansell Maximilian](https://twitter.com/AnsellMax) - [GitHub Repo](https://github.com/AnsellMaximilian/rsvquick) - [Project Details](https://dev.to/ansellmaximilian/rsvquick-online-invitation-app-made-using-refine-148e)
 **Prize**: **$1000 + Refine, Supabase, MUI Swag kits, $300 USD credit to the DEV Shop!**
 
 ## 👼 Runners-Up, in random order!
@@ -190,21 +192,21 @@ We can't wait to see what unique projects the participants will build projects u
 
 ## Get your hackathon participation ticket 🎟️
 
-We are organizing a raffle for those who create a ticket and share it on Twitter. As a gift, we are giving away a Refine [cap](https://store.refine.dev/product/refine-cap) and a [coaster](https://store.refine.dev/product/coaster) set valued at $60.
+We are organizing a raffle for those who create a ticket and share it on Twitter. As a gift, we are giving away a Refine cap and a coaster set valued at $60.
 
 ### 🔗 [Generate participation ticket ](https://hackathon.refine.dev)
 
-[![ticket](https://refine.ams3.cdn.digitaloceanspaces.com/hackathon-2/hackathon_ticket.jpeg)](https://hackathon.refine.dev)
+[![Hackathon participation ticket banner](https://refine.ams3.cdn.digitaloceanspaces.com/hackathon-2/hackathon_ticket.jpeg)](https://hackathon.refine.dev)
 
 ## Together with Open Source Community
 
 Refine draws its strength from the open-source community, and we are grateful to have the support of [Supabase](https://supabase.com/) and [MUI](https://mui.com/material-ui/getting-started/overview/), which has significant contributions to the community. We're proud to host our second Hackathon in collaboration with the [DEV](https://dev.to/refine) platform.
 
-It's worth noting that Refine has built-in [data provider support](https://refine.dev/docs/packages/documentation/data-providers/supabase) for Supabase and [UI framework integration](https://refine.dev/docs/api-reference/mui/) for Material UI. So we believe they will be excellent backend and UI solutions for your hackathon project.
+It's worth noting that Refine has built-in [data provider support](https://refine.dev/core/docs/packages/documentation/data-providers/supabase) for Supabase and [UI framework integration](https://refine.dev/core/docs/api-reference/mui/) for Material UI. So we believe they will be excellent backend and UI solutions for your hackathon project.
 
 Supabase and MUI will also be providing swag kits for the winners.
 
-![sponsors](https://refine.ams3.cdn.digitaloceanspaces.com/hackathon-2/sponsor_banner.png)
+![Hackathon sponsors banner](https://refine.ams3.cdn.digitaloceanspaces.com/hackathon-2/sponsor_banner.png)
 
 ## Hackathon Key Facts
 
@@ -244,11 +246,11 @@ You can use any data provider or UI framework in the Refine app for the three ma
 
 - There will be ten runner-up prizes.
 
-⚡ Also, the winners will get [Refine Special Swag Kit](https://store.refine.dev/product/hackathon-swag-kit) + Swag Kits from **Supabase** and **MUI**.
+⚡ Also, the winners will get Refine Special Swag Kit + Swag Kits from **Supabase** and **MUI**.
 
 <br/>
 
-![swag_kits](https://refine.ams3.cdn.digitaloceanspaces.com/hackathon-2/swag_kit.jpeg)
+![Hackathon swag kits photo](https://refine.ams3.cdn.digitaloceanspaces.com/hackathon-2/swag_kit.jpeg)
 
 ## Submission
 
@@ -299,7 +301,7 @@ The **Refine** team will be taking part in the Hackathon, and you'll find us liv
 ## Useful resources
 
 - You can step up to complete CRUD app tutorials to learn **Refine** and how it works.
-  - https://refine.dev/tutorial
+  - https://refine.dev/core/tutorial
 - You can look at a real use case example projects built with **Refine** to get inspiration.
   - https://refine.dev/examples/
 - Check out the Refine Supabase integration docs:

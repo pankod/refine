@@ -10,15 +10,18 @@ import {
 import { AuditLogContext } from "@contexts/auditLog";
 import { useKeys } from "@hooks/useKeys";
 
-import type { HttpError, MetaQuery } from "../../../contexts/data/types";
+import type { HttpError } from "../../../contexts/data/types";
+import type { MakeOptional } from "../../../definitions/types";
 
 export type UseLogProps<TQueryFnData, TError, TData> = {
   resource: string;
   action?: string;
   meta?: Record<number | string, any>;
   author?: Record<number | string, any>;
-  queryOptions?: UseQueryOptions<TQueryFnData, TError, TData>;
-  metaData?: MetaQuery;
+  queryOptions?: MakeOptional<
+    UseQueryOptions<TQueryFnData, TError, TData>,
+    "queryKey" | "queryFn"
+  >;
 };
 
 /**
@@ -40,11 +43,10 @@ export const useLogList = <
   action,
   meta,
   author,
-  metaData,
   queryOptions,
-}: UseLogProps<TQueryFnData, TError, TData>): UseQueryResult<TData> => {
+}: UseLogProps<TQueryFnData, TError, TData>): UseQueryResult<TData, TError> => {
   const { get } = useContext(AuditLogContext);
-  const { keys, preferLegacyKeys } = useKeys();
+  const { keys } = useKeys();
 
   const queryResponse = useQuery<TQueryFnData, TError, TData>({
     queryKey: keys()
@@ -52,21 +54,20 @@ export const useLogList = <
       .resource(resource)
       .action("list")
       .params(meta)
-      .get(preferLegacyKeys),
+      .get(),
     queryFn: () =>
       get?.({
         resource,
         action,
         author,
         meta,
-        metaData,
       }) ?? Promise.resolve([]),
     enabled: typeof get !== "undefined",
     ...queryOptions,
     retry: false,
     meta: {
       ...queryOptions?.meta,
-      ...getXRay("useLogList", preferLegacyKeys, resource),
+      ...getXRay("useLogList", resource),
     },
   });
 

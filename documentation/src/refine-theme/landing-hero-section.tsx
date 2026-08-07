@@ -1,11 +1,10 @@
-import React from "react";
 import clsx from "clsx";
-import { LandingHeroGithubStars } from "./landing-hero-github-stars";
+import React from "react";
 import { LandingStartActionIcon } from "./icons/landing-start-action";
+import { LandingHeroGithubStars } from "./landing-hero-github-stars";
 
-import { LandingHeroAnimation } from "./landing-hero-animation";
-import { LandingCopyCommandButton } from "./landing-copy-command-button";
 import Link from "@docusaurus/Link";
+import { LandingCopyCommandButton } from "./landing-copy-command-button";
 import { LandingHeroShowcaseSection } from "./landing-hero-showcase-section";
 
 export const LandingHeroSection = ({ className }: { className?: string }) => {
@@ -42,7 +41,7 @@ export const LandingHeroSection = ({ className }: { className?: string }) => {
             "justify-center",
             "gap-6",
             "z-[1]",
-            "landing-lg:justify-between",
+            "landing-lg:justify-start",
             "landing-lg:py-8",
           )}
         >
@@ -54,9 +53,9 @@ export const LandingHeroSection = ({ className }: { className?: string }) => {
                 "tracking-[-0.5%]",
                 "landing-sm:text-[56px] landing-sm:leading-[72px]",
                 "landing-sm:max-w-[588px]",
-                "landing-sm:tracking-[-2%]",
-                "font-extrabold",
-                "text-gray-900 dark:text-gray-0",
+                "landing-sm:tracking-[-0.06rem]",
+                "font-semibold",
+                "text-gray-0",
               )}
             >
               Open-source Retool for Enterprise
@@ -65,8 +64,8 @@ export const LandingHeroSection = ({ className }: { className?: string }) => {
               className={clsx(
                 "font-normal",
                 "text-base",
-                "text-gray-600 dark:text-gray-300",
-                "landing-xs:max-w-[384px]",
+                "text-gray-300",
+                "landing-xs:max-w-[388px]",
               )}
             >
               Build React-based internal tools, admin panels, dashboards & B2B
@@ -79,23 +78,22 @@ export const LandingHeroSection = ({ className }: { className?: string }) => {
               "items-center",
               "justify-start",
               "gap-4",
-              "landing-lg:gap-6",
+              "landing-lg:mt-7",
             )}
           >
             <Link
-              to="/docs"
+              to="/core/docs"
               className={clsx(
                 "self-start",
-                "rounded-3xl",
-                "!text-gray-0 dark:!text-gray-900",
-                "bg-refine-blue dark:bg-refine-cyan-alt",
+                "rounded-lg",
+                "!text-white",
+                "bg-orange-500",
                 "transition-[filter]",
                 "duration-150",
                 "ease-in-out",
                 "hover:brightness-110",
                 "py-3",
-                "pl-3 pr-5",
-                "w-[200px] landing-sm:w-max",
+                "pl-3 pr-6",
                 "flex",
                 "items-center",
                 "justify-center",
@@ -115,13 +113,20 @@ export const LandingHeroSection = ({ className }: { className?: string }) => {
         </div>
         <div
           className={clsx(
-            "hidden landing-md:block",
+            "hidden landing-lg:block",
             "absolute",
             "top-0",
             "right-0",
           )}
         >
-          <LandingHeroAnimation />
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            width={690}
+            src="https://refine.ams3.cdn.digitaloceanspaces.com/refine-core/landing/refine-core-hero.mp4"
+          />
         </div>
       </div>
       <LandingHeroShowcaseSection />

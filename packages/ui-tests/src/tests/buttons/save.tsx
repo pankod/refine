@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import React from "react";
 import {
   type RefineSaveButtonProps,
@@ -10,7 +11,7 @@ export const buttonSaveTests = (
   SaveButton: React.ComponentType<RefineSaveButtonProps<any, any>>,
 ): void => {
   describe("[@refinedev/ui-tests] Common Tests / Save Button", () => {
-    const save = jest.fn();
+    const save = vi.fn();
 
     it("should render button successfuly", async () => {
       const { container } = render(<SaveButton />, {

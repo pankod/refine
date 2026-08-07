@@ -10,7 +10,7 @@ export const ContactEdit = () => {
     saveButtonProps,
     query: queryResult,
   } = useForm<IContact>({
-    metaData: { populate: ["client"] },
+    meta: { populate: ["client"] },
   });
 
   const defaultClientCompany = queryResult?.data?.data;
@@ -20,6 +20,10 @@ export const ContactEdit = () => {
     defaultValue: defaultClientCompany?.client?.id,
     optionValue: "id",
     optionLabel: "name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

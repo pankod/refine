@@ -4,31 +4,14 @@ import type { UseQueryResult } from "@tanstack/react-query";
 
 import type { ILogData } from "../auditLog/types";
 
-/**
- * Resource route components
- */
-export type ResourceRouteComponent = ComponentType<
-  IResourceComponentsProps<any, any>
->;
-
 export type ResourceRoutePath = string;
 
-export type ResourceRouteDefinition = {
-  path: ResourceRoutePath;
-  component: ResourceRouteComponent;
-};
-
-export type ResourceRouteComposition =
-  | ResourceRouteDefinition
-  | ResourceRoutePath
-  | ResourceRouteComponent;
-
 export interface IResourceComponents {
-  list?: ResourceRouteComposition;
-  create?: ResourceRouteComposition;
-  clone?: ResourceRouteComposition;
-  edit?: ResourceRouteComposition;
-  show?: ResourceRouteComposition;
+  list?: ResourceRoutePath;
+  create?: ResourceRoutePath;
+  clone?: ResourceRoutePath;
+  edit?: ResourceRoutePath;
+  show?: ResourceRoutePath;
 }
 
 export type AnyString = string & { __ignore?: never };
@@ -78,19 +61,6 @@ export interface KnownResourceMeta {
   icon?: ReactNode;
 }
 
-export interface DeprecatedOptions {
-  /**
-   * @deprecated Please use `audit` property instead.
-   */
-  auditLog?: {
-    permissions?: ResourceAuditLogPermissions[];
-  };
-  /**
-   * @deprecated Define the route in the resource components instead
-   */
-  route?: string;
-}
-
 export interface ResourceMeta extends KnownResourceMeta {
   [key: string]: any;
 }
@@ -104,82 +74,28 @@ export interface ResourceProps extends IResourceComponents {
    */
   identifier?: string;
   /**
-   * @deprecated This property is not used anymore.
-   */
-  key?: string;
-  /**
-   * @deprecated Please use the `meta` property instead.
-   */
-  options?: ResourceMeta & DeprecatedOptions;
-  /**
    * To configure the resource, you can set `meta` properties. You can use `meta` to store any data related to the resource.
    * There are some known `meta` properties that are used by the core and extension packages.
    */
-  meta?: ResourceMeta & DeprecatedOptions;
-  /**
-   * @deprecated Please use the `meta.canDelete` property instead.
-   */
-  canDelete?: boolean;
-  /**
-   * @deprecated Please use the `meta.icon` property instead
-   */
-  icon?: ReactNode;
-  /**
-   * @deprecated Please use the `meta.parent` property instead
-   */
-  parentName?: string;
-}
-
-export interface RouteableProperties {
-  /**
-   * @deprecated Please use action props instead.
-   */
-  canCreate?: boolean;
-  /**
-   * @deprecated Please use action props instead.
-   */
-  canEdit?: boolean;
-  /**
-   * @deprecated Please use action props instead.
-   */
-  canShow?: boolean;
-  /**
-   * @deprecated Please use the `meta.canDelete` property instead.
-   */
-  canDelete?: boolean;
+  meta?: ResourceMeta;
 }
 
 export interface IResourceComponentsProps<
   TCrudData = any,
   TLogQueryResult = ILogData,
-> extends RouteableProperties {
+> {
   name?: string;
   initialData?: TCrudData;
-  options?: ResourceMeta & DeprecatedOptions;
   logQueryResult?: UseQueryResult<TLogQueryResult>;
 }
 
-export interface IResourceItem
-  extends IResourceComponents,
-    RouteableProperties,
-    ResourceProps {
-  /**
-   * @deprecated Please use the `meta.label` property instead.
-   */
-  label?: string;
-  /**
-   * @deprecated Please use action components and `getDefaultActionPath` helper instead.
-   */
-  route?: string;
-}
+export interface IResourceItem extends IResourceComponents, ResourceProps {}
 
 export interface IResourceContext {
   resources: IResourceItem[];
 }
 
 export type ResourceBindings = ResourceProps[];
-
-type MetaProps<TExtends = { [key: string]: any }> = ResourceMeta & TExtends;
 
 export interface RouteableProperties {
   canCreate?: boolean;
@@ -188,18 +104,3 @@ export interface RouteableProperties {
   canDelete?: boolean;
   canList?: boolean;
 }
-
-export interface IResourceContext {
-  resources: IResourceItem[];
-}
-
-/* Backward compatible version of 'TreeMenuItem' */
-export type ITreeMenu = IResourceItem & {
-  key?: string;
-  children: ITreeMenu[];
-};
-
-export type IMenuItem = IResourceItem & {
-  key: string;
-  route: string;
-};

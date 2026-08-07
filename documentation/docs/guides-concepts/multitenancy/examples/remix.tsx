@@ -55,10 +55,10 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import { RefineEnterprise } from "@refinedev-ee/enterprise";
-import { WithTenant } from "@refinedev-ee/multitenancy";
-import routerProvider from "@refinedev-ee/remix-router";
-import dataProvider from "@refinedev-ee/simple-rest";
+import { RefineEnterprise } from "@refinedev/enterprise";
+import { WithTenant } from "@refinedev/multitenancy";
+import routerProvider from "@refinedev/remix-router";
+import dataProvider from "@refinedev/simple-rest";
 
 
 import { multitenancyProvider } from "./providers/multitenancy";
@@ -105,12 +105,13 @@ export default function App() {
 const ListTsxCode = /* jsx */ `
 import React from "react";
 
-import { useList } from "@refinedev-ee/core";
+import { useList } from "@refinedev/core";
 
 export default function ProductsList() {
-  const { data, isLoading } = useList();
+  const { result, query } = useList();
+  const products = result?.data;
 
-  if (isLoading) {
+  if (query.isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -118,7 +119,7 @@ export default function ProductsList() {
     <div>
       <h1>Products</h1>
       <ul>
-        {data?.data.map((record) => (
+        {products.map((record) => (
           <li key={record.id}>{record.name}</li>
         ))}
       </ul>
@@ -130,7 +131,7 @@ export default function ProductsList() {
 const CreateTsxCode = /* jsx */ `
 import React from "react";
 
-import { useCreate } from "@refinedev-ee/core";
+import { useCreate } from "@refinedev/core";
 
 export default function ProductsCreate() {
   const { onFinish } = useForm();
@@ -151,7 +152,7 @@ export default function ProductsCreate() {
 const ShowTsxCode = /* jsx */ `
 import React from "react";
 
-import { useShow } from "@refinedev-ee/core";
+import { useShow } from "@refinedev/core";
 
 export default function ProductsShow() {
   const {
@@ -175,7 +176,7 @@ export default function ProductsShow() {
 const EditTsxCode = /* jsx */ `
 import React from "react";
 
-import { useForm } from "@refinedev-ee/core";
+import { useForm } from "@refinedev/core";
 
 export default function ProductsEdit() {
   const { onFinish, query, formLoading } = useForm();
@@ -199,9 +200,9 @@ export default function ProductsEdit() {
 `.trim();
 
 const MultitenancyProviderTsxCode = /* jsx */ `
-import type { MultiTenancyProvider } from "@refinedev-ee/enterprise";
-import { useRouterAdapter } from "@refinedev-ee/multitenancy";
-import dataProvider from "@refinedev-ee/simple-rest";
+import type { MultiTenancyProvider } from "@refinedev/enterprise";
+import { useRouterAdapter } from "@refinedev/multitenancy";
+import dataProvider from "@refinedev/simple-rest";
 
 export type Tenant = {
   id: string;

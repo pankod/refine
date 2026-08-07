@@ -31,10 +31,11 @@ export type UseMutationResult<
   TError = unknown,
   TVariables = unknown,
   TContext = unknown,
-> = Omit<
-  UseMutationResultBase<TData, TError, TVariables, TContext>,
-  "mutate" | "mutateAsync"
-> & {
+> = {
+  mutation: UseMutationResultBase<TData, TError, TVariables, TContext>;
   mutate: MutateFunction<TData, TError, TVariables, TContext>;
   mutateAsync: MutateAsyncFunction<TData, TError, TVariables, TContext>;
 };
+
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  Partial<Pick<T, K>>;

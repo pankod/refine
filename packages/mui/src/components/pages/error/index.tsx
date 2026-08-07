@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useGo, useResource, useRouterType } from "@refinedev/core";
+import { useGo, useResourceParams, useTranslate } from "@refinedev/core";
 import type { RefineErrorPageProps } from "@refinedev/ui-types";
-import { useNavigation, useTranslate } from "@refinedev/core";
 
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 
 import Info from "@mui/icons-material/Info";
 
 export const ErrorComponent: React.FC<RefineErrorPageProps> = () => {
   const [errorMessage, setErrorMessage] = useState<string>();
-  const { push } = useNavigation();
   const go = useGo();
-  const routerType = useRouterType();
 
-  const { resource, action } = useResource();
+  const { resource, action } = useResourceParams();
 
   const translate = useTranslate();
 
@@ -56,11 +53,7 @@ export const ErrorComponent: React.FC<RefineErrorPageProps> = () => {
         </Stack>
         <Button
           onClick={() => {
-            if (routerType === "legacy") {
-              push("/");
-            } else {
-              go({ to: "/" });
-            }
+            go({ to: "/" });
           }}
         >
           {translate("pages.error.backHome", "Back Home")}

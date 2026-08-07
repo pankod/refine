@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import type { Sider as DefaultSider } from "@refinedev/mui";
+import type { ThemedSider as ThemedSiderV2 } from "@refinedev/mui";
 
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -19,22 +19,20 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
 import MenuRounded from "@mui/icons-material/MenuRounded";
-import Dashboard from "@mui/icons-material/Dashboard";
 import {
   CanAccess,
-  type ITreeMenu,
+  type TreeMenuItem as ITreeMenu,
   useIsExistAuthentication,
   useLogout,
-  useTitle,
   useTranslate,
-  useRouterContext,
   useMenu,
-  useRefineContext,
+  useLink,
+  useRefineOptions,
 } from "@refinedev/core";
 
 import { Title as DefaultTitle } from "../title";
 
-export const Sider: typeof DefaultSider = ({ render }) => {
+export const Sider: typeof ThemedSiderV2 = ({ render }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [opened, setOpened] = useState(false);
 
@@ -44,16 +42,12 @@ export const Sider: typeof DefaultSider = ({ render }) => {
   };
 
   const t = useTranslate();
-  const { Link } = useRouterContext();
-  const { hasDashboard } = useRefineContext();
-  const translate = useTranslate();
+  const Link = useLink();
 
   const { menuItems, selectedKey, defaultOpenKeys } = useMenu();
   const isExistAuthentication = useIsExistAuthentication();
-  const { mutate: mutateLogout } = useLogout({
-    v3LegacyAuthProviderCompatible: true,
-  });
-  const Title = useTitle();
+  const { mutate: mutateLogout } = useLogout();
+  const { title } = useRefineOptions();
 
   const [open, setOpen] = useState<{ [k: string]: any }>({});
 
@@ -68,7 +62,8 @@ export const Sider: typeof DefaultSider = ({ render }) => {
     });
   }, [defaultOpenKeys]);
 
-  const RenderToTitle = Title ?? DefaultTitle;
+  // If title.text is a function/component, use it as a component. Otherwise, render as ReactNode.
+  const RenderToTitle = title.text ?? DefaultTitle;
 
   const handleClick = (key: string) => {
     setOpen({ ...open, [key]: !open[key] });
@@ -76,11 +71,11 @@ export const Sider: typeof DefaultSider = ({ render }) => {
 
   const renderTreeView = (tree: ITreeMenu[], selectedKey: string) => {
     return tree.map((item: ITreeMenu) => {
-      const { icon, label, route, name, children, parentName } = item;
+      const { icon, label, route, name, children, meta } = item;
       const isOpen = open[route || ""] || false;
 
       const isSelected = route === selectedKey;
-      const isNested = !(parentName === undefined);
+      const isNested = !(meta?.parent === undefined);
 
       if (children.length > 0) {
         return (
@@ -167,7 +162,7 @@ export const Sider: typeof DefaultSider = ({ render }) => {
             arrow
           >
             <ListItemButton
-              component={Link}
+              component={Link as any}
               to={route}
               selected={isSelected}
               onClick={() => {
@@ -215,57 +210,6 @@ export const Sider: typeof DefaultSider = ({ render }) => {
     });
   };
 
-  const dashboard = hasDashboard ? (
-    <CanAccess resource="dashboard" action="list">
-      <Tooltip
-        title={translate("dashboard.title", "Dashboard")}
-        placement="right"
-        disableHoverListener={!collapsed}
-        arrow
-      >
-        <ListItemButton
-          component={Link}
-          to="/"
-          selected={selectedKey === "/"}
-          onClick={() => {
-            setOpened(false);
-          }}
-          sx={{
-            pl: 2,
-            py: 1,
-            "&.Mui-selected": {
-              "&:hover": {
-                backgroundColor: "transparent",
-              },
-              backgroundColor: "transparent",
-            },
-            justifyContent: "center",
-          }}
-        >
-          <ListItemIcon
-            sx={{
-              justifyContent: "center",
-              minWidth: 36,
-              color: "#808191",
-              marginLeft: "6px",
-              marginRight: "14px",
-            }}
-          >
-            <Dashboard />
-          </ListItemIcon>
-          <ListItemText
-            primary={translate("dashboard.title", "Dashboard")}
-            primaryTypographyProps={{
-              noWrap: true,
-              fontSize: "16px",
-              fontWeight: selectedKey === "/" ? "bold" : "normal",
-            }}
-          />
-        </ListItemButton>
-      </Tooltip>
-    </CanAccess>
-  ) : null;
-
   const logout = isExistAuthentication && (
     <Tooltip
       title={t("buttons.logout", "Logout")}
@@ -309,7 +253,6 @@ export const Sider: typeof DefaultSider = ({ render }) => {
   const renderSider = () => {
     if (render) {
       return render({
-        dashboard,
         logout,
         items,
         collapsed,
@@ -317,7 +260,6 @@ export const Sider: typeof DefaultSider = ({ render }) => {
     }
     return (
       <>
-        {dashboard}
         {items}
         {logout}
       </>
@@ -374,7 +316,11 @@ export const Sider: typeof DefaultSider = ({ render }) => {
               justifyContent: "center",
             }}
           >
-            <RenderToTitle collapsed={false} />
+            {typeof RenderToTitle === "function" ? (
+              <RenderToTitle collapsed={false} />
+            ) : (
+              RenderToTitle
+            )}
           </Box>
           {drawer}
         </Drawer>
@@ -400,7 +346,11 @@ export const Sider: typeof DefaultSider = ({ render }) => {
               justifyContent: "center",
             }}
           >
-            <RenderToTitle collapsed={collapsed} />
+            {typeof RenderToTitle === "function" ? (
+              <RenderToTitle collapsed={collapsed} />
+            ) : (
+              RenderToTitle
+            )}
           </Box>
           <Box
             sx={{

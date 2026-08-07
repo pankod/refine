@@ -36,7 +36,7 @@ describe("mapOperator", () => {
 
     for (const operator in testCases) {
       if (operator === "between" || operator === "nbetween") {
-        expect(() => mapOperator(operator as CrudOperators)).toThrowError(
+        expect(() => mapOperator(operator as CrudOperators)).toThrow(
           `Operator ${operator} is not supported`,
         );
       } else {

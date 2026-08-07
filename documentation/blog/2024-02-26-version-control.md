@@ -3,8 +3,9 @@ title: What is Version Control and Benefits of Using It?
 description: Version control systems are essential to any successful software project. Understand version control fundamentals and compare version control systems.
 slug: version-control
 authors: muhammad_khabbab
-tags: [dev-tools, git]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-26-version-control/social.png
+category: "Engineering"
+tags: [git]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-26-version-control/social.png
 hide_table_of_contents: false
 ---
 
@@ -111,7 +112,7 @@ Version control is essential to CI/CD pipelines. Developers trigger the CI/CD pi
 Git is a distributed version control system. It’s popular due to its speed, data integrity, and support for distributed workflows. Platforms like GitHub, GitLab, and Bitbucket have increased its popularity. Below illustration explains how Git works.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-26-version-control/version.png" alt="version control" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-26-version-control/version.png" alt="Diagram illustrating how Git version control works" />
 </div>
 
 ### Subversion (SVN)

@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 
-import {
-  useLink,
-  useRegister,
-  useRouterContext,
-  useRouterType,
-  useTranslate,
-} from "@hooks";
-
-import { useActiveAuthProvider } from "@definitions/helpers";
+import { useLink, useRegister, useTranslate } from "@hooks";
 
 import type { DivPropsType, FormPropsType } from "../..";
 import type { RegisterPageProps } from "../../types";
@@ -30,24 +22,17 @@ export const RegisterPage: React.FC<RegisterProps> = ({
   hideForm,
   mutationVariables,
 }) => {
-  const routerType = useRouterType();
   const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
-
-  const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const translate = useTranslate();
 
-  const authProvider = useActiveAuthProvider();
-  const { mutate: register, isLoading } = useRegister({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate: register, isPending } = useRegister();
 
   const renderLink = (link: string, text?: string) => {
-    return <ActiveLink to={link}>{text}</ActiveLink>;
+    return <Link to={link}>{text}</Link>;
   };
 
   const renderProviders = () => {
@@ -136,7 +121,7 @@ export const RegisterPage: React.FC<RegisterProps> = ({
               <input
                 type="submit"
                 value={translate("pages.register.buttons.submit", "Sign up")}
-                disabled={isLoading}
+                disabled={isPending}
               />
               {loginLink ?? (
                 <>

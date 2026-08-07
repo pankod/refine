@@ -36,7 +36,7 @@ After we've created our project, we'll need to install the Refine dependencies.
 npm install @refinedev/core @refinedev/cli
 ```
 
-We're installing `@refinedev/core` which provides all the core functionalities of Refine and `@refinedev/cli` which although optional, provides a lot of useful features for the development process. To learn more about `@refinedev/cli`, you can visit [its documentation](/docs/packages/cli).
+We're installing `@refinedev/core` which provides all the core functionalities of Refine and `@refinedev/cli` which although optional, provides a lot of useful features for the development process. To learn more about `@refinedev/cli`, you can visit [its documentation](/core/docs/packages/cli).
 
 ### Configuring the Scripts
 
@@ -90,7 +90,7 @@ When you open your browser and navigate to localhost, you should the page at rig
 
 :::tip Tailored App Generation
 
-`create-refine-app` by default walks you through a few steps to create a new app tailored to your needs from data providers to authentication, UI libraries and more. You can read more about it in the [quickstart](/docs/getting-started/quickstart) section.
+`create-refine-app` by default walks you through a few steps to create a new app tailored to your needs from data providers to authentication, UI libraries and more. You can read more about it in the [quickstart](/core/docs/getting-started/quickstart) section.
 
 :::
 

@@ -37,11 +37,13 @@ export const BlogPostEdit = () => {
           helperText={(errors as any)?.id?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
           type="number"
           label="Id"
           name="id"
           disabled
+          slotProps={{
+            inputLabel: { shrink: true },
+          }}
         />
         <TextField
           {...register("title", {
@@ -51,10 +53,12 @@ export const BlogPostEdit = () => {
           helperText={(errors as any)?.title?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
           type="text"
           label="Title"
           name="title"
+          slotProps={{
+            inputLabel: { shrink: true },
+          }}
         />
         <TextField
           {...register("content", {
@@ -64,10 +68,12 @@ export const BlogPostEdit = () => {
           helperText={(errors as any)?.content?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
           multiline
           label="Content"
           name="content"
+          slotProps={{
+            inputLabel: { shrink: true },
+          }}
         />
         <Controller
           control={control}
@@ -115,10 +121,12 @@ export const BlogPostEdit = () => {
           helperText={(errors as any)?.status?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
           type="text"
           label="Status"
           name="status"
+          slotProps={{
+            inputLabel: { shrink: true },
+          }}
         />
         {/*
                     DatePicker component is not included in "@refinedev/mui" package.
@@ -134,9 +142,11 @@ export const BlogPostEdit = () => {
           helperText={(errors as any)?.createdAt?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
           label="Created At"
           name="createdAt"
+          slotProps={{
+            inputLabel: { shrink: true },
+          }}
         />
       </Box>
     </Edit>

@@ -2,11 +2,7 @@ import React from "react";
 import * as RefineCore from "@refinedev/core";
 import * as gql from "graphql-tag";
 
-import {
-  LivePreview,
-  LiveProvider,
-  type ContextProps,
-} from "@aliemir/react-live";
+import { LivePreview, LiveProvider, LiveContext } from "react-live";
 
 import { replaceImports, replaceExports } from "../../utilities";
 import type { AdditionalScopeType, LiveComponentProps } from "../../types";
@@ -16,10 +12,6 @@ const defaultScope: Array<AdditionalScopeType> = [
   ["@refinedev/core", "RefineCore", RefineCore],
   ["graphql-tag", "GraphqlTag", gql],
 ];
-
-const InferencerLiveContext = React.createContext<ContextProps>(
-  {} as ContextProps,
-);
 
 /**
  * Live Component will render the code with `react-live`.
@@ -70,7 +62,7 @@ export const LiveComponent: React.FC<LiveComponentProps> = ({
 
   const ErrorComponentWithError = React.useMemo(() => {
     const LiveErrorComponent = () => {
-      const { error } = React.useContext(InferencerLiveContext);
+      const { error } = React.useContext(LiveContext);
 
       if (ErrorComponent) {
         return (
@@ -99,13 +91,8 @@ export const LiveComponent: React.FC<LiveComponentProps> = ({
   }, [ErrorComponent, fetchError]);
 
   return (
-    <LiveProvider
-      Context={InferencerLiveContext}
-      code={sanitized}
-      scope={scope}
-      noInline
-    >
-      {!fetchError && <LivePreview Context={InferencerLiveContext} />}
+    <LiveProvider code={sanitized} scope={scope} noInline>
+      {!fetchError && <LivePreview />}
       <ErrorComponentWithError />
     </LiveProvider>
   );

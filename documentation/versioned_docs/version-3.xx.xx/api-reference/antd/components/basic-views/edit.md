@@ -123,7 +123,7 @@ render(
 ```
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Properties
@@ -185,7 +185,7 @@ The `<Edit>` component has a save button by default. If you want to customize th
 
 Clicking on the save button will submit your form.
 
-[Refer to the `<SaveButton>` documentation for detailed usage. &#8594](/api-reference/antd/components/buttons/save.md)
+[Refer to the `<SaveButton>` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/antd/components/buttons/save)
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
 const { EditButton } = RefineAntd;
@@ -228,7 +228,7 @@ render(
 
 When clicked on, the delete button executes the `useDelete` method provided by the `dataProvider`.
 
-[Refer to the `<DeleteButton>` documentation for detailed usage. &#8594](/api-reference/antd/components/buttons/delete.md)
+[Refer to the `<DeleteButton>` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/antd/components/buttons/delete)
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 const { EditButton } = RefineAntd;
@@ -295,13 +295,13 @@ render(
 );
 ```
 
-[Refer to the `usePermission` documentation for detailed usage. &#8594](/api-reference/core/hooks/auth/usePermissions.md)
+[Refer to the `usePermission` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/usePermissions)
 
 ### `resource`
 
 `<Edit>` component reads the `resource` information from the route by default. This default behavior will not work on custom pages. If you want to use the `<Edit>` component in a custom page, you can use the `resource` property.
 
-[Refer to the custom pages documentation for detailed usage. &#8594](/advanced-tutorials/custom-pages.md)
+[Refer to the custom pages documentation for detailed usage. &#8594](/core/docs/3.xx.xx/advanced-tutorials/custom-pages)
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/custom/2
 setInitialRoutes(["/custom/2"]);
@@ -401,7 +401,7 @@ The `<Edit>` component needs the `id` information for the `<RefreshButton>` to w
 
 Determines which mode mutation will have while executing `<DeleteButton>` .
 
-[Refer to the mutation mode docs for further information. &#8594](/advanced-tutorials/mutation-mode.md)
+[Refer to the mutation mode docs for further information. &#8594](/core/docs/3.xx.xx/advanced-tutorials/mutation-mode)
 
 ```tsx live hideCode url=http://localhost:3000/posts/edit/2
 const { EditButton } = RefineAntd;
@@ -636,10 +636,10 @@ render(
 
 To customize or disable the breadcrumb, you can use the `breadcrumb` property. By default it uses the `Breadcrumb` component from `@pankod/refine-antd` package.
 
-[Refer to the `Breadcrumb` documentation for detailed usage. &#8594](/api-reference/antd/components/breadcrumb.md)
+[Refer to the `Breadcrumb` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/antd/components/breadcrumb)
 
 :::tip
-This feature can be managed globally via the `<Refine>` component's [options](/docs/3.xx.xx/api-reference/core/components/refine-config/#breadcrumb)
+This feature can be managed globally via the `<Refine>` component's [options](/core/docs/3.xx.xx/api-reference/core/components/refine-config/#breadcrumb)
 :::
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
@@ -1036,20 +1036,20 @@ render(
 
 ### Properties
 
-<PropsTable module="@pankod/refine-antd/Edit" 
+<PropsTable module="@pankod/refine-antd/Edit"
 contentProps-type="[`CardProps`](https://ant.design/components/card/#API)"
-headerProps-type="[`PageHeaderProps`](https://procomponents.ant.design/en-US/components/page-header)" 
-headerButtons-default="[`ListButton`](https://refine.dev/docs/api-reference/antd/components/buttons/list-button/) and [`RefreshButton`](https://refine.dev/docs/api-reference/antd/components/buttons/refresh-button/)"
+headerProps-type="[`PageHeaderProps`](https://procomponents.ant.design/en-US/components/page-header)"
+headerButtons-default="[`ListButton`](https://refine.dev/core/docs/api-reference/antd/components/buttons/list-button/) and [`RefreshButton`](https://refine.dev/core/docs/api-reference/antd/components/buttons/refresh-button/)"
 headerButtonProps-type="[`SpaceProps`](https://ant.design/components/space/)"
-deleteButtonProps-type="[`DeleteButtonProps`](/docs/3.xx.xx/api-reference/antd/components/buttons/delete-button/)"
-saveButtonProps-type="[`SaveButtonProps`](https://refine.dev/docs/api-reference/antd/components/buttons/save-button/)"
-footerButtons-default="[`SaveButton`](https://refine.dev/docs/api-reference/antd/components/buttons/save-button/) and [`DeleteButton`](https://refine.dev/docs/api-reference/antd/components/buttons/delete-button/)"
+deleteButtonProps-type="[`DeleteButtonProps`](/core/docs/3.xx.xx/api-reference/antd/components/buttons/delete-button/)"
+saveButtonProps-type="[`SaveButtonProps`](https://refine.dev/core/docs/api-reference/antd/components/buttons/save-button/)"
+footerButtons-default="[`SaveButton`](https://refine.dev/core/docs/api-reference/antd/components/buttons/save-button/) and [`DeleteButton`](https://refine.dev/core/docs/api-reference/antd/components/buttons/delete-button/)"
 footerButtonsProps-type="[`SpaceProps`](https://ant.design/components/space/)"
 breadcrumb-default="[`<Breadcrumb>`](https://ant.design/components/breadcrumb/)"
-goBack-default="`<ArrowLeft />`" 
+goBack-default="`<ArrowLeft />`"
 goBack-type="`ReactNode`"
 />
 
-> `*`: These properties have default values in `RefineContext` and can also be set on the **<[Refine](/api-reference/core/components/refine-config.md)>** component.
+> `*`: These properties have default values in `RefineContext` and can also be set on the **<[Refine](/core/docs/3.xx.xx/api-reference/core/components/refine-config)>** component.
 
-[breadcrumb-component]: /api-reference/antd/components/breadcrumb.md
+[breadcrumb-component]: /core/docs/3.xx.xx/api-reference/antd/components/breadcrumb

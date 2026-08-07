@@ -48,7 +48,7 @@ export const File: React.FC<Props> = ({
         "px-1",
         "py-1",
         "[&_svg]:mr-1",
-        !active && "[&_svg]:text-gray-400",
+        !active && "[&_svg]:text-zinc-400",
         active && "[&_svg]:text-refine-react-light-link",
         active && "[&_svg]:dark:text-refine-react-dark-link",
         "rounded-[4px]",
@@ -64,7 +64,7 @@ export const File: React.FC<Props> = ({
       {getIcon()}
       <span
         className={clsx(
-          !active && "text-gray-800 dark:text-gray-100",
+          !active && "text-zinc-800 dark:text-zinc-100",
           active && "text-refine-react-light-link",
           active && "dark:text-refine-react-dark-link",
           "text-ellipsis whitespace-nowrap overflow-hidden",

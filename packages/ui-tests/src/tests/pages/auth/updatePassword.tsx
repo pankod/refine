@@ -1,9 +1,9 @@
+import { vi } from "vitest";
 import React, { type FC } from "react";
 
 import {
   fireEvent,
   mockAuthProvider,
-  mockLegacyAuthProvider,
   render,
   TestWrapper,
   waitFor,
@@ -128,7 +128,7 @@ export const pageUpdatePasswordTests = (
     });
 
     it("should run updatePassword mutation when form is submitted", async () => {
-      const updatePasswordMock = jest.fn().mockResolvedValue({ success: true });
+      const updatePasswordMock = vi.fn().mockResolvedValue({ success: true });
       const { getAllByLabelText, getByLabelText, getAllByText } = render(
         <UpdatePasswordPage />,
         {
@@ -152,44 +152,10 @@ export const pageUpdatePasswordTests = (
       fireEvent.click(getAllByText(/update/i)[0]);
 
       await waitFor(() => {
-        expect(updatePasswordMock).toBeCalledTimes(1);
+        expect(updatePasswordMock).toHaveBeenCalledTimes(1);
       });
 
-      expect(updatePasswordMock).toBeCalledWith({
-        password: "demo",
-        confirmPassword: "demo",
-      });
-    });
-
-    it("should run updatePassword mutation when form is submitted with legacy authProvider", async () => {
-      const updatePasswordMock = jest.fn().mockResolvedValue({ success: true });
-      const { getAllByLabelText, getByLabelText, getAllByText } = render(
-        <UpdatePasswordPage />,
-        {
-          wrapper: TestWrapper({
-            legacyAuthProvider: {
-              ...mockLegacyAuthProvider,
-              updatePassword: updatePasswordMock,
-            },
-          }),
-        },
-      );
-
-      fireEvent.change(getAllByLabelText(/password/i)[0], {
-        target: { value: "demo" },
-      });
-
-      fireEvent.change(getByLabelText(/confirm new password/i), {
-        target: { value: "demo" },
-      });
-
-      fireEvent.click(getAllByText(/update/i)[0]);
-
-      await waitFor(() => {
-        expect(updatePasswordMock).toBeCalledTimes(1);
-      });
-
-      expect(updatePasswordMock).toBeCalledWith({
+      expect(updatePasswordMock).toHaveBeenCalledWith({
         password: "demo",
         confirmPassword: "demo",
       });
@@ -221,7 +187,7 @@ export const pageUpdatePasswordTests = (
     });
 
     it("should should accept 'mutationVariables'", async () => {
-      const updatePasswordMock = jest.fn().mockResolvedValue({ success: true });
+      const updatePasswordMock = vi.fn().mockResolvedValue({ success: true });
 
       const { getByRole, getByLabelText, getAllByLabelText } = render(
         <UpdatePasswordPage

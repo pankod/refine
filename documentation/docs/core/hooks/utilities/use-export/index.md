@@ -1,5 +1,8 @@
 ---
-title: useExport
+title: "useExport Hook | Options, Patterns & Edge Cases | Refine v5"
+display_title: "useExport"
+sidebar_label: "useExport"
+description: "Secure Use Export in Refine v5. Learn best practices. Learn data for real-world React admin panels. See practical code samples."
 ---
 
 `useExport` hook allows you to export data as a `CSV` file. It calls the `getList` method of your data provider and downloads the data as a `CSV` file.
@@ -41,7 +44,7 @@ useExport({
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### mapData
 
@@ -75,7 +78,7 @@ useExport<IPost>({
 
 If you want to sort the data before exporting it, you can use the `sorters` property. It will be passed to the `getList` method of your data provider.
 
-> For more information, refer to the [`CrudSorting` interface&#8594](/docs/core/interface-references#crudsorting)
+> For more information, refer to the [`CrudSorting` interface&#8594](/core/docs/core/interface-references#crudsorting)
 
 ```ts
 useExport({
@@ -92,7 +95,7 @@ useExport({
 
 If you want to filter the data before exporting it, you can use the `filters` property. It will be passed to the `getList` method of your data provider.
 
-> For more information, refer to the [`CrudFilters` interface &#8594](/docs/core/interface-references#crudfilters)
+> For more information, refer to the [`CrudFilters` interface &#8594](/core/docs/core/interface-references#crudfilters)
 
 ```ts
 useExport({
@@ -185,30 +188,6 @@ useExport({
   },
 });
 ```
-
-### ~~exportOptions~~ <PropTag deprecated />
-
-Use [`unparseConfig`](#unparseconfig) prop instead.
-
-You can pass additional options to the `export-to-csv` package by using the `exportOptions` property.
-
-> For more information, refer to the [`ExportToCsv` options &#8594](https://github.com/alexcaza/export-to-csv#api)
-
-```ts
-useExport({
-  exportOptions: {
-    filename: "posts",
-  },
-});
-```
-
-### ~~resourceName~~ <PropTag deprecated />
-
-Use `resource` instead.
-
-### ~~sorter~~ <PropTag deprecated />
-
-Use `sorters` instead.
 
 ## Return Values
 
@@ -348,4 +327,4 @@ This will save the data as follows:
 | TVariables | Values for params                                                          | `any`                      |
 
 [papaparse]: https://www.papaparse.com/
-[baserecord]: /docs/core/interface-references#baserecord
+[baserecord]: /core/docs/core/interface-references#baserecord

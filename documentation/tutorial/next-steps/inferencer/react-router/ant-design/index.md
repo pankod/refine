@@ -6,7 +6,7 @@ import { Sandpack, CreateListCategoriesTsx, AddListCategoriesToApp, AddInference
 
 <Sandpack>
 
-Refine's [`@refinedev/inferencer`](/docs/packages/inferencer) package can be used to scaffold initial code for your resource pages based on API responses.
+Refine's [`@refinedev/inferencer`](/core/docs/packages/inferencer) package can be used to scaffold initial code for your resource pages based on API responses.
 
 Generated code aren't guaranteed to work perfectly. This tool meant to be used locally to speed up the development process by generating the initial code and shouldn't be used on production.
 
@@ -16,11 +16,11 @@ Let's start by installing the `@refinedev/inferencer` package. Inferencer packag
 
 Supported UI libraries for Inferencer are:
 
-- [Ant Design](/docs/ui-integrations/ant-design/components/inferencer)
-- [Chakra UI](/docs/ui-integrations/chakra-ui/components/inferencer)
-- [Material UI](/docs/ui-integrations/material-ui/components/inferencer)
-- [Mantine](/docs/ui-integrations/mantine/components/inferencer)
-- [Headless (Unstyled)](/docs/packages/inferencer)
+- [Ant Design](/core/docs/ui-integrations/ant-design/components/inferencer)
+- [Chakra UI](/core/docs/ui-integrations/chakra-ui/components/inferencer)
+- [Material UI](/core/docs/ui-integrations/material-ui/components/inferencer)
+- [Mantine](/core/docs/ui-integrations/mantine/components/inferencer)
+- [Headless (Unstyled)](/core/docs/packages/inferencer)
 
 <InstallPackagesCommand args="@refinedev/inferencer" />
 
@@ -54,14 +54,14 @@ Update your `src/App.tsx` file by adding the following lines:
 
 ```tsx title="src/App.tsx"
 import { Refine, Authenticated } from "@refinedev/core";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 import {
-  ThemedLayoutV2,
-  ThemedTitleV2,
+  ThemedLayout,
+  ThemedTitle,
   useNotificationProvider,
 } from "@refinedev/antd";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { ConfigProvider, App as AntdApp } from "antd";
 
@@ -117,13 +117,13 @@ export default function App(): JSX.Element {
                     key="authenticated-routes"
                     redirectOnFail="/login"
                   >
-                    <ThemedLayoutV2
+                    <ThemedLayout
                       Title={(props) => (
-                        <ThemedTitleV2 {...props} text="Awesome Project" />
+                        <ThemedTitle {...props} text="Awesome Project" />
                       )}
                     >
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >

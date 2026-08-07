@@ -1,6 +1,9 @@
 ---
-title: NestJS CRUD
-source: https://github.com/refinedev/refine/tree/master/packages/nestjsx-crud
+title: "Nestjsx Crud Integration Guide | Best Practices in Refine v5"
+display_title: "NestJS CRUD"
+sidebar_label: "NestJS CRUD"
+description: "Implement Nestjsx Crud in Refine v5. Learn the key steps. Learn patterns to scale authentication and data for custom APIs and scalable data flows."
+source: https://github.com/refinedev/refine/tree/main/packages/nestjsx-crud
 swizzle: true
 ---
 
@@ -9,7 +12,7 @@ Refine provides a data provider for APIs powered with [Nest.js CRUD](https://git
 :::simple Good to know
 
 - This library uses [`axios`](https://axios-http.com) to handle the requests.
-- To learn more about data fetching in Refine, check out the [Data Fetching](/docs/guides-concepts/data-fetching) guide.
+- To learn more about data fetching in Refine, check out the [Data Fetching](/core/docs/guides-concepts/data-fetching/) guide.
 
 :::
 

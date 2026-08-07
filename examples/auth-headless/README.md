@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example auth-headless
 
 <br/>
 
-[![Open auth-headless example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/auth-headless?view=preview&theme=dark&codemirror=1)
+[![Open auth-headless example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/auth-headless?view=preview&theme=dark&codemirror=1)

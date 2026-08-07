@@ -6,7 +6,7 @@ import { parsePackageNameAndVersion } from "@utils/package";
 import type {
   PackageDependency,
   RefinePackageInstalledVersionData,
-} from "@definitions/package";
+} from "../../../definitions/package";
 
 type UIGroup = {
   patch: {

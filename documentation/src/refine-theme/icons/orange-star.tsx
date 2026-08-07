@@ -2,16 +2,60 @@ import React from "react";
 
 export const OrangeStarIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
+    xmlns="http://www.w3.org/2000/svg"
     width={16}
     height={16}
-    viewBox="0 0 16 16"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <path
-      d="M8.00102 1.77396e-07C8.15222 -0.000102159 8.30043 0.0440742 8.42887 0.127529C8.55731 0.210984 8.66086 0.330385 8.72779 0.472218L10.7601 4.78205L15.3065 5.47343C15.456 5.49615 15.5965 5.56217 15.712 5.66403C15.8276 5.76589 15.9135 5.89953 15.9603 6.04985C16.007 6.20016 16.0126 6.36115 15.9765 6.51462C15.9403 6.6681 15.8639 6.80793 15.7557 6.91832L12.4664 10.2736L13.2428 15.0093C13.268 15.165 13.2511 15.325 13.1941 15.4712C13.1371 15.6174 13.0422 15.7441 12.9201 15.837C12.798 15.9299 12.6535 15.9852 12.503 15.9969C12.3524 16.0085 12.2017 15.976 12.0679 15.9029L8.00102 13.6661L3.93415 15.9029C3.80045 15.9763 3.64978 16.0092 3.49916 15.9978C3.34854 15.9864 3.20397 15.9311 3.08177 15.8383C2.95958 15.7455 2.86462 15.6188 2.80762 15.4725C2.75063 15.3262 2.73387 15.1662 2.75923 15.0104L3.53675 10.2724L0.245243 6.91832C0.136786 6.80798 0.0600411 6.66806 0.0237055 6.51442C-0.0126301 6.36078 -0.0071037 6.19957 0.0396584 6.04905C0.0864206 5.89853 0.172549 5.76472 0.288283 5.66278C0.404018 5.56084 0.544731 5.49486 0.694478 5.4723L5.24082 4.78205L7.27426 0.472218C7.34119 0.330385 7.44473 0.210984 7.57317 0.127529C7.70162 0.0440742 7.84982 -0.000102159 8.00102 1.77396e-07Z"
-      fill="#FF9933"
-    />
+    <g filter="url(#orange-star-a)">
+      <path
+        stroke="url(#orange-star-b)"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.333}
+        d="m8 1.333 2.06 4.174 4.607.673-3.334 3.247.787 4.586L8 11.847l-4.12 2.166.787-4.586L1.333 6.18l4.607-.673L8 1.333Z"
+      />
+    </g>
+    <defs>
+      <linearGradient
+        id="orange-star-b"
+        x1={8}
+        x2={8}
+        y1={1.333}
+        y2={14.013}
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stopColor="#FDBA74" />
+        <stop offset={1} stopColor="#F97316" />
+      </linearGradient>
+      <filter
+        id="orange-star-a"
+        width={14.667}
+        height={14.413}
+        x={0.667}
+        y={0.667}
+        colorInterpolationFilters="sRGB"
+        filterUnits="userSpaceOnUse"
+      >
+        <feFlood floodOpacity={0} result="BackgroundImageFix" />
+        <feColorMatrix
+          in="SourceAlpha"
+          result="hardAlpha"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+        />
+        <feOffset dy={0.4} />
+        <feColorMatrix values="0 0 0 0 0.0941176 0 0 0 0 0.0941176 0 0 0 0 0.105882 0 0 0 1 0" />
+        <feBlend
+          in2="BackgroundImageFix"
+          result="effect1_dropShadow_5215_117"
+        />
+        <feBlend
+          in="SourceGraphic"
+          in2="effect1_dropShadow_5215_117"
+          result="shape"
+        />
+      </filter>
+    </defs>
   </svg>
 );

@@ -6,6 +6,18 @@ import { getIdFromURL } from "../../../utils";
 const hostname = "api.strapi-v4.refine.dev";
 const BASE_PATH = "/api";
 
+Cypress.Commands.add("interceptStrapiV4Login", () => {
+  return cy
+    .intercept(
+      { method: "GET", hostname, pathname: `${BASE_PATH}/me` },
+      {
+        statusCode: 200,
+        body: { id: 1, username: "demo", email: "demo@refine.dev" },
+      },
+    )
+    .as("strapiV4Login");
+});
+
 Cypress.Commands.add("interceptStrapiV4GETPosts", () => {
   return cy
     .intercept(

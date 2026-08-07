@@ -1,6 +1,9 @@
 ---
 id: kinde
-title: Kinde
+title: "Kinde Example | Best Practices in Refine v5"
+display_title: "Kinde"
+sidebar_label: "Kinde"
+description: "Implement Kinde in Refine v5. Learn the key steps. Explore best practices for provider for real-world React admin panels. See practical code samples."
 example-tags: [auth-provider, community]
 ---
 

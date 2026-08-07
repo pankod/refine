@@ -82,12 +82,12 @@ export const PostList = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    setOptions,
-    refineCore: { current, pageCount, setCurrent },
+    reactTable: { getHeaderGroups, getRowModel, setOptions },
+
+    refineCore: { currentPage: current, pageCount, setCurrentPage: setCurrent },
   } = useTable({
     columns,
+
     refineCoreProps: {
       meta: {
         populate: ["category"],

@@ -1,45 +1,44 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 
-import { type AuthProvider, Refine } from "@refinedev/core";
+import { type AuthProvider, type Action, Refine } from "@refinedev/core";
 
 import { MockRouterProvider, MockJSONServer } from "@test";
 import type {
   I18nProvider,
   AccessControlProvider,
-  LegacyAuthProvider,
   DataProvider,
   NotificationProvider,
   IResourceItem,
+  RouterProvider,
 } from "@refinedev/core";
 
 import { RefineKbarProvider } from "../src/index";
 
-/* interface ITestWrapperProps {
-    authProvider?: IAuthContext;
-    dataProvider?: IDataContext;
-    i18nProvider?: I18nProvider;
-    accessControlProvider?: IAccessControlContext;
-    liveProvider?: ILiveContext;
-    resources?: IResourceItem[];
-    children?: React.ReactNode;
-    routerInitialEntries?: string[];
-    refineProvider?: IRefineContextProvider;
-} */
+const mockResources = [
+  {
+    name: "posts",
+    list: "/list",
+    create: "/create",
+    show: "/show/:id",
+    edit: "/edit/:id",
+    meta: {
+      canEdit: true,
+      canShow: true,
+      canDelete: true,
+    },
+  },
+];
 
-const List = () => {
-  return <div>hede</div>;
-};
 export interface ITestWrapperProps {
   dataProvider?: DataProvider;
   authProvider?: AuthProvider;
-  legacyAuthProvider?: LegacyAuthProvider;
   resources?: IResourceItem[];
+  routerProvider?: RouterProvider;
   notificationProvider?: NotificationProvider;
   accessControlProvider?: AccessControlProvider;
   i18nProvider?: I18nProvider;
   routerInitialEntries?: string[];
-  DashboardPage?: React.FC;
 }
 
 export const TestWrapper: (
@@ -47,12 +46,11 @@ export const TestWrapper: (
 ) => React.FC<{ children?: React.ReactNode }> = ({
   dataProvider,
   authProvider,
-  legacyAuthProvider,
+  routerProvider,
   resources,
   notificationProvider,
   accessControlProvider,
   routerInitialEntries,
-  DashboardPage,
   i18nProvider,
 }) => {
   // Previously, MemoryRouter was used in this wrapper. However, the
@@ -68,19 +66,47 @@ export const TestWrapper: (
   }
 
   return ({ children }): React.ReactElement => {
+    let action: Action | undefined = undefined;
+    let id = undefined;
+    let resource = undefined;
+
+    if (routerInitialEntries) {
+      // find action, id and resource from routerInitialEntries:  /posts/show/1, /posts/create, /posts/edit/11
+      const [
+        resourcePath = undefined,
+        actionPath = undefined,
+        idParam = undefined,
+      ] = routerInitialEntries[0].split("/").slice(1);
+      resource = resourcePath;
+      action = actionPath as Action | undefined;
+      id = idParam;
+    }
+
+    const finalRouterProvider =
+      routerProvider ??
+      MockRouterProvider({
+        pathname: routerInitialEntries?.[0],
+        params: {
+          id: id || undefined,
+        },
+        resource:
+          (resources ?? mockResources).find((item) => item.name === resource) ??
+          undefined,
+        action: action,
+        id: id,
+      });
+
     return (
       <RefineKbarProvider>
         <BrowserRouter>
           <Refine
             dataProvider={dataProvider ?? MockJSONServer}
             i18nProvider={i18nProvider}
-            legacyRouterProvider={MockRouterProvider}
             authProvider={authProvider}
-            legacyAuthProvider={legacyAuthProvider}
             notificationProvider={notificationProvider}
-            resources={resources ?? [{ name: "posts", list: List }]}
+            routerProvider={finalRouterProvider}
+            resources={resources ?? [{ name: "posts", list: "/list" }]}
             accessControlProvider={accessControlProvider}
-            DashboardPage={DashboardPage ?? undefined}
             options={{ disableTelemetry: true }}
           >
             {children}

@@ -27,6 +27,7 @@ export const OrderProducts = ({ order }: Props) => {
       {
         field: "avatar",
         headerName: t("products.fields.images.label"),
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <Avatar
@@ -65,6 +66,7 @@ export const OrderProducts = ({ order }: Props) => {
         sortable: false,
         align: "right",
         headerAlign: "right",
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <NumberField
@@ -83,6 +85,7 @@ export const OrderProducts = ({ order }: Props) => {
         sortable: false,
         align: "right",
         headerAlign: "right",
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <NumberField
@@ -102,9 +105,7 @@ export const OrderProducts = ({ order }: Props) => {
   return (
     <DataGrid
       rows={uniqueProducts}
-      sx={{}}
       columns={columns}
-      autoHeight
       slots={{
         footer: () => {
           return (

@@ -11,7 +11,6 @@ describe("base-chakra-ui", () => {
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    cy.interceptGETPosts();
     cy.visit("/");
   });
 

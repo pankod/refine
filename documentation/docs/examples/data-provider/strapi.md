@@ -1,6 +1,9 @@
 ---
 id: strapi
-title: Strapi
+title: "Strapi Example | REST API Integration in Refine v5"
+display_title: "Strapi"
+sidebar_label: "Strapi"
+description: "Implement Strapi in Refine v5. Learn the key steps. Learn scale provider for custom APIs and scalable data flows. Explore with code snippets."
 example-tags: [data-provider, auth-provider]
 ---
 

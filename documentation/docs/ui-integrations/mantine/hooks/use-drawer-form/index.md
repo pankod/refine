@@ -1,12 +1,15 @@
 ---
-title: useDrawerForm
+title: "useDrawerForm Hook | Usage & Patterns in Refine v5"
+display_title: "useDrawerForm"
+sidebar_label: "useDrawerForm"
+description: "Integrate Use Drawer Form in Refine v5. Learn best practices. Learn integration patterns for React UI library, components for polished admin UIs."
 ---
 
 The [`useModalForm`][use-modal-form-refine-mantine] hook allows you to manage a form within a `<Modal>` as well as a `<Drawer>`. It provides some useful methods to handle the form `<Modal>` or form `<Drawer>`.
 
 We will use [`useModalForm`][use-modal-form-refine-mantine] hook as a `useDrawerForm` to manage a form within a `<Drawer>`.
 
-The `useDrawerForm` hook is extended from the [`useForm`][use-form-refine-mantine] hook from the [`@refinedev/mantine`](https://github.com/refinedev/refine/tree/master/packages/mantine) package. This means that you can use all the features of [`useForm`][use-form-refine-mantine] hook.
+The `useDrawerForm` hook is extended from the [`useForm`][use-form-refine-mantine] hook from the [`@refinedev/mantine`](https://github.com/refinedev/refine/tree/main/packages/mantine) package. This means that you can use all the features of [`useForm`][use-form-refine-mantine] hook.
 
 ## Usage
 
@@ -108,13 +111,11 @@ const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    setOptions,
+    reactTable: { getHeaderGroups, getRowModel, setOptions },
     refineCore: {
-      setCurrent,
+      setCurrentPage,
       pageCount,
-      current,
+      currentPage,
       tableQuery: { data: tableData },
     },
   } = useTable({
@@ -203,8 +204,8 @@ const PostList: React.FC = () => {
           <Pagination
             position="right"
             total={pageCount}
-            page={current}
-            onChange={setCurrent}
+            page={currentPage}
+            onChange={setCurrentPage}
           />
         </List>
       </ScrollArea>
@@ -219,16 +220,31 @@ interface IPost {
 }
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
-
-render(<RefineMantineDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 </TabItem>
@@ -339,13 +355,11 @@ const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    setOptions,
+    reactTable: { getHeaderGroups, getRowModel, setOptions },
     refineCore: {
-      setCurrent,
+      setCurrentPage,
       pageCount,
-      current,
+      currentPage,
       tableQuery: { data: tableData },
     },
   } = useTable({
@@ -433,8 +447,8 @@ const PostList: React.FC = () => {
           <Pagination
             position="right"
             total={pageCount}
-            page={current}
-            onChange={setCurrent}
+            page={currentPage}
+            onChange={setCurrentPage}
           />
         </List>
       </ScrollArea>
@@ -449,16 +463,31 @@ interface IPost {
 }
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
-
-render(<RefineMantineDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 Refine doesn't automatically add a `<EditButton/>` to the each record in `<PostList>` which opens `"edit"` form in `<Drawer>` when clicked.
@@ -502,7 +531,7 @@ Don't forget to pass the record `"id"` to `show` to fetch the record data. This 
 
 ### refineCoreProps
 
-All [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form) properties are also available in `useStepsForm`. You can find descriptions on the [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form#properties) documentation.
+All [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form/) properties are also available in `useStepsForm`. You can find descriptions on the [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form/#properties) documentation.
 
 ```tsx
 const drawerForm = useDrawerForm({
@@ -676,7 +705,7 @@ useDrawerForm({
 
 ## Return Values
 
-All [`useForm`][use-form-refine-mantine] return values are also available in `useDrawerForm`. You can find descriptions on the [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form#return-values) documentation.
+All [`useForm`][use-form-refine-mantine] return values are also available in `useDrawerForm`. You can find descriptions on the [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form/#return-values) documentation.
 
 All [`mantine useForm`](https://mantine.dev/form/use-form/) return values also available in `useDrawerForm`. You can find descriptions on [`mantine`](https://mantine.dev/form/use-form/) docs.
 
@@ -899,10 +928,10 @@ const UserCreate: React.FC = () => {
 
 ### Properties
 
-| Property                               | Description                                                         | Type                                                    |
-| -------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------- |
-| modalProps                             | Configuration object for the modal or drawer                        | [`ModalPropsType`](#modalpropstype)                     |
-| refineCoreProps                        | Configuration object for the core of the [`useForm`][use-form-core] | [`UseFormProps`](/docs/data/hooks/use-form/#properties) |
+| Property                               | Description                                                         | Type                                                         |
+| -------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------ |
+| modalProps                             | Configuration object for the modal or drawer                        | [`ModalPropsType`](#modalpropstype)                          |
+| refineCoreProps                        | Configuration object for the core of the [`useForm`][use-form-core] | [`UseFormProps`](/core/docs/data/hooks/use-form/#properties) |
 | `@mantine/form`'s `useForm` properties | See [useForm][use-form-refine-mantine] documentation                |
 
 <br />
@@ -929,12 +958,12 @@ const UserCreate: React.FC = () => {
 
 ### Return values
 
-| Property                                  | Description                                                     | Type                                                              |
-| ----------------------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------- |
-| modal                                     | Relevant states and methods to control the modal or drawer      | [`ModalReturnValues`](#modalreturnvalues)                         |
-| refineCore                                | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/docs/data/hooks/use-form/#return-values) |
+| Property                                  | Description                                                     | Type                                                                   |
+| ----------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| modal                                     | Relevant states and methods to control the modal or drawer      | [`ModalReturnValues`](#modalreturnvalues)                              |
+| refineCore                                | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/core/docs/data/hooks/use-form/#return-values) |
 | `@mantine/form`'s `useForm` return values | See [useForm][use-form-refine-mantine] documentation            |
-| overtime                                  | Overtime loading props                                          | `{ elapsedTime?: number }`                                        |
+| overtime                                  | Overtime loading props                                          | `{ elapsedTime?: number }`                                             |
 
 <br />
 
@@ -953,8 +982,8 @@ const UserCreate: React.FC = () => {
 
 <CodeSandboxExample path="form-mantine-use-drawer-form" />
 
-[use-form-refine-mantine]: /docs/ui-integrations/mantine/hooks/use-form
-[use-form-core]: /docs/data/hooks/use-form/
-[use-modal-form-refine-mantine]: /docs/ui-integrations/mantine/hooks/use-modal-form
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
+[use-form-refine-mantine]: /core/docs/ui-integrations/mantine/hooks/use-form
+[use-form-core]: /core/docs/data/hooks/use-form/
+[use-modal-form-refine-mantine]: /core/docs/ui-integrations/mantine/hooks/use-modal-form
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror

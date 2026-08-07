@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example auth-otp
 
 <br/>
 
-[![Open auth-otp example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/auth-otp?view=preview&theme=dark&codemirror=1)
+[![Open auth-otp example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/auth-otp?view=preview&theme=dark&codemirror=1)

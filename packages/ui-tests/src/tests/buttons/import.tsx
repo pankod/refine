@@ -1,4 +1,5 @@
 import React from "react";
+import { vi } from "vitest";
 import {
   type RefineImportButtonProps,
   RefineButtonTestIds,
@@ -10,12 +11,12 @@ export const buttonImportTests = (
   ImportButton: React.ComponentType<RefineImportButtonProps<any, any>>,
 ): void => {
   describe("[@refinedev/ui-tests] Common Tests / Import Button", () => {
-    const parseMock = jest.fn();
+    const parseMock = vi.fn();
 
     beforeAll(() => {
-      jest.mock("papaparse", () => {
+      vi.mock("papaparse", async () => {
         return {
-          parse: jest.fn(() => parseMock()),
+          parse: vi.fn(() => parseMock()),
         };
       });
     });

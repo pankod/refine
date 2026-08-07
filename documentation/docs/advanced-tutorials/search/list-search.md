@@ -1,9 +1,12 @@
 ---
 id: list-search
-title: List Search
+title: "List Search Tutorial | Best Practices in Refine v5"
+display_title: "List Search"
+sidebar_label: "List Search"
+description: "Set up List Search in Refine v5. Learn best practices. Learn advanced patterns for form and posts for production-ready workflows. Learn with code examples."
 ---
 
-We will examine how to make an extensive search and filtering with the [`useSimpleList`](/docs/ui-integrations/ant-design/hooks/use-simple-list) hook that works with the Ant Design's [`<List>`](https://ant.design/components/list) component.
+We will examine how to make an extensive search and filtering with the [`useSimpleList`](/core/docs/ui-integrations/ant-design/hooks/use-simple-list/) hook that works with the Ant Design's [`<List>`](https://ant.design/components/list) component.
 
 To do this, let's list posts using the posts resource.
 
@@ -86,15 +89,15 @@ After creating the `<PostList>` component, add it to the resource with `list` pr
 ```tsx
 import { Refine } from "@refinedev/core";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   useNotificationProvider,
   ErrorComponent,
   RefineThemes,
 } from "@refinedev/antd";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { ConfigProvider } from "antd";
 import "@refinedev/antd/dist/reset.css";
@@ -125,9 +128,9 @@ const App: React.FC = () => {
             <Route index element={<NavigateToResource />} />
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="/posts" element={<PostList />} />
@@ -146,7 +149,7 @@ export default App;
 <img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/list-search/basic-list.png" alt="basic list" />
 <br />
 
-We will create a form by extracting `searchFormProps` from [`useSimpleList`](/docs/ui-integrations/ant-design/hooks/use-simple-list). We will use this form for search/filtering. We will also create an interface to determine the types of values from the form.
+We will create a form by extracting `searchFormProps` from [`useSimpleList`](/core/docs/ui-integrations/ant-design/hooks/use-simple-list/). We will use this form for search/filtering. We will also create an interface to determine the types of values from the form.
 
 ```tsx title="pages/posts/list.tsx"
 ...
@@ -237,7 +240,7 @@ When the form is submitted, the `onSearch` method runs and we get the search for
 
 :::caution
 
-[`CrudFilters`](/docs/core/interface-references#crudfilters) type object has `field`, `operator`, and `value` properties. These properties help us to filter in which field, with which operator, and with which data.
+[`CrudFilters`](/core/docs/core/interface-references#crudfilters) type object has `field`, `operator`, and `value` properties. These properties help us to filter in which field, with which operator, and with which data.
 
 :::
 

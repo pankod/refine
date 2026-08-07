@@ -30,9 +30,8 @@ export const LandingPureReactCode: FC<Props> = ({
           "h-full",
           "flex-shrink-0",
           "p-2 landing-sm:p-4",
-          "rounded-2xl landing-sm:rounded-3xl",
-          "dark:bg-landing-noise",
-          "dark:bg-gray-800 bg-gray-50",
+          "rounded-xl",
+          "bg-zinc-800",
         )}
       >
         <div
@@ -42,21 +41,15 @@ export const LandingPureReactCode: FC<Props> = ({
             "flex-col",
             "rounded-lg",
             "landing-sm:aspect-[560/240] landing-md:aspect-[624/240]  landing-lg:aspect-[607/299]",
-            "dark:bg-landing-component-dark bg-landing-component",
-            "border-t-solid border-t",
-            "border-t-gray-200 dark:border-t-gray-700",
-            "border-opacity-60 dark:border-opacity-60",
-            "shadow-[0px_-1.5px_0px_rgba(237,242,247,0.5)] dark:shadow-[0px_-1.5px_0px_rgba(20,20,31,0.5)]",
-            "drop-shadow-sm",
+            "bg-landing-component-dark",
           )}
         >
           <BrowserOnly>{() => <CodeSlide />}</BrowserOnly>
-          <BrowserOnly>{() => <ReactLogo />}</BrowserOnly>
         </div>
         <div
           className={clsx(
             "not-prose",
-            "mt-4 landing-sm:mt-6 landing-lg:mt-10",
+            "mt-4 landing-sm:mt-6 landing-lg:mt-6",
             "px-4 landing-sm:px-6",
           )}
         >
@@ -65,7 +58,7 @@ export const LandingPureReactCode: FC<Props> = ({
               "p-0",
               "font-semibold",
               "text-base landing-sm:text-2xl",
-              "dark:text-gray-300 text-gray-900",
+              "text-white",
             )}
           >
             {title}
@@ -86,14 +79,14 @@ export const LandingPureReactCode: FC<Props> = ({
                 "p-0",
                 "mt-2 landing-sm:mt-4",
                 "text-base",
-                "dark:text-gray-400 text-gray-600",
+                "text-zinc-300",
               )}
             >
               {description}
             </p>
             {cta && (
               <LandingSectionCtaButton to="https://github.com/refinedev/refine">
-                Refine on GitHub
+                Refine Core on GitHub
               </LandingSectionCtaButton>
             )}
           </div>
@@ -103,53 +96,23 @@ export const LandingPureReactCode: FC<Props> = ({
   );
 };
 
-const ReactLogo = () => {
-  const { colorMode } = useColorMode();
-
-  return (
-    <div
-      key={colorMode}
-      className={clsx(
-        "w-[48px] h-[48px]",
-        "absolute",
-        "bottom-[16px]",
-        "right-[16px]",
-        "rounded-lg",
-        "z-0",
-      )}
-    >
-      <video autoPlay loop muted playsInline className="w-full h-full">
-        <source
-          src={`https://refine.ams3.cdn.digitaloceanspaces.com/website/static/assets/react-${colorMode}.mov`}
-          type="video/mp4"
-        />
-        <source
-          key={colorMode}
-          src={`https://refine.ams3.cdn.digitaloceanspaces.com/website/static/assets/react-${colorMode}.webm`}
-          type="video/webm"
-        />
-      </video>
-    </div>
-  );
-};
-
 const CodeSlide = () => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref);
 
   return (
-    <div ref={ref} className={clsx("rounded-lg", "dark:bg-gray-900 bg-gray-0")}>
+    <div ref={ref} className={clsx("rounded-lg", "bg-zinc-800")}>
       <div
         className={clsx(
           "text-[10px] leading-[16px]",
-          "h-[268px] landing-md:h-[299px]",
+          "h-[268px] landing-md:h-[288px] landing-lg:h-[309px]",
           "font-jetBrains-mono",
           "select-none",
           "overflow-hidden",
           "relative",
           "z-[1px]",
-          "dark:text-[#d6deeb] text-gray-900",
-          "dark:landing-react-code-mask-dark landing-react-code-mask",
+          "text-[#d6deeb]",
+          "landing-react-code-mask-dark",
         )}
       >
         <div
@@ -168,15 +131,10 @@ const CodeSlide = () => {
 };
 
 const HighlightCode = memo(function HighlightCodeBase() {
-  const { colorMode } = useColorMode();
-  const isDarkTheme = colorMode === "dark";
-
-  const theme = isDarkTheme ? nightOwlDark : nightOwlLight;
-
   return (
     <Highlight
       {...defaultProps}
-      theme={theme}
+      theme={nightOwlDark}
       code={`${code ?? ""}`.trim()}
       language="tsx"
     >
@@ -189,9 +147,7 @@ const HighlightCode = memo(function HighlightCodeBase() {
               })}
               key={`${code}-${i}`}
             >
-              <span className={"dark:text-gray-600 text-gray-500 pl-4 pr-2"}>
-                {i + 1}
-              </span>
+              <span className={"text-zinc-700 pl-4 pr-2"}>{i + 1}</span>
               {line.map((token, key) => {
                 const { children: _children, ...tokenProps } = getTokenProps({
                   token,
@@ -224,7 +180,7 @@ import { useList } from "@refinedev/core";
 
 export const List: React.FC = () => {
   const {
-    data: { data, total },
+    result: { data, total },
     isLoading,
   } = useList();
 

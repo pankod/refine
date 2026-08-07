@@ -78,7 +78,7 @@ describe("definitions/table", () => {
 
   it("stringify table params correctly", async () => {
     const pagination = {
-      current: 1,
+      currentPage: 1,
       pageSize: 10,
     };
 
@@ -116,7 +116,7 @@ describe("definitions/table", () => {
 
   it("stringify table single sort params correctly", async () => {
     const pagination = {
-      current: 1,
+      currentPage: 1,
       pageSize: 10,
     };
 
@@ -135,12 +135,12 @@ describe("definitions/table", () => {
 
   it("parse table params with single sorter correctly", async () => {
     const url =
-      "?current=1&pageSize=10&sorter[0][field]=id&sorter[0][order]=desc&filters[0][operator]=in&filters[0][field]=categoryId&filters[0][value][0]=1&filters[0][value][1]=2";
+      "?currentPage=1&pageSize=10&sorter[0][field]=id&sorter[0][order]=desc&filters[0][operator]=in&filters[0][field]=categoryId&filters[0][value][0]=1&filters[0][value][1]=2";
 
-    const { parsedCurrent, parsedPageSize, parsedSorter, parsedFilters } =
+    const { parsedCurrentPage, parsedPageSize, parsedSorter, parsedFilters } =
       parseTableParams(url);
 
-    expect(parsedCurrent).toBe(1);
+    expect(parsedCurrentPage).toBe(1);
     expect(parsedPageSize).toBe(10);
     expect(parsedSorter).toStrictEqual([{ field: "id", order: "desc" }]);
     expect(parsedFilters).toStrictEqual([
@@ -150,7 +150,7 @@ describe("definitions/table", () => {
 
   it("sorters should be prioritized over sorter", async () => {
     const pagination = {
-      current: 1,
+      currentPage: 1,
       pageSize: 10,
     };
 
@@ -170,7 +170,7 @@ describe("definitions/table", () => {
 
   it("parse table params with advanced query object", async () => {
     const query = {
-      current: 1,
+      currentPage: 1,
       pageSize: 10,
       sorter: [
         { field: "id", order: "asc" },
@@ -196,10 +196,10 @@ describe("definitions/table", () => {
       ],
     };
 
-    const { parsedCurrent, parsedPageSize, parsedSorter, parsedFilters } =
+    const { parsedCurrentPage, parsedPageSize, parsedSorter, parsedFilters } =
       parseTableParamsFromQuery(query);
 
-    expect(parsedCurrent).toBe(1);
+    expect(parsedCurrentPage).toBe(1);
     expect(parsedPageSize).toBe(10);
     expect(parsedSorter).toStrictEqual([
       { field: "id", order: "asc" },
@@ -619,8 +619,8 @@ describe("definitions/table", () => {
   });
 
   it("parseTableParams default sorter and filters", () => {
-    expect(parseTableParams("?current=1&pageSize=10")).toStrictEqual({
-      parsedCurrent: 1,
+    expect(parseTableParams("?currentPage=1&pageSize=10")).toStrictEqual({
+      parsedCurrentPage: 1,
       parsedFilters: [],
       parsedPageSize: 10,
       parsedSorter: [],
@@ -635,5 +635,60 @@ describe("definitions/table", () => {
         filters: [],
       }),
     ).toEqual("");
+  });
+
+  it("parseTableParams should handle deeply nested conditional filters", () => {
+    const filters: CrudFilter[] = [
+      {
+        operator: "or",
+        value: [
+          {
+            operator: "and",
+            value: [
+              { field: "isDismissed", operator: "eq", value: true },
+              { field: "participation.id", operator: "nnull", value: "" },
+            ],
+          },
+          {
+            operator: "and",
+            value: [{ field: "isDismissed", operator: "eq", value: false }],
+          },
+        ],
+      },
+    ];
+
+    const url = stringifyTableParams({
+      pagination: { currentPage: 1, pageSize: 10 },
+      sorters: [],
+      filters,
+    });
+
+    const { parsedFilters } = parseTableParams(`?${url}`);
+
+    expect(parsedFilters).toHaveLength(1);
+    expect(parsedFilters[0]).toHaveProperty("operator", "or");
+    expect(parsedFilters[0]).toHaveProperty("value");
+
+    const orValue = (parsedFilters[0] as any).value;
+    expect(orValue).toHaveLength(2);
+
+    expect(orValue[0]).toHaveProperty("operator", "and");
+    expect(orValue[0].value).toHaveLength(2);
+    expect(orValue[0].value[0]).toHaveProperty("field", "isDismissed");
+    expect(orValue[0].value[0]).toHaveProperty("operator", "eq");
+    expect(orValue[0].value[0]).toHaveProperty("value", "true");
+    expect(orValue[0].value[1]).toHaveProperty("field", "participation.id");
+    expect(orValue[0].value[1]).toHaveProperty("operator", "nnull");
+
+    expect(orValue[1]).toHaveProperty("operator", "and");
+    expect(orValue[1].value).toHaveLength(1);
+    expect(orValue[1].value[0]).toHaveProperty("field", "isDismissed");
+    expect(orValue[1].value[0]).toHaveProperty("operator", "eq");
+    expect(orValue[1].value[0]).toHaveProperty("value", "false");
+
+    const stringified = JSON.stringify(parsedFilters);
+    expect(stringified).not.toContain("[field]");
+    expect(stringified).not.toContain("[operator]");
+    expect(stringified).not.toContain("[value]");
   });
 });

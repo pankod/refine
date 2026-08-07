@@ -67,7 +67,7 @@ export const CartProvider: React.FC<PropsWithChildren> = ({ children }) => {
   );
 
   const {
-    data: {
+    result: {
       data: { cart = undefined } = {},
     } = {},
     isFetching: cartIsFetching,

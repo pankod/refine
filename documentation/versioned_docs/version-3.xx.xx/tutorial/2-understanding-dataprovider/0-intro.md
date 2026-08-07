@@ -10,7 +10,7 @@ tutorial:
 import SupportedDataProviders from "@site/src/partials/data-provider/supported-data-providers.md";
 
 :::info
-The data provider unit is optional for the tutorial and can be skipped to next unit - <UIConditional is="headless">[Adding CRUD Pages](/docs/3.xx.xx/tutorial/adding-crud-pages/headless/index)</UIConditional><UIConditional is="antd">[Adding CRUD Pages](/docs/3.xx.xx/tutorial/adding-crud-pages/antd/index)</UIConditional><UIConditional is="mantine">[Adding CRUD Pages](/docs/3.xx.xx/tutorial/adding-crud-pages/mantine/index)</UIConditional><UIConditional is="chakra-ui">[Adding CRUD Pages](/docs/3.xx.xx/tutorial/adding-crud-pages/chakra-ui/index)</UIConditional><UIConditional is="mui">[Adding CRUD Pages](/docs/3.xx.xx/tutorial/adding-crud-pages/mui/index)</UIConditional>
+The data provider unit is optional for the tutorial and can be skipped to next unit - <UIConditional is="headless">[Adding CRUD Pages](/core/docs/3.xx.xx/tutorial/adding-crud-pages/headless/index)</UIConditional><UIConditional is="antd">[Adding CRUD Pages](/core/docs/3.xx.xx/tutorial/adding-crud-pages/antd/index)</UIConditional><UIConditional is="mantine">[Adding CRUD Pages](/core/docs/3.xx.xx/tutorial/adding-crud-pages/mantine/index)</UIConditional><UIConditional is="chakra-ui">[Adding CRUD Pages](/core/docs/3.xx.xx/tutorial/adding-crud-pages/chakra-ui/index)</UIConditional><UIConditional is="mui">[Adding CRUD Pages](/core/docs/3.xx.xx/tutorial/adding-crud-pages/mui/index)</UIConditional>
 if desired.
 :::
 
@@ -25,7 +25,7 @@ We'll see how to create data provider in the next sections.
 Data providers can communicate with `REST`, `GraphQL`, `RPC`, and `SOAP` based API's. You can imagine the data provider is an adapter between refine and the API.
 
 <div>
-    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/providers/data-provider/api-consuming-flow.png" />
+    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/providers/data-provider/api-consuming-flow.webp" />
 </div>
 <br/>
 <br/>
@@ -73,7 +73,7 @@ import dataProvider from "@pankod/refine-simple-rest";
 />;
 ```
 
-You can refer to the **refine** component [dataProvider](/docs/3.xx.xx/api-reference/core/components/refine-config/#dataprovider) prop documentation for more detailed information.
+You can refer to the **refine** component [dataProvider](/core/docs/3.xx.xx/api-reference/core/components/refine-config/#dataprovider) prop documentation for more detailed information.
 
 ## How are data provider methods used in the app?
 

@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useForm } from "@refinedev/react-hook-form";
-import { useModal, useResource, useSelect } from "@refinedev/core";
+import { useModal, useResourceParams, useSelect } from "@refinedev/core";
 
 import { Modal } from "../../components/modal";
 import { History } from "../../components/history";
 
 export const PostEdit: React.FC = () => {
   const { close, show, visible } = useModal();
-  const { resourceName, id } = useResource();
+  const { id, identifier } = useResourceParams();
 
   const {
     refineCore: { onFinish, formLoading, query: queryResult },
@@ -20,6 +20,10 @@ export const PostEdit: React.FC = () => {
   const { options } = useSelect({
     resource: "categories",
     defaultValue: queryResult?.data?.data.category.id,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   useEffect(() => {
@@ -81,7 +85,7 @@ export const PostEdit: React.FC = () => {
       </form>
 
       <Modal isOpen={visible} onClose={close}>
-        {resourceName && id && <History resource={resourceName} id={id} />}
+        {identifier && id && <History resource={identifier} id={id} />}
       </Modal>
     </>
   );

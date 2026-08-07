@@ -9,34 +9,39 @@ import type { IPost, ICategory } from "../../interfaces";
 const { Title, Text } = Typography;
 
 export const PostReview: React.FC = () => {
-  const { data, isLoading } = useList<IPost>({
+  const {
+    result: data,
+    query: { isLoading },
+  } = useList<IPost>({
     resource: "posts",
-    config: {
-      filters: [
-        {
-          field: "status",
-          operator: "eq",
-          value: "draft",
-        },
-      ],
-      pagination: { pageSize: 1 },
+
+    filters: [
+      {
+        field: "status",
+        operator: "eq",
+        value: "draft",
+      },
+    ],
+
+    pagination: { pageSize: 1 },
+  });
+
+  const record = data?.data?.[0];
+
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useOne<ICategory>({
+    resource: "categories",
+    id: record?.category.id || "",
+    queryOptions: {
+      enabled: !!record,
     },
   });
 
-  const record = data?.data[0];
+  const { mutation, mutate } = useUpdate<IPost>();
 
-  const { data: categoryData, isLoading: categoryIsLoading } =
-    useOne<ICategory>({
-      resource: "categories",
-      id: record?.category.id || "",
-      queryOptions: {
-        enabled: !!record,
-      },
-    });
-
-  const mutationResult = useUpdate<IPost>();
-
-  const { mutate, isLoading: mutateIsLoading } = mutationResult;
+  const { isPending: mutateIsLoading } = mutation;
 
   const handleUpdate = (item: IPost, status: string) => {
     mutate({ resource: "posts", id: item.id, values: { ...item, status } });
@@ -74,13 +79,10 @@ export const PostReview: React.FC = () => {
     >
       <Title level={5}>Status</Title>
       <Text>{record?.status}</Text>
-
       <Title level={5}>Title</Title>
       <Text>{record?.title}</Text>
-
       <Title level={5}>Category</Title>
-      <Text>{categoryData?.data.title}</Text>
-
+      <Text>{categoryData?.title}</Text>
       <Title level={5}>Content</Title>
       <MarkdownField value={record?.content} />
     </Show>

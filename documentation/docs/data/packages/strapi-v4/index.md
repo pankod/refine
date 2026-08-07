@@ -1,6 +1,9 @@
 ---
-title: Strapi v4
-source: https://github.com/refinedev/refine/tree/master/packages/strapi-v4
+title: "Strapi V4 Integration Guide | REST API Integration in Refine v5"
+display_title: "Strapi v4"
+sidebar_label: "Strapi v4"
+description: "Secure Strapi V4 in Refine v5. Learn best practices. Learn scale fields and posts for custom APIs and scalable data flows. Real-world snippets included."
+source: https://github.com/refinedev/refine/tree/main/packages/strapi-v4
 swizzle: true
 ---
 
@@ -19,6 +22,7 @@ Refine supports the features that come with [Strapi-v4](https://docs.strapi.io/d
 
 A few of the Strapi-v4 API features are as follows:
 
+- Authentication
 - Fields Selection
 - Relations Population
 - Publication State
@@ -28,20 +32,20 @@ A few of the Strapi-v4 API features are as follows:
 
 Hooks and components that support `meta`:
 
-| Supported data hooks                                       | Supported other hooks                                                                  | Supported components                                                                         |
-| ---------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| [`useUpdate` &#8594](/docs/data/hooks/use-update)          | [`useForm` &#8594](/docs/data/hooks/use-form)                                          | [`DeleteButton` &#8594](/docs/ui-integrations/ant-design/components/buttons/delete-button)   |
-| [`useUpdateMany` &#8594](/docs/data/hooks/use-update-many) | [`useModalForm` &#8594](/docs/ui-integrations/ant-design/hooks/use-modal-form)         | [`RefreshButton` &#8594](/docs/ui-integrations/ant-design/components/buttons/refresh-button) |
-| [`useDelete` &#8594](/docs/data/hooks/use-delete)          | [`useDrawerForm` &#8594](/docs/ui-integrations/ant-design/hooks/use-drawer-form)       |                                                                                              |
-| [`useDeleteMany` &#8594](/docs/data/hooks/use-delete-many) | [`useStepsForm` &#8594](/docs/ui-integrations/ant-design/hooks/use-steps-form)         |                                                                                              |
-| [`useCreate` &#8594](/docs/data/hooks/use-create)          | [`useTable` &#8594](/docs/data/hooks/use-table)                                        |                                                                                              |
-| [`useCreateMany` &#8594](/docs/data/hooks/use-create-many) | [`useEditableTable` &#8594](/docs/ui-integrations/ant-design/hooks/use-editable-table) |                                                                                              |
-| [`useList` &#8594](/docs/data/hooks/use-list)              | [`useSimpleList` &#8594](/docs/ui-integrations/ant-design/hooks/use-simple-list)       |                                                                                              |
-| [`useOne` &#8594](/docs/data/hooks/use-one)                | [`useShow` &#8594](/docs/data/hooks/use-show)                                          |                                                                                              |
-| [`useMany` &#8594](/docs/data/hooks/use-many)              | [`useExport` &#8594](/docs/core/hooks/utilities/use-export)                            |                                                                                              |
-| [`useCustom` &#8594](/docs/data/hooks/use-custom)          | [`useCheckboxGroup` &#8594](/docs/ui-integrations/ant-design/hooks/use-checkbox-group) |                                                                                              |
-|                                                            | [`useSelect` &#8594](/docs/data/hooks/use-select)                                      |                                                                                              |
-|                                                            | [`useRadioGroup` &#8594](/docs/ui-integrations/ant-design/hooks/use-radio-group)       |                                                                                              |
+| Supported data hooks                                             | Supported other hooks                                                                        | Supported components                                                                               |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| [`useUpdate` &#8594](/core/docs/data/hooks/use-update/)          | [`useForm` &#8594](/core/docs/data/hooks/use-form/)                                          | [`DeleteButton` &#8594](/core/docs/ui-integrations/ant-design/components/buttons/delete-button/)   |
+| [`useUpdateMany` &#8594](/core/docs/data/hooks/use-update-many/) | [`useModalForm` &#8594](/core/docs/ui-integrations/ant-design/hooks/use-modal-form/)         | [`RefreshButton` &#8594](/core/docs/ui-integrations/ant-design/components/buttons/refresh-button/) |
+| [`useDelete` &#8594](/core/docs/data/hooks/use-delete/)          | [`useDrawerForm` &#8594](/core/docs/ui-integrations/ant-design/hooks/use-drawer-form/)       |                                                                                                    |
+| [`useDeleteMany` &#8594](/core/docs/data/hooks/use-delete-many/) | [`useStepsForm` &#8594](/core/docs/ui-integrations/ant-design/hooks/use-steps-form/)         |                                                                                                    |
+| [`useCreate` &#8594](/core/docs/data/hooks/use-create/)          | [`useTable` &#8594](/core/docs/data/hooks/use-table/)                                        |                                                                                                    |
+| [`useCreateMany` &#8594](/core/docs/data/hooks/use-create-many/) | [`useEditableTable` &#8594](/core/docs/ui-integrations/ant-design/hooks/use-editable-table/) |                                                                                                    |
+| [`useList` &#8594](/core/docs/data/hooks/use-list/)              | [`useSimpleList` &#8594](/core/docs/ui-integrations/ant-design/hooks/use-simple-list/)       |                                                                                                    |
+| [`useOne` &#8594](/core/docs/data/hooks/use-one/)                | [`useShow` &#8594](/core/docs/data/hooks/use-show/)                                          |                                                                                                    |
+| [`useMany` &#8594](/core/docs/data/hooks/use-many/)              | [`useExport` &#8594](/core/docs/core/hooks/utilities/use-export/)                            |                                                                                                    |
+| [`useCustom` &#8594](/core/docs/data/hooks/use-custom/)          | [`useCheckboxGroup` &#8594](/core/docs/ui-integrations/ant-design/hooks/use-checkbox-group/) |                                                                                                    |
+|                                                                  | [`useSelect` &#8594](/core/docs/data/hooks/use-select/)                                      |                                                                                                    |
+|                                                                  | [`useRadioGroup` &#8594](/core/docs/ui-integrations/ant-design/hooks/use-radio-group/)       |                                                                                                    |
 
 :::note
 
@@ -80,7 +84,7 @@ However, we can use [normalizeData](https://github.com/refinedev/refine/blob/27a
 
 :::caution
 
-To make this example more visual, we used the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/master/packages/antd) package. If you are using Refine headless, you need to provide the components, hooks, or helpers imported from the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/master/packages/antd) package.
+To make this example more visual, we used the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/main/packages/antd) package. If you are using Refine headless, you need to provide the components, hooks, or helpers imported from the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/main/packages/antd) package.
 
 :::
 
@@ -167,10 +171,10 @@ When sending the request, we can specify which fields will come, so we send `fie
 ```tsx live url=http://localhost:5173 previewHeight=450px
 setInitialRoutes(["/posts"]);
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { ThemedLayout, RefineThemes } from "@refinedev/antd";
 import { ConfigProvider, Layout } from "antd";
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { DataProvider } from "@refinedev/strapi-v4";
 const API_URL = "https://api.strapi-v4.refine.dev";
 
@@ -181,7 +185,7 @@ import { List, EditButton, ShowButton, useTable } from "@refinedev/antd";
 import { Table, Space } from "antd";
 
 const PostList = () => {
-  const { tableProps, sorter } = useTable<IPost>({
+  const { tableProps, sorters } = useTable<IPost>({
     meta: {
       // highlight-start
       fields: ["id", "title"],
@@ -227,9 +231,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="posts">
@@ -292,10 +296,10 @@ In order to pull the `categories` related to the posts, we can now show the cate
 ```tsx live url=http://localhost:5173 previewHeight=450px
 setInitialRoutes(["/posts"]);
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { ThemedLayout, RefineThemes } from "@refinedev/antd";
 import { ConfigProvider, Layout } from "antd";
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { DataProvider } from "@refinedev/strapi-v4";
 const API_URL = "https://api.strapi-v4.refine.dev";
 
@@ -320,7 +324,7 @@ import {
 } from "antd";
 
 const PostList = () => {
-  const { tableProps, sorter } = useTable<IPost>({
+  const { tableProps, sorters } = useTable<IPost>({
     meta: {
       fields: ["id", "title"],
       // highlight-next-line
@@ -390,9 +394,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="posts">
@@ -409,7 +413,7 @@ const App: React.FC = () => {
 render(<App />);
 ```
 
-##### Relations Population for `/me` request
+#### Relations Population for `/me` request
 
 If you need to the population for the `/me` request you can use it like this in your `authProvider`.
 
@@ -450,10 +454,10 @@ We can list the posts separately according to the `published` or `draft` informa
 ```tsx live url=http://localhost:5173 previewHeight=450px
 setInitialRoutes(["/posts"]);
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { ThemedLayout, RefineThemes } from "@refinedev/antd";
 import { ConfigProvider, Layout } from "antd";
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { DataProvider } from "@refinedev/strapi-v4";
 const API_URL = "https://api.strapi-v4.refine.dev";
 
@@ -483,7 +487,7 @@ const PostList = () => {
   // highlight-next-line
   const [publicationState, setPublicationState] = React.useState("live");
 
-  const { tableProps, sorter } = useTable<IPost>({
+  const { tableProps, sorters } = useTable<IPost>({
     meta: {
       fields: ["id", "title", "publishedAt"],
       populate: ["category"],
@@ -583,9 +587,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="posts">
@@ -646,7 +650,7 @@ export const PostList: React.FC = () => {
   //highlight-end
   const [publicationState, setPublicationState] = useState("live");
 
-  const { tableProps, sorter } = useTable<IPost>({
+  const { tableProps, sorters } = useTable<IPost>({
     meta: {
       populate: ["category", "cover"],
       //highlight-start
@@ -703,13 +707,13 @@ export const PostList: React.FC = () => {
         <Table.Column
           dataIndex="id"
           title="ID"
-          defaultSortOrder={getDefaultSortOrder("id", sorter)}
+          defaultSortOrder={getDefaultSortOrder("id", sorters)}
           sorter={{ multiple: 3 }}
         />
         <Table.Column
           dataIndex="title"
           title="Title"
-          defaultSortOrder={getDefaultSortOrder("title", sorter)}
+          defaultSortOrder={getDefaultSortOrder("title", sorters)}
           sorter={{ multiple: 2 }}
         />
         <Table.Column
@@ -758,12 +762,12 @@ export const PostList: React.FC = () => {
 ```tsx live url=http://localhost:5173 previewHeight=450px
 setInitialRoutes(["/posts"]);
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { DataProvider } from "@refinedev/strapi-v4";
 const API_URL = "https://api.strapi-v4.refine.dev";
 import { ConfigProvider, Layout } from "antd";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { ThemedLayout, RefineThemes } from "@refinedev/antd";
 
 // visible-block-start
 // src/pages/posts/list.tsx
@@ -782,7 +786,7 @@ const PostList = () => {
   // highlight-next-line
   const [locale, setLocale] = React.useState("en");
   const [publicationState, setPublicationState] = React.useState("live");
-  const { tableProps, sorter } = useTable<IPost>({
+  const { tableProps, sorters } = useTable<IPost>({
     meta: {
       fields: ["id", "title", "publishedAt", "locale"],
       populate: ["category"],
@@ -894,9 +898,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="posts">
@@ -935,6 +939,146 @@ const { selectProps } = useSelect({
 });
 ```
 
+## Authentication
+
+Strapi V4 supports authentication and you can use the Refine's `authProvider` to add authentication to your application.
+
+First, we need to create own `fetch` instance to use both `authProvider` and `dataProvider`. We will use `axios` to create the `fetch` instance, however you can use any other library for this.
+
+```tsx title="src/utils/axios.ts"
+import axios from "axios";
+
+export const axiosInstance = axios.create();
+```
+
+Then, we need to give the `axiosInstance` to the `dataProvider`. Create a `dataProvider` with the `axiosInstance` and export it.
+
+```tsx title="src/dataProvider.ts"
+import { DataProvider } from "@refinedev/strapi-v4";
+import { axiosInstance } from "./utils/axios";
+import { API_URL } from "./constants";
+
+export const dataProvider = DataProvider(`${API_URL}/api`, axiosInstance);
+```
+
+Now, we are ready to create the `authProvider`.
+
+```tsx title="src/authProvider.ts"
+import { AuthHelper } from "@refinedev/strapi-v4";
+import { type AuthProvider } from "@refinedev/core";
+import { axiosInstance } from "./utils/axios";
+import { TOKEN_KEY } from "./constants";
+
+const authProvider: AuthProvider = {
+  login: async ({ email, password }) => {
+    try {
+      const { data, status } = await strapiAuthHelper.login(email, password);
+      if (status === 200) {
+        localStorage.setItem(TOKEN_KEY, data.jwt);
+
+        // set header axios instance
+        axiosInstance.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${data.jwt}`;
+
+        return {
+          success: true,
+          redirectTo: "/",
+        };
+      }
+    } catch (error: any) {
+      const errorObj = error?.response?.data?.message?.[0]?.messages?.[0];
+      return {
+        success: false,
+        error: {
+          message: errorObj?.message || "Login failed",
+          name: errorObj?.id || "Invalid email or password",
+        },
+      };
+    }
+
+    return {
+      success: false,
+      error: {
+        message: "Login failed",
+        name: "Invalid email or password",
+      },
+    };
+  },
+  logout: async () => {
+    localStorage.removeItem(TOKEN_KEY);
+    axiosInstance.defaults.headers.common["Authorization"] = undefined;
+    return {
+      success: true,
+      redirectTo: "/login",
+    };
+  },
+  onError: async (error) => {
+    if (error.response?.status === 401) {
+      return {
+        logout: true,
+      };
+    }
+
+    return { error };
+  },
+  check: async () => {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (token) {
+      axiosInstance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
+      return {
+        authenticated: true,
+      };
+    }
+
+    return {
+      authenticated: false,
+      error: {
+        message: "Authentication failed",
+        name: "Token not found",
+      },
+      logout: true,
+      redirectTo: "/login",
+    };
+  },
+  getPermissions: async () => null,
+  getIdentity: async () => {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
+      return null;
+    }
+
+    const { data, status } = await strapiAuthHelper.me(token);
+    if (status === 200) {
+      const { id, username, email } = data;
+      return {
+        id,
+        username,
+        email,
+      };
+    }
+
+    return null;
+  },
+};
+```
+
+After creating the `authProvider`, and `dataProvider`, we need to pass it to the `Refine` component.
+
+```tsx title="src/App.tsx"
+import { Refine } from "@refinedev/core";
+import { authProvider } from "./authProvider";
+import { dataProvider } from "./dataProvider";
+
+const App = () => {
+  return <Refine authProvider={authProvider} dataProvider={dataProvider} />;
+};
+```
+
+This is the setup for authentication with Refine. Please refer to the [Authentication guide](/core/docs/guides-concepts/authentication/) for more information about how to use authentication with Refine.
+
 ## File Upload
 
 Strapi supports file upload. Below are examples of how to upload files to Strapi.
@@ -962,7 +1106,7 @@ import { IPost } from "../interfaces";
 
 export const PostEdit: React.FC = () => {
   const { formProps, saveButtonProps } = useForm<IPost>({
-    metaData: { populate: ["cover"] },
+    meta: { populate: ["cover"] },
   });
 
   return (
@@ -1196,7 +1340,7 @@ Strapi provides a way to add validation rules to your models. So if you send a r
 
 [Refer to the Strapi documentation for more information &#8594 ](https://docs.strapi.io/dev-docs/backend-customization/models#validations)
 
-By default, `@refinedev/strapi-v4` transforms the error response from Strapi into a [`HttpError`](/docs/core/interface-references#httperror) object. This object contains the following properties:
+By default, `@refinedev/strapi-v4` transforms the error response from Strapi into a [`HttpError`](/core/docs/core/interface-references#httperror) object. This object contains the following properties:
 
 - `statusCode` - The status code of the response.
 - `message` - The error message.
@@ -1204,7 +1348,7 @@ By default, `@refinedev/strapi-v4` transforms the error response from Strapi int
 
 Thus, `useForm` will automatically set the error message for each field that has a validation error.
 
-[Refer to the server-side form validation documentation for more information &#8594 ](/docs/guides-concepts/forms/#server-side-validation-).
+[Refer to the server-side form validation documentation for more information &#8594 ](/core/docs/guides-concepts/forms/#server-side-validation-).
 
 ## Example
 

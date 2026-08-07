@@ -24,6 +24,10 @@ export const CreatePostDrawer: React.FC<
 }) => {
   const { selectProps } = useSelect({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

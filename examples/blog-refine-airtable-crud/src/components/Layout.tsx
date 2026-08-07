@@ -1,11 +1,8 @@
-import { useMenu, useNavigation, type LayoutProps } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-
-const { Link } = routerProvider;
+import { Link, useGo, useMenu, type LayoutProps } from "@refinedev/core";
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { menuItems } = useMenu();
-  const { push } = useNavigation();
+  const go = useGo();
 
   return (
     <div className="flex min-h-screen flex-col max-w-7xl mx-auto pt-6">
@@ -59,7 +56,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <li key={name}>
                   <a
                     className="flex cursor-pointer flex-col items-center gap-1 capitalize hover:decoration-indigo-500 transition duration-300 ease-in-out underline"
-                    onClick={() => push(route || "")}
+                    onClick={() => go({ to: route || "", type: "push" })}
                   >
                     {icon}
                     <span>{label ?? name}</span>

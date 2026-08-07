@@ -3,9 +3,11 @@ title: Next.js vs React - A Beginner's Guide
 description: We briefly run through the innovation driven differences between React and Next.js in rendering behavior, routing, data fetching, backend API development and app configuration.
 slug: next-js-vs-react
 authors: marvel_ken
-tags: [react, nextjs]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-10-nextjs-vs-react/social-2.png
+category: "Alternatives"
+tags: [nextjs, react, comparison]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-10-nextjs-vs-react/social-2.png
 hide_table_of_contents: false
+last_update: 2024-10-21
 ---
 
 **This article was last updated on October 17, 2024 to include more details on SEO considerations, image handling, security features, and to provide additional use cases for a better understanding of the Next.js vs React comparison.**
@@ -19,24 +21,6 @@ Newbies often think there's some tech rivalry when they hear about React and Nex
 The more useful, real questions would be: which one is simpler to learn for a new developer? Which feels safer? Do I have alternatives, or do I need to be a specialty focused/niche developer to use them? Understanding the relationships addressed by these questions helps make informed decisions about which technology to choose for your next project.
 
 In this post, we provide an in-depth account of how Next.js compares to React - especially as a fullstack framework founded on React's component based fundamentals, and extended with demand driven patterns and conventions such as server side rendering (SSR), static / dynamic page generation, page based routing and backend API features. The primary goal of this comparison is to understand the core differences relevant of Next.js and React. This involves relating each other in terms of their architecture, conventions, configurations, and use cases they are best suited for. By understanding such fundamental relations, developers can gain enough insight into how each can be leveraged for different projects.
-
-Steps we'll cover:
-
-- [What is React?](#what-is-react)
-- [What is Next.js?](#what-is-nextjs)
-- [Next.js vs React.js: The Core Differences](#nextjs-vs-reactjs-the-core-differences)
-  - [Server Side Rendering vs Client Side Rendering](#server-side-rendering-vs-client-side-rendering)
-  - [Static Site Generation](#static-site-generation)
-  - [Data Fetching and Caching](#data-fetching-and-caching)
-  - [Routing](#routing)
-- [Next.js vs React: SEO Considerations](#nextjs-vs-react-seo-considerations)
-- [Handling Images in React vs Next.js](#handling-images-in-react-vs-nextjs)
-- [Security Features in Next.js vs React](#security-features-in-nextjs-vs-react)
-- [Middleware for Protecting Routes](#middleware-for-protecting-routes)
-- [React vs Next.js: Backend API Development](#react-vs-nextjs-backend-api-development)
-- [Next.js vs React: Configuration Differences](#nextjs-vs-react-configuration-differences)
-- [React vs Next.js: Use Cases and Suitability](#react-vs-nextjs-use-cases-and-suitability)
-- [React and Next.js: Starting Up Both Projects](#react-and-nextjs-starting-up-both-projects)
 
 ## What is React?
 

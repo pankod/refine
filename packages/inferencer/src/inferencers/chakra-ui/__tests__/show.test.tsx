@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
 import { render, act, TestWrapper } from "@test";
 import { ShowInferencer, renderer } from "../show";
@@ -11,8 +11,8 @@ describe("ChakraShowInferencer", () => {
       resources: [
         {
           name: "posts",
-          list: () => <div>list</div>,
-          show: ShowInferencer,
+          list: "/posts",
+          show: "/posts/show/:id",
         },
         {
           name: "categories",

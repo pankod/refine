@@ -1,69 +1,25 @@
 import React from "react";
-
 import { getXRay } from "@refinedev/devtools-internal";
 import {
   type UseMutationOptions,
   type UseMutationResult,
   useMutation,
 } from "@tanstack/react-query";
-import qs from "qs";
 
-import { useAuthBindingsContext, useLegacyAuthContext } from "@contexts/auth";
-import {
-  useGo,
-  useKeys,
-  useNavigation,
-  useNotification,
-  useParsed,
-  useRouterContext,
-  useRouterType,
-} from "@hooks";
+import { useAuthProviderContext } from "@contexts/auth";
+import { useGo, useKeys, useNotification, useParsed } from "@hooks";
 
-import type { UpdatePasswordFormTypes } from "../../../components/pages/auth/types";
 import type {
   AuthActionResponse,
   SuccessNotificationResponse,
-  TUpdatePasswordData,
 } from "../../../contexts/auth/types";
 import type { RefineError } from "../../../contexts/data/types";
 import type { OpenNotificationParams } from "../../../contexts/notification/types";
 
-export type UseUpdatePasswordLegacyProps<
-  TVariables extends UpdatePasswordFormTypes,
-> = {
-  v3LegacyAuthProviderCompatible: true;
+export type UseUpdatePasswordProps<TVariables> = {
   mutationOptions?: Omit<
     UseMutationOptions<
-      TUpdatePasswordData,
-      Error | RefineError,
-      TVariables,
-      unknown
-    >,
-    "mutationFn" | "onError" | "onSuccess"
-  >;
-};
-
-export type UseUpdatePasswordProps<TVariables extends UpdatePasswordFormTypes> =
-  {
-    v3LegacyAuthProviderCompatible?: false;
-    mutationOptions?: Omit<
-      UseMutationOptions<
-        AuthActionResponse,
-        Error | RefineError,
-        TVariables,
-        unknown
-      >,
-      "mutationFn"
-    >;
-  };
-
-export type UseUpdatePasswordCombinedProps<
-  TVariables extends UpdatePasswordFormTypes,
-> = {
-  v3LegacyAuthProviderCompatible: boolean;
-  mutationOptions?: Omit<
-    UseMutationOptions<
-      AuthActionResponse | TUpdatePasswordData,
+      AuthActionResponse,
       Error | RefineError,
       TVariables,
       unknown
@@ -72,92 +28,39 @@ export type UseUpdatePasswordCombinedProps<
   >;
 };
 
-export type UseUpdatePasswordLegacyReturnType<
-  TVariables extends UpdatePasswordFormTypes,
-> = UseMutationResult<
-  TUpdatePasswordData,
-  Error | RefineError,
-  TVariables,
-  unknown
->;
-
-export type UseUpdatePasswordReturnType<
-  TVariables extends UpdatePasswordFormTypes,
-> = UseMutationResult<
+export type UseUpdatePasswordReturnType<TVariables> = UseMutationResult<
   AuthActionResponse,
   Error | RefineError,
   TVariables,
   unknown
 >;
 
-export type UseUpdatePasswordCombinedReturnType<
-  TVariables extends UpdatePasswordFormTypes,
-> = UseMutationResult<
-  AuthActionResponse | TUpdatePasswordData,
-  Error | RefineError,
-  TVariables,
-  unknown
->;
-
-export function useUpdatePassword<TVariables extends UpdatePasswordFormTypes>(
-  props: UseUpdatePasswordLegacyProps<TVariables>,
-): UseUpdatePasswordLegacyReturnType<TVariables>;
-
-export function useUpdatePassword<TVariables extends UpdatePasswordFormTypes>(
-  props?: UseUpdatePasswordProps<TVariables>,
-): UseUpdatePasswordReturnType<TVariables>;
-
-export function useUpdatePassword<TVariables extends UpdatePasswordFormTypes>(
-  props?: UseUpdatePasswordCombinedProps<TVariables>,
-): UseUpdatePasswordCombinedReturnType<TVariables>;
-
 /**
  * `useUpdatePassword` calls `updatePassword` method from {@link https://refine.dev/docs/api-reference/core/providers/auth-provider `authProvider`} under the hood.
  *
  * @see {@link https://refine.dev/docs/api-reference/core/hooks/auth/useUpdatePassword} for more details.
  *
- * @typeParam TData - Result data of the query
  * @typeParam TVariables - Values for mutation function. default `{}`
  *
  */
-export function useUpdatePassword<
-  TVariables extends UpdatePasswordFormTypes = {},
->({
-  v3LegacyAuthProviderCompatible,
+export function useUpdatePassword<TVariables = {}>({
   mutationOptions,
-}:
-  | UseUpdatePasswordProps<TVariables>
-  | UseUpdatePasswordLegacyProps<TVariables> = {}):
-  | UseUpdatePasswordReturnType<TVariables>
-  | UseUpdatePasswordLegacyReturnType<TVariables> {
-  const routerType = useRouterType();
-
+}: UseUpdatePasswordProps<TVariables> = {}): UseUpdatePasswordReturnType<TVariables> {
   const go = useGo();
-  const { replace } = useNavigation();
-  const { updatePassword: legacyUpdatePasswordFromContext } =
-    useLegacyAuthContext();
   const { updatePassword: updatePasswordFromContext } =
-    useAuthBindingsContext();
+    useAuthProviderContext();
   const { close, open } = useNotification();
-
-  const { keys, preferLegacyKeys } = useKeys();
-
+  const { keys } = useKeys();
   const parsed = useParsed();
-  const { useLocation } = useRouterContext();
-  const { search } = useLocation();
+  const params = parsed.params ?? {};
 
-  const params = React.useMemo(() => {
-    if (routerType === "legacy") {
-      const queryStrings = qs.parse(search, {
-        ignoreQueryPrefix: true,
-      });
-      return queryStrings ?? {};
-    }
-    return parsed.params ?? {};
-  }, [search, parsed, routerType]);
-
-  const mutation = useMutation<AuthActionResponse, Error, TVariables, unknown>({
-    mutationKey: keys().auth().action("updatePassword").get(preferLegacyKeys),
+  const mutation = useMutation<
+    AuthActionResponse,
+    Error | RefineError,
+    TVariables,
+    unknown
+  >({
+    mutationKey: keys().auth().action("updatePassword").get(),
     mutationFn: async (variables) => {
       return updatePasswordFromContext?.({
         ...params,
@@ -178,64 +81,22 @@ export function useUpdatePassword<
       }
 
       if (redirectTo) {
-        if (routerType === "legacy") {
-          replace(redirectTo);
-        } else {
-          go({ to: redirectTo, type: "replace" });
-        }
+        go({ to: redirectTo, type: "replace" });
       }
     },
     onError: (error: any) => {
       open?.(buildNotification(error));
     },
-    ...(v3LegacyAuthProviderCompatible === true ? {} : mutationOptions),
+    ...mutationOptions,
     meta: {
-      ...(v3LegacyAuthProviderCompatible === true ? {} : mutationOptions?.meta),
-      ...getXRay("useUpdatePassword", preferLegacyKeys),
+      ...mutationOptions?.meta,
+      ...getXRay("useUpdatePassword"),
     },
   });
 
-  const v3LegacyAuthProviderCompatibleMutation = useMutation<
-    TUpdatePasswordData,
-    Error | RefineError,
-    TVariables,
-    unknown
-  >({
-    mutationKey: [
-      ...keys().auth().action("updatePassword").get(preferLegacyKeys),
-      "v3LegacyAuthProviderCompatible",
-    ],
-    mutationFn: async (variables) => {
-      return legacyUpdatePasswordFromContext?.({
-        ...params,
-        ...variables,
-      });
-    },
-    onSuccess: (redirectPathFromAuth) => {
-      if (redirectPathFromAuth !== false) {
-        if (redirectPathFromAuth) {
-          if (routerType === "legacy") {
-            replace(redirectPathFromAuth);
-          } else {
-            go({ to: redirectPathFromAuth, type: "replace" });
-          }
-        }
-      }
-      close?.("update-password-error");
-    },
-    onError: (error: any) => {
-      open?.(buildNotification(error));
-    },
-    ...(v3LegacyAuthProviderCompatible ? mutationOptions : {}),
-    meta: {
-      ...(v3LegacyAuthProviderCompatible ? mutationOptions?.meta : {}),
-      ...getXRay("useUpdatePassword", preferLegacyKeys),
-    },
-  });
-
-  return v3LegacyAuthProviderCompatible
-    ? v3LegacyAuthProviderCompatibleMutation
-    : mutation;
+  return {
+    ...mutation,
+  };
 }
 
 const buildNotification = (

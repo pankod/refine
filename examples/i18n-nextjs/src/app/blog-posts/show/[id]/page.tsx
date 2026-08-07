@@ -19,7 +19,10 @@ export default function BlogPostShow() {
 
   const record = data?.data;
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useOne({
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useOne({
     resource: "categories",
     id: record?.category?.id || "",
     queryOptions: {
@@ -37,9 +40,7 @@ export default function BlogPostShow() {
       <MarkdownField value={record?.content} />
       <Title level={5}>{t("blog_posts.fields.category")}</Title>
       <TextField
-        value={
-          categoryIsLoading ? <>Loading...</> : <>{categoryData?.data?.title}</>
-        }
+        value={categoryIsLoading ? <>Loading...</> : <>{categoryData?.title}</>}
       />
       <Title level={5}>{t("blog_posts.fields.status.title")}</Title>
       <TextField value={record?.status} />

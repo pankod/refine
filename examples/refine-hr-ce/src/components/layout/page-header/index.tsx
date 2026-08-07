@@ -1,5 +1,5 @@
 import React from "react";
-import { useResource } from "@refinedev/core";
+import { useResourceParams } from "@refinedev/core";
 import { ListButton } from "@refinedev/mui";
 import { Box, Divider, Typography } from "@mui/material";
 import { ChevronLeftRectangleIcon } from "@/icons";
@@ -17,7 +17,7 @@ export const PageHeader = ({
   showListButton,
   showDivider,
 }: Props) => {
-  const { resource } = useResource();
+  const { resource } = useResourceParams();
 
   const prefferedTitle = title || resource?.meta?.label || "";
 

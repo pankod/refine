@@ -26,7 +26,7 @@ function useEventListener<
   ) => void,
   element?: RefObject<T>,
 ) {
-  const savedHandler = useRef<typeof handler>();
+  const savedHandler = useRef<typeof handler | undefined>(undefined);
 
   useEffect(() => {
     const targetElement: T | Window = element?.current || window;

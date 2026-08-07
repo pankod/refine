@@ -10,10 +10,9 @@ export function AntdLayout() {
         "@refinedev/antd": "latest",
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-router-v6": "latest",
+        "@refinedev/react-router": "latest",
         "@refinedev/inferencer": "latest",
-        "react-router-dom": "latest",
-        "react-router": "latest",
+        "react-router": "^7.0.2",
         antd: "^5.0.5",
       }}
       startRoute="/my-products"
@@ -37,12 +36,12 @@ const AppTsxCode = /* tsx */ `
 import React from "react";
 
 import { App as AntdApp, ConfigProvider } from "antd";
-import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router";
 import "@refinedev/antd/dist/reset.css";
 
-import { ErrorComponent, RefineThemes, ThemedLayoutV2 } from "@refinedev/antd";
+import { ErrorComponent, RefineThemes, ThemedLayout } from "@refinedev/antd";
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
 import { ProductList } from "./pages/products/list.tsx";
@@ -72,9 +71,9 @@ export default function App() {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 <Route path="/my-products" element={<ProductList />} />

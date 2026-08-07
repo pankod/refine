@@ -17,7 +17,7 @@ describe("render hook default options", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.queryResult.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
     await waitFor(() =>
@@ -50,7 +50,7 @@ describe("render hook default options", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.queryResult.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
     await waitFor(() =>
@@ -79,7 +79,7 @@ describe("render hook default options", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.queryResult.isSuccess).toBeTruthy();
+      expect(result.current.query.isSuccess).toBeTruthy();
     });
 
     const { checkboxGroupProps } = result.current;
@@ -93,42 +93,5 @@ describe("render hook default options", () => {
       },
       { label: "Recusandae consectetur aut atque est. - 36", value: "2" },
     ]);
-  });
-
-  it("should invoke queryOptions methods successfully", async () => {
-    const mockFunc = jest.fn();
-
-    const { result } = renderHook(
-      () =>
-        useCheckboxGroup<{ id: string; slug: string }>({
-          resource: "posts",
-          optionLabel: "slug",
-          optionValue: "id",
-          queryOptions: {
-            onSuccess: (data) => {
-              mockFunc();
-            },
-          },
-        }),
-      {
-        wrapper: TestWrapper({}),
-      },
-    );
-
-    await waitFor(() => {
-      expect(result.current.queryResult.isSuccess).toBeTruthy();
-    });
-
-    await waitFor(() =>
-      expect(result.current.checkboxGroupProps.options).toHaveLength(2),
-    );
-    await waitFor(() =>
-      expect(result.current.checkboxGroupProps.options).toEqual([
-        { label: "ut-ad-et", value: "1" },
-        { label: "consequatur-molestiae-rerum", value: "2" },
-      ]),
-    );
-
-    expect(mockFunc).toBeCalled();
   });
 });

@@ -5,12 +5,9 @@ import type { IPost } from "../../interfaces";
 
 export const PostList: React.FC = () => {
   const {
-    data,
-    error,
-    hasNextPage,
-    isLoading,
-    fetchNextPage,
-    isFetchingNextPage,
+    query: { error, isLoading, fetchNextPage, isFetchingNextPage },
+
+    result: { data, hasNextPage },
   } = useInfiniteList<IPost>({
     resource: "posts",
   });

@@ -1,4 +1,4 @@
-import type { ReactChild, ReactNode } from "react";
+import type { ReactNode } from "react";
 import type { ConfigType } from "dayjs";
 import type {
   RefineFieldBooleanProps,
@@ -40,7 +40,7 @@ export type RefineFieldMarkdownProps = BaseRefineFieldMarkdownProps<
   string | undefined
 >;
 
-export type NumberFieldProps = RefineFieldNumberProps<ReactChild, TextProps>;
+export type NumberFieldProps = RefineFieldNumberProps<ReactNode, TextProps>;
 
 export type TagFieldProps = RefineFieldTagProps<ReactNode, TagProps>;
 

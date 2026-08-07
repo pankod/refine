@@ -123,27 +123,33 @@ export const Details = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
+    reactTable: {
+      getHeaderGroups,
+      getRowModel,
+      getState,
+      setPageIndex,
+      getCanPreviousPage,
+      getPageCount,
+      getCanNextPage,
+      nextPage,
+      previousPage,
+      setPageSize,
+    },
+
     refineCore: {
       tableQuery: { data: tableData },
     },
-    getState,
-    setPageIndex,
-    getCanPreviousPage,
-    getPageCount,
-    getCanNextPage,
-    nextPage,
-    previousPage,
-    setPageSize,
   } = useTable({
     columns,
+
     refineCoreProps: {
       dataProviderName: "metrics",
       resource: "orders",
+
       filters: {
         mode: "off",
       },
+
       queryOptions: {
         select(data) {
           const retrievedData = data.data;

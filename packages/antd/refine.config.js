@@ -449,27 +449,27 @@ module.exports = {
       },
       {
         group: "Other",
-        label: "ThemedLayoutV2",
+        label: "ThemedLayout",
         message: `
                 **\`Warning:\`**
                 If you want to change the default layout;
-                You should pass layout related components to the **<ThemedLayoutV2 />** component's props.
+                You should pass layout related components to the **<ThemedLayout />** component's props.
 
                 \`\`\`
                 // title: App.tsx
-                import { ThemedLayoutV2 } from "components/layout";
-                import { ThemedHeaderV2 } from "components/layout/header";
-                import { ThemedSiderV2 } from "components/layout/sider";
-                import { ThemedTitleV2 } from "components/layout/title";
+                import { ThemedLayout } from "components/layout";
+                import { ThemedHeader } from "components/layout/header";
+                import { ThemedSider } from "components/layout/sider";
+                import { ThemedTitle } from "components/layout/title";
 
                 const App = () => {
                     return (
                         <Refine
                             /* ... */
                         >
-                            <ThemedLayoutV2 Header={ThemedHeaderV2} Sider={ThemedSiderV2} Title={ThemedTitleV2}>
+                            <ThemedLayout Header={ThemedHeader} Sider={ThemedSider} Title={ThemedTitle}>
                                 /* ... */
-                            </ThemedLayoutV2>
+                            </ThemedLayout>
                         </Refine>
                     );
                 }
@@ -477,7 +477,7 @@ module.exports = {
                 `,
         files: [
           {
-            src: "./src/components/themedLayoutV2/sider/index.tsx",
+            src: "./src/components/themedLayout/sider/index.tsx",
             dest: "./components/layout/sider.tsx",
             transform: (content) => {
               let newContent = content;
@@ -507,7 +507,7 @@ module.exports = {
                     const stylesContent = getFileContent(
                       join(
                         dirname(
-                          "./src/components/themedLayoutV2/sider/index.tsx",
+                          "./src/components/themedLayout/sider/index.tsx",
                         ),
                         "/styles.ts",
                       ),
@@ -527,15 +527,15 @@ module.exports = {
             },
           },
           {
-            src: "./src/components/themedLayoutV2/header/index.tsx",
+            src: "./src/components/themedLayout/header/index.tsx",
             dest: "./components/layout/header.tsx",
           },
           {
-            src: "./src/components/themedLayoutV2/title/index.tsx",
+            src: "./src/components/themedLayout/title/index.tsx",
             dest: "./components/layout/title.tsx",
           },
           {
-            src: "./src/components/themedLayoutV2/index.tsx",
+            src: "./src/components/themedLayout/index.tsx",
             dest: "./components/layout/index.tsx",
             transform: (content) => {
               let newContent = content;

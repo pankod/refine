@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example form-antd-use-form
 
 <br/>
 
-[![Open form-antd-use-form example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/form-antd-use-form?view=preview&theme=dark&codemirror=1)
+[![Open form-antd-use-form example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/form-antd-use-form?view=preview&theme=dark&codemirror=1)

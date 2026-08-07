@@ -3,8 +3,9 @@ title: Ref Forwarding with React forwardRef
 description: We discuss in detail how ref forwarding with React forwardRef works.
 slug: react-forwardref
 authors: abdullah_numan
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-12-forward-ref/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-12-forward-ref/social.png
 hide_table_of_contents: false
 ---
 

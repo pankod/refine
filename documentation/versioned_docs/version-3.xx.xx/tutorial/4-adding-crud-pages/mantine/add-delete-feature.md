@@ -15,7 +15,7 @@ Let's start by adding the delete feature to the list page. To do this, we will u
 
 `<DeleteButton/>` is a **refine** component that is used to delete a record. When you click on the delete button, it will show a confirmation modal. If you confirm the deletion, it will delete the record.
 
-[Refer to the `<DeleteButton/>` documentation for more information &#8594](/docs/3.xx.xx/api-reference/mantine/components/buttons/delete-button/)
+[Refer to the `<DeleteButton/>` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/mantine/components/buttons/delete-button/)
 
 To add a delete feature to the blog posts table, you can follow the steps below:
 
@@ -118,7 +118,7 @@ export default App;
 
 After setting the `canDelete` property to `true`, you will see a delete button on the show page and edit page. Because we used the `<Show/>` and `<Edit/>` components in the show page and edit page, the delete button will be added automatically in these components.
 
-[Refer to the `<Refine/>` documentation for more information about the `canDelete` property &#8594](/docs/3.xx.xx/api-reference/core/components/refine-config/#candelete)
+[Refer to the `<Refine/>` documentation for more information about the `canDelete` property &#8594](/core/docs/3.xx.xx/api-reference/core/components/refine-config/#candelete)
 
 <br/>
 
@@ -126,7 +126,7 @@ After setting the `canDelete` property to `true`, you will see a delete button o
 
 You can also use `useDelete` hook provided by **refine** to delete a record.
 
-[Refer to the `useDelete` documentation for more information information &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/)
+[Refer to the `useDelete` documentation for more information information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/)
 
 :::
 

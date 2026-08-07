@@ -3,9 +3,11 @@ title: Understanding Virtual DOM in React
 description: We'll dive into the concept of a virtual DOM in the React as well as explore its purpose.
 slug: react-virtual-dom
 authors: peter_osah
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-23-react-virtual-dom/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-23-react-virtual-dom/social.webp
 hide_table_of_contents: false
+last_update: 2024-09-12
 ---
 
 **This article was last updated on September 11, 2024, to add sections on Impact of Virtual DOM on Rendering Performance and Common Pitfalls with the Virtual DOM**
@@ -16,18 +18,6 @@ The virtual DOM (Virtual Document Object Model) is a programming concept in whic
 
 The concept of the virtual DOM has been an integral part of various Javascript frontend frameworks, and it has been one of the things that make them efficient.
 In this article, we will dive into the concept of a virtual DOM in the React Library as well as explore its purpose in React.
-
-Steps we'll cover:
-
-- [What is the DOM?](#what-is-the-dom)
-- [Drawbacks in updating the DOM](#drawbacks-in-updating-the-dom)
-- [React's Virtual DOM Implementation](#reacts-virtual-dom-implementation)
-- [React Virtual DOM vs. real DOM](#react-virtual-dom-vs-real-dom)
-- [The Role of the Virtual DOM in React's Reconciliation](#the-role-of-the-virtual-dom-in-reacts-reconciliation)
-- [How Virtual DOM Boosts Rendering Performance\*\*](#how-virtual-dom-boosts-rendering-performance)
-- [React virtual DOM vs. shadow DOM](#react-virtual-dom-vs-shadow-dom)
-- [Common Problems with React Virtual DOM and How to Avoid Them](#common-problems-with-react-virtual-dom-and-how-to-avoid-them)
-- [Real DOM vs. virtual DOM vs. shadow DOM](#real-dom-vs-virtual-dom-vs-shadow-dom)
 
 ## What is the DOM?
 
@@ -405,7 +395,7 @@ When we view the element with the browser's developer tools, we just see a simpl
 To see the shadow DOM, utilize Chrome DevTools and enable the `Show user agent shadow DOM` option from `preferences` in `Settings`:
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-23-react-virtual-dom/virtual-dom.png" alt="react virtual dom" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-23-react-virtual-dom/virtual-dom.png" alt="Virtual DOM update diagram" />
 </div>
 
 <br/>

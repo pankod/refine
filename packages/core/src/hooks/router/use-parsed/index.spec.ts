@@ -13,7 +13,7 @@ describe("useParsed Hook", () => {
         routerProvider: mockRouterProvider({
           params: {
             id: "1",
-            current: 1,
+            currentPage: 1,
           },
           action: "list",
           pathname: "/posts",
@@ -22,7 +22,7 @@ describe("useParsed Hook", () => {
               return {
                 params: {
                   id: "1",
-                  current: 1,
+                  currentPage: 1,
                 },
               };
             },
@@ -34,7 +34,7 @@ describe("useParsed Hook", () => {
     expect(result.current).toEqual({
       params: {
         id: "1",
-        current: 1,
+        currentPage: 1,
       },
     });
   });

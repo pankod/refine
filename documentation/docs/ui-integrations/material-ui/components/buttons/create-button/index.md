@@ -1,20 +1,24 @@
 ---
-title: Create
+title: "MUI Create Button Component | Navigation UI in Refine v5"
+display_title: "Create"
+sidebar_label: "Create"
+description: "Learn to integrate Create Button in Refine v5. Learn integrate Material Design, components for polished admin UIs. Hands-on examples included."
 swizzle: true
 ---
 
-`<CreateButton>` uses Material UI's [`<Button>`](https://mui.com/material-ui/react-button/) component. It uses the `create` method from [`useNavigation`](/docs/routing/hooks/use-navigation) under the hood. It can be useful to redirect the app to the create page route of resource.
+`<CreateButton>` uses Material UI's [`<Button>`](https://mui.com/material-ui/react-button/) component. It uses the `create` method from [`useNavigation`](/core/docs/routing/hooks/use-navigation/) under the hood. It can be useful to redirect the app to the create page route of resource.
 
 :::simple Good to know
 
-You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-packages) to customize it.
+You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 
 :::
 
 ## Usage
 
-```tsx live url=http://localhost:3000/posts previewHeight=340px
-const { Create } = RefineMui;
+```tsx live previewHeight=340px
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import {
   useDataGrid,
@@ -35,7 +39,7 @@ const PostsList: React.FC = () => {
   return (
     // highlight-next-line
     <List headerButtons={<CreateButton />}>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 };
@@ -46,16 +50,30 @@ interface IPost {
 }
 // visible-block-end
 
+const PostCreate = () => {
+  const parsed = RefineCore.useParsed();
+  return <pre>{JSON.stringify(parsed, null, 2)}</pre>;
+};
+
 render(
-  <RefineMuiDemo
-    resources={[
-      {
-        name: "posts",
-        list: PostsList,
-        create: () => <Create>Rest of the page here...</Create>,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<ReactRouter.Outlet />}>
+          <ReactRouter.Route index element={<PostsList />} />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -65,8 +83,8 @@ render(
 
 It is used to redirect the app to the `create` action path of the given resource name. By default, the app redirects to the inferred resource's `create` action path.
 
-```tsx live disableScroll previewHeight=120px
-const { useRouterContext } = RefineCore;
+```tsx live previewHeight=120px
+setInitialRoutes(["/posts"]);
 
 // visible-block-start
 import { CreateButton } from "@refinedev/mui";
@@ -82,37 +100,47 @@ const MyCreateComponent = () => {
 
 // visible-block-end
 
-const CreatePage = () => {
-  const params = useRouterContext().useParams();
-  return <div>{JSON.stringify(params)}</div>;
+const CategoriesCreate = () => {
+  const parsed = RefineCore.useParsed();
+  return <pre>{JSON.stringify(parsed, null, 2)}</pre>;
 };
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/"]}
-    resources={[
-      {
-        name: "posts",
-      },
-      {
-        name: "categories",
-        create: CreatePage,
-      },
-    ]}
-    DashboardPage={MyCreateComponent}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+        {
+          name: "categories",
+          create: "/categories/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<MyCreateComponent />} />
+
+        <ReactRouter.Route
+          path="/categories/create"
+          element={<CategoriesCreate />}
+        />
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-Clicking the button will trigger the `create` method of [`useNavigation`](/docs/routing/hooks/use-navigation) and then redirect the app to the `create` action path of the resource, filling the necessary parameters in the route.
+Clicking the button will trigger the `create` method of [`useNavigation`](/core/docs/routing/hooks/use-navigation/) and then redirect the app to the `create` action path of the resource, filling the necessary parameters in the route.
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### meta
 
-It is used to pass additional parameters to the `create` method of [`useNavigation`](/docs/routing/hooks/use-navigation). By default, existing parameters in the route are used by the `create` method. You can pass additional parameters or override the existing ones using the `meta` prop.
+It is used to pass additional parameters to the `create` method of [`useNavigation`](/core/docs/routing/hooks/use-navigation/). By default, existing parameters in the route are used by the `create` method. You can pass additional parameters or override the existing ones using the `meta` prop.
 
 If the `create` action route is defined by the pattern: `/posts/:authorId/create`, the `meta` prop can be used as follows:
 
@@ -126,8 +154,8 @@ const MyComponent = () => {
 
 `hideText` is used to show or hide the text of the button. When `true`, only the button icon is visible.
 
-```tsx live disableScroll previewHeight=120px
-const { useRouterContext } = RefineCore;
+```tsx live previewHeight=120px
+setInitialRoutes(["/posts"]);
 
 // visible-block-start
 import { CreateButton } from "@refinedev/mui";
@@ -143,28 +171,36 @@ const MyCreateComponent = () => {
 
 // visible-block-end
 
-const CreatePage = () => {
-  const params = useRouterContext().useParams();
-  return <div>{JSON.stringify(params)}</div>;
+const PostCreate = () => {
+  const parsed = RefineCore.useParsed();
+  return <pre>{JSON.stringify(parsed, null, 2)}</pre>;
 };
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/"]}
-    resources={[
-      {
-        name: "posts",
-        list: MyCreateComponent,
-        create: CreatePage,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<ReactRouter.Outlet />}>
+          <ReactRouter.Route index element={<MyCreateComponent />} />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 ### accessControl
 
-The `accessControl` prop can be used to skip access control check with its `enabled` property or to hide the button when the user does not have the permission to access the resource with `hideIfUnauthorized` property. This is relevant only when an [`accessControlProvider`](/docs/authorization/access-control-provider) is provided to [`<Refine/>`](/docs/core/refine-component)
+The `accessControl` prop can be used to skip access control check with its `enabled` property or to hide the button when the user does not have the permission to access the resource with `hideIfUnauthorized` property. This is relevant only when an [`accessControlProvider`](/core/docs/authorization/access-control-provider/) is provided to [`<Refine/>`](/core/docs/core/refine-component/)
 
 ```tsx
 import { CreateButton } from "@refinedev/mui";
@@ -175,10 +211,6 @@ export const MyListComponent = () => {
   );
 };
 ```
-
-### ~~resourceNameOrRouteName~~ <PropTag deprecated />
-
-Use `resource` prop instead.
 
 ## API Reference
 

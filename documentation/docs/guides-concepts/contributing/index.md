@@ -1,8 +1,11 @@
 ---
-title: Contributing
+title: "Contributing Guide | Guides Concepts in Refine v5"
+display_title: "Contributing"
+sidebar_label: "Contributing"
+description: "Integrate Contributing in Refine v5. Learn best practices. Learn best practices for changes and changeset for real-world React admin panels."
 ---
 
-We follow a [code of conduct](https://github.com/refinedev/refine/blob/master/CODE_OF_CONDUCT.md) when participating in the community. Please read it before you make any contributions.
+We follow a [code of conduct](https://github.com/refinedev/refine/blob/main/CODE_OF_CONDUCT) when participating in the community. Please read it before you make any contributions.
 
 - If you plan to work on an issue, mention so in the issue page before you start working on it.
 - If you plan to work on a new feature, create an issue and discuss it with other community members/maintainers.
@@ -15,7 +18,7 @@ We follow a [code of conduct](https://github.com/refinedev/refine/blob/master/CO
 - **Give feedback**: We're always looking for ways to make Refine better, please share how you use Refine, what features are missing and what is done good via [GitHub Discussions](https://github.com/refinedev/refine/discussions) or [Discord](http://discord.gg/refine).
 - **Share Refine**: Help us reach people. Share [Refine repository](https://github.com/refinedev/refine) with everyone who can be interested.
 - **Contribute to codebase**: your help is needed to make this project the best it can be! You could develop new features or fix [existing issues](https://github.com/refinedev/refine/issues) - every contribution will be welcomed with great pleasure!
-- **Share your own integrations**: If you've created an integration for Refine, this can be a data provider, an auth provider, a UI integration or a routing integration, please share it with us! Refine's community has been growing rapidly and we're sure that your integration will be useful for many people. We'll be happy to add your integration to our [integrations page](https://refine.dev/integrations) along with the other community made integrations and share it with our community.
+- **Share your own integrations**: If you've created an integration for Refine, this can be a data provider, an auth provider, a UI integration or a routing integration, please share it with us! Refine's community has been growing rapidly and we're sure that your integration will be useful for many people. We'll be happy to add your integration to our [integrations page](/core/integrations) along with the other community made integrations and share it with our community.
 
 ## Setting Up Your Environment for Development
 
@@ -124,9 +127,9 @@ We're using [Codesandbox's Sandpack](https://sandpack.codesandbox.io) to provide
 
 Check out the example usage of `<Sandpack />` in Core API's `useForm` hook documentation:
 
-- [useForm Documentation](/docs/data/hooks/use-form/#usage)
-- [Source Code for Sandpack](https://github.com/refinedev/refine/blob/master/documentation/docs/data/hooks/use-form/basic-usage.tsx)
-- [Source Code for Markdown](https://github.com/refinedev/refine/blob/master/documentation/docs/data/hooks/use-form/index.md)
+- [useForm Documentation](/core/docs/data/hooks/use-form/#usage)
+- [Source Code for Sandpack](https://github.com/refinedev/refine/blob/main/documentation/docs/data/hooks/use-form/basic-usage.tsx)
+- [Source Code for Markdown](https://github.com/refinedev/refine/blob/main/documentation/docs/data/hooks/use-form/index)
 
 ## Committing Your Work and Preparing a Pull Request
 
@@ -226,6 +229,6 @@ We're looking forward to see your contributions! 🎉
 
 ## Release Cycle
 
-Refine follows a monthly release cycle. We're releasing a new version every month with the changes we've made in that month. Unless there's a critical bugfix, we're not releasing a new version in the middle of the month. If your PR is approved and ready to be merged, it will be labeled as `pr-ready` and will be merged to the `master` branch with the next release.
+Refine follows a monthly release cycle. We're releasing a new version every month with the changes we've made in that month. Unless there's a critical bugfix, we're not releasing a new version in the middle of the month. If your PR is approved and ready to be merged, it will be labeled as `pr-ready` and will be merged to the `main` branch with the next release.
 
 Each approved PR will be included to a milestone, these milestones are used to track the progress of the monthly release.

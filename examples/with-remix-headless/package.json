@@ -10,28 +10,29 @@
     "start": "refine start"
   },
   "dependencies": {
-    "@refinedev/cli": "^2.16.39",
-    "@refinedev/core": "^4.56.0",
-    "@refinedev/react-hook-form": "^4.9.1",
-    "@refinedev/react-table": "^5.6.13",
-    "@refinedev/remix-router": "^3.0.6",
-    "@refinedev/simple-rest": "^5.0.8",
+    "@refinedev/cli": "^2.16.52",
+    "@refinedev/core": "^5.1.0",
+    "@refinedev/react-hook-form": "^5.0.4",
+    "@refinedev/react-table": "^6.0.1",
+    "@refinedev/remix-router": "^4.0.4",
+    "@refinedev/simple-rest": "^6.0.1",
     "@remix-run/node": "^2.4.0",
     "@remix-run/react": "^2.4.0",
     "@remix-run/serve": "^2.4.0",
     "@tanstack/react-table": "^8.2.6",
     "cookie": "^0.5.0",
     "js-cookie": "^3.0.1",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.3.1",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "typescript": "^5.4.2"
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.8.3"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=20"
   }
 }

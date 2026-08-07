@@ -285,54 +285,54 @@ values={[
 After form is submitted:
 
 1. `useForm` calls `onFinish` function with the form values.
-2. `onFinish` function calls [`useCreate`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) with the form values.
-3. `useCreate` calls [`dataProvider`](/docs/3.xx.xx/api-reference/core/providers/data-provider/)'s `create` function and returns the response.
+2. `onFinish` function calls [`useCreate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) with the form values.
+3. `useCreate` calls [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider/)'s `create` function and returns the response.
 4. `useForm` calls `onSuccess` or `onError` function with the response, depending on the response status.
-5. `onSuccess` or `onError` function then calls the `open` function of the [`notificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) to inform the user.
+5. `onSuccess` or `onError` function then calls the `open` function of the [`notificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) to inform the user.
 6. `useForm`, redirects to the `list` page.
 
 </TabItem>
 
 <TabItem value="edit">
 
-On mount, `useForm` calls [`useGetOne`](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) hook to retrieve the record to be edited. The `id` for the record is obtained from the `URL` or `props`.
+On mount, `useForm` calls [`useGetOne`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) hook to retrieve the record to be edited. The `id` for the record is obtained from the `URL` or `props`.
 
 After form is submitted:
 
 1.  `useForm` calls `onFinish` function with the form values.
-2.  `onFinish` function calls [`useUpdate`](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) with the form values.
-3.  `useUpdate` calls [`dataProvider`](/docs/3.xx.xx/api-reference/core/providers/data-provider/)'s `update` function and returns the response.
+2.  `onFinish` function calls [`useUpdate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) with the form values.
+3.  `useUpdate` calls [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider/)'s `update` function and returns the response.
 4.  `useForm` calls `onSuccess` or `onError` function with the response, depending on the response status.
-5.  `onSuccess` or `onError` function then calls the `open` function of the [`notificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) to inform the user.
+5.  `onSuccess` or `onError` function then calls the `open` function of the [`notificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) to inform the user.
 6.  `useForm`, redirects to the `list` page.
 
 </TabItem>
 
 <TabItem value="clone">
 
-On mount, `useForm` calls [`useGetOne`](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) hook to retrieve the record to be edited. The `id` for the record is obtained from the `URL` or `props`.
+On mount, `useForm` calls [`useGetOne`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) hook to retrieve the record to be edited. The `id` for the record is obtained from the `URL` or `props`.
 
 After form is submitted:
 
 1.  `useForm` calls `onFinish` function with the form values.
-2.  `onFinish` function calls [`useCreate`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) with the form values.
-3.  `useUpdate` calls [`dataProvider`](/docs/3.xx.xx/api-reference/core/providers/data-provider/)'s `update` function and returns the response.
+2.  `onFinish` function calls [`useCreate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) with the form values.
+3.  `useUpdate` calls [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider/)'s `update` function and returns the response.
 4.  `useForm` calls `onSuccess` or `onError` function with the response, depending on the response status.
-5.  `onSuccess` or `onError` function then calls the `open` function of the [`notificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) to inform the user.
+5.  `onSuccess` or `onError` function then calls the `open` function of the [`notificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) to inform the user.
 6.  `useForm`, redirects to the `list` page.
 
 </TabItem>
 
 </Tabs>
 
-This is the default behavior of `useForm`. You can customize it by passing your own [`redirect`](/docs/3.xx.xx/api-reference/core/hooks/useForm/#redirect), [`onFinish`](/docs/3.xx.xx/api-reference/core/hooks/useForm/##how-can-i-change-the-form-data-before-submitting-it-to-the-api), [`onMutationSuccess`](/docs/3.xx.xx/api-reference/core/hooks/useForm/#onmutationsuccess) and [`onMutationError`](/docs/3.xx.xx/api-reference/core/hooks/useForm/#onmutationerror) props.
+This is the default behavior of `useForm`. You can customize it by passing your own [`redirect`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm/#redirect), [`onFinish`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm/##how-can-i-change-the-form-data-before-submitting-it-to-the-api), [`onMutationSuccess`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm/#onmutationsuccess) and [`onMutationError`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm/#onmutationerror) props.
 
 :::info
 `useForm` does not manage any state. If you're looking for a complete form library, `refine` supports three form libraries out-of-the-box.
 
-- [React Hook Form](https://react-hook-form.com/) (for Headless users) - [Documentation](/packages/documentation/react-hook-form/useForm.md) - [Example](/examples/form/react-hook-form/useForm.md)
-- [Ant Design Form](https://ant.design/components/form/#header) (for Ant Design users) - [Documentation](/api-reference/antd/hooks/form/useForm.md) - [Example](/examples/form/antd/useForm.md)
-- [Mantine Form](https://mantine.dev/form/use-form) (for Mantine users) - [Documentation](/api-reference/mantine/hooks/form/useForm.md) - [Example](/examples/form/mantine/useForm.md)
+- [React Hook Form](https://react-hook-form.com/) (for Headless users) - [Documentation](/core/docs/3.xx.xx/packages/documentation/react-hook-form/useForm) - [Example](/core/docs/examples/form/react-hook-form/useForm)
+- [Ant Design Form](https://ant.design/components/form/#header) (for Ant Design users) - [Documentation](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) - [Example](/core/docs/examples/form/antd/useForm)
+- [Mantine Form](https://mantine.dev/form/use-form) (for Mantine users) - [Documentation](/core/docs/3.xx.xx/api-reference/mantine/hooks/form/useForm) - [Example](/core/docs/examples/form/mantine/useForm)
 
 :::
 
@@ -396,7 +396,7 @@ values={[
 
 `action: "create"` is used for creating a new record that didn't exist before.
 
-`useForm` uses [`useCreate`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) under the hood for mutations on create mode.
+`useForm` uses [`useCreate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) under the hood for mutations on create mode.
 
 In the following example, we'll show how to use `useForm` with `action: "create"`.
 
@@ -491,7 +491,7 @@ render(<RefineHeadlessDemo />);
 
 `action: "edit"` is used for editing an existing record. It requires the `id` for determining the record to edit. By default, it uses the `id` from the route. It can be changed with the `setId` function or `id` property.
 
-It fetches the record data according to the `id` with [`useOne`](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) and returns the `queryResult` for you to fill the form. After the form is submitted, it updates the record with [`useUpdate`](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/).
+It fetches the record data according to the `id` with [`useOne`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) and returns the `queryResult` for you to fill the form. After the form is submitted, it updates the record with [`useUpdate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/).
 
 In the following example, we'll show how to use `useForm` with `action: "edit"`.
 
@@ -597,7 +597,7 @@ render(<RefineHeadlessDemo />);
 
 You can think `action:clone` like save as. It's similar to `action:edit` but it creates a new record instead of updating the existing one.
 
-It fetches the record data according to the `id` with [`useOne`](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) and returns the `queryResult` for you to fill the form. After the form is submitted, it creates a new record with [`useCreate`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/).
+It fetches the record data according to the `id` with [`useOne`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) and returns the `queryResult` for you to fill the form. After the form is submitted, it creates a new record with [`useCreate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/).
 
 In the following example, we'll show how to use `useForm` with `action: "clone"`.
 
@@ -703,7 +703,7 @@ render(<RefineHeadlessDemo />);
 
 > Default: It reads the `resource` value from the current URL.
 
-It will be passed to the [`dataProvider`][data-provider]'s method as a params. This parameter is usually used to as a API endpoint path. It all depends on how to handle the `resource` in your [`dataProvider`][data-provider]. See the [`creating a data provider`](/api-reference/core/providers/data-provider.md#creating-a-data-provider) section for an example of how `resource` are handled.
+It will be passed to the [`dataProvider`][data-provider]'s method as a params. This parameter is usually used to as a API endpoint path. It all depends on how to handle the `resource` in your [`dataProvider`][data-provider]. See the [`creating a data provider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider#creating-a-data-provider) section for an example of how `resource` are handled.
 
 - When `action` is `"create"`, it will be passed to the [`create`][create] method from the [`dataProvider`][data-provider].
 - When `action` is `"edit"`, it will be passed to the [`update`][update] and the [`getOne`][get-one] method from the [`dataProvider`][data-provider].
@@ -749,7 +749,7 @@ It's a callback function that will be called after the mutation is successful.
 
 It receives the following parameters:
 
-- `data`: Returned value from [`useCreate`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) or [`useUpdate`](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) depending on the `action`.
+- `data`: Returned value from [`useCreate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) or [`useUpdate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) depending on the `action`.
 - `variables`: The variables passed to the mutation.
 - `context`: react-query context.
 
@@ -767,7 +767,7 @@ It's a callback function that will be called after the mutation is failed.
 
 It receives the following parameters:
 
-- `data`: Returned value from [`useCreate`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) or [`useUpdate`](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) depending on the `action`.
+- `data`: Returned value from [`useCreate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) or [`useUpdate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) depending on the `action`.
 - `variables`: The variables passed to the mutation.
 - `context`: react-query context.
 
@@ -800,7 +800,7 @@ If there is more than one `dataProvider`, you should use the `dataProviderName` 
 It is useful when you want to use a different `dataProvider` for a specific resource.
 
 :::tip
-If you want to use a different `dataProvider` on all resource pages, you can use the [`dataProvider` prop ](/docs/3.xx.xx/api-reference/core/components/refine-config/#dataprovidername) of the `<Refine>` component.
+If you want to use a different `dataProvider` on all resource pages, you can use the [`dataProvider` prop ](/core/docs/3.xx.xx/api-reference/core/components/refine-config/#dataprovidername) of the `<Refine>` component.
 :::
 
 ```tsx
@@ -814,7 +814,7 @@ useForm({
 Mutation mode determines which mode the mutation runs with. Mutations can run under three different modes: `pessimistic`, `optimistic` and `undoable`. Default mode is `pessimistic`.
 Each mode corresponds to a different type of user experience.
 
-> For more information about mutation modes, please check [Mutation Mode documentation](/docs/3.xx.xx/advanced-tutorials/mutation-mode) page.
+> For more information about mutation modes, please check [Mutation Mode documentation](/core/docs/3.xx.xx/advanced-tutorials/mutation-mode) page.
 
 ```tsx
 useForm({
@@ -868,10 +868,10 @@ useForm({
 
 ### `metaData`
 
-[`metaData`](/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
+[`metaData`](/core/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
 
 - To pass additional information to data provider methods.
-- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
+- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/core/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
 
 In the following example, we pass the `headers` property in the `metaData` object to the `create` method. With similar logic, you can pass any properties to specifically handle the data provider methods.
 
@@ -905,7 +905,7 @@ const myDataProvider = {
 
 > Works only in `action: "edit"` or `action: "clone"` mode.
 
-in `edit` or `clone` mode, **refine** uses [`useOne`](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery) options by passing `queryOptions` property.
+in `edit` or `clone` mode, **refine** uses [`useOne`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery) options by passing `queryOptions` property.
 
 ```tsx
 useForm({
@@ -919,7 +919,7 @@ useForm({
 
 > This option is only available when `action: "create"` or `action: "clone"`.
 
-In `create` or `clone` mode, **refine** uses [`useCreate`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) hook to create data. You can pass [`mutationOptions`](https://tanstack.com/query/v4/docs/react/reference/useMutation) by passing `createMutationOptions` property.
+In `create` or `clone` mode, **refine** uses [`useCreate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) hook to create data. You can pass [`mutationOptions`](https://tanstack.com/query/v4/docs/react/reference/useMutation) by passing `createMutationOptions` property.
 
 ```tsx
 useForm({
@@ -933,7 +933,7 @@ useForm({
 
 > This option is only available when `action: "edit"`.
 
-In `edit` mode, **refine** uses [`useUpdate`](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) hook to update data. You can pass [`mutationOptions`](https://tanstack.com/query/v4/docs/react/reference/useMutation) by passing `updateMutationOptions` property.
+In `edit` mode, **refine** uses [`useUpdate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) hook to update data. You can pass [`mutationOptions`](https://tanstack.com/query/v4/docs/react/reference/useMutation) by passing `updateMutationOptions` property.
 
 ```tsx
 useForm({
@@ -946,7 +946,7 @@ useForm({
 ### `liveMode`
 
 Whether to update data automatically ("auto") or not ("manual") if a related live event is received. It can be used to update and show data in Realtime throughout your app.
-For more information about live mode, please check [Live / Realtime](/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
+For more information about live mode, please check [Live / Realtime](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
 
 ```tsx
 useForm({
@@ -968,13 +968,13 @@ useForm({
 
 ### `liveParams`
 
-Params to pass to [liveProvider's](/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) subscribe method.
+Params to pass to [liveProvider's](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) subscribe method.
 
 ## Return Values
 
 ### `queryResult`
 
-If the `action` is set to `"edit"` or `"clone"` or if a `resource` with an `id` is provided, `useForm` will call [`useOne`](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) and set the returned values as the `queryResult` property.
+If the `action` is set to `"edit"` or `"clone"` or if a `resource` with an `id` is provided, `useForm` will call [`useOne`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/) and set the returned values as the `queryResult` property.
 
 ```tsx
 const { queryResult } = useForm();
@@ -984,7 +984,7 @@ const { data } = queryResult;
 
 ### `mutationResult`
 
-When in `"create"` or `"clone"` mode, `useForm` will call [`useCreate`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/). When in `"edit"` mode, it will call [`useUpdate`](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) and set the resulting values as the `mutationResult` property."
+When in `"create"` or `"clone"` mode, `useForm` will call [`useCreate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/). When in `"edit"` mode, it will call [`useUpdate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/) and set the resulting values as the `mutationResult` property."
 
 ```tsx
 const { mutationResult } = useForm();
@@ -1012,7 +1012,7 @@ return (
 
 ### `redirect`
 
-"By default, after a successful mutation, `useForm` will `redirect` to the `"list"` page. To redirect to a different page, you can either use the `redirect` function to programmatically specify the destination, or set the redirect [property](/docs/3.xx.xx/api-reference/core/hooks/useForm/#redirect) in the hook's options.
+"By default, after a successful mutation, `useForm` will `redirect` to the `"list"` page. To redirect to a different page, you can either use the `redirect` function to programmatically specify the destination, or set the redirect [property](/core/docs/3.xx.xx/api-reference/core/hooks/useForm/#redirect) in the hook's options.
 
 In the following example we will redirect to the `"show"` page after a successful mutation.
 
@@ -1035,7 +1035,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 `onFinish` is a function that is called when the form is submitted. It will call the appropriate mutation based on the `action` property.
 You can override the default behavior by passing an `onFinish` function in the hook's options.
 
-For example you can [change values before sending to the API](/docs/3.xx.xx/api-reference/core/hooks/useForm/#how-can-i-change-the-form-data-before-submitting-it-to-the-api).
+For example you can [change values before sending to the API](/core/docs/3.xx.xx/api-reference/core/hooks/useForm/#how-can-i-change-the-form-data-before-submitting-it-to-the-api).
 
 ### `formLoading`
 
@@ -1045,7 +1045,7 @@ Loading state of a modal. It's `true` when `useForm` is currently being submitte
 
 ### How can Invalidate other resources?
 
-You can invalidate other resources with help of [`useInvalidate`](/docs/3.xx.xx/api-reference/core/hooks/invalidate/useInvalidate/) hook.
+You can invalidate other resources with help of [`useInvalidate`](/core/docs/3.xx.xx/api-reference/core/hooks/invalidate/useInvalidate/) hook.
 
 It is useful when you want to `invalidate` other resources don't have relation with the current resource.
 
@@ -1110,7 +1110,7 @@ export const UserCreate: React.FC = () => {
 
 <PropsTable module="@pankod/refine-core/useForm" />
 
-> `*`: These props have default values in `RefineContext` and can also be set on **<[Refine](/api-reference/core/components/refine-config.md)>** component. `useForm` will use what is passed to `<Refine>` as default but a local value will override it.
+> `*`: These props have default values in `RefineContext` and can also be set on **<[Refine](/core/docs/3.xx.xx/api-reference/core/components/refine-config)>** component. `useForm` will use what is passed to `<Refine>` as default but a local value will override it.
 
 ### Type Parameters
 
@@ -1122,25 +1122,25 @@ export const UserCreate: React.FC = () => {
 
 ### Return values
 
-| Property       | Description                                            | Type                                                                                                                                                           |
-| -------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| onFinish       | Triggers the mutation                                  | `(values: TVariables) => Promise<CreateResponse<TData>` \| `UpdateResponse<TData>` \| `void`>                                                                  |
-| queryResult    | Result of the query of a record                        | [`QueryObserverResult<T>`](https://react-query.tanstack.com/reference/useQuery)                                                                                |
-| mutationResult | Result of the mutation triggered by calling `onFinish` | [`UseMutationResult<T>`](https://react-query.tanstack.com/reference/useMutation)                                                                               |
-| formLoading    | Loading state of form request                          | `boolean`                                                                                                                                                      |
-| id             | Record id for `clone` and `create` action              | [`BaseKey`](/api-reference/core/interfaces.md#basekey)                                                                                                         |
-| setId          | `id` setter                                            | `Dispatch<SetStateAction<` `string` \| `number` \| `undefined>>`                                                                                               |
-| redirect       | Redirect function for custom redirections              | (redirect: `"list"`\|`"edit"`\|`"show"`\|`"create"`\| `false` ,idFromFunction?: [`BaseKey`](/api-reference/core/interfaces.md#basekey)\|`undefined`) => `data` |
+| Property       | Description                                            | Type                                                                                                                                                                          |
+| -------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| onFinish       | Triggers the mutation                                  | `(values: TVariables) => Promise<CreateResponse<TData>` \| `UpdateResponse<TData>` \| `void`>                                                                                 |
+| queryResult    | Result of the query of a record                        | [`QueryObserverResult<T>`](https://react-query.tanstack.com/reference/useQuery)                                                                                               |
+| mutationResult | Result of the mutation triggered by calling `onFinish` | [`UseMutationResult<T>`](https://tanstack.com/query/v4/docs/framework/react/reference/useMutation)                                                                            |
+| formLoading    | Loading state of form request                          | `boolean`                                                                                                                                                                     |
+| id             | Record id for `clone` and `create` action              | [`BaseKey`](/core/docs/3.xx.xx/api-reference/core/interfaces#basekey)                                                                                                         |
+| setId          | `id` setter                                            | `Dispatch<SetStateAction<` `string` \| `number` \| `undefined>>`                                                                                                              |
+| redirect       | Redirect function for custom redirections              | (redirect: `"list"`\|`"edit"`\|`"show"`\|`"create"`\| `false` ,idFromFunction?: [`BaseKey`](/core/docs/3.xx.xx/api-reference/core/interfaces#basekey)\|`undefined`) => `data` |
 
-[baserecord]: /api-reference/core/interfaces.md#baserecord
-[httperror]: /api-reference/core/interfaces.md#httperror
+[baserecord]: /core/docs/3.xx.xx/api-reference/core/interfaces#baserecord
+[httperror]: /core/docs/3.xx.xx/api-reference/core/interfaces#httperror
 
 ## Example
 
 <CodeSandboxExample path="form-core-use-form" />
 
-[notification-provider]: /docs/3.xx.xx/api-reference/core/providers/notification-provider/
-[get-one]: /docs/3.xx.xx/api-reference/core/providers/data-provider/#getone-
-[create]: /docs/3.xx.xx/api-reference/core/providers/data-provider/#create-
-[update]: /docs/3.xx.xx/api-reference/core/providers/data-provider/#update-
-[data-provider]: /docs/3.xx.xx/api-reference/core/providers/data-provider
+[notification-provider]: /core/docs/3.xx.xx/api-reference/core/providers/notification-provider/
+[get-one]: /core/docs/3.xx.xx/api-reference/core/providers/data-provider/#getone-
+[create]: /core/docs/3.xx.xx/api-reference/core/providers/data-provider/#create-
+[update]: /core/docs/3.xx.xx/api-reference/core/providers/data-provider/#update-
+[data-provider]: /core/docs/3.xx.xx/api-reference/core/providers/data-provider

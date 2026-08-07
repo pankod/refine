@@ -12,3 +12,4 @@ CHANGELOG.md
 *.json
 
 /.nx/cache
+tmp

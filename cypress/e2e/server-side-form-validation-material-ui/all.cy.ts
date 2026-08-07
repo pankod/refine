@@ -11,14 +11,10 @@ describe("server-side-form-validation-material-ui", () => {
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    cy.interceptGETCategories();
-    cy.interceptGETPosts();
     cy.visit("/");
   });
 
   it("should render edit form errors ", () => {
-    cy.interceptGETPost();
-
     cy.wait("@getPosts");
     cy.getMaterialUILoadingCircular().should("not.exist");
     cy.wait("@getCategories");

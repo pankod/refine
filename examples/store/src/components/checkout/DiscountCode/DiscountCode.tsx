@@ -138,7 +138,10 @@ const DiscountForm = ({
   onSuccess: () => void;
 }) => {
   const { id } = cart;
-  const { mutate, isLoading } = useUpdate({
+  const {
+    mutate,
+    mutation: { isLoading },
+  } = useUpdate({
     resource: "carts",
     id,
     mutationOptions: {

@@ -3,12 +3,9 @@ import { useInfiniteList } from "@refinedev/core";
 
 export const CommitList: React.FC = () => {
   const {
-    data,
-    error,
-    hasNextPage,
-    isLoading,
-    fetchNextPage,
-    isFetchingNextPage,
+    query: { error, isLoading, fetchNextPage, isFetchingNextPage },
+
+    result: { data, hasNextPage },
   } = useInfiniteList({
     resource: "repos/refinedev/refine/commits",
     dataProviderName: "github",

@@ -18,11 +18,19 @@ export const PostEdit = () => {
   const { selectProps: categorySelectProps } = useSelect<ICategory>({
     resource: "categories",
     defaultValue: postData?.category.id,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { selectProps: tagsSelectProps } = useSelect<ITags>({
     resource: "tags",
     defaultValue: postData?.tags.map((tag) => tag.id),
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { isLoading, onChange } = useFileUploadState();

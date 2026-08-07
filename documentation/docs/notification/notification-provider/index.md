@@ -1,16 +1,19 @@
 ---
-title: Notification Provider
+title: "Notification Provider Guide | Notification in Refine v5"
+display_title: "Notification Provider"
+sidebar_label: "Notification Provider"
+description: "Build Notification Provider in Refine v5. Learn the key steps. Explore open for real-world React admin panels. Real-world snippets included."
 ---
 
 Refine let's you set a notification API by providing the `notificationProvider` property to the `<Refine>` component.
 
-`notificationProvider` is an object with close and open methods. Refine uses these methods to show and hide notifications. These methods can be called from anywhere in the application with [`useNotification`](/docs/notification/hooks/use-notification) hook.
+`notificationProvider` is an object with close and open methods. Refine uses these methods to show and hide notifications. These methods can be called from anywhere in the application with [`useNotification`](/core/docs/notification/hooks/use-notification/) hook.
 
 A `notificationProvider` must include following methods:
 
 ```tsx
 const notificationProvider = {
-  show: () => {},
+  open: () => {},
   close: () => {},
 };
 ```
@@ -320,7 +323,7 @@ We add `closeButton` and `autoClose` for progress notifications, which are not c
 </p>
 </details>
 
-The `open` method then will be accessible via [`useNotification`](/docs/notification/hooks/use-notification) hook.
+The `open` method then will be accessible via [`useNotification`](/core/docs/notification/hooks/use-notification/) hook.
 
 ```tsx
 import { useNotification } from "@refinedev/core";
@@ -348,7 +351,7 @@ const notificationProvider: NotificationProvider = {
 };
 ```
 
-`close` method then will be accessible via [`useNotification`](/docs/notification/hooks/use-notification) hook.
+`close` method then will be accessible via [`useNotification`](/core/docs/notification/hooks/use-notification/) hook.
 
 ```tsx
 import { useNotification } from "@refinedev/core";

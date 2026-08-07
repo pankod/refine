@@ -6,7 +6,7 @@ example-title: Material UI Tutorial
 example-tags: [mui, tutorial, rest]
 ---
 
-It is the example created at the end of the [tutorial](/docs/3.xx.xx/tutorial/introduction/index/) with Material UI selection.
+It is the example created at the end of the [tutorial](/core/docs/3.xx.xx/tutorial/introduction/index/) with Material UI selection.
 
 <br/>
 

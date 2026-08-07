@@ -1,12 +1,14 @@
 ---
-title: useRegister
-description: useRegister data hook from Refine is a modified version of react-query's useMutation for registration.
+title: "useRegister Hook | Best Practices for Authentication | Refine v5"
+display_title: "useRegister"
+sidebar_label: "useRegister"
+description: "Set up Use Register in Refine v5. Learn best practices. Learn how to secure OAuth, JWT for secure enterprise React apps. See practical code samples."
 source: /packages/core/src/hooks/auth/useRegister/index.ts
 ---
 
-`useRegister` calls `register` method from [`authProvider`](/docs/authentication/auth-provider) under the hood.
+`useRegister` calls `register` method from [`authProvider`](/core/docs/authentication/auth-provider/) under the hood.
 
-It returns the result of `react-query`'s [useMutation](https://react-query.tanstack.com/reference/useMutation) which includes many properties, some of which being isSuccess and isError.
+It returns the result of `react-query`'s [useMutation](https://tanstack.com/query/v5/docs/react/reference/useMutation) which includes many properties, some of which being isSuccess and isError.
 
 Data that is resolved from `register` will be returned as the `data` in the query result with the following type:
 

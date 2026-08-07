@@ -53,7 +53,7 @@ export const AVAILABLE_PACKAGES: AvailablePackageType[] = [
     install: "npm install @refinedev/antd antd",
     usage: dedent(
       `
-            import { ThemedLayoutV2 } from "@refinedev/antd";
+            import { ThemedLayout } from "@refinedev/antd";
 
             import "@refinedev/antd/dist/reset.css";
 
@@ -62,9 +62,9 @@ export const AVAILABLE_PACKAGES: AvailablePackageType[] = [
                     <Refine
                         /* ... */
                     >
-                        <ThemedLayoutV2>
+                        <ThemedLayout>
                             {/* ... */}
-                        </ThemedLayoutV2>
+                        </ThemedLayout>
                     </Refine>
                 );
             };
@@ -105,7 +105,7 @@ export const AVAILABLE_PACKAGES: AvailablePackageType[] = [
       "npm install @refinedev/chakra-ui @chakra-ui/react @emotion/react @emotion/styled framer-motion @tabler/icons-react",
     usage: dedent(
       `
-            import { ThemedLayoutV2 } from "@refinedev/chakra-ui";
+            import { ThemedLayout } from "@refinedev/chakra-ui";
             import { ChakraProvider } from "@chakra-ui/react";
 
             const App = () => {
@@ -114,9 +114,9 @@ export const AVAILABLE_PACKAGES: AvailablePackageType[] = [
                         <Refine
                             /* ... */
                         >
-                            <ThemedLayoutV2>
+                            <ThemedLayout>
                                 {/* ... */}
-                            </ThemedLayoutV2>
+                            </ThemedLayout>
                         </Refine>
                     </ChakraProvider>
                 );
@@ -223,7 +223,7 @@ export const AVAILABLE_PACKAGES: AvailablePackageType[] = [
       "npm install @refinedev/mantine @refinedev/react-table @mantine/core @mantine/hooks @mantine/form @mantine/notifications @emotion/react @tabler/icons-react",
     usage: dedent(
       `
-            import { ThemedLayoutV2 } from "@refinedev/mantine";
+            import { ThemedLayout } from "@refinedev/mantine";
             import { MantineProvider } from "@mantine/core";
 
             const App = () => {
@@ -232,9 +232,9 @@ export const AVAILABLE_PACKAGES: AvailablePackageType[] = [
                         <Refine
                             /* ... */
                         >
-                            <ThemedLayoutV2>
+                            <ThemedLayout>
                                 {/* ... */}
-                            </ThemedLayoutV2>
+                            </ThemedLayout>
                         </Refine>
                     </MantineProvider>
                 );
@@ -271,7 +271,7 @@ export const AVAILABLE_PACKAGES: AvailablePackageType[] = [
       "npm install @refinedev/mui @refinedev/react-hook-form @mui/material @mui/lab @mui/x-data-grid @emotion/react @emotion/styled react-hook-form",
     usage: dedent(
       `
-            import { ThemedLayoutV2 } from "@refinedev/mui";
+            import { ThemedLayout } from "@refinedev/mui";
 
             import CssBaseline from "@mui/material/CssBaseline";
             import GlobalStyles from "@mui/material/GlobalStyles";
@@ -285,9 +285,9 @@ export const AVAILABLE_PACKAGES: AvailablePackageType[] = [
                         <Refine
                             /* ... */
                         >
-                            <ThemedLayoutV2>
+                            <ThemedLayout>
                                 {/* ... */}
-                            </ThemedLayoutV2>
+                            </ThemedLayout>
                         </Refine>
                     </ThemeProvider>
                 );

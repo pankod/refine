@@ -1,53 +1,42 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 
 import {
   Refine,
   type I18nProvider,
   type AccessControlProvider,
-  type LegacyAuthProvider,
   type DataProvider,
   type NotificationProvider,
-  type IResourceItem,
+  type ResourceProps,
   type AuthProvider,
-  type IRouterProvider,
-  type RouterBindings,
-  type IRefineOptions,
+  type RouterProvider,
+  type RefineProps,
 } from "@refinedev/core";
 
-import { mockRouterBindings, MockJSONServer } from "@test";
+import { MockRouterProvider, MockJSONServer } from "@test";
 
-const List = () => {
-  return <div>hede</div>;
-};
 export interface ITestWrapperProps {
-  routerProvider?: RouterBindings;
-  legacyRouterProvider?: IRouterProvider;
+  routerProvider?: RouterProvider;
   dataProvider?: DataProvider;
   authProvider?: AuthProvider;
-  legacyAuthProvider?: LegacyAuthProvider;
-  resources?: IResourceItem[];
+  resources?: ResourceProps[];
   notificationProvider?: NotificationProvider;
   accessControlProvider?: AccessControlProvider;
   i18nProvider?: I18nProvider;
   routerInitialEntries?: string[];
-  DashboardPage?: React.FC;
-  options?: IRefineOptions;
+  options?: RefineProps["options"];
 }
 
 export const TestWrapper: (
   props: ITestWrapperProps,
 ) => React.FC<{ children?: React.ReactNode }> = ({
-  routerProvider = mockRouterBindings(),
-  legacyRouterProvider,
+  routerProvider,
   dataProvider,
   authProvider,
-  legacyAuthProvider,
   resources,
   notificationProvider,
   accessControlProvider,
   routerInitialEntries,
-  DashboardPage,
   i18nProvider,
   options,
 }) => {
@@ -69,14 +58,11 @@ export const TestWrapper: (
         <Refine
           dataProvider={dataProvider ?? MockJSONServer}
           i18nProvider={i18nProvider}
-          routerProvider={legacyRouterProvider ? undefined : routerProvider}
-          legacyRouterProvider={legacyRouterProvider}
+          routerProvider={routerProvider ?? MockRouterProvider()}
           authProvider={authProvider}
-          legacyAuthProvider={legacyAuthProvider}
           notificationProvider={notificationProvider}
-          resources={resources ?? [{ name: "posts", list: List }]}
+          resources={resources ?? [{ name: "posts", list: "/list" }]}
           accessControlProvider={accessControlProvider}
-          DashboardPage={DashboardPage ?? undefined}
           options={{
             ...options,
             disableTelemetry: true,
@@ -84,7 +70,7 @@ export const TestWrapper: (
               clientConfig: {
                 defaultOptions: {
                   queries: {
-                    cacheTime: 0,
+                    gcTime: 0,
                     staleTime: 0,
                     networkMode: "always",
                   },
@@ -100,13 +86,15 @@ export const TestWrapper: (
   };
 };
 export {
-  mockRouterBindings,
   MockJSONServer,
-  MockLegacyRouterProvider,
+  MockRouterProvider,
   MockAccessControlProvider,
   MockLiveProvider,
   MockAuthProvider,
+  MockDataProvider,
 } from "./dataMocks";
 
 // re-export everything
 export * from "@testing-library/react";
+
+export { act } from "react";

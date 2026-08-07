@@ -22,17 +22,17 @@ const filters: CrudFilter[] = [
 ];
 
 export const Dashboard: React.FC = () => {
-  const { data: dailyRevenue } = useList<IChartDatum>({
+  const { result: dailyRevenue } = useList<IChartDatum>({
     resource: "dailyRevenue",
     filters,
   });
 
-  const { data: dailyOrders } = useList<IChartDatum>({
+  const { result: dailyOrders } = useList<IChartDatum>({
     resource: "dailyOrders",
     filters,
   });
 
-  const { data: newCustomers } = useList<IChartDatum>({
+  const { result: newCustomers } = useList<IChartDatum>({
     resource: "newCustomers",
     filters,
   });

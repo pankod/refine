@@ -1,4 +1,4 @@
-import { gql } from "@urql/core";
+import gql from "graphql-tag";
 
 import dataProvider from "../../src/index";
 import client from "../gqlClient";
@@ -31,9 +31,25 @@ describe("deleteOne", () => {
 
   describe("without operation", () => {
     it("throws error", async () => {
-      expect(
+      await expect(
         dataProvider(client).deleteOne({ resource: "blogPosts", id: 42 }),
-      ).rejects.toEqual(new Error("Operation is required."));
+      ).rejects.toEqual(new Error("[Code] Operation is required."));
+    });
+  });
+
+  describe("invalid id", () => {
+    it("throws error", async () => {
+      await expect(
+        dataProvider(client).deleteOne({
+          resource: "blogPosts",
+          id: 999,
+          meta: {
+            gqlMutation,
+          },
+        }),
+      ).rejects.toEqual(
+        new Error("[GraphQL] Unable to find BlogPostEntity with id: 999"),
+      );
     });
   });
 });

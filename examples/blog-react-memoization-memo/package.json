@@ -23,9 +23,15 @@
   "dependencies": {
     "@craco/craco": "^7.1.0",
     "cross-env": "^7.0.3",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "react-scripts": "^5.0.0",
     "web-vitals": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

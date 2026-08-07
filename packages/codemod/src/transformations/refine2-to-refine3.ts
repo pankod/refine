@@ -11,7 +11,7 @@ import type {
 } from "jscodeshift";
 import fs from "fs";
 import path from "path";
-import { install, remove } from "../helpers";
+import { getNameAsString, install, remove } from "../helpers";
 import { checkPackageLock } from "../helpers";
 
 export const parser = "tsx";
@@ -255,7 +255,9 @@ function updateRefineImports(j: JSCodeshift, root: Collection<any>) {
 
     refineImport.replaceWith((path) => {
       for (const item of path.node.specifiers) {
-        if (availableCoreImports.includes(item.local.name)) {
+        const localName = getNameAsString(item.local?.name);
+
+        if (availableCoreImports.includes(localName)) {
           coreImports.push(item as ImportSpecifier);
         } else {
           antdImports.push(item as ImportSpecifier);

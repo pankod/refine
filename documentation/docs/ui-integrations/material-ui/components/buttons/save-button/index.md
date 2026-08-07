@@ -1,5 +1,8 @@
 ---
-title: Save
+title: "MUI Save Button Component | Form Actions in Refine v5"
+display_title: "Save"
+sidebar_label: "Save"
+description: "Build Save Button in Refine v5. Learn the key steps. Explore customization options for hide and properties for polished admin UIs. Real-world snippets included."
 swizzle: true
 ---
 
@@ -7,15 +10,17 @@ swizzle: true
 
 :::simple Good to know
 
-You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-packages) to customize it.
+You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 
 :::
 
 ## Usage
 
-For example, let's add logic to the `<SaveButton>` component with the `saveButtonProps` returned by the [`useForm`](/docs/data/hooks/use-form) hook.
+For example, let's add logic to the `<SaveButton>` component with the `saveButtonProps` returned by the [`useForm`](/core/docs/data/hooks/use-form/) hook.
 
 ```tsx live url=http://localhost:3000/posts previewHeight=340px
+setInitialRoutes(["/posts/edit/123"]);
+
 // visible-block-start
 import { useForm } from "@refinedev/react-hook-form";
 import { Edit } from "@refinedev/mui";
@@ -60,15 +65,29 @@ interface ICategory {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts/edit/123"]}
-    resources={[
-      {
-        name: "posts",
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          edit: PostEdit,
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -81,7 +100,7 @@ The `useForm` hook exposes `saveButtonProps` to be passed to `<SaveButton>` comp
 `hideText` is used to show or hide the text of the button. When `true`, only the button icon is visible.
 
 ```tsx live disableScroll previewHeight=120px
-const { useRouterContext } = RefineCore;
+setInitialRoutes(["/"]);
 
 // visible-block-start
 import { SaveButton } from "@refinedev/mui";
@@ -97,16 +116,27 @@ const MySaveComponent = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/"]}
-    resources={[
-      {
-        name: "posts",
-        list: MySaveComponent,
-      },
-    ]}
-    DashboardPage={MySaveComponent}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: MySaveComponent,
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/"
+          element={
+            <div style={{ padding: 16 }}>
+              <MySaveComponent />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

@@ -35,7 +35,7 @@
 [![Awesome](https://github.com/refinedev/awesome-refine/raw/main/images/badge.svg)](https://github.com/refinedev/awesome-refine)
 [![npm version](https://img.shields.io/npm/v/@refinedev/core.svg)](https://www.npmjs.com/package/@refinedev/core)
 [![npm](https://img.shields.io/npm/dm/@refinedev/core)](https://www.npmjs.com/package/@refinedev/core)
-[![](https://img.shields.io/github/commit-activity/m/refinedev/refine)](https://github.com/refinedev/refine/commits/master)
+[![](https://img.shields.io/github/commit-activity/m/refinedev/refine)](https://github.com/refinedev/refine/commits/main)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 </div>
@@ -67,15 +67,15 @@ Instead of being a limited set of pre-styled components, **refine** is a collect
 
 You can take a look at some live examples that can be built using **refine** from scratch:
 
-<a href="https://s.refine.dev/readme-admin-panel" target="_blank">
+<a href="https://example.admin.refine.dev/" target="_blank">
  <img src="https://user-images.githubusercontent.com/18739364/204285956-cc20fa11-b769-4bd5-b8f6-9c05a283ac85.gif"   style="width:267px;"  />
 </a>
 
- <a href="https://s.refine.dev/readme-medium-clone" target="_blank">
+ <a href="https://refine-real-world.netlify.app/" target="_blank">
 <img src="https://user-images.githubusercontent.com/18739364/204285047-8f24f1f4-65ea-4952-83ed-81e92cdd5b90.gif"   style="width:200px;"  />
 </a>
 
- <a href="https://s.refine.dev/readme-ssr-storefront" target="_blank">
+ <a href="https://refine.dev/" target="_blank">
 <img src="https://user-images.githubusercontent.com/18739364/204285039-1ce0cb06-fbf8-4704-89c9-2e004620c9a8.gif"   style="width:200px;"  />
 </a>
 
@@ -90,7 +90,7 @@ You can take a look at some live examples that can be built using **refine** fro
 
 ⚙️ Zero-config, **one-minute setup** with a **single CLI command**
 
-🔌 Connectors for **15+ backend services** including [REST API](https://github.com/refinedev/refine/tree/master/packages/simple-rest), [GraphQL](https://github.com/refinedev/refine/tree/master/packages/graphql), [NestJs CRUD](https://github.com/refinedev/refine/tree/master/packages/nestjsx-crud), [Airtable](https://github.com/refinedev/refine/tree/master/packages/airtable), [Strapi](https://github.com/refinedev/refine/tree/master/packages/strapi), [Strapi v4](https://github.com/refinedev/refine/tree/master/packages/strapi-v4), [Supabase](https://github.com/refinedev/refine/tree/master/packages/supabase), [Hasura](https://github.com/refinedev/refine/tree/master/packages/hasura), [Appwrite](https://github.com/refinedev/refine/tree/master/packages/appwrite), [Firebase](https://firebase.google.com/), [Nestjs-Query](https://github.com/refinedev/refine/tree/master/packages/nestjs-query) and [Directus](https://directus.io/).
+🔌 Connectors for **15+ backend services** including [REST API](https://github.com/refinedev/refine/tree/main/packages/simple-rest), [GraphQL](https://github.com/refinedev/refine/tree/main/packages/graphql), [NestJs CRUD](https://github.com/refinedev/refine/tree/main/packages/nestjsx-crud), [Airtable](https://github.com/refinedev/refine/tree/main/packages/airtable), [Strapi](https://github.com/refinedev/refine/tree/main/packages/strapi), [Strapi v4](https://github.com/refinedev/refine/tree/main/packages/strapi-v4), [Supabase](https://github.com/refinedev/refine/tree/main/packages/supabase), [Hasura](https://github.com/refinedev/refine/tree/main/packages/hasura), [Appwrite](https://github.com/refinedev/refine/tree/main/packages/appwrite), [Firebase](https://firebase.google.com/), [Nestjs-Query](https://github.com/refinedev/refine/tree/main/packages/nestjs-query) and [Directus](https://directus.io/).
 
 🌐 **SSR support** with **Next.js** or **Remix**
 
@@ -146,10 +146,10 @@ import {
   useNotificationProvider,
   ErrorComponent,
 } from "@refinedev/antd";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { AntdInferencer } from "@refinedev/inferencer/antd";
 
@@ -229,7 +229,7 @@ You can get the auto-generated pages codes by clicking the `Show Code` button on
 👉 Read more on [Advanced Tutorials
 ](https://refine.dev/docs/advanced-tutorials/) for different usage scenarios.
 
-👉 See the real-life [Finefoods Demo](https://refine.dev/demo/) project.
+👉 See the real-life [Finefoods Demo](https://refine.dev/core/templates/) project.
 
 👉 Play with interactive [Examples](https://refine.dev/docs/examples/)
 

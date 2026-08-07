@@ -1,8 +1,8 @@
-import type { useTranslate } from "@hooks/i18n";
+import type { useTranslate } from "../../../hooks/i18n";
 
 import type { IResourceItem } from "../../../contexts/resource/types";
 import { safeTranslate } from "../safe-translate";
-import { userFriendlyResourceName } from "../userFriendlyResourceName";
+import { useUserFriendlyName } from "../useUserFriendlyName";
 
 /**
  * Generates document title for the given resource and action.
@@ -13,7 +13,10 @@ export function generateDefaultDocumentTitle(
   action?: string,
   id?: string,
   resourceName?: string,
+  getUserFriendlyName?: (name: string, type: "singular" | "plural") => string,
 ) {
+  const getFriendlyName = getUserFriendlyName || useUserFriendlyName();
+
   const actionPrefixMatcher = {
     create: "Create new ",
     clone: `#${id ?? ""} Clone `,
@@ -25,12 +28,10 @@ export function generateDefaultDocumentTitle(
   const identifier = resource?.identifier ?? resource?.name;
 
   const resourceNameFallback =
-    resource?.label ??
     resource?.meta?.label ??
-    userFriendlyResourceName(
-      identifier,
-      action === "list" ? "plural" : "singular",
-    );
+    (identifier
+      ? getFriendlyName(identifier, action === "list" ? "plural" : "singular")
+      : identifier);
 
   const resourceNameWithFallback = resourceName ?? resourceNameFallback;
 

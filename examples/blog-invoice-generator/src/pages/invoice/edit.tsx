@@ -10,7 +10,7 @@ export const InvoiceEdit = () => {
     saveButtonProps,
     query: queryResult,
   } = useForm<IInvoice>({
-    metaData: { populate: ["company", "contact", "missions"] },
+    meta: { populate: ["company", "contact", "missions"] },
   });
 
   const defaultValue = queryResult?.data?.data;
@@ -19,17 +19,29 @@ export const InvoiceEdit = () => {
     resource: "companies",
     defaultValue: defaultValue?.company?.id,
     optionLabel: "name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { selectProps: contactSelectProps } = useSelect({
     resource: "contacts",
     defaultValue: defaultValue?.contact?.id,
     optionLabel: "first_name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { selectProps: missionSelectProps } = useSelect({
     resource: "missions",
     optionLabel: "mission",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

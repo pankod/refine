@@ -1,5 +1,7 @@
 ---
-title: Telemetry
+title: "Telemetry Guide | Best Practices in Refine v5"
+display_title: "Telemetry"
+description: "Implement Telemetry in Refine v5. Learn the key steps. Explore collected and information for real-world React admin panels. Includes common pitfalls."
 sidebar_label: Telemetry
 ---
 

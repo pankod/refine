@@ -57,7 +57,7 @@ export const AddAddress: React.FC = () => {
     warnWhenUnsavedChanges: false,
   });
 
-  const { data: regions } = useList<Region>({
+  const { result: regions } = useList<Region>({
     resource: "regions",
   });
 

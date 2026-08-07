@@ -88,10 +88,10 @@ export const DocSurveyWidget = ({ className }: Props) => {
         "w-full max-w-[416px]",
         "flex flex-col",
         "p-3",
-        "bg-gray-100 dark:bg-gray-700",
-        "border border-gray-300 dark:border-gray-700",
-        "rounded-[28px]",
-        isSurveyTextVisible && "rounded-b-[20px]",
+        "bg-zinc-100 dark:bg-zinc-800",
+        "border border-zinc-200 dark:border-zinc-700",
+        "rounded-[20px]",
+        isSurveyTextVisible && "rounded-b-xl",
         (isSurveyTextVisible || isFinished) && "h-[286px] sm:h-[242px]",
         !isSurveyTextVisible && !isFinished && "h-[114px] sm:h-[58px]",
         "transition-all duration-200 ease-in-out",
@@ -151,7 +151,7 @@ const SurveyOptions = (props: {
         props.className,
       )}
     >
-      <div className={clsx("dark:text-gray-100 text-gray-800", "text-base")}>
+      <div className={clsx("dark:text-white text-zinc-900", "text-base")}>
         Was this helpful?
       </div>
       <div className={clsx("flex", "items-center", "gap-3 sm:gap-1")}>
@@ -218,12 +218,12 @@ const SurveyText = (props: {
           "h-32",
           "p-4",
           "text-sm",
-          "dark:placeholder-gray-500 placeholder-gray-400",
-          "dark:text-gray-500 text-gray-400",
-          "dark:bg-gray-900 bg-white",
+          "dark:placeholder-zinc-400 placeholder-zinc-500",
+          "dark:text-zinc-100 text-zinc-900",
+          "dark:bg-zinc-700 bg-white",
           "border",
-          "dark:border-gray-700",
-          "border-gray-300",
+          "dark:border-zinc-700",
+          "border-zinc-200",
           "rounded-xl",
           "resize-none",
         )}
@@ -239,8 +239,7 @@ const SurveyText = (props: {
           className={clsx(
             "w-20 h-8",
             "text-xs",
-            "text-white ",
-            "bg-gray-600",
+            "text-white",
             "bg-refine-react-light-link",
             "dark:bg-refine-react-dark-link",
             "border",
@@ -271,7 +270,7 @@ const SurveyFinished = (props: {
         "items-center",
         "justify-center",
         "h-full",
-        "dark:text-white text-gray-800",
+        "dark:text-white text-zinc-900",
         props.className,
       )}
     >
@@ -288,7 +287,7 @@ const SurveyFinished = (props: {
         animate={{ opacity: 1, transition: { delay: 0.2 } }}
         exit={{ opacity: 0 }}
       >
-        <div className={clsx("mt-1")}>Your feedback has been recieved.</div>
+        <div className={clsx("mt-1")}>Your feedback has been received.</div>
       </motion.div>
     </div>
   );

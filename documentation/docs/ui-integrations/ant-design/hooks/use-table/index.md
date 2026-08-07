@@ -1,5 +1,8 @@
 ---
-title: useTable
+title: "useTable Hook | Best Practices for Usage & Patterns | Refine v5"
+display_title: "useTable"
+sidebar_label: "useTable"
+description: "Secure Use Table in Refine v5. Learn best practices. Learn integration patterns for pagination, sorting for polished admin UIs. See practical code samples."
 source: packages/antd/src/hooks/table/useTable
 ---
 
@@ -10,11 +13,11 @@ import SearchPreview from "./\_partial-use-table-search-live-preview.md";
 import RelationalLivePreview from "./\_partial-use-table-relational-live-preview.md";
 import PropResource from "@site/src/partials/prop-resource";
 
-By using `useTable`, you can get properties that are compatible with Ant Design [`<Table>`][table] component. All features such as sorting, filtering, and pagination come out of the box. Under the hood it uses [`useList`](/docs/data/hooks/use-list) for the fetch.
+By using `useTable`, you can get properties that are compatible with Ant Design [`<Table>`][table] component. All features such as sorting, filtering, and pagination come out of the box. Under the hood it uses [`useList`](/core/docs/data/hooks/use-list/) for the fetch.
 
 For all the other features, you can refer to the Ant Design [`<Table>`][table] documentation.
 
-`useTable` hook is extended from [`useTable`][use-table-core] hook from the [`@refinedev/core`](https://github.com/refinedev/refine/tree/master/packages/core) package. This means that you can use all the features of [`useTable`][use-table-core] hook.
+`useTable` hook is extended from [`useTable`][use-table-core] hook from the [`@refinedev/core`](https://github.com/refinedev/refine/tree/main/packages/core) package. This means that you can use all the features of [`useTable`][use-table-core] hook.
 
 ## usage
 
@@ -132,7 +135,7 @@ const { tableProps, sorters, filters } = useTable({
 Refine provides the [`getDefaultFilter`](https://github.com/refinedev/refine/blob/716656d9ad3deb169c32685cdebbfd46bac44beb/packages/core/src/definitions/table/index.ts#L166) function, You can use this function to find the filter value for the specific field.
 
 ```tsx
-import { getDefaultFilter } from "@refinedev/core";
+import { getDefaultFilter } from "@refinedev/antd";
 import { useTable } from "@refinedev/antd";
 
 const MyComponent = () => {
@@ -167,11 +170,11 @@ We can use the [`onSearch`](#onsearch) and [`searchFormProps`](#searchformprops)
 
 ## Realtime Updates
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
 When the `useTable` hook is mounted, it will call the `subscribe` method from the `liveProvider` with some parameters such as `channel`, `resource` etc. It is useful when you want to subscribe to live updates.
 
-> For more information, refer to the [`liveProvider` documentation &#8594](/docs/realtime/live-provider)
+> For more information, refer to the [`liveProvider` documentation &#8594](/core/docs/realtime/live-provider/)
 
 ## Properties
 
@@ -199,7 +202,7 @@ useTable({
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### onSearch
 
@@ -248,14 +251,14 @@ useTable({
 });
 ```
 
-### pagination.current
+### pagination.currentPage
 
 Sets the initial value of the page index. It is set to `1` by default.
 
 ```tsx
 useTable({
   pagination: {
-    current: 2,
+    currentPage: 2,
   },
 });
 ```
@@ -278,7 +281,7 @@ It can be `"off"`, `"server"` or `"client"`. It is set to `"server"` by default.
 
 - **"off":** Pagination is disabled. All records will be fetched.
 - **"client":** Pagination is done on the client side. All records will be fetched and then the records will be paginated on the client side.
-- **"server":**: Pagination is done on the server side. Records will be fetched by using the `current` and `pageSize` values.
+- **"server":**: Pagination is done on the server side. Records will be fetched by using the `currentPage` and `pageSize` values.
 
 ```tsx
 useTable({
@@ -292,7 +295,7 @@ useTable({
 
 Sets the initial value of the sorter. The `initial` is not permanent. It will be cleared when the user changes the sorter. If you want to set a permanent value, use the `sorters.permanent` prop.
 
-> For more information, refer to the [`CrudSorting` interface documentation &#8594](/docs/core/interface-references#crudsorting)
+> For more information, refer to the [`CrudSorting` interface documentation &#8594](/core/docs/core/interface-references#crudsorting)
 
 ```tsx
 useTable({
@@ -311,7 +314,7 @@ useTable({
 
 Sets the permanent value of the sorter. The `permanent` is permanent and unchangeable. It will not be cleared when the user changes the sorter. If you want to set a temporary value, use the `sorters.initial` prop.
 
-> For more information, refer to the [`CrudSorting` interface documentation &#8594](/docs/core/interface-references#crudsorting)
+> For more information, refer to the [`CrudSorting` interface documentation &#8594](/core/docs/core/interface-references#crudsorting)
 
 ```tsx
 useTable({
@@ -345,7 +348,7 @@ useTable({
 
 Sets the initial value of the filter. The `initial` is not permanent. It will be cleared when the user changes the filter. If you want to set a permanent value, use the `filters.permanent` prop.
 
-> For more information, refer to the [`CrudFilters` interface documentation &#8594](/docs/core/interface-references#crudfilters)
+> For more information, refer to the [`CrudFilters` interface documentation &#8594](/core/docs/core/interface-references#crudfilters)
 
 ```tsx
 useTable({
@@ -365,7 +368,7 @@ useTable({
 
 Sets the permanent value of the filter. The `permanent` is permanent and unchangeable. It will not be cleared when the user changes the filter. If you want to set a temporary value, use the `filters.initial` prop.
 
-> For more information, refer to the [`CrudFilters` interface documentation &#8594](/docs/core/interface-references#crudfilters)
+> For more information, refer to the [`CrudFilters` interface documentation &#8594](/core/docs/core/interface-references#crudfilters)
 
 ```tsx
 useTable({
@@ -426,7 +429,7 @@ useTable({
 
 ### queryOptions
 
-`useTable` uses the [`useList`](/docs/data/hooks/use-list) hook to fetch data. You can pass the [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery) to it like this:
+`useTable` uses the [`useList`](/core/docs/data/hooks/use-list/) hook to fetch data. You can pass the [`queryOptions`](https://tanstack.com/query/v5/docs/react/reference/useQuery) to it like this:
 
 ```tsx
 useTable({
@@ -443,7 +446,7 @@ useTable({
 - Customizing the data provider methods for specific use cases.
 - Generating GraphQL queries using plain JavaScript Objects (JSON).
 
-> For more information, refer to the [`meta` section of the General Concepts documentation &#8594](/docs/guides-concepts/general-concepts/#meta-concept)
+> For more information, refer to the [`meta` section of the General Concepts documentation &#8594](/core/docs/guides-concepts/general-concepts/#meta-concept)
 
 In the following example, we pass the `headers` property in the `meta` object to the `create` method. With similar logic, you can pass any properties to specifically handle the data provider methods.
 
@@ -486,7 +489,7 @@ const myDataProvider = {
 
 ### successNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 After data is fetched successfully, `useTable` can call `open` function from [`NotificationProvider`][notification-provider] to show a success notification. With this prop, you can customize the success notification.
 
@@ -504,7 +507,7 @@ useTable({
 
 ### errorNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 After data fetching is failed, `useTable` will call `open` function from [`NotificationProvider`][notification-provider] to show an error notification. With this prop, you can customize the error notification.
 
@@ -522,11 +525,11 @@ useTable({
 
 ### liveMode
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
 `liveMode` determines whether to update data automatically ("auto") or not ("manual") if a related live event is received. It can be used to update and show data in Realtime throughout your app.
 
-> For more information, refer to the [Live / Realtime documentation &#8594](/docs/realtime/live-provider#livemode)
+> For more information, refer to the [Live / Realtime documentation &#8594](/core/docs/realtime/live-provider#livemode)
 
 ```tsx
 useTable({
@@ -536,7 +539,7 @@ useTable({
 
 ### onLiveEvent
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
 The callback function is executed when new events from a subscription have arrived.
 
@@ -550,9 +553,9 @@ useTable({
 
 ### liveParams
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
-Params to pass to liveProvider's [subscribe](/docs/realtime/live-provider#subscribe) method.
+Params to pass to liveProvider's [subscribe](/core/docs/realtime/live-provider#subscribe) method.
 
 ### overtimeOptions
 
@@ -581,38 +584,6 @@ console.log(overtime.elapsedTime); // undefined, 1000, 2000, 3000 4000, ...
 }
 ```
 
-### ~~initialCurrent~~ <PropTag deprecated />
-
-Use `pagination.current` instead.
-
-### ~~initialPageSize~~ <PropTag deprecated />
-
-Use `pagination.pageSize` instead.
-
-### ~~hasPagination~~ <PropTag deprecated />
-
-Use `pagination.mode` instead.
-
-### ~~initialSorter~~ <PropTag deprecated />
-
-Use `sorters.initial` instead.
-
-### ~~permanentSorter~~ <PropTag deprecated />
-
-Use `sorters.permanent` instead.
-
-### ~~initialFilter~~ <PropTag deprecated />
-
-Use `filters.initial` instead.
-
-### ~~permanentFilter~~ <PropTag deprecated />
-
-Use `filters.permanent` instead.
-
-### ~~defaultSetFilterBehavior~~ <PropTag deprecated />
-
-Use `filters.defaultBehavior` instead.
-
 ## Return Values
 
 ### tableProps
@@ -639,7 +610,7 @@ const { tableProps } = useTable()
 
 #### dataSource
 
-`dataSource` contains the data to be displayed in the table. Values fetched with [`useList`](/docs/data/hooks/use-list) hook.
+`dataSource` contains the data to be displayed in the table. Values fetched with [`useList`](/core/docs/data/hooks/use-list/) hook.
 
 #### loading
 
@@ -647,7 +618,7 @@ const { tableProps } = useTable()
 
 #### pagination
 
-`pagination` returns the pagination configuration values(pageSize, current, position, etc.).
+`pagination` returns the pagination configuration values(pageSize, currentPage, position, etc.).
 
 #### scroll
 
@@ -707,7 +678,7 @@ const PostList: React.FC = () => {
 
 ### tableQuery
 
-`tableQuery` are the returned values from [`useList`](/docs/data/hooks/use-list) hook.
+`tableQuery` are the returned values from [`useList`](/core/docs/data/hooks/use-list/) hook.
 
 ### sorters
 
@@ -733,17 +704,17 @@ const PostList: React.FC = () => {
 
 `setFilters` is a function to set current [filters state][crudfilters].
 
-### current
+### currentPage
 
-`current` is the current page index state. If pagination is disabled, it will be `undefined`.
+`currentPage` is the current page index state. If pagination is disabled, it will be `undefined`.
 
-### setCurrent
+### setCurrentPage
 
 ```tsx
 React.Dispatch<React.SetStateAction<number>> | undefined;
 ```
 
-`setCurrent` is a function to set the current page index state. If pagination is disabled, it will be `undefined`.
+`setCurrentPage` is a function to set the current page index state. If pagination is disabled, it will be `undefined`.
 
 ### pageSize
 
@@ -779,23 +750,11 @@ const { overtime } = useTable();
 console.log(overtime.elapsedTime); // undefined, 1000, 2000, 3000 4000, ...
 ```
 
-### ~~sorter~~ <PropTag deprecated />
-
-Use `sorters` instead.
-
-### ~~setSorter~~ <PropTag deprecated />
-
-Use `setSorters` instead.
-
-### ~~tableQueryResult~~ <PropTag deprecated />
-
-Use [`tableQuery`](#tablequery) instead.
-
 ## FAQ
 
 ### How can I handle relational data?
 
-You can use the [`useMany`](/docs/data/hooks/use-many) hook to fetch relational data and filter `<Table>` by categories with the help of [`useSelect`](/docs/ui-integrations/ant-design/hooks/use-select/)
+You can use the [`useMany`](/core/docs/data/hooks/use-many/) hook to fetch relational data and filter `<Table>` by categories with the help of [`useSelect`](/core/docs/ui-integrations/ant-design/hooks/use-select/)
 
 <RelationalLivePreview/>
 
@@ -882,23 +841,23 @@ const ListPage = () => {
 
 ### Return values
 
-| Property        | Description                                                                           | Type                                                                                                                                              |
-| --------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| searchFormProps | Ant Design [`<Form>`][form] props                                                     | [`FormProps<TSearchVariables>`][form]                                                                                                             |
-| tableProps      | Ant Design [`<Table>`][table] props                                                   | [`TableProps<TData>`][table]                                                                                                                      |
-| tableQuery      | Result of the `react-query`'s `useQuery`                                              | [` QueryObserverResult<{`` data: TData[];`` total: number; },`` TError> `][usequery]                                                              |
-| totalPage       | Total page count (returns `undefined` if pagination is disabled)                      | `number` \| `undefined`                                                                                                                           |
-| current         | Current page index state (returns `undefined` if pagination is disabled)              | `number` \| `undefined`                                                                                                                           |
-| setCurrent      | A function that changes the current (returns `undefined` if pagination is disabled)   | `React.Dispatch<React.SetStateAction<number>>` \| `undefined`                                                                                     |
-| pageSize        | Current pageSize state (returns `undefined` if pagination is disabled)                | `number` \| `undefined`                                                                                                                           |
-| setPageSize     | A function that changes the pageSize. (returns `undefined` if pagination is disabled) | `React.Dispatch<React.SetStateAction<number>>` \| `undefined`                                                                                     |
-| sorters         | Current sorting state                                                                 | [`CrudSorting`][crudsorting]                                                                                                                      |
-| setSorters      | A function that accepts a new sorters state.                                          | `(sorters: CrudSorting) => void`                                                                                                                  |
-| ~~sorter~~      | Current sorting state                                                                 | [`CrudSorting`][crudsorting]                                                                                                                      |
-| ~~setSorter~~   | A function that accepts a new sorters state.                                          | `(sorters: CrudSorting) => void`                                                                                                                  |
-| filters         | Current filters state                                                                 | [`CrudFilters`][crudfilters]                                                                                                                      |
-| setFilters      | A function that accepts a new filter state                                            | - `(filters: CrudFilters, behavior?: "merge" \| "replace" = "merge") => void` - `(setter: (previousFilters: CrudFilters) => CrudFilters) => void` |
-| overtime        | Overtime loading props                                                                | `{ elapsedTime?: number }`                                                                                                                        |
+| Property        | Description                                                                              | Type                                                                                                                                              |
+| --------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| searchFormProps | Ant Design [`<Form>`][form] props                                                        | [`FormProps<TSearchVariables>`][form]                                                                                                             |
+| tableProps      | Ant Design [`<Table>`][table] props                                                      | [`TableProps<TData>`][table]                                                                                                                      |
+| tableQuery      | Result of the `react-query`'s `useQuery`                                                 | [` QueryObserverResult<{`` data: TData[];`` total: number; },`` TError> `][usequery]                                                              |
+| totalPage       | Total page count (returns `undefined` if pagination is disabled)                         | `number` \| `undefined`                                                                                                                           |
+| currentPage     | Current page index state (returns `undefined` if pagination is disabled)                 | `number` \| `undefined`                                                                                                                           |
+| setCurrentPage  | A function that changes the current page (returns `undefined` if pagination is disabled) | `React.Dispatch<React.SetStateAction<number>>` \| `undefined`                                                                                     |
+| pageSize        | Current pageSize state (returns `undefined` if pagination is disabled)                   | `number` \| `undefined`                                                                                                                           |
+| setPageSize     | A function that changes the pageSize. (returns `undefined` if pagination is disabled)    | `React.Dispatch<React.SetStateAction<number>>` \| `undefined`                                                                                     |
+| sorters         | Current sorting state                                                                    | [`CrudSorting`][crudsorting]                                                                                                                      |
+| setSorters      | A function that accepts a new sorters state.                                             | `(sorters: CrudSorting) => void`                                                                                                                  |
+| ~~sorter~~      | Current sorting state                                                                    | [`CrudSorting`][crudsorting]                                                                                                                      |
+| ~~setSorter~~   | A function that accepts a new sorters state.                                             | `(sorters: CrudSorting) => void`                                                                                                                  |
+| filters         | Current filters state                                                                    | [`CrudFilters`][crudfilters]                                                                                                                      |
+| setFilters      | A function that accepts a new filter state                                               | - `(filters: CrudFilters, behavior?: "merge" \| "replace" = "merge") => void` - `(setter: (previousFilters: CrudFilters) => CrudFilters) => void` |
+| overtime        | Overtime loading props                                                                   | `{ elapsedTime?: number }`                                                                                                                        |
 
 <br />
 
@@ -906,17 +865,17 @@ const ListPage = () => {
 
 <CodeSandboxExample path="table-antd-use-table" />
 
-[use-table-core]: /docs/data/hooks/use-table
+[use-table-core]: /core/docs/data/hooks/use-table
 [table]: https://ant.design/components/table/#API
 [table-column]: https://ant.design/components/table#column
 [form]: https://ant.design/components/form/#API
 [usequery]: https://react-query.tanstack.com/reference/useQuery
-[baserecord]: /docs/core/interface-references#baserecord
-[crudsorting]: /docs/core/interface-references#crudsorting
-[crudfilters]: /docs/core/interface-references#crudfilters
-[httperror]: /docs/core/interface-references#httperror
+[baserecord]: /core/docs/core/interface-references#baserecord
+[crudsorting]: /core/docs/core/interface-references#crudsorting
+[crudfilters]: /core/docs/core/interface-references#crudfilters
+[httperror]: /core/docs/core/interface-references#httperror
 [table search]: /advanced-tutorials/search/table-search.md
-[Refine swl]: /docs/core/refine-component#syncwithlocation
-[filter-dropdown]: /docs/ui-integrations/ant-design/components/filter-dropdown
-[syncwithlocationparams]: /docs/core/interface-references#syncwithlocationparams
-[notification-provider]: /docs/notification/notification-provider
+[Refine swl]: /core/docs/core/refine-component#syncwithlocation
+[filter-dropdown]: /core/docs/ui-integrations/ant-design/components/filter-dropdown
+[syncwithlocationparams]: /core/docs/core/interface-references#syncwithlocationparams
+[notification-provider]: /core/docs/notification/notification-provider

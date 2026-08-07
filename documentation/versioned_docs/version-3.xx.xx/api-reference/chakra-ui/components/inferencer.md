@@ -84,7 +84,7 @@ const SampleEdit = () => {
 </Tabs>
 
 :::info
-To learn more about `@pankod/refine-inferencer` package, please check out [Docs](/docs/3.xx.xx/packages/documentation/inferencer)
+To learn more about `@pankod/refine-inferencer` package, please check out [Docs](/core/docs/3.xx.xx/packages/documentation/inferencer)
 :::
 
 ## Views

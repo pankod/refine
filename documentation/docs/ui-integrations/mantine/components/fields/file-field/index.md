@@ -1,40 +1,16 @@
 ---
-title: File
+title: "Mantine File Field Component | UI Component in Refine v5"
+display_title: "File"
+sidebar_label: "File"
+description: "Integrate File Field in Refine v5. Learn best practices. Explore customization options for React UI library, components for polished admin UIs."
 swizzle: true
 ---
-
-```tsx live shared
-const { default: routerProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: routerProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  notificationProvider: RefineMantine.useNotificationProvider,
-  Layout: RefineMantine.Layout,
-  Sider: () => null,
-});
-
-const Wrapper = ({ children }) => {
-  return (
-    <MantineCore.MantineProvider
-      theme={RefineMantine.LightTheme}
-      withNormalizeCSS
-      withGlobalStyles
-    >
-      <MantineCore.Global styles={{ body: { WebkitFontSmoothing: "auto" } }} />
-      <MantineNotifications.NotificationsProvider position="top-right">
-        {children}
-      </MantineNotifications.NotificationsProvider>
-    </MantineCore.MantineProvider>
-  );
-};
-```
 
 This field is used to display files and it uses the [`<Anchor>`](https://mantine.dev/core/anchor) component of Mantine.
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -42,9 +18,8 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 
 Let's see how we can use `<FileField>` with the example in the list page.
 
-```tsx live url=http://localhost:3000 previewHeight=420px hideCode
+```tsx live url=http://localhost:3000/posts previewHeight=420px hideCode
 setInitialRoutes(["/posts"]);
-import { Refine } from "@refinedev/core";
 
 // visible-block-start
 import { List, FileField } from "@refinedev/mantine";
@@ -81,9 +56,8 @@ const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    refineCore: { setCurrent, pageCount, current },
+    reactTable: { getHeaderGroups, getRowModel },
+    refineCore: { setCurrentPage, pageCount, currentPage },
   } = useTable({
     columns,
   });
@@ -123,8 +97,8 @@ const PostList: React.FC = () => {
       <Pagination
         position="right"
         total={pageCount}
-        page={current}
-        onChange={setCurrent}
+        page={currentPage}
+        onChange={setCurrentPage}
       />
     </List>
   );
@@ -137,14 +111,30 @@ interface IPost {
 }
 // visible-block-end
 
-const App = () => {
-  return <Refine resources={[{ name: "posts", list: PostList }]} />;
-};
-
 render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

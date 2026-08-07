@@ -10,9 +10,8 @@ export function ViteAntdLayout() {
         "@refinedev/antd": "latest",
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-router-v6": "latest",
-        "react-router-dom": "latest",
-        "react-router": "latest",
+        "@refinedev/react-router": "latest",
+        "react-router": "^7.0.2",
         antd: "^5.0.5",
       }}
       startRoute="/"
@@ -67,8 +66,8 @@ export const About = () => {
 const RefineContextTsxCode = /* tsx */ `
 import { Refine } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider from "@refinedev/react-router-v6";
-import { RefineThemes, ThemedLayoutV2 } from "@refinedev/antd";
+import routerProvider from "@refinedev/react-router";
+import { RefineThemes, ThemedLayout } from "@refinedev/antd";
 
 import { App as AntdApp, ConfigProvider } from "antd";
 
@@ -89,7 +88,7 @@ export function RefineContext({ children }) {
           ]}
           options={{ syncWithLocation: true }}
         >
-          <ThemedLayoutV2>{children}</ThemedLayoutV2>
+          <ThemedLayout>{children}</ThemedLayout>
         </Refine>
       </AntdApp>
     </ConfigProvider>
@@ -98,10 +97,10 @@ export function RefineContext({ children }) {
 `;
 
 const AppTsxCode = /* tsx */ `
-import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router";
 
 import { ErrorComponent } from "@refinedev/antd";
-import { NavigateToResource } from "@refinedev/react-router-v6";
+import { NavigateToResource } from "@refinedev/react-router";
 
 import { Home } from "./pages/home.tsx";
 import { About } from "./pages/about.tsx";

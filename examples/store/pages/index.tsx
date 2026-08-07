@@ -44,7 +44,7 @@ const Home = ({
   const { params } = useParsed();
   const { cartId } = useCartContext();
 
-  const { data: categories } = useList<ProductCollection>({
+  const { result: categories } = useList<ProductCollection>({
     resource: "collections",
     queryOptions: {
       initialData: initialCategories,
@@ -64,6 +64,7 @@ const Home = ({
     setFilters,
   } = useTable<Product>({
     resource: "products",
+
     filters: {
       permanent: [
         {
@@ -93,7 +94,9 @@ const Home = ({
           : []),
       ],
     },
+
     pagination: { mode: "off" },
+
     queryOptions: {
       initialData:
         searchQuery === initialQuery &&

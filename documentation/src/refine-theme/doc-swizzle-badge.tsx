@@ -7,11 +7,11 @@ export const SwizzleBadge = () => {
     <div
       className={clsx(
         "text-xs",
-        "font-mono",
-        "text-gray-0",
-        "bg-refine-indigo",
+        "font-jetBrains-mono",
+        "text-indigo-100",
+        "bg-indigo-900",
         "py-2 pl-2 pr-4",
-        "rounded-[32px]",
+        "rounded-md",
         "flex gap-2 items-center",
       )}
     >

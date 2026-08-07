@@ -1,4 +1,4 @@
-import { type Option, useSelect } from "@refinedev/core";
+import { type BaseOption, useSelect } from "@refinedev/core";
 import { List, useDataGrid } from "@refinedev/mui";
 import React from "react";
 
@@ -7,7 +7,6 @@ import {
   GridActionsCellItem,
   type GridColDef,
   GridToolbar,
-  type GridValueFormatterParams,
 } from "@mui/x-data-grid";
 
 import type { ICategory, IPost } from "../../interfaces";
@@ -20,6 +19,10 @@ export const BasicDataGrid: React.FC = () => {
     query: { isLoading },
   } = useSelect<ICategory>({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const columns = React.useMemo<GridColDef<IPost>[]>(
@@ -28,7 +31,7 @@ export const BasicDataGrid: React.FC = () => {
         field: "id",
         headerName: "ID",
         type: "number",
-        maxWidth: 70,
+        width: 70,
       },
       { field: "title", headerName: "Title", flex: 1, minWidth: 350 },
       {
@@ -37,9 +40,7 @@ export const BasicDataGrid: React.FC = () => {
         flex: 1,
         type: "singleSelect",
         valueOptions: options,
-        valueFormatter: (params: GridValueFormatterParams<Option>) => {
-          return params.value;
-        },
+        display: "flex",
         renderCell: function render({ row }) {
           if (isLoading) {
             return "Loading...";
@@ -63,11 +64,7 @@ export const BasicDataGrid: React.FC = () => {
         type: "actions",
         headerName: "Actions",
         getActions: () => [
-          // eslint-disable-next-line
-          // @ts-ignore `@mui/x-data-grid@5.17.12` broke the props of `GridActionsCellItem` and requires `onResize` and `onResizeCapture` props which should be optional.
           <GridActionsCellItem key={1} label="Delete" showInMenu />,
-          // eslint-disable-next-line
-          // @ts-ignore `@mui/x-data-grid@5.17.12` broke the props of `GridActionsCellItem` and requires `onResize` and `onResizeCapture` props which should be optional.
           <GridActionsCellItem key={2} label="Print" showInMenu />,
         ],
       },
@@ -80,10 +77,9 @@ export const BasicDataGrid: React.FC = () => {
       <DataGrid
         {...dataGridProps}
         columns={columns}
-        components={{
-          Toolbar: GridToolbar,
+        slots={{
+          toolbar: GridToolbar,
         }}
-        autoHeight
       />
     </List>
   );

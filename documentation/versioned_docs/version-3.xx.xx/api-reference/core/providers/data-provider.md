@@ -11,7 +11,7 @@ The data provider acts as a data layer for your app that makes the HTTP reques
 You don't need to worry about creating data providers from scratch. **refine** offers built-in data provider support for the most popular [API providers](#supported-data-providers). So you can use one of them or you can [create your own data provider][create-a-data-provider] according to your needs.
 
 <div>
-    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/providers/data-provider/api-consuming-flow.png" />
+    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/providers/data-provider/api-consuming-flow.webp" />
 </div>
 
 :::note
@@ -280,7 +280,7 @@ getList: async ({
 
 :::tip
 
-`getList` also can support cursor-based pagination. Refer to [this example](/docs/3.xx.xx/api-reference/core/hooks/data/useInfiniteList/#how-to-use-cursor-based-pagination) for more information.
+`getList` also can support cursor-based pagination. Refer to [this example](/core/docs/3.xx.xx/api-reference/core/hooks/data/useInfiniteList/#how-to-use-cursor-based-pagination) for more information.
 
 :::
 
@@ -319,7 +319,7 @@ create: async ({ resource, variables, metaData }) => {
 | variables | `TVariables`                 | `{}`    |
 | metaData? | [`MetaDataQuery`][meta-data] |
 
-> `TVariables` is a user defined type which can be passed to [`useCreate`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate#type-parameters) to type `variables`.
+> `TVariables` is a user defined type which can be passed to [`useCreate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate#type-parameters) to type `variables`.
 
 ### update <PropTag required />
 
@@ -346,7 +346,7 @@ update: async ({ resource, id, variables, metaData }) => {
 | variables | `TVariables`                 | `{}`    |
 | metaData? | [`MetaDataQuery`][meta-data] |
 
-> `TVariables` is a user defined type which can be passed to [`useUpdate`](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate#type-parameters) to type `variables`.
+> `TVariables` is a user defined type which can be passed to [`useUpdate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate#type-parameters) to type `variables`.
 
 ### deleteOne <PropTag required />
 
@@ -373,7 +373,7 @@ deleteOne: async ({ resource, id, variables, metaData }) => {
 | variables | `TVariables[]`               | `{}`    |
 | metaData? | [`MetaDataQuery`][meta-data] |
 
-> `TVariables` is a user defined type which can be passed to [`useDelete`](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) to type `variables`.
+> `TVariables` is a user defined type which can be passed to [`useDelete`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) to type `variables`.
 
 ### getOne <PropTag required />
 
@@ -458,7 +458,7 @@ custom: async ({
 Bulk actions are actions that can be performed on multiple items at once. Performing bulk actions is a common pattern in admin panels. If your API supports bulk actions, you can implement them in your data provider.
 
 :::tip
-Bulk operations are a way to perform many database operations at once, improving speed and efficiency. They can be used for data [`import`](/docs/3.xx.xx/api-reference/core/hooks/import-export/useImport/) and [`export`](/docs/3.xx.xx/api-reference/core/hooks/import-export/useExport/), and have the added benefit of being atomic, meaning that they are treated as a single unit.
+Bulk operations are a way to perform many database operations at once, improving speed and efficiency. They can be used for data [`import`](/core/docs/3.xx.xx/api-reference/core/hooks/import-export/useImport/) and [`export`](/core/docs/3.xx.xx/api-reference/core/hooks/import-export/useExport/), and have the added benefit of being atomic, meaning that they are treated as a single unit.
 :::
 
 ### getMany
@@ -745,26 +745,26 @@ const myDataProvider = {
 <Refine dataProvider={myDataProvider} />;
 ```
 
-[basekey]: /docs/3.xx.xx/api-reference/core/interfaceReferences/#basekey
-[create-a-data-provider]: /docs/3.xx.xx/tutorial/understanding-dataprovider/create-dataprovider/
-[swizzle-a-data-provider]: /docs/3.xx.xx/tutorial/understanding-dataprovider/swizzle/
-[data-provider-tutorial]: /docs/3.xx.xx/tutorial/understanding-dataprovider/index/
-[use-api-url]: /docs/3.xx.xx/api-reference/core/hooks/data/useApiUrl/
-[use-create]: /docs/3.xx.xx/api-reference/core/hooks/data/useCreate/
-[use-create-many]: /docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/
-[use-custom]: /docs/3.xx.xx/api-reference/core/hooks/data/useCustom/
-[use-custom-mutation]: /docs/3.xx.xx/api-reference/core/hooks/data/useCustomMutation/
-[use-data-provider]: /docs/3.xx.xx/api-reference/core/hooks/data/useDataProvider/
-[use-delete]: /docs/3.xx.xx/api-reference/core/hooks/data/useDelete/
-[use-delete-many]: /docs/3.xx.xx/api-reference/core/hooks/data/useDeleteMany/
-[use-list]: /docs/3.xx.xx/api-reference/core/hooks/data/useList/
-[use-infinite-list]: /docs/3.xx.xx/api-reference/core/hooks/data/useInfiniteList/
-[use-many]: /docs/3.xx.xx/api-reference/core/hooks/data/useMany/
-[use-one]: /docs/3.xx.xx/api-reference/core/hooks/data/useOne/
-[use-update]: /docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/
-[use-update-many]: /docs/3.xx.xx/api-reference/core/hooks/data/useUpdateMany/
-[crud-sorting]: /docs/3.xx.xx/api-reference/core/interfaceReferences/#crudsorting
-[crud-filters]: /docs/3.xx.xx/api-reference/core/interfaceReferences/#crudfilters
-[pagination]: /docs/3.xx.xx/api-reference/core/interfaceReferences/#pagination
-[http-error]: /docs/3.xx.xx/api-reference/core/interfaceReferences/#httperror
-[meta-data]: /docs/3.xx.xx/api-reference/core/interfaceReferences/#metadataquery
+[basekey]: /core/docs/3.xx.xx/api-reference/core/interfaceReferences/#basekey
+[create-a-data-provider]: /core/docs/3.xx.xx/tutorial/understanding-dataprovider/create-dataprovider/
+[swizzle-a-data-provider]: /core/docs/3.xx.xx/tutorial/understanding-dataprovider/swizzle/
+[data-provider-tutorial]: /core/docs/3.xx.xx/tutorial/understanding-dataprovider/index/
+[use-api-url]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useApiUrl/
+[use-create]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/
+[use-create-many]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/
+[use-custom]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useCustom/
+[use-custom-mutation]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useCustomMutation/
+[use-data-provider]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useDataProvider/
+[use-delete]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/
+[use-delete-many]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useDeleteMany/
+[use-list]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useList/
+[use-infinite-list]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useInfiniteList/
+[use-many]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useMany/
+[use-one]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/
+[use-update]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/
+[use-update-many]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdateMany/
+[crud-sorting]: /core/docs/3.xx.xx/api-reference/core/interfaceReferences/#crudsorting
+[crud-filters]: /core/docs/3.xx.xx/api-reference/core/interfaceReferences/#crudfilters
+[pagination]: /core/docs/3.xx.xx/api-reference/core/interfaceReferences/#pagination
+[http-error]: /core/docs/3.xx.xx/api-reference/core/interfaceReferences/#httperror
+[meta-data]: /core/docs/3.xx.xx/api-reference/core/interfaceReferences/#metadataquery

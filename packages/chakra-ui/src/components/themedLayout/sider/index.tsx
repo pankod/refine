@@ -1,16 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, type CSSProperties } from "react";
 import {
   CanAccess,
-  type ITreeMenu,
+  type TreeMenuItem,
   useIsExistAuthentication,
   useLink,
   useLogout,
   useMenu,
-  useActiveAuthProvider,
-  useRefineContext,
-  useRouterContext,
-  useRouterType,
-  useTitle,
   useTranslate,
   useWarnAboutChange,
 } from "@refinedev/core";
@@ -25,62 +20,62 @@ import {
   Drawer,
   DrawerContent,
   DrawerOverlay,
-  IconButton,
   Tooltip,
   type TooltipProps,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
-import {
-  IconList,
-  IconDashboard,
-  IconPower,
-  IconMenu2,
-} from "@tabler/icons-react";
+import { IconList, IconPower } from "@tabler/icons-react";
 
-import { ThemedTitle as DefaultTitle } from "@components";
+import { ThemedTitle as DefaultTitle } from "../title";
 import type { RefineThemedLayoutSiderProps } from "../types";
+import { useThemedLayoutContext } from "@hooks";
 
-/**
- * @deprecated It is recommended to use the improved `ThemedLayoutV2`. Review migration guidelines. https://refine.dev/docs/api-reference/chakra-ui/components/chakra-ui-themed-layout/#migrate-themedlayout-to-themedlayoutv2
- */
 export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
   Title: TitleFromProps,
   render,
   meta,
-  isSiderOpen,
+  activeItemDisabled = false,
+  siderItemsAreCollapsed = true,
 }) => {
-  const [opened, setOpened] = useState(false);
+  const { siderCollapsed, mobileSiderOpen, setMobileSiderOpen } =
+    useThemedLayoutContext();
 
-  const routerType = useRouterType();
-  const NewLink = useLink();
-  const { Link: LegacyLink } = useRouterContext();
-  const Link = routerType === "legacy" ? LegacyLink : NewLink;
+  const Link = useLink();
   const { menuItems, selectedKey, defaultOpenKeys } = useMenu({ meta });
-  const TitleFromContext = useTitle();
   const isExistAuthentication = useIsExistAuthentication();
   const t = useTranslate();
-  const { hasDashboard } = useRefineContext();
-  const authProvider = useActiveAuthProvider();
   const { warnWhen, setWarnWhen } = useWarnAboutChange();
-  const { mutate: mutateLogout } = useLogout({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate: mutateLogout } = useLogout();
 
-  const RenderToTitle = TitleFromProps ?? TitleFromContext ?? DefaultTitle;
+  const RenderToTitle = TitleFromProps ?? DefaultTitle;
 
   const siderWidth = () => {
-    if (!isSiderOpen) return "56px";
+    if (siderCollapsed) return "56px";
     return "200px";
   };
 
   const commonTooltipProps: Omit<TooltipProps, "children"> = {
     placement: "right",
     hasArrow: true,
-    isDisabled: isSiderOpen || opened,
+    isDisabled: !siderCollapsed || mobileSiderOpen,
   };
 
-  const renderTreeView = (tree: ITreeMenu[]) => {
+  const getDefaultExpandMenuItemsCB = (key?: string) => {
+    const defaultExpandedIndex = defaultOpenKeys.includes(key || "")
+      ? [0]
+      : [-1];
+
+    if (siderItemsAreCollapsed) return defaultExpandedIndex;
+
+    return menuItems.map((_, ind) => ind);
+  };
+  const getDefaultExpandMenuItems = useCallback(
+    getDefaultExpandMenuItemsCB,
+    [],
+  );
+
+  const renderTreeView = (tree: TreeMenuItem[]) => {
     return tree.map((item) => {
       const { label, route, name, icon, children } = item;
 
@@ -94,6 +89,11 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
           }
         : undefined;
 
+      const linkStyle: CSSProperties =
+        activeItemDisabled && isSelected ? { pointerEvents: "none" } : {};
+
+      const defaultExpandMenuItems = getDefaultExpandMenuItems(item.key);
+
       return (
         <CanAccess
           key={item.key}
@@ -104,7 +104,8 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
           }}
         >
           <Accordion
-            defaultIndex={defaultOpenKeys.includes(item.key || "") ? 0 : -1}
+            defaultIndex={defaultExpandMenuItems}
+            allowMultiple
             width="full"
             mb={2}
             allowToggle
@@ -123,7 +124,7 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
                   <Button
                     colorScheme={isSelected ? "brand" : "gray"}
                     borderRadius={0}
-                    pl={!isSiderOpen && !opened ? 6 : 5}
+                    pl={siderCollapsed && !mobileSiderOpen ? 6 : 5}
                     width="full"
                     variant="ghost"
                     fontWeight="normal"
@@ -155,19 +156,25 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
                       borderRightColor: "brand.200",
                     }}
                     isActive={isSelected}
+                    style={linkStyle}
                     {...linkProps}
                   >
-                    {(isSiderOpen || opened) && (
+                    {mobileSiderOpen || !siderCollapsed ? (
                       <Box flexGrow={1} textAlign="left">
                         {label}
                       </Box>
+                    ) : (
+                      label
                     )}
                   </Button>
                 </AccordionButton>
               </Tooltip>
 
               {isParent && (
-                <AccordionPanel p={0} pl={!isSiderOpen && !opened ? 0 : 4}>
+                <AccordionPanel
+                  p={0}
+                  pl={siderCollapsed && !mobileSiderOpen ? 0 : 4}
+                >
                   <Accordion width="full" allowToggle>
                     {renderTreeView(children)}
                   </Accordion>
@@ -181,32 +188,6 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
   };
 
   const items = renderTreeView(menuItems);
-
-  const dashboard = hasDashboard ? (
-    <CanAccess resource="dashboard" action="list">
-      <Tooltip
-        label={t("dashboard.title", "Dashboard")}
-        {...commonTooltipProps}
-      >
-        <Button
-          width="full"
-          justifyContent={!isSiderOpen && !opened ? "center" : "flex-start"}
-          fontWeight="normal"
-          leftIcon={<IconDashboard size={16} />}
-          variant="ghost"
-          isActive={selectedKey === "/"}
-          _active={{
-            color: "brand.200",
-            backgroundColor: "brand.900",
-          }}
-          as={Link}
-          to="/"
-        >
-          {(isSiderOpen || opened) && t("dashboard.title", "Dashboard")}
-        </Button>
-      </Tooltip>
-    </CanAccess>
-  ) : null;
 
   const handleLogout = () => {
     if (warnWhen) {
@@ -232,8 +213,10 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
         <Button
           borderRadius={0}
           width="full"
-          justifyContent={!isSiderOpen && !opened ? "center" : "flex-start"}
-          pl={!isSiderOpen && !opened ? 6 : 5}
+          justifyContent={
+            !mobileSiderOpen && siderCollapsed ? "center" : "flex-start"
+          }
+          pl={!mobileSiderOpen && siderCollapsed ? 6 : 5}
           fontWeight="normal"
           leftIcon={<IconPower size={16} />}
           variant="ghost"
@@ -243,7 +226,8 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
           }}
           onClick={handleLogout}
         >
-          {(isSiderOpen || opened) && t("buttons.logout", "Logout")}
+          {(mobileSiderOpen || !siderCollapsed) &&
+            t("buttons.logout", "Logout")}
         </Button>
       </Box>
     </Tooltip>
@@ -252,7 +236,6 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
   const renderSider = () => {
     if (render) {
       return render({
-        dashboard,
         logout,
         items,
         collapsed: false,
@@ -260,7 +243,6 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
     }
     return (
       <>
-        {dashboard}
         {items}
         {logout}
       </>
@@ -269,26 +251,16 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
 
   return (
     <>
-      <Box
-        position="fixed"
-        top={3}
-        left={0}
-        zIndex={1200}
-        display={["block", "block", "none", "none", "none"]}
+      <Drawer
+        placement="left"
+        isOpen={mobileSiderOpen}
+        onClose={() => setMobileSiderOpen(!mobileSiderOpen)}
       >
-        <IconButton
-          borderLeftRadius={0}
-          aria-label="Open Menu"
-          onClick={() => setOpened((prev) => !prev)}
-        >
-          <IconMenu2 />
-        </IconButton>
-      </Box>
-      <Drawer placement="left" isOpen={opened} onClose={() => setOpened(false)}>
         <DrawerOverlay />
         <DrawerContent w="200px" maxW="200px">
           <Box
             display="flex"
+            flexShrink={0}
             pl={4}
             alignItems="center"
             height="64px"
@@ -297,6 +269,8 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
               "refine.sider.header.light",
               "refine.sider.header.dark",
             )}
+            borderBottom="1px"
+            borderBottomColor={useColorModeValue("gray.200", "gray.700")}
           >
             <RenderToTitle collapsed={false} />
           </Box>
@@ -307,6 +281,8 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
               "refine.sider.bg.light",
               "refine.sider.bg.dark",
             )}
+            overflowY="auto"
+            overflowX="hidden"
           >
             <Box width="full">{renderSider()}</Box>
           </VStack>
@@ -330,23 +306,27 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
       >
         <Box
           display="flex"
-          pl={!isSiderOpen ? 0 : 4}
-          justifyContent={!isSiderOpen ? "center" : "flex-start"}
+          flexShrink={0}
+          pl={siderCollapsed ? 0 : 4}
+          justifyContent={siderCollapsed ? "center" : "flex-start"}
           alignItems="center"
           fontSize="14px"
           height="64px"
           borderRight="1px"
           borderRightColor={useColorModeValue("gray.200", "gray.700")}
+          borderBottom="1px"
+          borderBottomColor={useColorModeValue("gray.200", "gray.700")}
           bg={useColorModeValue(
             "refine.sider.header.light",
             "refine.sider.header.dark",
           )}
         >
-          <RenderToTitle collapsed={!isSiderOpen} />
+          <RenderToTitle collapsed={siderCollapsed} />
         </Box>
         <VStack
           alignItems="start"
-          paddingTop={2}
+          paddingY={2}
+          height="100%"
           flexGrow={1}
           borderRight="1px"
           borderRightColor={useColorModeValue("gray.200", "gray.700")}
@@ -355,7 +335,9 @@ export const ThemedSider: React.FC<RefineThemedLayoutSiderProps> = ({
             "refine.sider.bg.dark",
           )}
         >
-          <Box width="full">{renderSider()}</Box>
+          <Box width="full" overflowY="auto" overflowX="hidden">
+            {renderSider()}
+          </Box>
         </VStack>
       </Box>
     </>

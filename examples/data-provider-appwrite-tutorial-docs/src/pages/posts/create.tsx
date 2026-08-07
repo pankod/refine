@@ -19,6 +19,10 @@ export const PostCreate = () => {
     resource: "categories",
     optionLabel: "title",
     optionValue: "id",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

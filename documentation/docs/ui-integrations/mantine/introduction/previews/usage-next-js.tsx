@@ -8,10 +8,10 @@ export default function UsageNextjs() {
       hidePreview
       showFiles
       dependencies={{
-        "@refinedev/mantine": "^2.28.21",
-        "@refinedev/core": "^4.45.1",
-        "@refinedev/simple-rest": "^4.5.4",
-        "@refinedev/react-table": "^5.6.4",
+        "@refinedev/mantine": "latest",
+        "@refinedev/core": "latest",
+        "@refinedev/simple-rest": "latest",
+        "@refinedev/react-table": "latest",
         "@tanstack/react-table": "^8.2.6",
         "@tabler/icons-react": "^3.1.0",
         "@emotion/react": "^11.8.2",
@@ -128,7 +128,7 @@ import routerProvider from "@refinedev/nextjs-router/pages";
 import dataProvider from "@refinedev/simple-rest";
 import type { AppProps } from "next/app";
 
-import { RefineThemes, ThemedLayoutV2, useNotificationProvider } from "@refinedev/mantine";
+import { RefineThemes, ThemedLayout, useNotificationProvider } from "@refinedev/mantine";
 import { NotificationsProvider } from "@mantine/notifications";
 import { MantineProvider, Global } from "@mantine/core";
 
@@ -149,9 +149,9 @@ function App({ Component, pageProps }: ExtendedAppProps) {
       }
 
       return (
-          <ThemedLayoutV2>
+          <ThemedLayout>
               <Component {...pageProps} />
-          </ThemedLayoutV2>
+          </ThemedLayout>
       );
   }
 
@@ -259,20 +259,22 @@ export default function ProductList() {
       getRowModel,
       setOptions,
       refineCore: {
-          setCurrent,
+          setCurrentPage,
           pageCount,
-          current,
+          currentPage,
           tableQuery: { data: tableData },
       },
   } = useTable({
       columns,
       refineCoreProps: {
-          initialSorter: [
-              {
-                  field: "id",
-                  order: "desc",
-              },
-          ],
+          sorters: {
+            initial: [
+                {
+                    field: "id",
+                    order: "desc",
+                },
+            ],
+          },
       },
   });
 
@@ -314,8 +316,8 @@ export default function ProductList() {
               <Pagination
                   position="right"
                   total={pageCount}
-                  page={current}
-                  onChange={setCurrent}
+                  page={currentPage}
+                  onChange={setCurrentPage}
               />
           </List>
       </ScrollArea>
@@ -360,26 +362,25 @@ import { Title } from "@mantine/core";
 import authProvider from "../../src/auth-provider";
 
 export default function ProductShow() {
-  const { queryResult } = useShow();
-  const { data, isLoading } = queryResult;
-  const record = data?.data;
+  const { result: product, query } = useShow();
+  const { data, isLoading } = query;
 
   return (
       <Show isLoading={isLoading}>
           <Title order={5}>Id</Title>
-          <TextField value={record?.id} />
+          <TextField value={product?.id} />
 
           <Title mt="xs" order={5}>Name</Title>
-          <TextField value={record?.name} />
+          <TextField value={product?.name} />
 
           <Title mt="xs" order={5}>Material</Title>
-          <TextField value={record?.material} />
+          <TextField value={product?.material} />
 
           <Title mt="xs" order={5}>Description</Title>
-          <MarkdownField value={record?.description} />
+          <MarkdownField value={product?.description} />
 
           <Title mt="xs" order={5}>Price</Title>
-          <NumberField value={record?.price}  options={{ style: "currency", currency: "USD" }} />
+          <NumberField value={product?.price}  options={{ style: "currency", currency: "USD" }} />
       </Show>
   );
 };
@@ -417,7 +418,7 @@ export default function ProductEdit() {
       saveButtonProps,
       getInputProps,
       errors,
-      refineCore: { queryResult, autoSaveProps },
+      refineCore: { query, autoSaveProps },
   } = useForm({
         initialValues: {
           name: "",

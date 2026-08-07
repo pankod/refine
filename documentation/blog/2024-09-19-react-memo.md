@@ -3,9 +3,11 @@ title: React Memo Guide with Examples
 description: Improve app performance with React.memo().
 slug: react-memo-guide
 authors: abdullah_numan
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-13-react-memo/social2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-13-react-memo/social2.png
 hide_table_of_contents: false
+last_update: 2024-09-19
 ---
 
 **This article was last updated on September 19, 2024, to add sections on Deep vs Shallow Comparison in Memoization, Profiling Components in DevTools, and Best Practices for Using `React.memo()`.**
@@ -91,9 +93,9 @@ We'll follow the impact of memoization mainly from the browser's console.
 
 In order to properly follow this tutorial, we recommend you run the app in a browser - since we will be visiting the console to investigate the impact of memoization on our React app.
 
-For this to happen, please follow the below steps as outlined [here](https://github.com/refinedev/refine/tree/master/examples/blog-react-memoization-memo):
+For this to happen, please follow the below steps as outlined [here](https://github.com/refinedev/refine/tree/main/examples/blog-react-memoization-memo):
 
-1. Clone [this repository](https://github.com/refinedev/refine/tree/master/examples/blog-react-memoization-memo).
+1. Clone [this repository](https://github.com/refinedev/refine/tree/main/examples/blog-react-memoization-memo).
 2. Open it in your code editor and install the packages:
 
 ```bash
@@ -275,7 +277,7 @@ When we check the console, we can expect to see that `<Post />` is re-rendered w
 
 If we examine closely, we can see that this is indeed the case: we have `<Post />` rendering again and again following an interval:
 
-<img style={{alignSelf:"center", width:"400px"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-13-react-memo/memo1.png" alt="memo1" />
+<img style={{alignSelf:"center", width:"400px"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-13-react-memo/memo1.png" alt="Console logs showing repeated Post renders" />
 
 <br/>
 
@@ -303,7 +305,7 @@ export default React.memo(Post);
 
 Looking at the console, we can see that `Post` is no longer re-rendered at 3s intervals:
 
-<img style={{alignSelf:"center", width:"400px"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-13-react-memo/memo2.png" alt="memo2" />
+<img style={{alignSelf:"center", width:"400px"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-13-react-memo/memo2.png" alt="Console logs after React.memo optimization" />
 
 <br/>
 
@@ -346,7 +348,7 @@ console.log(signedIn);
 
 When we click on the `Sign Out` button in the navbar, we can see in the console that `<Post />` re-renders after `<LatestPost />`:
 
-<img width="400px" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-13-react-memo/memo3.png" style={{alignSelf:"center"}} alt="memo3" />
+<img width="400px" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-13-react-memo/memo3.png" style={{alignSelf:"center"}} alt="Console logs showing signedIn change re-render" />
 
 <br/>
 
@@ -489,7 +491,7 @@ export default React.memo(Post, customComparator);
 
 Here, we are omitting `signedIn` from the comparison by including only `post`. Now, if we click on `Sign Out` button, `Post` is not being re-rendered:
 
-<img style={{alignSelf:"center", width:"400px"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-13-react-memo/memo4.png" alt="memo4" />
+<img style={{alignSelf:"center", width:"400px"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-13-react-memo/memo4.png" alt="Console logs after custom comparator" />
 
 <br/>
 

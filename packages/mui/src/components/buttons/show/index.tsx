@@ -11,7 +11,7 @@ import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined";
 import type { ShowButtonProps } from "../types";
 
 /**
- * `<ShowButton>` uses uses Material UI {@link https://mui.com/components/buttons/ `<Button>`} component.
+ * `<ShowButton>` uses uses Material UI {@link https://mui.com/material-ui/react-button/ `<Button>`} component.
  * It uses the {@link https://refine.dev/docs/api-reference/core/hooks/navigation/useNavigation#show `show`} method from {@link https://refine.dev/docs/api-reference/core/hooks/navigation/useNavigation `useNavigation`} under the hood.
  * It can be useful when redirecting the app to the show page with the record id route of resource.
  *
@@ -19,7 +19,6 @@ import type { ShowButtonProps } from "../types";
  */
 export const ShowButton: React.FC<ShowButtonProps> = ({
   resource: resourceNameFromProps,
-  resourceNameOrRouteName,
   recordItemId,
   hideText = false,
   accessControl,
@@ -30,22 +29,48 @@ export const ShowButton: React.FC<ShowButtonProps> = ({
   ...rest
 }) => {
   const { to, label, title, hidden, disabled, LinkComponent } = useShowButton({
-    resource: resourceNameFromProps ?? resourceNameOrRouteName,
+    resource: resourceNameFromProps,
     id: recordItemId,
     accessControl,
     meta,
   });
 
-  if (hidden) return null;
+  const isDisabled = disabled || rest.disabled;
+  const isHidden = hidden || rest.hidden;
 
-  const { sx, ...restProps } = rest;
+  if (isHidden) return null;
+
+  // `startIcon` is extracted from rest props so it doesn't get passed to the
+  // underlying MUI Button via `{...restProps}` (which would cause a double icon).
+  const { sx, startIcon, ...restProps } = rest;
+
+  const defaultIcon = <VisibilityOutlined fontSize="small" {...svgIconProps} />;
+
+  // When `hideText` is true, the button renders only an icon (no startIcon prop).
+  // When `hideText` is false, the icon goes into the `startIcon` slot and text goes as children.
+  // In both modes, a user-provided `startIcon` takes priority over the default icon.
+  //
+  // | hideText | startIcon    | Button startIcon prop    | Button children        |
+  // |----------|--------------|--------------------------|------------------------|
+  // | false    | undefined    | <VisibilityOutlined>     | "Show"                 |
+  // | false    | <CustomIcon> | <CustomIcon>             | "Show"                 |
+  // | true     | undefined    | undefined                | <VisibilityOutlined>   |
+  // | true     | <CustomIcon> | undefined                | <CustomIcon>           |
+  const buttonStartIcon = hideText
+    ? undefined
+    : startIcon ?? <VisibilityOutlined {...svgIconProps} />;
+  const buttonChildren = hideText
+    ? startIcon ?? defaultIcon
+    : children ?? label;
 
   return (
-    <LinkComponent
+    <Button
+      component={LinkComponent}
       to={to}
       replace={false}
+      disabled={isDisabled}
       onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        if (disabled) {
+        if (isDisabled) {
           e.preventDefault();
           return;
         }
@@ -54,23 +79,14 @@ export const ShowButton: React.FC<ShowButtonProps> = ({
           onClick(e);
         }
       }}
-      style={{ textDecoration: "none" }}
+      startIcon={buttonStartIcon}
+      title={title}
+      sx={{ minWidth: 0, textDecoration: "none", ...sx }}
+      data-testid={RefineButtonTestIds.ShowButton}
+      className={RefineButtonClassNames.ShowButton}
+      {...restProps}
     >
-      <Button
-        disabled={disabled}
-        startIcon={!hideText && <VisibilityOutlined {...svgIconProps} />}
-        title={title}
-        sx={{ minWidth: 0, ...sx }}
-        data-testid={RefineButtonTestIds.ShowButton}
-        className={RefineButtonClassNames.ShowButton}
-        {...restProps}
-      >
-        {hideText ? (
-          <VisibilityOutlined fontSize="small" {...svgIconProps} />
-        ) : (
-          children ?? label
-        )}
-      </Button>
-    </LinkComponent>
+      {buttonChildren}
+    </Button>
   );
 };

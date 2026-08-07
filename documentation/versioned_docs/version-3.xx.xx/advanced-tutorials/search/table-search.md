@@ -9,62 +9,62 @@ First, we create a form by extracting `searchFormProps` from `useTable`. We will
 
 ```tsx title="pages/list.tsx"
 import {
-    // highlight-start
-    Form,
-    Table,
-    useTable,
-    // highlight-end
-    Row,
-    Col,
-    Icons,
-    List,
-    Button,
-    DatePicker,
-    Space,
-    Input,
+  // highlight-start
+  Form,
+  Table,
+  useTable,
+  // highlight-end
+  Row,
+  Col,
+  Icons,
+  List,
+  Button,
+  DatePicker,
+  Space,
+  Input,
 } from "@pankod/refine-antd";
 
 const { RangePicker } = DatePicker;
 
 export const ListPage: React.FC = () => {
-    // highlight-next-line
-    const { searchFormProps } = useTable<IPost>();
+  // highlight-next-line
+  const { searchFormProps } = useTable<IPost>();
 
-    return (
-        // highlight-start
-        <Row gutter={[16, 16]}>
-            <Col lg={6} xs={24}>
-                <Form layout="vertical" {...searchFormProps}>
-                    <Form.Item label="Search" name="q">
-                        <Input
-                            placeholder="ID, Title, Content, etc."
-                            prefix={<Icons.SearchOutlined />}
-                        />
-                    </Form.Item>
-                    <Form.Item label="Created At" name="createdAt">
-                        <RangePicker />
-                    </Form.Item>
-                    <Form.Item>
-                        <Button htmlType="submit" type="primary">
-                            Filter
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </Col>
-            <Col lg={18} xs={24}>
-                <List>
-                    <Table>...</Table>
-                </List>
-            </Col>
-        </Row>
-        // highlight-end
-    );
+  return (
+    // highlight-start
+    <Row gutter={[16, 16]}>
+      <Col lg={6} xs={24}>
+        <Form layout="vertical" {...searchFormProps}>
+          <Form.Item label="Search" name="q">
+            <Input
+              placeholder="ID, Title, Content, etc."
+              prefix={<Icons.SearchOutlined />}
+            />
+          </Form.Item>
+          <Form.Item label="Created At" name="createdAt">
+            <RangePicker />
+          </Form.Item>
+          <Form.Item>
+            <Button htmlType="submit" type="primary">
+              Filter
+            </Button>
+          </Form.Item>
+        </Form>
+      </Col>
+      <Col lg={18} xs={24}>
+        <List>
+          <Table>...</Table>
+        </List>
+      </Col>
+    </Row>
+    // highlight-end
+  );
 };
 
 interface IPost {
-    id: number;
-    title: string;
-    createdAt: string;
+  id: number;
+  title: string;
+  createdAt: string;
 }
 ```
 
@@ -72,7 +72,7 @@ interface IPost {
 
 <br />
 
-When the form is submitted, the `onSearch` method runs and we get the search form values. We have to return an object of type [`CrudFilters`](/api-reference/core/interfaces.md#crudfilters) for this method.
+When the form is submitted, the `onSearch` method runs and we get the search form values. We have to return an object of type [`CrudFilters`](/core/docs/3.xx.xx/api-reference/core/interfaces#crudfilters) for this method.
 
 ```tsx title="pages/list.tsx"
 ...

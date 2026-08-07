@@ -1,5 +1,8 @@
 ---
-title: useParsed
+title: "useParsed Hook | Best Practices for Usage & Patterns in Refine v5"
+display_title: "useParsed"
+sidebar_label: "useParsed"
+description: "Set up Use Parsed in Refine v5. Learn best practices. Learn SSR, navigation for real-world React admin panels. Learn with code examples."
 ---
 
 `useParsed` is a hook that leverages the `parse` method of the [`routerProvider`][routerprovider] to access the URL and query parameters along with the inferred `resource`, `action` and `id` from the URL.
@@ -22,7 +25,7 @@ const MyComponent = () => {
     params: {
       filters,
       sorters,
-      current,
+      currentPage,
       pageSize,
       ...restParams // TParams - Any other parameters are also parsed and available in `params`
     },
@@ -58,9 +61,9 @@ This is the filters that are parsed from the URL. It will be `undefined` if ther
 
 This is the sorters that are parsed from the URL. It will be `undefined` if there is no `sorters` parameter in the URL. This property is used in the `syncWithLocation` feature of the `useTable`.
 
-### params.current
+### params.currentPage
 
-This is the current page that is parsed from the URL. It will be `undefined` if there is no `current` parameter in the URL. This property is used in the `syncWithLocation` feature of the `useTable`.
+This is the current page that is parsed from the URL. It will be `undefined` if there is no `currentPage` parameter in the URL. This property is used in the `syncWithLocation` feature of the `useTable`.
 
 ### params.pageSize
 
@@ -70,4 +73,4 @@ This is the page size that is parsed from the URL. It will be `undefined` if the
 
 This is the object that contains all the parameters that are parsed from the URL. It will be an empty object if there is no parameter in the URL. `params` object contains both the URL parameters and the query parameters.
 
-[routerprovider]: /docs/routing/router-provider
+[routerprovider]: /core/docs/routing/router-provider

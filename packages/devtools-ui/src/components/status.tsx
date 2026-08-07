@@ -11,7 +11,7 @@ export const Status = ({ activity }: { activity: Activity }) => {
 
   let state: typeof status | "initial" | "refetching" = status;
 
-  if (status === "loading" && dataUpdateCount === 0) {
+  if (status === "pending" && dataUpdateCount === 0) {
     state = "initial";
   }
   if (
@@ -25,7 +25,7 @@ export const Status = ({ activity }: { activity: Activity }) => {
     case "initial":
     case "idle":
       return <span className="re-text-gray-500 re-capitalize">{state}</span>;
-    case "loading":
+    case "pending":
     case "refetching":
       return <span className="re-text-alt-yellow re-capitalize">{state}</span>;
     case "error":

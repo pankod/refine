@@ -6,8 +6,8 @@ import { DataContext } from "@contexts/data";
 import { I18nContext } from "@contexts/i18n";
 import { LiveContext } from "@contexts/live";
 import { NotificationContext } from "@contexts/notification";
-import { LegacyRouterContext } from "@contexts/router/legacy";
-import { useResource } from "@hooks/resource";
+import { RouterContext } from "@contexts/router";
+import { useResourceParams } from "@hooks/use-resource-params";
 
 import { useIsExistAuthentication, useRefineContext } from "..";
 import type { ITelemetryData } from "../../components/telemetry/types";
@@ -19,12 +19,12 @@ export const useTelemetryData = (): ITelemetryData => {
   const auth = useIsExistAuthentication();
   const auditLogContext = useContext(AuditLogContext);
   const { liveProvider } = useContext(LiveContext);
-  const routerContext = useContext(LegacyRouterContext);
+  const routerContext = useContext(RouterContext);
   const dataContext = useContext(DataContext);
   const { i18nProvider } = useContext(I18nContext);
   const notificationContext = useContext(NotificationContext);
   const accessControlContext = useContext(AccessControlContext);
-  const { resources } = useResource();
+  const { resources } = useResourceParams();
   const refineOptions = useRefineContext();
 
   const auditLog =
@@ -38,11 +38,10 @@ export const useTelemetryData = (): ITelemetryData => {
     !!liveProvider?.unsubscribe;
 
   const router =
-    !!routerContext.useHistory ||
     !!routerContext.Link ||
-    !!routerContext.Prompt ||
-    !!routerContext.useLocation ||
-    !!routerContext.useParams;
+    !!routerContext.go ||
+    !!routerContext.back ||
+    !!routerContext.parse;
 
   const data = !!dataContext;
 

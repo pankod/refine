@@ -1,34 +1,39 @@
-import { type Option, useSelect } from "@refinedev/core";
+import { type BaseOption, useSelect } from "@refinedev/core";
 import { List, useDataGrid } from "@refinedev/mui";
 import React from "react";
 
-import {
-  DataGrid,
-  type GridColDef,
-  type GridValueFormatterParams,
-} from "@mui/x-data-grid";
+import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 
 import type { ICategory, IPost } from "../../interfaces";
 
 export const PostList: React.FC = () => {
   const { dataGridProps } = useDataGrid<IPost>({
-    initialCurrent: 1,
-    initialPageSize: 10,
     editable: true,
-    initialSorter: [
-      {
-        field: "title",
-        order: "asc",
-      },
-    ],
-    initialFilter: [
-      {
-        field: "status",
-        operator: "eq",
-        value: "draft",
-      },
-    ],
     syncWithLocation: true,
+
+    pagination: {
+      currentPage: 1,
+      pageSize: 10,
+    },
+
+    filters: {
+      initial: [
+        {
+          field: "status",
+          operator: "eq",
+          value: "draft",
+        },
+      ],
+    },
+
+    sorters: {
+      initial: [
+        {
+          field: "title",
+          order: "asc",
+        },
+      ],
+    },
   });
 
   const {
@@ -36,6 +41,10 @@ export const PostList: React.FC = () => {
     query: { isLoading },
   } = useSelect<ICategory>({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const columns = React.useMemo<GridColDef<IPost>[]>(
@@ -62,9 +71,7 @@ export const PostList: React.FC = () => {
         minWidth: 250,
         flex: 0.5,
         valueOptions: options,
-        valueFormatter: (params: GridValueFormatterParams<Option>) => {
-          return params.value;
-        },
+        display: "flex",
         renderCell: function render({ row }) {
           if (isLoading) {
             return "Loading...";
@@ -93,7 +100,6 @@ export const PostList: React.FC = () => {
       <DataGrid
         {...dataGridProps}
         columns={columns}
-        autoHeight
         pageSizeOptions={[10, 20, 30, 50, 100]}
       />
     </List>

@@ -17,7 +17,7 @@ export const SHOW_CASES: Examples = [
         icon: (props) => <ShareIcon {...props} />,
       },
     ],
-    source: "https://github.com/refinedev/refine/tree/master/examples/app-crm",
+    source: "https://github.com/refinedev/refine/tree/main/examples/app-crm",
   },
   {
     title: "B2B Internal tool with Ant Design",
@@ -33,7 +33,7 @@ export const SHOW_CASES: Examples = [
       },
     ],
     source:
-      "https://github.com/refinedev/refine/tree/master/examples/finefoods-antd",
+      "https://github.com/refinedev/refine/tree/main/examples/finefoods-antd",
   },
   {
     title: "B2B Admin Panel with Material UI",
@@ -49,22 +49,7 @@ export const SHOW_CASES: Examples = [
       },
     ],
     source:
-      "https://github.com/refinedev/refine/tree/master/examples/finefoods-material-ui",
-  },
-  {
-    title: "Refine Swag Store",
-    description:
-      "Complete headless e-commerce built on top of Medusa. Features a fully working solution with product listings, shopping cart and checkout.",
-    image: "/examples/swag-store.jpg",
-    image2x: "/examples/swag-store2x.jpg",
-    buttons: [
-      {
-        text: "Demo",
-        link: "https://store.refine.dev",
-        icon: (props) => <ShareIcon {...props} />,
-      },
-    ],
-    source: "https://github.com/refinedev/refine/tree/master/examples/store",
+      "https://github.com/refinedev/refine/tree/main/examples/finefoods-material-ui",
   },
 ];
 
@@ -97,7 +82,7 @@ export const EXAMPLES: Examples = [
       },
     ],
     source:
-      "https://github.com/refinedev/refine/tree/master/examples/finefoods-client",
+      "https://github.com/refinedev/refine/tree/main/examples/finefoods-client",
   },
   {
     title: "Win95 Style Admin Panel",
@@ -117,8 +102,7 @@ export const EXAMPLES: Examples = [
         icon: (props) => <ShareIcon {...props} />,
       },
     ],
-    source:
-      "https://github.com/refinedev/refine/tree/master/examples/blog-win95",
+    source: "https://github.com/refinedev/refine/tree/main/examples/blog-win95",
   },
   {
     title: "Invoice Generator App",
@@ -129,7 +113,7 @@ export const EXAMPLES: Examples = [
     buttons: [
       {
         text: "Blog",
-        link: "https://refine.dev/week-of-refine-strapi/",
+        link: "https://refine.dev/core/week-of-refine-strapi/",
         icon: (props) => <PageIcon {...props} />,
       },
       {
@@ -139,7 +123,7 @@ export const EXAMPLES: Examples = [
       },
     ],
     source:
-      "https://github.com/refinedev/refine/tree/master/examples/refine-week-invoice-generator",
+      "https://github.com/refinedev/refine/tree/main/examples/refine-week-invoice-generator",
   },
   {
     title: "Refine Pixels!",
@@ -150,7 +134,7 @@ export const EXAMPLES: Examples = [
     buttons: [
       {
         text: "Blog",
-        link: "https://refine.dev/week-of-refine-supabase/",
+        link: "https://refine.dev/core/week-of-refine-supabase/",
         icon: (props) => <PageIcon {...props} />,
       },
       {
@@ -159,7 +143,7 @@ export const EXAMPLES: Examples = [
         icon: (props) => <ShareIcon {...props} />,
       },
     ],
-    source: "https://github.com/refinedev/refine/tree/master/examples/pixels",
+    source: "https://github.com/refinedev/refine/tree/main/examples/pixels",
     isExternal: true,
   },
   {
@@ -181,6 +165,6 @@ export const EXAMPLES: Examples = [
       },
     ],
     source:
-      "https://github.com/refinedev/refine/tree/master/examples/multi-tenancy-strapi",
+      "https://github.com/refinedev/refine/tree/main/examples/multi-tenancy-strapi",
   },
 ];

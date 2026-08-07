@@ -14,13 +14,15 @@ import { Table, Space } from "antd";
 import type { ICompany } from "interfaces";
 
 export const CompanyList = () => {
-  const { tableProps, sorter } = useTable<ICompany>({
-    initialSorter: [
-      {
-        field: "id",
-        order: "desc",
-      },
-    ],
+  const { tableProps, sorters: sorter } = useTable<ICompany>({
+    sorters: {
+      initial: [
+        {
+          field: "id",
+          order: "desc",
+        },
+      ],
+    },
   });
 
   return (

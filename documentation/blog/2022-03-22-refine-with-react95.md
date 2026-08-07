@@ -3,16 +3,18 @@ title: We are going back to 1995! The perfect harmony of Modern stack and Win95
 description: With the Refine being headless, we may use any UI we choose for our Admin Panel. In this tutorial, we'll create a Nostalgic-style admin panel using Refine and React95 UI.
 slug: awesome-react-windows95-ui-with-refine
 authors: melih
-tags: [Refine, react, supabase, tutorial]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-22-refine-with-react95/social.jpg
+category: "How To Build"
+tags: [react]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-22-refine-with-react95/social.jpg
 hide_table_of_contents: false
+last_update: 2023-02-10
 ---
 
 **Refine** allows you to include any UI in your project and take full advantage of all its features without worrying about compatibility. To create a project with a vintage `Windows95` style using [React95](https://react95.io/) UI components, we can use the **Refine** because it is **headless**.
 
 ## Introduction
 
-In this tutorial, we will use [Supabase](https://supabase.com/) as the backend of our project. Our goal with this is to create a `Windows95`-style admin panel using **Refine** and [Supabase Data Provider](/docs/examples/data-provider/supabase/) features.
+In this tutorial, we will use [Supabase](https://supabase.com/) as the backend of our project. Our goal with this is to create a `Windows95`-style admin panel using **Refine** and [Supabase Data Provider](/core/docs/examples/data-provider/supabase/) features.
 
 ## Create a new Refine app
 
@@ -81,7 +83,7 @@ export const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY, {
 
 The `supabaseClient` will be used by the `@refinedev/supabase` package to create a `dataProvider` for us.
 
-You can learn more about the it in the [Data Provider](/docs/data/data-provider) section.
+You can learn more about the it in the [Data Provider](/core/docs/data/data-provider/) section.
 
 ### AuthProvider
 
@@ -338,11 +340,11 @@ export default authProvider;
 
 The `authProvider` is a simple object that contains all the functions that are used to handle authentication.
 
-You can learn more about the it in the [Auth Provider](/docs/authentication/auth-provider) section.
+You can learn more about the it in the [Auth Provider](/core/docs/authentication/auth-provider/) section.
 
 ### Root component: `App.tsx`
 
-Before we start, let's take a look at the `App.tsx` file. This is the root component of our application. It contains the [`<Refine />`](/docs/core/refine-component) component. This component is the main component of **Refine**. It is used to configure the application and to provide the context to all the other components.
+Before we start, let's take a look at the `App.tsx` file. This is the root component of our application. It contains the [`<Refine />`](/core/docs/core/refine-component/) component. This component is the main component of **Refine**. It is used to configure the application and to provide the context to all the other components.
 
 <details>
 
@@ -352,7 +354,7 @@ Before we start, let's take a look at the `App.tsx` file. This is the root compo
 import { Refine, WelcomePage } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import { dataProvider, liveProvider } from "@refinedev/supabase";
-import routerBindings, {
+import routerProvider, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
 } from "@refinedev/react-router-v6";
@@ -371,7 +373,7 @@ function App() {
           dataProvider={dataProvider(supabaseClient)}
           liveProvider={liveProvider(supabaseClient)}
           authProvider={authProvider}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           options={{
             syncWithLocation: true,
             warnWhenUnsavedChanges: true,
@@ -439,7 +441,7 @@ We import the `original` theme from the `react95` package and wrap our applicati
 
 ## Login Page
 
-We will create a simple login page to demonstrate the authentication flow. We will use the [`useLogin`](https://refine.dev/docs/api-reference/core/hooks/authentication/useLogin/) hook to handle the login process. This hook will call the `login` function that is defined in the `authProvider`.
+We will create a simple login page to demonstrate the authentication flow. We will use the [`useLogin`](https://refine.dev/core/docs/api-reference/core/hooks/authentication/useLogin/) hook to handle the login process. This hook will call the `login` function that is defined in the `authProvider`.
 
 Let's create a `<LoginPage />` component in the `src/pages/login/index.tsx` directory with the following code:
 
@@ -487,8 +489,8 @@ export const LoginPage = () => {
         </WindowHeader>
         <div style={{ marginTop: 8 }}>
           <img
-            src="https://raw.githubusercontent.com/refinedev/refine/master/logo.png"
-            alt="refine-logo"
+            src="https://raw.githubusercontent.com/refinedev/refine/main/logo.png"
+            alt="Refine logo in login window"
             width={100}
           />
         </div>
@@ -585,7 +587,7 @@ We added the `/login` route to our application. If the user is not logged in, we
 
 Now, we can access our Login page at `/login` path and log in to our Supabase database.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-22-refine-with-react95/login-page.jpeg" alt="Refine Login Page" className="border border-gray-200 rounded" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-22-refine-with-react95/login-page.jpeg" alt="Refine Login Page" className="border border-gray-200 rounded" />
 
 ## Adding a Layout
 
@@ -617,8 +619,8 @@ export const Footer: React.FC = () => {
             style={{ fontWeight: "bold" }}
           >
             <img
-              src="https://raw.githubusercontent.com/refinedev/refine/master/logo.png"
-              alt="refine logo"
+              src="https://raw.githubusercontent.com/refinedev/refine/main/logo.png"
+              alt="Refine logo in footer menu button"
               style={{ height: "20px", marginRight: 4 }}
             />
           </Button>
@@ -909,13 +911,13 @@ export default App;
 
 </details>
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-22-refine-with-react95/layout-with-dummy-pages.gif" alt="Refine95 Menu" className="border border-gray-200 rounded"/>
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-22-refine-with-react95/layout-with-dummy-pages.avif" alt="Refine95 Menu" className="border border-gray-200 rounded"/>
 
 ## Create Post CRUD Pages
 
 ### List Page
 
-After our login process, we'll get the posts from our supabase and display them in the table. We will use React95 components for the UI portion of our table, as well as [`@refinedev/react-table`](/docs/packages/list-of-packages) package to handle pagination, sorting, and filtering. You can use all the features of [TanStack Table](https://react-table.tanstack.com/) with the `@refinedev/react-table` adapter.
+After our login process, we'll get the posts from our supabase and display them in the table. We will use React95 components for the UI portion of our table, as well as [`@refinedev/react-table`](/core/docs/packages/list-of-packages/) package to handle pagination, sorting, and filtering. You can use all the features of [TanStack Table](https://react-table.tanstack.com/) with the `@refinedev/react-table` adapter.
 
 So, let's install the `@refinedev/react-table` and dependencies.
 
@@ -1048,15 +1050,12 @@ export const PostList = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
+    reactTable: { getHeaderGroups, getRowModel },
     options: { pageCount },
     getState,
     setPageIndex,
     setPageSize,
-    refineCore: {
-      tableQuery: { isLoading },
-    },
+    refineCore: { result },
   } = useTable<IPost>({
     columns,
     refineCoreProps: {
@@ -1179,13 +1178,13 @@ const pageSizeOptions = [
 
 We used the `useTable` hook to fetch the data for the table. It makes a request to the `/posts` endpoint with the query parameters. The query parameters are used to filter, sort, and paginate the posts. Since we defined the posts resource in `src/App.tsx`, the `useTable` hook knows which endpoint to use for fetching the data.
 
-After fetching the data, we used the React95 table components to render the data. We also added delete button and edit button to each row. When the user clicks the delete button, we call the `deletePost` function with the `resource` and `id` parameters. The `deletePost` function is provided by the [`useDelete`](/docs/data/hooks/use-delete) hook. When the user clicks the edit button, we call the `edit` function with the "posts" resource and the post id to navigate to the edit page.
+After fetching the data, we used the React95 table components to render the data. We also added delete button and edit button to each row. When the user clicks the delete button, we call the `deletePost` function with the `resource` and `id` parameters. The `deletePost` function is provided by the [`useDelete`](/core/docs/data/hooks/use-delete/) hook. When the user clicks the edit button, we call the `edit` function with the "posts" resource and the post id to navigate to the edit page.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-22-refine-with-react95/list-page.gif" alt="Refine List Page" className="border border-gray-200 rounded" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-22-refine-with-react95/list-page.avif" alt="Refine List Page" className="border border-gray-200 rounded" />
 
 ### Create Page and Edit Page
 
-We have created our post list page. Now we will create page where we can create posts. **Refine** provides a [`@refinedev/react-hook-form`](/docs/packages/list-of-packages) adapter that you can use all the features of [React Hook Form](https://react-hook-form.com/) with **Refine**. We will use this to manage our form state.
+We have created our post list page. Now we will create page where we can create posts. **Refine** provides a [`@refinedev/react-hook-form`](/core/docs/packages/list-of-packages/) adapter that you can use all the features of [React Hook Form](https://react-hook-form.com/) with **Refine**. We will use this to manage our form state.
 
 So, let's install the `@refinedev/react-hook-form` and dependencies.
 
@@ -1285,7 +1284,7 @@ export const PostCreate: React.FC = () => {
 
 </details>
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-22-refine-with-react95/create-page.gif" alt="Refine Create Page" className="border border-gray-200 rounded"/>
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-22-refine-with-react95/create-page.avif" alt="Refine Create Page" className="border border-gray-200 rounded"/>
 
 Now, let's update a `<PostEdit />` component in `src/pages/posts/edit.tsx` directory with the following code:
 
@@ -1378,13 +1377,13 @@ export const PostEdit: React.FC = () => {
 
 </details>
 
-Edit and create pages almost look the same. We can use the same form for both pages. [`useForm`](/docs/packages/list-of-packages) hook knows which action we are performing. For example, if we are on the edit page, it will automatically fetch the post data and fill the form with it.
+Edit and create pages almost look the same. We can use the same form for both pages. [`useForm`](/core/docs/packages/list-of-packages/) hook knows which action we are performing. For example, if we are on the edit page, it will automatically fetch the post data and fill the form with it.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-22-refine-with-react95/edit-page.gif" alt="Refine Edit Page" className="border border-gray-200 rounded"/>
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-22-refine-with-react95/edit-page.avif" alt="Refine Edit Page" className="border border-gray-200 rounded"/>
 
 ## Project Overview
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-22-refine-with-react95/overview.gif" alt="Refine Project Overview" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-22-refine-with-react95/overview.avif" alt="Refine Project Overview" />
 
 ## Live CodeSandbox Example
 

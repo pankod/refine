@@ -3,10 +3,10 @@ title: Low Code Limitations - Exploring the Risk of Vendor Lock-In
 description: We discuss the limitations and risks associated with low-code platforms and how to avoid getting stuck with one vendor.
 slug: low-code-tools
 authors: necati
-tags: [Refine, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-04-19-low-code-vendor/social.png
+category: "Engineering"
+tags: [dev-tools, tech-industry]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-04-19-low-code-vendor/social.png
 hide_table_of_contents: false
-is_featured: true
 ---
 
 ## Introduction

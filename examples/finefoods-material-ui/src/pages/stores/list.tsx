@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigation, useTranslate } from "@refinedev/core";
+import { useGo, useTranslate } from "@refinedev/core";
 import { CreateButton } from "@refinedev/mui";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import { RefineListView, StoreTable, AllStoresMap } from "../../components";
+import { useLocation } from "react-router";
 
 type View = "table" | "map";
 
@@ -16,7 +17,8 @@ export const StoreList = () => {
     return view || "table";
   });
 
-  const { replace } = useNavigation();
+  const go = useGo();
+  const { pathname } = useLocation();
   const t = useTranslate();
 
   const handleViewChange = (
@@ -24,7 +26,16 @@ export const StoreList = () => {
     newView: View,
   ) => {
     // remove query params (pagination, filters, etc.) when changing view
-    replace("");
+    go({
+      to: pathname,
+      query: {
+        view: view,
+      },
+      options: {
+        keepQuery: false,
+      },
+      type: "replace",
+    });
 
     setView(newView);
     localStorage.setItem("store-view", newView);

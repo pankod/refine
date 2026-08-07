@@ -2,7 +2,7 @@ import { Authenticated, GitHubBanner, Refine } from "@refinedev/core";
 import {
   useNotificationProvider,
   RefineSnackbarProvider,
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   AuthPage,
   ErrorComponent,
@@ -15,8 +15,8 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { DataProvider } from "@refinedev/strapi-v4";
 
 import { authProvider, axiosInstance } from "./authProvider";
@@ -60,9 +60,9 @@ function App() {
                     key="authenticated-routes"
                     fallback={<CatchAllNavigate to="/login" />}
                   >
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >
@@ -104,9 +104,9 @@ function App() {
               <Route
                 element={
                   <Authenticated key="catch-all">
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >

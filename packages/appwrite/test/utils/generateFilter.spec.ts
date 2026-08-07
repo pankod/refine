@@ -176,7 +176,7 @@ describe("generateFilter", () => {
       value: [0],
     } as CrudFilter;
 
-    expect(() => generateFilter(filter)).toThrowError(
+    expect(() => generateFilter(filter)).toThrow(
       'Value array must contain exactly two elements for "between" operator',
     );
   });
@@ -200,7 +200,7 @@ describe("generateFilter", () => {
       field: "name",
       value: "John",
     };
-    expect(() => generateFilter(filter as any)).toThrowError(
+    expect(() => generateFilter(filter as any)).toThrow(
       `Operator ${filter.operator} is not supported`,
     );
   });
@@ -212,6 +212,6 @@ describe("generateFilter", () => {
       value: "John",
     } as CrudFilter;
 
-    expect(() => generateFilter(filter, 0)).toThrowError("Max deep reached");
+    expect(() => generateFilter(filter, 0)).toThrow("Max deep reached");
   });
 });

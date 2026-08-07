@@ -6,7 +6,7 @@ import {
   useShow,
   useTranslate,
 } from "@refinedev/core";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { DateField, NumberField, useDataGrid } from "@refinedev/mui";
 import Avatar from "@mui/material/Avatar";
@@ -42,6 +42,7 @@ export const CustomerShow = () => {
     IOrderFilterVariables
   >({
     resource: "orders",
+
     sorters: {
       initial: [
         {
@@ -50,6 +51,7 @@ export const CustomerShow = () => {
         },
       ],
     },
+
     filters: {
       permanent: [
         {
@@ -59,12 +61,15 @@ export const CustomerShow = () => {
         },
       ],
     },
+
     pagination: {
       mode: "off",
     },
+
     queryOptions: {
       enabled: user !== undefined,
     },
+
     syncWithLocation: false,
   });
 
@@ -74,6 +79,7 @@ export const CustomerShow = () => {
         field: "orderNumber",
         headerName: t("orders.fields.orderNumber"),
         width: 88,
+        display: "flex",
         renderCell: function render({ row }) {
           return <Typography>#{row.id}</Typography>;
         },
@@ -82,6 +88,7 @@ export const CustomerShow = () => {
         field: "status.text",
         headerName: t("orders.fields.status"),
         width: 124,
+        display: "flex",
         renderCell: function render({ row }) {
           return <OrderStatus status={row.status.text} />;
         },
@@ -91,6 +98,7 @@ export const CustomerShow = () => {
         headerName: t("orders.fields.products"),
         width: 184,
         sortable: false,
+        display: "flex",
         renderCell: function render({ row }) {
           return <OrderTableColumnProducts order={row} />;
         },
@@ -100,6 +108,7 @@ export const CustomerShow = () => {
         align: "right",
         headerAlign: "right",
         headerName: t("orders.fields.amount"),
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <NumberField
@@ -118,7 +127,7 @@ export const CustomerShow = () => {
         field: "store",
         headerName: t("orders.fields.store"),
         width: 150,
-        valueGetter: ({ row }) => row.store.title,
+        valueGetter: (_, row) => row.store.title,
         sortable: false,
       },
     ],
@@ -244,15 +253,7 @@ export const CustomerShow = () => {
           </Stack>
         </Paper>
 
-        <Paper>
-          <DataGrid
-            {...dataGridProps}
-            columns={columns}
-            sx={{}}
-            autoHeight
-            hideFooterPagination
-          />
-        </Paper>
+        <DataGrid {...dataGridProps} columns={columns} hideFooter />
       </Stack>
     </Drawer>
   );

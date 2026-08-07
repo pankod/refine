@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getDefaultFilter, useNavigation, useTable } from "@refinedev/core";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { Button, Separator } from "react95";
 import { Pagination } from "@/components/pagination";
@@ -42,12 +42,13 @@ export const VideoClubPageTapeSelectMember = (props: Props) => {
   const {
     tableQuery: membersQueryResult,
     pageCount,
-    current,
-    setCurrent,
+    currentPage: current,
+    setCurrentPage: setCurrent,
     filters,
     setFilters,
   } = useTable<ExtendedMember>({
     resource: "members",
+
     meta: {
       select: "*, rentals(*)",
     },

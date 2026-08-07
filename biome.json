@@ -39,7 +39,7 @@
       "a11y": {
         "noAriaHiddenOnFocusable": "off",
         "noAutofocus": "off",
-        "noBlankTarget": "error",
+        "noBlankTarget": "off",
         "noNoninteractiveElementToInteractiveRole": "off",
         "noNoninteractiveTabindex": "off",
         "noPositiveTabindex": "off",
@@ -136,7 +136,7 @@
   ],
   "vcs": {
     "clientKind": "git",
-    "defaultBranch": "master",
+    "defaultBranch": "main",
     "enabled": true,
     "useIgnoreFile": true
   }

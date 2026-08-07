@@ -1,14 +1,9 @@
 import React from "react";
+import { vi } from "vitest";
 
 import { renderHook, waitFor } from "@testing-library/react";
 
-import {
-  MockJSONServer,
-  TestWrapper,
-  act,
-  mockLegacyRouterProvider,
-  mockRouterProvider,
-} from "@test";
+import { MockJSONServer, TestWrapper, act, mockRouterProvider } from "@test";
 import { posts } from "@test/dataMocks";
 import {
   assertList,
@@ -78,7 +73,7 @@ describe("useForm Hook", () => {
   });
 
   it("uses the correct meta values when fetching data", async () => {
-    const getOneMock = jest.fn();
+    const getOneMock = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -108,10 +103,10 @@ describe("useForm Hook", () => {
     });
 
     await waitFor(() => {
-      expect(getOneMock).toBeCalled();
+      expect(getOneMock).toHaveBeenCalled();
     });
 
-    expect(getOneMock).toBeCalledWith(
+    expect(getOneMock).toHaveBeenCalledWith(
       expect.objectContaining({
         resource: "posts",
         meta: expect.objectContaining({
@@ -266,7 +261,7 @@ describe("useForm Hook", () => {
   });
 
   it("should pass meta from resource defination, hook parameter and query parameters to dataProvider", async () => {
-    const getOneMock = jest.fn();
+    const getOneMock = vi.fn();
 
     renderHook(() => useForm({ resource: "posts", meta: { foo: "bar" } }), {
       wrapper: TestWrapper({
@@ -288,10 +283,10 @@ describe("useForm Hook", () => {
     });
 
     await waitFor(() => {
-      expect(getOneMock).toBeCalled();
+      expect(getOneMock).toHaveBeenCalled();
     });
 
-    expect(getOneMock).toBeCalledWith(
+    expect(getOneMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -303,7 +298,7 @@ describe("useForm Hook", () => {
   });
 
   it("two resources with same name, should pass resource meta according to identifier", async () => {
-    const getOneMock = jest.fn();
+    const getOneMock = vi.fn();
 
     renderHook(() => useForm({ resource: "recentPosts", id: "1" }), {
       wrapper: TestWrapper({
@@ -339,10 +334,10 @@ describe("useForm Hook", () => {
     });
 
     await waitFor(() => {
-      expect(getOneMock).toBeCalled();
+      expect(getOneMock).toHaveBeenCalled();
     });
 
-    expect(getOneMock).toBeCalledWith(
+    expect(getOneMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           startDate: "2021-01-01",
@@ -350,7 +345,7 @@ describe("useForm Hook", () => {
       }),
     );
 
-    expect(getOneMock).not.toBeCalledWith(
+    expect(getOneMock).not.toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           likes: 100,
@@ -359,79 +354,8 @@ describe("useForm Hook", () => {
     );
   });
 
-  it("if id is not provided while using legacy router provider, it should infer id from route when resources are matched", async () => {
-    const legacyRouterProvider = {
-      ...mockLegacyRouterProvider(),
-      useParams: () => ({
-        resource: "posts",
-        action: "edit",
-        id: "1",
-      }),
-    } as any;
-
-    const { result } = renderHook(
-      () =>
-        useForm({
-          resource: "posts",
-        }),
-      {
-        wrapper: TestWrapper({
-          dataProvider: MockJSONServer,
-          legacyRouterProvider: legacyRouterProvider,
-          resources: [{ name: "posts" }],
-        }),
-      },
-    );
-
-    expect(result.current.id).toEqual("1");
-  });
-
-  it("legacy router provider should infer resource, action and id from route", async () => {
-    const updateMock = jest.fn();
-    const legacyRouterProvider = {
-      ...mockLegacyRouterProvider(),
-      useParams: () => ({
-        resource: "posts",
-        action: "edit",
-        id: "1",
-      }),
-    } as any;
-
-    const { result } = renderHook(() => useForm({}), {
-      wrapper: TestWrapper({
-        dataProvider: {
-          default: {
-            ...MockJSONServer.default,
-            update: updateMock,
-          },
-        },
-        legacyRouterProvider: legacyRouterProvider,
-        resources: [
-          {
-            name: "posts",
-          },
-        ],
-      }),
-    });
-
-    await act(async () => {
-      await result.current.onFinish({});
-    });
-
-    await waitFor(() => {
-      expect(updateMock).toBeCalled();
-    });
-
-    expect(updateMock).toBeCalledWith(
-      expect.objectContaining({
-        resource: "posts",
-        id: "1",
-      }),
-    );
-  });
-
   it("redirect method should redirect to correct path", () => {
-    const goMock = jest.fn();
+    const goMock = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -466,14 +390,14 @@ describe("useForm Hook", () => {
 
     result.current.redirect("edit", 1);
 
-    expect(goMock).toBeCalledWith({
+    expect(goMock).toHaveBeenCalledWith({
       to: "/posts/edit/1",
       type: "push",
     });
   });
 
   it("redirect method should redirect to correct path with id", () => {
-    const goMock = jest.fn();
+    const goMock = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -509,14 +433,14 @@ describe("useForm Hook", () => {
 
     result.current.redirect("edit");
 
-    expect(goMock).toBeCalledWith({
+    expect(goMock).toHaveBeenCalledWith({
       to: "/posts/edit/123",
       type: "push",
     });
   });
 
   it("works correctly with `interval` and `onInterval` params for query", async () => {
-    const onInterval = jest.fn();
+    const onInterval = vi.fn();
     const { result } = renderHook(
       () =>
         useForm({
@@ -555,7 +479,7 @@ describe("useForm Hook", () => {
     await waitFor(() => {
       expect(result.current.query?.isFetching).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBe(900);
-      expect(onInterval).toBeCalled();
+      expect(onInterval).toHaveBeenCalled();
     });
 
     await waitFor(() => {
@@ -577,7 +501,7 @@ describe("useForm Hook", () => {
 
   describe("action 'create'", () => {
     it("onFinish should trigger create dataProvider method", async () => {
-      const createMock = jest.fn();
+      const createMock = vi.fn();
 
       const { result } = renderHook(
         () => useForm({ resource: "posts", action: "create" }),
@@ -602,10 +526,10 @@ describe("useForm Hook", () => {
       });
 
       await waitFor(() => {
-        expect(createMock).toBeCalled();
+        expect(createMock).toHaveBeenCalled();
       });
 
-      expect(createMock).toBeCalledWith(
+      expect(createMock).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "posts",
           variables: {
@@ -616,7 +540,7 @@ describe("useForm Hook", () => {
     });
 
     it("should call the `create` method with correct meta values", async () => {
-      const createMock = jest.fn();
+      const createMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -645,10 +569,10 @@ describe("useForm Hook", () => {
       });
 
       await waitFor(() => {
-        expect(createMock).toBeCalled();
+        expect(createMock).toHaveBeenCalled();
       });
 
-      expect(createMock).toBeCalledWith(
+      expect(createMock).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "posts",
           meta: expect.objectContaining({
@@ -661,7 +585,7 @@ describe("useForm Hook", () => {
     });
 
     it("onFinish should not trigger create dataProvider method if resource not found", async () => {
-      const createMock = jest.fn();
+      const createMock = vi.fn();
 
       const { result } = renderHook(() => useForm({ action: "create" }), {
         wrapper: TestWrapper({
@@ -685,12 +609,12 @@ describe("useForm Hook", () => {
       });
 
       await waitFor(() => {
-        expect(createMock).not.toBeCalled();
+        expect(createMock).not.toHaveBeenCalled();
       });
     });
 
     it("should call `onMutationSuccess` with correct parameters", async () => {
-      const onMutationSuccessMock = jest.fn();
+      const onMutationSuccessMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -715,7 +639,7 @@ describe("useForm Hook", () => {
         expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(onMutationSuccessMock).toBeCalledWith(
+      expect(onMutationSuccessMock).toHaveBeenCalledWith(
         { data: posts[0] },
         {
           title: "foo",
@@ -726,8 +650,8 @@ describe("useForm Hook", () => {
     });
 
     it("should call `onMutationError` with correct parameters", async () => {
-      const createMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onMutationErrorMock = jest.fn();
+      const createMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const onMutationErrorMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -757,7 +681,7 @@ describe("useForm Hook", () => {
         expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(onMutationErrorMock).toBeCalledWith(
+      expect(onMutationErrorMock).toHaveBeenCalledWith(
         new Error("Error"),
         {
           title: "foo",
@@ -768,7 +692,7 @@ describe("useForm Hook", () => {
     });
 
     it("works correctly with `interval` and `onInterval` params for create mutation", async () => {
-      const onInterval = jest.fn();
+      const onInterval = vi.fn();
       const { result } = renderHook(
         () =>
           useForm({
@@ -808,15 +732,15 @@ describe("useForm Hook", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.mutation?.isLoading).toBeTruthy();
+        expect(result.current.mutation?.isPending).toBeTruthy();
         expect(result.current.overtime.elapsedTime).toBe(900);
-        expect(onInterval).toBeCalled();
+        expect(onInterval).toHaveBeenCalled();
       });
 
       await promise;
 
       await waitFor(() => {
-        expect(!result.current.mutation?.isLoading).toBeTruthy();
+        expect(!result.current.mutation?.isPending).toBeTruthy();
         expect(result.current.overtime.elapsedTime).toBeUndefined();
       });
     });
@@ -824,7 +748,7 @@ describe("useForm Hook", () => {
 
   describe("action 'edit'", () => {
     it("onFinish should trigger edit dataProvider method", async () => {
-      const updateMock = jest.fn();
+      const updateMock = vi.fn();
 
       const { result } = renderHook(
         () => useForm({ resource: "posts", action: "edit", id: "123" }),
@@ -849,10 +773,10 @@ describe("useForm Hook", () => {
       });
 
       await waitFor(() => {
-        expect(updateMock).toBeCalled();
+        expect(updateMock).toHaveBeenCalled();
       });
 
-      expect(updateMock).toBeCalledWith(
+      expect(updateMock).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "posts",
           variables: {
@@ -863,7 +787,7 @@ describe("useForm Hook", () => {
     });
 
     it("should call edit dataProvider method with correct meta values", async () => {
-      const updateMock = jest.fn();
+      const updateMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -894,10 +818,10 @@ describe("useForm Hook", () => {
       });
 
       await waitFor(() => {
-        expect(updateMock).toBeCalled();
+        expect(updateMock).toHaveBeenCalled();
       });
 
-      expect(updateMock).toBeCalledWith(
+      expect(updateMock).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "posts",
           meta: expect.objectContaining({
@@ -910,7 +834,7 @@ describe("useForm Hook", () => {
     });
 
     it("onFinish should not trigger edit dataProvider method if resource not found", async () => {
-      const updateMock = jest.fn();
+      const updateMock = vi.fn();
 
       const { result } = renderHook(() => useForm({ action: "edit" }), {
         wrapper: TestWrapper({
@@ -934,12 +858,12 @@ describe("useForm Hook", () => {
       });
 
       await waitFor(() => {
-        expect(updateMock).not.toBeCalled();
+        expect(updateMock).not.toHaveBeenCalled();
       });
     });
 
     it("should call `onMutationSuccess` with correct parameters", async () => {
-      const onMutationSuccessMock = jest.fn();
+      const onMutationSuccessMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -965,7 +889,7 @@ describe("useForm Hook", () => {
         expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(onMutationSuccessMock).toBeCalledWith(
+      expect(onMutationSuccessMock).toHaveBeenCalledWith(
         { data: posts[0] },
         {
           title: "foo",
@@ -976,8 +900,8 @@ describe("useForm Hook", () => {
     });
 
     it("should call `onMutationError` with correct parameters", async () => {
-      const updateMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onMutationErrorMock = jest.fn();
+      const updateMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const onMutationErrorMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1008,7 +932,7 @@ describe("useForm Hook", () => {
         expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(onMutationErrorMock).toBeCalledWith(
+      expect(onMutationErrorMock).toHaveBeenCalledWith(
         new Error("Error"),
         {
           title: "foo",
@@ -1019,7 +943,7 @@ describe("useForm Hook", () => {
     });
 
     it("works correctly with `interval` and `onInterval` params for edit mutation", async () => {
-      const onInterval = jest.fn();
+      const onInterval = vi.fn();
       const { result, rerender } = renderHook(
         () =>
           useForm({
@@ -1060,15 +984,15 @@ describe("useForm Hook", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.mutation?.isLoading).toBeTruthy();
+        expect(result.current.mutation?.isPending).toBeTruthy();
         expect(result.current.overtime.elapsedTime).toBe(900);
-        expect(onInterval).toBeCalled();
+        expect(onInterval).toHaveBeenCalled();
       });
 
       await promise;
 
       await waitFor(() => {
-        expect(!result.current.mutation?.isLoading).toBeTruthy();
+        expect(!result.current.mutation?.isPending).toBeTruthy();
         expect(result.current.overtime.elapsedTime).toBeUndefined();
       });
     });
@@ -1135,10 +1059,10 @@ describe("useForm Hook", () => {
   });
 
   describe("warn messages", () => {
-    const warnMock = jest.fn();
+    const warnMock = vi.fn();
 
     beforeAll(() => {
-      jest.spyOn(console, "warn").mockImplementation(warnMock);
+      vi.spyOn(console, "warn").mockImplementation(warnMock);
     });
     beforeEach(() => {
       warnMock.mockClear();
@@ -1160,7 +1084,7 @@ describe("useForm Hook", () => {
       );
 
       await waitFor(() => {
-        expect(warnMock).toBeCalled();
+        expect(warnMock).toHaveBeenCalled();
       });
     });
 
@@ -1183,7 +1107,168 @@ describe("useForm Hook", () => {
       );
 
       await waitFor(() => {
-        expect(warnMock).not.toBeCalled();
+        expect(warnMock).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe("queryOptions.enabled behavior", () => {
+    it("should not fetch when external enabled=true but id=undefined (bug scenario)", async () => {
+      const getOneMock = vi.fn();
+
+      renderHook(
+        () =>
+          useForm({
+            resource: "posts",
+            action: "edit",
+            // id is undefined - this should prevent fetching even with enabled=true
+            queryOptions: {
+              enabled: true, // User sets enabled to true
+            },
+          }),
+        {
+          wrapper: TestWrapper({
+            dataProvider: {
+              default: {
+                ...MockJSONServer.default,
+                getOne: getOneMock,
+              },
+            },
+            resources: [{ name: "posts" }],
+          }),
+        },
+      );
+
+      // Wait a bit to ensure no fetch occurs
+      await waitFor(() => {
+        expect(getOneMock).not.toHaveBeenCalled();
+      });
+    });
+
+    it("should not fetch when external enabled=false (regardless of id)", async () => {
+      const getOneMock = vi.fn();
+
+      renderHook(
+        () =>
+          useForm({
+            resource: "posts",
+            action: "edit",
+            id: "1", // id is defined
+            queryOptions: {
+              enabled: false, // User disables fetching
+            },
+          }),
+        {
+          wrapper: TestWrapper({
+            dataProvider: {
+              default: {
+                ...MockJSONServer.default,
+                getOne: getOneMock,
+              },
+            },
+            resources: [{ name: "posts" }],
+          }),
+        },
+      );
+
+      await waitFor(() => {
+        expect(getOneMock).not.toHaveBeenCalled();
+      });
+    });
+
+    it("should fetch when external enabled=true and id is defined", async () => {
+      const getOneMock = vi.fn().mockResolvedValue({
+        data: { id: "1", title: "Test Post" },
+      });
+
+      const { result } = renderHook(
+        () =>
+          useForm({
+            resource: "posts",
+            action: "edit",
+            id: "1", // id is defined
+            queryOptions: {
+              enabled: true, // User enables fetching
+            },
+          }),
+        {
+          wrapper: TestWrapper({
+            dataProvider: {
+              default: {
+                ...MockJSONServer.default,
+                getOne: getOneMock,
+              },
+            },
+            resources: [{ name: "posts" }],
+          }),
+        },
+      );
+
+      await waitFor(() => {
+        expect(getOneMock).toHaveBeenCalled();
+        expect(result.current.query?.data?.data?.title).toEqual("Test Post");
+      });
+    });
+
+    it("should fetch when no external enabled is provided and id is defined (default behavior)", async () => {
+      const getOneMock = vi.fn().mockResolvedValue({
+        data: { id: "1", title: "Test Post" },
+      });
+
+      const { result } = renderHook(
+        () =>
+          useForm({
+            resource: "posts",
+            action: "edit",
+            id: "1", // id is defined
+            // No queryOptions.enabled provided
+          }),
+        {
+          wrapper: TestWrapper({
+            dataProvider: {
+              default: {
+                ...MockJSONServer.default,
+                getOne: getOneMock,
+              },
+            },
+            resources: [{ name: "posts" }],
+          }),
+        },
+      );
+
+      await waitFor(() => {
+        expect(getOneMock).toHaveBeenCalled();
+        expect(result.current.query?.data?.data?.title).toEqual("Test Post");
+      });
+    });
+
+    it("should not fetch in create mode even with enabled=true", async () => {
+      const getOneMock = vi.fn();
+
+      renderHook(
+        () =>
+          useForm({
+            resource: "posts",
+            action: "create",
+            queryOptions: {
+              enabled: true, // User tries to enable in create mode
+            },
+          }),
+        {
+          wrapper: TestWrapper({
+            dataProvider: {
+              default: {
+                ...MockJSONServer.default,
+                getOne: getOneMock,
+              },
+            },
+            resources: [{ name: "posts" }],
+          }),
+        },
+      );
+
+      await waitFor(() => {
+        expect(getOneMock).not.toHaveBeenCalled();
       });
     });
   });
@@ -1260,6 +1345,140 @@ describe("useForm Hook", () => {
           "[useForm]: `values` is not provided but is required",
         );
       });
+    });
+  });
+
+  describe("autoSave debounce stabilization", () => {
+    it("should preserve debounce window across re-renders and batch rapid changes", async () => {
+      vi.useFakeTimers();
+
+      const updateMock = vi
+        .fn()
+        .mockResolvedValue({ data: { id: "1", title: "test" } });
+
+      const { result, rerender } = renderHook(
+        ({ title }) =>
+          useForm({
+            resource: "posts",
+            action: "edit",
+            id: "1",
+            autoSave: {
+              enabled: true,
+              debounce: 1000,
+            },
+          }),
+        {
+          wrapper: TestWrapper({
+            dataProvider: {
+              default: {
+                ...MockJSONServer.default,
+                update: updateMock,
+              },
+            },
+            resources: [{ name: "posts" }],
+          }),
+          initialProps: { title: "initial" },
+        },
+      );
+
+      await act(async () => {
+        result.current.onFinishAutoSave({ title: "a" }).catch(() => {});
+        vi.advanceTimersByTime(300);
+        result.current.onFinishAutoSave({ title: "ab" }).catch(() => {});
+        vi.advanceTimersByTime(300);
+        result.current.onFinishAutoSave({ title: "abc" }).catch(() => {});
+        vi.advanceTimersByTime(300);
+      });
+
+      // No calls should have been made yet
+      expect(updateMock).toHaveBeenCalledTimes(0);
+
+      // Wait for debounce to complete
+      await act(async () => {
+        vi.advanceTimersByTime(1100);
+      });
+
+      expect(updateMock).toHaveBeenCalledTimes(1);
+      expect(updateMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          variables: { title: "abc" },
+        }),
+      );
+
+      vi.useRealTimers();
+    });
+
+    it("should cancel pending autosave on unmount", async () => {
+      vi.useFakeTimers();
+
+      const updateMock = vi
+        .fn()
+        .mockResolvedValue({ data: { id: "1", title: "test" } });
+
+      const { result, unmount } = renderHook(
+        () =>
+          useForm({
+            resource: "posts",
+            action: "edit",
+            id: "1",
+            autoSave: {
+              enabled: true,
+              debounce: 1000,
+            },
+          }),
+        {
+          wrapper: TestWrapper({
+            dataProvider: {
+              default: {
+                ...MockJSONServer.default,
+                update: updateMock,
+              },
+            },
+            resources: [{ name: "posts" }],
+          }),
+        },
+      );
+
+      await act(async () => {
+        result.current.onFinishAutoSave({ title: "test" }).catch(() => {});
+        vi.advanceTimersByTime(500);
+      });
+
+      // Unmount before debounce completes
+      unmount();
+
+      // Wait past the debounce time
+      await act(async () => {
+        vi.advanceTimersByTime(1000);
+      });
+
+      // Update should not have been called because it was cancelled
+      expect(updateMock).toHaveBeenCalledTimes(0);
+
+      vi.useRealTimers();
+    });
+
+    it("should reject autosave in non-edit actions", async () => {
+      const { result } = renderHook(
+        () =>
+          useForm({
+            resource: "posts",
+            action: "create",
+            autoSave: {
+              enabled: true,
+            },
+          }),
+        {
+          wrapper: TestWrapper({
+            dataProvider: MockJSONServer,
+            resources: [{ name: "posts" }],
+          }),
+        },
+      );
+
+      await expect(
+        result.current.onFinishAutoSave({ title: "test" }),
+      ).rejects.toThrow("[useForm]: `autoSave` is only allowed in edit action");
     });
   });
 });

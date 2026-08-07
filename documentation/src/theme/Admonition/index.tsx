@@ -81,12 +81,7 @@ export default function AdmonitionWrapper(props) {
         {...props}
         icon={<GithubIcon />}
         title={
-          <a
-            href={props.path}
-            target="_blank"
-            rel="noreferrer"
-            style={{ marginLeft: "4px" }}
-          >
+          <a href={props.path} target="_blank" style={{ marginLeft: "4px" }}>
             VIEW SOURCE CODE &#8594;
           </a>
         }

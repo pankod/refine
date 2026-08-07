@@ -12,13 +12,15 @@ import { Table, Space } from "antd";
 import type { IPost } from "../../interfaces";
 
 export const PostList = () => {
-  const { tableProps, sorter } = useTable<IPost>({
-    initialSorter: [
-      {
-        field: "createdAt",
-        order: "desc",
-      },
-    ],
+  const { tableProps, sorters: sorter } = useTable<IPost>({
+    sorters: {
+      initial: [
+        {
+          field: "createdAt",
+          order: "desc",
+        },
+      ],
+    },
   });
 
   return (

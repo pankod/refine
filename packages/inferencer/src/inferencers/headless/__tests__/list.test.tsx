@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
 import { render, act, TestWrapper } from "@test";
 import { ListInferencer, renderer } from "../list";
@@ -11,7 +11,7 @@ describe("HeadlessListInferencer", () => {
       resources: [
         {
           name: "posts",
-          list: ListInferencer,
+          list: "/posts",
         },
         {
           name: "categories",

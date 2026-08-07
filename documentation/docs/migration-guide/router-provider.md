@@ -1,5 +1,7 @@
 ---
-title: Migrating Router Provider from 3.x.x to 4.x.x
+title: "Router Provider Migration Guide | SSR in Refine v5"
+display_title: "Migrating Router Provider from 3.x.x to 4.x.x"
+description: "Learn to migrate Router Provider in Refine v5. Learn routes for real-world React admin panels. Real-world snippets included. Built for production use."
 sidebar_label: Migrating Router Provider
 ---
 
@@ -69,8 +71,8 @@ Since **Refine** doesn't create routes internally anymore, you are free to creat
 
 This means that tasks such as `authentication` and `access control` are decoupled from **Refine** and should be handled in accordance with your framework. However, we do provide a set of helpers for you to use in your components to make these tasks easier to handle:
 
-- The [`Authenticated`](/docs/authentication/components/authenticated) component as a wrapper or the `useIsAuthenticated` hook for authentication
-- The [`CanAccess`](/docs/authorization/components/can-access) component as a wrapper or the `useCan` hook for access control
+- The [`Authenticated`](/core/docs/authentication/components/authenticated/) component as a wrapper or the `useIsAuthenticated` hook for authentication
+- The [`CanAccess`](/core/docs/authorization/components/can-access/) component as a wrapper or the `useCan` hook for access control
 
 ## Using the New Router Providers
 
@@ -110,7 +112,7 @@ Refine previously utilized `react-router-dom@6.3.0`, but it has now been updated
 
 :::
 
-Check out the documentation for [`@refinedev/react-router-v6`](/docs/packages/list-of-packages)
+Check out the documentation for [`@refinedev/react-router-v6`](/core/docs/packages/list-of-packages/)
 and [`react-router-dom`](https://reactrouter.com)
 
 ### Remix and Next.js
@@ -119,5 +121,5 @@ If you are using Remix or Next.js, you will first need to create your routes usi
 
 Check out their respective documentations:
 
-- > [`@refinedev/remix-router`](/docs/packages/list-of-packages) and [`Remix`](https://remix.run/docs/en/main) documentations for Remix
-- > [`@refinedev/nextjs-router`](/docs/packages/list-of-packages) and [`Next.js`](https://nextjs.org/docs/getting-started) documentations for Next.js.
+- > [`@refinedev/remix-router`](/core/docs/packages/list-of-packages/) and [`Remix`](https://remix.run/docs/en/main) documentations for Remix
+- > [`@refinedev/nextjs-router`](/core/docs/packages/list-of-packages/) and [`Next.js`](https://nextjs.org/docs/getting-started) documentations for Next.js.

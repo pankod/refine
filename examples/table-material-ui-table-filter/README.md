@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example table-material-ui-table-filter
 
 <br/>
 
-[![Open table-material-ui-table-filter example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/table-material-ui-table-filter?view=preview&theme=dark&codemirror=1)
+[![Open table-material-ui-table-filter example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/table-material-ui-table-filter?view=preview&theme=dark&codemirror=1)

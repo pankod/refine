@@ -19,7 +19,6 @@ import type { CloneButtonProps } from "../types";
  */
 export const CloneButton: React.FC<CloneButtonProps> = ({
   resource: resourceNameFromProps,
-  resourceNameOrRouteName,
   recordItemId,
   hideText = false,
   accessControl,
@@ -30,20 +29,23 @@ export const CloneButton: React.FC<CloneButtonProps> = ({
   ...rest
 }) => {
   const { to, label, title, hidden, disabled, LinkComponent } = useCloneButton({
-    resource: resourceNameFromProps ?? resourceNameOrRouteName,
+    resource: resourceNameFromProps,
     id: recordItemId,
     accessControl,
     meta,
   });
 
-  if (hidden) return null;
+  const isDisabled = disabled || rest.disabled;
+  const isHidden = hidden || rest.hidden;
+
+  if (isHidden) return null;
 
   return (
     <LinkComponent
       to={to}
       replace={false}
       onClick={(e: React.PointerEvent<HTMLButtonElement>) => {
-        if (disabled) {
+        if (isDisabled) {
           e.preventDefault();
           return;
         }
@@ -56,7 +58,7 @@ export const CloneButton: React.FC<CloneButtonProps> = ({
       {hideText ? (
         <IconButton
           variant="outline"
-          isDisabled={disabled}
+          isDisabled={isDisabled}
           aria-label={label}
           title={title}
           data-testid={RefineButtonTestIds.CloneButton}
@@ -68,7 +70,7 @@ export const CloneButton: React.FC<CloneButtonProps> = ({
       ) : (
         <Button
           variant="outline"
-          isDisabled={disabled}
+          isDisabled={isDisabled}
           leftIcon={<IconSquarePlus size={20} {...svgIconProps} />}
           title={title}
           data-testid={RefineButtonTestIds.CloneButton}

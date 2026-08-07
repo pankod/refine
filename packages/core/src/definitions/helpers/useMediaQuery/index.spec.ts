@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { renderHook } from "@testing-library/react";
 
 import { TestWrapper } from "@test/index";
@@ -12,12 +13,12 @@ describe("useMediaQuery Helper Hook", () => {
     expect(result.current).toBe(false);
   });
   it("should return", () => {
-    window.matchMedia = jest.fn().mockImplementation((query) => ({
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
       matches: query !== "(max-width: 1024px)",
       media: "",
       onchange: null,
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
     }));
 
     const { result } = renderHook(() => useMediaQuery("(max-width: 600px)"), {

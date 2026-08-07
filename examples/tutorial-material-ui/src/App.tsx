@@ -2,7 +2,7 @@ import { GitHubBanner, Refine } from "@refinedev/core";
 import {
   useNotificationProvider,
   RefineSnackbarProvider,
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   ErrorComponent,
 } from "@refinedev/mui";
@@ -14,8 +14,8 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route } from "react-router";
 
 import { BlogPostList } from "./pages/blog-posts/list";
 import { BlogPostEdit } from "./pages/blog-posts/edit";
@@ -51,7 +51,7 @@ function App() {
               warnWhenUnsavedChanges: true,
             }}
           >
-            <ThemedLayoutV2>
+            <ThemedLayout>
               <Routes>
                 <Route
                   index
@@ -76,7 +76,7 @@ function App() {
 
                 <Route path="*" element={<ErrorComponent />} />
               </Routes>
-            </ThemedLayoutV2>
+            </ThemedLayout>
             <UnsavedChangesNotifier />
             <DocumentTitleHandler />
           </Refine>

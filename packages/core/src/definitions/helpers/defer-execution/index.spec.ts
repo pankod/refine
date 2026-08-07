@@ -3,11 +3,11 @@ import { deferExecution } from ".";
 
 describe("deferExecution", () => {
   beforeEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   afterEach(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
   it("should defer the call after caller returns", async () => {

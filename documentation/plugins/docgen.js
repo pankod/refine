@@ -99,12 +99,14 @@ const replacementProps = {
   "{ [key: string]: any; ids?: BaseKey[]; }":
     "{ [key]: any; ids?: BaseKey[]; }",
   "BaseKey | BaseKey[]":
-    "[BaseKey](/docs/core/interface-references/#basekey) | [BaseKey[]](/docs/core/interface-references/#basekey)",
-  BaseKey: "[BaseKey](/docs/core/interface-references/#basekey)",
+    "[BaseKey](/core/docs/core/interface-references/#basekey) | [BaseKey[]](/core/docs/core/interface-references/#basekey)",
+  BaseKey: "[BaseKey](/core/docs/core/interface-references/#basekey)",
   MetaDataQuery:
-    "[MetaDataQuery](/docs/core/interface-references/#metadataquery)",
-  CrudFilters: "[CrudFilters](/docs/core/interface-references/#crudfilters)",
-  CrudSorting: "[CrudSorting](/docs/core/interface-references/#crudsorting)",
+    "[MetaDataQuery](/core/docs/core/interface-references/#metadataquery)",
+  CrudFilters:
+    "[CrudFilters](/core/docs/core/interface-references/#crudfilters)",
+  CrudSorting:
+    "[CrudSorting](/core/docs/core/interface-references/#crudsorting)",
 };
 
 const spinner = _ora2.default.call(void 0, "Generating Refine declarations...");
@@ -139,8 +141,9 @@ const getPackageNamePathMap = async (directory) => {
         const packageJson = await _fsextra2.default.readJSON(packagePath);
 
         if (
-          includedPackages.length == 0 ||
-          includedPackages.some((p) => packageName.includes(p))
+          (includedPackages.length == 0 ||
+            includedPackages.some((p) => packageName.includes(p))) &&
+          packageJson.name !== "@refinedev/refine-ui"
         ) {
           packageNamePathMap[packageJson.name] = _path2.default.join(
             packagePath,
@@ -331,7 +334,9 @@ const generateDeclarations = async (packagePaths) => {
       const sourcePath = _path2.default.join(packagePath, sourceDir);
 
       if (!(await _fsextra2.default.pathExists(sourcePath))) {
-        spinner.fail("Component path does not exist", sourcePath);
+        spinner.fail(
+          `Component path does not exist for package ${packageName}: ${sourcePath}`,
+        );
         process.exit(1);
       }
 

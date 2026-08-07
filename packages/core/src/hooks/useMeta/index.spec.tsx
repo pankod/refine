@@ -200,7 +200,7 @@ describe("useMeta Hook", () => {
                 order: "asc",
               },
             ],
-            current: 1,
+            currentPage: 1,
             pageSize: 10,
           },
         }),

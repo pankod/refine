@@ -1,5 +1,5 @@
 import path from "path";
-import type { RefineConfig } from "@definitions";
+import type { RefineConfig } from "../../definitions";
 import { provideCliHelpers } from "./provideCliHelpers";
 
 export const getRefineConfig = async (

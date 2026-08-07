@@ -6,7 +6,7 @@ import type {
 import camelcase from "camelcase";
 import setWith from "lodash/setWith";
 import cloneDeep from "lodash/cloneDeep";
-import type { NamingConvention } from "src/dataProvider";
+import type { NamingConvention } from "../types";
 import type { BoolExp, MultiConditionFilter } from "./boolexp";
 
 export type HasuraFilterCondition =

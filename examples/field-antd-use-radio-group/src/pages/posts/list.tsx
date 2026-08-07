@@ -15,7 +15,10 @@ import type { IPost, ILanguage } from "../../interfaces";
 export const PostList = () => {
   const { tableProps } = useTable<IPost>();
 
-  const { data, isLoading } = useList<ILanguage>({ resource: "languages" });
+  const {
+    result: data,
+    query: { isLoading },
+  } = useList<ILanguage>({ resource: "languages" });
 
   return (
     <List>

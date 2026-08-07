@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example starter-vite
 
 <br/>
 
-[![Open starter-vite example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/starter-vite?view=preview&theme=dark&codemirror=1)
+[![Open starter-vite example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/starter-vite?view=preview&theme=dark&codemirror=1)

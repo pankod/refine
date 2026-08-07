@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example table-chakra-ui-advanced
 
 <br/>
 
-[![Open table-chakra-ui-advanced example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/table-chakra-ui-advanced?view=preview&theme=dark&codemirror=1)
+[![Open table-chakra-ui-advanced example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/table-chakra-ui-advanced?view=preview&theme=dark&codemirror=1)

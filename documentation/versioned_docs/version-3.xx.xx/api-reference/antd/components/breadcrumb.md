@@ -4,10 +4,10 @@ title: Breadcrumb
 swizzle: true
 ---
 
-A breadcrumb displays the current location within a hierarchy. It allows going back to states higher up in the hierarchy. `<Breadcrumb>` component built with Ant Design's [Breadcrumb][antd-breadcrumb] components using the [`useBreadcrumb`](/api-reference/core/hooks/useBreadcrumb.md) hook.
+A breadcrumb displays the current location within a hierarchy. It allows going back to states higher up in the hierarchy. `<Breadcrumb>` component built with Ant Design's [Breadcrumb][antd-breadcrumb] components using the [`useBreadcrumb`](/core/docs/3.xx.xx/api-reference/core/hooks/useBreadcrumb) hook.
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ```tsx live url=http://localhost:3000/posts/show/123 previewHeight=280px disableScroll
@@ -76,7 +76,7 @@ export const PostList: React.FC = () => {
 
 ### `showHome`
 
-If your application has a [DashboardPage](/api-reference/core/components/refine-config.md#dashboardpage), the home button is shown to the top of the hierarchy by default. If you don't want to show the home button, you can set `showHome` to `false`.
+If your application has a [DashboardPage](/core/docs/3.xx.xx/api-reference/core/components/refine-config#dashboardpage), the home button is shown to the top of the hierarchy by default. If you don't want to show the home button, you can set `showHome` to `false`.
 
 ```tsx
 import { List, Breadcrumb } from "@pankod/refine-antd";

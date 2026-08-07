@@ -4,7 +4,7 @@ nock("https://api.nestjs-query.refine.dev:443", { encodedQueryParams: true })
   .post("/graphql", {
     operationName: "CreateBlogPost",
     query:
-      "mutation CreateBlogPost($input: CreateOneBlogPostInput!) {\n  createOneBlogPost(input: $input) {\n    id\n    title\n    content\n    status\n  }\n}",
+      "\n  mutation CreateBlogPost($input: CreateOneBlogPostInput!) {\n    createOneBlogPost(input: $input) {\n      id\n      title\n      content\n      status\n    }\n  }\n",
     variables: {
       input: {
         blogPost: {
@@ -34,7 +34,7 @@ nock("https://api.nestjs-query.refine.dev:443", { encodedQueryParams: true })
       connection: "keep-alive",
       "content-length": "91",
       "content-type": "application/graphql-response+json; charset=utf-8",
-      date: "Thu, 26 Sep 2024 11:54:40 GMT",
+      date: "Tue, 03 Dec 2024 13:25:28 GMT",
       etag: 'W/"5b-jJ/FnAK4aEJwavpg5viT6Qcb+ZM"',
       "strict-transport-security": "max-age=15724800; includeSubDomains",
       "x-powered-by": "Express",

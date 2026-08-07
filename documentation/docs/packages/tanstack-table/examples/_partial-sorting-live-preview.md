@@ -47,7 +47,9 @@ const PostList: React.FC = () => {
     [],
   );
 
-  const { getHeaderGroups, getRowModel } = useTable({
+  const {
+    reactTable: { getHeaderGroups, getRowModel },
+  } = useTable({
     columns,
   });
 
@@ -102,14 +104,20 @@ const PostList: React.FC = () => {
 
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
-
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<PostList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

@@ -948,7 +948,7 @@ const PostCreatePage: React.FC = () => {
 
 ### `refineCoreProps`
 
-All [`useForm`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) properties also available in `useStepsForm`. You can find descriptions on [`useForm`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#properties) docs.
+All [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) properties also available in `useStepsForm`. You can find descriptions on [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#properties) docs.
 
 ```tsx
 const stepsForm = useStepsForm({
@@ -993,7 +993,7 @@ const stepsForm = useStepsForm({
 ## Return Values
 
 :::tip
-All [`useForm`](/docs/3.xx.xx/api-reference/mantine/hooks/form/useForm) return values also available in `useStepsForm`. You can find descriptions on [`useForm`](/docs/3.xx.xx/api-reference/mantine/hooks/form/useForm#return-values) docs.
+All [`useForm`](/core/docs/3.xx.xx/api-reference/mantine/hooks/form/useForm) return values also available in `useStepsForm`. You can find descriptions on [`useForm`](/core/docs/3.xx.xx/api-reference/mantine/hooks/form/useForm#return-values) docs.
 :::
 
 ### `steps`
@@ -1014,23 +1014,23 @@ It takes in one argument, step, which is a number representing the index of the 
 ### Properties
 
 <PropsTable module="@pankod/refine-mantine/useStepsForm"
-refineCoreProps-type="[`UseFormCoreProps<TData, TError, TVariables>`](/docs/3.xx.xx/api-reference/core/hooks/useForm/#properties)"
-refineCoreProps-description="Configuration object for the core of the [useForm](/docs/3.xx.xx/api-reference/core/hooks/useForm/)"
+refineCoreProps-type="[`UseFormCoreProps<TData, TError, TVariables>`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm/#properties)"
+refineCoreProps-description="Configuration object for the core of the [useForm](/core/docs/3.xx.xx/api-reference/core/hooks/useForm/)"
 stepsProps-description="Configuration object for the steps. `defaultStep`: Allows you to set the initial step. `isBackValidate`: Whether to validation the current step when going back."
 stepsProps-default="`defaultStep = 0` `isBackValidate = false`"
  />
 
 ### Return values
 
-| Property                                  | Description                                                     | Type                                                                        |
-| ----------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| steps                                     | Relevant state and method to control the steps                  | [`StepsReturnValues`](#steps)                                               |
-| refineCore                                | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/api-reference/core/hooks/useForm.md#return-values) |
+| Property                                  | Description                                                     | Type                                                                                       |
+| ----------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| steps                                     | Relevant state and method to control the steps                  | [`StepsReturnValues`](#steps)                                                              |
+| refineCore                                | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm#return-values) |
 | `@mantine/form`'s `useForm` return values | See [useForm][use-form-refine-mantine] documentation            |
 
 ## Example
 
 <CodeSandboxExample path="form-mantine-use-steps-form" />
 
-[use-form-refine-mantine]: /api-reference/mantine/hooks/form/useForm.md
-[use-form-core]: /api-reference/core/hooks/useForm.md
+[use-form-refine-mantine]: /core/docs/3.xx.xx/api-reference/mantine/hooks/form/useForm
+[use-form-core]: /core/docs/3.xx.xx/api-reference/core/hooks/useForm

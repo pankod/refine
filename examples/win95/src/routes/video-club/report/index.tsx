@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useList, useSubscription } from "@refinedev/core";
 import styled from "styled-components";
 import dayjs from "dayjs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import {
   LineChart,
   Line,
@@ -34,7 +34,10 @@ export const VideoClubReportPage = () => {
 
   const navigate = useNavigate();
 
-  const { data: dataRental, isLoading: isLoadingRental } = useList<Rental>({
+  const {
+    result: dataRental,
+    query: { isLoading: isLoadingRental },
+  } = useList<Rental>({
     resource: "rentals",
     pagination: {
       mode: "off",
@@ -140,9 +143,9 @@ export const VideoClubReportPage = () => {
   }, [rentals, range.value]);
 
   const {
-    data: dataMembers,
-    isLoading: isLoadingMembers,
-    refetch: refetchMemebers,
+    result: dataMembers,
+
+    query: { isLoading: isLoadingMembers, refetch: refetchMemebers },
   } = useList({
     resource: "members",
     pagination: {
@@ -170,7 +173,10 @@ export const VideoClubReportPage = () => {
     };
   }, [members]);
 
-  const { data: dataTitles, isLoading: isLoadingTitles } = useList({
+  const {
+    result: dataTitles,
+    query: { isLoading: isLoadingTitles },
+  } = useList({
     resource: "titles",
     pagination: {
       mode: "off",
@@ -182,7 +188,10 @@ export const VideoClubReportPage = () => {
   const titles = dataTitles?.data || [];
   const totalTitles = titles?.length || 0;
 
-  const { data: dataTapes, isLoading: isLoadingTapes } = useList({
+  const {
+    result: dataTapes,
+    query: { isLoading: isLoadingTapes },
+  } = useList({
     resource: "tapes",
     pagination: {
       mode: "off",

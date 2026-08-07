@@ -1,5 +1,140 @@
 # @refinedev/cli
 
+## 2.16.52
+
+### Patch Changes
+
+- [#7315](https://github.com/refinedev/refine/pull/7315) [`b319c8a7a2f11896008f349481b03ddcf9ed2de0`](https://github.com/refinedev/refine/commit/b319c8a7a2f11896008f349481b03ddcf9ed2de0) Thanks [@Aaron3312](https://github.com/Aaron3312)! - fix: resolve bin path from cwd to support monorepo workspace hoisting
+
+  `resolveBin()` now walks up from `process.cwd()` to find `node_modules/.bin/<name>`, fixing `MODULE_NOT_FOUND` errors when running `refine dev` in npm/bun/yarn workspaces where packages are hoisted to a parent `node_modules`.
+
+## 2.16.51
+
+### Patch Changes
+
+- Updated dependencies [[`a851672404703243df7ea150d0f918f002d1571d`](https://github.com/refinedev/refine/commit/a851672404703243df7ea150d0f918f002d1571d)]:
+  - @refinedev/devtools-server@2.0.2
+
+## 2.16.50
+
+### Patch Changes
+
+- [#7086](https://github.com/refinedev/refine/pull/7086) [`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3) Thanks [@BatuhanW](https://github.com/BatuhanW)! - feat: disable minify
+
+  Resolves #6417
+
+- Updated dependencies [[`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3)]:
+  - @refinedev/devtools-server@2.0.1
+
+## 2.16.49
+
+### Patch Changes
+
+- [#7008](https://github.com/refinedev/refine/pull/7008) [`b07be7596fd72b1f83421a14098f0b44b6cdc8de`](https://github.com/refinedev/refine/commit/b07be7596fd72b1f83421a14098f0b44b6cdc8de) Thanks [@BatuhanW](https://github.com/BatuhanW)! - refactor: small refactors on create-resource, check-updates, swizzle, commands. During Vitest migration, some refactors were needed to properly mock some functions.
+
+## 2.16.48
+
+### Patch Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix(test): update Jest assertions and configuration for v30 compatibility
+
+  - Updated test infrastructure with modern Jest API usage and improved configuration.
+  - Internal development dependency updates and tooling modernization - no public API changes.
+
+- Updated dependencies [[`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/devtools-server@2.0.0
+
+## 2.16.47
+
+### Patch Changes
+
+- [#6870](https://github.com/refinedev/refine/pull/6870) [`992f202624c3f71a39fde26c71fe0ab6b8125b40`](https://github.com/refinedev/refine/commit/992f202624c3f71a39fde26c71fe0ab6b8125b40) Thanks [@typed-sigterm](https://github.com/typed-sigterm)! - Fix bun compatability.
+
+## 2.16.46
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @refinedev/devtools-server@1.1.42
+
+## 2.16.45
+
+### Patch Changes
+
+- Updated dependencies [[`274fa2c92afdf4e5b9ee8ba057861bf9fb39cab5`](https://github.com/refinedev/refine/commit/274fa2c92afdf4e5b9ee8ba057861bf9fb39cab5)]:
+  - @refinedev/devtools-server@1.1.41
+
+## 2.16.44
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- fix(types): remove path aliases from type imports
+
+  Since typescript doesn't resolve and replace path aliases, using them for the type imports will cause `d.ts` files to reference unresolvable paths and types.
+
+  While this doesn't break everything, it breaks the types in places where the path aliases are used for type imports.
+
+  This change removes the path aliases from the type imports and replaces them with relative imports.
+
+## 2.16.43
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6683](https://github.com/refinedev/refine/pull/6683) [`a12a0821e3c573386c2a8eea4ac1582cc46dd26d`](https://github.com/refinedev/refine/commit/a12a0821e3c573386c2a8eea4ac1582cc46dd26d) Thanks [@aliemir](https://github.com/aliemir)! - fix(types): remove path aliases from type imports
+
+  Since typescript doesn't resolve and replace path aliases, using them for the type imports will cause `d.ts` files to reference unresolvable paths and types.
+
+  While this doesn't break everything, it breaks the types in places where the path aliases are used for type imports.
+
+  This change removes the path aliases from the type imports and replaces them with relative imports.
+
+## 2.16.42
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- chore: update package descriptions
+
+📢 **Refine Community Release** 📢
+
+- feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
+- Updated dependencies []:
+  - @refinedev/devtools-server@1.1.40
+
+## 2.16.41
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6554](https://github.com/refinedev/refine/pull/6554) [`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706) Thanks [@necatiozmen](https://github.com/necatiozmen)! - chore: update package descriptions
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6556](https://github.com/refinedev/refine/pull/6556) [`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
+- Updated dependencies [[`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53)]:
+  - @refinedev/devtools-server@1.1.39
+
+## 2.16.40
+
+### Patch Changes
+
+- [`6f2c1c22112a19ba89a9298469158d4da6096aa8`](https://github.com/refinedev/refine/commit/6f2c1c22112a19ba89a9298469158d4da6096aa8) Thanks [@BatuhanW](https://github.com/BatuhanW)! - chore: update master references to main
+
+- Updated dependencies [[`6f2c1c22112a19ba89a9298469158d4da6096aa8`](https://github.com/refinedev/refine/commit/6f2c1c22112a19ba89a9298469158d4da6096aa8)]:
+  - @refinedev/devtools-server@1.1.38
+
 ## 2.16.39
 
 ### Patch Changes

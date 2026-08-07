@@ -52,7 +52,6 @@ export type LiveListParams = {
   sorters?: CrudSort[];
   filters?: CrudFilter[];
   meta?: MetaQuery;
-  metaData?: MetaQuery;
 };
 
 export type LiveOneParams = {
@@ -75,36 +74,12 @@ type LiveSubscribeOptions = {
   types: Array<LiveEvent["type"]>;
   callback: (event: LiveEvent) => void;
   params?: LiveCommonParams & LiveListParams & LiveOneParams & LiveManyParams;
-};
-
-type LiveDeprecatedSubscribeOptions = {
-  /**
-   * @deprecated use `meta.dataProviderName` instead.
-   */
-  dataProviderName?: string;
-  /**
-   * @deprecated `params.meta` is depcerated. Use `meta` directly from the root level instead.
-   */
-  meta?: MetaQuery;
-  /**
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
-  /**
-   * @deprecated `hasPagination` is deprecated, use `pagination.mode` instead.
-   */
-  hasPagination?: boolean;
-  /**
-   * @deprecated `sort` is deprecated, use `sorters` instead.
-   */
-  sort?: CrudSort[];
+  meta?: MetaQuery & { dataProviderName?: string };
 };
 
 export type LiveProvider = {
   publish?: (event: LiveEvent) => void;
-  subscribe: (
-    options: LiveSubscribeOptions & LiveDeprecatedSubscribeOptions,
-  ) => any;
+  subscribe: (options: LiveSubscribeOptions) => any;
   unsubscribe: (subscription: any) => void;
 };
 

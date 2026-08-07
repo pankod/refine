@@ -47,7 +47,7 @@ export type ParsedParams<
 > = {
   filters?: CrudFilter[];
   sorters?: CrudSort[];
-  current?: number;
+  currentPage?: number;
   pageSize?: number;
 } & TParams;
 

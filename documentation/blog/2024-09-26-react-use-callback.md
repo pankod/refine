@@ -3,9 +3,11 @@ title: Memoization in React - How useCallback Works
 description: Improve app performance with React useCallback() hook.
 slug: react-usecallback-guide
 authors: abdullah_numan
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-20-react-use-callback/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-20-react-use-callback/social-2.png
 hide_table_of_contents: false
+last_update: 2024-09-26
 ---
 
 **_This article was last updated on January 25, 2024 to include comparisons between useCallback and useMeme and how to use useCallback with other hooks._**
@@ -22,16 +24,6 @@ The preceding two parts are:
 2. [React useMemo Hook Guide With Examples](https://refine.dev/blog/react-usememo/)
 
 In this post, we explore how to use React `useCallback` in order to memoize a function passed from a parent to a child component. We follow up by making changes to the demo blog app in [Part II](https://refine.dev/blog/react-usememo/) and try to understand how function memoization using `useCallback` gives performance gains to a React app.
-
-Steps we'll cover:
-
-- [Introduction](#introduction)
-- [What is React `useCallback` ?](#what-is-react-usecallback-)
-- [useCallback vs useMemo](#usecallback-vs-usememo)
-- [When to Use React `useCallback`](#when-to-use-react-usecallback)
-- [When Not to Use React's `useCallback` Hook](#when-not-to-use-reacts-usecallback-hook)
-- [Bonus:useCallback with Other Hooks](#bonususecallback-with-other-hooks)
-- [Example](#example)
 
 ## What is React `useCallback` ?
 
@@ -185,7 +177,7 @@ If we check our console now, we can see the logs showing the initial rendering o
 Then if we click the `SignOut` button on the navbar, we see batches of renders originating from `<UserPostsIndex />`, `<UserPostsList />` and `<UserPost />`:
 
 <div class="img-container" align-items="center" >
-   <img style={{alignSelf:"center", width:"400px"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-20-react-use-callback/usecallback1.png" alt="usecallback1" />
+  <img style={{alignSelf:"center", width:"400px"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-20-react-use-callback/usecallback1.png" alt="Console logs showing repeated re-renders" />
 </div>
 
 It is possible to account for the re-render of `<UserPostsIndex />` because the value of the `signedIn` prop changed when we clicked `Sign Out`.
@@ -226,7 +218,7 @@ export default React.memo(UserPostsIndex);
 Now, if we click the `Sign Out` button a few times, we'll see in the console that `<UserPostsIndex />` is re-rendered, but `<UserPostsList />` and `<UserPost />` are not:
 
 <div class="img-container" align-items="center" >
-   <img style={{alignSelf:"center", width:"400px"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-20-react-use-callback/usecallback2.png"  alt="usecallback2" />
+  <img style={{alignSelf:"center", width:"400px"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-20-react-use-callback/usecallback2.png"  alt="Console logs showing memoized callbacks" />
 </div>
 
 <br/>

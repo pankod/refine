@@ -3,8 +3,6 @@
 
 describe("table-react-table-basic", () => {
   beforeEach(() => {
-    cy.interceptGETPosts();
-
     cy.visit("/");
   });
 
@@ -48,8 +46,6 @@ describe("table-react-table-basic", () => {
     cy.url().should("include", "sorters[0][field]=id&sorters[0][order]=asc");
 
     cy.wait("@getAscPosts");
-
-    cy.interceptGETPosts();
 
     cy.get("thead th div").contains("ID").click();
 
@@ -110,7 +106,7 @@ describe("table-react-table-basic", () => {
 
     cy.get("#next-button").click();
 
-    cy.url().should("include", "current=2");
+    cy.url().should("include", "currentPage=2");
 
     cy.wait("@getSecondPagePosts");
 
@@ -129,7 +125,7 @@ describe("table-react-table-basic", () => {
 
     cy.get("#previous-button").click();
 
-    cy.url().should("include", "current=1");
+    cy.url().should("include", "currentPage=1");
 
     cy.wait("@getFirstPagePosts");
   });
@@ -141,6 +137,6 @@ describe("table-react-table-basic", () => {
 
     cy.get("#title").type("lorem");
 
-    cy.url().should("include", "current=1");
+    cy.url().should("include", "currentPage=1");
   });
 });

@@ -155,4 +155,97 @@ describe("with gql", () => {
       );
     },
   );
+
+  it("correctly passes variables from meta.gqlVariables to the query", async () => {
+    const id = "572708c7-840d-430a-befd-1416bdee799a";
+
+    const client = createClient("hasura-default");
+    const { data } = await dataProvider(client, {
+      namingConvention: "hasura-default",
+    }).update({
+      resource: "posts",
+      id,
+      variables: {
+        title: "Updated Title",
+        content: "Updated Content",
+        category_id: "e27156c3-9998-434f-bd5b-2b078283ff26",
+      },
+      meta: {
+        gqlMutation: gql`
+          mutation UpdatePost(
+            $id: uuid!
+            $object: posts_set_input!
+            $includeCategory: Boolean = false
+          ) {
+            update_posts_by_pk(
+              pk_columns: { id: $id }
+              _set: $object
+            ) {
+              id
+              title
+              content
+              category_id
+              category @include(if: $includeCategory) {
+                id
+                title
+              }
+            }
+          }
+        `,
+        gqlVariables: {
+          includeCategory: true,
+        },
+      },
+    });
+
+    expect(data["id"]).toEqual(id);
+    expect(data["title"]).toEqual("Updated Title");
+    expect(data["content"]).toEqual("Updated Content");
+    expect(data["category"].id).toEqual("e27156c3-9998-434f-bd5b-2b078283ff26");
+  });
+
+  it("doesn't pass extra variables to the query without meta.gqlVariables", async () => {
+    const id = "572708c7-840d-430a-befd-1416bdee799a";
+
+    const client = createClient("hasura-default");
+    const { data } = await dataProvider(client, {
+      namingConvention: "hasura-default",
+    }).update({
+      resource: "posts",
+      id,
+      variables: {
+        title: "Updated Title",
+        content: "Updated Content",
+        category_id: "e27156c3-9998-434f-bd5b-2b078283ff26",
+      },
+      meta: {
+        gqlMutation: gql`
+          mutation UpdatePost(
+            $id: uuid!
+            $object: posts_set_input!
+            $includeCategory: Boolean = false
+          ) {
+            update_posts_by_pk(
+              pk_columns: { id: $id }
+              _set: $object
+            ) {
+              id
+              title
+              content
+              category_id
+              category @include(if: $includeCategory) {
+                id
+                title
+              }
+            }
+          }
+        `,
+      },
+    });
+
+    expect(data["id"]).toEqual(id);
+    expect(data["title"]).toEqual("Updated Title");
+    expect(data["content"]).toEqual("Updated Content");
+    expect(data["category"]).toBeUndefined();
+  });
 });

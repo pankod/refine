@@ -17,6 +17,7 @@ type HandleRefineOptionsProps = {
   undoableTimeout?: number;
   liveMode?: LiveModeProps["liveMode"];
   disableTelemetry?: boolean;
+  disableRouteChangeHandler?: boolean;
   reactQueryClientConfig?: QueryClientConfig;
   reactQueryDevtoolConfig?: any | false;
 };
@@ -26,7 +27,6 @@ type HandleRefineOptionsReturnValues = {
   disableTelemetryWithDefault: boolean;
   reactQueryWithDefaults: {
     clientConfig: QueryClientConfig | InstanceType<typeof QueryClient>;
-    devtoolConfig: false | any;
   };
 };
 
@@ -40,6 +40,7 @@ export const handleRefineOptions = ({
   syncWithLocation,
   undoableTimeout,
   warnWhenUnsavedChanges,
+  disableRouteChangeHandler,
 }: HandleRefineOptionsProps = {}): HandleRefineOptionsReturnValues => {
   const optionsWithDefaults: IRefineContextOptions = {
     breadcrumb: options?.breadcrumb,
@@ -86,7 +87,6 @@ export const handleRefineOptions = ({
       options?.disableServerSideValidation ??
       defaultRefineOptions.disableServerSideValidation,
     projectId: options?.projectId,
-    useNewQueryKeys: options?.useNewQueryKeys,
     title: {
       icon:
         typeof options?.title?.icon === "undefined"
@@ -97,6 +97,10 @@ export const handleRefineOptions = ({
           ? defaultRefineOptions.title.text
           : options?.title?.text,
     },
+    disableRouteChangeHandler:
+      options?.disableRouteChangeHandler ??
+      disableRouteChangeHandler ??
+      defaultRefineOptions.disableRouteChangeHandler,
   };
 
   const disableTelemetryWithDefault =
@@ -105,8 +109,7 @@ export const handleRefineOptions = ({
   const reactQueryWithDefaults = {
     clientConfig:
       options?.reactQuery?.clientConfig ?? reactQueryClientConfig ?? {},
-    devtoolConfig:
-      options?.reactQuery?.devtoolConfig ?? reactQueryDevtoolConfig ?? {},
+    devtoolConfig: reactQueryDevtoolConfig ?? {},
   };
 
   return {

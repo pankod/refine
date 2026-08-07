@@ -93,17 +93,19 @@ export const RecentSales = () => {
   );
 
   const {
-    refineCore: { filters, setCurrent, setFilters },
-    getHeaderGroups,
-    getRowModel,
+    reactTable: { getHeaderGroups, getRowModel },
+
+    refineCore: { filters, setCurrentPage: setCurrent, setFilters },
   } = useTable({
+    columns,
+
     refineCoreProps: {
       resource: "orders",
+
       pagination: {
         pageSize: 5,
       },
     },
-    columns,
   });
 
   const header = (

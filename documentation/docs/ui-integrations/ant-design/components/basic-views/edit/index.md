@@ -1,5 +1,8 @@
 ---
-title: Edit
+title: "Ant Design Edit Component | UI Component in Refine v5"
+display_title: "Edit"
+sidebar_label: "Edit"
+description: "Integrate Edit in Refine v5. Learn best practices. Explore customization options for enterprise UI, components for polished admin UIs."
 swizzle: true
 ---
 
@@ -7,117 +10,59 @@ swizzle: true
 
 We will show what `<Edit>` does using properties with examples.
 
-```tsx live hideCode url=http://localhost:3000/posts/edit/123
-const { EditButton } = RefineAntd;
-
-interface ICategory {
-  id: number;
-  title: string;
-}
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/custom/123
+setInitialRoutes(["/custom/123"]);
 
 // visible-block-start
+import { Edit } from "@refinedev/antd";
 
-interface IPost {
-  id: number;
-  title: string;
-  content: string;
-  status: "published" | "draft" | "rejected";
-  category: { id: number };
-}
-
-import { Edit, useForm, useSelect } from "@refinedev/antd";
-import { Form, Input, Select } from "antd";
-
-const PostEdit: React.FC = () => {
-  const { formProps, saveButtonProps, query } = useForm<IPost>({
-    warnWhenUnsavedChanges: true,
-  });
-
-  const postData = query?.data?.data;
-  const { selectProps: categorySelectProps } = useSelect<ICategory>({
-    resource: "categories",
-    defaultValue: postData?.category.id,
-  });
-
+const CustomPage: React.FC = () => {
   return (
-    <Edit saveButtonProps={saveButtonProps}>
-      <Form {...formProps} layout="vertical">
-        <Form.Item
-          label="Title"
-          name="title"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Category"
-          name={["category", "id"]}
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Select {...categorySelectProps} />
-        </Form.Item>
-        <Form.Item
-          label="Status"
-          name="status"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Select
-            options={[
-              {
-                label: "Published",
-                value: "published",
-              },
-              {
-                label: "Draft",
-                value: "draft",
-              },
-              {
-                label: "Rejected",
-                value: "rejected",
-              },
-            ]}
-          />
-        </Form.Item>
-      </Form>
+    /* highlight-next-line */
+    <Edit resource="posts">
+      <p>Rest of your page here</p>
     </Edit>
   );
 };
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton recordItemId="123">Edit Item 123</EditButton>
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/custom/:id"
+          element={
+            <div style={{ padding: 16 }}>
+              <CustomPage />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
+:::tip
+The example above shows how to use the `resource` prop when the component is rendered on a custom page with a different route than the resource route.
+:::
+
+If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
+
+> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
+
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -127,20 +72,8 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 
 `title` allows you to add a title inside the `<Edit>` component. If you don't pass title props, it uses the "Edit" prefix and the singular resource name by default. For example, for the "posts" resource, it will be "Edit post".
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
-const { default: simpleRest } = RefineSimpleRest;
-
-const dataProvider = simpleRest("https://api.fake-rest.refine.dev");
-
-const customDataProvider = {
-  ...dataProvider,
-  deleteOne: async ({ resource, id, variables }) => {
-    return {
-      data: {},
-    };
-  },
-};
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
 // visible-block-start
 import { Edit } from "@refinedev/antd";
@@ -156,21 +89,41 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit/2"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton recordItemId="2">Edit Item 2</EditButton>
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -178,8 +131,8 @@ render(
 
 The `<Edit>` component has a save button that submits the form by default. If you want to customize this button you can use the `saveButtonProps` property:
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
 // visible-block-start
 import { Edit } from "@refinedev/antd";
@@ -195,25 +148,45 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit/2"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton />
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`<SaveButton>` documentation &#8594](/docs/ui-integrations/ant-design/components/buttons/save-button)
+> For more information, refer to the [`<SaveButton>` documentation &#8594](/core/docs/ui-integrations/ant-design/components/buttons/save-button/)
 
 ### canDelete and deleteButtonProps
 
@@ -222,60 +195,25 @@ render(
 If you want to customize this button you can use the `deleteButtonProps` property like the code below.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
-const { EditButton } = RefineAntd;
-const { default: simpleRest } = RefineSimpleRest;
+setInitialRoutes(["/posts/edit/123"]);
 
-const dataProvider = simpleRest("https://api.fake-rest.refine.dev");
+interface ICategory {
+  id: number;
+  title: string;
+}
 
-const customDataProvider = {
-  ...dataProvider,
-  deleteOne: async ({ resource, id, variables }) => {
-    return {
-      data: {},
-    };
-  },
-};
+interface IPost {
+  id: number;
+  title: string;
+  content: string;
+  status: "published" | "draft" | "rejected";
+  category: { id: number };
+}
 
-const authProvider = {
-  login: () => {
-    return {
-      success: true,
-      redirectTo: "/",
-    };
-  },
-  register: () => {
-    return {
-      success: true,
-    };
-  },
-  forgotPassword: () => {
-    return {
-      success: true,
-    };
-  },
-  updatePassword: () => {
-    return {
-      success: true,
-    };
-  },
-  logout: () => {
-    return {
-      success: true,
-      redirectTo: "/",
-    };
-  },
-  check: () => ({
-    authenticated: true,
-  }),
-  onError: () => ({}),
-  getPermissions: () => null,
-  getIdentity: () => null,
-};
-
-// visible-block-start
 import { Edit } from "@refinedev/antd";
 import { usePermissions } from "@refinedev/core";
 
+// visible-block-start
 const PostEdit: React.FC = () => {
   const { data: permissionsData } = usePermissions();
   return (
@@ -293,40 +231,55 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    authProvider={authProvider}
-    dataProvider={customDataProvider}
-    initialRoutes={["/posts/edit/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton recordItemId="123">Edit Item 123</EditButton>
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`<DeleteButton>` documentation &#8594](/docs/ui-integrations/ant-design/components/buttons/delete-button)
+> For more information, refer to the [`<DeleteButton>` documentation &#8594](/core/docs/ui-integrations/ant-design/components/buttons/delete-button/)
 
-> For more information, refer to the [`usePermission` documentation &#8594](/docs/authentication/hooks/use-permissions)
+> For more information, refer to the [`usePermission` documentation &#8594](/core/docs/authentication/hooks/use-permissions/)
 
 ### resource
 
 The `<Edit>` component reads the `resource` information from the route by default. If you want to use a custom resource for the `<Edit>` component, you can use the `resource` prop:
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/custom/2
-setInitialRoutes(["/custom/2"]);
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/custom/123
+setInitialRoutes(["/custom/123"]);
 
-import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
 // visible-block-start
 import { Edit } from "@refinedev/antd";
 
@@ -340,44 +293,51 @@ const CustomPage: React.FC = () => {
 };
 // visible-block-end
 
-const App: React.FC = () => {
-  return (
+render(
+  <ReactRouter.BrowserRouter>
     <RefineAntdDemo
-      legacyRouterProvider={{
-        ...routerProvider,
-        // highlight-start
-        routes: [
-          {
-            element: <CustomPage />,
-            path: "/custom/:id",
-          },
-        ],
-        // highlight-end
-      }}
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      resources={[{ name: "posts" }]}
-    />
-  );
-};
-
-render(<App />);
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/custom/:id"
+          element={
+            <div style={{ padding: 16 }}>
+              <CustomPage />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
+
+:::tip
+The example above shows how to use the `resource` prop when the component is rendered on a custom page with a different route than the resource route.
+:::
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### recordItemId
 
 The `<Edit>` component reads the `id` information from the route by default. When it cannot be read from the URL, which happens when it's used on a custom page, modal or drawer, `recordItemId` is used.
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
-// visible-block-start
 import { Edit, useModalForm } from "@refinedev/antd";
 import { Modal, Button } from "antd";
 
+// visible-block-start
 const PostEdit: React.FC = () => {
   const { modalProps, id, show } = useModalForm({
     action: "edit",
@@ -398,21 +358,41 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit/2"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton recordItemId="2">Edit Item 2</EditButton>
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -422,120 +402,61 @@ The `<Edit>` component needs the `id` information for the `<RefreshButton>` to w
 
 Determines which mode mutation will have while executing `<DeleteButton>` .
 
-```tsx live hideCode url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
-interface ICategory {
-  id: number;
-  title: string;
-}
+import { Edit } from "@refinedev/antd";
 
 // visible-block-start
-
-interface IPost {
-  id: number;
-  title: string;
-  content: string;
-  status: "published" | "draft" | "rejected";
-  category: { id: number };
-}
-
-import { Edit, useForm, useSelect } from "@refinedev/antd";
-import { Form, Input, Select } from "antd";
-
 const PostEdit: React.FC = () => {
-  const { formProps, saveButtonProps, query } = useForm<IPost>({
-    warnWhenUnsavedChanges: true,
-  });
-
-  const postData = query?.data?.data;
-  const { selectProps: categorySelectProps } = useSelect<ICategory>({
-    resource: "categories",
-    defaultValue: postData?.category.id,
-  });
-
   return (
-    <Edit
-      /* highlight-next-line */
-      mutationMode="undoable"
-      canDelete
-      saveButtonProps={saveButtonProps}
-    >
-      <Form {...formProps} layout="vertical">
-        <Form.Item
-          label="Title"
-          name="title"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Category"
-          name={["category", "id"]}
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Select {...categorySelectProps} />
-        </Form.Item>
-        <Form.Item
-          label="Status"
-          name="status"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Select
-            options={[
-              {
-                label: "Published",
-                value: "published",
-              },
-              {
-                label: "Draft",
-                value: "draft",
-              },
-              {
-                label: "Rejected",
-                value: "rejected",
-              },
-            ]}
-          />
-        </Form.Item>
-      </Form>
+    <Edit mutationMode="undoable" saveButtonProps={{ size: "small" }}>
+      <p>Rest of your page here</p>
     </Edit>
   );
 };
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit/2"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton recordItemId="2">Edit Item 2</EditButton>
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [mutation mode documentation &#8594](/advanced-tutorials/mutation-mode.md)
+> For more information, refer to the [mutation mode documentation &#8594](/core/docs/advanced-tutorials/mutation-mode/)
 
 ### dataProviderName
 
@@ -574,12 +495,12 @@ export const App: React.FC = () => {
 To customize the back button or to disable it, you can use the `goBack` property:
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
-const { EditButton } = RefineAntd;
+setInitialRoutes(["/posts/edit/123"]);
 
-// visible-block-start
 import { Edit } from "@refinedev/antd";
 import { Button } from "antd";
 
+// visible-block-start
 const PostEdit: React.FC = () => {
   const BackButton = () => <Button>←</Button>;
   return (
@@ -592,39 +513,56 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts", "/posts/edit/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton recordItemId="123">Edit Item 123</EditButton>
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 If your route has no `:action` parameter or your action is `list`, the back button will not be shown even if you pass a `goBack` property. You can override this behavior by using the `headerProps` property:
 
 ```tsx
-/* highlight-next-line */
 import { useBack } from "@refinedev/core";
 import { Edit } from "@refinedev/antd";
 import { Button } from "antd";
 
 const PostEdit: React.FC = () => {
-  /* highlight-next-line */
   const back = useBack();
   const BackButton = () => <Button>←</Button>;
 
   return (
-    /* highlight-next-line */
     <Edit goBack={<BackButton />} headerProps={{ onBack: back }}>
       <p>Rest of your page here</p>
     </Edit>
@@ -636,12 +574,12 @@ const PostEdit: React.FC = () => {
 
 To toggle the loading state of the `<Edit/>` component, you can use the `isLoading` property:
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
-// visible-block-start
 import { Edit } from "@refinedev/antd";
 
+// visible-block-start
 const PostEdit: React.FC = () => {
   return (
     /* highlight-next-line */
@@ -653,21 +591,41 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit/2"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton />
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -675,12 +633,12 @@ render(
 
 To customize or disable the breadcrumb, you can use the `breadcrumb` property. By default the `Breadcrumb` component from the `@refinedev/antd` package is used for breadcrumbs.
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
-// visible-block-start
 import { Edit, Breadcrumb } from "@refinedev/antd";
 
+// visible-block-start
 const PostEdit: React.FC = () => {
   return (
     <Edit
@@ -704,36 +662,56 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton />
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`Breadcrumb` documentation &#8594](/docs/ui-integrations/ant-design/components/breadcrumb)
+> For more information, refer to the [`Breadcrumb` documentation &#8594](/core/docs/ui-integrations/ant-design/components/breadcrumb/)
 
 ### wrapperProps
 
 You can use the `wrapperProps` property if you want to customize the wrapper of the `<Edit/>` component. The `@refinedev/antd` wrapper elements are simply `<div/>`s and `wrapperProps` and can get every attribute that `<div/>` can get.
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
-// visible-block-start
 import { Edit } from "@refinedev/antd";
 
+// visible-block-start
 const PostEdit: React.FC = () => {
   return (
     <Edit
@@ -753,21 +731,41 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton />
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -775,12 +773,12 @@ render(
 
 You can use the `headerProps` property to customize the header of the `<Edit/>` component:
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
-// visible-block-start
 import { Edit } from "@refinedev/antd";
 
+// visible-block-start
 const PostEdit: React.FC = () => {
   return (
     <Edit
@@ -801,21 +799,41 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit/2"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton />
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -825,12 +843,12 @@ render(
 
 You can use the `contentProps` property to customize the content of the `<Edit/>` component:
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
-// visible-block-start
 import { Edit } from "@refinedev/antd";
 
+// visible-block-start
 const PostEdit: React.FC = () => {
   return (
     <Edit
@@ -850,21 +868,41 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton />
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -878,13 +916,13 @@ You can customize the buttons at the header by using the `headerButtons` propert
 
 If the "list" resource is not defined, the [`<ListButton>`][list-button] will not render and `listButtonProps` will be `undefined`.
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
-// visible-block-start
 import { Edit } from "@refinedev/antd";
 import { Button } from "antd";
 
+// visible-block-start
 const PostEdit: React.FC = () => {
   return (
     <Edit
@@ -904,33 +942,53 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit/2"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton />
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 Or, instead of using the `defaultButtons`, you can create your own buttons. If you want, you can use `refreshButtonProps` and `listButtonProps` to utilize the default values of the `<ListButton>`[list-button] and `<RefreshButton>`[refresh-button] components.
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
-// visible-block-start
 import { Edit, ListButton, RefreshButton } from "@refinedev/antd";
 import { Button } from "antd";
 
+// visible-block-start
 const PostEdit: React.FC = () => {
   return (
     <Edit
@@ -953,21 +1011,41 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit/2"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton />
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -975,13 +1053,13 @@ render(
 
 You can use the `headerButtonProps` property to customize the wrapper element of the buttons at the header:
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
-// visible-block-start
 import { Edit } from "@refinedev/antd";
 import { Button } from "antd";
 
+// visible-block-start
 const PostEdit: React.FC = () => {
   return (
     <Edit
@@ -1002,25 +1080,43 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton />
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-> For more information, refer to the [`Space` documentation &#8594](https://ant.design/components/space/)
 
 ### footerButtons
 
@@ -1030,13 +1126,13 @@ You can customize the buttons at the footer by using the `footerButtons` propert
 
 If [`canDelete`](#candelete-and-deletebuttonprops) is `false`, the [`<DeleteButton>`][delete-button] will not render and `deleteButtonProps` will be `undefined`.
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
-// visible-block-start
 import { Edit } from "@refinedev/antd";
 import { Button } from "antd";
 
+// visible-block-start
 const PostEdit: React.FC = () => {
   return (
     <Edit
@@ -1056,40 +1152,58 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton />
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 Or, instead of using the `defaultButtons`, you can create your own buttons. If you want, you can use `saveButtonProps` and `deleteButtonProps` to utilize the default values of the [`<SaveButton>`][save-button] and [`<DeleteButton>`][delete-button] components.
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
+
+import { Edit, SaveButton, DeleteButton } from "@refinedev/antd";
 
 // visible-block-start
-import { Edit, SaveButton, DeleteButton } from "@refinedev/antd";
-import { Button } from "antd";
-
 const PostEdit: React.FC = () => {
   return (
     <Edit
       // highlight-start
       footerButtons={({ saveButtonProps, deleteButtonProps }) => (
         <>
-          <Button type="primary">Custom Button</Button>
           <SaveButton {...saveButtonProps} hideText />
           {deleteButtonProps && (
             <DeleteButton {...deleteButtonProps} hideText />
@@ -1105,21 +1219,41 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton />
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -1127,22 +1261,20 @@ render(
 
 You can customize the wrapper element of the buttons at the footer by using the `footerButtonProps` property.
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/2
-const { EditButton } = RefineAntd;
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
+setInitialRoutes(["/posts/edit/123"]);
 
-// visible-block-start
 import { Edit } from "@refinedev/antd";
 
+// visible-block-start
 const PostEdit: React.FC = () => {
   return (
     <Edit
       // highlight-start
       footerButtonProps={{
         style: {
-          // hide-start
           float: "right",
           marginRight: 24,
-          // hide-end
           backgroundColor: "cornflowerblue",
           padding: "16px",
         },
@@ -1156,32 +1288,50 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton />
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-> For more information, refer to the [`Space` documentation &#8594](https://ant.design/components/space/)
 
 ### autoSaveProps
 
 You can use the auto save feature of the `<Edit/>` component by using the `autoSaveProps` property.
 
 ```tsx live url=http://localhost:3000/posts/edit/123
-const { EditButton } = RefineAntd;
+setInitialRoutes(["/posts/edit/123"]);
 
 interface ICategory {
   id: number;
@@ -1201,82 +1351,50 @@ import { Form, Input, Select } from "antd";
 
 // visible-block-start
 const PostEdit: React.FC = () => {
-  const {
-    formProps,
-    saveButtonProps,
-    query,
-    // highlight-next-line
-    autoSaveProps,
-  } = useForm<IPost>({
-    warnWhenUnsavedChanges: true,
-    // highlight-start
-    autoSave: {
-      enabled: true,
-    },
-    // highlight-end
-  });
-
-  const postData = query?.data?.data;
-  const { selectProps: categorySelectProps } = useSelect<ICategory>({
-    resource: "categories",
-    defaultValue: postData?.category.id,
-  });
+  const { current, gotoStep, stepsProps, formProps, saveButtonProps, query } =
+    useStepsForm<IPost>({
+      stepsProps: {
+        items: [
+          {
+            title: "First Step",
+          },
+          {
+            title: "Second Step",
+          },
+        ],
+      },
+    });
 
   return (
-    <Edit
-      saveButtonProps={saveButtonProps}
-      // highlight-next-line
-      autoSaveProps={autoSaveProps}
-    >
+    <Edit saveButtonProps={saveButtonProps}>
+      <Steps {...stepsProps} />
       <Form {...formProps} layout="vertical">
-        <Form.Item
-          label="Title"
-          name="title"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Category"
-          name={["category", "id"]}
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Select {...categorySelectProps} />
-        </Form.Item>
-        <Form.Item
-          label="Status"
-          name="status"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Select
-            options={[
+        {current === 0 && (
+          <Form.Item
+            label="Title"
+            name="title"
+            rules={[
               {
-                label: "Published",
-                value: "published",
-              },
-              {
-                label: "Draft",
-                value: "draft",
-              },
-              {
-                label: "Rejected",
-                value: "rejected",
+                required: true,
               },
             ]}
-          />
-        </Form.Item>
+          >
+            <Input />
+          </Form.Item>
+        )}
+        {current === 1 && (
+          <Form.Item
+            label="Content"
+            name="content"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+        )}
       </Form>
     </Edit>
   );
@@ -1284,45 +1402,97 @@ const PostEdit: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <EditButton recordItemId="123">Edit Item 123</EditButton>
-          </div>
-        ),
-        edit: PostEdit,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route
+            index
+            element={
+              <div>
+                <p>This page is empty.</p>
+                <RefineAntd.EditButton recordItemId="123">
+                  Edit Item 123
+                </RefineAntd.EditButton>
+              </div>
+            }
+          />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
+
+:::tip
+The `query` object from the `useForm` hook contains the query result from the data provider. You can use it to access the data returned from the API.
+
+```tsx
+const { query } = useForm();
+const record = query?.data?.data;
+```
+
+The `data.data` structure shown above is the default for the `@refinedev/simple-rest` data provider. This structure may be different for other data providers.
+:::
 
 ## API Reference
 
 ### Properties
 
-<PropsTable module="@refinedev/antd/Edit"
-contentProps-type="[`CardProps`](https://ant.design/components/card/#API)"
-headerProps-type="[`PageHeaderProps`](https://procomponents.ant.design/en-US/components/page-header)"
-headerButtons-default="[`ListButton`](/docs/ui-integrations/ant-design/components/buttons/list-button/) and [`RefreshButton`](/docs/ui-integrations/ant-design/components/buttons/refresh-button/)"
-headerButtonProps-type="[`SpaceProps`](https://ant.design/components/space/)"
-deleteButtonProps-type="[`DeleteButtonProps`](/docs/ui-integrations/ant-design/components/buttons/delete-button)"
-saveButtonProps-type="[`SaveButtonProps`](/docs/ui-integrations/ant-design/components/buttons/save-button/)"
-footerButtons-default="[`SaveButton`](/docs/ui-integrations/ant-design/components/buttons/save-button/) and [`DeleteButton`](/docs/ui-integrations/ant-design/components/buttons/delete-button/)"
-footerButtonsProps-type="[`SpaceProps`](https://ant.design/components/space/)"
-breadcrumb-default="[`<Breadcrumb>`](https://ant.design/components/breadcrumb/)"
-goBack-default="`<ArrowLeft />`"
-goBack-type="`ReactNode`"
-/>
+<PropsTable module="@refinedev/antd/Edit" />
 
-> `*`: These properties have default values in `RefineContext` and can also be set on the **<[Refine](/docs/core/refine-component)>** component.
+:::tip External Props
+It also accepts all props of Ant Design [Form](https://ant.design/components/form/#API).
+:::
 
-[list-button]: /docs/ui-integrations/ant-design/components/buttons/list-button
-[refresh-button]: /docs/ui-integrations/ant-design/components/buttons/refresh-button
-[save-button]: /docs/ui-integrations/ant-design/components/buttons/save-button
-[delete-button]: /docs/ui-integrations/ant-design/components/buttons/delete-button
+### Type Parameters
+
+| Property     | Extends | Default | Description                                                    |
+| ------------ | ------- | ------- | -------------------------------------------------------------- |
+| TQueryFnData | unknown | unknown | Result data returned by the query function. Extends unknown    |
+| TError       | unknown | unknown | Custom error object that extends unknown                       |
+| TVariables   | object  | object  | Values for params. default `object`                            |
+| TData        | unknown | unknown | Result data returned by the `select` function. Extends unknown |
+| TResponse    | unknown | unknown | Result data returned by the mutation function. Extends unknown |
+
+### Return values
+
+| Property            | Description                                                                                                            |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `query`             | If the `query` prop is given, it will be returned. Otherwise, it will return `undefined`.                              |
+| `mutation`          | Mutation result from `react-query`. [Check here →](https://tanstack.com/query/latest/docs/react/reference/useMutation) |
+| `saveButtonProps`   | Props for a save button.                                                                                               |
+| `cancelButtonProps` | Props for a cancel button.                                                                                             |
+| `deleteButtonProps` | Props for a delete button.                                                                                             |
+| `formProps`         | Props for the `<Form>` component.                                                                                      |
+| `formLoading`       | Loading state of form.                                                                                                 |
+| `setId`             | `id` setter.                                                                                                           |
+| `id`                | Record id for edit action. The record to edit.                                                                         |
+| `defaultValues`     | Default form values.                                                                                                   |
+| `formValues`        | Form values.                                                                                                           |
+| `submit`            | Submit method, the parameter is the values to update a record.                                                         |
+| `reset`             | Reset method, reset the form values to initial values.                                                                 |
+| `redirect`          | Redirect function, will be called after form is submitted successfully.                                                |
+| `goBack`            | Go back function, will be called when the cancel button is clicked.                                                    |
+| `query`             | Query result from `react-query`. [Check here →](https://tanstack.com/query/latest/docs/react/reference/useQuery)       |
+
+[list-button]: /core/docs/ui-integrations/ant-design/components/buttons/list-button
+[refresh-button]: /core/docs/ui-integrations/ant-design/components/buttons/refresh-button
+[save-button]: /core/docs/ui-integrations/ant-design/components/buttons/save-button
+[delete-button]: /core/docs/ui-integrations/ant-design/components/buttons/delete-button

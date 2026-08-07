@@ -443,3 +443,155 @@ nock("https://ruling-redbird-23.hasura.app:443", { encodedQueryParams: true })
       "84376bd60fb703bf-BUD",
     ],
   );
+
+// Mock for CreateManyPosts with includeCategory=true from gqlVariables
+nock("https://flowing-mammal-24.hasura.app:443", { encodedQueryParams: true })
+  .post("/v1/graphql", {
+    query:
+      "mutation CreateManyPosts($objects: [posts_insert_input!]!, $includeCategory: Boolean = false) {\n  insert_posts(objects: $objects) {\n    returning {\n      id\n      title\n      content\n      category @include(if: $includeCategory) {\n        id\n      }\n    }\n  }\n}\n",
+    variables: {
+      objects: [
+        {
+          content: "Vestibulum vulputate sapien arcu.",
+          title: "Aenean ultricies non libero sit amet pellentesque",
+          category_id: "e27156c3-9998-434f-bd5b-2b078283ff26",
+        },
+        {
+          content: "Aliquam nibh erat.",
+          title: "Etiam tincidunt ex ut auctor faucibus",
+          category_id: "e27156c3-9998-434f-bd5b-2b078283ff26",
+        },
+      ],
+      includeCategory: true,
+    },
+    operationName: "CreateManyPosts",
+  })
+  .reply(
+    200,
+    {
+      data: {
+        insert_posts: {
+          returning: [
+            {
+              id: "f1c8b6d7-3e5a-4c2b-9f8d-1e5a7b9d0c3e",
+              title: "Aenean ultricies non libero sit amet pellentesque",
+              content: "Vestibulum vulputate sapien arcu.",
+              category: {
+                id: "e27156c3-9998-434f-bd5b-2b078283ff26",
+              },
+            },
+            {
+              id: "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+              title: "Etiam tincidunt ex ut auctor faucibus",
+              content: "Aliquam nibh erat.",
+              category: {
+                id: "e27156c3-9998-434f-bd5b-2b078283ff26",
+              },
+            },
+          ],
+        },
+      },
+    },
+    [
+      "Date",
+      "Wed, 10 Jan 2024 19:45:38 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Content-Length",
+      "435",
+      "Connection",
+      "close",
+      "x-request-id",
+      "fd98c24a10b32a6e7c1f5d9b8e4a2c1d",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Content-Security-Policy",
+      "upgrade-insecure-requests",
+      "Referrer-Policy",
+      "strict-origin-when-cross-origin",
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options",
+      "nosniff",
+      "X-Frame-Options",
+      "SAMEORIGIN",
+      "X-XSS-Protection",
+      "0",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "84376be01cba684c-BUD",
+    ],
+  );
+
+nock("https://flowing-mammal-24.hasura.app:443", { encodedQueryParams: true })
+  .post("/v1/graphql", {
+    query:
+      "mutation CreateManyPosts($objects: [posts_insert_input!]!, $includeCategory: Boolean = false) {\n  insert_posts(objects: $objects) {\n    returning {\n      id\n      title\n      content\n      category @include(if: $includeCategory) {\n        id\n      }\n    }\n  }\n}\n",
+    variables: {
+      objects: [
+        {
+          content: "Vestibulum vulputate sapien arcu.",
+          title: "Aenean ultricies non libero sit amet pellentesque",
+          category_id: "e27156c3-9998-434f-bd5b-2b078283ff26",
+        },
+        {
+          content: "Aliquam nibh erat.",
+          title: "Etiam tincidunt ex ut auctor faucibus",
+          category_id: "e27156c3-9998-434f-bd5b-2b078283ff26",
+        },
+      ],
+    },
+    operationName: "CreateManyPosts",
+  })
+  .reply(
+    200,
+    {
+      data: {
+        insert_posts: {
+          returning: [
+            {
+              id: "b5c6d7e8-f9a0-1b2c-3d4e-5f6a7b8c9d0e",
+              title: "Aenean ultricies non libero sit amet pellentesque",
+              content: "Vestibulum vulputate sapien arcu.",
+            },
+            {
+              id: "e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b",
+              title: "Etiam tincidunt ex ut auctor faucibus",
+              content: "Aliquam nibh erat.",
+            },
+          ],
+        },
+      },
+    },
+    [
+      "Date",
+      "Wed, 10 Jan 2024 19:45:39 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Content-Length",
+      "320",
+      "Connection",
+      "close",
+      "x-request-id",
+      "3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Content-Security-Policy",
+      "upgrade-insecure-requests",
+      "Referrer-Policy",
+      "strict-origin-when-cross-origin",
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options",
+      "nosniff",
+      "X-Frame-Options",
+      "SAMEORIGIN",
+      "X-XSS-Protection",
+      "0",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "84376be52f6d733a-BUD",
+    ],
+  );

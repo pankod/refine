@@ -1,6 +1,9 @@
 ---
 id: remix-auth
-title: Authentication with remix-auth
+title: "Remix Auth Example | Best Practices in Refine v5"
+display_title: "Authentication with remix-auth"
+sidebar_label: "Authentication with remix-auth"
+description: "Implement Remix Auth in Refine v5. Learn the key steps. Learn best practices for provider for real-world React admin panels. Hands-on examples included."
 example-tags: [remix, auth-provider]
 ---
 

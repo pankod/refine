@@ -24,6 +24,7 @@ export const InvoicePageList = () => {
     meta: {
       populate: ["client", "account.logo"],
     },
+
     sorters: {
       initial: [{ field: "updatedAt", order: "desc" }],
     },
@@ -33,12 +34,20 @@ export const InvoicePageList = () => {
     resource: "accounts",
     optionLabel: "company_name",
     optionValue: "company_name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { selectProps: selectPropsClients } = useSelect({
     resource: "clients",
     optionLabel: "name",
     optionValue: "name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

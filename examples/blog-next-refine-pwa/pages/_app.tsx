@@ -12,7 +12,7 @@ import "src/styles/global.css";
 
 const API_URL = "https://fakestoreapi.com";
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+function MyApp({ Component, pageProps }: AppProps): React.JSX.Element {
   return (
     <>
       <GitHubBanner />

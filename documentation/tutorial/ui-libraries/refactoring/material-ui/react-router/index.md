@@ -35,7 +35,10 @@ export const ListProducts = () => {
   });
   // highlight-end
 
-  const { data: categories, isLoading } = useMany<ICategory>({
+  const {
+    result: categories,
+    query: { isLoading },
+  } = useMany<ICategory>({
     resource: "categories",
     // highlight-next-line
     ids: dataGridProps?.rows?.map((product) => product.category?.id) ?? [],
@@ -62,6 +65,7 @@ export const ListProducts = () => {
         headerName: "Category",
         minWidth: 250,
         flex: 0.5,
+        display: "flex",
         renderCell: function render({ row }) {
           if (isLoading) return "Loading...";
 
@@ -85,6 +89,7 @@ export const ListProducts = () => {
       {
         field: "actions",
         headerName: "Actions",
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <div>
@@ -103,7 +108,7 @@ export const ListProducts = () => {
     <div>
       <h1>Products</h1>
       {/* highlight-next-line */}
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </div>
   );
 };
@@ -130,16 +135,16 @@ Button components provided by Refine uses the styling from Ant Design and provid
 
 List of available button components:
 
-- [`<CreateButton />`](/docs/ui-integrations/material-ui/components/buttons/create-button), renders a button to navigate to the create route.
-- [`<EditButton />`](/docs/ui-integrations/material-ui/components/buttons/edit-button), renders a button to navigate to the edit route.
-- [`<ListButton />`](/docs/ui-integrations/material-ui/components/buttons/list-button), renders a button to navigate to the list route.
-- [`<ShowButton />`](/docs/ui-integrations/material-ui/components/buttons/show-button), renders a button to navigate to the show route.
-- [`<CloneButton />`](/docs/ui-integrations/material-ui/components/buttons/clone-button), renders a button to navigate to the clone route.
-- [`<DeleteButton />`](/docs/ui-integrations/material-ui/components/buttons/delete-button), renders a button to delete a record.
-- [`<SaveButton />`](/docs/ui-integrations/material-ui/components/buttons/save-button), renders a button to trigger the form submission.
-- [`<RefreshButton />`](/docs/ui-integrations/material-ui/components/buttons/refresh-button), renders a button to refresh/refetch the data.
-- [`<ImportButton />`](/docs/ui-integrations/material-ui/components/buttons/import-button), renders a button to trigger import bulk data with CSV/Excel files.
-- [`<ExportButton />`](/docs/ui-integrations/material-ui/components/buttons/export-button), renders a button to trigger export bulk data with CSV format.
+- [`<CreateButton />`](/core/docs/ui-integrations/material-ui/components/buttons/create-button), renders a button to navigate to the create route.
+- [`<EditButton />`](/core/docs/ui-integrations/material-ui/components/buttons/edit-button), renders a button to navigate to the edit route.
+- [`<ListButton />`](/core/docs/ui-integrations/material-ui/components/buttons/list-button), renders a button to navigate to the list route.
+- [`<ShowButton />`](/core/docs/ui-integrations/material-ui/components/buttons/show-button), renders a button to navigate to the show route.
+- [`<CloneButton />`](/core/docs/ui-integrations/material-ui/components/buttons/clone-button), renders a button to navigate to the clone route.
+- [`<DeleteButton />`](/core/docs/ui-integrations/material-ui/components/buttons/delete-button), renders a button to delete a record.
+- [`<SaveButton />`](/core/docs/ui-integrations/material-ui/components/buttons/save-button), renders a button to trigger the form submission.
+- [`<RefreshButton />`](/core/docs/ui-integrations/material-ui/components/buttons/refresh-button), renders a button to refresh/refetch the data.
+- [`<ImportButton />`](/core/docs/ui-integrations/material-ui/components/buttons/import-button), renders a button to trigger import bulk data with CSV/Excel files.
+- [`<ExportButton />`](/core/docs/ui-integrations/material-ui/components/buttons/export-button), renders a button to trigger export bulk data with CSV format.
 
 ### Adding Custom Filters
 
@@ -195,8 +200,7 @@ export const ListProducts = () => {
         // We're defining the column type as `singleSelect` and providing the options to the `valueOptions` prop.
         type: "singleSelect",
         valueOptions: categories,
-        // Since now the options are in an object format, we need to provide the `valueFormatter` prop to pick the value of the option.
-        valueFormatter: (params) => params.value,
+        display: "flex",
         renderCell: function render({ row }) {
           if (isLoading) {
             return "Loading...";
@@ -223,6 +227,7 @@ export const ListProducts = () => {
       {
         field: "actions",
         headerName: "Actions",
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <div>
@@ -239,7 +244,7 @@ export const ListProducts = () => {
   return (
     <div>
       <h1>Products</h1>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </div>
   );
 };
@@ -307,7 +312,7 @@ export const EditProduct = () => {
 
   const { autocompleteProps } = useAutocomplete({
     resource: "categories",
-    defaultValue: query?.data?.data?.category?.id,
+    defaultValue: query?.product.category?.id,
   });
 
   return (
@@ -504,15 +509,15 @@ Now that we've refactored our list, edit and create components, let's refactor o
 
 List of available field components:
 
-- [`<BooleanField />`](/docs/ui-integrations/material-ui/components/fields/boolean-field), displays a checkbox element for boolean values.
-- [`<DateField />`](/docs/ui-integrations/material-ui/components/fields/date-field), displays a date with customizable formatting.
-- [`<EmailField />`](/docs/ui-integrations/material-ui/components/fields/email-field), displays an email with a mailto anchor.
-- [`<FileField />`](/docs/ui-integrations/material-ui/components/fields/file-field), displays a download anchor for file.
-- [`<MarkdownField />`](/docs/ui-integrations/material-ui/components/fields/markdown-field), displays a GitHub flavored markdown with `react-makrdown` library.
-- [`<NumberField />`](/docs/ui-integrations/material-ui/components/fields/number-field), displays a number with localized and customizable formatting.
-- [`<TagField />`](/docs/ui-integrations/material-ui/components/fields/tag-field), displays the value with Material UI's `<Chip />` component.
-- [`<TextField />`](/docs/ui-integrations/material-ui/components/fields/text-field), displays the value with Material UI's `<Typography />` component.
-- [`<UrlField />`](/docs/ui-integrations/material-ui/components/fields/url-field), displays the value with a link anchor.
+- [`<BooleanField />`](/core/docs/ui-integrations/material-ui/components/fields/boolean-field), displays a checkbox element for boolean values.
+- [`<DateField />`](/core/docs/ui-integrations/material-ui/components/fields/date-field), displays a date with customizable formatting.
+- [`<EmailField />`](/core/docs/ui-integrations/material-ui/components/fields/email-field), displays an email with a mailto anchor.
+- [`<FileField />`](/core/docs/ui-integrations/material-ui/components/fields/file-field), displays a download anchor for file.
+- [`<MarkdownField />`](/core/docs/ui-integrations/material-ui/components/fields/markdown-field), displays a GitHub flavored markdown with `react-makrdown` library.
+- [`<NumberField />`](/core/docs/ui-integrations/material-ui/components/fields/number-field), displays a number with localized and customizable formatting.
+- [`<TagField />`](/core/docs/ui-integrations/material-ui/components/fields/tag-field), displays the value with Material UI's `<Chip />` component.
+- [`<TextField />`](/core/docs/ui-integrations/material-ui/components/fields/text-field), displays the value with Material UI's `<Typography />` component.
+- [`<UrlField />`](/core/docs/ui-integrations/material-ui/components/fields/url-field), displays the value with a link anchor.
 
 We'll be using the `<TextField />`, `<NumberField />` and `<MarkdownField />` components to represent the fields of the products properly.
 
@@ -532,18 +537,22 @@ import Stack from "@mui/material/Stack";
 
 export const ShowProduct = () => {
   const {
-    query: { data, isLoading },
+    result: product,
+    query: { isLoading },
   } = useShow();
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useOne({
+  const {
+    data: category,
+    query: { isLoading: categoryIsLoading },
+  } = useOne({
     resource: "categories",
-    id: data?.data?.category.id || "",
+    id: product?.category.id || "",
     queryOptions: {
-      enabled: !!data?.data,
+      enabled: !!product,
     },
   });
 
-  if (isLoading) {
+  if (isLoading || !product) {
     return <div>Loading...</div>;
   }
 
@@ -553,28 +562,28 @@ export const ShowProduct = () => {
       <Typography variant="body1" fontWeight="bold">
         Id
       </Typography>
-      <TextField value={data?.data?.id} />
+      <TextField value={product.id} />
       {/* highlight-end */}
 
       {/* highlight-start */}
       <Typography variant="body1" fontWeight="bold">
         Name
       </Typography>
-      <TextField value={data?.data?.name} />
+      <TextField value={product.name} />
       {/* highlight-end */}
 
       {/* highlight-start */}
       <Typography variant="body1" fontWeight="bold">
         Description
       </Typography>
-      <MarkdownField value={data?.data?.description} />
+      <MarkdownField value={product.description} />
       {/* highlight-end */}
 
       {/* highlight-start */}
       <Typography variant="body1" fontWeight="bold">
         Material
       </Typography>
-      <TextField value={data?.data?.material} />
+      <TextField value={product.material} />
       {/* highlight-end */}
 
       {/* highlight-start */}
@@ -582,7 +591,7 @@ export const ShowProduct = () => {
         Category
       </Typography>
       <TextField
-        value={categoryIsLoading ? "Loading..." : categoryData?.data?.title}
+        value={categoryIsLoading ? "Loading..." : categoryproduct.title}
       />
       {/* highlight-end */}
 
@@ -590,7 +599,7 @@ export const ShowProduct = () => {
       <Typography variant="body1" fontWeight="bold">
         Price
       </Typography>
-      <NumberField value={data?.data?.price} />
+      <NumberField value={product.price} />
       {/* highlight-end */}
     </Stack>
   );

@@ -1,5 +1,5 @@
 import React, { type ReactNode } from "react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import { Refine, type DataProvider, type IResourceItem } from "@refinedev/core";
 
 import { MockRouterProvider, MockJSONServer } from "./dataMocks";
@@ -22,7 +22,7 @@ export const TestWrapper: (
       <MemoryRouter initialEntries={routerInitialEntries}>
         <Refine
           dataProvider={dataProvider ?? MockJSONServer}
-          legacyRouterProvider={MockRouterProvider}
+          routerProvider={MockRouterProvider()}
           resources={resources ?? [{ name: "posts" }]}
           options={{ disableTelemetry: true }}
         >

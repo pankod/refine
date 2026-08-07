@@ -3,13 +3,11 @@ import React from "react";
 import { Card, Space, Spin } from "antd";
 import {
   useMutationMode,
-  useNavigation,
   useTranslate,
   useUserFriendlyName,
   useRefineContext,
-  useRouterType,
   useBack,
-  useResource,
+  useResourceParams,
   useGo,
   useToPath,
 } from "@refinedev/core";
@@ -64,10 +62,8 @@ export const Edit: React.FC<EditProps> = ({
   const { mutationMode: mutationModeContext } = useMutationMode();
   const mutationMode = mutationModeProp ?? mutationModeContext;
 
-  const routerType = useRouterType();
   const back = useBack();
   const go = useGo();
-  const { goBack, list: legacyGoList } = useNavigation();
   const getUserFriendlyName = useUserFriendlyName();
 
   const {
@@ -75,7 +71,9 @@ export const Edit: React.FC<EditProps> = ({
     action,
     id: idFromParams,
     identifier,
-  } = useResource(resourceFromProps);
+  } = useResourceParams({
+    resource: resourceFromProps,
+  });
 
   const goListPath = useToPath({
     resource,
@@ -91,20 +89,18 @@ export const Edit: React.FC<EditProps> = ({
 
   const hasList = resource?.list && !recordItemId;
   const isDeleteButtonVisible =
-    canDelete ??
-    ((resource?.meta?.canDelete ?? resource?.canDelete) ||
-      deleteButtonPropsFromProps);
+    canDelete ?? (resource?.meta?.canDelete || deleteButtonPropsFromProps);
 
   const listButtonProps: ListButtonProps | undefined = hasList
     ? {
         ...(isLoading ? { disabled: true } : {}),
-        resource: routerType === "legacy" ? resource?.route : identifier,
+        resource: identifier,
       }
     : undefined;
 
   const refreshButtonProps: RefreshButtonProps = {
     ...(isLoading ? { disabled: true } : {}),
-    resource: routerType === "legacy" ? resource?.route : identifier,
+    resource: identifier,
     recordItemId: id,
     dataProviderName,
   };
@@ -112,14 +108,10 @@ export const Edit: React.FC<EditProps> = ({
   const deleteButtonProps: DeleteButtonProps | undefined = isDeleteButtonVisible
     ? {
         ...(isLoading ? { disabled: true } : {}),
-        resource: routerType === "legacy" ? resource?.route : identifier,
+        resource: identifier,
         mutationMode,
         onSuccess: () => {
-          if (routerType === "legacy") {
-            legacyGoList(resource?.route ?? resource?.name ?? "");
-          } else {
-            go({ to: goListPath });
-          }
+          go({ to: goListPath });
         },
         recordItemId: id,
         dataProviderName,
@@ -152,21 +144,14 @@ export const Edit: React.FC<EditProps> = ({
       <PageHeader
         backIcon={goBackFromProps}
         onBack={
-          action !== "list" && typeof action !== "undefined"
-            ? routerType === "legacy"
-              ? goBack
-              : back
-            : undefined
+          action !== "list" && typeof action !== "undefined" ? back : undefined
         }
         title={
           title ??
           translate(
             `${identifier}.titles.edit`,
             `Edit ${getUserFriendlyName(
-              resource?.meta?.label ??
-                resource?.options?.label ??
-                resource?.label ??
-                identifier,
+              resource?.meta?.label ?? identifier,
               "singular",
             )}`,
           )
@@ -185,17 +170,13 @@ export const Edit: React.FC<EditProps> = ({
           </Space>
         }
         breadcrumb={
-          typeof breadcrumb !== "undefined" ? (
-            <>{breadcrumb}</> ?? undefined
-          ) : (
-            <Breadcrumb />
-          )
+          typeof breadcrumb !== "undefined" ? <>{breadcrumb}</> : <Breadcrumb />
         }
         {...(headerProps ?? {})}
       >
         <Spin spinning={isLoading}>
           <Card
-            bordered={false}
+            variant="borderless"
             actions={[
               <Space
                 key="footer-buttons"

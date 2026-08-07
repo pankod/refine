@@ -96,7 +96,7 @@ Open http://localhost:5173 in your browser to view the project.
 <summary><code>providers/auth.ts</code></summary>
 
 ```typescript
-import { AuthBindings } from "@refinedev/core";
+import type { AuthProvider } from "@refinedev/core";
 
 import { API_URL, dataProvider } from "./data";
 
@@ -106,7 +106,7 @@ export const authCredentials = {
   password: "demodemo",
 };
 
-export const authProvider: AuthBindings = {
+export const authProvider: AuthProvider = {
   login: async ({ email }) => {
     try {
       // call the login mutation
@@ -1274,7 +1274,7 @@ export const businessTypeOptions: {
 <summary><code>pages/company/contacts-table.tsx</code></summary>
 
 ```typescript
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 import { FilterDropdown, useTable } from "@refinedev/antd";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
@@ -1645,7 +1645,7 @@ export const KanbanAddCardButton = ({
 <summary><code>pages/tasks/create.tsx</code></summary>
 
 ```typescript
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 
 import { useModalForm } from "@refinedev/antd";
 import { useNavigation } from "@refinedev/core";

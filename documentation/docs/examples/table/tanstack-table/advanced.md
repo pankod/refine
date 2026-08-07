@@ -1,6 +1,8 @@
 ---
 id: advanced-tanstack-table
-title: Advanced Tables with Tanstack Table
+title: "Advanced Tanstack Table Example | Pagination in Refine v5"
+display_title: "Advanced Tables with Tanstack Table"
+description: "Learn to build with the Advanced Tanstack Table example in Refine v5. Learn provider for real-world React admin panels. Explore with code snippets."
 sidebar_label: Advanced Table
 example-title: Advanced TanStack Table
 example-tags: [table, react-table, tanstack-table]

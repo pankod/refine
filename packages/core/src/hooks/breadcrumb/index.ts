@@ -3,11 +3,9 @@ import React, { useContext } from "react";
 import warnOnce from "warn-once";
 
 import { I18nContext } from "@contexts/i18n";
-import { useRouterType } from "@contexts/router/picker";
-import { pickNotDeprecated } from "@definitions";
 import { getActionRoutesFromResource } from "@definitions/helpers/router";
 import { composeRoute } from "@definitions/helpers/router/compose-route";
-import { useRefineContext, useResource, useTranslate } from "@hooks";
+import { useRefineContext, useResourceParams, useTranslate } from "@hooks";
 import { useParsed } from "@hooks/router/use-parsed";
 
 import type { IResourceItem } from "../../contexts/resource/types";
@@ -33,11 +31,10 @@ type UseBreadcrumbProps = {
 export const useBreadcrumb = ({
   meta: metaFromProps = {},
 }: UseBreadcrumbProps = {}): UseBreadcrumbReturnType => {
-  const routerType = useRouterType();
   const { i18nProvider } = useContext(I18nContext);
   const parsed = useParsed();
   const translate = useTranslate();
-  const { resources, resource, action } = useResource();
+  const { action, resource, resources } = useResourceParams();
   const {
     options: { textTransformers },
   } = useRefineContext();
@@ -51,23 +48,19 @@ export const useBreadcrumb = ({
   const addBreadcrumb = (parentName: string | IResourceItem) => {
     const parentResource =
       typeof parentName === "string"
-        ? pickResource(parentName, resources, routerType === "legacy") ?? {
+        ? pickResource(parentName, resources) ?? {
             name: parentName,
           }
         : parentName;
 
     if (parentResource) {
-      const grandParentName = pickNotDeprecated(
-        parentResource?.meta?.parent,
-        parentResource?.parentName,
-      );
+      const grandParentName = parentResource?.meta?.parent;
       if (grandParentName) {
         addBreadcrumb(grandParentName);
       }
       const listActionOfResource = getActionRoutesFromResource(
         parentResource,
         resources,
-        routerType === "legacy",
       ).find((r) => r.action === "list");
 
       const hrefRaw = listActionOfResource?.resource?.list
@@ -75,27 +68,18 @@ export const useBreadcrumb = ({
         : undefined;
 
       const href = hrefRaw
-        ? routerType === "legacy"
-          ? hrefRaw
-          : composeRoute(hrefRaw, parentResource?.meta, parsed, metaFromProps)
+        ? composeRoute(hrefRaw, parentResource?.meta, parsed, metaFromProps)
         : undefined;
 
       breadcrumbs.push({
         label:
-          pickNotDeprecated(
-            parentResource.meta?.label,
-            parentResource.options?.label,
-          ) ??
+          parentResource.meta?.label ??
           translate(
             `${parentResource.name}.${parentResource.name}`,
             textTransformers.humanize(parentResource.name),
           ),
         href: href,
-        icon: pickNotDeprecated(
-          parentResource.meta?.icon,
-          parentResource.options?.icon,
-          parentResource.icon,
-        ),
+        icon: parentResource.meta?.icon,
       });
     }
   };

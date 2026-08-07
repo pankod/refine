@@ -4,7 +4,7 @@ import type { StoreCustomersRes } from "@medusajs/medusa";
 import { AddressBook } from "@components";
 
 export const AddressesTemplate: React.FC = () => {
-  const { data: customer } = useOne<StoreCustomersRes>({
+  const { result: customer } = useOne<StoreCustomersRes>({
     resource: "customers",
     id: "me",
   });
@@ -18,7 +18,7 @@ export const AddressesTemplate: React.FC = () => {
           like. Saving your addresses will make them available during checkout.
         </p>
       </div>
-      <AddressBook customer={customer?.data.customer} />
+      <AddressBook customer={customer?.customer} />
     </div>
   );
 };

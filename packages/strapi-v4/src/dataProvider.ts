@@ -16,7 +16,11 @@ export const DataProvider = (
   getList: async ({ resource, pagination, filters, sorters, meta }) => {
     const url = `${apiUrl}/${resource}`;
 
-    const { current = 1, pageSize = 10, mode = "server" } = pagination ?? {};
+    const {
+      currentPage = 1,
+      pageSize = 10,
+      mode = "server",
+    } = pagination ?? {};
 
     const locale = meta?.locale;
     const fields = meta?.fields;
@@ -29,7 +33,7 @@ export const DataProvider = (
     const query = {
       ...(mode === "server"
         ? {
-            "pagination[page]": current,
+            "pagination[page]": currentPage,
             "pagination[pageSize]": pageSize,
           }
         : {}),

@@ -26,10 +26,8 @@ export const UpdatePasswordPage: React.FC<UpdatePasswordProps> = ({
   const translate = useTranslate();
 
   const authProvider = useActiveAuthProvider();
-  const { mutate: updatePassword, isLoading } =
-    useUpdatePassword<UpdatePasswordFormTypes>({
-      v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-    });
+  const { mutate: updatePassword, isPending } =
+    useUpdatePassword<UpdatePasswordFormTypes>();
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -87,7 +85,7 @@ export const UpdatePasswordPage: React.FC<UpdatePasswordProps> = ({
           />
           <input
             type="submit"
-            disabled={isLoading}
+            disabled={isPending}
             value={translate("pages.updatePassword.buttons.submit", "Update")}
           />
         </div>

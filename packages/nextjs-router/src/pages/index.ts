@@ -1,5 +1,4 @@
-export { routerBindings as default, stringifyConfig } from "./bindings.js";
-export { RefineRoutes } from "./refine-routes.js";
+export { routerProvider as default, stringifyConfig } from "./bindings.js";
 export { NavigateToResource } from "./navigate-to-resource.js";
 export { UnsavedChangesNotifier } from "./unsaved-changes-notifier.js";
 export { default as parseTableParams } from "../common/parse-table-params.js";

@@ -3,12 +3,14 @@ title: Beginner's Guide to React Query
 description: We'll be looking at the basics of React Query, how to use it, and why you should use it.
 slug: react-query-guide
 authors: marvel_ken
-tags: [react, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-04-react-query-intro/social-2.png
+category: "Ecosystem / Integrations"
+tags: [react]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-04-react-query-intro/social-2.png
 hide_table_of_contents: false
+last_update: 2025-09-19
 ---
 
-**This article was last updated on November 28, 2024 to add clear introduction to React query post.**
+**This article was last updated on September 19, 2025 to include new details on React Query v5.**
 
 ## Introduction
 
@@ -25,15 +27,6 @@ Improve performance, develop responsive designs, and provide seamless user exper
 Step into the world of web development, where loading server data, handling errors, and keeping clients and servers in sync are all part of the exciting puzzle. But wait, there's more! Picture a scenario where poor internet connections add another layer of complexity. It's enough to make any developer's head spin.
 
 Now, imagine a solution that takes these challenges and turns them into a breeze. [React Query](https://tanstack.com/query/v3/) as a solution helps in caching and server state management. Whether you're a seasoned developer or just starting your coding journey, React Query is a great option to try.
-
-Steps we'll cover:
-
-- [What is React Query?](#what-is-react-query)
-- [Querying Data](#querying-data)
-- [Why use React Query?](#why-use-react-query)
-- [Mutating Data](#mutating-data)
-- [React Query and Frameworks](#react-query-and-frameworks)
-- [Bonus: Subject: Advanced Querying Techniques using React Query](#bonus-subject-advanced-querying-techniques-using-react-query)
 
 ## Article Objective
 
@@ -218,7 +211,7 @@ In the code above, `useMutation` is used to post new data to the Json Placeholde
 This is what it looks like in a Chrome browser:
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-04-react-query-intro/chrome-browser.png"  alt="react query" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-04-react-query-intro/chrome-browser.png"  alt="Create post form in the browser" />
 </div>
 
 <br/>
@@ -226,7 +219,7 @@ This is what it looks like in a Chrome browser:
 After feeling the options, click submit and wait for the response:
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-04-react-query-intro/click-submit.png"  alt="react query" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-04-react-query-intro/click-submit.png"  alt="Submitting the create post form" />
 </div>
 
 <br/>
@@ -234,7 +227,7 @@ After feeling the options, click submit and wait for the response:
 **Response**:
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-04-react-query-intro/response.png"  alt="react query" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-04-react-query-intro/response.png"  alt="API response after form submission" />
 </div>
 
 <br/>
@@ -344,7 +337,7 @@ Following the steps above illustrates how best to use the `useMutation` hook and
 
 ## React Query and Frameworks
 
-React-based framework like [Refine](https://github.com/refinedev/refine) has extended versions of the hooks provided by React Query. Refine extends the functionality of React Query's hooks, adding extra features and customization options to better suit data-intensive applications. These hooks include [useUpdate](https://refine.dev/docs/api-reference/core/hooks/data/useUpdate/) and [useList](https://refine.dev/docs/api-reference/core/hooks/data/useList/).
+React-based framework like [Refine](https://github.com/refinedev/refine) has extended versions of the hooks provided by React Query. Refine extends the functionality of React Query's hooks, adding extra features and customization options to better suit data-intensive applications. These hooks include [useUpdate](https://refine.dev/core/docs/data/hooks/use-update/) and [useList](https://refine.dev/core/docs/data/hooks/use-list/).
 
 The `useUpdate` hook in Refine is an extended version of the `useMutation` hook from React Query. This hook is used when you want to update a record. It uses the `update` method as the mutation function from the `dataProvider` that is passed to **Refine**.
 
@@ -444,6 +437,12 @@ const { data, isLoading } = useQuery("posts", fetchPosts, {
   refetchOnWindowFocus: true,
 });
 ```
+
+## What’s New in React Query v5?
+
+Since the original publication of this article, React Query has evolved into **TanStack Query v5**. While the fundamentals—fetching, caching, synchronizing server state—remain the same, v5 introduces several refinements. The API is more consistent, with clearer usage of `queryKey` and `queryFn`, and the DevTools have been redesigned to give developers better visibility into queries and mutations.
+
+One of the biggest improvements is in TypeScript support, making it easier to work with strongly typed applications. Cache management has also been fine-tuned, which reduces surprises when queries are refetched in the background. If you are starting a new project today, it’s recommended to use v5 directly, since the learning curve is the same but the developer experience is smoother and future-proof.
 
 ## Conclusion
 

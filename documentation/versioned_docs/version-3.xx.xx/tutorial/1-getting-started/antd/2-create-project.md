@@ -83,7 +83,7 @@ Your project files contain all the code you need to run your app. To see a previ
 
 2. You will be redirected to the welcome page as we have not added any pages yet.
 
-   ([Next section](/docs/3.xx.xx/tutorial/getting-started/antd/generate-crud-pages) will guide you through adding pages to your app.)
+   ([Next section](/core/docs/3.xx.xx/tutorial/getting-started/antd/generate-crud-pages) will guide you through adding pages to your app.)
 
 Here's what you should see:
 

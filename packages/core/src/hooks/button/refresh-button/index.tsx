@@ -3,7 +3,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTranslate } from "../../i18n";
 import { useInvalidate } from "../../invalidate";
 import { useResourceParams } from "../../use-resource-params";
-import { useResource } from "../../resource";
 import { useKeys } from "../../useKeys";
 import { pickDataProvider } from "../../../definitions";
 
@@ -26,24 +25,22 @@ export function useRefreshButton(
   props: RefreshButtonProps,
 ): RefreshButtonValues {
   const translate = useTranslate();
-  const { keys, preferLegacyKeys } = useKeys();
+  const { keys } = useKeys();
 
   const queryClient = useQueryClient();
   const invalidates = useInvalidate();
 
-  const { identifier, id } = useResourceParams({
+  const { identifier, id, resources } = useResourceParams({
     resource: props.resource,
     id: props.id,
   });
-
-  const { resources } = useResource();
 
   const loading = !!queryClient.isFetching({
     queryKey: keys()
       .data(pickDataProvider(identifier, props.dataProviderName, resources))
       .resource(identifier)
       .action("one")
-      .get(preferLegacyKeys),
+      .get(),
   });
 
   const onClick = () => {

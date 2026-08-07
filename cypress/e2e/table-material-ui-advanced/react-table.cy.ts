@@ -3,8 +3,6 @@
 
 describe("table-material-ui-advanced", () => {
   beforeEach(() => {
-    cy.interceptGETPosts();
-    cy.interceptGETCategories();
     cy.visit("/posts/react-table");
   });
 
@@ -51,8 +49,6 @@ describe("table-material-ui-advanced", () => {
   it("should fill the form with the row data when click the edit button and save the form", () => {
     cy.wait("@getPosts");
 
-    cy.interceptGETPost();
-
     cy.getEditButton().first().click({ force: true });
 
     cy.get(".MuiTableCell-root #title").should("exist");
@@ -72,8 +68,6 @@ describe("table-material-ui-advanced", () => {
     cy.get(".MuiTableCell-root #title")
       .clear({ force: true })
       .type("Fuga eos enim autem eos.");
-
-    cy.interceptPATCHPost();
 
     cy.getSaveButton().first().click();
 

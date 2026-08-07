@@ -3,12 +3,14 @@ title: How to Multipart File Upload Using FormData with React Hook Form
 description: In this guide, I'm going to show you how to multipart files upload with using React Hook Form
 slug: how-to-multipart-file-upload-with-react-hook-form
 authors: melih
-tags: [Refine, react, react-hook-form, javascript]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-29-react-hook-form-upload/social.jpg
+category: "Ecosystem / Integrations"
+tags: [react]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-29-react-hook-form-upload/social.jpg
 hide_table_of_contents: false
+last_update: 2022-10-19
 ---
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-29-react-hook-form-upload/overview.gif" alt="Refine Example Overview" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-29-react-hook-form-upload/overview.gif" alt="Refine upload example overview screen" />
 <br />
 
 In this example, we will learn how to upload files with [React Hook Form](https://react-hook-form.com/), which is very preferred for managing forms with React. We will use [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData) to upload a file and we will upload a file of type multipart/form-data.
@@ -84,7 +86,7 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server started on port ${port}`));
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-29-react-hook-form-upload/server_start.gif" alt="Express Server" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-29-react-hook-form-upload/server_start.gif" alt="Express server running in the terminal" />
 <br />
 
 We created a server with Express. As you can see, we have successfully started our server, now we have an endpoint to handle requests to this port. Now let's create a React project and send our files to this server with React Hook Form.
@@ -117,7 +119,7 @@ Try [Refine](https://github.com/pankod/refine) to rapidly build your next **CRUD
 
 <div>
 <a href="https://github.com/pankod/refine">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/generic_banner.png" alt="refine blog logo" /> 
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/generic_banner.webp" alt="Refine blog banner" />
 </a>
 </div>
 
@@ -202,13 +204,13 @@ export default App;
 
 Our project is ready! With React Hook Form, we can now send the selected file to our server in `multipart/form-data` type. Let's test it!
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-29-react-hook-form-upload/image_upload.gif" alt="multipart/form-data file upload" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-29-react-hook-form-upload/image_upload.avif" alt="multipart/form-data file upload" />
 <br />
 
 <br/>
 <div>
 <a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="discord banner" />
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="Join Refine on Discord banner" />
 </a>
 </div>
 
@@ -230,15 +232,15 @@ A React-based framework for building internal tools, rapidly. **Refine** offers 
 
 📝 Boilerplate-free Code : Keeps your codebase clean and readable.
 
-[Refer to the **Refine** documentation for more information. →](https://refine.dev/docs/)
+[Refer to the **Refine** documentation for more information. →](https://refine.dev/core/docs/)
 
 ## How to Multipart File Upload with Refine and React Hook Form?
 
-It allows you to manage your forms and send data to your server with the [refine-react-hook-form adapter](/docs/packages/list-of-packages) it publishes with its **Refine** **headless** feature. With this adapter, you can use all the features of the React Hook Form in harmony with **Refine**. You can also perform `Multipart File Upload(multipart/form-data)` operation very easily using this adapter.
+It allows you to manage your forms and send data to your server with the [refine-react-hook-form adapter](/core/docs/packages/list-of-packages/) it publishes with its **Refine** **headless** feature. With this adapter, you can use all the features of the React Hook Form in harmony with **Refine**. You can also perform `Multipart File Upload(multipart/form-data)` operation very easily using this adapter.
 
-[Refer to the refine-react-hook-form adapter documentation for detailed information. →](/docs/packages/list-of-packages)
+[Refer to the refine-react-hook-form adapter documentation for detailed information. →](/core/docs/packages/list-of-packages/)
 
-[View Source](https://github.com/refinedev/refine/tree/master/examples/reactHookForm/useForm)
+[View Source](https://github.com/refinedev/refine/tree/main/examples/reactHookForm/useForm)
 
 You can manage your form very easily with the `refine-react-hook-form adapter`. The data created in the form will be automatically saved to the database with the **Refine** `onFinish` method.
 
@@ -351,7 +353,7 @@ export const PostCreate: React.FC = () => {
 };
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-29-react-hook-form-upload/overview.gif" alt="Refine Example Overview" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-29-react-hook-form-upload/overview.gif" alt="Refine upload example overview screen" />
 <br />
 
 As you can see, we have easily saved both our data such as title, category, status and an image in the form of `multipart/form-data` to our database using the `refine-react-hook-form` adapter. We've only shown how to utilize the Multipart File Upload feature for our example in this tutorial. For examine **Refine** CMS example, checkout the live codeSandbox below.

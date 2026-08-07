@@ -1,6 +1,9 @@
 ---
 id: search
-title: Search
+title: "Search Tutorial | Filtering in Refine v5"
+display_title: "Search"
+sidebar_label: "Search"
+description: "Explore how to implement Search in Refine v5. Learn advanced patterns for filtering, query for production-ready workflows. See practical code samples."
 ---
 
 We will create a `<Header>` component for your application with Ant Design's [`<AutoComplete>`](https://ant.design/components/auto-complete) component.
@@ -76,7 +79,7 @@ export default App;
 
 Now let's get our [`<AutoComplete>`](https://ant.design/components/auto-complete) input ready to search. So, let's fetch our posts according to the value entered in our input.
 
-To fetch more than one record, we will use the [`useList`](/docs/data/hooks/use-list) data hook, and we will filter and fetch this data according to the search value.
+To fetch more than one record, we will use the [`useList`](/core/docs/data/hooks/use-list/) data hook, and we will filter and fetch this data according to the search value.
 
 Before we start, let's create the interfaces of our [`<AutoComplete>`](https://ant.design/components/auto-complete)'s `options` property and the post source.
 
@@ -106,7 +109,7 @@ export interface IOptions {
 import { useState, useEffect } from "react";
 import { useList } from "@refinedev/core";
 import { Layout, AutoComplete, Input, Icons, Typography } from "antd";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 
 const { Link } = routerProvider;
 const { Text } = Typography;
@@ -139,7 +142,9 @@ export const Header: React.FC = () => {
   const [value, setValue] = useState<string>("");
   const [options, setOptions] = useState<IOptions[]>([]);
 
-  const { refetch: refetchPosts } = useList<IPost>({
+  const {
+    query: { refetch: refetchPosts },
+  } = useList<IPost>({
     resource: "posts",
     filters: [{ field: "title", operator: "contains", value }],
     queryOptions: {
@@ -189,7 +194,7 @@ export const Header: React.FC = () => {
 };
 ```
 
-We created states to dynamically manage the `value` and `options` properties of the [`<AutoComplete>`](https://ant.design/components/auto-complete) component. The [`useList`](/docs/data/hooks/use-list) hook is triggered whenever the value changes. Likewise, the filter used to fetch the data is updated each time the value changes.
+We created states to dynamically manage the `value` and `options` properties of the [`<AutoComplete>`](https://ant.design/components/auto-complete) component. The [`useList`](/core/docs/data/hooks/use-list/) hook is triggered whenever the value changes. Likewise, the filter used to fetch the data is updated each time the value changes.
 
 <br />
 
@@ -201,7 +206,7 @@ export const Header: React.FC = () => {
     const [value, setValue] = useState<string>("");
     const [options, setOptions] = useState<IOptions[]>([]);
 
-    const { refetch: refetchPosts } = useList<IPost>({
+    const { query: { refetch: refetchPosts } } = useList<IPost>({
         resource: "posts",
         filters: [{ field: "title", operator: "contains", value }],
         queryOptions: {
@@ -223,7 +228,7 @@ export const Header: React.FC = () => {
         },
     });
 
-    const { refetch: refetchCategories } = useList<ICategory>({
+    const { query: { refetch: refetchCategories } } = useList<ICategory>({
         resource: "categories",
         filters: [{ field: "q", operator: "contains", value }],
         queryOptions: {

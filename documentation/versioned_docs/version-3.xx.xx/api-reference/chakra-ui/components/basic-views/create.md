@@ -145,7 +145,7 @@ render(
 ```
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Properties
@@ -198,7 +198,7 @@ render(
 
 `<Create>` component has a default button that submits the form. If you want to customize this button you can use the `saveButtonProps` property like the code below.
 
-[Refer to the `<SaveButton>` documentation for detailed usage. &#8594](/api-reference/chakra-ui/components/buttons/save.md)
+[Refer to the `<SaveButton>` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/chakra-ui/components/buttons/save)
 
 ```tsx live url=http://localhost:3000/posts/create previewHeight=280px
 setInitialRoutes(["/posts/create"]);
@@ -244,7 +244,7 @@ render(
 
 The `<Create>` component reads the `resource` information from the route by default. This default behavior will not work on custom pages. If you want to use the `<Create>` component in a custom page, you can use the `resource` prop.
 
-[Refer to the custom pages documentation for detailed usage. &#8594](/advanced-tutorials/custom-pages.md)
+[Refer to the custom pages documentation for detailed usage. &#8594](/core/docs/3.xx.xx/advanced-tutorials/custom-pages)
 
 ```tsx live url=http://localhost:3000/custom previewHeight=280px
 setInitialRoutes(["/custom"]);
@@ -408,10 +408,10 @@ render(
 
 To customize or disable the breadcrumb, you can use the `breadcrumb` property. By default it uses the `Breadcrumb` component from `@pankod/refine-chakra-ui` package.
 
-[Refer to the `Breadcrumb` documentation for detailed usage. &#8594](/api-reference/chakra-ui/components/breadcrumb.md)
+[Refer to the `Breadcrumb` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/chakra-ui/components/breadcrumb)
 
 :::tip
-This feature can be managed globally via the `<Refine>` component's [options](/docs/3.xx.xx/api-reference/core/components/refine-config/#breadcrumb)
+This feature can be managed globally via the `<Refine>` component's [options](/core/docs/3.xx.xx/api-reference/core/components/refine-config/#breadcrumb)
 :::
 
 ```tsx live url=http://localhost:3000/posts/create previewHeight=280px

@@ -21,10 +21,13 @@ interface IPost {
 }
 
 const PostList: React.FC = () => {
-  const { tableQuery, filters, setFilters } = useTable<IPost, HttpError>();
+  const { result, tableQuery, filters, setFilters } = useTable<
+    IPost,
+    HttpError
+  >();
 
   // Fetches the posts for the current page
-  const posts = tableQuery?.data?.data ?? [];
+  const posts = result.data;
 
   // Gets the current filter values for the fields
   // highlight-start
@@ -121,7 +124,7 @@ const PostList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {tableQuery.data?.data.map((post) => (
+          {result.data?.map((post) => (
             <tr key={post.id}>
               <td>{post.id}</td>
               <td>{post.title}</td>
@@ -140,10 +143,18 @@ setRefineProps({
   resources: [
     {
       name: "posts",
-      list: PostList,
+      list: "/posts",
     },
   ],
 });
 
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo>
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<PostList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

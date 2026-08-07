@@ -18,20 +18,20 @@ In order to create a GraphQL query, our [`dataProvider`][data-provider] has to t
 
 Hooks and components that support `MetaDataQuery`:
 
-| Supported data hooks                                                                 | Supported other hooks                                                                      | Supported components                                                                         |
-| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
-| [`useUpdate` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/)         | [`useForm` &#8594](/docs/3.xx.xx/api-reference/core/hooks/useForm)                         | [`DeleteButton` &#8594](/docs/3.xx.xx/api-reference/antd/components/buttons/delete-button)   |
-| [`useUpdateMany` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdateMany/) | [`useModalForm` &#8594](/docs/3.xx.xx/api-reference/antd/hooks/form/useModalForm)          | [`RefreshButton` &#8594](/docs/3.xx.xx/api-reference/antd/components/buttons/refresh-button) |
-| [`useDelete` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/)         | [`useDrawerForm` &#8594](/docs/3.xx.xx/api-reference/antd/hooks/form/useDrawerForm)        |                                                                                              |
-| [`useDeleteMany` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useDeleteMany/) | [`useStepsForm` &#8594](/docs/3.xx.xx/api-reference/antd/hooks/form/useStepsForm)          |                                                                                              |
-| [`useCreate` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/)         | [`useTable` &#8594](/docs/3.xx.xx/api-reference/core/hooks/useTable)                       |                                                                                              |
-| [`useCreateMany` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/) | [`useEditableTable` &#8594](/docs/3.xx.xx/api-reference/antd/hooks/table/useEditableTable) |                                                                                              |
-| [`useList` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useList/)             | [`useSimpleList` &#8594](/docs/3.xx.xx/api-reference/antd/hooks/list/useSimpleList)        |                                                                                              |
-| [`useOne` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/)               | [`useShow` &#8594](/docs/3.xx.xx/api-reference/core/hooks/show/useShow)                    |                                                                                              |
-| [`useMany` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useMany/)             | [`useExport` &#8594](/docs/3.xx.xx/api-reference/core/hooks/import-export/useExport)       |                                                                                              |
-| [`useCustom` &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useCustom/)         | [`useCheckboxGroup` &#8594](/docs/3.xx.xx/api-reference/antd/hooks/field/useCheckboxGroup) |                                                                                              |
-|                                                                                      | [`useSelect` &#8594](/docs/3.xx.xx/api-reference/core/hooks/useSelect/)                    |                                                                                              |
-|                                                                                      | [`useRadioGroup` &#8594](/docs/3.xx.xx/api-reference/antd/hooks/field/useRadioGroup)       |                                                                                              |
+| Supported data hooks                                                                      | Supported other hooks                                                                           | Supported components                                                                              |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| [`useUpdate` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/)         | [`useForm` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/useForm)                         | [`DeleteButton` &#8594](/core/docs/3.xx.xx/api-reference/antd/components/buttons/delete-button)   |
+| [`useUpdateMany` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdateMany/) | [`useModalForm` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useModalForm)          | [`RefreshButton` &#8594](/core/docs/3.xx.xx/api-reference/antd/components/buttons/refresh-button) |
+| [`useDelete` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/)         | [`useDrawerForm` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useDrawerForm)        |                                                                                                   |
+| [`useDeleteMany` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDeleteMany/) | [`useStepsForm` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useStepsForm)          |                                                                                                   |
+| [`useCreate` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/)         | [`useTable` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/useTable)                       |                                                                                                   |
+| [`useCreateMany` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/) | [`useEditableTable` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/table/useEditableTable) |                                                                                                   |
+| [`useList` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/)             | [`useSimpleList` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/list/useSimpleList)        |                                                                                                   |
+| [`useOne` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/)               | [`useShow` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/show/useShow)                    |                                                                                                   |
+| [`useMany` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useMany/)             | [`useExport` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/import-export/useExport)       |                                                                                                   |
+| [`useCustom` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCustom/)         | [`useCheckboxGroup` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/field/useCheckboxGroup) |                                                                                                   |
+|                                                                                           | [`useSelect` &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/useSelect/)                    |                                                                                                   |
+|                                                                                           | [`useRadioGroup` &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/field/useRadioGroup)       |                                                                                                   |
 
 ## Setup
 
@@ -307,7 +307,7 @@ export const PostEdit: React.FC<IResourceComponentsProps> = () => {
 ```
 
 :::info
-The create page is largely the same as the edit page, there is no need to pass `metaData` to [`useForm`](/docs/3.xx.xx/api-reference/core/hooks/useForm) on the create page. If you want to use the created record as a response after the request, you can pass the `fields` with `metaData`.
+The create page is largely the same as the edit page, there is no need to pass `metaData` to [`useForm`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm) on the create page. If you want to use the created record as a response after the request, you can pass the `fields` with `metaData`.
 :::
 
 </TabItem>
@@ -330,7 +330,7 @@ mutation ($input: updatePostInput) {
 
 ## Show Page
 
-`<Show>` component includes the [`<RefreshButton>`](/docs/3.xx.xx/api-reference/antd/components/buttons/refresh-button) by default. We can pass `refetch` method of `queryResult` to its `onClick`. This method repeats the last request made by the query. So it refreshes the data that is shown in page.
+`<Show>` component includes the [`<RefreshButton>`](/core/docs/3.xx.xx/api-reference/antd/components/buttons/refresh-button) by default. We can pass `refetch` method of `queryResult` to its `onClick`. This method repeats the last request made by the query. So it refreshes the data that is shown in page.
 
 <Tabs
 defaultValue="usage"
@@ -406,4 +406,4 @@ mutation ($input: updatePostInput) {
 
 <CodeSandboxExample path="--branch v3 data-provider-strapi-graphql" />
 
-[data-provider]: /docs/3.xx.xx/api-reference/core/providers/data-provider/
+[data-provider]: /core/docs/3.xx.xx/api-reference/core/providers/data-provider/

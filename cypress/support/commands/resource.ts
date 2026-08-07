@@ -133,8 +133,6 @@ export const list = () => {
 };
 
 export const create = ({ ui }: IResourceCreateParams) => {
-  cy.interceptGETCategories();
-
   cy.getCreateButton().click();
   cy.wait("@getCategories");
   cy.location("pathname").should("eq", "/posts/create");
@@ -143,7 +141,6 @@ export const create = ({ ui }: IResourceCreateParams) => {
 
   fillForm(ui);
 
-  cy.interceptPOSTPost();
   cy.getSaveButton().click();
 
   cy.wait("@postPost").then((interception) => {
@@ -153,9 +150,6 @@ export const create = ({ ui }: IResourceCreateParams) => {
 };
 
 export const edit = ({ ui }: IResourceEditParams) => {
-  cy.interceptGETCategories();
-  cy.interceptGETPost();
-
   // wait loading state and render to be finished
   cy.wait("@getPosts");
   waitLoadingOverlay(ui);
@@ -177,7 +171,6 @@ export const edit = ({ ui }: IResourceEditParams) => {
 
   fillForm(ui);
 
-  cy.interceptPATCHPost();
   cy.getSaveButton().click();
 
   cy.wait("@patchPost").then((interception) => {
@@ -187,9 +180,6 @@ export const edit = ({ ui }: IResourceEditParams) => {
 };
 
 export const show = () => {
-  cy.interceptGETPost();
-  cy.interceptGETCategory();
-
   cy.getShowButton().first().click();
 
   cy.assertDocumentTitle("Post", "show");
@@ -221,11 +211,9 @@ export const show = () => {
 };
 
 export const resourceDelete = ({ ui }: IResourceDeleteParams) => {
-  cy.interceptGETCategories();
   cy.wait("@getPosts");
   waitLoadingOverlay(ui);
 
-  cy.interceptGETPost();
   cy.getEditButton().first().click();
 
   // wait loading state and render to be finished
@@ -233,7 +221,6 @@ export const resourceDelete = ({ ui }: IResourceDeleteParams) => {
   waitLoadingOverlay(ui);
   cy.getSaveButton().should("not.be.disabled");
 
-  cy.interceptDELETEPost();
   cy.getDeleteButton().first().click();
   switch (ui) {
     case "antd":

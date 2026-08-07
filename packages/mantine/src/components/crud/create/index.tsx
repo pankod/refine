@@ -10,11 +10,9 @@ import {
 } from "@mantine/core";
 import {
   useBack,
-  useNavigation,
   useRefineContext,
-  useResource,
+  useResourceParams,
   useUserFriendlyName,
-  useRouterType,
   useTranslate,
 } from "@refinedev/core";
 import { IconArrowLeft } from "@tabler/icons-react";
@@ -44,12 +42,12 @@ export const Create: React.FC<CreateProps> = (props) => {
     options: { breadcrumb: globalBreadcrumb } = {},
   } = useRefineContext();
 
-  const routerType = useRouterType();
   const back = useBack();
-  const { goBack } = useNavigation();
   const getUserFriendlyName = useUserFriendlyName();
 
-  const { resource, action, identifier } = useResource(resourceFromProps);
+  const { resource, identifier } = useResourceParams({
+    resource: resourceFromProps,
+  });
 
   const breadcrumb =
     typeof breadcrumbFromProps === "undefined"
@@ -57,11 +55,7 @@ export const Create: React.FC<CreateProps> = (props) => {
       : breadcrumbFromProps;
 
   const breadcrumbComponent =
-    typeof breadcrumb !== "undefined" ? (
-      <>{breadcrumb}</> ?? undefined
-    ) : (
-      <Breadcrumb />
-    );
+    typeof breadcrumb !== "undefined" ? <>{breadcrumb}</> : <Breadcrumb />;
 
   const saveButtonProps: SaveButtonProps = {
     ...(isLoading ? { disabled: true } : {}),
@@ -74,15 +68,7 @@ export const Create: React.FC<CreateProps> = (props) => {
 
   const buttonBack =
     goBackFromProps === (false || null) ? null : (
-      <ActionIcon
-        onClick={
-          action !== "list" || typeof action !== "undefined"
-            ? routerType === "legacy"
-              ? goBack
-              : back
-            : undefined
-        }
-      >
+      <ActionIcon onClick={back}>
         {typeof goBackFromProps !== "undefined" ? (
           goBackFromProps
         ) : (
@@ -125,10 +111,7 @@ export const Create: React.FC<CreateProps> = (props) => {
                 {translate(
                   `${identifier}.titles.create`,
                   `Create ${getUserFriendlyName(
-                    resource?.meta?.label ??
-                      resource?.options?.label ??
-                      resource?.label ??
-                      identifier,
+                    resource?.meta?.label ?? identifier,
                     "singular",
                   )}`,
                 )}

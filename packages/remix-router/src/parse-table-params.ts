@@ -1,18 +1,21 @@
 import qs from "qs";
-import type { ParsedParams } from "@refinedev/core";
+import { type ParsedParams, QS_PARSE_DEPTH } from "@refinedev/core";
 
 export const parseTableParams = (search: string) => {
-  const parsed: ParsedParams = qs.parse(search, { ignoreQueryPrefix: true });
+  const parsed: ParsedParams = qs.parse(search, {
+    ignoreQueryPrefix: true,
+    depth: QS_PARSE_DEPTH,
+  });
 
   const tableReady = {
     ...parsed,
     pagination: {
-      current: parsed.current,
+      currentPage: parsed.currentPage,
       pageSize: parsed.pageSize,
     },
   };
 
-  delete tableReady.current;
+  delete tableReady.currentPage;
   delete tableReady.pageSize;
 
   return tableReady;

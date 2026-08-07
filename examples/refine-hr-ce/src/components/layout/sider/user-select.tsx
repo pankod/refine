@@ -1,5 +1,5 @@
 import { useGetIdentity, useList, useLogin, useLogout } from "@refinedev/core";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import {
   Avatar,
   Box,
@@ -24,7 +24,10 @@ export const UserSelect = () => {
   const { data: currentEmployee, isLoading: currentEmployeeIsLoading } =
     useGetIdentity<Employee>();
 
-  const { data: dataManager, isLoading: managerIsLoading } = useList<Employee>({
+  const {
+    result: dataManager,
+    query: { isLoading: managerIsLoading },
+  } = useList<Employee>({
     resource: "employees",
     filters: [
       {
@@ -57,38 +60,40 @@ export const UserSelect = () => {
   });
   const managers = dataManager?.data || [];
 
-  const { data: dataEmployee, isLoading: employeesIsLoading } =
-    useList<Employee>({
-      resource: "employees",
-      filters: [
-        {
-          field: "role",
-          operator: "eq",
-          value: Role.EMPLOYEE,
-        },
-      ],
-      pagination: {
-        pageSize: 3,
+  const {
+    result: dataEmployee,
+    query: { isLoading: employeesIsLoading },
+  } = useList<Employee>({
+    resource: "employees",
+    filters: [
+      {
+        field: "role",
+        operator: "eq",
+        value: Role.EMPLOYEE,
       },
-      queryOptions: {
-        enabled: !!currentEmployee?.id,
-        select: (data) => {
-          if (currentEmployee?.role !== Role.EMPLOYEE) {
-            return data;
-          }
-
-          // data with current employee added to the list
-          const alreadyAdded = data.data.find(
-            (employee) => employee.id === currentEmployee?.id,
-          );
-          if (!alreadyAdded) {
-            data.data.unshift(currentEmployee);
-          }
-
+    ],
+    pagination: {
+      pageSize: 3,
+    },
+    queryOptions: {
+      enabled: !!currentEmployee?.id,
+      select: (data) => {
+        if (currentEmployee?.role !== Role.EMPLOYEE) {
           return data;
-        },
+        }
+
+        // data with current employee added to the list
+        const alreadyAdded = data.data.find(
+          (employee) => employee.id === currentEmployee?.id,
+        );
+        if (!alreadyAdded) {
+          data.data.unshift(currentEmployee);
+        }
+
+        return data;
       },
-    });
+    },
+  });
   const employees = dataEmployee?.data || [];
 
   const handleChange = async (props: Employee) => {

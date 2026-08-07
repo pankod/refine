@@ -24,6 +24,7 @@ export const ClientsPageList = ({ children }: PropsWithChildren) => {
     sorters: {
       initial: [{ field: "updatedAt", order: "desc" }],
     },
+
     filters: {
       initial: [
         {
@@ -33,6 +34,7 @@ export const ClientsPageList = ({ children }: PropsWithChildren) => {
         },
       ],
     },
+
     meta: {
       populate: ["account.logo", "invoices"],
     },
@@ -42,18 +44,30 @@ export const ClientsPageList = ({ children }: PropsWithChildren) => {
     resource: "clients",
     optionLabel: "name",
     optionValue: "name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { selectProps: selectPropsOwnerName } = useSelect({
     resource: "clients",
     optionLabel: "owner_name",
     optionValue: "owner_name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { selectProps: selectPropsAccountName } = useSelect({
     resource: "accounts",
     optionLabel: "company_name",
     optionValue: "company_name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

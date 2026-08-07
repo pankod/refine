@@ -65,7 +65,11 @@ export const CodeViewerComponent: CreateInferencerConfig["codeViewerComponent"] 
             onCancel={() => setOpen(false)}
             closeIcon={<Icons.CloseOutlined style={{ color: "#666b7a" }} />}
             footer={null}
-            bodyStyle={{ padding: 0 }}
+            styles={{
+              body: {
+                padding: 0,
+              },
+            }}
           >
             <CodeHighlight code={code} />
             <textarea

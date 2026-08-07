@@ -1,5 +1,8 @@
 ---
-title: useStepsForm
+title: "useStepsForm Hook | Best Practices for Usage & Patterns | Refine v5"
+display_title: "useStepsForm"
+sidebar_label: "useStepsForm"
+description: "Secure Use Steps Form in Refine v5. Learn best practices. Learn integration patterns for values for polished admin UIs. Learn with code examples."
 ---
 
 ```tsx live shared
@@ -128,21 +131,14 @@ const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    setOptions,
-    refineCore: {
-      setCurrent,
-      pageCount,
-      current,
-      tableQuery: { data: tableData },
-    },
+    reactTable: { getHeaderGroups, getRowModel, setOptions },
+    refineCore: { setCurrentPage, pageCount, currentPage, result },
   } = useTable({
     columns,
   });
 
-  const categoryIds = tableData?.data?.map((item) => item.category.id) ?? [];
-  const { data: categoriesData } = useMany<ICategory>({
+  const categoryIds = result?.data?.map((item) => item.category.id) ?? [];
+  const { result: categoriesData } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -207,8 +203,8 @@ const PostList: React.FC = () => {
         <MantinePagination
           position="right"
           total={pageCount}
-          page={current}
-          onChange={setCurrent}
+          page={currentPage}
+          onChange={setCurrentPage}
         />
       </MantineList>
     </MantineScrollArea>
@@ -449,7 +445,7 @@ const PostEdit: React.FC = () => {
 
 `useStepsForm` allows you to manage a form with multiple steps. It provides features such as which step is currently active, the ability to go to a specific step and validation when changing steps etc.
 
-The `useStepsForm` hook is extended from [`useForm`][use-form-refine-mantine] from the [`@refinedev/mantine`](https://github.com/refinedev/refine/tree/master/packages/mantine) package. This means that you can use all the functionalities of [`useForm`][use-form-refine-mantine] in your `useStepsForm`.
+The `useStepsForm` hook is extended from [`useForm`][use-form-refine-mantine] from the [`@refinedev/mantine`](https://github.com/refinedev/refine/tree/main/packages/mantine) package. This means that you can use all the functionalities of [`useForm`][use-form-refine-mantine] in your `useStepsForm`.
 
 ## Usage
 
@@ -594,18 +590,35 @@ const PostCreatePage: React.FC = () => {
 };
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-      create: PostCreatePage,
-      edit: PostEdit,
-    },
-  ],
-});
-
-render(<RefineMantineDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+          <ReactRouter.Route path="create" element={<PostCreatePage />} />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 </TabItem>
@@ -742,18 +755,35 @@ const PostEditPage: React.FC = () => {
 };
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-      create: PostCreate,
-      edit: PostEditPage,
-    },
-  ],
-});
-
-render(<RefineMantineDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+          <ReactRouter.Route path="create" element={<PostCreate />} />
+          <ReactRouter.Route path="edit/:id" element={<PostEditPage />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 </TabItem>
@@ -935,7 +965,7 @@ const PostCreatePage: React.FC = () => {
 
 ### refineCoreProps
 
-All [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form) properties also available in `useStepsForm`. You can find descriptions on [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form#properties) docs.
+All [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form/) properties also available in `useStepsForm`. You can find descriptions on [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form/#properties) docs.
 
 ```tsx
 const stepsForm = useStepsForm({
@@ -1060,7 +1090,7 @@ useStepsForm({
 
 ## Return Values
 
-All [`useForm`](/docs/ui-integrations/mantine/hooks/use-form) return values also available in `useStepsForm`. You can find descriptions on [`useForm`](/docs/ui-integrations/mantine/hooks/use-form#return-values) docs.
+All [`useForm`](/core/docs/ui-integrations/mantine/hooks/use-form/) return values also available in `useStepsForm`. You can find descriptions on [`useForm`](/core/docs/ui-integrations/mantine/hooks/use-form/#return-values) docs.
 
 ### steps
 
@@ -1129,8 +1159,8 @@ const UserCreate: React.FC = () => {
 ### Properties
 
 <PropsTable module="@refinedev/mantine/useStepsForm"
-refineCoreProps-type="[`UseFormCoreProps<TData, TError, TVariables>`](/docs/data/hooks/use-form/#properties)"
-refineCoreProps-description="Configuration object for the core of the [useForm](/docs/data/hooks/use-form/)"
+refineCoreProps-type="[`UseFormCoreProps<TData, TError, TVariables>`](/core/docs/data/hooks/use-form/#properties)"
+refineCoreProps-description="Configuration object for the core of the [useForm](/core/docs/data/hooks/use-form/)"
 stepsProps-description="Configuration object for the steps. `defaultStep`: Allows you to set the initial step. `isBackValidate`: Whether to validation the current step when going back."
 stepsProps-default="`defaultStep = 0` `isBackValidate = false`"
  />
@@ -1152,7 +1182,7 @@ stepsProps-default="`defaultStep = 0` `isBackValidate = false`"
 | Property                                  | Description                                                     | Type                                                                                                                                    |
 | ----------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | steps                                     | Relevant state and method to control the steps                  | [`StepsReturnValues`](#steps)                                                                                                           |
-| refineCore                                | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/docs/data/hooks/use-form/#return-values)                                                                       |
+| refineCore                                | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/core/docs/data/hooks/use-form/#return-values)                                                                  |
 | `@mantine/form`'s `useForm` return values | See [useForm][use-form-refine-mantine] documentation            |
 | overtime                                  | Overtime loading props                                          | `{ elapsedTime?: number }`                                                                                                              |
 | autoSaveProps                             | Auto save props                                                 | `{ data: UpdateResponse<TData>` \| `undefined, error: HttpError` \| `null, status: "loading"` \| `"error"` \| `"idle"` \| `"success" }` |
@@ -1161,7 +1191,7 @@ stepsProps-default="`defaultStep = 0` `isBackValidate = false`"
 
 <CodeSandboxExample path="form-mantine-use-steps-form" />
 
-[use-form-refine-mantine]: /docs/ui-integrations/mantine/hooks/use-form
-[use-form-core]: /docs/data/hooks/use-form/
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
+[use-form-refine-mantine]: /core/docs/ui-integrations/mantine/hooks/use-form
+[use-form-core]: /core/docs/data/hooks/use-form/
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror

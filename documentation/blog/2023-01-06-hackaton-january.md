@@ -3,10 +3,12 @@ title: The Refine Open Source Hackathon
 description: refine Hackathon is an excellent opportunity for developers to showcase their skills, learn Refine and win prizes!
 slug: refine-hackathon
 authors: necati
-tags: [community]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-01-06-hackaton-january/social.png
-social_image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-01-06-hackaton-january/social_prizes.png
+category: "Announcement"
+tags: []
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-01-06-hackaton-january/social.png
+social_image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-01-06-hackaton-january/social_prizes.png
 hide_table_of_contents: false
+last_update: 2023-01-27
 ---
 
 **[Refine](https://github.com/refinedev/refine)** is a React-based framework for the rapid ✨ development of CRUD web applications. It eliminates the repetitive tasks demanded by CRUD operations and provides industry standard solutions for critical parts like authentication, access control, routing, networking, state management, and i18n. Refine shines on data-intensive applications like admin panels, dashboards, internal tools and storefronts.
@@ -33,7 +35,7 @@ It's worth noting that Refine has built-in data provider support for Strapi, App
 Strapi, Appwrite, Medusa, and Meilisearch will also be providing swag kits for the winners.
 
 <div>
-<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-01-06-hackaton-january/sponsors_banner.png"  alt="refine hackathon" />
+<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-01-06-hackaton-january/sponsors_banner.png"  alt="January hackathon sponsors banner" />
 
 </div>
 
@@ -62,10 +64,10 @@ There are 3 chances to win, there will be prizes for:
 - **Most Visually Pleasing** => **$300** in GitHub Sponsorship
 - **Most Technically Impressive** => **$300** in GitHub Sponsorship
 
-The all winners will get [Refine Special Swag Kit](https://store.refine.dev/product/hackathon-swag-kit) + Swag Kits from **Strapi**, **Appwrite**, **Medusa**, and **Meilisearch**!
+The all winners will get Refine Special Swag Kit + Swag Kits from **Strapi**, **Appwrite**, **Medusa**, and **Meilisearch**!
 
 <div>
-<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-01-06-hackaton-january/swag_kits.png"  alt="refine hackathon" />
+<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-01-06-hackaton-january/swag_kits.png"  alt="Refine swag kit prizes for hackathon winners" />
 
 </div>
 
@@ -74,7 +76,7 @@ The all winners will get [Refine Special Swag Kit](https://store.refine.dev/prod
 ## Submission
 
 - **Submissions link:** [Please submit your project on Refine Devpost Hackathon page](https://refine-open-source-hackathon.devpost.com/)
-- **Submission guidelines:** [Follow the guidelines in this repository](https://github.com/refinedev/refine/blob/master/hackathon/readme-guideline.md)
+- **Submission guidelines:** [Follow the guidelines in this repository](https://github.com/refinedev/refine/blob/main/hackathon/readme-guideline)
 
 ## Rules
 
@@ -111,7 +113,7 @@ The **Refine** team will be taking part in the Hackathon and you'll find us live
 ## Useful resources
 
 - You can step up to complete CRUD app tutorials to learn **Refine** and how it works.
-  - :point_right: https://refine.dev/tutorial
+  - :point_right: https://refine.dev/core/tutorial
 - You can take a look at real use case example projects built with **Refine** to get an inspiration.
   - :point_right: https://refine.dev/docs/examples/
   - :point_right: https://refine.dev/examples/

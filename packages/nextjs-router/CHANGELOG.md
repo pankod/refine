@@ -1,5 +1,156 @@
 # @refinedev/nextjs-router
 
+## 7.0.5
+
+### Patch Changes
+
+- [#7245](https://github.com/refinedev/refine/pull/7245) [`bf3cc65f73a6801a5fd1e42e6162efd2e89406d3`](https://github.com/refinedev/refine/commit/bf3cc65f73a6801a5fd1e42e6162efd2e89406d3) Thanks [@harsha-cpp](https://github.com/harsha-cpp)! - fix: correctly parse deeply nested conditional filters from URL with syncWithLocation
+
+  Increased `qs.parse` depth from default 5 to 10 to support deeply nested conditional filters (e.g., `or -> and -> {field, operator, value}`). Previously, nested filter properties were incorrectly parsed as bracket notation keys (`[field]`, `[operator]`, `[value]`) after page reload when using `syncWithLocation: true`.
+
+## 7.0.4
+
+### Patch Changes
+
+- [#7086](https://github.com/refinedev/refine/pull/7086) [`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3) Thanks [@BatuhanW](https://github.com/BatuhanW)! - feat: disable minify
+
+  Resolves #6417
+
+## 7.0.3
+
+### Patch Changes
+
+- [#7078](https://github.com/refinedev/refine/pull/7078) [`5518bee265a48abf3dbb3befc7028a53643847da`](https://github.com/refinedev/refine/commit/5518bee265a48abf3dbb3befc7028a53643847da) Thanks [@erenkurnaz](https://github.com/erenkurnaz)! - feat: added `fallbackTo` prop to `NavigateToResource` component #7077
+
+  Now with `fallbackTo` prop, you can specify a fallback route when no resource is found to navigate to. The component will navigate to the provided fallback path instead of doing nothing, providing better user experience.
+
+  Resolves #7077
+
+## 7.0.2
+
+### Patch Changes
+
+- [#7046](https://github.com/refinedev/refine/pull/7046) [`e0ebbb0f734724da9c9eef81ec387a61ae5db66b`](https://github.com/refinedev/refine/commit/e0ebbb0f734724da9c9eef81ec387a61ae5db66b) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix: fixed `currentPage` URL parameter not loading correctly on page refresh #7042
+
+  Now the `currentPage` parameter is properly read from URL search params, ensuring pagination state persists across page refreshes.
+
+  Resolves #7042
+
+## 7.0.1
+
+### Patch Changes
+
+- [#7015](https://github.com/refinedev/refine/pull/7015) [`acb1e96b0d6cfddbd6115818b8f01c73d56934ff`](https://github.com/refinedev/refine/commit/acb1e96b0d6cfddbd6115818b8f01c73d56934ff) Thanks [@BatuhanW](https://github.com/BatuhanW)! - fix: incorrect parseTableParams issue.
+
+  Resolves (#7013)[https://github.com/refinedev/refine/issues/7013]
+
+## 7.0.0
+
+### Major Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: upgrade Next.js router integration for Refine 5.0
+
+  - Updated Next.js router integration for Refine 5.0 and TanStack Query v5 compatibility.
+
+  > 🚨 Breaking changes require migration - check our guide at https://refine.dev/docs/migration-guide/4x-to-5x/
+
+### Patch Changes
+
+- Updated dependencies [[`807099eecb4e8d41b1cf9ab557d71d34d12bec35`](https://github.com/refinedev/refine/commit/807099eecb4e8d41b1cf9ab557d71d34d12bec35), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/core@5.0.0
+
+## 6.2.3
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- chore: update Next.js version to 14.2.26 for security patches
+
+  https://github.com/vercel/next.js/security/advisories/GHSA-f82v-jwr5-mffw
+
+## 6.2.2
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6725](https://github.com/refinedev/refine/pull/6725) [`ee58004e57c2bcd53e70015486a07cd8f6118658`](https://github.com/refinedev/refine/commit/ee58004e57c2bcd53e70015486a07cd8f6118658) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - chore: update Next.js version to 14.2.26 for security patches
+
+  https://github.com/vercel/next.js/security/advisories/GHSA-f82v-jwr5-mffw
+
+## 6.2.1
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- chore: update package descriptions
+
+📢 **Refine Community Release** 📢
+
+- feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
+📢 **Refine Community Release** 📢
+
+- **Feature:** Added support for Next.js 15. #6430
+
+  To create a new example project with Next.js 15, run the following command:
+
+  ```bash
+  npm create refine-app@latest -- --example with-nextjs-headless
+  ```
+
+  You can find the source code in the [examples/with-nextjs-headless](https://github.com/refinedev/refine/tree/main/examples/with-nextjs-headless) directory.
+
+  > 🚨 While `@refinedev/core` and `@refinedev/nextjs-router` do not introduce breaking changes, upgrading to Next.js 15 requires your project to be compatible with React 19. Please refer to the migration guides below:
+  >
+  > - [Next.js 15 Upgrade Guide](https://nextjs.org/docs/app/building-your-application/upgrading/version-15)
+  > - [React 19 Upgrade Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)
+  >
+  > 🚨 Additionally, if you're using `@refinedev/antd`, `@refinedev/chakra-ui`, `@refinedev/mantine`, or `@refinedev/mui`, make sure to check their compatibility with React 19.
+
+  For known issues, migration guidance, and more details, please refer to issue [#6430](https://github.com/refinedev/refine/issues/6430).
+
+## 6.2.0
+
+### Minor Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6551](https://github.com/refinedev/refine/pull/6551) [`6b8016a9bbb7422255711bf67f8247eb44db78a9`](https://github.com/refinedev/refine/commit/6b8016a9bbb7422255711bf67f8247eb44db78a9) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - **Feature:** Added support for Next.js 15. #6430
+
+  To create a new example project with Next.js 15, run the following command:
+
+  ```bash
+  npm create refine-app@latest -- --example with-nextjs-headless
+  ```
+
+  You can find the source code in the [examples/with-nextjs-headless](https://github.com/refinedev/refine/tree/main/examples/with-nextjs-headless) directory.
+
+  > 🚨 While `@refinedev/core` and `@refinedev/nextjs-router` do not introduce breaking changes, upgrading to Next.js 15 requires your project to be compatible with React 19. Please refer to the migration guides below:
+  >
+  > - [Next.js 15 Upgrade Guide](https://nextjs.org/docs/app/building-your-application/upgrading/version-15)
+  > - [React 19 Upgrade Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)
+  >
+  > 🚨 Additionally, if you're using `@refinedev/antd`, `@refinedev/chakra-ui`, `@refinedev/mantine`, or `@refinedev/mui`, make sure to check their compatibility with React 19.
+
+  For known issues, migration guidance, and more details, please refer to issue [#6430](https://github.com/refinedev/refine/issues/6430).
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6554](https://github.com/refinedev/refine/pull/6554) [`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706) Thanks [@necatiozmen](https://github.com/necatiozmen)! - chore: update package descriptions
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6556](https://github.com/refinedev/refine/pull/6556) [`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
 ## 6.1.0
 
 ### Minor Changes
@@ -8,10 +159,7 @@
   From now on, users be able to use the `resource.meta.label` field to customize document title more easily.
 
   ```tsx
-  import {
-    BrowserRouter,
-    DocumentTitleHandler,
-  } from "@refinedev/react-router-v6";
+  import { BrowserRouter, DocumentTitleHandler } from "@refinedev/react-router";
   import { Refine } from "@refinedev/core";
 
   const App = () => {
@@ -411,7 +559,7 @@
 
   ## Complemetary Components
 
-  - `RefineRoutes` - A component that renders the routes for the resources when the actions are defined as components. This can be used to achieve the legacy behavior of `routerProvider` prop. `RefineRoutes` component accepts a render function as a child and passes `JSX.Element` if there's a match for the given path, `undefined` is passed otherwise. You can use this in `[[...refine]]` route to render the matching action component for a resource. We're encouraging our users to use file based routing instead of `[[...refine]]` route which provides more flexibility and a better development experience with its performance benefits.
+  - `RefineRoutes` - A component that renders the routes for the resources when the actions are defined as components. This can be used to achieve the legacy behavior of `routerProvider` prop. `RefineRoutes` component accepts a render function as a child and passes `React.JSX.Element` if there's a match for the given path, `undefined` is passed otherwise. You can use this in `[[...refine]]` route to render the matching action component for a resource. We're encouraging our users to use file based routing instead of `[[...refine]]` route which provides more flexibility and a better development experience with its performance benefits.
 
   - `NavigateToResource` - A component that navigates to the first `list` action of the `resources` array of `<Refine>`. Optionally, you can pass a `resource` prop to navigate to `list` action of the resource. This can be placed at the `index` route of your app to redirect to the first resource.
 

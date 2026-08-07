@@ -3,8 +3,9 @@ title: How to Build a Web App in 10 steps in 2024
 description: In this article, we will explore some steps you can follow when building a web app.
 slug: how-to-build-a-web-app
 authors: joseph_mawa
-tags: [comparison]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-26-build-an-app/social.jpg
+category: "How To Build"
+tags: [tech-industry]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-26-build-an-app/social.webp
 hide_table_of_contents: false
 ---
 
@@ -64,7 +65,7 @@ These packages may include production and development dependencies such as linte
 
 After setting up a development environment for your project, it is necessary to document the setup instructions to smoothly onboard new contributors to the project.
 
-The Refine ecosystem has project templates that integrate the most popular design systems and cloud platforms. The Refine [CLI](https://refine.dev/docs/getting-started/quickstart/) and the [appscaffolder](https://refine.dev/?playground=true) can create a new project with all the necessary setup.
+The Refine ecosystem has project templates that integrate the most popular design systems and cloud platforms. The Refine [CLI](https://refine.dev/core/docs/getting-started/quickstart/) and the [appscaffolder](https://refine.dev/?playground=true) can create a new project with all the necessary setup.
 
 After creating a project, you can open the project directory in a text editor, install dependencies, and launch the development server using a script in the `package.json` file.
 

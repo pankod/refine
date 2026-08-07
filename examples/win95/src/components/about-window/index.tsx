@@ -1,7 +1,7 @@
 import { useGo } from "@refinedev/core";
 import { Window, Button, WindowHeader, Separator, Anchor } from "react95";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { IconClose } from "@/components/icons";
 import { getImagesUrl } from "@/utils/get-cdn-url";
 
@@ -78,8 +78,8 @@ export const AboutWindow = () => {
 
                   <InfoItemLabel>Address:</InfoItemLabel>
                   <InfoItemParagraph>
-                    <p>256 Chapman Road STE</p>
-                    <p>105-4 Newark, DE 19702</p>
+                    <p>447 Sutter St 405</p>
+                    <p>San Francisco</p>
                   </InfoItemParagraph>
                 </InfoItem>
               </InfoContainer>

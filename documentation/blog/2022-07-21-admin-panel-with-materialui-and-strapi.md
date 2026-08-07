@@ -3,17 +3,19 @@ title: Building a CRUD app with Material UI and Strapi in React
 description: How to build CRUD admin panel with Material UI?
 slug: build-admin-panel-with-material-ui-and-strapi
 authors: necati
-tags: [Refine, react, material-ui, strapi]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-07-21-admin-panel-with-materialui-and-strapi/social.png
-featured_image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-07-21-admin-panel-with-materialui-and-strapi/featured.png
+category: "How To Build"
+tags: [material-ui, strapi, admin-panel]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-07-21-admin-panel-with-materialui-and-strapi/social.png
+featured_image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-07-21-admin-panel-with-materialui-and-strapi/featured.png
 hide_table_of_contents: false
+last_update: 2023-04-19
 ---
 
 :::caution
 
 This post was created using version 3.x.x of **Refine**. Although we plan to update it with the latest version of **Refine** as soon as possible, you can still benefit from the post in the meantime.
 
-You should know that **Refine** version 4.x.x is backward compatible with version 3.x.x, so there is no need to worry. If you want to see the differences between the two versions, check out the [migration guide](https://refine.dev/docs/migration-guide/).
+You should know that **Refine** version 4.x.x is backward compatible with version 3.x.x, so there is no need to worry. If you want to see the differences between the two versions, check out the [migration guide](https://refine.dev/core/docs/migration-guide/).
 
 Just be aware that the source code example in this post have been updated to version 4.x.x.
 
@@ -21,7 +23,7 @@ Just be aware that the source code example in this post have been updated to ver
 
 ## Introduction
 
-We will build an **admin panel** that supports **CRUD** operations, has built-in **authentication**, and a [mutation mode](https://refine.dev/docs/guides-and-concepts/mutation-mode/) feature using industry-standard best tools.
+We will build an **admin panel** that supports **CRUD** operations, has built-in **authentication**, and a [mutation mode](https://refine.dev/core/docs/guides-and-concepts/mutation-mode/) feature using industry-standard best tools.
 
 Industry-standard tools and practices can be hard to reach and time-consuming to maintain on your own. Frameworks can save you time by doing these jobs for you. So, we'll use powerful frameworks including [Material UI](https://mui.com), [Strapi](https://strapi.io/), and [Refine](https://refine.dev/) to build a high-quality admin panel.
 
@@ -53,10 +55,10 @@ Steps we'll cover includes:
 
 Before we dive into the meat of the article, let's first take a look at the tools documents we'll be using.
 
-- [Refine](https://refine.dev/docs/)
+- [Refine](https://refine.dev/core/docs/)
 - [Refine StrapiV4 data provider ](https://refine.dev/docs/examples/data-provider/strapi-v4/)
 - [Material UI](https://mui.com/material-ui/getting-started/overview/)
-- [Refine Material UI Tutorial](https://refine.dev/tutorial)
+- [Refine Material UI Tutorial](https://refine.dev/core/tutorial)
 
 Your node version need to be minimum `v16.14.0`
 
@@ -120,9 +122,9 @@ To consume Refine's Fake Strapi API, we'll need to change the `API URL` in the p
 export const API_URL = "https://api.strapi-v4.refine.dev";
 ```
 
-[Refer to Refine docs for more detailed information about Refine Strapi V4 support&#8594](https://refine.dev/docs/packages/documentation/data-providers/strapi-v4)
+[Refer to Refine docs for more detailed information about Refine Strapi V4 support&#8594](https://refine.dev/core/docs/packages/documentation/data-providers/strapi-v4)
 
-[Refer to Refine's data provider documentation for detailed information&#8594](https://refine.dev/docs/core/providers/data-provider/)
+[Refer to Refine's data provider documentation for detailed information&#8594](https://refine.dev/core/docs/core/providers/data-provider/)
 
 [Refer to official Strapi v4 documentation&#8594](https://docs.strapi.io/developer-docs/latest/getting-started/introduction.html)
 
@@ -200,9 +202,9 @@ We import and use Material UI components from Refine's `@refinedev/mui` to show 
 
 [`<DataGrid/>`](https://mui.com/x/react-data-grid/components/#main-content) is a native Material UI component. It renders records row by row as a table. `<DataGrid/>` expects a columns prop as a required.
 
-Refine hook [`useDataGrid`](/docs/ui-integrations/material-ui/hooks/use-data-grid) fetches data from API and wraps them with various helper hooks required for the `<DataGrid/>` component. Data interaction functions like sorting, filtering, and pagination will be instantly available on the `<DataGrid/>` with this single line of code.
+Refine hook [`useDataGrid`](/core/docs/ui-integrations/material-ui/hooks/use-data-grid/) fetches data from API and wraps them with various helper hooks required for the `<DataGrid/>` component. Data interaction functions like sorting, filtering, and pagination will be instantly available on the `<DataGrid/>` with this single line of code.
 
-[Refer to Refine's useDataGrid hook doc to more information&#8594](/docs/ui-integrations/material-ui/hooks/use-data-grid)
+[Refer to Refine's useDataGrid hook doc to more information&#8594](/core/docs/ui-integrations/material-ui/hooks/use-data-grid/)
 
 `columns` array are used for mapping and formatting each field shown on the `<DataGrid/>` field prop maps the field to a matching key from the API response. `renderCell` prop is used to choose the appropriate Field component for the given data type.
 
@@ -218,12 +220,12 @@ Note you will need `src/App.tsx` file to find your pages and posts. In the `/pag
 export * from "./list";
 ```
 
-[Refer to official Refine's Material UI tutorial for detailed explanations and examples &#8594](/docs/ui-integrations/material-ui/introduction)
+[Refer to official Refine's Material UI tutorial for detailed explanations and examples &#8594](/core/docs/ui-integrations/material-ui/introduction/)
 
 <br/>
 <div>
 <a href="https://github.com/refinedev/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/github-support-banner.png" alt="github support banner" />
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/github-support-banner.png" alt="Support Refine on GitHub banner" />
 </a>
 </div>
 
@@ -312,7 +314,7 @@ Check that the URL is routed to **/posts** and posts are displayed correctly in 
 
 Relations are not populated when fetching entries. We'll use `meta` option to use relational population for Strapi v4 API.
 
-The records from `/posts` endpoint that had a category id field. To get category titles automatically from `/categories` endpoint for each record and show on our table, we need to use [`populate`](https://refine.dev/docs/packages/documentation/data-providers/strapi-v4/#relations-population) feature of Strapi v4.
+The records from `/posts` endpoint that had a category id field. To get category titles automatically from `/categories` endpoint for each record and show on our table, we need to use [`populate`](https://refine.dev/core/docs/packages/documentation/data-providers/strapi-v4/#relations-population) feature of Strapi v4.
 
 We'll set `populate` parameter to define which fields will be populated.
 
@@ -354,20 +356,20 @@ To show category field in table, we need to add new column to the PostList compo
 
 We use benefits of Strapi V4 relational population feature by using `populate` parameter. It handles to getting relational data automatically.
 
-[If you use another REST API that relational populations need to be handled manually you can check the example at the link &#8594](/docs/guides-concepts/data-fetching)
+[If you use another REST API that relational populations need to be handled manually you can check the example at the link &#8594](/core/docs/guides-concepts/data-fetching/)
 
 :::
 
-[Refer to Refine Strapi v4 documentation for more information &#8594](https://refine.dev/docs/packages/documentation/data-providers/strapi-v4/#relations-population)
+[Refer to Refine Strapi v4 documentation for more information &#8594](https://refine.dev/core/docs/packages/documentation/data-providers/strapi-v4/#relations-population)
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-07-21-admin-panel-with-materialui-and-strapi/list-page.png" alt="Resource only List component" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-07-21-admin-panel-with-materialui-and-strapi/list-page.png" alt="Posts list page in Material UI DataGrid" />
 <br/>
 
 ### Creating a record
 
 The Material UI provides already styled, but still very customizable inputs that encapsulate adding labels and error handling with helper texts. However, we need a third-party library to handle forms when using Material UI. [React Hook Form](https://react-hook-form.com/) is one of the best options for this job!
 
-The React Hook Form library has been integrated with **Refine** ([`@refinedev/react-hook-form`](https://github.com/refinedev/refine/tree/master/packages/react-hook-form)) . This means you can now use Material UI for your forms and manage them using [`@refinedev/react-hook-form`](https://github.com/refinedev/refine/tree/master/packages/react-hook-form).
+The React Hook Form library has been integrated with **Refine** ([`@refinedev/react-hook-form`](https://github.com/refinedev/refine/tree/main/packages/react-hook-form)) . This means you can now use Material UI for your forms and manage them using [`@refinedev/react-hook-form`](https://github.com/refinedev/refine/tree/main/packages/react-hook-form).
 
 First, we'll create PostCreate page to create new records.
 
@@ -512,14 +514,14 @@ Try it on the browser and see if you can create new posts from scratch.
 
 <br />
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-07-21-admin-panel-with-materialui-and-strapi/create.gif" alt="Create record action" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-07-21-admin-panel-with-materialui-and-strapi/create.gif" alt="Create post form in Material UI" />
 
 <br/>
 
 <br/>
 <div>
 <a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="discord banner" />
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="Join Refine on Discord banner" />
 </a>
 </div>
 
@@ -553,8 +555,8 @@ export const PostEdit: React.FC = () => {
 
     const { autocompleteProps } = useAutocomplete<ICategory>({
         resource: "categories",
-        defaultValue: queryResult?.data?.data.category.id,
-        queryOptions: { enabled: !!queryResult?.data?.data.category.id },
+        defaultValue: query?.data?.data.category.id,
+        queryOptions: { enabled: !!query?.data?.data.category.id },
     });
 
     return (
@@ -832,7 +834,7 @@ export const PostList: React.FC = () => {
 
 Now we are able to delete record by clicking delete button and confirmation.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-07-21-admin-panel-with-materialui-and-strapi/delete-record.gif" alt="Create record action" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-07-21-admin-panel-with-materialui-and-strapi/delete-record.avif" alt="Delete post confirmation dialog" />
 
 <br/>
 <br/>
@@ -893,7 +895,7 @@ We'll implement `undoable` mutation mode. The mutation is applied locally, redir
 
 During the timeout, mutation can be cancelled from the notification with an undo button and UI will revert back accordingly.
 
-[Refer to Refine mutation mode docs for more detailed information &#8594](https://refine.dev/docs/packages/documentation/data-providers/strapi-v4)
+[Refer to Refine mutation mode docs for more detailed information &#8594](https://refine.dev/core/docs/packages/documentation/data-providers/strapi-v4)
 
 To activate mutation mode, we'll set `mutationMode` property in `options` to the `<Refine/>` component.
 
@@ -943,7 +945,7 @@ The default timeout period set to 5000ms. You can change it by setting `undoable
 
 <br/>
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-07-21-admin-panel-with-materialui-and-strapi/undoable-mode.gif" alt="Create record action" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-07-21-admin-panel-with-materialui-and-strapi/undoable-mode.gif" alt="Undoable delete notification with undo action" />
 
 <br/>
 

@@ -10,9 +10,8 @@ export default function ServerSideValidationAntd() {
         "@refinedev/antd": "latest",
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-router-v6": "latest",
-        "react-router-dom": "latest",
-        "react-router": "latest",
+        "@refinedev/react-router": "latest",
+        "react-router": "^7.0.2",
         antd: "^5.0.5",
       }}
       startRoute="/products/create"
@@ -62,10 +61,10 @@ const AppTsxCode = /* jsx */ `
 import React from "react";
 
 import { Refine, Authenticated } from "@refinedev/core";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
-import { BrowserRouter, Route, Routes, Outlet, Navigate } from "react-router-dom";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
+import { BrowserRouter, Route, Routes, Outlet, Navigate } from "react-router";
 
-import { ErrorComponent, RefineThemes, ThemedLayoutV2, useNotificationProvider, AuthPage } from "@refinedev/antd";
+import { ErrorComponent, RefineThemes, ThemedLayout, useNotificationProvider, AuthPage } from "@refinedev/antd";
 import { App as AntdApp, ConfigProvider } from "antd";
 
 import dataProvider from "./data-provider";
@@ -95,9 +94,9 @@ export default function App() {
             <Routes>
                 <Route
                     element={
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                         <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                     }
                 >
                     <Route path="/products" element={<Outlet />}>
@@ -123,12 +122,12 @@ const { Title } = Typography;
 const { TextArea } = Input;
 
 export const ProductCreate = () => {
-  const { formProps, saveButtonProps } = useForm({ refineCoreProps: { redirect: "show" }});
+  const { formProps, saveButtonProps } = useForm({ redirect: "show" });
 
   return (
     <Create saveButtonProps={saveButtonProps}>
       <Form {...formProps} layout="vertical">
-        <Form.Item
+        <Form.Item  
             label="Name"
             name="name"
         >

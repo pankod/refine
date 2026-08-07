@@ -1,11 +1,16 @@
 ---
-title: Breadcrumb
+title: "MUI Breadcrumb Component | UI Component in Refine v5"
+display_title: "Breadcrumb"
+sidebar_label: "Breadcrumb"
+description: "Integrate Breadcrumb in Refine v5. Learn best practices. Learn integrate home for polished admin UIs. See practical code samples."
 swizzle: true
 ---
 
-A breadcrumb displays the current location within a hierarchy. It allows going back to states higher up in the hierarchy. `<Breadcrumb>` component built with Material UI [Breadcrumb][mui-breadcrumb] components using the [`useBreadcrumb`](/docs/core/hooks/utilities/use-breadcrumb) hook.
+A breadcrumb displays the current location within a hierarchy. It allows going back to states higher up in the hierarchy. `<Breadcrumb>` component built with Material UI [Breadcrumb][mui-breadcrumb] components using the [`useBreadcrumb`](/core/docs/core/hooks/utilities/use-breadcrumb/) hook.
 
-```tsx live url=http://localhost:3000/posts/show/123 previewHeight=280px disableScroll
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
+
 // visible-block-start
 import { Show, Breadcrumb } from "@refinedev/mui";
 
@@ -13,7 +18,7 @@ const PostShow: React.FC = () => {
   return (
     <Show
       // highlight-next-line
-      breadcrumb={<Breadcrumb />}
+      breadcrumb={<Breadcrumb showHome={false} />}
     >
       <p>Content of your show page...</p>
     </Show>
@@ -29,47 +34,47 @@ const PostList = () => {
   );
 };
 
-const PostIcon = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="icon icon-tabler icon-tabler-list"
-    width={18}
-    height={18}
-    viewBox="0 0 24 24"
-    strokeWidth="2"
-    stroke="currentColor"
-    fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-    <line x1={9} y1={6} x2={20} y2={6}></line>
-    <line x1={9} y1={12} x2={20} y2={12}></line>
-    <line x1={9} y1={18} x2={20} y2={18}></line>
-    <line x1={5} y1={6} x2={5} y2="6.01"></line>
-    <line x1={5} y1={12} x2={5} y2="12.01"></line>
-    <line x1={5} y1={18} x2={5} y2="18.01"></line>
-  </svg>
-);
-
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts/show/123"]}
-    resources={[
-      {
-        name: "posts",
-        icon: PostIcon,
-        show: PostShow,
-        list: PostList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          show: "/posts/show/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+        <ReactRouter.Route
+          path="/posts/show/:id"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostShow />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 :::simple Good to know
 
-- You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-packages) to customize it.
+- You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 
 - In earlier versions of Refine, `<Refine>` component had accepted `DashboardPage` which could be used to add an index page to your app. With the changes in `routerProvider` API of Refine, `DashboardPage` is deprecated. You can now define an index route yourself manually by your router package.
 

@@ -9,7 +9,7 @@ import SortingLivePreview from "./sorting-live-preview.md";
 import FilteringLivePreview from "./filtering-live-preview.md";
 import SearchLivePreview from "./search-live-preview.md";
 
-By using `useSimpleList`, you can get properties that are compatible with Ant Design [`<List>`](https://ant.design/components/list/) component. All features such as sorting, filtering, and pagination come out of the box. Under the hood it uses [`useTable`](/docs/3.xx.xx/api-reference/core/hooks/useTable/) for the fetch.
+By using `useSimpleList`, you can get properties that are compatible with Ant Design [`<List>`](https://ant.design/components/list/) component. All features such as sorting, filtering, and pagination come out of the box. Under the hood it uses [`useTable`](/core/docs/3.xx.xx/api-reference/core/hooks/useTable/) for the fetch.
 
 For all the other features, you can refer to the Ant Design [`<List>`](https://ant.design/components/list/) documentation.
 
@@ -78,17 +78,17 @@ We can use [`onSearch`](#onsearch) property and [`searchFormProps`](#searchformp
 
 ## Realtime Updates
 
-> This feature is only available if you use a [Live Provider](/docs/3.xx.xx/api-reference/core/providers/live-provider).
+> This feature is only available if you use a [Live Provider](/core/docs/3.xx.xx/api-reference/core/providers/live-provider).
 
 When the `useSimpleList` hook is mounted, it will call the `subscribe` method from the `liveProvider` with some parameters such as `channel`, `resource` etc. It is useful when you want to subscribe to live updates.
 
-[Refer to the `liveProvider` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/providers/live-provider)
+[Refer to the `liveProvider` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/providers/live-provider)
 
 ## Properties
 
 ### `resource`
 
-The `useSimpleList` passes the `resource` to the `dataProvider` as a param. This parameter is usually used as an API endpoint path. It all depends on how to handle the resources in your `dataProvider`. See the [`creating a data provider`](/api-reference/core/providers/data-provider.md#creating-a-data-provider) section for an example of how resources are handled.
+The `useSimpleList` passes the `resource` to the `dataProvider` as a param. This parameter is usually used as an API endpoint path. It all depends on how to handle the resources in your `dataProvider`. See the [`creating a data provider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider#creating-a-data-provider) section for an example of how resources are handled.
 
 The `resource` value is inferred from the current route where the component or the hook is used. It can be overridden by passing the `resource` prop.
 
@@ -166,7 +166,7 @@ useSimpleList({
 
 Sets the initial value of the sorter. The `initialSorter` is not permanent. It will be cleared when the user changes the sorter. If you want to set a permanent value, use the `permanentSorter` prop.
 
-[Refer to the `CrudSorting` interface for more information &#8594](/docs/3.xx.xx/api-reference/core/interfaceReferences#crudsorting)
+[Refer to the `CrudSorting` interface for more information &#8594](/core/docs/3.xx.xx/api-reference/core/interfaceReferences#crudsorting)
 
 ```tsx
 useSimpleList({
@@ -183,7 +183,7 @@ useSimpleList({
 
 Sets the permanent value of the sorter. The `permanentSorter` is permanent and unchangeable. It will not be cleared when the user changes the sorter. If you want to set a temporary value, use the `initialSorter` prop.
 
-[Refer to the `CrudSorting` interface for more information &#8594](/docs/3.xx.xx/api-reference/core/interfaceReferences#crudsorting)
+[Refer to the `CrudSorting` interface for more information &#8594](/core/docs/3.xx.xx/api-reference/core/interfaceReferences#crudsorting)
 
 ```tsx
 useSimpleList({
@@ -200,7 +200,7 @@ useSimpleList({
 
 Sets the initial value of the filter. The `initialFilter` is not permanent. It will be cleared when the user changes the filter. If you want to set a permanent value, use the `permanentFilter` prop.
 
-[Refer to the `CrudFilters` interface for more information &#8594](/docs/3.xx.xx/api-reference/core/interfaceReferences#crudfilters)
+[Refer to the `CrudFilters` interface for more information &#8594](/core/docs/3.xx.xx/api-reference/core/interfaceReferences#crudfilters)
 
 ```tsx
 useSimpleList({
@@ -218,7 +218,7 @@ useSimpleList({
 
 Sets the permanent value of the filter. The `permanentFilter` is permanent and unchangeable. It will not be cleared when the user changes the filter. If you want to set a temporary value, use the `initialFilter` prop.
 
-[Refer to the `CrudFilters` interface for more information &#8594](/docs/3.xx.xx/api-reference/core/interfaceReferences#crudfilters)
+[Refer to the `CrudFilters` interface for more information &#8594](/core/docs/3.xx.xx/api-reference/core/interfaceReferences#crudfilters)
 
 ```tsx
 useSimpleList({
@@ -278,7 +278,7 @@ useSimpleList({
 
 ### `queryOptions`
 
-`useSimpleList` uses [`useTable`](/docs/3.xx.xx/api-reference/core/hooks/useTable/) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery).
+`useSimpleList` uses [`useTable`](/core/docs/3.xx.xx/api-reference/core/hooks/useTable/) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery).
 
 ```tsx
 useSimpleList({
@@ -290,10 +290,10 @@ useSimpleList({
 
 ### `metaData`
 
-[`metaData`](/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
+[`metaData`](/core/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
 
 - To pass additional information to data provider methods.
-- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
+- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/core/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
 
 In the following example, we pass the `headers` property in the `metaData` object to the `create` method. With similar logic, you can pass any properties to specifically handle the data provider methods.
 
@@ -347,7 +347,7 @@ useSimpleList({
 
 ### `successNotification`
 
-> [`NotificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
 
 After data is fetched successfully, `useSimpleList` can call the `open` function from `NotificationProvider` to show a success notification. With this prop, you can customize the success notification.
 
@@ -365,7 +365,7 @@ useSimpleList({
 
 ### `errorNotification`
 
-> [`NotificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) is required for this prop to work.
 
 After data fetching is failed, `useSimpleList` will call the `open` function from `NotificationProvider` to show an error notification. With this prop, you can customize the error notification.
 
@@ -383,10 +383,10 @@ useSimpleList({
 
 ### `liveMode`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
 Determines whether to update data automatically ("auto") or not ("manual") if a related live event is received. It can be used to update and show data in Realtime throughout your app.
-For more information about live mode, please check the [Live / Realtime](/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
+For more information about live mode, please check the [Live / Realtime](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
 
 ```tsx
 useSimpleList({
@@ -396,7 +396,7 @@ useSimpleList({
 
 ### `onLiveEvent`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
 The callback function is executed when new events from a subscription have arrived.
 
@@ -410,9 +410,9 @@ useSimpleList({
 
 ### `liveParams`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
-Params to pass to liveProvider's [subscribe](/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) method.
+Params to pass to liveProvider's [subscribe](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) method.
 
 ### `onSearch`
 
@@ -464,7 +464,7 @@ return (
 
 ### `queryResult`
 
-Returned values from [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
+Returned values from [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
 
 ### `searchFormProps`
 
@@ -519,7 +519,7 @@ return (
 
 #### `dataSource`
 
-Contains the data to be displayed in the list. Values fetched with [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
+Contains the data to be displayed in the list. Values fetched with [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
 
 #### `loading`
 
@@ -565,11 +565,11 @@ A function to set current [filters state][crudfilters].
 | filters         | Current filters state                      | [`CrudFilters`][crudfilters]                                                                                                                            |
 | setFilters      | A function that accepts a new filter state | - `(filters: CrudFilters, behavior?: "merge" \| "replace" = "merge") => void` <br/> - `(setter: (previousFilters: CrudFilters) => CrudFilters) => void` |
 
-[crudfilters]: /api-reference/core/interfaces.md#crudfilters
-[crudsorting]: /api-reference/core/interfaces.md#crudsorting
+[crudfilters]: /core/docs/3.xx.xx/api-reference/core/interfaces#crudfilters
+[crudsorting]: /core/docs/3.xx.xx/api-reference/core/interfaces#crudsorting
 [form]: https://ant.design/components/form/#API
 [list]: https://ant.design/components/list/#API
 [usequery]: https://react-query.tanstack.com/reference/useQuery
-[baserecord]: /api-reference/core/interfaces.md#baserecord
-[httperror]: /api-reference/core/interfaces.md#httperror
-[refine swl]: /api-reference/core/components/refine-config.md#syncwithlocation
+[baserecord]: /core/docs/3.xx.xx/api-reference/core/interfaces#baserecord
+[httperror]: /core/docs/3.xx.xx/api-reference/core/interfaces#httperror
+[refine swl]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#syncwithlocation

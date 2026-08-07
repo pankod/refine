@@ -8,6 +8,8 @@ describe("table-material-ui-cursor-pagination", () => {
 
   it("should work with pagination", () => {
     cy.getMaterialUILoadingCircular().should("not.exist");
+    cy.get(".MuiDataGrid-root").should("be.visible");
+    cy.get(".MuiDataGrid-row").should("have.length.at.least", 1);
 
     cy.intercept({
       url: "https://api.github.com/repos/refinedev/refine/commits*",
@@ -16,9 +18,10 @@ describe("table-material-ui-cursor-pagination", () => {
       },
     }).as("getSecondPageCommits");
 
+    cy.get("[title='Go to next page']").should("not.be.disabled");
     cy.get("[title='Go to next page']").click();
 
-    cy.url().should("include", "current=2");
+    cy.url().should("include", "currentPage=2");
 
     cy.wait("@getSecondPageCommits");
 
@@ -29,9 +32,11 @@ describe("table-material-ui-cursor-pagination", () => {
       },
     }).as("getFirstPageCommits");
 
+    // Wait for the previous page button to be enabled before clicking
+    cy.get("[title='Go to previous page']").should("not.be.disabled");
     cy.get("[title='Go to previous page']").click();
 
-    cy.url().should("include", "current=1");
+    cy.url().should("include", "currentPage=1");
 
     cy.wait("@getFirstPageCommits");
   });

@@ -6,6 +6,7 @@ on:
       - "packages/**"
       - "examples/**"
       - "cypress/e2e/**"
+      - ".github/workflows/scripts/**"
     types:
       - labeled
       - synchronize
@@ -13,16 +14,21 @@ on:
       - reopened
       - ready_for_review
   push:
+    paths:
+      - "packages/**"
+      - "examples/**"
+      - "cypress/e2e/**"
     branches:
-      - master
+      - main
   schedule:
     - cron: "0 6 * * *"
   workflow_dispatch:
     inputs:
-      environment:
-        description: "Environment to run tests against"
-        type: environment
+      build_all_examples:
+        description: "Build all examples"
+        type: boolean
         required: false
+        default: true
 
 jobs:
   chunks:
@@ -54,16 +60,16 @@ jobs:
             - recursive: false
               args: [--ignore-scripts]
       - name: Fetch commits
-        run: git fetch origin ${{ github.base_ref || 'master' }} --depth=1
-      - name: Use Node.js 18
+        run: git fetch origin ${{ github.base_ref || 'main' }} --depth=1
+      - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
           cache: "pnpm"
 
       - name: Split Into Chunks
         id: chunkstep
-        run: CHUNKS=6 BASE_REF=${{ github.base_ref }} BUILD_ALL_EXAMPLES=${{ (contains(steps.pr-labels.outputs.labels, ' build-examples ') || github.event_name == 'schedule' ) && 'true' || 'false' }} node ./.github/workflows/scripts/build-example-chunks.js
+        run: CHUNKS=6 BASE_REF=${{ github.base_ref }} BUILD_ALL_EXAMPLES=${{ (github.event.inputs.build_all_examples || contains(steps.pr-labels.outputs.labels, ' build-examples ') || github.event_name == 'schedule' ) && 'true' || 'false' }} node ./.github/workflows/scripts/build-example-chunks.js
 
   build-chunk-1:
     runs-on: ubuntu-latest
@@ -73,7 +79,7 @@ jobs:
       cancel-in-progress: true
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [22.x]
 
     name: Build All Examples (Chunk 1)
 
@@ -88,10 +94,10 @@ jobs:
         with:
           version: 9
 
-      - name: Use Node.js 18
+      - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
           cache: "pnpm"
 
       - name: Install Dependencies
@@ -107,7 +113,7 @@ jobs:
         run: echo "::set-output name=sha7::$(echo ${GITHUB_SHA} | cut -c1-7)"
 
       - name: Run E2E Tests
-        run: BASE_REF=${{ github.base_ref }} EXAMPLES=${{ needs.chunks.outputs.CHUNK_1 }} CYPRESS_PROJECT_ID=${{ secrets.CYPRESS_PROJECT_ID }} CYPRESS_RECORD_KEY=${{ secrets.CYPRESS_RECORD_KEY }} CI_BUILD_ID=refine-${{ github.ref_name }}-${{ steps.slug.outputs.sha7 }}-chunk-1-${{ github.run_attempt }} node ./.github/workflows/scripts/e2e-examples.js
+        run: REFINE_NO_TELEMETRY=true BASE_REF=${{ github.base_ref }} EXAMPLES=${{ needs.chunks.outputs.CHUNK_1 }} CYPRESS_PROJECT_ID=${{ secrets.CYPRESS_PROJECT_ID }} CYPRESS_RECORD_KEY=${{ secrets.CYPRESS_RECORD_KEY }} CI_BUILD_ID=refine-${{ github.ref_name }}-${{ steps.slug.outputs.sha7 }}-chunk-1-${{ github.run_attempt }} node ./.github/workflows/scripts/e2e-examples.js
 
   build-chunk-2:
     runs-on: ubuntu-latest
@@ -117,7 +123,7 @@ jobs:
       cancel-in-progress: true
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [22.x]
 
     name: Build All Examples (Chunk 2)
 
@@ -132,10 +138,10 @@ jobs:
         with:
           version: 9
 
-      - name: Use Node.js 18
+      - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
           cache: "pnpm"
 
       - name: Install Dependencies
@@ -161,7 +167,7 @@ jobs:
       cancel-in-progress: true
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [22.x]
 
     name: Build All Examples (Chunk 3)
 
@@ -176,10 +182,10 @@ jobs:
         with:
           version: 9
 
-      - name: Use Node.js 18
+      - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
           cache: "pnpm"
 
       - name: Install Dependencies
@@ -195,7 +201,7 @@ jobs:
         run: echo "::set-output name=sha7::$(echo ${GITHUB_SHA} | cut -c1-7)"
 
       - name: Run E2E Tests
-        run: BASE_REF=${{ github.base_ref }} EXAMPLES=${{ needs.chunks.outputs.CHUNK_3 }} CYPRESS_PROJECT_ID=${{ secrets.CYPRESS_PROJECT_ID }} CYPRESS_RECORD_KEY=${{ secrets.CYPRESS_RECORD_KEY }} CI_BUILD_ID=refine-${{ github.ref_name }}-${{ steps.slug.outputs.sha7 }}-chunk-3-${{ github.run_attempt }} node ./.github/workflows/scripts/e2e-examples.js
+        run: REFINE_NO_TELEMETRY=true BASE_REF=${{ github.base_ref }} EXAMPLES=${{ needs.chunks.outputs.CHUNK_3 }} CYPRESS_PROJECT_ID=${{ secrets.CYPRESS_PROJECT_ID }} CYPRESS_RECORD_KEY=${{ secrets.CYPRESS_RECORD_KEY }} CI_BUILD_ID=refine-${{ github.ref_name }}-${{ steps.slug.outputs.sha7 }}-chunk-3-${{ github.run_attempt }} node ./.github/workflows/scripts/e2e-examples.js
 
   build-chunk-4:
     runs-on: ubuntu-latest
@@ -205,7 +211,7 @@ jobs:
       cancel-in-progress: true
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [22.x]
 
     name: Build All Examples (Chunk 4)
 
@@ -220,10 +226,10 @@ jobs:
         with:
           version: 9
 
-      - name: Use Node.js 18
+      - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
           cache: "pnpm"
 
       - name: Install Dependencies
@@ -239,7 +245,7 @@ jobs:
         run: echo "::set-output name=sha7::$(echo ${GITHUB_SHA} | cut -c1-7)"
 
       - name: Run E2E Tests
-        run: BASE_REF=${{ github.base_ref }} EXAMPLES=${{ needs.chunks.outputs.CHUNK_4 }} CYPRESS_PROJECT_ID=${{ secrets.CYPRESS_PROJECT_ID }} CYPRESS_RECORD_KEY=${{ secrets.CYPRESS_RECORD_KEY }} CI_BUILD_ID=refine-${{ github.ref_name }}-${{ steps.slug.outputs.sha7 }}-chunk-4-${{ github.run_attempt }}-4 node ./.github/workflows/scripts/e2e-examples.js
+        run: REFINE_NO_TELEMETRY=true BASE_REF=${{ github.base_ref }} EXAMPLES=${{ needs.chunks.outputs.CHUNK_4 }} CYPRESS_PROJECT_ID=${{ secrets.CYPRESS_PROJECT_ID }} CYPRESS_RECORD_KEY=${{ secrets.CYPRESS_RECORD_KEY }} CI_BUILD_ID=refine-${{ github.ref_name }}-${{ steps.slug.outputs.sha7 }}-chunk-4-${{ github.run_attempt }}-4 node ./.github/workflows/scripts/e2e-examples.js
 
   build-chunk-5:
     runs-on: ubuntu-latest
@@ -249,7 +255,7 @@ jobs:
       cancel-in-progress: true
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [22.x]
 
     name: Build All Examples (Chunk 5)
 
@@ -264,10 +270,10 @@ jobs:
         with:
           version: 9
 
-      - name: Use Node.js 18
+      - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
           cache: "pnpm"
 
       - name: Install Dependencies
@@ -283,7 +289,7 @@ jobs:
         run: echo "::set-output name=sha7::$(echo ${GITHUB_SHA} | cut -c1-7)"
 
       - name: Run E2E Tests
-        run: BASE_REF=${{ github.base_ref }} EXAMPLES=${{ needs.chunks.outputs.CHUNK_5 }} CYPRESS_PROJECT_ID=${{ secrets.CYPRESS_PROJECT_ID }} CYPRESS_RECORD_KEY=${{ secrets.CYPRESS_RECORD_KEY }} CI_BUILD_ID=refine-${{ github.ref_name }}-${{ steps.slug.outputs.sha7 }}-chunk-5-${{ github.run_attempt }} node ./.github/workflows/scripts/e2e-examples.js
+        run: REFINE_NO_TELEMETRY=true BASE_REF=${{ github.base_ref }} EXAMPLES=${{ needs.chunks.outputs.CHUNK_5 }} CYPRESS_PROJECT_ID=${{ secrets.CYPRESS_PROJECT_ID }} CYPRESS_RECORD_KEY=${{ secrets.CYPRESS_RECORD_KEY }} CI_BUILD_ID=refine-${{ github.ref_name }}-${{ steps.slug.outputs.sha7 }}-chunk-5-${{ github.run_attempt }} node ./.github/workflows/scripts/e2e-examples.js
 
   build-chunk-6:
     runs-on: ubuntu-latest
@@ -293,7 +299,7 @@ jobs:
       cancel-in-progress: true
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [22.x]
 
     name: Build All Examples (Chunk 6)
 
@@ -308,10 +314,10 @@ jobs:
         with:
           version: 9
 
-      - name: Use Node.js 18
+      - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
           cache: "pnpm"
 
       - name: Install Dependencies
@@ -327,4 +333,4 @@ jobs:
         run: echo "::set-output name=sha7::$(echo ${GITHUB_SHA} | cut -c1-7)"
 
       - name: Run E2E Tests
-        run: BASE_REF=${{ github.base_ref }} EXAMPLES=${{ needs.chunks.outputs.CHUNK_6 }} CYPRESS_PROJECT_ID=${{ secrets.CYPRESS_PROJECT_ID }} CYPRESS_RECORD_KEY=${{ secrets.CYPRESS_RECORD_KEY }} CI_BUILD_ID=refine-${{ github.ref_name }}-${{ steps.slug.outputs.sha7 }}-chunk-6-${{ github.run_attempt }} node ./.github/workflows/scripts/e2e-examples.js
+        run: REFINE_NO_TELEMETRY=true BASE_REF=${{ github.base_ref }} EXAMPLES=${{ needs.chunks.outputs.CHUNK_6 }} CYPRESS_PROJECT_ID=${{ secrets.CYPRESS_PROJECT_ID }} CYPRESS_RECORD_KEY=${{ secrets.CYPRESS_RECORD_KEY }} CI_BUILD_ID=refine-${{ github.ref_name }}-${{ steps.slug.outputs.sha7 }}-chunk-6-${{ github.run_attempt }} node ./.github/workflows/scripts/e2e-examples.js

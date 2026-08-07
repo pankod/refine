@@ -14,7 +14,12 @@ const Details: React.FC = () => {
 
   const id = typeof router.query?.id === "string" ? router.query.id : "";
 
-  const { isSuccess, data, isLoading, isError } = useOne<{ order: Order }>({
+  const {
+    isSuccess,
+    result,
+    isError,
+    query: { isLoading },
+  } = useOne<{ order: Order }>({
     resource: "orders",
     id,
     queryOptions: {

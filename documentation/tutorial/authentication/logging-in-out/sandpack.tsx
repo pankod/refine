@@ -111,7 +111,7 @@ import React from "react";
 import { useLogin } from "@refinedev/core";
 
 export const Login = () => {
-    const { mutate, isLoading } = useLogin();
+    const { mutate, isPending } = useLogin();
 
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -141,10 +141,10 @@ export const Login = () => {
                   defaultValue="demodemo"
                 />
 
-                {isLoading && <span>loading...</span>}
+                {isPending && <span>loading...</span>}
                 <button
                     type="submit"
-                    disabled={isLoading}
+                    disabled={isPending}
                 >Submit</button>
             </form>
         </div>
@@ -249,14 +249,14 @@ import React from "react";
 import { useLogout } from "@refinedev/core";
 
 export const Header = () => {
-  const { mutate, isLoading } = useLogout();
+  const { mutate, isPending } = useLogout();
 
   return (
     <>
       <h2>Welcome!</h2>
       <button
         type="button"
-        disabled={isLoading}
+        disabled={isPending}
         onClick={mutate}
       >
         Logout

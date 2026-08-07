@@ -3,6 +3,7 @@ export { default as Airtable } from "./airtable";
 export { default as Antd } from "./antd";
 export { default as Appwrite } from "./appwrite";
 export { default as Chakra } from "./chakra";
+export { default as Chakrav3 } from "./chakra-v3";
 export { default as Directus } from "./directus";
 export { default as Dp } from "./dp";
 export { default as Elide } from "./elide";

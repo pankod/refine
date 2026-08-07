@@ -17,7 +17,6 @@ import type { CloneButtonProps } from "../types";
  * @see {@link https://refine.dev/docs/api-reference/antd/components/buttons/clone-button} for more details.
  */
 export const CloneButton: React.FC<CloneButtonProps> = ({
-  resourceNameOrRouteName: propResourceNameOrRouteName,
   resource: resourceNameFromProps,
   recordItemId,
   hideText = false,
@@ -29,19 +28,22 @@ export const CloneButton: React.FC<CloneButtonProps> = ({
 }) => {
   const { to, LinkComponent, label, disabled, hidden, title } = useCloneButton({
     id: recordItemId,
-    resource: resourceNameFromProps ?? propResourceNameOrRouteName,
+    resource: resourceNameFromProps,
     accessControl,
     meta,
   });
 
-  if (hidden) return null;
+  const isDisabled = disabled || rest.disabled;
+  const isHidden = hidden || rest.hidden;
+
+  if (isHidden) return null;
 
   return (
     <LinkComponent
       to={to}
       replace={false}
       onClick={(e: React.PointerEvent<HTMLButtonElement>) => {
-        if (disabled) {
+        if (isDisabled) {
           e.preventDefault();
           return;
         }
@@ -53,7 +55,7 @@ export const CloneButton: React.FC<CloneButtonProps> = ({
     >
       <Button
         icon={<PlusSquareOutlined />}
-        disabled={disabled}
+        disabled={isDisabled}
         title={title}
         data-testid={RefineButtonTestIds.CloneButton}
         className={RefineButtonClassNames.CloneButton}

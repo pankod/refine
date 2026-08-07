@@ -30,7 +30,10 @@ export const PostList = () => {
     },
   } = useTable<IPost>({
     resource: "posts",
-    hasPagination: false,
+
+    pagination: {
+      mode: "off",
+    },
   });
 
   const categoryIds = new Set(data?.map((post) => post.category.id) ?? []);
@@ -39,6 +42,10 @@ export const PostList = () => {
   const { options } = useSelect<ICategory>({
     resource: "categories",
     defaultValue: [...categoryIds],
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const updateRow = (row: number, field: string, value: string) => {

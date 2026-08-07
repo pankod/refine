@@ -11,7 +11,7 @@ export const ProductShow = () => {
   const { query: queryResult } = useShow<IProduct>();
   const product = queryResult?.data?.data;
 
-  const { data: categoryData } = useOne<ICategory>({
+  const { result: categoryData } = useOne<ICategory>({
     resource: "categories",
     id: product?.category.id,
     queryOptions: {
@@ -40,7 +40,7 @@ export const ProductShow = () => {
       <h3>Price</h3>
       <span>$ {product?.price}</span>
       <h3>Category</h3>
-      <span>{categoryData?.data.title ?? "Loading..."}</span>
+      <span>{categoryData?.title ?? "Loading..."}</span>
       <h3>Description</h3>
       <span>{product?.description}</span>
     </Card>

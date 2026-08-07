@@ -8,6 +8,10 @@ export default function BlogPostCreate() {
 
   const { selectProps: categorySelectProps } = useSelect({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

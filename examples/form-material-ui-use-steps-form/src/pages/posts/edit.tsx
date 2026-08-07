@@ -26,7 +26,7 @@ const stepTitles = [
 export const PostEdit: React.FC = () => {
   const {
     saveButtonProps,
-    refineCore: { formLoading, queryResult, onFinish },
+    refineCore: { formLoading, query, onFinish },
     register,
     handleSubmit,
     control,
@@ -39,7 +39,7 @@ export const PostEdit: React.FC = () => {
 
   const { autocompleteProps } = useAutocomplete<ICategory>({
     resource: "categories",
-    defaultValue: queryResult?.data?.data.category.id,
+    defaultValue: query?.data?.data.category.id,
   });
 
   const renderFormByStep = (step: number) => {

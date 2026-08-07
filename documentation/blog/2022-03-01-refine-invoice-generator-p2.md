@@ -3,7 +3,8 @@ title: Building an Customizable Invoice Generator App with Refine, Strapi & Ant 
 description: Looking for an invoice generator? Try out Refine. With our custom interface, you can build your own invoice in minutes! Learn more here.
 slug: refine-invoice-generator
 authors: melih
-tags: [Refine, react, strapi]
+category: "How To Build"
+tags: [react, refine-week]
 image: https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/placeholder.png
 hide_table_of_contents: false
 ---
@@ -12,7 +13,7 @@ hide_table_of_contents: false
 
 This post was created using version 3.x.x of **Refine**. Although we plan to update it with the latest version of **Refine** as soon as possible, you can still benefit from the post in the meantime.
 
-You should know that **Refine** version 4.x.x is backward compatible with version 3.x.x, so there is no need to worry. If you want to see the differences between the two versions, check out the [migration guide](https://refine.dev/docs/migration-guide/).
+You should know that **Refine** version 4.x.x is backward compatible with version 3.x.x, so there is no need to worry. If you want to see the differences between the two versions, check out the [migration guide](https://refine.dev/core/docs/migration-guide/).
 
 Just be aware that the source code example in this post have been updated to version 4.x.x.
 
@@ -47,7 +48,7 @@ In our Part I article, we created our company, contact and client collections. I
 - Day: Number
 - Daily_rate: Number
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-01-refine-invoice-generator-p2/missions.png" alt="Strapi Mission Collection" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-01-refine-invoice-generator-p2/missions.png" alt="Strapi missions collection type structure" />
 <br />
 
 `Invoice Collection:`
@@ -61,14 +62,14 @@ In our Part I article, we created our company, contact and client collections. I
 - Contact: Relation with Contact
 - Missions: Relation with Mission
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-01-refine-invoice-generator-p2/invoice.png" alt="Strapi Mission Collection" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-01-refine-invoice-generator-p2/invoice.png" alt="Strapi invoices collection type structure" />
 <br />
 
 We created our missions and invoice collections fields. Our goal here is to define the products or services you offer specifically to your company and to create invoices based on them. By determining how many working days a product or service will last and its price on a daily basis, the total will be automatically reflected on your invoice. Now let's create our **Refine** Missions page using this collection. And let's understand better by creating an example missions with **Refine**.
 
 ## Refine Missions Page
 
-Let's use the refine-antd package's [useTable](https://refine.dev/docs/ui-frameworks/antd/hooks/table/useTable/) hook to create our page, and let's define the fields in our Table Component.
+Let's use the refine-antd package's [useTable](https://refine.dev/core/docs/ui-frameworks/antd/hooks/table/useTable/) hook to create our page, and let's define the fields in our Table Component.
 
 ```tsx title="src/pages/MissionList.tsx"
 import {
@@ -135,7 +136,7 @@ export const MissionList: React.FC = () => {
 
 We defined the fields we created on the strapi side with the **Refine** Table and created our table. Let's take a look at how our table looks like.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-01-refine-invoice-generator-p2/mission_page.png" alt="Refine Missions Page" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-01-refine-invoice-generator-p2/mission_page.png" alt="Missions list page with CRUD operations" />
 <br />
 
 As you can see, we were able to create and display our table very simply thanks to the **Refine**. Let's learn how to create a Mission from our Refine interface now.
@@ -203,7 +204,7 @@ export const CreateMission: React.FC<CreateMissionProps> = ({
 </p>
 </details>
 
-Let's define the `CreateMission` component we created above in our `MissionList` and fill its props with **Refine** [**useModalForm**](https://refine.dev/docs/ui-frameworks/antd/hooks/form/useModalForm/).
+Let's define the `CreateMission` component we created above in our `MissionList` and fill its props with **Refine** [**useModalForm**](https://refine.dev/core/docs/ui-frameworks/antd/hooks/form/useModalForm/).
 
 ```tsx title="src/pages/MissionList.tsx"
 import { List, Table, useTable, TagField, useModalForm } from "@refinedev/antd";
@@ -266,7 +267,7 @@ export const MissionList: React.FC = () => {
 };
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-01-refine-invoice-generator-p2/mission_create.gif" alt="Refine Mission Create Page" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-01-refine-invoice-generator-p2/mission_create.gif" alt="Creating a new mission with form fields" />
 <br />
 
 Missions Page is now ready, you can create and manage your business's products or services here with **Refine**.
@@ -277,7 +278,7 @@ Our next step is to create invoices according to these tasks and clients. Let's 
 
 Let's put the `Invoice Collections` fields that we created with Strapi into our Table by fetch the refine-antd useTable. Our Invoice collection has a relation with the client, company and missions collections.
 
-Thanks to the [refine-strapi-v4 dataProvider](https://refine.dev/docs/packages/documentation/data-providers/strapi-v4/#relations-population), we can use the data of collections that are related to each other.
+Thanks to the [refine-strapi-v4 dataProvider](https://refine.dev/core/docs/packages/documentation/data-providers/strapi-v4/#relations-population), we can use the data of collections that are related to each other.
 
 In order to use the fields of the collections that are related to each other, we must populate the collections in `meta`.
 
@@ -392,7 +393,7 @@ export const InvoiceList: React.FC = () => {
 </p>
 </details>
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-01-refine-invoice-generator-p2/invoice_list.png" alt="Refine Invoice List Page" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-01-refine-invoice-generator-p2/invoice_list.png" alt="Invoices list page with table view" />
 <br />
 
 As you can see, we were able to list invoices with **Refine**. Using the Invoice collection and the fields associated with it, we can create a fully featured Invoice.
@@ -403,9 +404,9 @@ Let's understand better by creating an invoice example from our **Refine** UI.
 
 ### Refine Create Invoice Page
 
-Here, we first fetch the company, contacts and missions using the **Refine**'s [useSelect](https://refine.dev/docs/ui-frameworks/antd/hooks/field/useSelect/) hook, and by giving it to the Select component, we create selectable components to detail our invoice.
+Here, we first fetch the company, contacts and missions using the **Refine**'s [useSelect](https://refine.dev/core/docs/ui-frameworks/antd/hooks/field/useSelect/) hook, and by giving it to the Select component, we create selectable components to detail our invoice.
 
-Then, we fill our Refine [Create](https://refine.dev/docs/ui-frameworks/antd/components/basic-views/create/) and Form components with the fields of the collection in the strap to perform a creation process as we did in our previous examples.
+Then, we fill our Refine [Create](https://refine.dev/core/docs/ui-frameworks/antd/components/basic-views/create/) and Form components with the fields of the collection in the strap to perform a creation process as we did in our previous examples.
 
 <details>
 <summary>Show Code</summary>
@@ -504,7 +505,7 @@ export const CreateInvoice = () => {
 </p>
 </details>
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-01-refine-invoice-generator-p2/create_invoice.gif" alt="Refine Invoice Create" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-01-refine-invoice-generator-p2/create_invoice.gif" alt="Creating an invoice with mission details" />
 <br />
 
 Our invoice generator is almost ready! As you can see, we can now create a fully featured invoice with **Refine** and display it in our table. As the last step, let's view and download the invoices we created as PDF.
@@ -914,7 +915,7 @@ const styles = StyleSheet.create({
 </p>
 </details>
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-03-01-refine-invoice-generator-p2/invoice_pdf.gif" alt="Refine Invoice PDF Export" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-03-01-refine-invoice-generator-p2/invoice_pdf.avif" alt="Generated PDF invoice preview" />
 <br />
 
 ## Example

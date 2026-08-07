@@ -6,25 +6,63 @@ import dayjs from "dayjs";
 export const useGetEmployeeTimeOffUsage = ({
   employeeId,
 }: { employeeId?: number }) => {
-  const query = useList<TimeOff>({
-    resource: "time-offs",
-    pagination: { pageSize: 999 },
-    filters: [
-      {
-        field: "status",
-        operator: "eq",
-        value: TimeOffStatus.APPROVED,
+  const migratedMigratedMigratedMigratedMigratedMigratedQuery =
+    useList<TimeOff>({
+      resource: "time-offs",
+      pagination: { pageSize: 999 },
+      filters: [
+        {
+          field: "status",
+          operator: "eq",
+          value: TimeOffStatus.APPROVED,
+        },
+        {
+          field: "employeeId",
+          operator: "eq",
+          value: employeeId,
+        },
+      ],
+      queryOptions: {
+        enabled: !!employeeId,
       },
-      {
-        field: "employeeId",
-        operator: "eq",
-        value: employeeId,
-      },
-    ],
-    queryOptions: {
-      enabled: !!employeeId,
-    },
-  });
+    });
+
+  const migratedMigratedMigratedMigratedMigratedQuery = {
+    ...migratedMigratedMigratedMigratedMigratedMigratedQuery.result,
+    ...migratedMigratedMigratedMigratedMigratedMigratedQuery.query,
+    ...migratedMigratedMigratedMigratedMigratedMigratedQuery,
+  };
+
+  const migratedMigratedMigratedMigratedQuery = {
+    ...migratedMigratedMigratedMigratedMigratedQuery.result,
+    ...migratedMigratedMigratedMigratedMigratedQuery.query,
+    ...migratedMigratedMigratedMigratedMigratedQuery,
+  };
+
+  const migratedMigratedMigratedQuery = {
+    ...migratedMigratedMigratedMigratedQuery.result,
+    ...migratedMigratedMigratedMigratedQuery.query,
+    ...migratedMigratedMigratedMigratedQuery,
+  };
+
+  const migratedMigratedQuery = {
+    ...migratedMigratedMigratedQuery.result,
+    ...migratedMigratedMigratedQuery.query,
+    ...migratedMigratedMigratedQuery,
+  };
+
+  const migratedQuery = {
+    ...migratedMigratedQuery.result,
+    ...migratedMigratedQuery.query,
+    ...migratedMigratedQuery,
+  };
+
+  const query = {
+    ...migratedQuery.result,
+    ...migratedQuery.query,
+    ...migratedQuery,
+  };
+
   const data = query?.data?.data;
 
   const { sick, casual, annual, sickCount, casualCount, annualCount } =

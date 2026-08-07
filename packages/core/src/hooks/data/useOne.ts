@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { getXRay } from "@refinedev/devtools-internal";
 import {
   type QueryObserverResult,
@@ -5,19 +6,14 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 
-import {
-  pickDataProvider,
-  pickNotDeprecated,
-  prepareQueryContext,
-  useActiveAuthProvider,
-} from "@definitions";
+import { pickDataProvider, prepareQueryContext } from "@definitions";
 import {
   useDataProvider,
   useHandleNotification,
   useKeys,
   useMeta,
   useOnError,
-  useResource,
+  useResourceParams,
   useResourceSubscription,
   useTranslate,
 } from "@hooks";
@@ -49,22 +45,32 @@ export type UseOneProps<TQueryFnData, TError, TData> = {
    */
   id?: BaseKey;
   /**
-   * react-query's [useQuery](https://tanstack.com/query/v4/docs/reference/useQuery) options
+   * react-query's [useQuery](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery) options
    */
-  queryOptions?: UseQueryOptions<
-    GetOneResponse<TQueryFnData>,
-    TError,
-    GetOneResponse<TData>
-  >;
+  queryOptions?: Omit<
+    UseQueryOptions<
+      GetOneResponse<TQueryFnData>,
+      TError,
+      GetOneResponse<TData>
+    >,
+    "queryKey" | "queryFn"
+  > & {
+    // Make queryKey and queryFn optional
+    queryKey?: UseQueryOptions<
+      GetOneResponse<TQueryFnData>,
+      TError,
+      GetOneResponse<TData>
+    >["queryKey"];
+    queryFn?: UseQueryOptions<
+      GetOneResponse<TQueryFnData>,
+      TError,
+      GetOneResponse<TData>
+    >["queryFn"];
+  };
   /**
    * Metadata query for `dataProvider`,
    */
   meta?: MetaQuery;
-  /**
-   * Meta data query for `dataProvider`,
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
   /**
    * If there is more than one `dataProvider`, you should use the `dataProviderName` that you will use.
    * @default `"default"``
@@ -78,8 +84,13 @@ export type UseOneProps<TQueryFnData, TError, TData> = {
   LiveModeProps &
   UseLoadingOvertimeOptionsProps;
 
+export type UseOneReturnType<TData, TError> = {
+  query: QueryObserverResult<GetOneResponse<TData>, TError>;
+  result: TData | undefined;
+} & UseLoadingOvertimeReturnType;
+
 /**
- * `useOne` is a modified version of `react-query`'s {@link https://react-query.tanstack.com/guides/queries `useQuery`} used for retrieving single items from a `resource`.
+ * `useOne` is a modified version of `react-query`'s {@link https://tanstack.com/query/v5/docs/framework/react/guides/queries `useQuery`} used for retrieving single items from a `resource`.
  *
  * It uses `getOne` method as query function from the `dataProvider` which is passed to `<Refine>`.
  *
@@ -102,30 +113,25 @@ export const useOne = <
   successNotification,
   errorNotification,
   meta,
-  metaData,
   liveMode,
   onLiveEvent,
   liveParams,
   dataProviderName,
   overtimeOptions,
-}: UseOneProps<TQueryFnData, TError, TData>): QueryObserverResult<
-  GetOneResponse<TData>,
-  TError
-> &
+}: UseOneProps<TQueryFnData, TError, TData>): UseOneReturnType<TData, TError> &
   UseLoadingOvertimeReturnType => {
-  const { resources, resource, identifier } = useResource(resourceFromProp);
+  const { resources, resource, identifier } = useResourceParams({
+    resource: resourceFromProp,
+  });
 
   const dataProvider = useDataProvider();
   const translate = useTranslate();
-  const authProvider = useActiveAuthProvider();
-  const { mutate: checkError } = useOnError({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate: checkError } = useOnError();
   const handleNotification = useHandleNotification();
   const getMeta = useMeta();
-  const { keys, preferLegacyKeys } = useKeys();
+  const { keys } = useKeys();
 
-  const preferredMeta = pickNotDeprecated(meta, metaData);
+  const preferredMeta = meta;
   const pickedDataProvider = pickDataProvider(
     identifier,
     dataProviderName,
@@ -136,6 +142,11 @@ export const useOne = <
 
   const combinedMeta = getMeta({ resource, meta: preferredMeta });
 
+  const isEnabled =
+    typeof queryOptions?.enabled !== "undefined"
+      ? queryOptions?.enabled === true
+      : typeof resource?.name !== "undefined" && typeof id !== "undefined";
+
   useResourceSubscription({
     resource: identifier,
     types: ["*"],
@@ -144,20 +155,15 @@ export const useOne = <
       ids: id ? [id] : [],
       id: id,
       meta: combinedMeta,
-      metaData: combinedMeta,
       subscriptionType: "useOne",
       ...liveParams,
     },
-    enabled:
-      typeof queryOptions?.enabled !== "undefined"
-        ? queryOptions?.enabled
-        : typeof resource?.name !== "undefined" && typeof id !== "undefined",
+    enabled: isEnabled,
     liveMode,
     onLiveEvent,
-    dataProviderName: pickedDataProvider,
     meta: {
       ...meta,
-      dataProviderName,
+      dataProviderName: pickedDataProvider,
     },
   });
 
@@ -174,32 +180,28 @@ export const useOne = <
       .params({
         ...(preferredMeta || {}),
       })
-      .get(preferLegacyKeys),
+      .get(),
     queryFn: (context) =>
       getOne<TQueryFnData>({
         resource: resource?.name ?? "",
         id: id!,
-        meta: {
-          ...combinedMeta,
-          queryContext: prepareQueryContext(context),
-        },
-        metaData: {
-          ...combinedMeta,
-          queryContext: prepareQueryContext(context),
-        },
+        meta: prepareQueryContext(context as any, combinedMeta),
       }),
     ...queryOptions,
-    enabled:
-      typeof queryOptions?.enabled !== "undefined"
-        ? queryOptions?.enabled
-        : typeof id !== "undefined",
-    onSuccess: (data) => {
-      queryOptions?.onSuccess?.(data);
+    enabled: isEnabled,
+    meta: {
+      ...queryOptions?.meta,
+      ...getXRay("useOne", resource?.name),
+    },
+  });
 
+  // Handle success
+  useEffect(() => {
+    if (queryResponse.isSuccess && queryResponse.data) {
       const notificationConfig =
         typeof successNotification === "function"
           ? successNotification(
-              data,
+              queryResponse.data,
               {
                 id,
                 ...combinedMeta,
@@ -209,15 +211,18 @@ export const useOne = <
           : successNotification;
 
       handleNotification(notificationConfig);
-    },
-    onError: (err: TError) => {
-      checkError(err);
-      queryOptions?.onError?.(err);
+    }
+  }, [queryResponse.isSuccess, queryResponse.data, successNotification]);
+
+  // Handle error
+  useEffect(() => {
+    if (queryResponse.isError && queryResponse.error) {
+      checkError(queryResponse.error);
 
       const notificationConfig =
         typeof errorNotification === "function"
           ? errorNotification(
-              err,
+              queryResponse.error,
               {
                 id,
                 ...combinedMeta,
@@ -230,24 +235,23 @@ export const useOne = <
         key: `${id}-${identifier}-getOne-notification`,
         message: translate(
           "notifications.error",
-          { statusCode: err.statusCode },
-          `Error (status code: ${err.statusCode})`,
+          { statusCode: queryResponse.error.statusCode },
+          `Error (status code: ${queryResponse.error.statusCode})`,
         ),
-        description: err.message,
+        description: queryResponse.error.message,
         type: "error",
       });
-    },
-    meta: {
-      ...queryOptions?.meta,
-      ...getXRay("useOne", preferLegacyKeys, resource?.name),
-    },
-  });
+    }
+  }, [queryResponse.isError, queryResponse.error?.message]);
 
   const { elapsedTime } = useLoadingOvertime({
+    ...overtimeOptions,
     isLoading: queryResponse.isFetching,
-    interval: overtimeOptions?.interval,
-    onInterval: overtimeOptions?.onInterval,
   });
 
-  return { ...queryResponse, overtime: { elapsedTime } };
+  return {
+    query: queryResponse,
+    result: queryResponse.data?.data,
+    overtime: { elapsedTime },
+  };
 };

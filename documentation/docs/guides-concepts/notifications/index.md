@@ -1,10 +1,13 @@
 ---
-title: Notifications
+title: "Notifications Guide | Guides Concepts in Refine v5"
+display_title: "Notifications"
+sidebar_label: "Notifications"
+description: "Build Notifications in Refine v5. Learn the key steps. Learn best practices for data for real-world React admin panels. Learn with code examples."
 ---
 
 One of the most important parts of an application is the notifications and the visual feedbacks. Refine has this built-in notification integration that works automatically when it's needed in cases such as when a request fails or when a form is submitted.
 
-While this integration is not coupled with the UI integrations, it will be a wise choice to use the one that is provided by the UI libraries for a consistent design language. This is why Refine's UI integrations also provides a [`notificationProvider`](/docs/notification/notification-provider/) to be used with the notification integration of refine.
+While this integration is not coupled with the UI integrations, it will be a wise choice to use the one that is provided by the UI libraries for a consistent design language. This is why Refine's UI integrations also provides a [`notificationProvider`](/core/docs/notification/notification-provider/) to be used with the notification integration of refine.
 
 ## Notification Providers
 
@@ -28,12 +31,12 @@ interface OpenNotificationParams {
 }
 ```
 
-Once you provide the notification provider, Refine seamlessly integrate with [data hooks](/docs/guides-concepts/data-fetching/#data-hooks) to displays user-friendly notifications for various data-related actions, ensuring a clear and informative user experience. This includes:
+Once you provide the notification provider, Refine seamlessly integrate with [data hooks](/core/docs/guides-concepts/data-fetching/#data-hooks) to displays user-friendly notifications for various data-related actions, ensuring a clear and informative user experience. This includes:
 
-- **Form Submission**: Whether a [form](/docs/data/hooks/use-form/) is successfully submitted or encounters errors, Refine will display the appropriate notification to keep the user informed.
-- **Resource Management**: [Creation](/docs/data/hooks/use-create/), [deletion](/docs/data/hooks/use-delete/), [update](/docs/data/hooks/use-update/), [import](/docs/core/hooks/utilities/use-import/), and [export](/docs/core/hooks/utilities/use-export/) of resources are all accompanied by success or error notifications, providing immediate feedback to the user.
-- **Data Fetching**: Refine also displays notifications for failed data fetching operations, including those using [useList](/docs/data/hooks/use-list/), [useInfiniteList](/docs/data/hooks/use-infinite-list/), [useMany](/docs/data/hooks/use-many/), [useOne](/docs/data/hooks/use-one/).
-- Auth Actions: [Login](/docs/authentication/hooks/use-login/), [logout](/docs/authentication/hooks/use-logout/), [register](/docs/authentication/hooks/use-register/), [update password](/docs/authentication/hooks/use-update-password/), and [forgot password](/docs/authentication/hooks/use-forgot-password/) actions are all integrated with Refine's notification provider to display error notifications.
+- **Form Submission**: Whether a [form](/core/docs/data/hooks/use-form/) is successfully submitted or encounters errors, Refine will display the appropriate notification to keep the user informed.
+- **Resource Management**: [Creation](/core/docs/data/hooks/use-create/), [deletion](/core/docs/data/hooks/use-delete/), [update](/core/docs/data/hooks/use-update/), [import](/core/docs/core/hooks/utilities/use-import/), and [export](/core/docs/core/hooks/utilities/use-export/) of resources are all accompanied by success or error notifications, providing immediate feedback to the user.
+- **Data Fetching**: Refine also displays notifications for failed data fetching operations, including those using [useList](/core/docs/data/hooks/use-list/), [useInfiniteList](/core/docs/data/hooks/use-infinite-list/), [useMany](/core/docs/data/hooks/use-many/), [useOne](/core/docs/data/hooks/use-one/).
+- Auth Actions: [Login](/core/docs/authentication/hooks/use-login/), [logout](/core/docs/authentication/hooks/use-logout/), [register](/core/docs/authentication/hooks/use-register/), [update password](/core/docs/authentication/hooks/use-update-password/), and [forgot password](/core/docs/authentication/hooks/use-forgot-password/) actions are all integrated with Refine's notification provider to display error notifications.
 
 ### Built-in Notification Providers
 
@@ -177,7 +180,7 @@ useForm({
 
 ### With i18n <GuideBadge id="i18n/i18n-provider/" />
 
-Refine's notification integration is also integrated with the [`i18n Provider`](/docs/i18n/i18n-provider/). This means that you can use the `i18n` integration to customize the notifications.
+Refine's notification integration is also integrated with the [`i18n Provider`](/core/docs/i18n/i18n-provider/). This means that you can use the `i18n` integration to customize the notifications.
 
 Refine uses following keys for the notifications and popultes `{{resource}}` and `{{statusCode}}`. You can override these keys in your `i18n` provider to customize the notifications.
 

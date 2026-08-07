@@ -3,12 +3,14 @@ title: git switch and git checkout – How to switch branches in git
 description: We will go through different use cases and examples for using git checkout and git switch.
 slug: git-switch-and-git-checkout
 authors: muhammad_khabbab
-tags: [git, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-20-git-switch/social-2.png
+category: "Alternatives"
+tags: [git]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-20-git-switch/social-2.png
 hide_table_of_contents: false
+last_update: 2025-07-04
 ---
 
-**This article was last updated on November 27, 2024, to add to update switching explanations for Git switch post.**
+**This article was last updated on July 2, 2025, to improve the explanations of 'git switch' and align with current best practices.**
 
 ## Introduction
 
@@ -23,17 +25,6 @@ Let's go through some examples of switching branches through `git checkout`, and
 
 Switching between branches is one of the basic Git operations when one needs to work with multiple features. To switch to an already existing branch, use `git checkout branch_name`. To create and switch to a new branch in one command, use `git checkout -b new_branch`. For remote branches, first fetch the branch using `git fetch --all`, then switch using `git checkout remote_branch_name`. With newer versions of Git, `git switch branch_name` is an easier way to switch to another branch.
 
-Steps we'll cover:
-
-- [Using git checkout to switch branches](#using-git-checkout-to-switch-branches)
-- [Troubleshooting Branch Issues](#troubleshooting-branch-issues)
-- [Using git switch vs git checkout](#using-git-switch-vs-git-checkout)
-- [Difference between git checkout and git reset](#difference-between-git-checkout-and-git-reset)
-- [Difference between git checkout and git restore](#difference-between-git-checkout-and-git-restore)
-- [Difference between git checkout and git Clone](#difference-between-git-checkout-and-git-clone)
-- [Branch Management Techniques](#branch-management-techniques)
-- [Performance Optimization in Branch Management](#performance-optimization-in-branch-management)
-
 ## Using git checkout to switch branches
 
 The `git checkout` command allows you to navigate between different branches created through the command `git branch`. When you checkout a branch, it updates all the files in your working directory to match the version stored in that branch. It also informs Git to preserve all the new commits on that branch.
@@ -45,7 +36,7 @@ Let's try different versions of `git checkout` command.
 First, get the list of the branches through `git branch`
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-20-git-switch/image1.png"  alt="git switch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-20-git-switch/image1.png"  alt="git switch" />
 </div>
 
 <br/>
@@ -53,14 +44,14 @@ First, get the list of the branches through `git branch`
 The "\*" shows your currently selected branch, which is "test_branch". Now let's switch to BranchB.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-20-git-switch/image2.png"  alt="git switch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-20-git-switch/image2.png"  alt="git switch" />
 </div>
 <br/>
 
 To confirm the successful branch switch, execute `git branch` and you will see that your current branch is now BranchB
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-20-git-switch/image3.png"  alt="git switch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-20-git-switch/image3.png"  alt="git switch" />
 </div>
 
 <br/>
@@ -70,7 +61,7 @@ To confirm the successful branch switch, execute `git branch` and you will see t
 The `git checkout` command also comes with a "-b" argument which creates a new branch and automatically switches to it. Let's try it.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-20-git-switch/image4.png"  alt="git switch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-20-git-switch/image4.png"  alt="git switch" />
 </div>
 
 <br/>
@@ -79,7 +70,7 @@ The above example shows that the new branch created is the currently selected br
 When switching branch using `git checkout` you might see an error as below.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-20-git-switch/image5.png"  alt="git switch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-20-git-switch/image5.png"  alt="git switch" />
 </div>
 
 <br/>
@@ -101,13 +92,13 @@ You will have a detached HEAD state when you checkout a commit that is not a bra
 - Create a new branch from the detached HEAD state:
 
 ```sh
-git checkout -b <new-branch>
+git switch -c <new-branch>
 ```
 
 - Or maybe you just want to switch back to an old branch:
 
 ```sh
-git checkout <branch-name>
+git switch main
 ```
 
 ### Undoing a Commit
@@ -155,7 +146,7 @@ git stash
 - Switch branches:
 
 ```sh
-git checkout <branch-name>
+git switch <branch-name>
 ```
 
 - Apply the stashed changes:
@@ -164,7 +155,8 @@ git checkout <branch-name>
 git stash apply
 ```
 
-**6. Check Branch Tracking Information:**
+### Check Branch Tracking Information:\*\*
+
 Use this to see which remote branch your local branch is tracking:
 
 ```sh
@@ -187,15 +179,17 @@ The `git switch` command replaced `git checkout` in 2020, although `git checkout
 
 ### Why git switch was needed?
 
-Let's assume you have a file named "test.txt" and at the same time, you have a branch named "test". If you are on master branch and you want to checkout to branch "test", you would use the command "git checkout test" but this would checkout the file "test", this is where `git switch` comes in.
+Let's assume you have a file named "test.txt" and at the same time, you have a branch named "test". If you are on main branch and you want to checkout to branch "test", you would use the command "git checkout test" but this would checkout the file "test", this is where `git switch` comes in.
 
 • `git switch test` will switch to branch "test" even if you have a file "test"
 • `git restore` will discard uncommitted local changes in the file "test" even if you have a branch "test".
 
+In modern Git practices, git switch is now favored for its improved clarity and safety. It handles only branch operations, which prevents the common mistake of accidentally overwriting files that can happen with the multi-purpose git checkout command. For example, creating a branch from a specific commit is much more intuitive using git switch -c `}<new-branch />{` `}<start-point />{`. This focused design makes your workflow more predictable and is the recommended approach in today's development environments.
+
 Let's try this command.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-20-git-switch/image6.png"  alt="git switch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-20-git-switch/image6.png"  alt="git switch" />
 </div>
 
 <br/>
@@ -204,7 +198,7 @@ The above command works just the same way `git checkout` switched branches.
 Switching to a branch that does not exist will throw an error:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-20-git-switch/image7.png"  alt="git switch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-20-git-switch/image7.png"  alt="git switch" />
 </div>
 
 <br/>
@@ -212,7 +206,7 @@ Switching to a branch that does not exist will throw an error:
 To create a new branch and switch to it in one go, try the following example:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-20-git-switch/image8.png"  alt="git switch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-20-git-switch/image8.png"  alt="git switch" />
 </div>
 
 <br/>
@@ -220,7 +214,7 @@ To create a new branch and switch to it in one go, try the following example:
 To verify, just run the `git branch` command to see if your current branch has been successfully switched to the newly created branch.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-20-git-switch/image9.png"  alt="git switch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-20-git-switch/image9.png"  alt="git switch" />
 </div>
 
 <br/>
@@ -228,18 +222,18 @@ To verify, just run the `git branch` command to see if your current branch has b
 Another interesting argument of this command is `git switch -`. If you have to frequently switch between two branches and typing the branch name every time is cumbersome, you can use the `git switch -` version, which switches to the previously checked out branch. Let's try.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-20-git-switch/image10.png"  alt="git switch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-20-git-switch/image10.png"  alt="git switch" />
 </div>
 
 <br/>
 
 ## Difference between git checkout and git reset
 
-`git reset` moves the current branch reference, whereas `git checkout` just moves the head instead of the current branch reference.  
+`git reset` moves the current branch reference, whereas `git checkout` just moves the head instead of the current branch reference.
 `reset` resets the index without changing the working tree. The below example will reset the index to match HEAD, without touching the working tree:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-20-git-switch/image11.png"  alt="git switch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-20-git-switch/image11.png"  alt="git switch" />
 </div>
 
 <br/>
@@ -248,12 +242,12 @@ Note that you will use reset to undo the staging of a modified file.
 `checkout` is mostly used with a branch, tag, or commit. It will reset HEAD and index to a specified commit, as well as perform the checkout of the index into the working tree at the same time. It is mostly used to discard the changes to your unstaged file(s).
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-20-git-switch/image12.png"  alt="git switch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-20-git-switch/image12.png"  alt="git switch" />
 </div>
 
 <br/>
 
-If your HEAD is currently set to the master branch, running `git reset 8e3f6r5` will point the master to "9e5e6a4". `Checkout` on the other hand, changes the head itself.
+If your HEAD is currently set to the main branch, running `git reset 8e3f6r5` will point the main to "9e5e6a4". `Checkout` on the other hand, changes the head itself.
 
 ## Difference between git checkout and git restore
 
@@ -270,7 +264,7 @@ If you want to restore both index and the working tree, then you would use the f
 <br/>
 <div>
 <a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="discord banner" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="Join Refine on Discord banner" />
 </a>
 </div>
 

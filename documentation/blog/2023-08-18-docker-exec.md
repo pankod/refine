@@ -3,9 +3,11 @@ title: How to use Docker Exec command?
 description: We'll go over the Docker exec command syntax, usage as well as some examples.
 slug: docker-exec
 authors: muhammad_khabbab
-tags: [docker, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-18-docker-exec/social.png
+category: "Engineering"
+tags: [docker]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-18-docker-exec/social.png
 hide_table_of_contents: false
+last_update: 2023-11-29
 ---
 
 ## Introduction
@@ -58,7 +60,7 @@ Docker –version
 ```
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-18-docker-exec/image1.png"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-18-docker-exec/image1.png"  alt="Docker version command output" />
 </div>
 
 <br/>
@@ -114,7 +116,7 @@ docker exec -i test-container touch /newfile
 ```
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-18-docker-exec/image2.png"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-18-docker-exec/image2.png"  alt="Docker exec creating new file in container root directory" />
 </div>
 
 <br/>
@@ -128,7 +130,7 @@ docker exec -i test-container ps
 ```
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-18-docker-exec/image3.png"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-18-docker-exec/image3.png"  alt="Docker exec listing running processes in container" />
 </div>
 
 <br/>
@@ -146,7 +148,7 @@ docker exec -it test-container /bin/sh
 ```
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-18-docker-exec/image4.png"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-18-docker-exec/image4.png"  alt="Docker exec accessing Alpine container shell interactively" />
 </div>
 
 <br/>
@@ -170,7 +172,7 @@ docker exec test-container whomami
 ```
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-18-docker-exec/image5.png"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-18-docker-exec/image5.png"  alt="Docker exec running ls, pwd with --workdir, and whoami commands" />
 </div>
 
 <br/>
@@ -188,13 +190,13 @@ docker exec -d test-container bin/sh -c "while true; do echo 'Background Job Run
 ```
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-18-docker-exec/image6.png"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-18-docker-exec/image6.png"  alt="Docker exec running background logging process with -d flag" />
 </div>
 
 <br/>
 
  <div className="centered-image">
-   <img style={{alignSelf:"center", width:"500px"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-18-docker-exec/image7.png"  alt="docker exec" />
+   <img style={{alignSelf:"center", width:"500px"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-18-docker-exec/image7.png"  alt="Container logs showing background job running successfully" />
 </div>
 
 <br/>
@@ -210,7 +212,7 @@ exit;
 ```
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-18-docker-exec/image8.png"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-18-docker-exec/image8.png"  alt="Exiting Docker container shell with exit command" />
 </div>
 
 <br/>
@@ -228,7 +230,7 @@ exit;
 - Make sure that your container is correctly configured and that you have the required dependencies set up. For any problems that might be encountered in "docker exec", check the container's docker file and configuration files.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-18-docker-exec/image9.png"  alt="docker exec" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-18-docker-exec/image9.png"  alt="Docker exec common error troubleshooting examples" />
 </div>
 
 <br/>

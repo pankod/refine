@@ -6,13 +6,11 @@ export type XRayResponse = {
   hookName: string;
   trace: TraceType[];
   resourcePath: string | null;
-  legacyKey: boolean;
   resourceName?: string;
 };
 
 export function getXRay(
   hookName: string,
-  legacyKey: boolean,
   resourceName?: string,
   excludeFromTrace?: string[],
 ): XRayResponse {
@@ -21,18 +19,16 @@ export function getXRay(
       hookName: "",
       trace: [],
       resourcePath: null,
-      legacyKey: false,
     };
   }
   const trace = getTrace(excludeFromTrace).slice(1);
 
-  const resourcePath = getResourcePath(hookName as RefineHook, legacyKey);
+  const resourcePath = getResourcePath(hookName as RefineHook);
 
   return {
     hookName,
     trace,
     resourcePath,
-    legacyKey,
     resourceName,
   };
 }

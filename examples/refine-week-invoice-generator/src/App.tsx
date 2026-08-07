@@ -1,20 +1,21 @@
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import { Authenticated, GitHubBanner, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-import routerBindings, {
+import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import { DataProvider } from "@refinedev/strapi-v4";
 import {
   AuthPage,
   ErrorComponent,
   useNotificationProvider,
-  ThemedLayoutV2,
-  ThemedTitleV2,
+  ThemedLayout,
+  ThemedTitle as ThemedTitleV2,
 } from "@refinedev/antd";
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
 import * as Icons from "@ant-design/icons";
@@ -49,36 +50,46 @@ function App() {
               {
                 name: "companies",
                 list: "/companies",
-                icon: <InfoCircleOutlined />,
+                meta: {
+                  icon: <InfoCircleOutlined />,
+                },
               },
               {
                 name: "clients",
                 list: "/clients",
-                icon: <TeamOutlined />,
+                meta: {
+                  icon: <TeamOutlined />,
+                },
               },
               {
                 name: "contacts",
                 list: "/contacts",
                 edit: "/contacts/:id/edit",
-                icon: <UserAddOutlined />,
+                meta: {
+                  icon: <UserAddOutlined />,
+                },
               },
               {
                 name: "missions",
                 list: "/missions",
-                icon: <SlidersOutlined />,
+                meta: {
+                  icon: <SlidersOutlined />,
+                },
               },
               {
                 name: "invoices",
                 list: "/invoices",
                 create: "/invoices/create",
                 edit: "invoices/:id/edit",
-                icon: <FileAddOutlined />,
+                meta: {
+                  icon: <FileAddOutlined />,
+                },
               },
             ]}
             authProvider={authProvider}
             dataProvider={DataProvider(`${API_URL}/api`, axiosInstance)}
             notificationProvider={useNotificationProvider}
-            routerProvider={routerBindings}
+            routerProvider={routerProvider}
             options={{
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
@@ -91,7 +102,7 @@ function App() {
                     key="authenticated-routes"
                     fallback={<CatchAllNavigate to="/login" />}
                   >
-                    <ThemedLayoutV2
+                    <ThemedLayout
                       Header={Header}
                       Title={({ collapsed }: any) => (
                         <ThemedTitleV2
@@ -101,7 +112,7 @@ function App() {
                       )}
                     >
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >
@@ -161,7 +172,7 @@ function App() {
               <Route
                 element={
                   <Authenticated key="catch-all">
-                    <ThemedLayoutV2
+                    <ThemedLayout
                       Header={Header}
                       Title={({ collapsed }: any) => (
                         <ThemedTitleV2
@@ -171,7 +182,7 @@ function App() {
                       )}
                     >
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >

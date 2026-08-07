@@ -1,4 +1,4 @@
-import { useResource, useGetToPath } from "@refinedev/core";
+import { useResourceParams, useGetToPath } from "@refinedev/core";
 import React from "react";
 import { useRouter } from "next/router";
 
@@ -14,7 +14,7 @@ export const NavigateToResource = ({
   const ran = React.useRef(false);
   const { replace } = useRouter();
   const getToPath = useGetToPath();
-  const { resource, resources } = useResource(resourceProp);
+  const { resource, resources } = useResourceParams({ resource: resourceProp });
 
   const toResource = React.useMemo(
     () => resource || resources.find((r) => r.list),

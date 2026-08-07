@@ -129,16 +129,16 @@ Here's how it looks in the end:
 
 <CodeSandboxExample path="customization-top-menu-layout" />
 
-[refine]: /docs/3.xx.xx/api-reference/core/components/refine-config
-[layout]: /docs/3.xx.xx/api-reference/core/components/refine-config#layout
-[sider]: /docs/3.xx.xx/api-reference/core/components/refine-config#sider
-[footer]: /docs/3.xx.xx/api-reference/core/components/refine-config#footer
-[header]: /docs/3.xx.xx/api-reference/core/components/refine-config#header
-[offlayoutarea]: /docs/3.xx.xx/api-reference/core/components/refine-config#offlayoutarea
-[title]: /docs/3.xx.xx/api-reference/core/components/refine-config#title
-[layoutwrapper]: /docs/3.xx.xx/api-reference/core/components/layout-wrapper
+[refine]: /core/docs/3.xx.xx/api-reference/core/components/refine-config
+[layout]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#layout
+[sider]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#sider
+[footer]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#footer
+[header]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#header
+[offlayoutarea]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#offlayoutarea
+[title]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#title
+[layoutwrapper]: /core/docs/3.xx.xx/api-reference/core/components/layout-wrapper
 [custom page example]: /advanced-tutorials/custom-pages
-[custom page example code]: /examples/customization/topMenuLayout
+[custom page example code]: /core/docs/examples/customization/topMenuLayout
 [antdlayout]: https://ant.design/components/layout/
-[usemenu]: /docs/3.xx.xx/api-reference/core/hooks/ui/useMenu
-[usetitle]: /docs/3.xx.xx/api-reference/core/hooks/refine/useTitle
+[usemenu]: /core/docs/3.xx.xx/api-reference/core/hooks/ui/useMenu
+[usetitle]: /core/docs/3.xx.xx/api-reference/core/hooks/refine/useTitle

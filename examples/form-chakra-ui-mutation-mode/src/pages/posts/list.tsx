@@ -123,29 +123,31 @@ export const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    setOptions,
+    reactTable: { getHeaderGroups, getRowModel, setOptions },
+
     refineCore: {
-      setCurrent,
+      setCurrentPage: setCurrent,
       pageCount,
-      current,
+      currentPage: current,
+
       tableQuery: { data: tableData },
     },
   } = useTable({
     columns,
     refineCoreProps: {
-      initialSorter: [
-        {
-          field: "id",
-          order: "asc",
-        },
-      ],
+      sorters: {
+        initial: [
+          {
+            field: "id",
+            order: "asc",
+          },
+        ],
+      },
     },
   });
 
   const categoryIds = tableData?.data?.map((item) => item.category.id) ?? [];
-  const { data: categoriesData } = useMany<ICategory>({
+  const { result: categoriesData } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {

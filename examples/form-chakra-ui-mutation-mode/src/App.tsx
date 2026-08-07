@@ -1,7 +1,7 @@
 import { GitHubBanner, type MutationMode, Refine } from "@refinedev/core";
 import {
   ErrorComponent,
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   useNotificationProvider,
 } from "@refinedev/chakra-ui";
@@ -11,8 +11,8 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { PostList, PostCreate, PostEdit, PostShow } from "./pages";
 import MutationModePicker from "./components/mutation-mode-picker";
@@ -52,9 +52,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route index element={<NavigateToResource resource="posts" />} />

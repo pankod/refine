@@ -27,6 +27,7 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
 
   const { tableProps, filters } = useTable<Company, HttpError, Company>({
     resource: "companies",
+
     onSearch: (values) => {
       return [
         {
@@ -36,6 +37,7 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
         },
       ];
     },
+
     sorters: {
       initial: [
         {
@@ -44,6 +46,7 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
         },
       ],
     },
+
     filters: {
       initial: [
         {
@@ -53,9 +56,11 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
         },
       ],
     },
+
     pagination: {
       pageSize: 12,
     },
+
     meta: {
       gqlQuery: COMPANIES_LIST_QUERY,
     },

@@ -1,6 +1,9 @@
 ---
 id: useDrawerForm
-title: useDrawerForm
+title: "UseDrawerForm Example | Best Practices in Refine v5"
+display_title: "useDrawerForm"
+sidebar_label: "useDrawerForm"
+description: "Integrate UseDrawerForm in Refine v5. Learn best practices. Explore accessibility, components for real-world React admin panels. See practical code samples."
 example-tags: [form, chakra-ui, react-hook-form]
 ---
 

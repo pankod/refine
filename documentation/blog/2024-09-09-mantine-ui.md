@@ -3,9 +3,11 @@ title: Introduction to Mantine UI
 description: Let's explore Mantine UI React Component Library.
 slug: mantine-ui-react
 authors: marvel_ken
-tags: [mantine, react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-11-mantine-ui/social-2.png
+category: "Ecosystem / Integrations"
+tags: [react]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-11-mantine-ui/social-2.png
 hide_table_of_contents: false
+last_update: 2024-09-10
 ---
 
 **This article was last updated on September 09, 2024, to add sections on Advanced Responsive Design, Built-in Accessibility Features, Testing Mantine Applications, and Mantine’s Customization and Theming Options.**
@@ -39,7 +41,7 @@ npx create-next-app@latest --typescript
 Mantine has a list of packages that can be used in your project this is what they look like:
 
 <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-11-mantine-ui/1.png"  alt="mojo framework" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-11-mantine-ui/1.png"  alt="mojo framework" />
 </div>
 
 <br/>
@@ -186,7 +188,7 @@ export default App;
 let's take a look at what it looks like:
 
 <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-11-mantine-ui/2-min.gif"  alt="mojo framework" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-11-mantine-ui/2-min.avif"  alt="mojo framework" />
 </div>
 
 <br/>
@@ -269,7 +271,7 @@ export default function App() {
 let's take a look at what it looks like:
 
 <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-11-mantine-ui/3-min.gif"  alt="mojo framework" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-11-mantine-ui/3-min.avif"  alt="mojo framework" />
 </div>
 
 <br/>
@@ -393,7 +395,7 @@ export default App;
 ```
 
 <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-11-mantine-ui/4.png"  alt="mojo framework" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-11-mantine-ui/4.png"  alt="mojo framework" />
 </div>
 
 <br/>
@@ -431,7 +433,7 @@ export default App;
 <br/>
    
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-11-mantine-ui/tab.gif"  alt="mojo framework" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-11-mantine-ui/tab.gif"  alt="mojo framework" />
 </div>
 
 <br/>
@@ -500,7 +502,7 @@ export default function App() {
 ```
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-11-mantine-ui/7-min.gif"  alt="mojo framework" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-11-mantine-ui/7-min.avif"  alt="mojo framework" />
 </div>
 
 <br/>
@@ -605,7 +607,7 @@ export default App;
 ```
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-11-mantine-ui/8.png"  alt="mojo framework" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-11-mantine-ui/8.png"  alt="mojo framework" />
 </div>
 
 <br/>
@@ -660,7 +662,7 @@ export default function App() {
 ```
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-11-mantine-ui/9-min.gif"  alt="mojo framework" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-11-mantine-ui/9-min.avif"  alt="mojo framework" />
 </div>
 
 <br/>

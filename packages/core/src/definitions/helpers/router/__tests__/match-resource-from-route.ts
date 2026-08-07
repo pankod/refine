@@ -11,10 +11,7 @@ describe("matchResourceFromRoute", () => {
     const result = matchResourceFromRoute("", [
       {
         name: "users",
-        edit: {
-          path: "/users/edit/:id",
-          component: () => null,
-        },
+        edit: "/users/edit/:id",
       },
     ]);
 
@@ -25,10 +22,7 @@ describe("matchResourceFromRoute", () => {
     const result = matchResourceFromRoute("/users/edit/123", [
       {
         name: "users",
-        edit: {
-          path: "/users/edit/:id",
-          component: () => null,
-        },
+        edit: "/users/edit/:id",
       },
     ]);
 
@@ -39,17 +33,11 @@ describe("matchResourceFromRoute", () => {
     const result = matchResourceFromRoute("/users/orgs/edit/123", [
       {
         name: "users",
-        edit: {
-          path: "/users/:type/edit/:id",
-          component: () => null,
-        },
+        edit: "/users/:type/edit/:id",
       },
       {
         name: "org-users",
-        edit: {
-          path: "/users/orgs/edit/:id",
-          component: () => null,
-        },
+        edit: "/users/orgs/edit/:id",
       },
     ]);
 

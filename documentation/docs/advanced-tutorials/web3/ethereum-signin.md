@@ -1,6 +1,9 @@
 ---
 id: ethereum-signin
-title: Sign in with Ethereum Web3 Wallet
+title: "Ethereum Signin Tutorial | Workflows in Refine v5"
+display_title: "Sign in with Ethereum Web3 Wallet"
+sidebar_label: "Sign in with Ethereum Web3 Wallet"
+description: "Secure Ethereum Signin in Refine v5. Learn best practices. Explore production tips for wallet and dashboard for production-ready workflows."
 ---
 
 ## Introduction
@@ -19,7 +22,7 @@ We will need [web3](https://github.com/ChainSafe/web3.js) and [web3-modal](https
 
 :::caution
 
-To make this example more visual, we used the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/master/packages/antd) package. If you are using Refine headless, you need to provide the components, hooks or helpers imported from the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/master/packages/antd) package.
+To make this example more visual, we used the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/main/packages/antd) package. If you are using Refine headless, you need to provide the components, hooks or helpers imported from the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/main/packages/antd) package.
 
 :::
 
@@ -153,13 +156,13 @@ We need to override the Refine login page. In this way, we will redirect it to t
 
 ```tsx title="/src/page/login.tsx"
 import { Layout, Button, Space, Typography } from "antd";
-import { ThemedTitleV2 } from "@refinedev/antd";
+import { ThemedTitle } from "@refinedev/antd";
 // highlight-next-line
 import { useLogin } from "@refinedev/core";
 
 export const Login: React.FC = () => {
   // highlight-next-line
-  const { mutate: login, isLoading } = useLogin();
+  const { mutate: login, isPending } = useLogin();
 
   return (
     <Layout
@@ -170,7 +173,7 @@ export const Login: React.FC = () => {
       }}
     >
       <Space direction="vertical" align="center" size="large">
-        <ThemedTitleV2
+        <ThemedTitle
           collapsed={false}
           wrapperStyles={{
             fontSize: "22px",
@@ -179,7 +182,7 @@ export const Login: React.FC = () => {
         <Button
           type="primary"
           size="middle"
-          loading={isLoading}
+          loading={isPending}
           onClick={() => login({})}
         >
           Sign in with Ethereum
@@ -194,7 +197,7 @@ export const Login: React.FC = () => {
 </p>
 </details>
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/web3/login-min.gif" alt="ethereum-login" className="border border-gray-200 rounded" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/web3/login-min.avif" alt="ethereum-login" className="border border-zinc-200 rounded" />
 
 ## Create Dashboard
 
@@ -258,7 +261,7 @@ export const DashboardPage: React.FC = () => {
 </p>
 </details>
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/web3/dashboard.jpg" alt="refine-dashboard" className="border border-gray-200 rounded" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/web3/dashboard.jpg" alt="refine-dashboard" className="border border-zinc-200 rounded" />
 
 Now lets customize **Refine** dashboard. Send your test ethereum via **Refine** dashboard and Metamask.
 
@@ -411,11 +414,11 @@ export const DashboardPage: React.FC = () => {
 </p>
 </details>
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/web3/customize.jpg" alt="refine-customize" className="border border-gray-200 rounded" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/web3/customize.jpg" alt="refine-customize" className="border border-zinc-200 rounded" />
 
 We can now request to send ethereum through our **Refine** dashboard and also view your account details on [Etherscan Ropsten Test Network](https://ropsten.etherscan.io/)
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/web3/overview-min.gif" alt="refine-overview" className="border border-gray-200 rounded" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/web3/overview-min.avif" alt="refine-overview" className="border border-zinc-200 rounded" />
 
 ## Example
 

@@ -7,7 +7,10 @@ type Props = {
 };
 
 export const CourierTableColumnRating = (props: Props) => {
-  const { data, isLoading } = useList<IReview>({
+  const {
+    result: data,
+    query: { isLoading },
+  } = useList<IReview>({
     resource: "reviews",
     filters: [
       {

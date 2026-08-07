@@ -17,17 +17,14 @@ import type { RefreshButtonProps } from "../types";
  */
 export const RefreshButton: React.FC<RefreshButtonProps> = ({
   resource: resourceNameFromProps,
-  resourceNameOrRouteName: propResourceNameOrRouteName,
   recordItemId,
   hideText = false,
   dataProviderName,
   children,
-  meta: _meta,
-  metaData: _metaData,
   ...rest
 }) => {
   const { onClick, label, loading } = useRefreshButton({
-    resource: resourceNameFromProps ?? propResourceNameOrRouteName,
+    resource: resourceNameFromProps,
     id: recordItemId,
     dataProviderName,
   });

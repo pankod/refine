@@ -3,7 +3,7 @@ import { useNavigation, useTranslate } from "@refinedev/core";
 import { DeleteButton, ListButton } from "@refinedev/mui";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import Divider from "@mui/material/Divider";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -65,7 +65,13 @@ export const StoreEdit = () => {
         </Typography>
       )}
       <Grid container spacing="24px">
-        <Grid item xs={12} md={6} lg={5}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+            lg: 5,
+          }}
+        >
           {isFormIsDisabled ? (
             <Box>
               <StoreInfoCard store={form?.store} />
@@ -111,7 +117,13 @@ export const StoreEdit = () => {
             />
           )}
         </Grid>
-        <Grid item xs={12} md={6} lg={7}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+            lg: 7,
+          }}
+        >
           <Box height="432px">
             <StoreMap
               lat={form.latLng.lat}

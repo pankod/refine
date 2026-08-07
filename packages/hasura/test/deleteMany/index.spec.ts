@@ -154,4 +154,79 @@ describe("with gqlMutation", () => {
     expect(data[0].id).toEqual(ids[0]);
     expect(data[1].id).toEqual(ids[1]);
   });
+
+  it("correctly passes variables from meta.gqlVariables to the query", async () => {
+    const ids = [
+      "c5d4e3f2-a1b0-9c8d-7e6f-5a4b3c2d1e0f",
+      "f0e1d2c3-b4a5-6789-8f7e-6d5c4b3a2f1e",
+    ];
+
+    const client = createClient("hasura-default");
+    const { data } = await dataProvider(client, {
+      namingConvention: "hasura-default",
+    }).deleteMany!({
+      resource: "posts",
+      ids,
+      meta: {
+        gqlMutation: gql`
+          mutation DeleteManyPosts(
+            $where: posts_bool_exp!,
+            $includeTitle: Boolean = false
+          ) {
+            delete_posts(where: $where) {
+              returning {
+                id
+                title @include(if: $includeTitle)
+              }
+            }
+          }
+        `,
+        gqlVariables: {
+          includeTitle: true,
+        },
+      },
+    });
+
+    expect(data[0].id).toEqual(ids[0]);
+    expect(data[0].title).toEqual(
+      "Aenean ultricies non libero sit amet pellentesque",
+    );
+    expect(data[1].id).toEqual(ids[1]);
+    expect(data[1].title).toEqual("Etiam tincidunt ex ut auctor faucibus");
+  });
+
+  it("doesn't pass extra variables to the query without meta.gqlVariables", async () => {
+    const ids = [
+      "d3c2b1a0-f9e8-7d6c-5b4a-3f2e1d0c9b8a",
+      "a9b8c7d6-e5f4-3210-2f1e-0d9c8b7a6f5e",
+    ];
+
+    const client = createClient("hasura-default");
+    const { data } = await dataProvider(client, {
+      namingConvention: "hasura-default",
+    }).deleteMany!({
+      resource: "posts",
+      ids,
+      meta: {
+        gqlMutation: gql`
+          mutation DeleteManyPosts(
+            $where: posts_bool_exp!,
+            $includeTitle: Boolean = false
+          ) {
+            delete_posts(where: $where) {
+              returning {
+                id
+                title @include(if: $includeTitle)
+              }
+            }
+          }
+        `,
+      },
+    });
+
+    expect(data[0].id).toEqual(ids[0]);
+    expect(data[0].title).toBeUndefined();
+    expect(data[1].id).toEqual(ids[1]);
+    expect(data[1].title).toBeUndefined();
+  });
 });

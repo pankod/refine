@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example form-material-ui-use-modal-form
 
 <br/>
 
-[![Open form-material-ui-use-modal-form example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/form-material-ui-use-modal-form?view=preview&theme=dark&codemirror=1)
+[![Open form-material-ui-use-modal-form example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/form-material-ui-use-modal-form?view=preview&theme=dark&codemirror=1)

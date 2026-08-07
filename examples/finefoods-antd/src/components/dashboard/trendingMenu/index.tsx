@@ -11,11 +11,12 @@ import {
 import type { ReactNode } from "react";
 
 export const TrendingMenu: React.FC = () => {
-  const { listProps } = useSimpleList<ITrendingProducts>({
-    resource: "trendingProducts",
-    pagination: { pageSize: 5, current: 1 },
-    syncWithLocation: false,
-  });
+  const //`useSimpleList` does not accept all of Ant Design's `List` component props anymore. You can directly use `List` component instead.,
+    { listProps } = useSimpleList<ITrendingProducts>({
+      resource: "trendingProducts",
+      pagination: { pageSize: 5, currentPage: 1 },
+      syncWithLocation: false,
+    });
 
   return (
     <AntdList

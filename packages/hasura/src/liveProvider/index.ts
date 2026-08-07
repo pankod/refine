@@ -6,6 +6,7 @@ import {
   generateUseOneSubscription,
   generateUseListSubscription,
 } from "../utils";
+import { getIdType, type HasuraProviderOptions } from "../types";
 
 const subscriptions = {
   useList: generateUseListSubscription,
@@ -13,7 +14,12 @@ const subscriptions = {
   useMany: generateUseManySubscription,
 };
 
-export const liveProvider = (client: Client): LiveProvider => {
+export type HasuraLiveProviderOptions = HasuraProviderOptions & {};
+
+export const liveProvider = (
+  client: Client,
+  options?: HasuraLiveProviderOptions,
+): LiveProvider => {
   return {
     subscribe: ({ callback, params }) => {
       const {
@@ -45,11 +51,15 @@ export const liveProvider = (client: Client): LiveProvider => {
         );
       }
 
-      const genereteSubscription = subscriptions[subscriptionType];
+      const generateSubscription = subscriptions[subscriptionType];
 
-      const { query, variables, operation } = genereteSubscription({
+      const idType = getIdType(resource, options?.idType);
+      const namingConvention = options?.namingConvention ?? "hasura-default";
+      const { query, variables, operation } = generateSubscription({
         ids,
         id,
+        idType,
+        namingConvention,
         resource,
         filters,
         meta,

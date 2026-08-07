@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example table-material-ui-cursor-pagination
 
 <br/>
 
-[![Open cursor pagination material-ui example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/table-material-ui-cursor-pagination?view=preview&theme=dark&codemirror=1)
+[![Open cursor pagination material-ui example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/table-material-ui-cursor-pagination?view=preview&theme=dark&codemirror=1)

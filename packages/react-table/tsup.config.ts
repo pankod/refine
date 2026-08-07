@@ -1,12 +1,13 @@
 import { defineConfig } from "tsup";
 import { NodeResolvePlugin } from "@esbuild-plugins/node-resolve";
+import { lodashReplacePlugin } from "../shared/lodash-replace-plugin";
 
 export default defineConfig((options) => ({
   entry: ["src/index.ts"],
   splitting: false,
   sourcemap: true,
   clean: false,
-  minify: true,
+  minify: false,
   format: ["cjs", "esm"],
   outExtension: ({ format }) => ({ js: format === "cjs" ? ".cjs" : ".mjs" }),
   platform: "browser",
@@ -22,6 +23,7 @@ export default defineConfig((options) => ({
         return resolved;
       },
     }),
+    lodashReplacePlugin,
   ],
   esbuildOptions(options) {
     options.keepNames = true;

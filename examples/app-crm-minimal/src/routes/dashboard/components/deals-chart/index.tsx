@@ -14,13 +14,15 @@ import { DASHBOARD_DEALS_CHART_QUERY } from "./queries";
 import { mapDealsData } from "./utils";
 
 export const DashboardDealsChart = () => {
-  const { data } = useList<GetFieldsFromList<DashboardDealsChartQuery>>({
-    resource: "dealStages",
-    filters: [{ field: "title", operator: "in", value: ["WON", "LOST"] }],
-    meta: {
-      gqlQuery: DASHBOARD_DEALS_CHART_QUERY,
+  const { result: data } = useList<GetFieldsFromList<DashboardDealsChartQuery>>(
+    {
+      resource: "dealStages",
+      filters: [{ field: "title", operator: "in", value: ["WON", "LOST"] }],
+      meta: {
+        gqlQuery: DASHBOARD_DEALS_CHART_QUERY,
+      },
     },
-  });
+  );
 
   const dealData = React.useMemo(() => {
     return mapDealsData(data?.data);

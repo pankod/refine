@@ -18,7 +18,10 @@ export const BlogPostList = () => {
     syncWithLocation: true,
   });
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useMany({
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useMany({
     resource: "categories",
     ids: tableProps?.dataSource?.map((item) => item?.category?.id) ?? [],
     queryOptions: {
@@ -28,6 +31,10 @@ export const BlogPostList = () => {
 
   const { selectProps: categorySelectProps } = useSelect({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

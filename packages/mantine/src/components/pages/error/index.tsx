@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { RefineErrorPageProps } from "@refinedev/ui-types";
-import {
-  useNavigation,
-  useTranslate,
-  useGo,
-  useResource,
-  useRouterType,
-} from "@refinedev/core";
+import { useTranslate, useGo, useResourceParams } from "@refinedev/core";
 import {
   Box,
   Title,
@@ -22,11 +16,9 @@ import { IconInfoCircle } from "@tabler/icons-react";
 export const ErrorComponent: React.FC<RefineErrorPageProps> = () => {
   const [errorMessage, setErrorMessage] = useState<string>();
   const translate = useTranslate();
-  const { push } = useNavigation();
   const go = useGo();
-  const routerType = useRouterType();
 
-  const { resource, action } = useResource();
+  const { resource, action } = useResourceParams();
 
   useEffect(() => {
     if (resource && action) {
@@ -34,7 +26,6 @@ export const ErrorComponent: React.FC<RefineErrorPageProps> = () => {
         translate(
           "pages.error.info",
           {
-            action,
             resource: resource?.name,
           },
           `You may have forgotten to add the "${action}" component to "${resource?.name}" resource.`,
@@ -93,11 +84,7 @@ export const ErrorComponent: React.FC<RefineErrorPageProps> = () => {
         variant="subtle"
         size="md"
         onClick={() => {
-          if (routerType === "legacy") {
-            push("/");
-          } else {
-            go({ to: "/" });
-          }
+          go({ to: "/" });
         }}
       >
         {translate("pages.error.backHome", "Back Home")}

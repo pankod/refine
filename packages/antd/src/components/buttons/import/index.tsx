@@ -22,6 +22,7 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
   hideText = false,
   children,
   loading,
+  ...rest
 }) => {
   const { label } = useImportButton();
 
@@ -33,6 +34,7 @@ export const ImportButton: React.FC<ImportButtonProps> = ({
         className={RefineButtonClassNames.ImportButton}
         loading={loading}
         {...buttonProps}
+        {...rest}
       >
         {!hideText && (children ?? label)}
       </Button>

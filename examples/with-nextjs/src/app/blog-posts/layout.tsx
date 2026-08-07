@@ -1,5 +1,5 @@
-import { authProviderServer } from "@providers/auth-provider";
-import { ThemedLayoutV2 } from "@refinedev/antd";
+import { authProviderServer } from "@providers/auth-provider/auth-provider.server";
+import { ThemedLayout } from "@refinedev/antd";
 import { Header } from "@components/header";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -11,7 +11,7 @@ export default async function Layout({ children }: React.PropsWithChildren) {
     return redirect(data?.redirectTo || "/login");
   }
 
-  return <ThemedLayoutV2 Header={Header}>{children}</ThemedLayoutV2>;
+  return <ThemedLayout Header={Header}>{children}</ThemedLayout>;
 }
 
 async function getData() {

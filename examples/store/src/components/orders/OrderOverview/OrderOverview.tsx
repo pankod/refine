@@ -6,12 +6,15 @@ import { Button, LoadingDots } from "@components";
 import { OrderCard } from "../OrderCard";
 
 export const OrderOverview: React.FC = () => {
-  const { data: customerData, isLoading } = useOne<Customer>({
+  const {
+    result: customerData,
+    query: { isLoading },
+  } = useOne<Customer>({
     resource: "customers",
     id: "me/orders",
   });
 
-  const orders = customerData?.data.orders || [];
+  const orders = customerData?.orders || [];
 
   if (isLoading) {
     return (

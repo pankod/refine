@@ -13,9 +13,10 @@ import type { IClient } from "interfaces";
 import { ClientItem, CreateClient, EditClient } from "@/components/client";
 
 export const ClientList = () => {
-  const { listProps } = useSimpleList<IClient>({
-    metaData: { populate: ["contacts"] },
-  });
+  const //`useSimpleList` does not accept all of Ant Design's `List` component props anymore. You can directly use `List` component instead.,
+    { listProps } = useSimpleList<IClient>({
+      meta: { populate: ["contacts"] },
+    });
 
   const {
     drawerProps: createDrawerProps,

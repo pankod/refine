@@ -1,9 +1,11 @@
 import { renderHook, waitFor } from "@testing-library/react";
+import { vi } from "vitest";
+
 import { TestWrapper, queryClient } from "@test";
 
 import { useLogList } from "./";
 
-const auditLogProviderGetMock = jest.fn();
+const auditLogProviderGetMock = vi.fn();
 
 describe("useLogList Hook", () => {
   beforeEach(() => {
@@ -17,12 +19,17 @@ describe("useLogList Hook", () => {
           resource: "posts",
           action: "list",
           meta: { id: 1 },
-          metaData: { fields: ["id", "action", "data"] },
         }),
       {
         wrapper: TestWrapper({
           auditLogProvider: {
-            get: auditLogProviderGetMock,
+            get: auditLogProviderGetMock.mockResolvedValue([
+              {
+                id: 1,
+                action: "create",
+                data: { id: 1, title: "title" },
+              },
+            ]),
           },
         }),
       },
@@ -32,36 +39,10 @@ describe("useLogList Hook", () => {
       expect(result.current.isFetched).toBeTruthy();
     });
 
-    expect(auditLogProviderGetMock).toBeCalledWith({
+    expect(auditLogProviderGetMock).toHaveBeenCalledWith({
       resource: "posts",
       action: "list",
       meta: { id: 1 },
-      metaData: { fields: ["id", "action", "data"] },
-    });
-  });
-
-  it("useLogList should return data with 'posts' resource", async () => {
-    const { result } = renderHook(() => useLogList({ resource: "posts" }), {
-      wrapper: TestWrapper({
-        auditLogProvider: {
-          get: ({ resource }) => {
-            if (resource === "posts") {
-              return Promise.resolve([
-                {
-                  id: 1,
-                  action: "create",
-                  data: { id: 1, title: "title" },
-                },
-              ]);
-            }
-            return Promise.resolve([]);
-          },
-        },
-      }),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isFetched).toBeTruthy();
     });
 
     expect(result.current?.data).toStrictEqual([
@@ -74,7 +55,7 @@ describe("useLogList Hook", () => {
   });
 
   it("should override `queryKey` with `queryOptions.queryKey`", async () => {
-    const getMock = jest.fn().mockResolvedValue([
+    const getMock = vi.fn().mockResolvedValue([
       {
         id: 1,
         action: "create",
@@ -88,7 +69,6 @@ describe("useLogList Hook", () => {
           resource: "posts",
           action: "list",
           meta: { id: 1 },
-          metaData: { fields: ["id", "action", "data"] },
           queryOptions: {
             queryKey: ["foo", "bar"],
           },
@@ -114,14 +94,14 @@ describe("useLogList Hook", () => {
   });
 
   it("should override `queryFn` with `queryOptions.queryFn`", async () => {
-    const getMock = jest.fn().mockResolvedValue([
+    const getMock = vi.fn().mockResolvedValue([
       {
         id: 1,
         action: "create",
         data: { id: 1, title: "title" },
       },
     ]);
-    const queryFnMock = jest.fn().mockResolvedValue([
+    const queryFnMock = vi.fn().mockResolvedValue([
       {
         id: 1,
         action: "create",
@@ -135,7 +115,6 @@ describe("useLogList Hook", () => {
           resource: "posts",
           action: "list",
           meta: { id: 1 },
-          metaData: { fields: ["id", "action", "data"] },
           queryOptions: {
             queryFn: queryFnMock,
           },
@@ -153,7 +132,7 @@ describe("useLogList Hook", () => {
       expect(result.current.isSuccess).toBeTruthy();
     });
 
-    expect(getMock).not.toBeCalled();
-    expect(queryFnMock).toBeCalled();
+    expect(getMock).not.toHaveBeenCalled();
+    expect(queryFnMock).toHaveBeenCalled();
   });
 });

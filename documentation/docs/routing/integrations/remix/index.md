@@ -1,5 +1,8 @@
 ---
-title: Remix
+title: "Remix Guide | Best Practices in Refine v5"
+display_title: "Remix"
+sidebar_label: "Remix"
+description: "Integrate Remix in Refine v5. Learn best practices. Learn SSR, navigation for real-world React admin panels. Hands-on examples included."
 ---
 
 Refine provides router bindings and utilities for [Remix](https://remix.run). This package will provide easy integration between Refine and **Remix** for both existing projects and new projects without giving up the benefits of **Remix**.
@@ -190,12 +193,13 @@ export default function PostList() {
   // `posts` resource will be inferred from the route.
   // Because we've defined `/posts` as the `list` action of the `posts` resource.
   const {
+    result,
     tableQuery: { data, isLoading },
   } = useTable<IPost>();
 
   const getToPath = useGetToPath();
 
-  const tableData = data?.data;
+  const tableData = result?.data;
 
   return (
     <div>
@@ -234,16 +238,14 @@ type IPost = {
 export default function PostShow() {
     // `posts` resource and the `id` will be inferred from the route.
     // Because we've defined `/posts/show/:id` as the `show` action of the `posts` resource.
-    const { queryResult: { data, isLoading } } = useShow<IPost>();
-
-    const postData = data?.data;
+    const { result: post, query: { isLoading } } = useShow<IPost>();
 
     return (
         <div>
             {isLoading && <p>Loading...</p>}
             {!isLoading && (
-                <h1>{postData?.title}</h1>
-                <p>{postData?.description}</p>
+                <h1>{post?.title}</h1>
+                <p>{post?.description}</p>
             )}
         </div>
     );
@@ -263,12 +265,13 @@ export default function CategoryList() {
   // `categories` resource will be inferred from the route.
   // Because we've defined `/categories` as the `list` action of the `categories` resource.
   const {
+    result,
     tableQuery: { data, isLoading },
   } = useTable<ICategory>();
 
   const getToPath = useGetToPath();
 
-  const tableData = data?.data;
+  const tableData = result?.data;
 
   return (
     <div>
@@ -307,14 +310,13 @@ export default function CategoryShow() {
   // `categories` resource and the `id` will be inferred from the route.
   // Because we've defined `/categories/show/:id` as the `show` action of the `categories` resource.
   const {
-    queryResult: { data, isLoading },
+    result: category,
+    query: { isLoading },
   } = useShow<ICategory>();
-
-  const categoryData = data?.data;
 
   return (
     <div>
-      <h1>{categoryData?.label}</h1>
+      <h1>{category?.label}</h1>
     </div>
   );
 }
@@ -351,6 +353,8 @@ export default function IndexPage() {
 #### Properties
 
 `resource` (optional) - The name of the resource to navigate to. It will redirect to the first `list` route in the `resources` array if not provided.
+
+`fallbackTo` (optional) - The path to navigate to if no resource is found. If not provided and no resource is found, no navigation will be made.
 
 `meta` (optional) - The meta object to use if the route has parameters in it. The parameters in the current location will also be used to compose the route but `meta` will take precedence.
 
@@ -391,7 +395,7 @@ This function can be used to parse the query parameters of a table page. It can 
 
 In Remix you can achieve authentication control in multiple ways;
 
-On the client-side [`Authenticated`](/docs/authentication/components/authenticated) component from `@refinedev/core` can be used to protect your pages from unauthenticated access.
+On the client-side [`Authenticated`](/core/docs/authentication/components/authenticated/) component from `@refinedev/core` can be used to protect your pages from unauthenticated access.
 
 On the server-side `authProvider`'s `check` function inside server side functions (`loader`) to redirect unauthorized users to other pages using `redirect` from `@remix-run/node`.
 
@@ -810,7 +814,7 @@ There are two ways to do Server Side Authentication with Remix. You can choose o
 
 On the server-side `accessControlProvider`'s `can` function inside server side functions (`loader`) to redirect unauthorized users to other pages using `redirect` from `@remix-run/node`.
 
-First, let's build our [AccessControlProvider](/docs/authorization/access-control-provider)
+First, let's build our [AccessControlProvider](/core/docs/authorization/access-control-provider/)
 
 ```tsx title="app/acccessControlProvider.ts"
 export const accessControlProvider = {
@@ -890,7 +894,7 @@ Tadaa! that's all! 🎉
 
 ### Client Side
 
-For client-side, you can wrap your pages with [`CanAccess`](/docs/authorization/components/can-access) component from `@refinedev/core` to protect your pages from unauthorized access.
+For client-side, you can wrap your pages with [`CanAccess`](/core/docs/authorization/components/can-access/) component from `@refinedev/core` to protect your pages from unauthorized access.
 
 ```tsx
 import { CanAccess } from "@refinedev/core";
@@ -1089,18 +1093,18 @@ Default paths are:
 
 <CodeSandboxExample path="with-remix-headless" hideSandbox />
 
-[routerprovider]: /docs/routing/router-provider
+[routerprovider]: /core/docs/routing/router-provider
 [remix]: https://remix.run/
 [remixrouter]: https://www.npmjs.com/package/@refinedev/remix-router
-[Refine]: /docs/core/refine-component
+[Refine]: /core/docs/core/refine-component
 [remixroutes]: https://remix.run/docs/en/v1/api/conventions#routes
-[usetable]: /docs/data/hooks/use-table
+[usetable]: /core/docs/data/hooks/use-table
 [reactqueryssr]: https://react-query.tanstack.com/guides/ssr#using-initialdata
 [reactquery]: https://react-query.tanstack.com/
-[getlist]: /docs/data/data-provider#getlist-
-[dataprovider]: /docs/data/data-provider
-[usetable]: /docs/data/hooks/use-table
-[interfaces]: /docs/core/interface-references/#crudfilters
+[getlist]: /core/docs/data/data-provider#getlist-
+[dataprovider]: /core/docs/data/data-provider
+[usetable]: /core/docs/data/hooks/use-table
+[interfaces]: /core/docs/core/interface-references/#crudfilters
 [loaderfunction]: https://remix.run/docs/en/v1/api/conventions#loader
 [jokesapp]: https://remix.run/docs/en/v1/tutorials/jokes#authentication
-[authprovider]: /docs/authentication/auth-provider
+[authprovider]: /core/docs/authentication/auth-provider

@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example use-simple-list-antd
 
 <br/>
 
-[![Open use-simple-list-antd example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/use-simple-list-antd?view=preview&theme=dark&codemirror=1)
+[![Open use-simple-list-antd example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/use-simple-list-antd?view=preview&theme=dark&codemirror=1)

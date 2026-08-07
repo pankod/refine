@@ -3,6 +3,6 @@
   "include": ["test", "types"],
   "compilerOptions": {
     "rootDir": ".",
-    "types": ["jest"]
+    "types": ["vitest/globals"]
   }
 }

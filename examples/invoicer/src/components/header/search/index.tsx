@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import { AutoComplete, Avatar, Flex, Input, Typography } from "antd";
 import { useList, useNavigation } from "@refinedev/core";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { API_URL } from "@/utils/constants";
 import { getRandomColorFromString } from "@/utils/get-random-color";
 import type { Account, Client } from "@/types";
@@ -23,10 +23,10 @@ export const Search = () => {
 
   const { editUrl } = useNavigation();
 
-  const { data: dataAccount } = useList<Account>({
+  const { result: dataAccount } = useList<Account>({
     resource: "accounts",
     pagination: {
-      current: 1,
+      currentPage: 1,
       pageSize: 999,
     },
     filters: [
@@ -46,10 +46,10 @@ export const Search = () => {
       resource: "accounts",
     })) || [];
 
-  const { data: dataClient } = useList<Client>({
+  const { result: dataClient } = useList<Client>({
     resource: "clients",
     pagination: {
-      current: 1,
+      currentPage: 1,
       pageSize: 999,
     },
     filters: [

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { vi } from "vitest";
 
 import { renderHook } from "@testing-library/react";
 
@@ -7,7 +8,7 @@ import { act } from "@test";
 import { undoableQueueReducer } from ".";
 
 describe("Notification Reducer", () => {
-  const notificationDispatch = jest.fn();
+  const notificationDispatch = vi.fn();
 
   const providerProps = {
     notifications: [

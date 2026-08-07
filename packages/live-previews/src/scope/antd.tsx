@@ -20,37 +20,7 @@ import Icon, {
 
 const SIMPLE_REST_API_URL = "https://api.fake-rest.refine.dev";
 
-const RefineAntdDemo: React.FC<
-  Partial<RefineProps> & {
-    initialRoutes?: string[];
-  }
-> = ({ initialRoutes, ...rest }) => {
-  if (initialRoutes) {
-    RefineCommonScope.setInitialRoutes(initialRoutes);
-  }
-
-  return (
-    <RefineCommonScope.RefineCore.Refine
-      legacyRouterProvider={RefineCommonScope.LegacyRefineReactRouterV6.default}
-      dataProvider={RefineCommonScope.RefineSimpleRest.default(
-        SIMPLE_REST_API_URL,
-      )}
-      notificationProvider={RefineAntd.notificationProvider}
-      Layout={RefineAntd.Layout}
-      Sider={() => null}
-      catchAll={<RefineAntd.ErrorComponent />}
-      options={{
-        disableTelemetry: true,
-        reactQuery: {
-          devtoolConfig: false,
-        },
-      }}
-      {...rest}
-    />
-  );
-};
-
-const ThemedTitleV2 = ({
+const ThemedTitle = ({
   collapsed,
   wrapperStyles,
   text: textFromProps,
@@ -108,7 +78,7 @@ const ThemedTitleV2 = ({
   }, []);
 
   return (
-    <RefineAntd.ThemedTitleV2
+    <RefineAntd.ThemedTitle
       collapsed={collapsed}
       wrapperStyles={wrapperStyles}
       text={title || textFromProps}
@@ -164,11 +134,37 @@ const ConfigProvider = ({
   );
 };
 
+const RefineAntdDemo: React.FC<
+  Partial<RefineProps> & {
+    initialRoutes?: string[];
+  }
+> = ({ initialRoutes, ...rest }) => {
+  if (initialRoutes) {
+    RefineCommonScope.setInitialRoutes(initialRoutes);
+  }
+
+  return (
+    <ConfigProvider>
+      <RefineCommonScope.RefineCore.Refine
+        routerProvider={RefineCommonScope.RefineReactRouter.default}
+        dataProvider={RefineCommonScope.RefineSimpleRest.default(
+          SIMPLE_REST_API_URL,
+        )}
+        notificationProvider={RefineAntd.useNotificationProvider}
+        options={{
+          disableTelemetry: true,
+        }}
+        {...rest}
+      />
+    </ConfigProvider>
+  );
+};
+
 const AntdScope = {
   RefineAntdDemo,
   RefineAntd: {
     ...RefineAntd,
-    ThemedTitleV2,
+    ThemedTitle,
   },
   AntdCore: {
     ...AntdCore,

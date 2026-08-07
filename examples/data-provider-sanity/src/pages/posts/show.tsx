@@ -13,7 +13,7 @@ export const PostShow = () => {
 
   const categoryIds =
     record?.categories?.map((category) => category._ref) || [];
-  const { data: dataCategories } = useMany<ICategory>({
+  const { result: dataCategories } = useMany<ICategory>({
     resource: "category",
     ids: categoryIds,
   });

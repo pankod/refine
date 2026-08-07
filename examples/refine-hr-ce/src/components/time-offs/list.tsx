@@ -59,22 +59,25 @@ type Props = {
 export const TimeOffList = (props: Props) => {
   const { data: employee } = useGetIdentity<Employee>();
 
-  const { data, isLoading, hasNextPage, fetchNextPage } =
-    useInfiniteList<TimeOff>({
-      resource: "time-offs",
-      sorters: sorters[props.type],
-      filters: [
-        ...filters[props.type],
-        {
-          field: "employeeId",
-          operator: "eq",
-          value: employee?.id,
-        },
-      ],
-      queryOptions: {
-        enabled: !!employee?.id,
+  const {
+    query: { isLoading, fetchNextPage },
+
+    result: { data, hasNextPage },
+  } = useInfiniteList<TimeOff>({
+    resource: "time-offs",
+    sorters: sorters[props.type],
+    filters: [
+      ...filters[props.type],
+      {
+        field: "employeeId",
+        operator: "eq",
+        value: employee?.id,
       },
-    });
+    ],
+    queryOptions: {
+      enabled: !!employee?.id,
+    },
+  });
 
   const timeOffHistory = data?.pages.flatMap((page) => page.data) || [];
   const hasData = isLoading || timeOffHistory.length !== 0;

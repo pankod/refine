@@ -1,12 +1,13 @@
 import React from "react";
 import { MockJSONServer, TestWrapper, render, waitFor } from "@test";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router";
 import { useForm } from ".";
 import { Select, TextInput } from "@mantine/core";
 import { useSelect } from "@hooks/useSelect";
 import { Edit } from "@components/crud";
 import type { IRefineOptions, HttpError } from "@refinedev/core";
-import { act } from "react-dom/test-utils";
+import { act } from "react";
+import { vi } from "vitest";
 
 const renderForm = ({
   refineCoreProps,
@@ -40,7 +41,7 @@ const renderForm = ({
       },
     });
 
-    const { selectProps, queryResult: categoriesQueryResult } = useSelect({
+    const { selectProps, query: categoriesQueryResult } = useSelect({
       resource: "categories",
       defaultValue: query?.data?.data?.category?.id,
     });
@@ -157,7 +158,7 @@ describe("useForm hook", () => {
   it.each(["edit", "create"] as const)(
     "should set %s-form errors from data provider",
     async (action) => {
-      const onMutationErrorMock = jest.fn();
+      const onMutationErrorMock = vi.fn();
 
       const { getByTestId, getByText } = renderForm({
         refineCoreProps: {
@@ -212,7 +213,7 @@ describe("useForm hook", () => {
       disableFromHook: false,
     },
   ] as const)("should disable server-side validation", async (testCase) => {
-    const onMutationErrorMock = jest.fn();
+    const onMutationErrorMock = vi.fn();
 
     const { getByTestId, queryByText } = renderForm({
       refineOptions: {

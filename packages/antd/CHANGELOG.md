@@ -1,5 +1,314 @@
 # @refinedev/antd
 
+## 6.0.3
+
+### Patch Changes
+
+- [#7086](https://github.com/refinedev/refine/pull/7086) [`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3) Thanks [@BatuhanW](https://github.com/BatuhanW)! - feat: disable minify
+
+  Resolves #6417
+
+- Updated dependencies [[`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3)]:
+  - @refinedev/ui-types@2.0.1
+
+## 6.0.2
+
+### Patch Changes
+
+- [#7016](https://github.com/refinedev/refine/pull/7016) [`97e974547949197ed9ca4a1e02b19ef3fc46b673`](https://github.com/refinedev/refine/commit/97e974547949197ed9ca4a1e02b19ef3fc46b673) Thanks [@DoguhanOzgurAkca](https://github.com/DoguhanOzgurAkca)! - feat: comprehensive deprecated code cleanup for v5
+
+  This release completes the cleanup of deprecated code that remained after the Refine v5 migration, providing a cleaner and more maintainable codebase.
+
+  ## Breaking Changes - Removed Deprecated Components
+
+  **@refinedev/antd:**
+
+  - Removed deprecated `ReadyPage` component (use custom components instead)
+  - Removed deprecated `LoginPage` component (use `AuthPage` instead)
+  - Removed deprecated `useSiderVisible` hook (use `useThemedLayoutContext` instead)
+
+  **@refinedev/chakra-ui:**
+
+  - Removed deprecated `ReadyPage` component (use custom components instead)
+  - Removed deprecated `useSiderVisible` hook (use `useThemedLayoutContext` instead)
+
+  **@refinedev/mantine:**
+
+  - Removed deprecated `useSiderVisible` hook (use `useThemedLayoutContext` instead)
+
+  ## New Features
+
+  **@refinedev/codemod:**
+
+  - Added `welcome-page-import-from-core` codemod transformation
+  - Automatically migrates WelcomePage imports from UI libraries to @refinedev/core
+  - Run with: `npx @refinedev/codemod@latest welcome-page-import-from-core`
+
+  ## Improvements
+
+  **@refinedev/antd:**
+
+  - Un-deprecated `getDefaultFilter` function - now the preferred import location
+  - Updated documentation to import `getDefaultFilter` from `@refinedev/antd` instead of `@refinedev/core`
+
+  **@refinedev/core:**
+
+  - Un-deprecated `warnWhenUnsavedChanges` property in RefineOptions (still valid and actively used)
+  - Updated all TanStack Query documentation links from v4 to v5
+  - Improved TSDoc comments with current TanStack Query v5 references
+
+  ## Documentation Updates
+
+  - Updated 7 documentation files to use `getDefaultFilter` from `@refinedev/antd`
+  - Migrated 22 TanStack Query v4 documentation links to v5
+  - All API references now point to current TanStack Query v5 documentation
+
+## 6.0.1
+
+### Patch Changes
+
+- [#6972](https://github.com/refinedev/refine/pull/6972) [`535707a5653045352ca2fcfa78fb45ebbb852b6a`](https://github.com/refinedev/refine/commit/535707a5653045352ca2fcfa78fb45ebbb852b6a) Thanks [@erenkurnaz](https://github.com/erenkurnaz)! - chore: dummy update
+
+## 6.0.0
+
+### Major Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: upgrade Ant Design integration for Refine 5.0
+
+  - Updated to latest Ant Design version with deprecated API cleanup and modernized components.
+  - Removed legacy components and restructured hooks and componetns for better developer experience.
+
+  > 🚨 Breaking changes require migration - check our guide at https://refine.dev/docs/migration-guide/4x-to-5x/
+
+### Patch Changes
+
+- Updated dependencies [[`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98), [`807099eecb4e8d41b1cf9ab557d71d34d12bec35`](https://github.com/refinedev/refine/commit/807099eecb4e8d41b1cf9ab557d71d34d12bec35), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/ui-types@2.0.0
+  - @refinedev/core@5.0.0
+
+## 5.47.0
+
+### Minor Changes
+
+- [#6880](https://github.com/refinedev/refine/pull/6880) [`2b4c2082b2e07f6c5afa514c4beeb7abc4082ea2`](https://github.com/refinedev/refine/commit/2b4c2082b2e07f6c5afa514c4beeb7abc4082ea2) Thanks [@arndom](https://github.com/arndom)! - - Add `siderItemsAreCollapsed` prop to all `Sider` components to set default expanded/collapsed nested sider items.
+
+  - UI packages: AntDesign, Manitine, Charka-UI, Material-UI
+  - Add documentation for this addition
+
+  [Resolves #6721](https://github.com/refinedev/refine/issues/6721)
+
+### Patch Changes
+
+- [#6958](https://github.com/refinedev/refine/pull/6958) [`b447eb36f4e18da63493a1cbd7ad0792eea792e3`](https://github.com/refinedev/refine/commit/b447eb36f4e18da63493a1cbd7ad0792eea792e3) Thanks [@arndom](https://github.com/arndom)! - - Export `useDrawer`out of antd package.
+
+  [Resolves #6944](https://github.com/refinedev/refine/issues/6944)
+
+## 5.46.3
+
+### Patch Changes
+
+- [#6892](https://github.com/refinedev/refine/pull/6892) [`5c77cf157afdfa4406bb5832474a9d1637d5f033`](https://github.com/refinedev/refine/commit/5c77cf157afdfa4406bb5832474a9d1637d5f033) Thanks [@arndom](https://github.com/arndom)! - - Add `useDrawer` hook.
+
+  - Refactor `useDrawerForm` to use `useDrawer`.
+
+  [Resolves #6770](https://github.com/refinedev/refine/issues/6770)
+
+## 5.46.2
+
+### Patch Changes
+
+- [#6835](https://github.com/refinedev/refine/pull/6835) [`e78213ff7fdcace9bac455861123299bfdab4452`](https://github.com/refinedev/refine/commit/e78213ff7fdcace9bac455861123299bfdab4452) Thanks [@amulyavarshney](https://github.com/amulyavarshney)! - feat: add `autoResetFormWhenClose` option to `useModalForm` hook
+
+  Added `autoResetFormWhenClose` prop to reset form when modal closes. Default is `true`.
+
+## 5.46.1
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- Fixes event handler issue in ImportButton, ensuring Tooltip works correctly.
+  Fixes #6631.
+
+📢 **Refine Community Release** 📢
+
+- - Add `deleteButtonProps` prop to the `Show` component of UI packages: AntDesign, Manitine, Charka-UI, Material-UI
+  - Add documentation for this addition
+
+  [Resolves #6692](https://github.com/refinedev/refine/issues/6692)
+
+- Updated dependencies []:
+  - @refinedev/ui-types@1.24.2
+
+## 5.46.0
+
+### Minor Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6699](https://github.com/refinedev/refine/pull/6699) [`cd938b04cb004b61174d65811467469abaf2db3f`](https://github.com/refinedev/refine/commit/cd938b04cb004b61174d65811467469abaf2db3f) Thanks [@arndom](https://github.com/arndom)! - - Add `deleteButtonProps` prop to the `Show` component of UI packages: AntDesign, Manitine, Charka-UI, Material-UI
+
+  - Add documenation for this addition
+
+  [Resolves #6692](https://github.com/refinedev/refine/issues/6692)
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6701](https://github.com/refinedev/refine/pull/6701) [`b72c7ce83133011fa96bb81d660fbb2c23ab8acc`](https://github.com/refinedev/refine/commit/b72c7ce83133011fa96bb81d660fbb2c23ab8acc) Thanks [@mohit-2003](https://github.com/mohit-2003)! - Fixes event handler issue in ImportButton, ensuring Tooltip works correctly.
+  Fixes #6631.
+- Updated dependencies [[`cd938b04cb004b61174d65811467469abaf2db3f`](https://github.com/refinedev/refine/commit/cd938b04cb004b61174d65811467469abaf2db3f)]:
+  - @refinedev/ui-types@1.24.0
+
+## 5.45.3
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- fix(types): remove path aliases from type imports
+
+  Since typescript doesn't resolve and replace path aliases, using them for the type imports will cause `d.ts` files to reference unresolvable paths and types.
+
+  While this doesn't break everything, it breaks the types in places where the path aliases are used for type imports.
+
+  This change removes the path aliases from the type imports and replaces them with relative imports.
+
+## 5.45.2
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6683](https://github.com/refinedev/refine/pull/6683) [`a12a0821e3c573386c2a8eea4ac1582cc46dd26d`](https://github.com/refinedev/refine/commit/a12a0821e3c573386c2a8eea4ac1582cc46dd26d) Thanks [@aliemir](https://github.com/aliemir)! - fix(types): remove path aliases from type imports
+
+  Since typescript doesn't resolve and replace path aliases, using them for the type imports will cause `d.ts` files to reference unresolvable paths and types.
+
+  While this doesn't break everything, it breaks the types in places where the path aliases are used for type imports.
+
+  This change removes the path aliases from the type imports and replaces them with relative imports.
+
+## 5.45.1
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- chore: update package descriptions
+
+📢 **Refine Community Release** 📢
+
+- fix: UI buttons doesn't respect `hidden` prop.
+  From now on, `hidden` prop will work as expected on all [UI buttons](https://refine.dev/docs/guides-concepts/ui-libraries/#buttons).
+
+  UI Buttons:
+
+  - `CreateButton`
+  - `ShowButton`
+  - `ListButton`
+  - `EditButton`
+  - `DeleteButton`
+  - `CloneButton`
+
+  Resolves [#6513](https://github.com/refinedev/refine/issues/6513)
+
+📢 **Refine Community Release** 📢
+
+- fix: UI buttons doesn't respect `disabled` prop.
+  From now on, `disabled` prop will work as expected on all [UI buttons](https://refine.dev/docs/guides-concepts/ui-libraries/#buttons).
+
+  UI Buttons:
+
+  - `CreateButton`
+  - `ShowButton`
+  - `ListButton`
+  - `EditButton`
+  - `DeleteButton`
+  - `CloneButton`
+
+  Resolves [#6513](https://github.com/refinedev/refine/issues/6513)
+
+📢 **Refine Community Release** 📢
+
+- feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
+📢 **Refine Community Release** 📢
+
+- feat: added `minItems` prop to specify the minimum number of items required for rendering breadcrumbs. #6497
+
+  Resolves [#6497](https://github.com/refinedev/refine/issues/6497)
+
+📢 **Refine Community Release** 📢
+
+- Enhanced the ThemedSideV2 component with new functionality to support dynamic onSiderCollapsed handling. This allows better customization of sider collapse/expand events and improved responsiveness for mobile and desktop views. Added additional type definitions and ensured compatibility across all layout contexts. resolves #6508
+
+- Updated dependencies []:
+  - @refinedev/ui-types@1.23.1
+
+## 5.45.0
+
+### Minor Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6503](https://github.com/refinedev/refine/pull/6503) [`29d00f8dc49485e0f5c42d208417e158118d11f2`](https://github.com/refinedev/refine/commit/29d00f8dc49485e0f5c42d208417e158118d11f2) Thanks [@aress31](https://github.com/aress31)! - feat: added `minItems` prop to specify the minimum number of items required for rendering breadcrumbs. #6497
+
+  Resolves [#6497](https://github.com/refinedev/refine/issues/6497)
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6527](https://github.com/refinedev/refine/pull/6527) [`1d2613381c50f438270d6a3e486595d54496ef92`](https://github.com/refinedev/refine/commit/1d2613381c50f438270d6a3e486595d54496ef92) Thanks [@OmkarBansod02](https://github.com/OmkarBansod02)! - Enhanced the ThemedSideV2 component with new functionality to support dynamic onSiderCollapsed handling. This allows better customization of sider collapse/expand events and improved responsiveness for mobile and desktop views. Added additional type definitions and ensured compatibility across all layout contexts. resolves #6508
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6554](https://github.com/refinedev/refine/pull/6554) [`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706) Thanks [@necatiozmen](https://github.com/necatiozmen)! - chore: update package descriptions
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6515](https://github.com/refinedev/refine/pull/6515) [`2312f4648cf8cae427884163cc025c3f925da988`](https://github.com/refinedev/refine/commit/2312f4648cf8cae427884163cc025c3f925da988) Thanks [@OmkarBansod02](https://github.com/OmkarBansod02)! - fix: UI buttons doesn't respect `hidden` prop.
+  From now on, `hidden` prop will work as expected on all [UI buttons](https://refine.dev/docs/guides-concepts/ui-libraries/#buttons).
+
+  UI Buttons:
+
+  - `CreateButton`
+  - `ShowButton`
+  - `ListButton`
+  - `EditButton`
+  - `DeleteButton`
+  - `CloneButton`
+
+  Resolves [#6513](https://github.com/refinedev/refine/issues/6513)
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6515](https://github.com/refinedev/refine/pull/6515) [`2312f4648cf8cae427884163cc025c3f925da988`](https://github.com/refinedev/refine/commit/2312f4648cf8cae427884163cc025c3f925da988) Thanks [@OmkarBansod02](https://github.com/OmkarBansod02)! - fix: UI buttons doesn't respect `disabled` prop.
+  From now on, `disabled` prop will work as expected on all [UI buttons](https://refine.dev/docs/guides-concepts/ui-libraries/#buttons).
+
+  UI Buttons:
+
+  - `CreateButton`
+  - `ShowButton`
+  - `ListButton`
+  - `EditButton`
+  - `DeleteButton`
+  - `CloneButton`
+
+  Resolves [#6513](https://github.com/refinedev/refine/issues/6513)
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6556](https://github.com/refinedev/refine/pull/6556) [`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
+- Updated dependencies [[`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706), [`29d00f8dc49485e0f5c42d208417e158118d11f2`](https://github.com/refinedev/refine/commit/29d00f8dc49485e0f5c42d208417e158118d11f2), [`1d2613381c50f438270d6a3e486595d54496ef92`](https://github.com/refinedev/refine/commit/1d2613381c50f438270d6a3e486595d54496ef92)]:
+  - @refinedev/ui-types@1.23.0
+
 ## 5.44.0
 
 ### Minor Changes
@@ -2617,13 +2926,13 @@
 
   ## Upgrade
 
-  ⚡️ You can easily update **refine** packages with **refine** CLI [`update`](https://refine.dev/docs/packages/documentation/cli/#update) command.
+  ⚡️ You can easily update **refine** packages with **refine** CLI [`update`](https://refine.dev/docs/packages/cli/#update) command.
 
   ```bash
   npm run refine update
   ```
 
-  > [How to add refine CLI to an existing project?](https://refine.dev/docs/packages/documentation/cli/#how-to-add-to-an-existing-project)
+  > [How to add refine CLI to an existing project?](https://refine.dev/docs/packages/cli/#how-to-add-to-an-existing-project)
 
   ### 🪄 Migrating your project automatically with Codemod ✨
 
@@ -2661,13 +2970,13 @@
 
   ## Upgrade
 
-  ⚡️ You can easily update **refine** packages with **refine** CLI [`update`](https://refine.dev/docs/packages/documentation/cli/#update) command.
+  ⚡️ You can easily update **refine** packages with **refine** CLI [`update`](https://refine.dev/docs/packages/cli/#update) command.
 
   ```bash
   npm run refine update
   ```
 
-  > [How to add refine CLI to an existing project?](https://refine.dev/docs/packages/documentation/cli/#how-to-add-to-an-existing-project)
+  > [How to add refine CLI to an existing project?](https://refine.dev/docs/packages/cli/#how-to-add-to-an-existing-project)
 
   ### 🪄 Migrating your project automatically with Codemod ✨
 

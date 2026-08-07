@@ -137,4 +137,65 @@ describe("with gqlMutation", () => {
 
     expect(data.id).toEqual(id);
   });
+
+  it("correctly passes variables from meta.gqlVariables to the query", async () => {
+    const id = "9a83b4c2-5d1e-47f6-b9c5-3a2d8e1f0c7b";
+
+    const client = createClient("hasura-default");
+    const { data } = await dataProvider(client, {
+      namingConvention: "hasura-default",
+    }).deleteOne({
+      resource: "posts",
+      id,
+      meta: {
+        gqlMutation: gql`
+          mutation DeletePost(
+            $id: uuid!,
+            $includeTitle: Boolean = false
+          ) {
+            delete_posts_by_pk(id: $id) {
+              id
+              title @include(if: $includeTitle)
+            }
+          }
+        `,
+        gqlVariables: {
+          includeTitle: true,
+        },
+      },
+    });
+
+    expect(data.id).toEqual(id);
+    expect(data.title).toEqual(
+      "Aenean ultricies non libero sit amet pellentesque",
+    );
+  });
+
+  it("doesn't pass extra variables to the query without meta.gqlVariables", async () => {
+    const id = "7b5c8a2d-6e9f-4a1b-8c3d-2e0f5a9b4c7d";
+
+    const client = createClient("hasura-default");
+    const { data } = await dataProvider(client, {
+      namingConvention: "hasura-default",
+    }).deleteOne({
+      resource: "posts",
+      id,
+      meta: {
+        gqlMutation: gql`
+          mutation DeletePost(
+            $id: uuid!,
+            $includeTitle: Boolean = false
+          ) {
+            delete_posts_by_pk(id: $id) {
+              id
+              title @include(if: $includeTitle)
+            }
+          }
+        `,
+      },
+    });
+
+    expect(data.id).toEqual(id);
+    expect(data.title).toBeUndefined();
+  });
 });

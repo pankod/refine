@@ -27,13 +27,22 @@ export const PostEdit: React.FC = () => {
   const { selectProps } = useSelect<ICategory>({
     resource: "categories",
     defaultValue: queryResult?.data?.data.category.id,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { selectProps: tagSelectProps } = useSelect<ITag>({
     resource: "tags",
     defaultValue: defaultTags,
+
     queryOptions: {
       enabled: defaultTags.length > 0,
+    },
+
+    pagination: {
+      mode: "server",
     },
   });
 

@@ -50,13 +50,16 @@ export const CategoryList = () => {
 const CategoryPostsTable: React.FC<{ record: ICategory }> = ({ record }) => {
   const { tableProps: postTableProps } = useTable<IPost>({
     resource: "posts",
-    permanentFilter: [
-      {
-        field: "category.id",
-        operator: "eq",
-        value: record.id,
-      },
-    ],
+
+    filters: {
+      permanent: [
+        {
+          field: "category.id",
+          operator: "eq",
+          value: record.id,
+        },
+      ],
+    },
   });
 
   return (
@@ -71,12 +74,12 @@ const CategoryPostsTable: React.FC<{ record: ICategory }> = ({ record }) => {
           <Space>
             <EditButton
               size="small"
-              resourceNameOrRouteName="posts"
+              resource="posts"
               recordItemId={record.id}
             />
             <ShowButton
               size="small"
-              resourceNameOrRouteName="posts"
+              resource="posts"
               recordItemId={record.id}
             />
           </Space>

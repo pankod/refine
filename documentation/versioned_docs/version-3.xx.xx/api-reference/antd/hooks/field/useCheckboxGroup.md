@@ -57,7 +57,7 @@ interface ITag {
 <br/>
 
 All we have to do is pass the `checkboxGroupProps` it returns to the `<Checkbox.Group>` component.
-`useCheckboxGroup` uses the `useList` hook for fetching data. [Refer to `useList` hook for details. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useList)
+`useCheckboxGroup` uses the `useList` hook for fetching data. [Refer to `useList` hook for details. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList)
 
 <img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/hooks/useCheckboxGroup/basic.png" alt="Tags" />
 
@@ -71,7 +71,7 @@ const { checkboxGroupProps } = useCheckboxGroup({
 });
 ```
 
-`resource` property determines which? API resource endpoint to fetch records from [`dataProvider`](/api-reference/core/providers/data-provider.md). It returns properly configured `options` values for checkboxes.
+`resource` property determines which? API resource endpoint to fetch records from [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider). It returns properly configured `options` values for checkboxes.
 
 [Refer to Ant Design Checkbox.Group component documentation for detailed info for `options`. &#8594](https://ant.design/components/checkbox)
 

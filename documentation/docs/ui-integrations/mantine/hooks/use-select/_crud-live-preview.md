@@ -37,13 +37,29 @@ const ProductCreate: React.FC = () => {
   );
 };
 // visible-block-end
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      create: ProductCreate,
-    },
-  ],
-});
-render(<RefineMantineDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
+      resources={[
+        {
+          name: "posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route path="create" element={<ProductCreate />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

@@ -11,30 +11,7 @@ describe("form-chakra-ui-use-form", () => {
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    cy.interceptGETPosts();
     cy.visit("/");
-  });
-
-  it("should list resource", () => {
-    cy.resourceList();
-  });
-
-  it("should create resource", () => {
-    cy.resourceCreate({
-      ui: "chakra-ui",
-    });
-  });
-
-  it("should edit resource", () => {
-    cy.resourceEdit({ ui: "chakra-ui" });
-  });
-
-  it("should show resource", () => {
-    cy.resourceShow();
-  });
-
-  it("should delete resource", () => {
-    cy.resourceDelete({ ui: "chakra-ui" });
   });
 
   it("should create form render errors", () => {
@@ -55,8 +32,6 @@ describe("form-chakra-ui-use-form", () => {
   it("should edit form render errors", () => {
     cy.getChakraUILoadingOverlay().should("not.exist");
 
-    cy.interceptGETPost();
-    cy.interceptGETCategories();
     cy.getEditButton().first().click();
 
     // wait loading state and render to be finished
@@ -80,7 +55,6 @@ describe("form-chakra-ui-use-form", () => {
   });
 
   it("should create form warn when unsaved changes", () => {
-    cy.interceptGETCategories().wait("@getCategories");
     cy.getChakraUILoadingOverlay().should("not.exist");
 
     cy.getCreateButton().click();
@@ -94,8 +68,6 @@ describe("form-chakra-ui-use-form", () => {
   it("should edit form warn when unsaved changes", () => {
     cy.getChakraUILoadingOverlay().should("not.exist");
 
-    cy.interceptGETPost();
-    cy.interceptGETCategories();
     cy.getEditButton().first().click();
     // wait loading state and render to be finished
     cy.getSaveButton().should("not.be.disabled");

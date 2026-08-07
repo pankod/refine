@@ -22,43 +22,44 @@ const { Text } = Typography;
 import type { IPost, ICategory, IPostFilterVariables } from "../../interfaces";
 
 export const PostList: React.FC = () => {
-  const { listProps, searchFormProps, filters } = useSimpleList<
-    IPost,
-    HttpError,
-    IPostFilterVariables
-  >({
-    pagination: {
-      pageSize: 3,
-    },
-    onSearch: (params) => {
-      const filters: CrudFilters = [];
-      const { category, createdAt } = params;
+  const //`useSimpleList` does not accept all of Ant Design's `List` component props anymore. You can directly use `List` component instead.,
+    { listProps, searchFormProps, filters } = useSimpleList<
+      IPost,
+      HttpError,
+      IPostFilterVariables
+    >({
+      pagination: {
+        pageSize: 3,
+      },
+      onSearch: (params) => {
+        const filters: CrudFilters = [];
+        const { category, createdAt } = params;
 
-      filters.push(
-        {
-          field: "category.id",
-          operator: "eq",
-          value: category,
-        },
-        {
-          field: "createdAt",
-          operator: "gte",
-          value: createdAt ? createdAt[0].toISOString() : undefined,
-        },
-        {
-          field: "createdAt",
-          operator: "lte",
-          value: createdAt ? createdAt[1].toISOString() : undefined,
-        },
-      );
+        filters.push(
+          {
+            field: "category.id",
+            operator: "eq",
+            value: category,
+          },
+          {
+            field: "createdAt",
+            operator: "gte",
+            value: createdAt ? createdAt[0].toISOString() : undefined,
+          },
+          {
+            field: "createdAt",
+            operator: "lte",
+            value: createdAt ? createdAt[1].toISOString() : undefined,
+          },
+        );
 
-      return filters;
-    },
-  });
+        return filters;
+      },
+    });
 
   const categoryIds =
     listProps?.dataSource?.map((item) => item.category.id) ?? [];
-  const { data } = useMany<ICategory>({
+  const { result: data } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -95,6 +96,10 @@ export const PostList: React.FC = () => {
   const { selectProps: categorySelectProps } = useSelect<ICategory>({
     resource: "categories",
     defaultValue: getDefaultFilter("category.id", filters),
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const createdAt = useMemo(() => {

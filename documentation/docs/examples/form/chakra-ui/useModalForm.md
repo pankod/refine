@@ -1,6 +1,9 @@
 ---
 id: useModalForm
-title: useModalForm
+title: "UseModalForm Example | Best Practices in Refine v5"
+display_title: "useModalForm"
+sidebar_label: "useModalForm"
+description: "Explore how to build with the UseModalForm example in Refine v5. Learn best practices for accessibility, components for real-world React admin panels."
 example-tags: [form, chakra-ui, react-hook-form]
 ---
 

@@ -3,9 +3,11 @@ title: How to Hide Scrollbar Using CSS?
 description: We'll demonstrate how to hide scrollbars using CSS.
 slug: css-hide-scrollbar
 authors: peter_osah
+category: "Tutorials"
 tags: [css]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-20-css-scroll-bar/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-20-css-scroll-bar/social.png
 hide_table_of_contents: false
+last_update: 2024-03-05
 ---
 
 ## Introduction
@@ -13,13 +15,6 @@ hide_table_of_contents: false
 A scrollbar is a GUI element that appears on the right side (or bottom corner) of a webpage or web application to let users navigate a page or an element up and down (and also left and right) without taking their hands off the keyboard or trackpad. However, the default scrollbar may appear bland and out of place, diminishing the overall aesthetics of the webpage or web application.
 
 With the help of new `CSS` attributes, scrollbars can now be styled and hidden without affecting the user's ability to scroll. In this article, we will demonstrate how to hide the scrollbar in most web browsers using `CSS`.
-
-Steps we'll cover:
-
-- [CSS properties to hide element scrollbars.](#css-properties-to-hide-element-scrollbars)
-- [Hide scrollbars on specific elements.](#hide-scrollbars-on-specific-elements)
-- [CSS properties to hide browser scrollbars.](#css-properties-to-hide-browser-scrollbars)
-- [Hide scrollbars in Webkit browsers like Chrome, Safari, Edge, and Firefox.](#hide-scrollbars-in-webkit-browsers-like-chrome-safari-edge-and-firefox)
 
 ## CSS properties to hide element scrollbars
 

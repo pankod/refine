@@ -34,11 +34,8 @@ body:
   - type: textarea
     attributes:
       label: Packages
-      description: Mention the Refine packages you are using and their versions.
-      placeholder: |
-        - @refinedev/antd
-        - @refinedev/nextjs-router
-        - @refinedev/simple-rest
+      description: Run `npm run refine whoami` script and paste the result here.
+      placeholder: Run `npm run refine whoami` script and paste the result here.
     validations:
       required: true
 

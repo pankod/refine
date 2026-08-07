@@ -12,6 +12,10 @@ export const ClientsPageCreate = () => {
     resource: "accounts",
     optionLabel: "company_name",
     optionValue: "id",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (
@@ -74,7 +78,7 @@ export const ClientsPageCreate = () => {
           </Form.Item>
           <Form.Item name="phone" label="Phone" rules={[{ required: true }]}>
             <InputMask mask="(999) 999-9999">
-              {/* @ts-expect-error  <InputMask /> expects JSX.Element but we are using React.ReactNode */}
+              {/* @ts-expect-error  <InputMask /> expects React.JSX.Element but we are using React.ReactNode */}
               {(props: InputProps) => (
                 <Input {...props} placeholder="Please enter phone number" />
               )}

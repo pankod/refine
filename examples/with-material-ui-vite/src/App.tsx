@@ -4,21 +4,21 @@ import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import {
   ErrorComponent,
-  notificationProvider,
+  useNotificationProvider,
   RefineSnackbarProvider,
-  ThemedLayoutV2,
+  ThemedLayout,
 } from "@refinedev/mui";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
-import routerBindings, {
+import routerProvider, {
   CatchAllNavigate,
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import { authProvider } from "./authProvider";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
@@ -50,8 +50,8 @@ function App() {
             <DevtoolsProvider>
               <Refine
                 dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-                notificationProvider={notificationProvider}
-                routerProvider={routerBindings}
+                notificationProvider={useNotificationProvider}
+                routerProvider={routerProvider}
                 authProvider={authProvider}
                 resources={[
                   {
@@ -78,7 +78,6 @@ function App() {
                 options={{
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
-                  useNewQueryKeys: true,
                   projectId: "EeHbXW-UB0cNm-ODd29d",
                 }}
               >
@@ -89,9 +88,9 @@ function App() {
                         key="authenticated-inner"
                         fallback={<CatchAllNavigate to="/login" />}
                       >
-                        <ThemedLayoutV2 Header={() => <Header sticky />}>
+                        <ThemedLayout Header={() => <Header sticky />}>
                           <Outlet />
-                        </ThemedLayoutV2>
+                        </ThemedLayout>
                       </Authenticated>
                     }
                   >

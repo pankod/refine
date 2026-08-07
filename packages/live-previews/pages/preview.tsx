@@ -1,7 +1,7 @@
 import React from "react";
 
 import type { NextPage } from "next";
-import { LivePreview, LiveProvider } from "@aliemir/react-live";
+import { LivePreview, LiveProvider } from "react-live";
 
 import Error from "@/pages/_error";
 import { Loading } from "@/src/components/loading";

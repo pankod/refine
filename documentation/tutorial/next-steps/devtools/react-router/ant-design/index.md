@@ -72,7 +72,7 @@ Then we can start using the Devtools in our application.
 
 After you've installed and setup the Devtools package, you'll be able to see the small devtools panel on the bottom of your application. Clicking on the panel will open the devtools. Then you can click on the `"Monitor"` on the sidebar to open the monitoring screen.
 
-This screen will include all the queries and mutations triggered in your application for the current session. You can see their details such as the response, target data provider, target resource, the time it took to execute the query/mutation, and lots more.
+This screen will include all the queries and mutations triggered in your application for the currentPage session. You can see their details such as the response, target data provider, target resource, the time it took to execute the query/mutation, and lots more.
 
 You'll be able to filter the queries and mutations by their type, resource, status and the component/hook that triggered them. Also, you can pick the component you want to filter on your UI by using the selector.
 

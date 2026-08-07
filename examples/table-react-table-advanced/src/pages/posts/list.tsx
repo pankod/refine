@@ -178,20 +178,23 @@ export const PostList: React.FC = () => {
   }
 
   const {
-    setOptions,
-    getColumn,
-    getAllColumns,
-    getHeaderGroups,
-    getRowModel,
-    setPageIndex,
-    setPageSize,
-    getState,
-    getCanPreviousPage,
-    getPageCount,
-    getCanNextPage,
-    nextPage,
-    previousPage,
-    resetRowSelection,
+    reactTable: {
+      setOptions,
+      getColumn,
+      getAllColumns,
+      getHeaderGroups,
+      getRowModel,
+      setPageIndex,
+      setPageSize,
+      getState,
+      getCanPreviousPage,
+      getPageCount,
+      getCanNextPage,
+      nextPage,
+      previousPage,
+      resetRowSelection,
+    },
+
     refineCore: {
       tableQuery: { data: tableData },
     },
@@ -201,7 +204,7 @@ export const PostList: React.FC = () => {
   });
 
   const categoryIds = tableData?.data?.map((item) => item.category.id) ?? [];
-  const { data: categoriesData } = useMany<ICategory>({
+  const { result: categoriesData } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -220,6 +223,10 @@ export const PostList: React.FC = () => {
   const { options } = useSelect<ICategory>({
     resource: "categories",
     defaultValue: categoryIds,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const renderRowSubComponent = useCallback(

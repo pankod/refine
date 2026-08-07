@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
   type IResourceComponentsProps,
   useNavigation,
-  useResource,
+  useResourceParams,
   useShow,
 } from "@refinedev/core";
 import { ChevronLeft, EditIcon, ListIcon } from "lucide-react";
@@ -10,7 +10,7 @@ import React from "react";
 
 export const CategoryShow: React.FC<IResourceComponentsProps> = () => {
   const { edit, list } = useNavigation();
-  const { id } = useResource();
+  const { id } = useResourceParams();
   const { query: queryResult } = useShow({});
   const { data } = queryResult;
 

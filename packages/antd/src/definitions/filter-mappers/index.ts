@@ -1,7 +1,7 @@
 import type {
   FilterDropdownProps,
   MapValueEvent,
-} from "@components/table/components";
+} from "../../components/table/components";
 import dayjs from "dayjs";
 
 /**

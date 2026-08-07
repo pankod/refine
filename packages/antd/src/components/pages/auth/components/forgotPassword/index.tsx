@@ -2,7 +2,6 @@ import React from "react";
 import {
   type ForgotPasswordPageProps,
   type ForgotPasswordFormTypes,
-  useRouterType,
   useLink,
 } from "@refinedev/core";
 import {
@@ -19,11 +18,7 @@ import {
   type FormProps,
   theme,
 } from "antd";
-import {
-  useTranslate,
-  useRouterContext,
-  useForgotPassword,
-} from "@refinedev/core";
+import { useTranslate, useForgotPassword } from "@refinedev/core";
 
 import {
   layoutStyles,
@@ -32,7 +27,7 @@ import {
   headStyles,
   bodyStyles,
 } from "../styles";
-import { ThemedTitleV2 } from "@components";
+import { ThemedTitle } from "@components";
 
 type ResetPassworProps = ForgotPasswordPageProps<
   LayoutProps,
@@ -57,13 +52,9 @@ export const ForgotPasswordPage: React.FC<ResetPassworProps> = ({
   const { token } = theme.useToken();
   const [form] = Form.useForm<ForgotPasswordFormTypes>();
   const translate = useTranslate();
-  const routerType = useRouterType();
   const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
 
-  const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
-
-  const { mutate: forgotPassword, isLoading } =
+  const { mutate: forgotPassword, isPending } =
     useForgotPassword<ForgotPasswordFormTypes>();
 
   const PageTitle =
@@ -76,7 +67,7 @@ export const ForgotPasswordPage: React.FC<ResetPassworProps> = ({
           fontSize: "20px",
         }}
       >
-        {title ?? <ThemedTitleV2 collapsed={false} />}
+        {title ?? <ThemedTitle collapsed={false} />}
       </div>
     );
 
@@ -94,8 +85,10 @@ export const ForgotPasswordPage: React.FC<ResetPassworProps> = ({
   const CardContent = (
     <Card
       title={CardTitle}
-      headStyle={headStyles}
-      bodyStyle={bodyStyles}
+      styles={{
+        header: headStyles,
+        body: bodyStyles,
+      }}
       style={{
         ...containerStyles,
         backgroundColor: token.colorBgElevated,
@@ -160,7 +153,7 @@ export const ForgotPasswordPage: React.FC<ResetPassworProps> = ({
                   "Have an account? ",
                 ),
               )}{" "}
-              <ActiveLink
+              <Link
                 style={{
                   fontWeight: "bold",
                   color: token.colorPrimaryTextHover,
@@ -171,7 +164,7 @@ export const ForgotPasswordPage: React.FC<ResetPassworProps> = ({
                   "pages.forgotPassword.signin",
                   translate("pages.login.signin", "Sign in"),
                 )}
-              </ActiveLink>
+              </Link>
             </Typography.Text>
           )}
         </div>
@@ -185,7 +178,7 @@ export const ForgotPasswordPage: React.FC<ResetPassworProps> = ({
             type="primary"
             size="large"
             htmlType="submit"
-            loading={isLoading}
+            loading={isPending}
             block
           >
             {translate(

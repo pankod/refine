@@ -22,29 +22,33 @@
     ]
   },
   "dependencies": {
-    "@refinedev/antd": "^5.44.0",
-    "@refinedev/cli": "^2.16.39",
-    "@refinedev/core": "^4.56.0",
-    "@refinedev/react-router-v6": "^4.6.0",
-    "@refinedev/simple-rest": "^5.0.8",
-    "@uiw/react-md-editor": "^3.19.5",
-    "antd": "^5.17.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^6.8.1",
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@refinedev/antd": "^6.0.3",
+    "@refinedev/cli": "^2.16.52",
+    "@refinedev/core": "^5.1.0",
+    "@refinedev/react-router": "^2.0.4",
+    "@refinedev/simple-rest": "^6.0.1",
+    "@uiw/react-md-editor": "^4.0.8",
+    "antd": "^5.23.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router": "^7.0.2",
     "web3": "^1.6.1",
     "web3modal": "^1.9.4"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^14.1.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^29.2.4",
-    "@types/node": "^18.16.2",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^4.2.1",
-    "typescript": "^5.4.2",
-    "vite": "^5.1.6"
+    "typescript": "^5.8.3",
+    "vite": "^5.4.15"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

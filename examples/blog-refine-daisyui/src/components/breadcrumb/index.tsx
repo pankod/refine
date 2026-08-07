@@ -1,5 +1,5 @@
 import { useBreadcrumb } from "@refinedev/core";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const Breadcrumb = () => {
   const { breadcrumbs } = useBreadcrumb();

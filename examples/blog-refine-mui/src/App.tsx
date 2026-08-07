@@ -6,20 +6,20 @@ import {
   ErrorComponent,
   useNotificationProvider,
   RefineSnackbarProvider,
-  ThemedLayoutV2,
-  ThemedTitleV2,
+  ThemedLayout,
+  ThemedTitle as ThemedTitleV2,
 } from "@refinedev/mui";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { useTranslation } from "react-i18next";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import { AppIcon } from "./components/app-icon";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
@@ -61,7 +61,7 @@ function App() {
                 dataProvider={dataProvider("https://api.finefoods.refine.dev")}
                 notificationProvider={useNotificationProvider}
                 i18nProvider={i18nProvider}
-                routerProvider={routerBindings}
+                routerProvider={routerProvider}
                 resources={[
                   {
                     name: "dashboard",
@@ -96,7 +96,7 @@ function App() {
                 <Routes>
                   <Route
                     element={
-                      <ThemedLayoutV2
+                      <ThemedLayout
                         Header={() => <Header sticky />}
                         Title={({ collapsed }) => (
                           <ThemedTitleV2
@@ -107,7 +107,7 @@ function App() {
                         )}
                       >
                         <Outlet />
-                      </ThemedLayoutV2>
+                      </ThemedLayout>
                     }
                   >
                     <Route

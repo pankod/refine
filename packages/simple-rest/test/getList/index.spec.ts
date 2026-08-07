@@ -1,7 +1,7 @@
 import axios from "axios";
+import { vi } from "vitest";
 
 import JsonServer from "../../src/index";
-import "./index.mock";
 
 describe("getList", () => {
   it("correct response", async () => {
@@ -83,7 +83,7 @@ describe("getList", () => {
   });
 
   it("shouldn't have '?' on request url when filters, sorters and pagination is empty", async () => {
-    const mockAxios = jest.spyOn(axios, "get");
+    const mockAxios = vi.spyOn(axios, "get");
 
     await JsonServer("https://api.fake-rest.refine.dev", axios).getList({
       resource: "categories",

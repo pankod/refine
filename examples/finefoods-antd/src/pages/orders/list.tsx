@@ -80,6 +80,10 @@ export const OrderList = () => {
     optionLabel: "text",
     optionValue: "text",
     defaultValue: getDefaultFilter("status.text", filters, "in"),
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

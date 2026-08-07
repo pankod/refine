@@ -1,5 +1,8 @@
 ---
-title: Theming
+title: "Theming Guide | Best Practices in Refine v5"
+display_title: "Theming"
+sidebar_label: "Theming"
+description: "Set up Theming in Refine v5. Learn best practices. Learn integration patterns for themes and theme for polished admin UIs. Learn with code examples."
 ---
 
 Ant Design allows you to customize design tokens to satisfy UI diversity from business or brand requirements, including primary color, border radius, border color, etc.
@@ -9,7 +12,7 @@ Design Tokens are the smallest element that affects the theme. By modifying the 
 
 ## Predefined Themes
 
-[`RefineThemes`](https://github.com/refinedev/refine/blob/master/packages/antd/src/definitions/themes/index.ts) has predefined themes that you can use by importing them from `@refinedev/antd` package.
+[`RefineThemes`](https://github.com/refinedev/refine/blob/main/packages/antd/src/definitions/themes/index.ts) has predefined themes that you can use by importing them from `@refinedev/antd` package.
 
 ```ts
 const { Blue, Purple, Magenta, Red, Orange, Yellow } = RefineThemes;
@@ -17,7 +20,7 @@ const { Blue, Purple, Magenta, Red, Orange, Yellow } = RefineThemes;
 
 ```tsx
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { ThemedLayout, RefineThemes } from "@refinedev/antd";
 
 import { ConfigProvider } from "antd";
 
@@ -27,14 +30,14 @@ const App: React.FC = () => {
       <Refine
       /* ... */
       >
-        <ThemedLayoutV2>{/* ... */}</ThemedLayoutV2>
+        <ThemedLayout>{/* ... */}</ThemedLayout>
       </Refine>
     </ConfigProvider>
   );
 };
 ```
 
-If you want to see how themes change the look of the application, check out this [example &#8594](/docs/examples/themes/refine-themes-antd/)
+If you want to see how themes change the look of the application, check out this [example &#8594](/core/docs/examples/themes/refine-themes-antd/)
 
 ## Theme customization
 
@@ -46,7 +49,7 @@ You can not only override or extend the default themes, but also create your own
 
 ```tsx
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2 } from "@refinedev/antd";
+import { ThemedLayout } from "@refinedev/antd";
 
 import { ConfigProvider } from "antd";
 
@@ -74,7 +77,7 @@ const App: React.FC = () => {
       <Refine
       /* ... */
       >
-        <ThemedLayoutV2>{/* ... */}</ThemedLayoutV2>
+        <ThemedLayout>{/* ... */}</ThemedLayout>
       </Refine>
       // highlight-next-line
     </ConfigProvider>
@@ -126,7 +129,7 @@ Then, we can use the `theme` property of the `ConfigProvider` component to switc
 
 ```tsx
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2 } from "@refinedev/antd";
+import { ThemedLayout } from "@refinedev/antd";
 import { ConfigProvider, theme } from "antd";
 
 import { Header } from "./Header";
@@ -149,7 +152,7 @@ const App: React.FC = () => {
       <Refine
       /* ... */
       >
-        <ThemedLayoutV2 Header={Header}>{/* ... */}</ThemedLayoutV2>
+        <ThemedLayout Header={Header}>{/* ... */}</ThemedLayout>
       </Refine>
     </ConfigProvider>
   );
@@ -162,7 +165,7 @@ The `notificationProvider` export has been deprecated because it cannot consume 
 
 ```tsx
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, useNotificationProvider } from "@refinedev/antd";
+import { ThemedLayout, useNotificationProvider } from "@refinedev/antd";
 
 import { ConfigProvider, App as AntdApp } from "antd";
 
@@ -178,7 +181,7 @@ const App: React.FC = () => {
                     {/* highlight-next-line */}
                     notificationProvider={useNotificationProvider}
                 >
-                    <ThemedLayoutV2>{/* ... */}</ThemedLayoutV2>
+                    <ThemedLayout>{/* ... */}</ThemedLayout>
                 </Refine>
                 {/* highlight-next-line */}
             </AntdApp>
@@ -187,7 +190,7 @@ const App: React.FC = () => {
 };
 ```
 
-If you want to customize the default layout elements provided with `@refinedev/antd` package, check out the [Custom Layout](/docs/advanced-tutorials/custom-layout) tutorial.
+If you want to customize the default layout elements provided with `@refinedev/antd` package, check out the [Custom Layout](/core/docs/advanced-tutorials/custom-layout/) tutorial.
 
 ## Example
 

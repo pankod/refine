@@ -1,13 +1,10 @@
 import React from "react";
 
 import {
-  useNavigation,
   useTranslate,
   useUserFriendlyName,
-  useRefineContext,
-  useRouterType,
   useBack,
-  useResource,
+  useResourceParams,
 } from "@refinedev/core";
 
 import Card from "@mui/material/Card";
@@ -50,28 +47,17 @@ export const Create: React.FC<CreateProps> = ({
   goBack: goBackFromProps,
 }) => {
   const translate = useTranslate();
-  const {
-    options: { breadcrumb: globalBreadcrumb } = {},
-  } = useRefineContext();
-
-  const routerType = useRouterType();
   const back = useBack();
-  const { goBack } = useNavigation();
   const getUserFriendlyName = useUserFriendlyName();
 
-  const { resource, action, identifier } = useResource(resourceFromProps);
+  const { resource, action, identifier } = useResourceParams({
+    resource: resourceFromProps,
+  });
 
-  const breadcrumb =
-    typeof breadcrumbFromProps === "undefined"
-      ? globalBreadcrumb
-      : breadcrumbFromProps;
+  const breadcrumb = breadcrumbFromProps;
 
   const breadcrumbComponent =
-    typeof breadcrumb !== "undefined" ? (
-      <>{breadcrumb}</> ?? undefined
-    ) : (
-      <Breadcrumb />
-    );
+    typeof breadcrumb !== "undefined" ? <>{breadcrumb}</> : <Breadcrumb />;
 
   const saveButtonProps: SaveButtonProps = {
     ...(isLoading ? { disabled: true } : {}),
@@ -123,10 +109,7 @@ export const Create: React.FC<CreateProps> = ({
               {translate(
                 `${identifier}.titles.create`,
                 `Create ${getUserFriendlyName(
-                  resource?.meta?.label ??
-                    resource?.options?.label ??
-                    resource?.label ??
-                    identifier,
+                  resource?.meta?.label ?? identifier,
                   "singular",
                 )}`,
               )}
@@ -140,9 +123,7 @@ export const Create: React.FC<CreateProps> = ({
             <IconButton
               onClick={
                 action !== "list" || typeof action !== "undefined"
-                  ? routerType === "legacy"
-                    ? goBack
-                    : back
+                  ? back
                   : undefined
               }
             >

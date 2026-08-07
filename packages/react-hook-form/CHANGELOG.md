@@ -1,5 +1,98 @@
 # @refinedev/react-hook-form
 
+## 5.0.4
+
+### Patch Changes
+
+- [#7205](https://github.com/refinedev/refine/pull/7205) [`20af33db209246156b81bd80e025ef3bf482c7a9`](https://github.com/refinedev/refine/commit/20af33db209246156b81bd80e025ef3bf482c7a9) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix: sync query values to fields that register after data loads (e.g. Controller),
+  without overwriting dirty inputs.
+
+## 5.0.3
+
+### Patch Changes
+
+- [#7100](https://github.com/refinedev/refine/pull/7100) [`64625bb337a222ef80727862c758cae86371fa4b`](https://github.com/refinedev/refine/commit/64625bb337a222ef80727862c758cae86371fa4b) Thanks [@AkprasadoP](https://github.com/AkprasadoP)! - Fix modal visibility issue when switching between actions in useModalForm hook. The modal now properly shows when switching from edit to create action.
+
+## 5.0.2
+
+### Patch Changes
+
+- [#7086](https://github.com/refinedev/refine/pull/7086) [`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3) Thanks [@BatuhanW](https://github.com/BatuhanW)! - feat: disable minify
+
+  Resolves #6417
+
+## 5.0.1
+
+### Patch Changes
+
+- [#6957](https://github.com/refinedev/refine/pull/6957) [`3bb1d1ea3ba72f6ca24a703ccef88de29a1782f3`](https://github.com/refinedev/refine/commit/3bb1d1ea3ba72f6ca24a703ccef88de29a1782f3) Thanks [@arndom](https://github.com/arndom)! - - Add useEffect to set form values from initial query result when modal is visible.
+
+  - Compensates for useForm not setting initial modal form values when querying the same resource id back-to-back.
+
+  [Resolves #6904](https://github.com/refinedev/refine/issues/6904)
+
+## 5.0.0
+
+### Major Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: upgrade React Hook Form integration for Refine 5.0
+
+  - Updated React Hook Form integration for Refine 5.0 and TanStack Query v5 compatibility.
+  - Removed deprecated APIs and modernized form handling patterns for improved developer experience.
+
+  > 🚨 Breaking changes require migration - check our guide at https://refine.dev/docs/migration-guide/4x-to-5x/
+
+### Patch Changes
+
+- Updated dependencies [[`807099eecb4e8d41b1cf9ab557d71d34d12bec35`](https://github.com/refinedev/refine/commit/807099eecb4e8d41b1cf9ab557d71d34d12bec35), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/core@5.0.0
+
+## 4.10.2
+
+### Patch Changes
+
+- [#6835](https://github.com/refinedev/refine/pull/6835) [`e78213ff7fdcace9bac455861123299bfdab4452`](https://github.com/refinedev/refine/commit/e78213ff7fdcace9bac455861123299bfdab4452) Thanks [@amulyavarshney](https://github.com/amulyavarshney)! - feat: add `autoResetFormWhenClose` option to `useModalForm` hook
+
+  Added `autoResetFormWhenClose` prop to reset form when modal closes. Default is `true`.
+
+## 4.10.1
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- chore: update `react-hook-form` to `7.57.0` to support new features like [`subscribe`](https://react-hook-form.com/docs/useform/subscribe).
+  for more information, see [React Hook Form release notes](https://github.com/react-hook-form/react-hook-form/releases).
+
+## 4.10.0
+
+### Minor Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6824](https://github.com/refinedev/refine/pull/6824) [`a6ff3d3e888e3a0bd61c1ddda89d2715e493fa01`](https://github.com/refinedev/refine/commit/a6ff3d3e888e3a0bd61c1ddda89d2715e493fa01) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - chore: update `react-hook-form` to `7.57.0` to support new features like [`subscribe`](https://react-hook-form.com/docs/useform/subscribe).
+  for more information, see [React Hook Form release notes](https://github.com/react-hook-form/react-hook-form/releases).
+
+## 4.9.3
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
+## 4.9.2
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6556](https://github.com/refinedev/refine/pull/6556) [`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
 ## 4.9.1
 
 ### Patch Changes

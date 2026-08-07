@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 import { FilterDropdown, useTable } from "@refinedev/antd";
 import type { GetFieldsFromList } from "@refinedev/nestjs-query";
@@ -24,6 +24,7 @@ export const CompanyContactsTable = () => {
   const { tableProps } = useTable<Contact>({
     resource: "contacts",
     syncWithLocation: false,
+
     sorters: {
       initial: [
         {
@@ -32,6 +33,7 @@ export const CompanyContactsTable = () => {
         },
       ],
     },
+
     filters: {
       initial: [
         {
@@ -58,6 +60,7 @@ export const CompanyContactsTable = () => {
         },
       ],
     },
+
     meta: {
       gqlQuery: COMPANY_CONTACTS_TABLE_QUERY,
     },

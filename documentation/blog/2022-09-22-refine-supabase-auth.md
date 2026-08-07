@@ -3,9 +3,11 @@ title: OTP Authentication with Supabase and Twilio in React
 description: We'll implement OTP(SMS) authorization using Twilio and Supabase in React app.
 slug: supabase-twilio-otp-authentication-in-react
 authors: vijit_ail
-tags: [react, supabase, Refine, access-control, tutorial]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-22-refine-supabase-auth/social.png
+category: "Ecosystem / Integrations"
+tags: [supabase, react, backend]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-22-refine-supabase-auth/social.png
 hide_table_of_contents: false
+last_update: "2026-03-17"
 ---
 
 ## Introduction
@@ -16,23 +18,11 @@ Another significant problem with password-based login is that keeping track of d
 
 When we talk about OTP-based authentication, users need to enter a six-digit OTP number sent to them through an automated call or SMS when they want to access the application.
 
-You can access the example app we'll be building in the article by following this [link.](https://github.com/refinedev/refine/tree/master/examples/blog-refine-supabase-auth)
-
-Steps we'll cover:
-
-- [What is Supabase?](#what-is-supabase)
-- [What is Refine?](#what-is-refine)
-- [Prerequisites](#prerequisites)
-- [Getting Started](#getting-started)
-- [Installing Tailwind CSS for Refine project](#installing-tailwind-css-for-refine-project)
-- [Set up the Supabase Project](#set-up-the-supabase-project)
-- [Create the Login Page](#create-the-login-page)
-- [Data Provider](#data-provider)
-- [Auth Provider](#auth-provider)
+> See the full example project in the Refine repo: [blog-refine-supabase-auth](https://github.com/refinedev/refine/tree/main/examples/blog-refine-supabase-auth)
 
 ## What is Supabase?
 
-[Supabase](https://supabase.com/) is an open-source Firebase alternative. It provides a real-time database, authentication, and media buckets in one platform. You can use Supabase with any frontend tool, such as React, Angular, or Vue.js.
+Supabase is an open-source Firebase alternative. It provides a real-time [database](https://refine.dev/blog/supabase-database-setup/), authentication, and media buckets in one platform. You can use Supabase with any frontend tool, such as React, Angular, or Vue.js.
 
 One of the great features of Supabase is its Auth service. Supabase Auth allows you to easily add OTP-based authentication to your app with just a few lines of code.
 
@@ -40,9 +30,9 @@ In this guide, you will implement OTP-based login in **Refine** using the Supaba
 
 ## What is Refine?
 
-[Refine](https://github.com/refinedev/refine) is a React-based open-source frameworks for building admin panels, dashboards, internal tools and storefront apps rapidly. It helps developers to avoid from repetitive tasks demanded by CRUD operations and provides solutions for like authentication, access control, routing, networking, state management.
+[Refine](https://github.com/refinedev/refine) is a React-based open-source framework for building [admin panels](https://refine.dev/blog/admin-panel-with-supabase/), dashboards, [internal tools](https://refine.dev/blog/what-is-internal-tools/), and storefront apps rapidly. It helps developers avoid repetitive tasks demanded by CRUD operations and provides solutions for authentication, access control, routing, networking, and state management.
 
-One of the great features of Refine is its out-of-the-box data providers integrations. Refine has a built-in data provider for supabase and we'll see how to use it properly.
+One of the great features of Refine is its out-of-the-box data provider integrations. Refine has a built-in data provider for Supabase, and we'll see how to use it properly.
 
 ## Prerequisites
 
@@ -50,226 +40,230 @@ To follow this guide, you must install the latest Node.js version on your system
 
 ## Getting Started
 
-Start by creating the Refine app using the [create refine-app](https://refine.dev/docs/getting-started/quickstart/) CLI tool.
+Start by creating the Refine app with the [create refine-app](https://refine.dev/core/docs/getting-started/quickstart/) CLI tool.
 
-```
+```bash
 npm create refine-app@latest refine-supabase-auth
 ```
+
+Choose:
 
 ```bash
 ✔ Downloaded remote source successfully.
 ✔ Choose a project template · Refine(Vite)
 ✔ What would you like to name your project?: · refine-supabase-auth
 ✔ Choose your backend service to connect: · Supabase
-✔ Do you want to use a UI Framework?: · no
+✔ Do you want to use a UI Framework?: · shadcn/ui
 ✔ Do you want to add example pages?: · no
-✔ Do you need i18n (Internationalization) support?: · no
 ✔ Choose a package manager: · npm
 ```
 
-<br/>
+Choose `Supabase` as the backend service, `shadcn/ui` as the UI framework, and `npm` as the package manager. Once the project is ready, move into the app directory and start the development server:
 
-Choose the headless option while specifying the UI framework, as you will be integrating tailwind in this tutorial. You can select your preferred package manager; this tutorial will use yarn. Choose the `supabase` option when selecting the Data Provider.
-
-Here is the source code of [Refine supabase data provider](https://github.com/refinedev/refine/tree/master/packages/supabase)
-
-## Installing Tailwind CSS for Refine project
-
-Next, navigate to your project directory and install the following packages.
-
-```
-npm install -D tailwindcss postcss autoprefixer
-```
-
-```
-npm install daisyui react-daisyui
-```
-
-[Daisy UI](https://daisyui.com/) adds attractive component classes to Tailwind, which are customizable and comes with modular React components like `<Button />`, `<Card />`, etc., out-of-the-box.
-
-Run the following command to initialize Tailwind in your project.
-
-```
-npx tailwindcss init
-```
-
-Update the recently added `tailwind.config.js` file to add some theming to the Refine app.
-
-```tsx title="tailwind.config.js"
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "node_modules/daisyui/dist/**/*.js",
-    "node_modules/react-daisyui/dist/**/*.js",
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        dark: "#030303",
-        gray: "#eaeaec",
-      },
-    },
-  },
-  plugins: [require("daisyui")],
-  daisyui: {
-    themes: [
-      {
-        mytheme: {
-          primary: "#545bef",
-          secondary: "#757EC0",
-          accent: "#09f08a",
-        },
-      },
-    ],
-  },
-};
-```
-
-Create `postcss.config.js`:
-
-```tsx title="postcss.config.js"
-/** @type {import('tailwindcss').Config} */
-export default {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-};
-```
-
-Now, create the `App.css` file and add the following content.
-
-```tsx title="src/App.css"
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
-
-In the `App.tsx` file, import the `App.css` file to add the styling.
-
-Run the `npm run dev` command to start the Refine development server.
-
-```
+```bash
+cd refine-supabase-auth
 npm run dev
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-22-refine-supabase-auth/dashboard.jpg" alt="React Supabase OTP authentication" />
-
-<br/>
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-22-refine-supabase-auth/dashboard-2.jpeg" alt="Refine app dashboard preview" />
 
 ## Set up the Supabase Project
 
-Head over to app.supabase.com and sign in to your Supabase account. Next, create a new project by clicking on the "New Project" button.
+Refine's [Supabase data provider](https://github.com/refinedev/refine/tree/main/packages/supabase) connects your app to Supabase and handles data operations through Refine's data layer. Now let's set up the Supabase project and get the credentials we need.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-22-refine-supabase-auth/setupSupabase.png" alt="React Supabase OTP authentication" />
+Head over to Supabase dashboard and sign in to your Supabase account. Next, create a new project by clicking on the "New Project" button.
 
-<br/>
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-22-refine-supabase-auth/setup-supabase.png" alt="Supabase project setup screen" />
 
-Add the name of the project and the database password, and wait for Supabase to set up and create your project. Meanwhile, you can grab the public key and the project URL from the Supabase dashboard and update the credentials in your code.
+Add the name of the project and the database password, then wait for Supabase to finish creating the project.
 
-Once the project is created, go to Authentication -> Settings to configure the Auth providers.
+After the project is ready, get the Supabase URL and API key from the project settings and paste the values into `src/providers/constants.ts`:
+
+```ts title="src/providers/constants.ts"
+// Supabase Dashboard -> Integrations -> Data API
+export const SUPABASE_URL = "YOUR SUPABASE URL";
+// Supabase Dashboard -> Project Settings -> API Keys -> Publishable key
+export const SUPABASE_KEY = "YOUR SUPABASE KEY";
+```
+
+Once the project is created, go to Authentication -> Sign In / Auth providers.
 
 <div style={{display:"flex"}}>
-<img style={{alignSelf:"center", width:"50%"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-22-refine-supabase-auth/supabase2.png" alt="React Supabase OTP authentication" />
-<img style={{alignSelf:"center", width:"50%", marginLeft:"8px" }} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-22-refine-supabase-auth/supabase3.jpg" alt="React Supabase OTP authentication" />
+<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-22-refine-supabase-auth/supabase-authentication.png" alt="Supabase project settings panel" />
+<img style={{alignSelf:"center", marginLeft:"8px" }} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-22-refine-supabase-auth/supabase-providers.png" alt="Supabase API keys section" />
 </div>
 
-<br/>
+You will find the Phone Auth option in the Auth providers section; enable it and select Twilio as the SMS provider. For this setup, use **Twilio Verify**, not a generic Twilio Messaging configuration.
 
-You will find the Phone Auth option in the Auth providers section; enable it and select Twilio as the SMS provider.
-
-<br/>
-
-<div class="img-container">
+  <div class="img-container">
     <div class="window" >
         <div class="control red"></div>
         <div class="control orange"></div>
         <div class="control green"></div>
     </div>
-         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-22-refine-supabase-auth/supabase4.png" alt="React Supabase OTP authentication" />
+         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-22-refine-supabase-auth/twillo-verify.png" alt="Supabase authentication settings" />
 </div>
 
-<br/>
+Create a Twilio account and open the [Twilio Console](https://console.twilio.com/). Supabase needs these three values from your Twilio Verify setup:
 
-You need to create and developer account and set up credentials on [Twilio Console](https://www.twilio.com/)
+- **Twilio Account SID**: You can find it in the [Twilio Console](https://console.twilio.com/) under your project credentials. Twilio's Verify API docs also note that the Account SID is available in the console, and it starts with `AC`. See the [Accounts docs](https://www.twilio.com/docs/iam/api/account).
+- **Twilio Auth Token**: You can copy it from the same [Twilio Console](https://console.twilio.com/) credentials area. Twilio documents Auth Token management here: [Auth Token docs](https://www.twilio.com/docs/iam/api/authtoken).
+- **Twilio Verify Service SID**: Create a Verify service from the [Twilio Verify Service overview](https://console.twilio.com/us1/develop/verify/services). After you create the service, copy its SID. Twilio Verify Service SIDs start with `VA`.
 
-Add your Twilio API credentials to complete the integration. You can also edit the OTP expiry time, length of the OTP, and the SMS template according to your business requirements. For this guide, you can stick with the default values.
+Paste those values into the Twilio fields in Supabase and keep the rest of the OTP settings as needed. You can also adjust the OTP expiry time, code length, and SMS template based on your requirements. For this guide, the default values are enough.
 
 The backend setup is now complete. In the next section, you will start building the app's frontend.
 
-<br/>
-<div>
-<a href="https://s.refine.dev/hackathon2">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/hackathon-2/hackathon_cover.png" alt="React Supabase OTP authentication" />
-</a>
-</div>
-
 ## Create the Login Page
 
-In this guide, you are allowing users to access their account without requiring a password. Once the users log into their account, they will see a list of countries on the dashboard screen.
+In this guide, you are allowing users to access their account without requiring a password. Once the users log into their account, they will see a list of colors on the dashboard screen.
 
 On the login page, you need to create a two-step form.
 In the first step, the user will enter the mobile number to receive the OTP message, and in the second step, the user will enter the OTP token to log in. Display an error if the OTP token is invalid or expired.
 
-```tsx title="src/pages/Login.tsx"
+<details>
+<summary>Show `login.tsx` Code</summary>
+<p>
+
+```tsx title="src/pages/login.tsx"
 import { useLogin } from "@refinedev/core";
-import { useRef, useState } from "react";
-import { Alert, Button, Card, Input } from "react-daisyui";
-import { supabaseClient } from "../utility";
+import { type FormEvent, useRef, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { supabaseClient } from "@/providers/supabase-client";
+
+let persistedLoginError: string | null = null;
+let persistedMobileNo = "";
+let persistedFormState: "SEND_OTP" | "LOGIN" = "SEND_OTP";
 
 export const LoginPage = () => {
-  const mobileNoRef = useRef<string>();
-  const otpRef = useRef<string>();
-  const [error, setError] = useState<string>();
-  const [formState, setFormState] = useState<"SEND_OTP" | "LOGIN">("SEND_OTP");
+  const mobileNoRef = useRef(persistedMobileNo);
+  const otpRef = useRef("");
+  const [error, setError] = useState<string | null>(() => persistedLoginError);
+  const [formState, setFormState] = useState<"SEND_OTP" | "LOGIN">(
+    () => persistedFormState,
+  );
 
-  const { mutate: login } = useLogin();
+  const { mutate: login, isPending } = useLogin();
+
+  const setFormError = (message: string | null) => {
+    persistedLoginError = message;
+    setError(message);
+  };
+
+  const setPersistedFormState = (nextState: "SEND_OTP" | "LOGIN") => {
+    persistedFormState = nextState;
+    setFormState(nextState);
+  };
+
+  const backToSendOtp = () => {
+    otpRef.current = "";
+    setFormError(null);
+    setPersistedFormState("SEND_OTP");
+  };
 
   const onLogin = () => {
     login(
       { mobileNo: mobileNoRef.current, otp: otpRef.current },
-      { onError: (error) => setError(error.message) },
+      {
+        onSuccess: ({ success, error }) => {
+          if (!success) {
+            setFormError(error?.message ?? error?.name ?? "Login failed");
+            return;
+          }
+
+          setFormError(null);
+          persistedMobileNo = "";
+          setPersistedFormState("SEND_OTP");
+        },
+        onError: (error) => setFormError(error.message),
+      },
     );
   };
 
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (formState === "SEND_OTP") {
+      void onSendOtp();
+      return;
+    }
+
+    onLogin();
+  };
+
   const mobileFormRender = () => (
-    <>
-      <label className="text-dark font-medium">Enter your mobile number</label>
-      <Input
-        className="border-gray bg-gray text-dark mb-4 text-lg font-medium"
-        onChange={(e) => (mobileNoRef.current = e.target.value)}
-        onFocus={() => setError("")}
-        name="mobile"
-        type={"tel"}
-        defaultValue={mobileNoRef.current}
-      />
-      <Button color="accent" className="shadow" onClick={onSendOtp}>
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="mobile">Enter your mobile number</Label>
+        <Input
+          id="mobile"
+          onChange={(e) => {
+            mobileNoRef.current = e.target.value;
+            persistedMobileNo = e.target.value;
+          }}
+          name="mobile"
+          type="tel"
+          defaultValue={mobileNoRef.current}
+          placeholder="+14155552671"
+        />
+      </div>
+      <Button className="w-full" type="submit">
         Send OTP
       </Button>
-    </>
+    </div>
   );
 
   const otpFormRender = () => (
-    <>
-      <label className="text-dark font-medium">Enter OTP</label>
-      <Input
-        className="border-gray bg-gray text-dark mb-4 text-lg font-medium"
-        onChange={(e) => (otpRef.current = e.target.value)}
-        onFocus={() => setError("")}
-        name="otp"
-        value={otpRef.current}
-      />
-      <Button color="accent" className="shadow" onClick={onLogin}>
-        Login
-      </Button>
-    </>
+    <div className="space-y-4">
+      <div className="rounded-md border border-border bg-muted/40 px-3 py-2 text-sm text-muted-foreground">
+        Code sent to{" "}
+        <span className="font-medium text-foreground">
+          {mobileNoRef.current}
+        </span>
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="otp">Enter OTP</Label>
+        <Input
+          id="otp"
+          onChange={(e) => {
+            otpRef.current = e.target.value;
+          }}
+          name="otp"
+          defaultValue={otpRef.current}
+          placeholder="123456"
+        />
+      </div>
+      <div className="flex gap-2">
+        <Button className="flex-1" type="submit" disabled={isPending}>
+          Login
+        </Button>
+        <Button
+          className="flex-1"
+          type="button"
+          variant="outline"
+          disabled={isPending}
+          onClick={backToSendOtp}
+        >
+          Change Number
+        </Button>
+      </div>
+    </div>
   );
 
   const onSendOtp = async () => {
     const mobileNo = mobileNoRef.current || "";
     if (!/^\+[1-9]{1}[0-9]{3,14}$/.test(mobileNo)) {
-      setError("Please enter a valid mobile number");
+      setFormError("Please enter a valid mobile number");
       return;
     }
 
@@ -277,115 +271,167 @@ export const LoginPage = () => {
       phone: mobileNo,
     });
     if (error) {
-      setError(error.message);
+      setFormError(error.message);
       return;
     }
-    setFormState("LOGIN");
+
+    setFormError(null);
+    setPersistedFormState("LOGIN");
   };
 
   return (
-    <div className="bg-primary flex min-h-screen items-center justify-center">
-      <Card className="w-1/2 bg-white shadow-lg " bordered={false}>
-        <Card.Body>
-          {error && (
-            <Alert status="error" className="mb-2">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4 py-10">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-zinc-100 via-background to-background dark:from-zinc-900/60 dark:via-background dark:to-background" />
+      <Card className="relative z-10 w-full max-w-md border-border/70 bg-card/95 shadow-xl shadow-zinc-950/5 backdrop-blur dark:shadow-black/25">
+        <CardHeader className="space-y-1">
+          <CardTitle>Sign In</CardTitle>
+          <CardDescription>
+            {formState === "SEND_OTP"
+              ? "Enter your phone number to receive a one-time password."
+              : "Enter the one-time password sent to your phone."}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {error ? (
+            <div className="rounded-md border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
               {error}
-            </Alert>
-          )}
-          <h2 className="text-dark mb-3  text-xl font-bold">Sign In</h2>
-          {formState === "SEND_OTP" && mobileFormRender()}
-          {formState === "LOGIN" && otpFormRender()}
-        </Card.Body>
+            </div>
+          ) : null}
+          <form className="space-y-4" onSubmit={onSubmit}>
+            {formState === "SEND_OTP" && mobileFormRender()}
+            {formState === "LOGIN" && otpFormRender()}
+          </form>
+        </CardContent>
       </Card>
     </div>
   );
 };
 ```
 
-In the above code, we set a `formState` state variable to define whether to render the mobile input or the OTP input on the screen. If there's any error, set the `error` variable and display it using the `<Alert />` component.
+</p>
+</details>
+
+In the above code, we set a `formState` state variable to define whether to render the mobile input or the OTP input on the screen. If there's any error, set the `error` variable and render it inside the login card.
 
 Import the `<LoginPage />` component in the `App.tsx` file and create a route for it.
 
-To create a route, import the `<Route />` component from `react-router-dom` and pass the `<LoginPage />` component as the `children`. We also use `<Authenticated />`, `<Outlet />` and `<NavigateToResource />` components
-to redirect the user to the home page if they are already logged in.
+To create the routes, import the `<Route />` component from `react-router` and render `<LoginPage />` on `/login`. The scaffold already includes the theme, notification, devtools, and live provider setup, so you can keep that structure and wire the login page into the authenticated route tree. We also use `<Authenticated />`, `<Outlet />`, `<CatchAllNavigate />`, and `<NavigateToResource />` to protect routes and redirect the user to the `colors` resource if they are already logged in.
 
-[Refer to the Auth Provider documentation to learn more about authentication. → ](/docs/authentication/auth-provider)
+[Refer to the Auth Provider documentation to learn more about authentication. → ](/core/docs/authentication/auth-provider/)
 
-[Refer to the documentation to learn more routing in **Refine** → ](/docs/packages/list-of-packages)
+[Refer to the documentation to learn more routing in **Refine** → ](/core/docs/packages/list-of-packages/)
 
 <details>
 <summary>Show `App.tsx` Code</summary>
 <p>
 
-```tsx title="App.tsx"
-// highlight-next-line
-import { Authenticated, Refine, WelcomePage } from "@refinedev/core";
+```tsx title="src/App.tsx"
+import {
+  Authenticated,
+  ErrorComponent,
+  GitHubBanner,
+  Refine,
+} from "@refinedev/core";
+import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-
-// highlight-start
-import routerBindings, {
+import routerProvider, {
   CatchAllNavigate,
   DocumentTitleHandler,
+  NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
-import { dataProvider, liveProvider } from "@refinedev/supabase";
-import {
-  BrowserRouter,
-  Navigate,
-  Outlet,
-  Route,
-  Routes,
-} from "react-router-dom";
-// highlight-end
+} from "@refinedev/react-router";
+import { liveProvider } from "@refinedev/supabase";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
-import authProvider from "./authProvider";
-import { supabaseClient } from "./utility";
-
-// highlight-next-line
-import { LoginPage } from "./pages/Login";
+import { Toaster } from "@/components/refine-ui/notification/toaster";
+import { useNotificationProvider } from "@/components/refine-ui/notification/use-notification-provider";
+import { ThemeProvider } from "@/components/refine-ui/theme/theme-provider";
+import { Colors } from "@/pages/colors";
+import { Layout } from "@/pages/layout";
+import { LoginPage } from "@/pages/login";
+import authProvider from "@/providers/auth";
+import { dataProvider } from "@/providers/data";
+import { supabaseClient } from "@/providers/supabase-client";
 
 import "./App.css";
 
 function App() {
   return (
     <BrowserRouter>
+      {/* <GitHubBanner /> */}
       <RefineKbarProvider>
-        <Refine
-          dataProvider={dataProvider(supabaseClient)}
-          liveProvider={liveProvider(supabaseClient)}
-          authProvider={authProvider}
-          routerProvider={routerBindings}
-          options={{
-            syncWithLocation: true,
-            warnWhenUnsavedChanges: true,
-          }}
-        >
-          {/* highlight-start */}
-          <Routes>
-            <Route
-              element={
-                <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <Outlet />
-                </Authenticated>
-              }
+        <ThemeProvider>
+          <DevtoolsProvider>
+            <Refine
+              routerProvider={routerProvider}
+              dataProvider={dataProvider}
+              liveProvider={liveProvider(supabaseClient)}
+              authProvider={authProvider}
+              notificationProvider={useNotificationProvider()}
+              resources={[
+                {
+                  name: "colors",
+                  list: "/colors",
+                },
+              ]}
+              options={{
+                syncWithLocation: true,
+                warnWhenUnsavedChanges: true,
+              }}
             >
-              <Route index element={<WelcomePage />} />
-            </Route>
-            <Route
-              element={
-                <Authenticated fallback={<Outlet />}>
-                  <Navigate to="/" />
-                </Authenticated>
-              }
-            >
-              <Route path="/login" element={<LoginPage />} />
-            </Route>
-          </Routes>
-          {/* highlight-end */}
-          <RefineKbar />
-          <UnsavedChangesNotifier />
-          <DocumentTitleHandler />
-        </Refine>
+              <Routes>
+                <Route
+                  element={
+                    <Authenticated
+                      key="authenticated-routes"
+                      fallback={<CatchAllNavigate to="/login" />}
+                    >
+                      <Layout>
+                        <Outlet />
+                      </Layout>
+                    </Authenticated>
+                  }
+                >
+                  <Route
+                    index
+                    element={<NavigateToResource resource="colors" />}
+                  />
+                  <Route path="/colors" element={<Colors />} />
+                </Route>
+
+                <Route
+                  element={
+                    <Authenticated key="auth-pages" fallback={<Outlet />}>
+                      <NavigateToResource resource="colors" />
+                    </Authenticated>
+                  }
+                >
+                  <Route path="/login" element={<LoginPage />} />
+                </Route>
+
+                <Route
+                  element={
+                    <Authenticated
+                      key="catch-all"
+                      fallback={<CatchAllNavigate to="/login" />}
+                    >
+                      <Layout>
+                        <Outlet />
+                      </Layout>
+                    </Authenticated>
+                  }
+                >
+                  <Route path="*" element={<ErrorComponent />} />
+                </Route>
+              </Routes>
+              <Toaster />
+              <RefineKbar />
+              <UnsavedChangesNotifier />
+              <DocumentTitleHandler />
+            </Refine>
+            <DevtoolsPanel />
+          </DevtoolsProvider>
+        </ThemeProvider>
       </RefineKbarProvider>
     </BrowserRouter>
   );
@@ -397,7 +443,7 @@ export default App;
 </p>
 </details>
 
-Also, notice that `create refine-app` has already imported the `authProvider` and `dataProvider` for you.
+Also, notice that `create refine-app` has already wired the router, providers, theme, notifications, and devtools for you.
 
 ## Data Provider
 
@@ -405,31 +451,31 @@ The `dataProvider` acts as a data layer for your app that makes the HTTP request
 
 For example, when you use the `useList` hook, **Refine** internally calls the `getList()` method of the data provider.
 
-In this case, we pass the `supabaseClient` as the data provider. Supabase is supported out-of-the-box as a data provider by **Refine**. Here, the data provider internally calls supabase-js database methods like `select()`, `insert()`, etc., to handle the data.
+In this case, `src/providers/data.ts` creates the data provider with `supabaseDataProvider(supabaseClient)`. Supabase is supported out-of-the-box as a data provider by **Refine**. Here, the data provider internally calls supabase-js database methods like `select()`, `insert()`, etc., to handle the data.
 
-[You can learn more about data provider in the Refine docs.](https://refine.dev/docs/api-reference/core/providers/data-provider/)
+[You can learn more about data provider in the Refine docs.](https://refine.dev/core/docs/api-reference/core/providers/data-provider/)
 
 ## Auth Provider
 
-The `authProvider` is an object that Refine uses to authenticate and authorize the users. The auth provider must have methods like `login()`, `register()`, etc., to manage authentication in your app. These methods should return a Promise and are accessible via hooks.
+The `authProvider` is the object that Refine uses to authenticate and authorize users. In this app, the important methods are `login`, `logout`, `check`, `getIdentity`, and `onError`. These methods return Promises and are used internally by hooks like `useLogin()` and `useLogout()`.
 
-`create refine-app` autogenerates the auth provider from your selected preference- in this case, it is Supabase. Unlike data providers, Refine does not offer out-of-the-box support for auth providers; you must create it from scratch.
+`create refine-app` scaffolds `src/providers/auth.ts` when you choose Supabase. For this guide, you only need to customize that provider for the OTP flow.
 
-[You can read more about auth provider in detail here.](https://refine.dev/docs/api-reference/core/providers/auth-provider/)
+[You can read more about auth provider in detail here.](https://refine.dev/core/docs/api-reference/core/providers/auth-provider/)
 
 Alright, now coming back to the `<LoginPage />` component. When the user requests for OTP, validate the mobile number using the regex shown in the below code. The mobile number is expected to include the country code; you can use other third-party components for mobile input with a country code dropdown and mobile validation out-of-the-box.
 
 We'll use the input field in this guide for brevity.
 
-```tsx title="src/pages/Login.tsx"
-import { supabaseClient } from "../utility";
+```tsx title="src/pages/login.tsx"
+import { supabaseClient } from "@/providers/supabase-client";
 
 // ...
 
 const onSendOtp = async () => {
   const mobileNo = mobileNoRef.current || "";
   if (!/^\+[1-9]{1}[0-9]{3,14}$/.test(mobileNo)) {
-    setError("Please enter a valid mobile number");
+    setFormError("Please enter a valid mobile number");
     return;
   }
 
@@ -437,10 +483,11 @@ const onSendOtp = async () => {
     phone: mobileNo,
   });
   if (error) {
-    setError(error.message);
+    setFormError(error.message);
     return;
   }
-  setFormState("LOGIN");
+  setFormError(null);
+  setPersistedFormState("LOGIN");
 };
 
 // ...
@@ -454,41 +501,47 @@ To send the OTP message to the user, use the `supabase.auth.signInWithOtp()` met
         <div class="control orange"></div>
         <div class="control green"></div>
     </div>
-         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-22-refine-supabase-auth/login.png" alt="React Supabase OTP authentication" />
+         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-22-refine-supabase-auth/login-2.png" alt="Login form with OTP option" />
 </div>
 
-<br/>
 <div class="img-container" >
     <div class="window" >
         <div class="control red"></div>
         <div class="control orange"></div>
         <div class="control green"></div>
     </div>
-         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-22-refine-supabase-auth/loginInvalid.png" alt="React Supabase OTP authentication" />
+         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-22-refine-supabase-auth/login-invalid.png" alt="Invalid login error message" />
 </div>
-
-<br/>
 
 Update the `login` property in `authProvider` to accept the mobile number and OTP as input and call the `supabase.auth.verifyOtp()` method for verifying the OTP entered by the user and enabling access to the dashboard page of the app.
 
-```tsx title="src/authProvider.ts"
-// ...
+<details>
+<summary>Show `auth.ts` Code</summary>
+<p>
+
+```tsx title="src/providers/auth.ts"
+import type { AuthProvider } from "@refinedev/core";
+import { supabaseClient } from "@/providers/supabase-client";
 
 const authProvider: AuthProvider = {
   login: async ({ mobileNo, otp }) => {
     const { data, error } = await supabaseClient.auth.verifyOtp({
-      type: "sms",
       phone: mobileNo,
       token: otp,
+      type: "sms",
     });
 
     if (error) {
       return {
         success: false,
-        error,
+        error: error || {
+          message: "Login failed",
+          name: "Invalid OTP",
+        },
       };
     }
-    if (data?.user) {
+
+    if (data.session) {
       return {
         success: true,
         redirectTo: "/",
@@ -499,25 +552,105 @@ const authProvider: AuthProvider = {
       success: false,
       error: {
         message: "Login failed",
-        name: "Invalid mobile number or otp",
+        name: "Invalid OTP",
       },
     };
   },
-  // ...
+  logout: async () => {
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+      return {
+        success: false,
+        error: error || {
+          message: "Logout failed",
+          name: "Unexpected error",
+        },
+      };
+    }
+
+    return {
+      success: true,
+      redirectTo: "/login",
+    };
+  },
+  onError: async (error) => {
+    if (error?.code === "PGRST301" || error?.code === 401) {
+      return {
+        logout: true,
+      };
+    }
+
+    return { error };
+  },
+  check: async () => {
+    const { data, error } = await supabaseClient.auth.getSession();
+    const session = data.session;
+
+    if (!session) {
+      return {
+        authenticated: false,
+        error: error || {
+          message: "Check failed",
+          name: "Session not found",
+        },
+        redirectTo: "/login",
+      };
+    }
+
+    return {
+      authenticated: true,
+    };
+  },
+  getPermissions: async () => {
+    const { data } = await supabaseClient.auth.getUser();
+
+    return data.user?.role ?? null;
+  },
+  getIdentity: async () => {
+    const { data } = await supabaseClient.auth.getUser();
+    const user = data.user;
+
+    if (!user) {
+      return null;
+    }
+
+    return {
+      ...user,
+      name: user.phone ?? user.email,
+    };
+  },
 };
+
+export default authProvider;
 ```
+
+</p>
+</details>
 
 In the `onLogin()` function of the `<LoginPage />` component, pass the mobile number and OTP to the `login()` acquired from the `useLogin` hook.
 
-```tsx title="src/pages/Login.tsx"
+```tsx title="src/pages/login.tsx"
 // ...
 
-const { mutate: login } = useLogin();
+const { mutate: login, isPending } = useLogin();
 
 const onLogin = () => {
   login(
     { mobileNo: mobileNoRef.current, otp: otpRef.current },
-    { onError: (error) => setError(error.message) },
+    {
+      onSuccess: ({ success, error }) => {
+        if (!success) {
+          setFormError(error?.message ?? error?.name ?? "Login failed");
+          return;
+        }
+
+        setFormError(null);
+        persistedMobileNo = "";
+        setPersistedFormState("SEND_OTP");
+      },
+      onError: (error) => setFormError(error.message),
+    },
   );
 };
 ```
@@ -530,14 +663,14 @@ If the OTP is invalid, the error message will be displayed as shown below.
         <div class="control orange"></div>
         <div class="control green"></div>
     </div>
-         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-22-refine-supabase-auth/loginToken.png" alt="React Supabase OTP authentication" />
+         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-22-refine-supabase-auth/token-expired.png" alt="OTP token entry screen" />
 </div>
 
-<br/>
+## Creating the Resource Table
 
-The authentication flow is now complete. Let’s finish the rest of the app by creating the countries resource.
+The authentication flow is now complete. Let’s finish the rest of the app by creating the `colors` resource.
 
-In your Supabase project, head to the SQL editor page and click on the “Countries” option from the Quick start section. It will open up the SQL statements in an editor page; click on the RUN button to execute them.
+In your Supabase project, head to the SQL editor and choose the `Colors` example from the Quick start section. Supabase will open the prepared query for you, and you can run it directly from there.
 
 <div class="img-container" >
     <div class="window" >
@@ -545,179 +678,319 @@ In your Supabase project, head to the SQL editor page and click on the “Countr
         <div class="control orange"></div>
         <div class="control green"></div>
     </div>
-         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-22-refine-supabase-auth/supabaseDB.png" alt="React Supabase OTP authentication" />
+         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-22-refine-supabase-auth/sql-editor.png" alt="Supabase database tables view" />
 </div>
 
-<br/>
 <div class="img-container" >
     <div class="window" >
         <div class="control red"></div>
         <div class="control orange"></div>
         <div class="control green"></div>
     </div>
-         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-22-refine-supabase-auth/supabaseDB2.png" alt="React Supabase OTP authentication" />
+         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-22-refine-supabase-auth/sql-editor-run.png" alt="Supabase table rows view" />
 </div>
 
-<br/>
+The SQL snippet creates the `colors` table that the app reads from Supabase.
 
-The SQL snippet will create a countries table and dump the country list and other columns like country code and continent.
+In the `<Colors />` component, get the data from Supabase using the `useList` hook and render the data with shadcn `Table` components.
 
-In the `<Countries />` component, get the data from Supabase using the `useList` hook and render the data using the `<Table />` component.
+<details>
+<summary>Show `colors.tsx` Code</summary>
+<p>
 
-```tsx title="src/pages/Countries.tsx"
+```tsx title="src/pages/colors.tsx"
 import { useList } from "@refinedev/core";
-import { Table } from "react-daisyui";
 
-const columns = ["ID", "Name", "ISO Code", "Local Name", "Continent"];
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export const Countries = () => {
-  const { data: countries } = useList({
-    resource: "countries",
-    hasPagination: false,
+type Color = {
+  id: number;
+  name: string | null;
+  hex: string;
+  red: number | null;
+  green: number | null;
+  blue: number | null;
+  hue: number | null;
+  sat_hsl: number | null;
+  light_hsl: number | null;
+  sat_hsv: number | null;
+  val_hsv: number | null;
+  source: string | null;
+};
+
+const formatValue = (value: number | null, suffix = "") => {
+  if (value === null) {
+    return "-";
+  }
+
+  return `${value}${suffix}`;
+};
+
+const loadingRows = Array.from({ length: 5 }, (_, index) => index);
+
+export const Colors = () => {
+  const { result, query } = useList<Color>({
+    resource: "colors",
+    pagination: { mode: "off" },
+    sorters: [{ field: "id", order: "asc" }],
   });
+
+  const colors = result?.data ?? [];
+  const isLoading = query.isLoading;
+
   return (
-    <div className="overflow-x-auto">
-      <Table color="primary" className="w-full">
-        <Table.Head className="bg-primary">
-          {columns.map((column) => (
-            <span key={column}>{column}</span>
-          ))}
-        </Table.Head>
-        <Table.Body>
-          {countries?.data.map((country: Record<string, string>) => (
-            <Table.Row key={country.id}>
-              <span className="text-dark font-medium opacity-50">
-                {country.id}
-              </span>
-              <span className="text-dark font-medium opacity-50">
-                {country.name}
-              </span>
-              <span className="text-dark font-medium opacity-50">
-                {country.iso2}
-              </span>
-              <span className="text-dark font-medium opacity-50">
-                {country.local_name}
-              </span>
-              <span className="text-dark font-medium opacity-50">
-                {country.continent}
-              </span>
-            </Table.Row>
-          ))}
-        </Table.Body>
+    <div className="overflow-hidden rounded-xl border border-border/70 bg-card shadow-sm shadow-zinc-950/5 dark:shadow-black/20">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Preview</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>RGB</TableHead>
+            <TableHead>HSL</TableHead>
+            <TableHead>HSV</TableHead>
+            <TableHead>Source</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {isLoading
+            ? loadingRows.map((row) => (
+                <TableRow key={`loading-${row}`}>
+                  <TableCell>
+                    <div className="flex items-center gap-3">
+                      <Skeleton className="size-4 rounded-full" />
+                      <Skeleton className="h-4 w-20" />
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-24" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-24" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-24" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-24" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-16" />
+                  </TableCell>
+                </TableRow>
+              ))
+            : colors.map((color) => (
+                <TableRow key={color.id}>
+                  <TableCell>
+                    <div className="flex items-center gap-3">
+                      <span
+                        aria-hidden="true"
+                        className="size-4 rounded-full border border-border shadow-sm"
+                        style={{ backgroundColor: color.hex }}
+                      />
+                      <span className="font-mono text-xs uppercase text-muted-foreground">
+                        {color.hex}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell>{color.name ?? "Untitled"}</TableCell>
+                  <TableCell>
+                    {[
+                      formatValue(color.red),
+                      formatValue(color.green),
+                      formatValue(color.blue),
+                    ].join(" / ")}
+                  </TableCell>
+                  <TableCell>
+                    {[
+                      formatValue(color.hue),
+                      formatValue(color.sat_hsl, "%"),
+                      formatValue(color.light_hsl, "%"),
+                    ].join(" / ")}
+                  </TableCell>
+                  <TableCell>
+                    {[
+                      formatValue(color.hue),
+                      formatValue(color.sat_hsv, "%"),
+                      formatValue(color.val_hsv, "%"),
+                    ].join(" / ")}
+                  </TableCell>
+                  <TableCell>{color.source ?? "-"}</TableCell>
+                </TableRow>
+              ))}
+        </TableBody>
       </Table>
     </div>
   );
 };
 ```
 
+</p>
+</details>
+
 Create the Layout component to create an app bar with a logout button.
 
-```tsx title="src/pages/Layout.tsx"
-import { LayoutProps, useLogout } from "@refinedev/core";
-import { Button } from "react-daisyui";
+<details>
+<summary>Show `layout.tsx` Code</summary>
+<p>
+
+```tsx title="src/pages/layout.tsx"
+import { type LayoutProps, useLogout } from "@refinedev/core";
+
+import { Button } from "@/components/ui/button";
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const { mutate: logout } = useLogout();
+  const { mutate: logout, isPending } = useLogout();
+
   return (
-    <div className="flex min-h-screen flex-col">
-      <div className="bg-gray mb-2 py-3">
-        <div className="container mx-auto flex">
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="sticky top-0 z-10 border-b border-border/60 bg-background/90 backdrop-blur">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+          <div>
+            <h1 className="text-sm font-semibold tracking-tight">Colors</h1>
+            <p className="text-xs text-muted-foreground">
+              Browse the color records fetched from Supabase.
+            </p>
+          </div>
           <Button
-            color="accent"
+            variant="outline"
             size="sm"
-            className="ml-auto shadow"
+            disabled={isPending}
             onClick={() => logout()}
           >
             Logout
           </Button>
         </div>
-      </div>
-      <div className="container mx-auto bg-white py-4">{children}</div>
+      </header>
+      <main className="mx-auto w-full max-w-5xl px-4 py-6">{children}</main>
     </div>
   );
 };
 ```
 
-Import the `<Countries />` and the `<Layout />` component in the `App.tsx` file to finish up the application.
+</p>
+</details>
+
+Import the `<Colors />` and the `<Layout />` component in the `App.tsx` file, define the `colors` resource directly in `<Refine />`, and keep the generated providers in place to finish up the application.
 
 <details>
 <summary>Show `App.tsx` Code</summary>
 <p>
 
-```tsx title="App.tsx"
-import { Authenticated, Refine } from "@refinedev/core";
+```tsx title="src/App.tsx"
+import {
+  Authenticated,
+  ErrorComponent,
+  GitHubBanner,
+  Refine,
+} from "@refinedev/core";
+import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-
-import routerBindings, {
+import routerProvider, {
   CatchAllNavigate,
   DocumentTitleHandler,
-  // highlight-next-line
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
-import { dataProvider, liveProvider } from "@refinedev/supabase";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+} from "@refinedev/react-router";
+import { liveProvider } from "@refinedev/supabase";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
-import { LoginPage } from "./pages/Login";
-// highlight-start
-import { Countries } from "./pages/Countries";
-import { Layout } from "./pages/Layout";
-// highlight-end
-
-import authProvider from "./authProvider";
-import { supabaseClient } from "./utility";
+import { Toaster } from "@/components/refine-ui/notification/toaster";
+import { useNotificationProvider } from "@/components/refine-ui/notification/use-notification-provider";
+import { ThemeProvider } from "@/components/refine-ui/theme/theme-provider";
+import { Colors } from "@/pages/colors";
+import { Layout } from "@/pages/layout";
+import { LoginPage } from "@/pages/login";
+import authProvider from "@/providers/auth";
+import { dataProvider } from "@/providers/data";
+import { supabaseClient } from "@/providers/supabase-client";
 
 import "./App.css";
 
 function App() {
   return (
     <BrowserRouter>
+      {/* <GitHubBanner /> */}
       <RefineKbarProvider>
-        <Refine
-          dataProvider={dataProvider(supabaseClient)}
-          liveProvider={liveProvider(supabaseClient)}
-          authProvider={authProvider}
-          routerProvider={routerBindings}
-          options={{
-            syncWithLocation: true,
-            warnWhenUnsavedChanges: true,
-          }}
-          // highlight-next-line
-          resources={[{ name: "countries", list: "/countries" }]}
-        >
-          {/* highlight-start */}
-          <Routes>
-            <Route
-              element={
-                <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <Layout>
-                    <Outlet />
-                  </Layout>
-                </Authenticated>
-              }
+        <ThemeProvider>
+          <DevtoolsProvider>
+            <Refine
+              routerProvider={routerProvider}
+              dataProvider={dataProvider}
+              liveProvider={liveProvider(supabaseClient)}
+              authProvider={authProvider}
+              notificationProvider={useNotificationProvider()}
+              resources={[
+                {
+                  name: "colors",
+                  list: "/colors",
+                },
+              ]}
+              options={{
+                syncWithLocation: true,
+                warnWhenUnsavedChanges: true,
+              }}
             >
-              <Route
-                index
-                element={<NavigateToResource resource="countries" />}
-              />
-              <Route path="/countries" element={<Countries />} />
-            </Route>
+              <Routes>
+                <Route
+                  element={
+                    <Authenticated
+                      key="authenticated-routes"
+                      fallback={<CatchAllNavigate to="/login" />}
+                    >
+                      <Layout>
+                        <Outlet />
+                      </Layout>
+                    </Authenticated>
+                  }
+                >
+                  <Route
+                    index
+                    element={<NavigateToResource resource="colors" />}
+                  />
+                  <Route path="/colors" element={<Colors />} />
+                </Route>
 
-            <Route
-              element={
-                <Authenticated fallback={<Outlet />}>
-                  <NavigateToResource resource="countries" />
-                </Authenticated>
-              }
-            >
-              <Route path="/login" element={<LoginPage />} />
-            </Route>
-          </Routes>
-          {/* highlight-end */}
-          <RefineKbar />
-          <UnsavedChangesNotifier />
-          <DocumentTitleHandler />
-        </Refine>
+                <Route
+                  element={
+                    <Authenticated key="auth-pages" fallback={<Outlet />}>
+                      <NavigateToResource resource="colors" />
+                    </Authenticated>
+                  }
+                >
+                  <Route path="/login" element={<LoginPage />} />
+                </Route>
+
+                <Route
+                  element={
+                    <Authenticated
+                      key="catch-all"
+                      fallback={<CatchAllNavigate to="/login" />}
+                    >
+                      <Layout>
+                        <Outlet />
+                      </Layout>
+                    </Authenticated>
+                  }
+                >
+                  <Route path="*" element={<ErrorComponent />} />
+                </Route>
+              </Routes>
+              <Toaster />
+              <RefineKbar />
+              <UnsavedChangesNotifier />
+              <DocumentTitleHandler />
+            </Refine>
+            <DevtoolsPanel />
+          </DevtoolsProvider>
+        </ThemeProvider>
       </RefineKbarProvider>
     </BrowserRouter>
   );
@@ -735,10 +1008,8 @@ export default App;
         <div class="control orange"></div>
         <div class="control green"></div>
     </div>
-         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-22-refine-supabase-auth/final.png" alt="React Supabase OTP authentication" />
+         <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-22-refine-supabase-auth/table.png" alt="Authenticated app dashboard after login" />
 </div>
-
-<br/>
 
 ## Conclusion
 
@@ -746,9 +1017,4 @@ OTP authentication adds an extra layer of security to your application and helps
 
 Following this article's steps, you should now have a **Refine** application with OTP-based authentication enabled.
 
-<br/>
-<div>
-<a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord-banner.png" alt="React Supabase OTP authentication discord banner" />
-</a>
-</div>
+If you're looking for another Supabase project with Refine, check out our guide on [building a customizable issue tracker with Refine and Supabase](/blog/customizable-issue-tracker-with-refine-and-supabase/).

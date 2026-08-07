@@ -112,31 +112,31 @@ Prefer to finish this tutorial in an online code editor? That's possible!
 **Make Changes**
 <UIConditional is="antd">
 
-In the file pane, you should see `src/app.tsx`. Click to open it, and follow [Generate CRUD pages automatically with Inferencer](/docs/3.xx.xx/tutorial/getting-started/antd/generate-crud-pages/) to make a change to this file.
+In the file pane, you should see `src/app.tsx`. Click to open it, and follow [Generate CRUD pages automatically with Inferencer](/core/docs/3.xx.xx/tutorial/getting-started/antd/generate-crud-pages/) to make a change to this file.
 
 </UIConditional>
 
 <UIConditional is="chakra-ui">
 
-In the file pane, you should see `src/app.tsx`. Click to open it, and follow [Generate CRUD pages automatically with Inferencer](/docs/3.xx.xx/tutorial/getting-started/chakra-ui/generate-crud-pages/) to make a change to this file.
+In the file pane, you should see `src/app.tsx`. Click to open it, and follow [Generate CRUD pages automatically with Inferencer](/core/docs/3.xx.xx/tutorial/getting-started/chakra-ui/generate-crud-pages/) to make a change to this file.
 
 </UIConditional>
 
 <UIConditional is="headless">
 
-In the file pane, you should see `src/app.tsx`. Click to open it, and follow [Generate CRUD pages automatically with Inferencer](/docs/3.xx.xx/tutorial/getting-started/headless/generate-crud-pages/) to make a change to this file.
+In the file pane, you should see `src/app.tsx`. Click to open it, and follow [Generate CRUD pages automatically with Inferencer](/core/docs/3.xx.xx/tutorial/getting-started/headless/generate-crud-pages/) to make a change to this file.
 
 </UIConditional>
 
 <UIConditional is="mantine">
 
-In the file pane, you should see `src/app.tsx`. Click to open it, and follow [Generate CRUD pages automatically with Inferencer](/docs/3.xx.xx/tutorial/getting-started/mantine/generate-crud-pages/) to make a change to this file.
+In the file pane, you should see `src/app.tsx`. Click to open it, and follow [Generate CRUD pages automatically with Inferencer](/core/docs/3.xx.xx/tutorial/getting-started/mantine/generate-crud-pages/) to make a change to this file.
 
 </UIConditional>
 
 <UIConditional is="mui">
 
-In the file pane, you should see `src/app.tsx`. Click to open it, and follow [Generate CRUD pages automatically with Inferencer](/docs/3.xx.xx/tutorial/getting-started/mui/generate-crud-pages/) to make a change to this file.
+In the file pane, you should see `src/app.tsx`. Click to open it, and follow [Generate CRUD pages automatically with Inferencer](/core/docs/3.xx.xx/tutorial/getting-started/mui/generate-crud-pages/) to make a change to this file.
 
 </UIConditional>
 
@@ -148,7 +148,7 @@ In the file pane, you should see `src/app.tsx`. Click to open it, and follow [Ge
 
 **Deploy your App**
 
-If you’d like to deploy to Netlify, skip to [Deploy your app to the web](/docs/3.xx.xx/tutorial/getting-started/deploy-project/). Otherwise, skip to [Generate CRUD pages automatically with Inferencer](/docs/3.xx.xx/tutorial/understanding-dataprovider/index/) to start building with **refine**!
+If you’d like to deploy to Netlify, skip to [Deploy your app to the web](/core/docs/3.xx.xx/tutorial/getting-started/deploy-project/). Otherwise, skip to [Generate CRUD pages automatically with Inferencer](/core/docs/3.xx.xx/tutorial/understanding-dataprovider/index/) to start building with **refine**!
 
 </details>
 :::

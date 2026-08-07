@@ -59,22 +59,31 @@ export const LandingTrustedByDevelopers: FC<Props> = ({ className }) => {
           "not-prose",
           "relative",
           "w-full",
-          "p-4 landing-md:p-10",
-          "dark:bg-landing-trusted-by-developers-dark bg-landing-trusted-by-developers",
-          "dark:bg-gray-800 bg-gray-50",
-          "rounded-2xl landing-sm:rounded-3xl",
+          "px-10",
+          "py-6 landing-lg:py-3",
+          "bg-zinc-800",
+          "rounded-xl landing-sm:rounded-[1.25rem]",
+          "flex",
+          "flex-col landing-lg:flex-row",
+          "landing-lg:items-center",
+          "gap-6",
         )}
       >
-        <p
+        <div
           className={clsx(
             "whitespace-nowrap",
-            "px-0 landing-sm:px-6 landing-lg:px-0",
-            "text-base landing-sm:text-2xl",
-            "dark:text-gray-400 text-gray-600",
+            "text-base landing-sm:text-sm",
+            "font-semibold",
+            "text-white",
           )}
         >
-          Trusted by developers from
-        </p>
+          <span className={clsx("landing-lg:block")}>
+            Trusted by developers
+          </span>{" "}
+          <span className={clsx("landing-lg:text-right", "landing-lg:block")}>
+            working at
+          </span>
+        </div>
         <div
           className={clsx(
             "grid",
@@ -82,7 +91,7 @@ export const LandingTrustedByDevelopers: FC<Props> = ({ className }) => {
             "min-h-[160px] landing-lg:min-h-[80px]",
             "justify-center",
             "items-center",
-            "mt-6",
+            "flex-1",
           )}
         >
           {randomIcons.map((item) => (
@@ -92,6 +101,7 @@ export const LandingTrustedByDevelopers: FC<Props> = ({ className }) => {
             >
               <div
                 className={clsx(
+                  "text-white",
                   "animate-opacity-reveal",
                   "flex",
                   "items-center",

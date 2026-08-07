@@ -16,7 +16,7 @@ Both of these components can accept the listed props for customization. [`<Refin
 - [`Title`][title]
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Creating a Custom Layout
@@ -238,16 +238,16 @@ render(
 This example demonstrated how to configure a global layout. To learn how to use global layout in custom pages and make local modifications per page, [refer to the `<LayoutWrapper>` docs. &#8594][layoutwrapper]
 :::
 
-[refine]: /api-reference/core/components/refine-config.md
-[layout]: /api-reference/core/components/refine-config.md#layout
-[sider]: /api-reference/core/components/refine-config.md#sider
-[footer]: /api-reference/core/components/refine-config.md#footer
-[header]: /api-reference/core/components/refine-config.md#header
-[offlayoutarea]: /api-reference/core/components/refine-config.md#offlayoutarea
-[title]: /api-reference/core/components/refine-config.md#title
-[layoutwrapper]: /api-reference/core/components/layout-wrapper.md
-[custom page example]: /advanced-tutorials/custom-pages.md
-[custom page example code]: /examples/customization/topMenuLayout.md
+[refine]: /core/docs/3.xx.xx/api-reference/core/components/refine-config
+[layout]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#layout
+[sider]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#sider
+[footer]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#footer
+[header]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#header
+[offlayoutarea]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#offlayoutarea
+[title]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#title
+[layoutwrapper]: /core/docs/3.xx.xx/api-reference/core/components/layout-wrapper
+[custom page example]: /advanced-tutorials/custom-pages
+[custom page example code]: /core/docs/examples/customization/topMenulayout
 [antdlayout]: https://ant.design/components/layout/
-[usemenu]: /api-reference/core/hooks/ui/useMenu.md
-[usetitle]: /api-reference/core/hooks/refine/useTitle.md
+[usemenu]: /core/docs/3.xx.xx/api-reference/core/hooks/ui/useMenu
+[usetitle]: /core/docs/3.xx.xx/api-reference/core/hooks/refine/useTitle

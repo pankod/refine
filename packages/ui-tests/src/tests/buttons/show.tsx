@@ -1,20 +1,28 @@
+import { vi } from "vitest";
 import React from "react";
 import {
   type RefineShowButtonProps,
   RefineButtonTestIds,
 } from "@refinedev/ui-types";
 
-import { act, fireEvent, render, TestWrapper, waitFor } from "@test";
-import { Route, Routes } from "react-router-dom";
+import {
+  act,
+  fireEvent,
+  render,
+  TestWrapper,
+  waitFor,
+  mockRouterProvider,
+} from "@test";
+import { Route, Routes } from "react-router";
 
 export const buttonShowTests = (
   ShowButton: React.ComponentType<RefineShowButtonProps<any, any>>,
 ): void => {
   describe("[@refinedev/ui-tests] Common Tests / Show Button", () => {
-    const show = jest.fn();
+    const show = vi.fn();
 
     beforeAll(() => {
-      jest.spyOn(console, "warn").mockImplementation(jest.fn());
+      vi.spyOn(console, "warn").mockImplementation(vi.fn());
     });
 
     it("should render button successfuly", async () => {
@@ -24,7 +32,31 @@ export const buttonShowTests = (
 
       expect(container).toBeTruthy();
 
-      expect(getByText("Show").closest("button")).not.toBeDisabled();
+      expect(getByText("Show").closest("button, a")).not.toBeDisabled();
+    });
+
+    it("should be disabled by prop", async () => {
+      const mockOnClick = vi.fn();
+
+      const { getByText } = render(
+        <ShowButton disabled onClick={mockOnClick} />,
+        {
+          wrapper: TestWrapper({}),
+        },
+      );
+
+      expect(getByText("Show").closest("button, a")).toBeDisabled();
+
+      fireEvent.click(getByText("Show").closest("button, a") as Element);
+      expect(mockOnClick).not.toHaveBeenCalled();
+    });
+
+    it("should be hidden by prop", async () => {
+      const { queryByText } = render(<ShowButton disabled hidden />, {
+        wrapper: TestWrapper({}),
+      });
+
+      expect(queryByText("Show")).not.toBeInTheDocument();
     });
 
     it("should have the correct test-id", async () => {
@@ -84,12 +116,12 @@ export const buttonShowTests = (
               expect(container).toBeTruthy();
 
               await waitFor(() =>
-                expect(getByText("Show").closest("button")).toBeDisabled(),
+                expect(getByText("Show").closest("button, a")).toBeDisabled(),
               );
 
               waitFor(() =>
                 expect(
-                  getByText("Show").closest("button")?.getAttribute("title"),
+                  getByText("Show").closest("button, a")?.getAttribute("title"),
                 ).toBe("Access Denied"),
               );
             });
@@ -120,8 +152,26 @@ export const buttonShowTests = (
               expect(container).toBeTruthy();
 
               await waitFor(() =>
-                expect(getByText("Show").closest("button")).not.toBeDisabled(),
+                expect(
+                  getByText("Show").closest("button, a"),
+                ).not.toBeDisabled(),
               );
+            });
+
+            it("should respect the disabled prop even with access control enabled", async () => {
+              const { getByText } = render(
+                <ShowButton disabled>Show</ShowButton>,
+                {
+                  wrapper: TestWrapper({
+                    accessControlProvider: {
+                      can: async () => ({ can: true }),
+                    },
+                  }),
+                },
+              );
+
+              const button = getByText("Show").closest("button, a");
+              expect(button).toBeDisabled();
             });
           });
         });
@@ -171,7 +221,7 @@ export const buttonShowTests = (
 
             expect(container).toBeTruthy();
 
-            expect(getByText("Show").closest("button")).not.toBeDisabled();
+            expect(getByText("Show").closest("button, a")).not.toBeDisabled();
           });
         });
       });
@@ -206,7 +256,9 @@ export const buttonShowTests = (
               expect(container).toBeTruthy();
 
               await waitFor(() =>
-                expect(getByText("Show").closest("button")).not.toBeDisabled(),
+                expect(
+                  getByText("Show").closest("button, a"),
+                ).not.toBeDisabled(),
               );
             });
           });
@@ -268,12 +320,12 @@ export const buttonShowTests = (
               expect(container).toBeTruthy();
 
               await waitFor(() =>
-                expect(getByText("Show").closest("button")).toBeDisabled(),
+                expect(getByText("Show").closest("button, a")).toBeDisabled(),
               );
 
               waitFor(() =>
                 expect(
-                  getByText("Show").closest("button")?.getAttribute("title"),
+                  getByText("Show").closest("button, a")?.getAttribute("title"),
                 ).toBe("Access Denied"),
               );
             });
@@ -335,8 +387,25 @@ export const buttonShowTests = (
         </Routes>,
         {
           wrapper: TestWrapper({
-            resources: [{ name: "posts" }],
+            resources: [
+              { name: "posts", list: "/posts", show: "/posts/show/:id" },
+            ],
             routerInitialEntries: ["/posts"],
+            routerProvider: {
+              ...mockRouterProvider(),
+              parse() {
+                return () => ({
+                  params: undefined,
+                  pathname: "/posts",
+                  resource: {
+                    name: "posts",
+                    list: "/posts",
+                    show: "/posts/show/:id",
+                  },
+                  action: "list",
+                });
+              },
+            },
           }),
         },
       );
@@ -345,7 +414,8 @@ export const buttonShowTests = (
         fireEvent.click(getByText("Show"));
       });
 
-      expect(window.location.pathname).toBe("/posts/show/1");
+      const showLink = getByText("Show").closest("a");
+      expect(showLink?.getAttribute("href")).toBe("/posts/show/1");
     });
 
     it("should show page redirect show route called function successfully if click the button", async () => {
@@ -355,17 +425,34 @@ export const buttonShowTests = (
         </Routes>,
         {
           wrapper: TestWrapper({
-            resources: [{ name: "posts" }],
+            resources: [
+              { name: "posts", list: "/posts", show: "/posts/show/:id" },
+            ],
+            routerProvider: {
+              ...mockRouterProvider(),
+              parse() {
+                return () => ({
+                  params: { id: "1" },
+                  pathname: "/posts/show/1",
+                  resource: {
+                    name: "posts",
+                    list: "/posts",
+                    show: "/posts/show/:id",
+                  },
+                  action: "show",
+                  id: "1",
+                });
+              },
+            },
             routerInitialEntries: ["/posts/show/1"],
           }),
         },
       );
 
-      await act(async () => {
-        fireEvent.click(getByText("Show"));
-      });
+      await act(async () => {});
 
-      expect(window.location.pathname).toBe("/posts/show/1");
+      const showLink = getByText("Show").closest("a");
+      expect(showLink?.getAttribute("href")).toBe("/posts/show/1");
     });
 
     it("should custom resource and recordItemId redirect show route called function successfully if click the button", async () => {
@@ -373,50 +460,14 @@ export const buttonShowTests = (
         <Routes>
           <Route
             path="/:resource"
-            element={
-              <ShowButton
-                resourceNameOrRouteName="categories"
-                recordItemId="1"
-              />
-            }
-          />
-        </Routes>,
-        {
-          wrapper: TestWrapper({
-            resources: [{ name: "posts" }, { name: "categories" }],
-            routerInitialEntries: ["/posts"],
-          }),
-        },
-      );
-
-      await act(async () => {
-        fireEvent.click(getByText("Show"));
-      });
-
-      expect(window.location.pathname).toBe("/categories/show/1");
-    });
-
-    it("should redirect with custom route called function successfully if click the button", async () => {
-      const { getByText } = render(
-        <Routes>
-          <Route
-            path="/:resource"
-            element={
-              <ShowButton
-                resourceNameOrRouteName="custom-route-posts"
-                recordItemId="1"
-              />
-            }
+            element={<ShowButton resource="categories" recordItemId="1" />}
           />
         </Routes>,
         {
           wrapper: TestWrapper({
             resources: [
-              {
-                name: "posts",
-                meta: { route: "custom-route-posts" },
-              },
-              { name: "posts" },
+              { name: "posts", show: "/posts/show/:id" },
+              { name: "categories", show: "/categories/show/:id" },
             ],
             routerInitialEntries: ["/posts"],
           }),
@@ -427,7 +478,9 @@ export const buttonShowTests = (
         fireEvent.click(getByText("Show"));
       });
 
-      expect(window.location.pathname).toBe("/custom-route-posts/show/1");
+      const showLink = getByText("Show").closest("a");
+      expect(showLink).toBeTruthy();
+      expect(showLink?.getAttribute("href")).toBe("/categories/show/1");
     });
   });
 };

@@ -20,7 +20,7 @@ export const PostEdit = () => {
     saveButtonProps,
     query: queryResult,
   } = useForm<GetFields<PostEditMutation>, HttpError>({
-    metaData: {
+    meta: {
       gqlMutation: POST_EDIT_MUTATION,
     },
   });
@@ -29,8 +29,13 @@ export const PostEdit = () => {
     GetFieldsFromList<CategoriesSelectQuery>
   >({
     resource: "categories",
-    metaData: {
+
+    meta: {
       gqlQuery: CATEGORIES_SELECT_QUERY,
+    },
+
+    pagination: {
+      mode: "server",
     },
   });
 

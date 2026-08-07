@@ -1,6 +1,6 @@
 import { Layout, Button, Space, Typography } from "antd";
 import { useAuth0 } from "@auth0/auth0-react";
-import { ThemedTitle } from "@refinedev/antd";
+import { ThemedTitle as ThemedTitleV2 } from "@refinedev/antd";
 
 export const Login: React.FC = () => {
   const { loginWithRedirect } = useAuth0();
@@ -14,7 +14,7 @@ export const Login: React.FC = () => {
       }}
     >
       <Space direction="vertical" align="center" size="large">
-        <ThemedTitle
+        <ThemedTitleV2
           collapsed={false}
           wrapperStyles={{
             fontSize: "22px",

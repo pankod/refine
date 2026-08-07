@@ -9,7 +9,6 @@ import {
   DevtoolsEvent,
   receive,
 } from "@refinedev/devtools-shared";
-import { HeaderAuthStatus } from "./header-auth-status";
 
 export const Header = () => {
   const [connectedApp, setConnectedApp] = React.useState<string | null>(null);
@@ -144,7 +143,6 @@ export const Header = () => {
             </div>
           </>
         )}
-        <HeaderAuthStatus />
       </div>
     </div>
   );

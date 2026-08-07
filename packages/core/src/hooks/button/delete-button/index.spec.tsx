@@ -150,4 +150,36 @@ describe("useDeleteButton", () => {
       expect(result.current.two.loading).toBeFalsy();
     });
   });
+
+  it("should pass meta to accessControlProvider via useButtonCanAccess", async () => {
+    const { result } = renderHook(
+      () =>
+        useDeleteButton({
+          id: 1,
+          resource: "posts",
+          meta: { tenantId: "abc-123" },
+        }),
+      {
+        wrapper: TestWrapper({
+          accessControlProvider: {
+            can: async ({ params }) => {
+              if (params?.meta?.tenantId === "abc-123") {
+                return { can: true };
+              }
+              return { can: false, reason: "Missing meta" };
+            },
+          },
+        }),
+      },
+    );
+
+    await waitFor(() => {
+      expect(result.current).toEqual(
+        expect.objectContaining({
+          disabled: false,
+          canAccess: expect.objectContaining({ can: true }),
+        }),
+      );
+    });
+  });
 });

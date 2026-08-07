@@ -1,6 +1,8 @@
 ---
-title: useImport
-description: useImport hook API references of @refinedev/core
+title: "useImport Hook | Best Practices for Usage & Patterns in Refine v5"
+display_title: "useImport"
+sidebar_label: "useImport"
+description: "Secure Use Import in Refine v5. Learn best practices. Learn data for real-world React admin panels. See practical code samples."
 ---
 
 `useImport` hook allows you to import data from a `CSV` file. For each row in the file, it calls the `create` or `createMany` method of your data provider according to your configuration.
@@ -40,7 +42,7 @@ useImport({
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### mapData
 
@@ -134,10 +136,6 @@ useImport({
 });
 ```
 
-### ~~resourceName~~ <PropTag deprecated />
-
-Use `resource` instead.
-
 ## Return Values
 
 ### inputProps
@@ -187,9 +185,9 @@ return (
 
 `isLoading` is a boolean that indicates whether the import is in progress or not.
 
-### mutationResult
+### mutation
 
-Returns the result of either the [`useCreate`](/docs/data/hooks/use-create) or the [`useCreateMany`](/docs/data/hooks/use-create) hook.
+Returns the result of either the [`useCreate`](/core/docs/data/hooks/use-create/) or the [`useCreateMany`](/core/docs/data/hooks/use-create/) hook.
 
 ## FAQ
 
@@ -246,12 +244,12 @@ With this code, the parsed data will be mapped to conform to the API requirement
 
 ### Return Values
 
-| Property       | Description                                                            | Type                                                                                                                                                                                                                                   |
-| -------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| inputProps     | Props to that you can pass `<input />` element props.                  | [`UseImportInputPropsType`][useimportinputpropstype]                                                                                                                                                                                   |
-| handleChange   | Props to handle `<input type="file">` element `onChange`               | `function`                                                                                                                                                                                                                             |
-| isLoading      | It can be used to handle the `loading` status for the Import operation | `boolean`                                                                                                                                                                                                                              |
-| mutationResult | Result of the mutation/mutations of creating imported resources        | [`UseMutationResult<{ data: TData }, TError, { resource: string; values: TVariables; }, unknown>`][usemutation]) \| [`UseMutationResult<{ data: TData[]},TError, { resource: string; values: TVariables[]; }, unknown>`][usemutation]) |
+| Property     | Description                                                            | Type                                                                                                                                                                                                                                   |
+| ------------ | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| inputProps   | Props to that you can pass `<input />` element props.                  | [`UseImportInputPropsType`][useimportinputpropstype]                                                                                                                                                                                   |
+| handleChange | Props to handle `<input type="file">` element `onChange`               | `function`                                                                                                                                                                                                                             |
+| isLoading    | It can be used to handle the `loading` status for the Import operation | `boolean`                                                                                                                                                                                                                              |
+| mutation     | Result of the mutation/mutations of creating imported resources        | [`UseMutationResult<{ data: TData }, TError, { resource: string; values: TVariables; }, unknown>`][usemutation]) \| [`UseMutationResult<{ data: TData[]},TError, { resource: string; values: TVariables[]; }, unknown>`][usemutation]) |
 
 ### Type Parameters
 
@@ -262,12 +260,12 @@ With this code, the parsed data will be mapped to conform to the API requirement
 | TError     | Custom error object that extends [`HttpError`][httperror]                  | [`HttpError`][httperror]   |
 | TVariables | Values for mutation function                                               | `any`                      |
 
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror
 [papaparse]: https://www.papaparse.com/
 [usemutation]: https://tanstack.com/query/latest/docs/react/reference/useMutation
 [number.max_safe_integer]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER
-[useimportinputpropstype]: /docs/core/interface-references#useimportinputpropstype
+[useimportinputpropstype]: /core/docs/core/interface-references#useimportinputpropstype
 
 ## Example
 

@@ -12,6 +12,10 @@ const PostCreate: React.FC = () => {
 
   const { options } = useSelect({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

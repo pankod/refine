@@ -1,11 +1,13 @@
 ---
-title: Building React admin panel with NextUI and Refine
-description: We will see how  to build a React admin panel using Refine and NextUI components library
+title: How to Build a Modern React Admin with NextUI & Refine
+description: A complete tutorial on building sleek, modern React admin interfaces using NextUI's design system and Refine’s powerful hooks.
 slug: next-ui-react-admin-panel
 authors: joseph_mawa
-tags: [Refine, tutorial, react, tailwind]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/social.jpg
+category: "How To Build"
+tags: [react, admin-panel, nextjs]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/social.jpg
 hide_table_of_contents: false
+last_update: 2026-02-06
 ---
 
 It's hard to build data-intensive front-end applications such as dashboards and admin panels from the ground up without feature-rich and niche frameworks such as [Refine](https://github.com/refinedev/refine) and [NextUI](https://nextui.org/).
@@ -17,23 +19,10 @@ Any Refine project has built-in features for state management, routing, networki
 [NextUI](https://nextui.org/) is a React library for building accessible UIs. You can use NextUI in a vanilla React project or React-based frameworks like Refine and Next.js. In this article, you will learn to build a React admin panel using Refine and NextUI components library.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/next-ui.gif
-"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/next-ui.gif"  alt="NextUI admin panel preview" />
 </div>
 
 <br/>
-
-Steps we'll cover:
-
-- [What is Refine](#what-is-refine)
-- [How to create a Refine application](#how-to-create-a-refine-application)
-- [What is NextUI](#what-is-nextui)
-- [How to set up NextUI in a Refine application](#how-to-set-up-nextui-in-a-refine-application)
-- [How to build React admin dashboard with NextUI and Refine]
-- [How to build product CRUD pages with NextUI and Refine](#how-to-build-product-crud-pages-with-nextui-and-refine)
-- [How to build categories CRUD pages with NextUI and Refine](#how-to-build-categories-crud-pages-with-nextui-and-refine)
-- [Update the layout](#update-the-layout)
-- [Update the breadcrumb](#update-the-breadcrumb)
 
 ## What is Refine
 
@@ -59,7 +48,7 @@ For this tutorial, we'll be select the following options:
 **Authentication Provider**: No Auth
 
 <div className="flex justify-center">
-    <img alt="React admin panel next ui" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/create-refine-project.gif" className="border border-gray-200 rounded" />
+    <img alt="Create Refine project prompt" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/create-refine-project.avif" className="border border-gray-200 rounded" />
 </div>
 
 Once you've completed the steps, you'll have the ability to download your project
@@ -81,7 +70,7 @@ npm run dev
 Once your project is successfully run, you will see the following page:
 
 <div className="flex justify-center">
-    <img alt="React admin panel next ui" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/fresh-project.jpg" className="border border-gray-200 rounded" />
+    <img alt="Fresh Refine project structure" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/fresh-project.webp" className="border border-gray-200 rounded" />
 </div>
 
 ### Tidy things up
@@ -100,11 +89,11 @@ Finally, copy and paste the code below into the `src/App.tsx` file.
 import { ErrorComponent, GitHubBanner, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { useTranslation } from "react-i18next";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
@@ -133,7 +122,7 @@ function App() {
         <Refine
           dataProvider={dataProvider("https://api.finefoods.refine.dev")}
           i18nProvider={i18nProvider}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           resources={[
             {
               name: "categories",
@@ -186,8 +175,7 @@ export default App;
 ## What is NextUI
 
 <div className="flex justify-center">
-    <img alt="React admin panel next ui" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/nextui%20(1).jpeg
-" className="border border-gray-200 rounded" />
+    <img alt="NextUI admin panel layout" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/nextui%20(1).jpeg" className="border border-gray-200 rounded" />
 </div>
 
 [NextUI](https://nextui.org/) is a fully-featured React UI library for building accessible UI in React. It is built on top of React Aria and Tailwind CSS. It uses Framer motion internally for animating some of the built-in components.
@@ -508,7 +496,7 @@ In the code above, we imported the built-in NextUI components and applied Tailwi
 The above component will look like the image below after rendering.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/kpi-card.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/kpi-card.png"  alt="NextUI KPI card component" />
 </div>
 
 <br/>
@@ -650,7 +638,7 @@ function App() {
       <RefineKbarProvider>
         <Refine
           dataProvider={dataProvider("https://api.finefoods.refine.dev")}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           resources={[
             //highlight-start
             {
@@ -703,7 +691,7 @@ export default App;
 The three `KpiCard` components we rendered in the above component will look like the image below.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/kpi-cards.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/kpi-cards.png"  alt="NextUI KPI cards row" />
 </div>
 
 <br/>
@@ -904,7 +892,7 @@ export const DashboardPage: React.FC = () => {
 The Revenue chart will look like the image below after rendering.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/revenue-area-graph.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/revenue-area-graph.png"  alt="Revenue area chart" />
 </div>
 
 <br/>
@@ -912,7 +900,7 @@ The Revenue chart will look like the image below after rendering.
 The Orders bar chart will look like the image below after rendering.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/orders-bar-chart.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/orders-bar-chart.png"  alt="Orders bar chart" />
 </div>
 
 <br/>
@@ -920,7 +908,7 @@ The Orders bar chart will look like the image below after rendering.
 Similarly, the Customer chart will look like the image below after rendering.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/new-customers-area-graph.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/new-customers-area-graph.png"  alt="New customers area chart" />
 </div>
 
 <br/>
@@ -1002,13 +990,13 @@ const getChipColor = (status: number) => {
 
 export const RecentSalesTable = () => {
   const {
-    tableQuery,
+    result,
     pageCount,
-    current,
+    currentPage,
     pageSize,
     sorters,
     filters,
-    setCurrent,
+    setCurrentPage,
     setPageSize,
     setSorters,
     setFilters,
@@ -1024,7 +1012,7 @@ export const RecentSalesTable = () => {
     direction: "ascending",
   });
 
-  const orders = tableQuery?.data?.data ?? [];
+  const orders = result?.data ?? [];
 
   const getCellContents = useCallback((columnKey: string, item: IOrder) => {
     if (columnKey === "id") return item.id;
@@ -1084,17 +1072,17 @@ export const RecentSalesTable = () => {
             startContent={<MagnifyingGlassIcon width={12} />}
             value={getDefaultFilter("q", filters)}
             onClear={() => {
-              setCurrent(1);
+              setCurrentPage(1);
               setFilters([], "replace");
             }}
             onValueChange={(value) => {
               if (!value.trim()) {
-                setCurrent(1);
+                setCurrentPage(1);
                 setFilters([], "replace");
                 return;
               }
 
-              setCurrent(1);
+              setCurrentPage(1);
               setFilters([
                 {
                   field: "q",
@@ -1113,9 +1101,9 @@ export const RecentSalesTable = () => {
             showControls
             showShadow
             color="primary"
-            page={current}
+            page={currentPage}
             total={pageCount}
-            onChange={(page) => setCurrent(page)}
+            onChange={(page) => setCurrentPage(page)}
           />
           <Dropdown>
             <DropdownTrigger>
@@ -1213,7 +1201,7 @@ export const DashboardPage: React.FC = () => {
 The `<RecentSalesTable />` component we created above will look like the image below after rendering.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/recent-sales.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/recent-sales.png"  alt="NextUI recent sales table" />
 </div>
 
 <br/>
@@ -1340,12 +1328,12 @@ const columns = [
 
 export const ProductList = () => {
   const {
-    tableQuery,
+    result,
     pageCount,
-    current,
+    currentPage,
     pageSize,
     filters,
-    setCurrent,
+    setCurrentPage,
     setPageSize,
     setSorters,
     setFilters,
@@ -1359,9 +1347,9 @@ export const ProductList = () => {
     direction: "ascending",
   });
 
-  const products = tableQuery?.data?.data ?? [];
+  const products = result?.data ?? [];
 
-  const { data: categoryData } = useMany<ICategory>({
+  const { result: categoryData } = useMany<ICategory>({
     resource: "categories",
     ids: products?.map((item) => item?.category?.id) ?? [],
     queryOptions: {
@@ -1478,17 +1466,17 @@ export const ProductList = () => {
                 startContent={<MagnifyingGlassIcon width={12} />}
                 value={getDefaultFilter("q", filters)}
                 onClear={() => {
-                  setCurrent(1);
+                  setCurrentPage(1);
                   setFilters([], "replace");
                 }}
                 onValueChange={(value) => {
                   if (!value.trim()) {
-                    setCurrent(1);
+                    setCurrentPage(1);
                     setFilters([], "replace");
                     return;
                   }
 
-                  setCurrent(1);
+                  setCurrentPage(1);
                   setFilters([
                     {
                       field: "q",
@@ -1508,9 +1496,9 @@ export const ProductList = () => {
               showControls
               showShadow
               color="primary"
-              page={current}
+              page={currentPage}
               total={pageCount}
-              onChange={(page) => setCurrent(page)}
+              onChange={(page) => setCurrentPage(page)}
             />
             <Dropdown>
               <DropdownTrigger>
@@ -1615,11 +1603,11 @@ We need to add the `products` resource to the `<Refine />` component. Therefore,
 import { ErrorComponent, GitHubBanner, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { useTranslation } from "react-i18next";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
@@ -1650,7 +1638,7 @@ function App() {
         <Refine
           dataProvider={dataProvider("https://api.finefoods.refine.dev")}
           i18nProvider={i18nProvider}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           resources={[
             {
               name: "dashboard",
@@ -1731,7 +1719,7 @@ export default App;
 The products list page should now look like the image below after rendering.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/products-list.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/products-list.png"  alt="NextUI products list page" />
 </div>
 
 <br/>
@@ -1742,7 +1730,7 @@ The list page we created in the previous sub-section has a button for creating a
 
 Let's create a component that will render when a user wants to create a new product. The component will render a form that a user can fill and submit to create a new product. To easily manage the forms, we will use react-hook-forms.
 
-The headless Refine project template we created using the refine.new platform integrates the [`@refinedev/react-hook-form`](https://github.com/refinedev/refine/tree/master/packages/react-hook-form) adapter out of the box. However, we need to install `react-hook-form` to use some of the features the `@refinedev/react-hook-form` adapter doesn't export.
+The headless Refine project template we created using the refine.new platform integrates the [`@refinedev/react-hook-form`](https://github.com/refinedev/refine/tree/main/packages/react-hook-form) adapter out of the box. However, we need to install `react-hook-form` to use some of the features the `@refinedev/react-hook-form` adapter doesn't export.
 
 Use the command below to install `react-hook-form`.
 
@@ -1970,7 +1958,7 @@ export default App;
 The above component will look like the image below after rendering.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/products-create.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/products-create.png"  alt="NextUI create product form" />
 </div>
 
 <br/>
@@ -2204,7 +2192,7 @@ export default App;
 The above component should now look like the image below after rendering. You can edit any record in the products table by clicking the edit button under the actions column. You can also do so by pointing the browser to the `/products/edit` route.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/products-edit.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/products-edit.png"  alt="NextUI edit product form" />
 </div>
 
 <br/>
@@ -2234,8 +2222,7 @@ const currencyFormatter = Intl.NumberFormat("en-US", {
 export const ProductShow = () => {
   const goBack = useBack();
 
-  const { queryResult } = useShow<IProduct>();
-  const product = queryResult?.data?.data;
+  const { result: product } = useShow<IProduct>();
 
   const { data: categoryData } = useOne<ICategory>({
     resource: "categories",
@@ -2349,7 +2336,7 @@ export default App;
 The above component will look like the image below after rendering.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/products-show.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/products-show.png"  alt="NextUI product details page" />
 </div>
 
 <br/>
@@ -2415,12 +2402,12 @@ const columns = [
 
 export const CategoryList = () => {
   const {
-    tableQuery,
+    result,
     pageCount,
-    current,
+    currentPage,
     pageSize,
     filters,
-    setCurrent,
+    setCurrentPage,
     setPageSize,
     setSorters,
     setFilters,
@@ -2438,7 +2425,7 @@ export const CategoryList = () => {
     direction: "ascending",
   });
 
-  const categories = tableQuery?.data?.data ?? [];
+  const categories = result?.data ?? [];
 
   const renderCell = useCallback((columnKey: string, item: IProduct) => {
     if (columnKey === "actions") {
@@ -2531,17 +2518,17 @@ export const CategoryList = () => {
                 startContent={<MagnifyingGlassIcon width={12} />}
                 value={getDefaultFilter("q", filters)}
                 onClear={() => {
-                  setCurrent(1);
+                  setCurrentPage(1);
                   setFilters([], "replace");
                 }}
                 onValueChange={(value) => {
                   if (!value.trim()) {
-                    setCurrent(1);
+                    setCurrentPage(1);
                     setFilters([], "replace");
                     return;
                   }
 
-                  setCurrent(1);
+                  setCurrentPage(1);
                   setFilters([
                     {
                       field: "q",
@@ -2561,9 +2548,9 @@ export const CategoryList = () => {
               showControls
               showShadow
               color="primary"
-              page={current}
+              page={currentPage}
               total={pageCount}
-              onChange={(page) => setCurrent(page)}
+              onChange={(page) => setCurrentPage(page)}
             />
             <Dropdown>
               <DropdownTrigger>
@@ -2653,7 +2640,7 @@ export const CategoryList = () => {
 The above component will look like the image below after rendering. You can search and sort the contents of the table.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/categories-list.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/categories-list.png"  alt="NextUI categories list page" />
 </div>
 
 <br/>
@@ -2753,7 +2740,7 @@ export const CategoryCreate = () => {
 The above component looks like the image below after rendering.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/categories-create.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/categories-create.png"  alt="NextUI create category form" />
 </div>
 
 <br/>
@@ -2855,7 +2842,7 @@ export const CategoryEdit = () => {
 The above component looks like the image below after rendering. You can edit a category and save the changes using the "Save Category" button.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/categories-edit.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/categories-edit.png"  alt="NextUI edit category form" />
 </div>
 
 <br/>
@@ -2880,9 +2867,7 @@ import { ArrowLongLeftIcon } from "@heroicons/react/24/outline";
 export const CategoryShow = () => {
   const goBack = useBack();
 
-  const { queryResult } = useShow<ICategory>();
-
-  const category = queryResult?.data?.data;
+  const { result: category } = useShow<ICategory>();
 
   return (
     <div className="my-3">
@@ -2926,7 +2911,7 @@ export const CategoryShow = () => {
 The above component looks like the image below after rendering.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-20-next-ui-panel/categories-show.png"  alt="react admin panel next ui" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-20-next-ui-panel/categories-show.png"  alt="NextUI category details page" />
 </div>
 
 <br/>

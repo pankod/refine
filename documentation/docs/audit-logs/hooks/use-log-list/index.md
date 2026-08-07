@@ -1,8 +1,11 @@
 ---
-title: useLogList
+title: "useLogList Hook | Options, Patterns & Edge Cases | Refine v5"
+display_title: "useLogList"
+sidebar_label: "useLogList"
+description: "Integrate Use Log List in Refine v5. Learn best practices. Explore best practices for result for compliance and traceability. Hands-on examples included."
 ---
 
-If you need to list audit log events, you can use the `useLogList` hook of Refine, which uses the `get` method from [`auditLogProvider`](/docs/audit-logs/audit-log-provider#get) under the hood.
+If you need to list audit log events, you can use the `useLogList` hook of Refine, which uses the `get` method from [`auditLogProvider`](/core/docs/audit-logs/audit-log-provider#get) under the hood.
 
 ## Usage
 
@@ -18,14 +21,13 @@ const postAuditLogResults = useLogList({
 
 ### Properties
 
-| Property                      | Type                                                         | Default                         |
-| ----------------------------- | ------------------------------------------------------------ | ------------------------------- |
-| resource <PropTag asterisk /> | `string`                                                     | Action that it reads from route |
-| action                        | `string`                                                     |                                 |
-| author                        | `Record<string, any>`                                        |                                 |
-| meta                          | `Record<string, any>`                                        |                                 |
-| metaData                      | [`MetaDataQuery`](/docs/core/interface-references#metaquery) |                                 |
-| queryOptions                  | `UseQueryOptions<TQueryFnData, TError, TData>`               |                                 |
+| Property                      | Type                                           | Default                         |
+| ----------------------------- | ---------------------------------------------- | ------------------------------- |
+| resource <PropTag asterisk /> | `string`                                       | Action that it reads from route |
+| action                        | `string`                                       |                                 |
+| author                        | `Record<string, any>`                          |                                 |
+| meta                          | `Record<string, any>`                          |                                 |
+| queryOptions                  | `UseQueryOptions<TQueryFnData, TError, TData>` |                                 |
 
 ### Type Parameters
 
@@ -41,5 +43,5 @@ const postAuditLogResults = useLogList({
 | ---------------------------------------- | ----------------------------------------------------------------------------------------- |
 | Result of the `react-query`'s `useQuery` | [`UseQueryResult<{ data: TData; }>`](https://react-query.tanstack.com/reference/useQuery) |
 
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror

@@ -1,4 +1,5 @@
 ## App ideas for Hackathons
+Welcome to the ultimate list of hackathon app ideas! Whether you're building for fun, your portfolio, or a competition, this list will spark your creativity.
 
 Here are some app ideas that can inspire you for the hackathon.
 

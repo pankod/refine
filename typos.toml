@@ -9,6 +9,8 @@ extend-ignore-re = [
     "run refine",
     "refineCore",
     "refine-",
+    "refine-\\d+",
+    "refine\\d+",
     "-refine-",
     "_refine",
     "/refine",
@@ -16,9 +18,13 @@ extend-ignore-re = [
     "refine/",
     "refinedev",
     "Refine",
+    "refine,",
     "refine-themes",
     "REFINE",
     "refine3",
+    "refine[0-9]+",
+    "refine[0-9]+-",
+    "-refine[0-9]+",
     "\\: refine",
     "\\`refine",
     "\"refine\"",
@@ -42,6 +48,7 @@ ignore-vcs = true
 
 [default.extend-words]
 nin = "nin"
+typ = "typ"
 OT = "OT"
 prev = "prev"
 prepend = "prepend"

@@ -1,5 +1,8 @@
 ---
-title: useMenu
+title: "useMenu Hook | Best Practices for Usage & Patterns in Refine v5"
+display_title: "useMenu"
+sidebar_label: "useMenu"
+description: "Implement Use Menu in Refine v5. Learn the key steps. Learn navigation, sidebar for real-world React admin panels. See practical code samples."
 source: packages/core/src/hooks/menu/useMenu.tsx
 ---
 
@@ -12,7 +15,7 @@ body {
 
 `useMenu` is used to get menu items derived from the resources. These items include a link to the dashboard page (if it exists) and links to the user-defined resources (passed as children to `<Refine>`).
 
-This hook can also be used to build custom menus, including multi-level support. `<Sider/>` components inside the [`@refinedev/antd`](/docs/ui-integrations/ant-design/introduction), [`@refinedev/mui`](/docs/ui-integrations/material-ui/introduction), [`@refinedev/chakra-ui`](/docs/ui-integrations/chakra-ui/introduction) and, [`@refinedev/mantine`](/docs/ui-integrations/mantine/introduction) packages for example use this hook as a base for their menus.
+This hook can also be used to build custom menus, including multi-level support. `<Sider/>` components inside the [`@refinedev/antd`](/core/docs/ui-integrations/ant-design/introduction/), [`@refinedev/mui`](/core/docs/ui-integrations/material-ui/introduction/), [`@refinedev/chakra-ui`](/core/docs/ui-integrations/chakra-ui/introduction/) and, [`@refinedev/mantine`](/core/docs/ui-integrations/mantine/introduction/) packages for example use this hook as a base for their menus.
 
 ```ts
 const { selectedKey, menuItems, defaultOpenKeys } = useMenu();
@@ -30,7 +33,7 @@ const { selectedKey, menuItems, defaultOpenKeys } = useMenu();
 
 ## Usage
 
-If you are using [`@refinedev/antd`](/docs/ui-integrations/ant-design/introduction), [`@refinedev/mui`](/docs/ui-integrations/material-ui/introduction), [`@refinedev/chakra-ui`](/docs/ui-integrations/chakra-ui/introduction) or [`@refinedev/mantine`](/docs/ui-integrations/mantine/introduction) as a UI framework integration, you can find out more info about their structure and how to use `useMenu` in the [Custom Layout][customlayout]
+If you are using [`@refinedev/antd`](/core/docs/ui-integrations/ant-design/introduction/), [`@refinedev/mui`](/core/docs/ui-integrations/material-ui/introduction/), [`@refinedev/chakra-ui`](/core/docs/ui-integrations/chakra-ui/introduction/) or [`@refinedev/mantine`](/core/docs/ui-integrations/mantine/introduction/) as a UI framework integration, you can find out more info about their structure and how to use `useMenu` in the [Custom Layout][customlayout]
 
 ### Creating a Menu
 
@@ -41,9 +44,9 @@ setInitialRoutes(["/"]);
 
 // visible-block-start
 import React from "react";
-import { useMenu, LayoutProps, ITreeMenu } from "@refinedev/core";
+import { useMenu, LayoutProps, TreeMenuItem } from "@refinedev/core";
 
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   // highlight-start
@@ -51,7 +54,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   // highlight-end
 
   // highlight-start
-  const renderMenuItems = (items: ITreeMenu[]) => {
+  const renderMenuItems = (items: TreeMenuItem[]) => {
     return (
       <>
         {items.map(({ key, name, label, icon, route }) => {
@@ -91,10 +94,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 };
 
 import { Refine } from "@refinedev/core";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { Layout } from "components";
 
@@ -142,13 +145,13 @@ const App: React.FC = () => {
 render(App);
 ```
 
-We created `<Layout>` with a header with a logo and a list of links to all menu items (resources). The links are clickable and will navigate to the corresponding resource. To do this, we used the `useMenu` hook to get the menu items from the `<Refine/>` and the `useRouterContext` hook to get the `<Link/>` component from the router provider. The [`useNavigation`][use-navigation] hook can be used for navigating between routes as well.
+We created `<Layout />` with a header with a logo and a list of links to all menu items (resources). The links are clickable and will navigate to the corresponding resource. To do this, we used the `useMenu` hook to get the menu items from the `<Refine />` and the `useLink` hook to get the `<Link />` component from the router provider. The [`useNavigation`][use-navigation] hook can be used for navigating between routes as well.
 
 `children` is the content of the layout. In our case, it is the content of the **Page** components.
 
 After creating the `<Layout/>` component, we can use it in our application. We need to pass it to the `<Refine/>` component as a prop.
 
-> For more information on layout customization, refer to the [Custom Layout guide &#8594](/docs/advanced-tutorials/custom-layout/)
+> For more information on layout customization, refer to the [Custom Layout guide &#8594](/core/docs/advanced-tutorials/custom-layout/)
 
 ### Multi Level Menus
 
@@ -158,10 +161,10 @@ Update your `resources` in `<Refine/>` with `meta.parent` to nest them inside a 
 
 ```tsx title="src/App.tsx"
 import { Refine } from "@refinedev/core";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { Layout } from "components/layout";
 
@@ -219,15 +222,15 @@ Now you can update your `<Layout/>` to support multi level rendering with follow
 
 ```tsx title="src/components/Layout.tsx"
 import React from "react";
-import { useMenu, LayoutProps, ITreeMenu } from "@refinedev/core";
+import { useMenu, LayoutProps, TreeMenuItem } from "@refinedev/core";
 
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { menuItems, selectedKey } = useMenu();
 
   // highlight-start
-  const renderMenuItems = (items: ITreeMenu[]) => {
+  const renderMenuItems = (items: TreeMenuItem[]) => {
     return (
       <>
         {items.map(({ key, name, label, icon, route, children, list }) => {
@@ -344,5 +347,5 @@ export type TreeMenuItem = IResourceItem & {
 
 <CodeSandboxExample path="core-use-menu" />
 
-[use-navigation]: /docs/routing/hooks/use-navigation
-[customlayout]: /docs/advanced-tutorials/custom-layout/
+[use-navigation]: /core/docs/routing/hooks/use-navigation
+[customlayout]: /core/docs/advanced-tutorials/custom-layout/

@@ -8,7 +8,7 @@ export const getNextPageParam = (lastPage: GetListResponse) => {
     return cursor.next;
   }
 
-  const current = pagination?.current || 1;
+  const current = pagination?.currentPage || 1;
 
   const pageSize = pagination?.pageSize || 10;
   const totalPages = Math.ceil((lastPage.total || 0) / pageSize);
@@ -24,7 +24,7 @@ export const getPreviousPageParam = (lastPage: GetListResponse) => {
     return cursor.prev;
   }
 
-  const current = pagination?.current || 1;
+  const current = pagination?.currentPage || 1;
 
   return current === 1 ? undefined : current - 1;
 };

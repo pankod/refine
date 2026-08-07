@@ -17,6 +17,8 @@
     "emitDeclarationOnly": true,
     "noEmit": false,
     "declarationMap": true,
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
     "paths": {
       "@/*": ["src/*"],
       "@": ["src"],

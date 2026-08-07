@@ -7,7 +7,7 @@ You can automatically generate views for your resources using `@pankod/refine-in
 
 :::caution Dependencies
 
-`@pankod/refine-inferencer/headless` uses [`@pankod/refine-react-hook-form`](/docs/3.xx.xx/packages/documentation/react-hook-form/useForm) and [`@pankod/refine-react-table`](/docs/3.xx.xx/packages/documentation/react-table) to create views.
+`@pankod/refine-inferencer/headless` uses [`@pankod/refine-react-hook-form`](/core/docs/3.xx.xx/packages/documentation/react-hook-form/useForm) and [`@pankod/refine-react-table`](/core/docs/3.xx.xx/packages/documentation/react-table) to create views.
 
 Make sure you include them in your dependencies.
 
@@ -88,7 +88,7 @@ const SampleEdit = () => {
 </Tabs>
 
 :::info
-To learn more about `@pankod/refine-inferencer` package, please check out [Docs](/docs/3.xx.xx/packages/documentation/inferencer)
+To learn more about `@pankod/refine-inferencer` package, please check out [Docs](/core/docs/3.xx.xx/packages/documentation/inferencer)
 :::
 
 ## Views

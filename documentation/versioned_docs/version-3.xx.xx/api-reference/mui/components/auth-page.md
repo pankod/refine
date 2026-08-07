@@ -9,10 +9,10 @@ source: packages/mui/src/components/pages/auth/index.tsx
 
 `<AuthPage>` component from **refine** for **Material UI** contains authentication pages that can be used to login, register, forgot password, and update password.
 
-Before using `<AuthPage>` component you need to add [authProvider](/api-reference/core/providers/auth-provider.md) that will be used to handle authentication.
+Before using `<AuthPage>` component you need to add [authProvider](/core/docs/3.xx.xx/api-reference/core/providers/auth-provider) that will be used to handle authentication.
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ```tsx live shared
@@ -967,11 +967,11 @@ render(
 
 ### Properties
 
-<PropsTable module="@pankod/refine-mui/AuthPage" 
+<PropsTable module="@pankod/refine-mui/AuthPage"
 wrapperProps-type="[`CardProps`](https://mui.com/material-ui/api/card/#props)"
 contentProps-type="[`CardContentProps`](https://mui.com/material-ui/api/card-content/#props)"
 headerProps-type="[`CardHeaderProps`](https://mui.com/material-ui/api/card-header/#props)"
-rememberMe-default="[`<Checkbox>Remember me</Checkbox>`](/docs/3.xx.xx/api-reference/mui/components/mui-auth-page/#rememberme)"
+rememberMe-default="[`<Checkbox>Remember me</Checkbox>`](/core/docs/3.xx.xx/api-reference/mui/components/mui-auth-page/#rememberme)"
 />
 
 ### Interface
@@ -992,11 +992,11 @@ interface FormPropsType extends UseFormProps {
 }
 ```
 
-[auth-provider]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/
-[login]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#login-
-[register]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#register
-[forgot-password]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#forgotpassword
-[update-password]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#updatepassword
-[get-permissions]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#getpermissions-
-[check-auth]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#checkauth-
-[logout]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#logout-
+[auth-provider]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/
+[login]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#login-
+[register]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#register
+[forgot-password]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#forgotpassword
+[update-password]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#updatepassword
+[get-permissions]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#getpermissions-
+[check-auth]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#checkauth-
+[logout]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#logout-

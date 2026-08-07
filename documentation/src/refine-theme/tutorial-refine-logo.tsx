@@ -9,50 +9,37 @@ interface Props {
 
 export const TutorialRefineLogo = ({ className }: Props) => {
   return (
-    <div
-      className={clsx(
-        "flex",
-        "items-center justify-start",
-        "gap-2",
-        "no-underline",
-        className,
-      )}
-    >
+    <div className={clsx("flex", "items-center justify-center", "gap-4")}>
       <Link
-        to="/"
-        className={clsx("no-underline", "flex items-center gap-2")}
+        to="/core"
+        className={clsx(
+          "no-underline",
+          "flex",
+          "items-center justify-center",
+          "w-16",
+          "h-16",
+          "no-underline",
+          "bg-orange-50 dark:bg-orange-950",
+          "border-t-0",
+          "border-l-0",
+          "border-b-0",
+          "border-r border-2 border-zinc-50 dark:border-zinc-950",
+          className,
+        )}
         onContextMenu={openFigma}
       >
-        <Logo className="text-refine-tutorial-green dark:text-refine-green-alt" />
-        <span
-          className={clsx(
-            "text-gray-1000 dark:text-gray-0",
-            "text-base",
-            "font-semibold",
-          )}
-        >
-          Refine
-        </span>
+        <Logo className="text-orange-600 dark:text-orange-300" />
       </Link>
-      <span
+      <h2
         className={clsx(
-          "block",
-          "h-6",
-          "w-px",
-          "mx-1",
-          "bg-gray-300 dark:bg-gray-600",
+          "text-sm",
+          "font-semibold",
+          "text-zinc-900 dark:text-white",
+          "tracking-[-0.007em]",
         )}
-      />
-      <Link to="/tutorial" className={clsx("no-underline")}>
-        <span
-          className={clsx(
-            "text-gray-1000 dark:text-gray-0",
-            "text-base font-normal",
-          )}
-        >
-          Tutorial
-        </span>
-      </Link>
+      >
+        Tutorial
+      </h2>
     </div>
   );
 };

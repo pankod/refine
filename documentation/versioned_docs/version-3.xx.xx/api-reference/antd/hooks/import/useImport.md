@@ -27,7 +27,7 @@ export const PostList: React.FC = () => {
 };
 ```
 
-[Refer to the `<ImportButton>` interface for more information &#8594](/docs/3.xx.xx/api-reference/antd/components/buttons/import-button/)
+[Refer to the `<ImportButton>` interface for more information &#8594](/core/docs/3.xx.xx/api-reference/antd/components/buttons/import-button/)
 
 Also, you can use the `inputProps` and `uploadProps` properties without the `<ImportButton>` component for more customization:
 
@@ -215,7 +215,7 @@ It is a boolean value that indicates whether the import is in progress.
 
 ### `mutationResult`
 
-Result of the [`useCreate`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) or [`useCreateMany`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/) method of your data provider.
+Result of the [`useCreate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) or [`useCreateMany`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/) method of your data provider.
 
 ## FAQ
 
@@ -290,14 +290,14 @@ With this code, the parsed data will be mapped to conform to the API requirement
 
 [button]: https://ant.design/components/button/
 [upload]: https://ant.design/components/upload/
-[importbutton]: /api-reference/antd/components/buttons/import.md
-[usecreate]: /docs/3.xx.xx/api-reference/core/hooks/data/useCreate/
-[usecreatemany]: /docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/
-[dataprovider]: /api-reference/core/providers/data-provider.md
-[baserecord]: /api-reference/core/interfaces.md#baserecord
-[httperror]: /api-reference/core/interfaces.md#httperror
+[importbutton]: /core/docs/3.xx.xx/api-reference/antd/components/buttons/import
+[usecreate]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/
+[usecreatemany]: /core/docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/
+[dataprovider]: /core/docs/3.xx.xx/api-reference/core/providers/data-provider
+[baserecord]: /core/docs/3.xx.xx/api-reference/core/interfaces#baserecord
+[httperror]: /core/docs/3.xx.xx/api-reference/core/interfaces#httperror
 [papaparse]: https://www.papaparse.com/docs
-[usemutation]: https://react-query.tanstack.com/reference/useMutation
+[usemutation]: https://tanstack.com/query/v4/docs/framework/react/reference/useMutation
 [number.max_safe_integer]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER
-[successerrornotification]: /api-reference/core/interfaces.md#successerrornotification
-[use-import-core]: /docs/3.xx.xx/api-reference/core/hooks/import-export/useImport/
+[successerrornotification]: /core/docs/3.xx.xx/api-reference/core/interfaces#successerrornotification
+[use-import-core]: /core/docs/3.xx.xx/api-reference/core/hooks/import-export/useImport/

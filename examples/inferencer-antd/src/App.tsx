@@ -4,20 +4,21 @@ import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import {
   ErrorComponent,
   useNotificationProvider,
-  ThemedLayoutV2,
-  ThemedSiderV2,
+  ThemedLayout,
+  ThemedSider as ThemedSiderV2,
 } from "@refinedev/antd";
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
-import routerBindings, {
+import routerProvider, {
   CatchAllNavigate,
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { useTranslation } from "react-i18next";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import { authProvider } from "./authProvider";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
@@ -37,6 +38,8 @@ import { ForgotPassword } from "./pages/forgotPassword";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 
+import "./lib/init-dayjs";
+
 function App() {
   const { t, i18n } = useTranslation();
 
@@ -54,7 +57,7 @@ function App() {
           <Refine
             dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
             notificationProvider={useNotificationProvider}
-            routerProvider={routerBindings}
+            routerProvider={routerProvider}
             authProvider={authProvider}
             i18nProvider={i18nProvider}
             resources={[
@@ -91,12 +94,12 @@ function App() {
                     key="authenticated-routes"
                     fallback={<CatchAllNavigate to="/login" />}
                   >
-                    <ThemedLayoutV2
+                    <ThemedLayout
                       Header={() => <Header sticky />}
                       Sider={() => <ThemedSiderV2 fixed />}
                     >
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >

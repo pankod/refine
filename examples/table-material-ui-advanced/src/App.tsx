@@ -1,6 +1,6 @@
 import { GitHubBanner, Refine } from "@refinedev/core";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   RefineThemes,
   useNotificationProvider,
@@ -14,8 +14,8 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { BasicDataGrid } from "./pages/dataGrid";
 import { PostList } from "./pages/table";
@@ -65,9 +65,9 @@ const App: React.FC = () => {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 <Route

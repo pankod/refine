@@ -48,8 +48,14 @@ export const renderer = ({
   id,
   i18n,
 }: RendererContext) => {
-  const COMPONENT_NAME = componentName(resource.label ?? resource.name, "edit");
-  const recordName = getVariableName(resource.label ?? resource.name, "Data");
+  const COMPONENT_NAME = componentName(
+    resource.meta?.label ?? resource.name,
+    "edit",
+  );
+  const recordName = getVariableName(
+    resource.meta?.label ?? resource.name,
+    "Data",
+  );
   const imports: Array<
     [element: string, module: string, isDefaultImport?: boolean]
   > = [

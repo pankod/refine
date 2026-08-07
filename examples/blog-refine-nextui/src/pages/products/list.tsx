@@ -51,10 +51,10 @@ export const ProductList = () => {
   const {
     tableQuery: tableQueryResult,
     pageCount,
-    current,
+    currentPage: current,
     pageSize,
     filters,
-    setCurrent,
+    setCurrentPage: setCurrent,
     setPageSize,
     setSorters,
     setFilters,
@@ -70,7 +70,7 @@ export const ProductList = () => {
 
   const products = tableQueryResult?.data?.data ?? [];
 
-  const { data: categoryData } = useMany<ICategory>({
+  const { result: categoryData } = useMany<ICategory>({
     resource: "categories",
     ids: products?.map((item) => item?.category?.id) ?? [],
     queryOptions: {

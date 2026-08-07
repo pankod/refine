@@ -3,9 +3,11 @@ title: Redirect in React Router V6 with Navigate Component
 description: We'll see how to redirect using Navigate Component in React Router V6
 slug: navigate-react-router-redirect
 authors: joseph_mawa
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-29-router-navigate-component/social-3.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-29-router-navigate-component/social-3.png
 hide_table_of_contents: false
+last_update: 2024-06-24
 ---
 
 **This article was last updated on Jun 14, 2024, to add performance optimization, testing and additional features for React Router**
@@ -15,14 +17,6 @@ hide_table_of_contents: false
 React Router version 6 shipped recently with several new features and improvements. One such feature is the `Navigate` component. It is the component equivalent of the `useNavigate` hook.
 
 This article will take a deep dive into the `Navigate` component.
-
-Steps we'll cover:
-
-- [Getting started with React router](#getting-started-with-react-router)
-- [How to use the `Navigate` component](#how-to-use-the-navigate-component)
-- [Features of React Router V6](#features-of-react-router-v6)
-- [Performance Optimization](#performance-optimization)
-- [React Router Testing](#react-router-testing)
 
 ## Getting started with React router
 

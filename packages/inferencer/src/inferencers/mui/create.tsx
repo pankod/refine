@@ -49,7 +49,7 @@ export const renderer = ({
   i18n,
 }: RendererContext) => {
   const COMPONENT_NAME = componentName(
-    resource.label ?? resource.name,
+    resource.meta?.label ?? resource.name,
     "create",
   );
   const imports: Array<ImportElement> = [
@@ -246,7 +246,11 @@ export const renderer = ({
                     )}?.message}
                     margin="normal"
                     fullWidth
-                    InputLabelProps={{ shrink: true }}
+                    slotProps={{
+                        inputLabel: {
+                             shrink: true,
+                        },
+                    }}
                     ${
                       field.type !== "date" && field.type !== "richtext"
                         ? `type="${field.type}"`

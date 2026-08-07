@@ -1,5 +1,8 @@
 ---
-title: useStepsForm
+title: "useStepsForm Hook | Usage & Patterns in Refine v5"
+display_title: "useStepsForm"
+sidebar_label: "useStepsForm"
+description: "Secure Use Steps Form in Refine v5. Learn best practices. Learn best practices for values and data for real-world React admin panels."
 ---
 
 ```css live shared
@@ -35,7 +38,7 @@ interface IPost {
 const stepTitlesShared = ["Title", "Status", "Category and content"];
 
 const PostList: React.FC = () => {
-  const { tableQuery } = useTable<IPost>({
+  const { result, tableQuery } = useTable<IPost>({
     sorters: {
       initial: [
         {
@@ -47,9 +50,9 @@ const PostList: React.FC = () => {
   });
   const { edit, create } = useNavigation();
 
-  const categoryIds =
-    tableQuery?.data?.data.map((item) => item.category.id) ?? [];
-  const { data, isLoading } = useMany<ICategory>({
+  const categoryIds = result?.data.map((item) => item.category.id) ?? [];
+
+  const { result: categoryResult, isLoading } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -71,15 +74,16 @@ const PostList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {tableQuery.data?.data.map((post) => (
+          {result?.data.map((post) => (
             <tr key={post.id}>
               <td>{post.id}</td>
               <td>{post.title}</td>
               <td>
                 {isLoading
                   ? "Loading"
-                  : data?.data.find((item) => item.id == post.category.id)
-                      ?.title}
+                  : categoryResult?.data?.find(
+                      (item) => item.id == post.category.id,
+                    )?.title}
               </td>
               <td>{post.status}</td>
               <td>
@@ -491,18 +495,26 @@ interface IPost {
 }
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-      create: PostCreatePage,
-      edit: PostEdit,
-    },
-  ],
-});
-
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<PostList />} />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 </TabItem>
@@ -655,18 +667,26 @@ interface IPost {
 }
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-      create: PostCreate,
-      edit: PostEditPage,
-    },
-  ],
-});
-
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<PostList />} />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+        <ReactRouter.Route path="/posts/edit/:id" element={<PostEdit />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 </TabItem>
@@ -814,7 +834,7 @@ interface IPost {
 
 Since `category` is a relational data, we use `useSelect` to fetch its data.
 
-[Refer to `useSelect` documentation for detailed usage. &#8594](/docs/ui-integrations/ant-design/hooks/use-select)
+[Refer to `useSelect` documentation for detailed usage. &#8594](/core/docs/ui-integrations/ant-design/hooks/use-select/)
 
 :::
 
@@ -963,7 +983,7 @@ interface IPost {
 
 ### refineCoreProps
 
-All [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form) properties also available in `useStepsForm`. You can find descriptions on [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form#return-values) docs.
+All [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form/) properties also available in `useStepsForm`. You can find descriptions on [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form/#return-values) docs.
 
 ```tsx
 const stepsForm = useStepsForm({
@@ -1085,7 +1105,7 @@ useStepsForm({
 
 ## Return Values
 
-All [`useForm`](/docs/packages/list-of-packages) return values also available in `useStepsForm`. You can find descriptions on [`useForm`](/docs/packages/list-of-packages#return-values) docs.
+All [`useForm`](/core/docs/packages/list-of-packages/) return values also available in `useStepsForm`. You can find descriptions on [`useForm`](/core/docs/packages/list-of-packages/#return-values) docs.
 
 ### steps
 
@@ -1126,19 +1146,19 @@ It also accepts all props of [useForm](https://react-hook-form.com/api/useform) 
 
 ### Return values
 
-| Property                      | Description                                                     | Type                                                              |
-| ----------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------- |
-| steps                         | Relevant state and method to control the steps                  | [`StepsReturnValues`](#steps)                                     |
-| refineCore                    | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/docs/data/hooks/use-form/#return-values) |
+| Property                      | Description                                                     | Type                                                                   |
+| ----------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| steps                         | Relevant state and method to control the steps                  | [`StepsReturnValues`](#steps)                                          |
+| refineCore                    | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/core/docs/data/hooks/use-form/#return-values) |
 | React Hook Form Return Values | See [React Hook Form][react-hook-form-use-form] documentation   |
 
 ## Example
 
 <CodeSandboxExample path="form-react-hook-form-use-steps-form" />
 
-[@refinedev/react-hook-form]: https://github.com/refinedev/refine/tree/master/packages/react-hook-form
-[refine-react-hook-form-use-form]: /docs/packages/list-of-packages
+[@refinedev/react-hook-form]: https://github.com/refinedev/refine/tree/main/packages/react-hook-form
+[refine-react-hook-form-use-form]: /core/docs/packages/list-of-packages
 [react-hook-form-use-form]: https://react-hook-form.com/api/useform
-[use-form-core]: /docs/data/hooks/use-form/
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
+[use-form-core]: /core/docs/data/hooks/use-form/
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror

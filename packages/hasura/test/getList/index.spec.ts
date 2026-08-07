@@ -249,7 +249,7 @@ describe("with gqlQuery", () => {
 
 describe("with gqlVariables", () => {
   beforeEach(() => {
-    jest.spyOn(console, "warn").mockImplementation(() => {
+    vi.spyOn(console, "warn").mockImplementation(() => {
       return;
     });
   });

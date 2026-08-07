@@ -8,7 +8,7 @@ import {
 } from "@refinedev/core";
 import {
   useNotificationProvider,
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   RefineThemes,
 } from "@refinedev/antd";
@@ -17,9 +17,10 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { ConfigProvider, App as AntdApp } from "antd";
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
 import { PostList, PostCreate, PostEdit, PostShow } from "../src/pages/posts";
@@ -58,9 +59,9 @@ const App: React.FC = () => {
               <Routes>
                 <Route
                   element={
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   }
                 >
                   <Route index element={<NavigateToResource />} />

@@ -1,5 +1,5 @@
 import { useLogout, useMenu } from "@refinedev/core";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import { Button } from "../ui/button";
 
 export const Menu = () => {

@@ -39,4 +39,4 @@ npm create refine-app@latest -- --example server-side-form-validation-mantine
 
 <br/>
 
-[![Open server-side-form-validation-mantine example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/server-side-form-validation-mantine?view=preview&theme=dark&codemirror=1)
+[![Open server-side-form-validation-mantine example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/server-side-form-validation-mantine?view=preview&theme=dark&codemirror=1)

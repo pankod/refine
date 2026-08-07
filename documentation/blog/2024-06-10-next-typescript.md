@@ -3,9 +3,11 @@ title: A Guide for Next.js with TypeScript
 description: We will explain the entire process of how to use Next.js in TypeScript
 slug: next-js-with-typescript
 authors: michael
+category: "Tutorials"
 tags: [nextjs, typescript]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-12-next-typescript/social-3.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-12-next-typescript/social-3.png
 hide_table_of_contents: false
+last_update: 2024-06-12
 ---
 
 **_This article was last updated on Jun 10, 2024 to add new section for tsconfig.json and add some tips on usage with Next.js_**
@@ -17,13 +19,6 @@ Next.js is an open source React framework for building single-page web applicati
 Combining **Next.js and TypeScript** gives us superpowers to rapidly create applications with a good developer and user experiences. Every developer hates bugs. Especially pesky ones such as typos or trying to use or access undeclared variables. **TypeScript** helps catch these types of bugs early during development, and this is one of the many features that make integrating it with a tool like Next.js fantastic.
 
 In this article, we'll look at how you can integrate TypeScript in your Next.js apps. We'll also explore reasons why you should consider using this tool in your Next.js projects and also talk about its benefits.
-
-Steps we'll cover:
-
-- [What is TypeScript?](#what-is-typescript)
-- [How to add TypeScript to your Next.js app](#how-to-add-typescript-to-your-nextjs-app)
-- [How to use Typescript in Next.js API routes](#how-to-use-typescript-in-nextjs-api-routes)
-- [Disabling Typescript Errors in Production](#disabling-typescript-errors-in-production)
 
 ## What is TypeScript?
 
@@ -80,7 +75,7 @@ Installing devDependencies (yarn):
 
 When the installation is complete, open `tsconfig.json` and you'll see it populated with values like below:
 
- <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-12-next-typescript/tsconfig.png" alt="tsconfig" />
+ <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-12-next-typescript/tsconfig.png" alt="tsconfig.json settings" />
 
 <br/>
 
@@ -386,7 +381,7 @@ This looks way better and straightforward.
 <br/>
 <div>
 <a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="discord banner" />
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="Join Refine on Discord banner" />
 </a>
 </div>
 

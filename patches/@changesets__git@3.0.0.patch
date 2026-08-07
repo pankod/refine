@@ -1,0 +1,39 @@
+diff --git a/dist/changesets-git.cjs.js b/dist/changesets-git.cjs.js
+index 415542c09ff1a3dbfc3eef7ff52f9d592a3be334..34f646a2f052a200521aebddcb12105e66224480 100644
+--- a/dist/changesets-git.cjs.js
++++ b/dist/changesets-git.cjs.js
+@@ -87,7 +87,7 @@ async function getCommitsThatAddFiles(gitPaths, {
+   do {
+     // Fetch commit information for all paths we don't have yet
+     const commitInfos = await Promise.all(remaining.map(async gitPath => {
+-      const [commitSha, parentSha] = (await spawn__default["default"]("git", ["log", "--diff-filter=A", "--max-count=1", short ? "--pretty=format:%h:%p" : "--pretty=format:%H:%p", gitPath], {
++      const [commitSha, parentSha] = (await spawn__default["default"]("git", ["log", "--follow", `--after=${new Date(new Date().setMonth(new Date().getMonth() -2)).toISOString()}`, "--diff-filter=A", "--max-count=1", short ? "--pretty=format:%h:%p" : "--pretty=format:%H:%p", gitPath], {
+         cwd
+       })).stdout.toString().split(":");
+       return {
+diff --git a/dist/changesets-git.esm.js b/dist/changesets-git.esm.js
+index 58f76fe0cb21c35fa600e83f20fbbd23ee7d0ba0..b82da6c93e8039e728af7be257d769b11e017d66 100644
+--- a/dist/changesets-git.esm.js
++++ b/dist/changesets-git.esm.js
+@@ -75,7 +75,7 @@ async function getCommitsThatAddFiles(gitPaths, {
+   do {
+     // Fetch commit information for all paths we don't have yet
+     const commitInfos = await Promise.all(remaining.map(async gitPath => {
+-      const [commitSha, parentSha] = (await spawn("git", ["log", "--diff-filter=A", "--max-count=1", short ? "--pretty=format:%h:%p" : "--pretty=format:%H:%p", gitPath], {
++      const [commitSha, parentSha] = (await spawn("git", ["log", "--follow", `--after=${new Date(new Date().setMonth(new Date().getMonth() -2)).toISOString()}`, "--diff-filter=A", "--max-count=1", short ? "--pretty=format:%h:%p" : "--pretty=format:%H:%p", gitPath], {
+         cwd
+       })).stdout.toString().split(":");
+       return {
+diff --git a/src/index.ts b/src/index.ts
+index 7e3aee53439f3724886eacc2bb9ea8b9abc6b6cf..d44d159b7e411f017baf38f10e440d01f2b8a6f5 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -80,6 +80,8 @@ export async function getCommitsThatAddFiles(
+             "git",
+             [
+               "log",
++              "--follow",
++              `--after=${new Date(new Date().setMonth(new Date().getMonth() -2)).toISOString()}`,
+               "--diff-filter=A",
+               "--max-count=1",
+               short ? "--pretty=format:%h:%p" : "--pretty=format:%H:%p",

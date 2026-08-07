@@ -1,4 +1,79 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`getOperationFields > CategoryEdit 1`] = `
+"id
+title"
+`;
+
+exports[`getOperationFields > CompaniesTable 1`] = `
+"id
+name
+avatarUrl
+dealsAggregate {
+  sum {
+    value
+  }
+}
+salesOwner {
+  id
+  name
+  avatarUrl
+}
+contacts {
+  nodes {
+    id
+    name
+    avatarUrl
+  }
+}"
+`;
+
+exports[`getOperationFields > CompanyTitleForm 1`] = `
+"id
+name
+avatarUrl
+salesOwner {
+  id
+  name
+  avatarUrl
+}"
+`;
+
+exports[`getOperationFields > ContactShow 1`] = `
+"id
+name
+email
+company {
+  id
+  name
+  avatarUrl
+}
+status
+jobTitle
+phone
+timezone
+avatarUrl
+salesOwner {
+  id
+  name
+  avatarUrl
+}
+createdAt"
+`;
+
+exports[`getOperationFields > Upcoming Events 1`] = `
+"id
+title
+color
+startDate
+endDate"
+`;
+
+exports[`getOperationFields > UsersSelect 1`] = `
+"id
+name
+avatarUrl"
+`;
 
 exports[`getOperationFields CategoryEdit 1`] = `
 "id

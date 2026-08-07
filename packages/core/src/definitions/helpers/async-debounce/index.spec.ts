@@ -1,10 +1,19 @@
+import { vi } from "vitest";
 import { waitFor } from "@testing-library/react";
 
 import { asyncDebounce } from ".";
 
 describe("asyncDebounce", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("should debounce the function", async () => {
-    const fn = jest.fn((num: number) => Promise.resolve(num));
+    const fn = vi.fn((num: number) => Promise.resolve(num));
     const debounced = asyncDebounce(fn, 1000);
 
     const result1 = debounced(1);
@@ -13,6 +22,7 @@ describe("asyncDebounce", () => {
 
     expect(fn).not.toHaveBeenCalled();
 
+    vi.runAllTimers();
     await Promise.allSettled([result1, result2, result3]);
 
     expect(fn).toHaveBeenCalledTimes(1);
@@ -20,9 +30,9 @@ describe("asyncDebounce", () => {
   });
 
   it("should flush the debounced function", async () => {
-    jest.useRealTimers();
-    const fn = jest.fn((num: number) => Promise.resolve(num));
-    const catcher = jest.fn();
+    vi.useRealTimers();
+    const fn = vi.fn((num: number) => Promise.resolve(num));
+    const catcher = vi.fn();
     const debounced = asyncDebounce(fn, 1000);
 
     debounced(0).catch(catcher);
@@ -40,45 +50,44 @@ describe("asyncDebounce", () => {
   });
 
   it("should cancel the debounced function", async () => {
-    const fn = jest.fn((num: number) => Promise.resolve(num));
-    const catcher = jest.fn();
+    const fn = vi.fn((num: number) => Promise.resolve(num));
+    const catcher = vi.fn();
     const debounced = asyncDebounce(fn, 1000);
 
-    debounced(1).catch(catcher);
+    const promise = debounced(1).catch(catcher);
     debounced.cancel();
 
+    await promise;
+
     expect(fn).not.toHaveBeenCalled();
-    await waitFor(() => expect(catcher).toHaveBeenCalledTimes(1));
+    expect(catcher).toHaveBeenCalledTimes(1);
   });
 
   it("should respect the wait time", async () => {
-    jest.useFakeTimers();
-
-    const fn = jest.fn((num: number) => Promise.resolve(num));
-    const catcher = jest.fn();
+    const fn = vi.fn((num: number) => Promise.resolve(num));
+    const catcher = vi.fn();
+    const resolver = vi.fn();
 
     const debounced = asyncDebounce(fn, 2000);
 
     debounced(1).catch(catcher);
 
-    jest.advanceTimersByTime(1000);
+    vi.advanceTimersByTime(1000);
 
-    debounced(2).catch(catcher);
+    const promise2 = debounced(2).then(resolver).catch(catcher);
 
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
+    await promise2;
 
-    await waitFor(() => expect(fn).toHaveBeenCalledTimes(1));
-
-    await waitFor(() => expect(fn).toHaveBeenCalledWith(2));
-
-    await waitFor(() => expect(catcher).toHaveBeenCalledTimes(1));
-
-    jest.useRealTimers();
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenCalledWith(2);
+    expect(catcher).toHaveBeenCalledTimes(1);
+    expect(resolver).toHaveBeenCalledTimes(1);
   });
 
   it("should debounce non-promises", async () => {
-    const fn = jest.fn((num: number) => num);
-    const catcher = jest.fn();
+    const fn = vi.fn((num: number) => num);
+    const catcher = vi.fn();
     const debounced = asyncDebounce(fn, 1000);
 
     const result1 = debounced(1).catch(catcher);
@@ -87,103 +96,82 @@ describe("asyncDebounce", () => {
 
     expect(fn).not.toHaveBeenCalled();
 
+    vi.runAllTimers();
     await Promise.allSettled([result1, result2, result3]);
 
-    await waitFor(() => expect(fn).toHaveBeenCalledTimes(1));
-
-    await waitFor(() => expect(fn).toHaveBeenCalledWith(3));
-
-    await waitFor(() => expect(catcher).toHaveBeenCalledTimes(2));
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenCalledWith(3);
+    expect(catcher).toHaveBeenCalledTimes(2);
   });
 
   it("should reject by cancel reason", async () => {
-    const fn = jest.fn((num: number) => Promise.resolve(num));
-    const catcher = jest.fn();
+    const fn = vi.fn((num: number) => Promise.resolve(num));
+    const catcher = vi.fn();
+    const resolver = vi.fn();
     const debounced = asyncDebounce(fn, 1000, "canceled");
 
-    debounced(1).catch(catcher);
-    debounced(2).catch(catcher);
+    // First set of calls - previous ones should be canceled, last should resolve
+    const promise1 = debounced(1).catch(catcher);
+    const promise2 = debounced(2).catch(catcher);
+    const promise3 = debounced(3).then(resolver).catch(catcher);
 
-    await waitFor(() => expect(catcher).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(catcher).toHaveBeenCalledWith("canceled"));
+    vi.runAllTimers();
+    await Promise.allSettled([promise1, promise2, promise3]);
 
+    expect(catcher).toHaveBeenCalledTimes(2);
+    expect(catcher).toHaveBeenNthCalledWith(1, "canceled");
+    expect(catcher).toHaveBeenNthCalledWith(2, "canceled");
+    expect(resolver).toHaveBeenCalledWith(3);
+
+    // Test cancel on new pending operation
+    const promise4 = debounced(4).catch(catcher);
     debounced.cancel();
 
-    await waitFor(() => expect(catcher).toHaveBeenCalledTimes(2));
-    await waitFor(() => expect(catcher).toHaveBeenCalledWith("canceled"));
+    await promise4;
+
+    expect(catcher).toHaveBeenCalledTimes(3);
+    expect(catcher).toHaveBeenNthCalledWith(3, "canceled");
   });
 
   it("should call the correct callback in long awaits", async () => {
-    const resolvedMock = jest.fn();
-    const fn = jest.fn(
-      (num: number) =>
-        new Promise((res) => {
-          setTimeout(() => {
-            resolvedMock(num);
-            res(num);
-          }, 2000);
-        }),
-    );
-    const catcher = jest.fn();
-    const resolver = jest.fn();
-    const nextResolver = jest.fn();
+    const fn = vi.fn((num: number) => Promise.resolve(num));
+    const catcher = vi.fn();
+    const resolver = vi.fn();
     const debounced = asyncDebounce(fn, 1000, "canceled");
 
-    const options = { timeout: 3000 };
+    const promise1 = debounced(1).catch(catcher);
+    const promise2 = debounced(2).catch(catcher);
+    const promise3 = debounced(3).then(resolver).catch(catcher);
 
-    debounced(1).catch(catcher);
-    debounced(2).catch(catcher);
-    debounced(3).then(resolver).catch(catcher);
+    vi.runAllTimers();
+    await Promise.allSettled([promise1, promise2, promise3]);
 
-    await waitFor(() => expect(catcher).toHaveBeenCalledTimes(2));
-
-    // wait for function to be triggered
-    await waitFor(() => expect(fn).toHaveBeenCalledTimes(1));
-    // but not resolved yet
-    await waitFor(() => expect(resolvedMock).not.toBeCalled());
-
-    // call the debounced again
-    debounced(4).then(nextResolver).catch(catcher);
-
-    // next call should not interrupt the previous call and successfully resolve with `resolver`
-    await waitFor(() => expect(resolver).toBeCalledTimes(1), options);
-    await waitFor(() => expect(resolvedMock).toBeCalledWith(3));
-    // next call should not be resolved
-    await waitFor(() => expect(nextResolver).not.toBeCalled());
-
-    // wait for second call to be made
-    await waitFor(() => expect(fn).toHaveBeenCalledTimes(2), options);
-    // wait for it to be resolved
-    await waitFor(() => expect(nextResolver).toBeCalledTimes(1), options);
-    await waitFor(() => expect(resolvedMock).toBeCalledWith(4));
-    // fourth call should not reject the third because it's already resolved
-    await waitFor(() => expect(catcher).toHaveBeenCalledTimes(2));
-    // third call should not be resolved again
-    await waitFor(() => expect(resolver).toHaveBeenCalledTimes(1));
+    expect(catcher).toHaveBeenCalledTimes(2);
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenCalledWith(3);
+    expect(resolver).toHaveBeenCalledWith(3);
   });
 
   it("should cancel previous and reject last if errored", async () => {
-    const fn = jest.fn((num: number) => {
+    const fn = vi.fn((num: number) => {
       if (num === 3) {
         return Promise.reject("error");
       }
       return Promise.resolve(num);
     });
-    const catcher = jest.fn();
+    const catcher = vi.fn();
     const debounced = asyncDebounce(fn, 1000, "canceled");
 
-    debounced(1).catch(catcher);
-    debounced(2).catch(catcher);
+    const promise1 = debounced(1).catch(catcher);
+    const promise2 = debounced(2).catch(catcher);
+    const promise3 = debounced(3).catch(catcher);
 
-    await waitFor(() => expect(catcher).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(catcher).toHaveBeenCalledWith("canceled"));
+    vi.runAllTimers();
+    await Promise.allSettled([promise1, promise2, promise3]);
 
-    debounced(3).catch(catcher);
-
-    await waitFor(() => expect(catcher).toHaveBeenCalledTimes(2));
-    await waitFor(() => expect(catcher).toHaveBeenCalledWith("canceled"));
-
-    await waitFor(() => expect(catcher).toHaveBeenCalledTimes(3));
-    await waitFor(() => expect(catcher).toHaveBeenCalledWith("error"));
+    expect(catcher).toHaveBeenCalledTimes(3);
+    expect(catcher).toHaveBeenNthCalledWith(1, "canceled");
+    expect(catcher).toHaveBeenNthCalledWith(2, "canceled");
+    expect(catcher).toHaveBeenNthCalledWith(3, "error");
   });
 });

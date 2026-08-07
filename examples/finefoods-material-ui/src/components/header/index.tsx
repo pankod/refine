@@ -7,7 +7,7 @@ import {
   useSetLocale,
 } from "@refinedev/core";
 import {
-  type RefineThemedLayoutV2HeaderProps,
+  type RefineThemedLayoutHeaderProps,
   HamburgerMenu,
 } from "@refinedev/mui";
 import AppBar from "@mui/material/AppBar";
@@ -37,7 +37,7 @@ interface IOptions {
   category: string;
 }
 
-export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
+export const Header: React.FC<RefineThemedLayoutHeaderProps> = () => {
   const [value, setValue] = useState("");
   const [options, setOptions] = useState<IOptions[]>([]);
 
@@ -50,88 +50,114 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
 
   const t = useTranslate();
 
-  const { refetch: refetchOrders } = useList<IOrder>({
+  const {
+    result: ordersData,
+
+    query: { refetch: refetchOrders, isSuccess: ordersIsSuccess },
+  } = useList<IOrder>({
     resource: "orders",
-    config: {
-      filters: [{ field: "q", operator: "contains", value }],
-    },
-    queryOptions: {
-      enabled: false,
-      onSuccess: (data) => {
-        const orderOptionGroup: IOptions[] = data.data.map((item) => {
-          return {
-            label: `${item.store.title} / #${item.orderNumber}`,
-            link: `/orders/show/${item.id}`,
-            category: t("orders.orders"),
-            avatar: (
-              <Avatar
-                variant="rounded"
-                sx={{
-                  width: "32px",
-                  height: "32px",
-                }}
-                src={item.products?.[0]?.images?.[0]?.url}
-              />
-            ),
-          };
-        });
-        if (orderOptionGroup.length > 0) {
-          setOptions((prevOptions) => [...prevOptions, ...orderOptionGroup]);
-        }
-      },
-    },
-  });
 
-  const { refetch: refetchStores } = useList<IStore>({
-    resource: "stores",
-    config: {
-      filters: [{ field: "q", operator: "contains", value }],
-    },
     queryOptions: {
       enabled: false,
-      onSuccess: (data) => {
-        const storeOptionGroup = data.data.map((item) => {
-          return {
-            label: `${item.title} - ${item.address.text}`,
-            link: `/stores/edit/${item.id}`,
-            category: t("stores.stores"),
-          };
-        });
-        setOptions((prevOptions) => [...prevOptions, ...storeOptionGroup]);
-      },
     },
-  });
 
-  const { refetch: refetchCouriers } = useList<ICourier>({
-    resource: "couriers",
-    config: {
-      filters: [{ field: "q", operator: "contains", value }],
-    },
-    queryOptions: {
-      enabled: false,
-      onSuccess: (data) => {
-        const courierOptionGroup = data.data.map((item) => {
-          return {
-            label: `${item.name}`,
-            avatar: (
-              <Avatar
-                sx={{
-                  width: "32px",
-                  height: "32px",
-                }}
-                src={item.avatar?.[0]?.url}
-              />
-            ),
-            link: `/couriers/edit/${item.id}`,
-            category: t("couriers.couriers"),
-          };
-        });
-        setOptions((prevOptions) => [...prevOptions, ...courierOptionGroup]);
-      },
-    },
+    filters: [{ field: "q", operator: "contains", value }],
   });
 
   useEffect(() => {
+    if (!ordersIsSuccess || !ordersData) return;
+
+    const orderOptionGroup: IOptions[] = ordersData.data.map((item) => {
+      return {
+        label: `${item.store.title} / #${item.orderNumber}`,
+        link: `/orders/show/${item.id}`,
+        category: t("orders.orders"),
+        avatar: (
+          <Avatar
+            variant="rounded"
+            sx={{
+              width: "32px",
+              height: "32px",
+            }}
+            src={item.products?.[0]?.images?.[0]?.url}
+          />
+        ),
+      };
+    });
+
+    if (orderOptionGroup.length > 0) {
+      setOptions((prevOptions) => [...prevOptions, ...orderOptionGroup]);
+    }
+  }, [ordersData, ordersIsSuccess, t]);
+
+  const {
+    result: storesData,
+
+    query: { refetch: refetchStores, isSuccess: storesIsSuccess },
+  } = useList<IStore>({
+    resource: "stores",
+
+    queryOptions: {
+      enabled: false,
+    },
+
+    filters: [{ field: "q", operator: "contains", value }],
+  });
+
+  useEffect(() => {
+    if (!storesIsSuccess || !storesData) return;
+
+    const storeOptionGroup = storesData.data.map((item) => {
+      return {
+        label: `${item.title} - ${item.address.text}`,
+        link: `/stores/edit/${item.id}`,
+        category: t("stores.stores"),
+      };
+    });
+
+    setOptions((prevOptions) => [...prevOptions, ...storeOptionGroup]);
+  }, [storesData, storesIsSuccess, t]);
+
+  const {
+    result: couriersData,
+
+    query: { refetch: refetchCouriers, isSuccess: couriersIsSuccess },
+  } = useList<ICourier>({
+    resource: "couriers",
+
+    queryOptions: {
+      enabled: false,
+    },
+
+    filters: [{ field: "q", operator: "contains", value }],
+  });
+
+  useEffect(() => {
+    if (!couriersIsSuccess || !couriersData) return;
+
+    const courierOptionGroup = couriersData.data.map((item) => {
+      return {
+        label: `${item.name}`,
+        avatar: (
+          <Avatar
+            sx={{
+              width: "32px",
+              height: "32px",
+            }}
+            src={item.avatar?.[0]?.url}
+          />
+        ),
+        link: `/couriers/edit/${item.id}`,
+        category: t("couriers.couriers"),
+      };
+    });
+
+    setOptions((prevOptions) => [...prevOptions, ...courierOptionGroup]);
+  }, [couriersData, couriersIsSuccess, t]);
+
+  useEffect(() => {
+    if (value?.trim() === "") return;
+
     setOptions([]);
     refetchOrders();
     refetchCouriers();
@@ -251,8 +277,10 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
                     <TextField
                       {...params}
                       label={t("search.placeholder")}
-                      InputProps={{
-                        ...params.InputProps,
+                      slotProps={{
+                        input: {
+                          ...params.InputProps,
+                        },
                       }}
                     />
                     <IconButton
@@ -284,7 +312,11 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
               size="small"
               disableUnderline
               defaultValue={currentLocale}
-              inputProps={{ "aria-label": "Without label" }}
+              slotProps={{
+                input: {
+                  "aria-label": "Without label",
+                },
+              }}
               variant="outlined"
               sx={{
                 width: {

@@ -12,7 +12,7 @@ import { Controller } from "react-hook-form";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
-import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -90,7 +90,7 @@ export const CourierEdit = () => {
         }}
       />
       <Grid container spacing="24px">
-        <Grid xs={12} md={12} lg={5}>
+        <Grid size={{ xs: 12, md: 12, lg: 5 }}>
           <form>
             <Box
               mb="24px"
@@ -424,7 +424,7 @@ export const CourierEdit = () => {
             </Paper>
           </form>
         </Grid>
-        <Grid xs={12} md={12} lg={7} marginTop="96px">
+        <Grid size={{ xs: 12, md: 12, lg: 7 }} marginTop="96px">
           <CourierTableReviews courier={courier} />
         </Grid>
       </Grid>

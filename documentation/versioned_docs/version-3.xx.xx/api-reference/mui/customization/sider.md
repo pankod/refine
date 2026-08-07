@@ -21,7 +21,7 @@ const Wrapper = ({ children }) => {
 You can access the `logout`, `dashboard`, `items` elements and `collapsed` state that we use in our default `Sider` component by using `render` properties. Customize it to your needs or you can create a custom `<Sider />` component and use it either by passing it to [`<Refine />`][refine] or using a [Custom Layout][muicustomlayout].
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Customize Sider by Using `render` property
@@ -112,7 +112,7 @@ You can also customize your Sider component by creating the `CustomSider` compon
 When you examine the code of the live-preview example below, you will see the same code that we used for the `default sider` component. You can create a customized `CustomSider` component for yourself by following this code.
 
 :::info-tip Swizzle
-You can also run the `swizzle` command to export the source code of the default sider component. Refer to [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli) for more information.
+You can also run the `swizzle` command to export the source code of the default sider component. Refer to [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli) for more information.
 :::
 
 ```tsx title="src/components/CustomSider.tsx"
@@ -562,7 +562,7 @@ const CustomSider: React.FC<RefineLayoutSiderProps> = ({ render }) => {
 <br />
 
 :::tip
-If you want to create a multi-level menu, you can take a look at this [`multi-level menu`](/docs/3.xx.xx/examples/multi-level-menu) example and also [`here`](/docs/3.xx.xx/advanced-tutorials/multi-level-menu) is the guide.
+If you want to create a multi-level menu, you can take a look at this [`multi-level menu`](/core/docs/3.xx.xx/examples/multi-level-menu) example and also [`here`](/core/docs/3.xx.xx/advanced-tutorials/multi-level-menu) is the guide.
 :::
 
 We can override the default sider and show the custom menu we implemented in its place by passing a custom component to `<Refine>`s `Sider` prop:
@@ -642,5 +642,5 @@ render(
 );
 ```
 
-[refine]: /api-reference/core/components/refine-config.md
-[muicustomlayout]: /api-reference/mui/customization/layout.md
+[refine]: /core/docs/3.xx.xx/api-reference/core/components/refine-config
+[muicustomlayout]: /core/docs/3.xx.xx/api-reference/mui/customization/layout

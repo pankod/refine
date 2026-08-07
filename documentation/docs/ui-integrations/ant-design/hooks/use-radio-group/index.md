@@ -1,5 +1,8 @@
 ---
-title: useRadioGroup
+title: "useRadioGroup Hook | Options, Patterns & Edge Cases in Refine v5"
+display_title: "useRadioGroup"
+sidebar_label: "useRadioGroup"
+description: "Implement Use Radio Group in Refine v5. Learn the key steps. Learn integration patterns for data and allows for polished admin UIs. Hands-on examples included."
 ---
 
 `useRadioGroup` hook allows you to manage an Ant Design [Radio.Group](https://ant.design/components/radio/#components-radio-demo-radiogroup-with-name) component when records in a resource needs to be used as radio options.
@@ -60,7 +63,7 @@ All we have to do is pass the `radioGroupProps` it returns to the `<Radio.Group>
 
 `useRadioGroup` uses the `useList` hook for fetching data.
 
-> For more information, refer to the [Refine Core's `useList` hook documentation &#8594](/docs/data/hooks/use-list)
+> For more information, refer to the [Refine Core's `useList` hook documentation &#8594](/core/docs/data/hooks/use-list/)
 
 ## Options
 
@@ -72,11 +75,11 @@ const { radioGroupProps } = useRadioGroup({
 });
 ```
 
-`resource` property determines API resource endpoint to fetch records from [`dataProvider`](/docs/data/data-provider). It returns properly configured `options` values for radio buttons.
+`resource` property determines API resource endpoint to fetch records from [`dataProvider`](/core/docs/data/data-provider/). It returns properly configured `options` values for radio buttons.
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 > For more information, refer to the [Ant Design's `Radio.Group` component documentation &#8594](https://ant.design/components/radio)
 
@@ -246,15 +249,11 @@ For example, lets say that we have 1000 post records:
 const { radioGroupProps } = useRadioGroup({
   resource: "categories",
   // highlight-next-line
-  pagination: { current: 3, pageSize: 8 },
+  pagination: { currentPage: 3, pageSize: 8 },
 });
 ```
 
 The listing will start from page 3, showing 8 records per page.
-
-### ~~sort~~ <PropTag deprecated />
-
-Use `sorters` instead.
 
 ## API Reference
 
@@ -275,11 +274,11 @@ Use `sorters` instead.
 | Property        | Description                      | Type                                                                                          |
 | --------------- | -------------------------------- | --------------------------------------------------------------------------------------------- |
 | radioGroupProps | Ant design radio group props     | [`Radio Group`](https://ant.design/components/radio/#RadioGroup)                              |
-| queryResult     | Results of the query of a record | [`QueryObserverResult<{ data: TData }>`](https://react-query.tanstack.com/reference/useQuery) |
+| query           | Results of the query of a record | [`QueryObserverResult<{ data: TData }>`](https://react-query.tanstack.com/reference/useQuery) |
 
 ## Example
 
 <CodeSandboxExample path="field-antd-use-radio-group" />
 
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror

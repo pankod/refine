@@ -11,7 +11,6 @@ describe("base-mantine", () => {
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    cy.interceptGETPosts();
     cy.visit("/");
   });
 

@@ -1,25 +1,48 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
-import { render, act, TestWrapper } from "@test";
+import { render, act, TestWrapper, waitFor } from "@test";
 import { ListInferencer, renderer } from "../list";
 
-xdescribe("AntdListInferencer", () => {
+describe("AntdListInferencer", () => {
   it("should match the snapshot", async () => {
     const Wrapper = TestWrapper({
       routerInitialEntries: ["/posts"],
       resources: [
         {
           name: "posts",
-          list: ListInferencer,
+          list: "/posts",
+          create: "/posts/create",
+          edit: "/posts/edit/:id",
+          show: "/posts/show/:id",
+          meta: {
+            canDelete: true,
+          },
         },
         {
           name: "categories",
+          meta: {
+            canEdit: true,
+            canShow: true,
+            canDelete: true,
+          },
         },
         {
           name: "tags",
+          meta: {
+            canEdit: true,
+            canShow: true,
+            canDelete: true,
+          },
         },
-        { name: "users" },
+        {
+          name: "users",
+          meta: {
+            canEdit: true,
+            canShow: true,
+            canDelete: true,
+          },
+        },
       ],
     });
 

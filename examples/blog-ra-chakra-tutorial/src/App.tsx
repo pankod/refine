@@ -6,18 +6,18 @@ import {
   ErrorComponent,
   useNotificationProvider,
   RefineThemes,
-  ThemedLayoutV2,
+  ThemedLayout,
 } from "@refinedev/chakra-ui";
 
 import { ChakraProvider } from "@chakra-ui/react";
-import routerBindings, {
+import routerProvider, {
   CatchAllNavigate,
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import { DataProvider } from "@refinedev/strapi-v4";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import { authProvider, axiosInstance } from "./authProvider";
 import { API_URL } from "./constants";
 
@@ -34,7 +34,7 @@ function App() {
             authProvider={authProvider}
             dataProvider={DataProvider(`${API_URL}/api`, axiosInstance)}
             notificationProvider={useNotificationProvider}
-            routerProvider={routerBindings}
+            routerProvider={routerProvider}
             options={{
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
@@ -60,9 +60,9 @@ function App() {
                     key="authenticated-routes"
                     fallback={<CatchAllNavigate to="/login" />}
                   >
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >
@@ -105,9 +105,9 @@ function App() {
               <Route
                 element={
                   <Authenticated key="catch-all">
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >

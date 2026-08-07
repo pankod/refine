@@ -1,5 +1,167 @@
 # @refinedev/codemod
 
+## 4.4.3
+
+### Patch Changes
+
+- [#7016](https://github.com/refinedev/refine/pull/7016) [`97e974547949197ed9ca4a1e02b19ef3fc46b673`](https://github.com/refinedev/refine/commit/97e974547949197ed9ca4a1e02b19ef3fc46b673) Thanks [@DoguhanOzgurAkca](https://github.com/DoguhanOzgurAkca)! - feat: comprehensive deprecated code cleanup for v5
+
+  This release completes the cleanup of deprecated code that remained after the Refine v5 migration, providing a cleaner and more maintainable codebase.
+
+  ## Breaking Changes - Removed Deprecated Components
+
+  **@refinedev/antd:**
+
+  - Removed deprecated `ReadyPage` component (use custom components instead)
+  - Removed deprecated `LoginPage` component (use `AuthPage` instead)
+  - Removed deprecated `useSiderVisible` hook (use `useThemedLayoutContext` instead)
+
+  **@refinedev/chakra-ui:**
+
+  - Removed deprecated `ReadyPage` component (use custom components instead)
+  - Removed deprecated `useSiderVisible` hook (use `useThemedLayoutContext` instead)
+
+  **@refinedev/mantine:**
+
+  - Removed deprecated `useSiderVisible` hook (use `useThemedLayoutContext` instead)
+
+  ## New Features
+
+  **@refinedev/codemod:**
+
+  - Added `welcome-page-import-from-core` codemod transformation
+  - Automatically migrates WelcomePage imports from UI libraries to @refinedev/core
+  - Run with: `npx @refinedev/codemod@latest welcome-page-import-from-core`
+
+  ## Improvements
+
+  **@refinedev/antd:**
+
+  - Un-deprecated `getDefaultFilter` function - now the preferred import location
+  - Updated documentation to import `getDefaultFilter` from `@refinedev/antd` instead of `@refinedev/core`
+
+  **@refinedev/core:**
+
+  - Un-deprecated `warnWhenUnsavedChanges` property in RefineOptions (still valid and actively used)
+  - Updated all TanStack Query documentation links from v4 to v5
+  - Improved TSDoc comments with current TanStack Query v5 references
+
+  ## Documentation Updates
+
+  - Updated 7 documentation files to use `getDefaultFilter` from `@refinedev/antd`
+  - Migrated 22 TanStack Query v4 documentation links to v5
+  - All API references now point to current TanStack Query v5 documentation
+
+## 4.4.2
+
+### Patch Changes
+
+- [#6980](https://github.com/refinedev/refine/pull/6980) [`f13d22834da01a8eb32306d19257fecaa70cb1ee`](https://github.com/refinedev/refine/commit/f13d22834da01a8eb32306d19257fecaa70cb1ee) Thanks [@BatuhanW](https://github.com/BatuhanW)! - fix(codemod): use correct library name for @refinedev/antd useSimpleList and add useTable from @refinedev/antd.
+
+## 4.4.1
+
+### Patch Changes
+
+- [#6976](https://github.com/refinedev/refine/pull/6976) [`f8a232aa8ef42d22ee7021e9ae3a9b112c88a941`](https://github.com/refinedev/refine/commit/f8a232aa8ef42d22ee7021e9ae3a9b112c88a941) Thanks [@erenkurnaz](https://github.com/erenkurnaz)! - fix(codemod): correctly rename isLoading to isPending in mutation hooks
+
+  Codemod previously was expecting mutation hooks to have isPending. Since isPending is introduced with react-query@5 it wasn't correct.
+
+- [#6976](https://github.com/refinedev/refine/pull/6976) [`f8a232aa8ef42d22ee7021e9ae3a9b112c88a941`](https://github.com/refinedev/refine/commit/f8a232aa8ef42d22ee7021e9ae3a9b112c88a941) Thanks [@erenkurnaz](https://github.com/erenkurnaz)! - fix: Fix useOne hook transformation in codemod to correctly handle query fields
+
+  Fixed the `use-query-and-result-fields-in-useOne-hook` transformation to properly move all query-related fields (`isLoading`, `refetch`, `error`, `status`, `isSuccess`, `isStale`, `fetchStatus`, `failureCount`) into the `query` object when transforming from v4 to v5 format.
+
+## 4.4.0
+
+### Minor Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: add Refine 4→5 migration utilities
+
+  - New codemod transformations for automated Refine v5 migration including UI library updates.
+
+  Run with: `npx @refinedev/codemod@latest refine4-to-refine5`
+
+  > 🚀 Check our guide at https://refine.dev/docs/migration-guide/4x-to-5x/
+
+## 4.3.1
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- chore: update package descriptions
+
+📢 **Refine Community Release** 📢
+
+- feat: React Router v6 to v7 codemod added.
+
+  For `@refinedev/react-router-v6` to `@refinedev/react-router`:
+
+  ```bash
+  npx @refinedev/codemod@latest refine-react-router-v6-to-refine-react-router
+  ```
+
+  ```diff
+   import routerProvider, { NavigateToResource, UnsavedChangesNotifier, DocumentTitleHandler }
+  - from "@refinedev/react-router-v6";
+   import routerProvider, { NavigateToResource, UnsavedChangesNotifier, DocumentTitleHandler }
+  + from "@refinedev/react-router";
+
+  ```
+
+  For `react-router-dom` to `react-router`:
+
+  ```bash
+  npx @refinedev/codemod@latest react-router-dom-to-react-router"
+  ```
+
+  ```diff
+  -import { RouterProvider } from "react-router-dom";
+  +import { RouterProvider } from "react-router";
+  ```
+
+  See the [migration guide React Router v6 to v7](https://refine.dev/docs/routing/integrations/react-router/migration-guide-v6-to-v7) for more information.
+
+## 4.3.0
+
+### Minor Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6556](https://github.com/refinedev/refine/pull/6556) [`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: React Router v6 to v7 codemod added.
+
+  For `@refinedev/react-router-v6` to `@refinedev/react-router`:
+
+  ```bash
+  npx @refinedev/codemod@latest refine-react-router-v6-to-refine-react-router
+  ```
+
+  ```diff
+   import routerProvider, { NavigateToResource, UnsavedChangesNotifier, DocumentTitleHandler }
+  - from "@refinedev/react-router-v6";
+   import routerProvider, { NavigateToResource, UnsavedChangesNotifier, DocumentTitleHandler }
+  + from "@refinedev/react-router";
+
+  ```
+
+  For `react-router-dom` to `react-router`:
+
+  ```bash
+  npx @refinedev/codemod@latest react-router-dom-to-react-router"
+  ```
+
+  ```diff
+  -import { RouterProvider } from "react-router-dom";
+  +import { RouterProvider } from "react-router";
+  ```
+
+  See the [migration guide React Router v6 to v7](https://refine.dev/docs/routing/integrations/react-router/migration-guide-v6-to-v7) for more information.
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6554](https://github.com/refinedev/refine/pull/6554) [`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706) Thanks [@necatiozmen](https://github.com/necatiozmen)! - chore: update package descriptions
+
 ## 4.2.0
 
 ### Minor Changes

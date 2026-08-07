@@ -3,8 +3,9 @@ title: A Guide for Delete Pods from Kubernetes Nodes - kubectl delete
 description: We'll learn how to delete pods from Kubernetes nodes using the kubectl delete command.
 slug: kubectl-delete-pod
 authors: muhammad_khabbab
-tags: [kubernetes, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/social.png
+category: "Ecosystem / Integrations"
+tags: [kubernetes]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/social.png
 hide_table_of_contents: false
 ---
 
@@ -64,7 +65,7 @@ For Example, if we want to drain minikube node having the pods managed by '**Dae
 **The Above Command will return the following output:**
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/KD_1.png" alt="kubectl delete" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/KD_1.png" alt="Draining minikube node using kubectl drain with ignore-daemonsets and force flags" />
 </div>
 
 <br/>
@@ -78,7 +79,7 @@ It is critical to verify the node's pods before and after the drain to ensure th
 **As you can see in the output below, the above command will return the name, namespace, status, restarts, age, IP, node, and nominated node for each pod. We can see which pods were evicted from the drained node and which nodes they were assigned to by comparing the outputs:**
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/KD_2.png" alt="kubectl delete" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/KD_2.png" alt="Listing all pods across namespaces showing node assignments before and after drain" />
 </div>
 
 <br/>
@@ -105,7 +106,7 @@ For Example, we have a node with the name '**minikube**', and we have drained th
 **The above command will return the following output:**
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/KD_3.png" alt="kubectl delete" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/KD_3.png" alt="Deleting minikube node from cluster using kubectl delete node" />
 </div>
 
 <br/>
@@ -126,7 +127,7 @@ For Example, we will use the command below to mark our node (i.e., minikube) uns
 **The Above Command will return the following output:**
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/KD_4.png" alt="kubectl delete" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/KD_4.png" alt="Marking minikube node as unschedulable using kubectl cordon" />
 </div>
 
 <br/>
@@ -141,7 +142,7 @@ For Example, First, we list the Pods in our 'minikube' node using the following 
 **The above command will return the output below:**
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/KD_5.png" alt="kubectl delete" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/KD_5.png" alt="Listing pods on minikube node using field-selector" />
 </div>
 
 <br/>
@@ -153,7 +154,7 @@ Suppose in the list of pods, we want to delete the pod named '**my-demo-pod**'. 
 **The above command will return the following output:**
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/KD_6.png" alt="kubectl delete" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/KD_6.png" alt="Deleting my-demo-pod from cordoned node" />
 </div>
 
 <br/>
@@ -169,7 +170,7 @@ For Example, we have a deployment named '**example-deployment**', we will scale 
 **The above Command will return the output below:**
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/KD_7.png" alt="kubectl delete" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/KD_7.png" alt="Scaling example-deployment to 4 replicas using kubectl scale" />
 </div>
 
 <br/>
@@ -181,7 +182,7 @@ Now we will list the pods of the '**example deployment**' that comes under the '
 **The above Command will return the output below:**
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/KD_8.png" alt="kubectl delete" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/KD_8.png" alt="Listing nginx pods in example-namespace on minikube node" />
 </div>
 
 <br/>
@@ -193,7 +194,7 @@ Now, we will delete the pod(my-demo-deployment-cbdccf466-p8zjf) listed in the ou
 **The below output shows that the pod is recreated in the same minikube node(as we are using the single-node Kubernetes environment):**
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/KD_9.png" alt="kubectl delete" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/KD_9.png" alt="Pod automatically recreated after deletion, shown in kubectl get pods output" />
 </div>
 
 <br/>
@@ -205,7 +206,7 @@ Now, we will scale down the replica count of 'example-deployment' by using the c
 **The below output shows that the replica count has been scaled down:**
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/KD_10.png" alt="kubectl delete" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/KD_10.png" alt="Scaling example-deployment down to 3 replicas" />
 </div>
 
 <br/>
@@ -221,7 +222,7 @@ Suppose we have a StatefulSet named '**demo-statefulset**' having 3 pods, and we
 **The output below confirms that 'demo-statefulset' has been scaled down to 2 Replicas:**
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/KD_11.png" alt="kubectl delete" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/KD_11.png" alt="Scaling demo-statefulset down to 2 replicas" />
 </div>
 
 <br/>
@@ -241,7 +242,7 @@ Use the `kubectl uncordon` command to mark a node as schedulable and ready to re
 **The above Command will return the following output:**
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/KD_12.png" alt="kubectl delete" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/KD_12.png" alt="Marking minikube node as schedulable again using kubectl uncordon" />
 </div>
 
 <br/>
@@ -255,7 +256,7 @@ After you uncordon a node, you can verify that pods are being scheduled back ont
 **After running the command above, you can see in the output below that the 'demo-deployment' pod, which was deleted from the 'minikube' node when it was cordoned, has been rescheduled and recreated on the 'minikube' node after it was uncordon:**
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-19-kubectl-delete-pod/KD_13.png" alt="kubectl delete" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-19-kubectl-delete-pod/KD_13.png" alt="Pods successfully rescheduled to uncordoned minikube node" />
 </div>
 
 <br/>

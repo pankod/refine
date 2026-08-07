@@ -1,6 +1,8 @@
 ---
 id: custom-layout
-title: Custom Layout
+title: "Custom Layout Tutorial | Sidebar in Refine v5"
+display_title: "Custom Layout"
+description: "Set up Custom Layout in Refine v5. Learn best practices. Explore production tips for sidebar, header for production-ready workflows. Explore with code snippets."
 sidebar_label: Custom Layout
 ---
 
@@ -84,10 +86,10 @@ const CustomSider = () => {
 
 Here's an example of a custom layout, made with help of **Refine**'s hooks and components.
 
-You can find more examples about custom layouts for different UI packages in the [examples](/docs/examples) section.
+You can find more examples about custom layouts for different UI packages in the [examples](/core/templates/) section.
 
 <CodeSandboxExample path="customization-top-menu-layout" />
 
-[Refine]: /docs/core/refine-component
-[cli]: /docs/packages/list-of-packages#swizzle
-[usemenu]: /docs/core/hooks/utilities/use-menu
+[Refine]: /core/docs/core/refine-component
+[cli]: /core/docs/packages/list-of-packages#swizzle
+[usemenu]: /core/docs/core/hooks/utilities/use-menu

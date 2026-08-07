@@ -87,7 +87,7 @@ export default function App() {
 `.trim();
 
 const ProtectedTsxCode = /* jsx */ `
-import { ThemedLayoutV2 } from "@refinedev/antd";
+import { ThemedLayout } from "@refinedev/antd";
 import { Outlet } from "@remix-run/react";
 import { LoaderFunctionArgs, redirect } from "@remix-run/node";
 
@@ -96,9 +96,9 @@ import { LoaderFunctionArgs, redirect } from "@remix-run/node";
  */
 export default function Layout() {
     return (
-        <ThemedLayoutV2>
+        <ThemedLayout>
             <Outlet />
-        </ThemedLayoutV2>
+        </ThemedLayout>
     );
 }
 `.trim();

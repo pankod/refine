@@ -1,36 +1,49 @@
 ---
-title: Framer Motion React Animations
-description: We'll walk you through the features and functionalities of Framer Motion.
+title: "Framer Motion React Animations: Complete Guide"
+description: Learn how to build React animations with Framer Motion (now Motion) covering motion components, variants, scroll-based animations and the new motion/react API.
 slug: framer-motion
 authors: peter_osah
-tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/social.png
+category: "Ecosystem / Integrations"
+tags: [react, css]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/social.png
 hide_table_of_contents: false
+last_update: "2026-03-24"
 ---
+
+**Update (March 2026): This article has been updated for Motion v12 (formerly Framer Motion). All code examples now use the `motion/react` import path. New sections on variants, `whileInView`, accessibility with `useReducedMotion`, and real-world use cases have been added.**
 
 ## Introduction
 
-Modern web development relies heavily on animations to create a dynamic and interesting user experience. Creating animations in React applications can be done using traditional CSS or JavaScript however, it can become very cumbersome. Various libraries like GSAP, React Spring, anime.js, etc were created to combat the ambiguity in creating animations but one worthy to note is Framer Motion. Framer Motion is a famous React animation library that makes constructing complicated animations easier by providing utility animation components as well as hooks. In this article, we will walk you through the features and functionalities of Framer Motion.
+Modern web development relies heavily on animations to create a dynamic and interesting user experience. Creating animations in React applications can be done using traditional CSS or JavaScript, but it can become cumbersome quickly. Various libraries like GSAP, React Spring, and anime.js were created to simplify animation work, but one especially worth noting is Motion (formerly Framer Motion). Motion is a popular React animation library that makes constructing complicated animations easier by providing utility components and hooks. In this article, we will walk you through the core features and some of the more advanced capabilities of Motion.
 
-## What is Framer motion?
+## What is Motion (Framer Motion)?
 
-[Framer-motion](https://www.framer.com/motion/) is an open-source React animation and gesture library that offers a low-level API for integrating animation and gestures into elements in React applications while preserving HTML and SVG semantics.
+[Motion](https://motion.dev/) is an open-source React animation and gesture library that offers a low-level API for integrating animation and gestures into elements in React applications while preserving HTML and SVG semantics.
 
-Framer-motion was made by Framer, the company behind the Framer site builder designed for creative professionals.
+Motion was originally created by Framer and released as "Framer Motion." In 2025 it became an independent project and was renamed to simply "Motion." The package name changed from `framer-motion` to `motion`, and the recommended import path is now `motion/react`. The old `framer-motion` package still works but is no longer actively developed.
 
-## Setting up Framer Motion in React.
+## Setting up Motion in React
 
-To setup framer motion in a React project, you must install the framer motion package using the below commands
-
-**npm**
+To set up Motion in a React project, install the `motion` package:
 
 ```
-npm install framer-motion
+npm install motion
 ```
 
-## Components in Framer
+:::note Migration from framer-motion
+If you are migrating from the old `framer-motion` package, swap your imports:
 
-Framer Motion includes a set of key components that serve as the basis for producing animations They are:
+```diff
+- import { motion, AnimatePresence } from "framer-motion";
++ import { motion, AnimatePresence } from "motion/react";
+```
+
+The API surface is the same, so no other code changes are needed.
+:::
+
+## Components in Motion
+
+Motion includes a set of key components that serve as the basis for producing animations. They are:
 
 ### Motion
 
@@ -39,7 +52,7 @@ The motion component encapsulates `HTML` elements in `React` components, allowin
 **Props available in motion components**
 
 - #### `animate`:
-  The `animate` prop is in responsible for animating `motion` components because it holds the CSS properties to be animated. It is an object that accepts a key-value pair representing the CSS property(in camel case) and its value, respectively.
+  The `animate` prop is responsible for animating `motion` components because it holds the CSS properties to be animated. It is an object that accepts a key-value pair representing the CSS property (in camel case) and its value, respectively.
 
 An example of the animate prop on a motion component is provided below:
 
@@ -77,7 +90,7 @@ From the code above, we can specify the initial animation property and value to 
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/text-opacity-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/text-opacity-min.gif" alt="Text opacity animation example" />
 </div>
 
 - Animating texts using its transform scale:
@@ -97,7 +110,7 @@ From the code above, we can specify the initial animation property and value to 
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/text-scale-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/text-scale-min.gif" alt="Text scale animation example" />
 </div>
 
 - Animating texts using their opacity and scale: you can also combine properties to get the desired animation.
@@ -117,7 +130,7 @@ From the code above, we can specify the initial animation property and value to 
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/text-scale-opacity-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/text-scale-opacity-min.gif" alt="Text scale and opacity animation example" />
 </div>
 
 - Animating texts with translate transforms: We can create a translate animation by defining the x and y positions.
@@ -137,13 +150,13 @@ From the code above, we can specify the initial animation property and value to 
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/text-translate-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/text-translate-min.gif" alt="Text translate animation example" />
 </div>
 
 - #### `layout`
-  The `layout` props is effective in animating layouts (like **height** **width**, flex properties like **justify-content**, **flex-start**, etc). It does this performantly and doesn't trigger browser layout mechanisms with each animation frame by animating layout-related structures with transforms under the hood rather than the specified layout CSS property.
+  The `layout` prop is effective in animating layouts (like **height**, **width**, flex properties like **justify-content**, **flex-start**, etc). It does this performantly and doesn't trigger browser layout mechanisms with each animation frame by animating layout-related structures with transforms under the hood rather than the specified layout CSS property.
 
-An example of the animate prop on a motion component is provided below:
+An example of the layout prop on a motion component is provided below:
 
 ```tsx
 <motion.div layout />
@@ -156,6 +169,8 @@ Here is an example that uses motion layout to animate its expanded parent elemen
 **Code:**
 
 ```tsx
+const [isOpen, setIsOpen] = useState(false);
+
 <motion.div
   layout
   data-expanded={isOpen}
@@ -164,18 +179,18 @@ Here is an example that uses motion layout to animate its expanded parent elemen
   onClick={() => setIsOpen(!isOpen)}
 >
   <motion.div layout className="h-10 w-10 rounded-full bg-white" />
-</motion.div>
+</motion.div>;
 ```
 
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/layout-animations-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/layout-animations-min.gif" alt="Layout animation example using Framer Motion" />
 </div>
 
 - #### `Gestures`
   `motion` components add a straightforward but effective collection of UI gesture handlers to React's core set of event listeners.
-  At the moment, it supports gesture detection for **hover**, **tap**, **pan**, and **drag** is supported. You can add several event listeners to your motion component for each gesture.
+  It supports gesture detection for **hover**, **tap**, **pan**, and **drag**. You can add several event listeners to your motion component for each gesture.
 
 An example of a gesture handler on a motion component is shown below:
 
@@ -208,7 +223,7 @@ Below is an example of a scale animation displayed on hover:
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/hover-gesture-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/hover-gesture-min.gif" alt="Hover gesture animation example" />
 </div>
 
 - #### `Transitions`
@@ -237,7 +252,7 @@ An example of the `transition` prop with `duration`, `ease`, and `delay` on a mo
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/transition-properties-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/transition-properties-min.gif" alt="Transition properties animation example" />
 </div>
 
 the transition props can also receive props that specify which sort of animation to utilize (**Tween**, **Spring**, or **Inertia**).
@@ -273,16 +288,14 @@ the transition props can also receive props that specify which sort of animation
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/transition-types-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/transition-types-min.gif" alt="Transition types animation example" />
 </div>
-
-#### Examples of other animations with motion components
 
 ### AnimatePresence
 
 Components removed from the React tree can be animated out using the `AnimatePresence` component.
 
-This component solves many cases such as animating an element on react that was conditionally rendered as React lacks a lifecycle method that supports the notification of components to be unmounted as well as allowing them to defer unmounting until after an action (like an animation) has been executed.
+This component solves many cases such as animating an element in React that was conditionally rendered, as React lacks a lifecycle method that supports the notification of components to be unmounted as well as allowing them to defer unmounting until after an action (like an animation) has been executed.
 
 #### Examples of animations using AnimatePresence
 
@@ -292,7 +305,7 @@ An example below is an animation done on a conditionally rendered div box.
 
 ```tsx
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 const App = () => {
   const [show, setShow] = useState(true);
@@ -316,6 +329,7 @@ const App = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             className="m-0 flex h-[150px] w-[150px] items-center justify-center rounded-[30px] bg-black text-white"
           />
         ) : null}
@@ -328,10 +342,146 @@ const App = () => {
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/animation-presence-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/animation-presence-min.gif" alt="AnimatePresence enter and exit animation example" />
 </div>
 
-## Hooks in Framer
+### Variants
+
+Variants let you define named animation states in a single object and reference them by key across `initial`, `animate`, `exit`, and gesture props like `whileHover`. This keeps animation logic out of JSX and makes it reusable.
+
+```tsx
+import { motion } from "motion/react";
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
+
+function Card({ title }: { title: string }) {
+  return (
+    <motion.div
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
+      transition={{ duration: 0.4 }}
+      className="rounded-xl bg-white p-6 shadow-md"
+    >
+      <h3 className="text-lg font-semibold">{title}</h3>
+    </motion.div>
+  );
+}
+```
+
+Where variants really shine is orchestrating children. A parent component can propagate variant labels down the tree, and each child resolves the label against its own `variants` object. Combined with `staggerChildren` in the parent's transition, you get staggered lists with minimal code:
+
+```tsx
+const listVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, x: -10 },
+  visible: { opacity: 1, x: 0 },
+};
+
+function List({ items }: { items: string[] }) {
+  return (
+    <motion.ul variants={listVariants} initial="hidden" animate="visible">
+      {items.map((item) => (
+        <motion.li key={item} variants={itemVariants}>
+          {item}
+        </motion.li>
+      ))}
+    </motion.ul>
+  );
+}
+```
+
+### whileInView
+
+The `whileInView` prop triggers an animation when the element enters the viewport. Combined with the `viewport` option, you can control the threshold and whether the animation should only run once.
+
+```tsx
+<motion.div
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, amount: 0.3 }}
+  transition={{ duration: 0.5 }}
+  className="rounded-lg bg-gray-100 p-8"
+>
+  This fades in as you scroll down, and stays visible.
+</motion.div>
+```
+
+Setting `once: true` means the animation fires only on the first intersection, which avoids the flickering that happens when an element repeatedly enters and leaves the viewport during scrolling. The `amount` property (0 to 1) controls how much of the element must be visible before the animation starts.
+
+`whileInView` also works with variants, making it straightforward to stagger a group of cards or sections as the user scrolls through a page:
+
+```tsx
+const sectionVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+function FeatureGrid({ features }: { features: string[] }) {
+  return (
+    <motion.div
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      className="grid grid-cols-3 gap-4"
+    >
+      {features.map((f) => (
+        <motion.div
+          key={f}
+          variants={itemVariants}
+          className="rounded bg-white p-4 shadow"
+        >
+          {f}
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+}
+```
+
+## Hooks in Motion
+
+### useReducedMotion
+
+The `useReducedMotion` hook returns `true` when the user has enabled the "Reduce motion" setting in their operating system. You can use it to tone down or disable animations entirely for users who prefer less movement on screen.
+
+```tsx
+import { motion, useReducedMotion } from "motion/react";
+
+function FadeIn({ children }: { children: React.ReactNode }) {
+  const shouldReduce = useReducedMotion();
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: shouldReduce ? 0 : 20 }}
+      animate={{ opacity: 1, y: 0 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+```
+
+When `shouldReduce` is `true`, the component skips the vertical slide and only fades in, which avoids triggering motion-sickness for users who have opted out of animations at the OS level. Making this a habit in your components is a small effort that goes a long way for accessibility.
 
 ### useSpring
 
@@ -345,14 +495,14 @@ The `useSpring` hook generates a motion value that animates to its latest target
 const spring = useSpring(0);
 ```
 
-Or, with a motionValue provided by framer
+Or, with a motionValue provided by Motion
 
 ```tsx
 const x = useMotionValue(0);
 const spring = useSpring(x);
 ```
 
-UseSpring can be configured using the [standard spring transition options](https://www.framer.com/motion/transition/#spring).
+UseSpring can be configured using the [standard spring transition options](https://motion.dev/docs/react-transitions#spring).
 
 ```tsx
 useSpring(x, { stiffness: 1000, damping: 10 });
@@ -366,7 +516,7 @@ An example is to utilize the `useSpring` hook to animate the scale parameters of
 
 ```tsx
 import { useEffect } from "react";
-import { motion, useSpring } from "framer-motion";
+import { motion, useSpring } from "motion/react";
 
 const App = () => {
   const x = useSpring(0.5);
@@ -400,106 +550,124 @@ const App = () => {
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/use-spring-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/use-spring-min.gif" alt="useSpring animation example" />
 </div>
 
 ### useScroll
 
-The `useScroll` hook is a hook in Framer Motion that is used to watch scroll positions on an element or page. It is frequently used to create scroll-linked animations such as progress bars and parallax effects.
+The `useScroll` hook is used to watch scroll positions on an element or page. It is frequently used to create scroll-linked animations such as progress bars and parallax effects.
 
 the `useScroll` hook returns four motion values:
 
-- **ScrollX/Y**: The absolute scroll position of the X and Y axis (in pixels).
-- **scrollXProgress/YProgress**: The scroll position (of the X and Y axis) between the specified offsets, expressed as a value between 0 and 1.
+- **scrollX/scrollY**: The absolute scroll position of the X and Y axis (in pixels).
+- **scrollXProgress/scrollYProgress**: The scroll position (of the X and Y axis) between the specified offsets, expressed as a value between 0 and 1.
 
 #### Use cases of the useScroll hook.
 
-Let's look at an example of how we can use motion values to construct the classic scroll indicator. Simply send the `scrollYProgress` motion value to the styleX style property of the progress bar element, as demonstrated in the code example below.
+Let's look at an example of how we can use motion values to construct the classic scroll indicator. Simply send the `scrollYProgress` motion value to the `scaleX` style property of the progress bar element, as demonstrated in the code example below.
 
 **Code:**
 
 ```tsx
-<motion.div className="progress-bar bg-red-500 fixed top-0 left-0 right-0 h-2.5 origin-left" style={{ scaleX }} />
-  <h1>
-    <code>useScroll</code> with spring smoothing
-  </h1>
+import { useScroll, useSpring, motion } from "motion/react";
 
-  <article>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ac
-      rhoncus quam.
-    </p>
-    <p>
-      Fringilla quam urna. Cras turpis elit, euismod eget ligula quis,
-      imperdiet sagittis justo. In viverra fermentum ex ac vestibulum.
-      Aliquam eleifend nunc a luctus porta. Mauris laoreet augue ut felis
-      blandit, at iaculis odio ultrices. Nulla facilities. Vestibulum cursus
-      ipsum tellus, eu tincidunt neque tincidunt a.
-    </p>
-    <h2>Sub-header</h2>
-    <p>
-      In eget sodales arcu, consectetur efficitur metus. Duis efficitur
-      tincidunt odio, sit amet laoreet massa fringilla eu.
-    </p>
-    <p>
-      Pellentesque id lacus pulvinar elit pulvinar pretium ac non urna.
-      Mauris id mauris vel arcu commodo venenatis. Aliquam eu risus arcu.
-      Proin sit amet lacus mollis, semper massa ut, rutrum mi.
-    </p>
-    <p>Sed sem nisi, luctus consequat ligula in, congue sodales nisl.</p>
-    <p>
-      Vestibulum bibendum at erat sit amet pulvinar. Pellentesque pharetra
-      leo vitae tristique rutrum. Donec ut volutpat ante, ut suscipit leo.
-    </p>
-    <h2>Sub-header</h2>
-    <p>
-      Maecenas quis elementum nulla, in lacinia nisl. Ut rutrum fringilla
-      aliquet. Pellentesque auctor vehicula malesuada. Aliquam id feugiat
-      sem, sit amet tempor nulla. Quisque fermentum felis faucibus, vehicula
-      metus ac, interdum nibh. Curabitur vitae convallis ligula. Integer ac
-      enim vel felis pharetra laoreet. Interdum et malesuada fames ac ante
-      ipsum primis in faucibus. Pellentesque hendrerit ac augue quis
-      pretium.
-    </p>
-    <p>
-      Morbi ut scelerisque nibh. Integer auctor, massa non dictum tristique,
-      elit metus efficitur elit, ac pretium sapien nisl nec ante. In et ex
-      ultricies, mollis mi in, euismod dolor.
-    </p>
-    <p>Quisque convallis ligula non magna efficitur tincidunt.</p>
-    <p>
-      Pellentesque id lacus pulvinar elit pulvinar pretium ac non urna.
-      Mauris id mauris vel arcu commodo venenatis. Aliquam eu risus arcu.
-      Proin sit amet lacus mollis, semper massa ut, rutrum mi.
-    </p>
-    <p>Sed sem nisi, luctus consequat ligula in, congue sodales nisl.</p>
-    <p>
-      Vestibulum bibendum at erat sit amet pulvinar. Pellentesque pharetra
-      leo vitae tristique rutrum. Donec ut volutpat ante, ut suscipit leo.
-    </p>
-    <h2>Sub-header</h2>
-    <p>
-      Maecenas quis elementum nulla, in lacinia nisl. Ut rutrum fringilla
-      aliquet. Pellentesque auctor vehicula malesuada. Aliquam id feugiat
-      sem, sit amet tempor nulla. Quisque fermentum felis faucibus, vehicula
-      metus ac, interdum nibh. Curabitur vitae convallis ligula. Integer ac
-      enim vel felis pharetra laoreet. Interdum et malesuada fames ac ante
-      ipsum primis in faucibus. Pellentesque hendrerit ac augue quis
-      pretium.
-    </p>
-    <p>
-      Morbi ut scelerisque nibh. Integer auctor, massa non dictum tristique,
-      elit metus efficitur elit, ac pretium sapien nisl nec ante. In et ex
-      ultricies, mollis mi in, euismod dolor.
-    </p>
-    <p>Quisque convallis ligula non magna efficitur tincidunt.</p>
-  </article>
+function ScrollProgressBar() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
+  return (
+    <>
+      <motion.div
+        className="progress-bar bg-red-500 fixed top-0 left-0 right-0 h-2.5 origin-left"
+        style={{ scaleX }}
+      />
+      <h1>
+        <code>useScroll</code> with spring smoothing
+      </h1>
+
+      <article>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ac
+          rhoncus quam.
+        </p>
+        <p>
+          Fringilla quam urna. Cras turpis elit, euismod eget ligula quis,
+          imperdiet sagittis justo. In viverra fermentum ex ac vestibulum.
+          Aliquam eleifend nunc a luctus porta. Mauris laoreet augue ut felis
+          blandit, at iaculis odio ultrices. Nulla facilisis. Vestibulum cursus
+          ipsum tellus, eu tincidunt neque tincidunt a.
+        </p>
+        <h2>Sub-header</h2>
+        <p>
+          In eget sodales arcu, consectetur efficitur metus. Duis efficitur
+          tincidunt odio, sit amet laoreet massa fringilla eu.
+        </p>
+        <p>
+          Pellentesque id lacus pulvinar elit pulvinar pretium ac non urna.
+          Mauris id mauris vel arcu commodo venenatis. Aliquam eu risus arcu.
+          Proin sit amet lacus mollis, semper massa ut, rutrum mi.
+        </p>
+        <p>Sed sem nisi, luctus consequat ligula in, congue sodales nisl.</p>
+        <p>
+          Vestibulum bibendum at erat sit amet pulvinar. Pellentesque pharetra
+          leo vitae tristique rutrum. Donec ut volutpat ante, ut suscipit leo.
+        </p>
+        <h2>Sub-header</h2>
+        <p>
+          Maecenas quis elementum nulla, in lacinia nisl. Ut rutrum fringilla
+          aliquet. Pellentesque auctor vehicula malesuada. Aliquam id feugiat
+          sem, sit amet tempor nulla. Quisque fermentum felis faucibus, vehicula
+          metus ac, interdum nibh. Curabitur vitae convallis ligula. Integer ac
+          enim vel felis pharetra laoreet. Interdum et malesuada fames ac ante
+          ipsum primis in faucibus. Pellentesque hendrerit ac augue quis
+          pretium.
+        </p>
+        <p>
+          Morbi ut scelerisque nibh. Integer auctor, massa non dictum tristique,
+          elit metus efficitur elit, ac pretium sapien nisl nec ante. In et ex
+          ultricies, mollis mi in, euismod dolor.
+        </p>
+        <p>Quisque convallis ligula non magna efficitur tincidunt.</p>
+        <p>
+          Pellentesque id lacus pulvinar elit pulvinar pretium ac non urna.
+          Mauris id mauris vel arcu commodo venenatis. Aliquam eu risus arcu.
+          Proin sit amet lacus mollis, semper massa ut, rutrum mi.
+        </p>
+        <p>Sed sem nisi, luctus consequat ligula in, congue sodales nisl.</p>
+        <p>
+          Vestibulum bibendum at erat sit amet pulvinar. Pellentesque pharetra
+          leo vitae tristique rutrum. Donec ut volutpat ante, ut suscipit leo.
+        </p>
+        <h2>Sub-header</h2>
+        <p>
+          Maecenas quis elementum nulla, in lacinia nisl. Ut rutrum fringilla
+          aliquet. Pellentesque auctor vehicula malesuada. Aliquam id feugiat
+          sem, sit amet tempor nulla. Quisque fermentum felis faucibus, vehicula
+          metus ac, interdum nibh. Curabitur vitae convallis ligula. Integer ac
+          enim vel felis pharetra laoreet. Interdum et malesuada fames ac ante
+          ipsum primis in faucibus. Pellentesque hendrerit ac augue quis
+          pretium.
+        </p>
+        <p>
+          Morbi ut scelerisque nibh. Integer auctor, massa non dictum tristique,
+          elit metus efficitur elit, ac pretium sapien nisl nec ante. In et ex
+          ultricies, mollis mi in, euismod dolor.
+        </p>
+        <p>Quisque convallis ligula non magna efficitur tincidunt.</p>
+      </article>
+    </>
+  );
+}
 ```
 
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/use-scroll-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/use-scroll-min.avif" alt="useScroll progress animation example" />
 </div>
 
 The `useScroll` motion values can be combined with other motion value hooks, such as `useTransform` and `useSpring`, to create sophisticated animations like the one shown below.
@@ -533,7 +701,7 @@ const data = [
 function Images({ text, url }: { text: string; url: string }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref });
-  const scale = useSpring(useTransform(scrollYProgress, [0, 1], [10, 20]), {
+  const scale = useSpring(useTransform(scrollYProgress, [0, 1], [1, 2]), {
     stiffness: 100,
     damping: 5,
   });
@@ -566,7 +734,7 @@ function App() {
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/usescroll-img-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/usescroll-img-min.avif" alt="Image used in the useScroll parallax demo" />
 </div>
 
 ### useTransform
@@ -592,7 +760,7 @@ An example is to utilize the `useTransform` hook to animate the background param
 **Code:**
 
 ```tsx
-import { motion, useTransform, motionValue } from "framer-motion";
+import { motion, useTransform, useMotionValue } from "motion/react";
 
 const App = () => {
   const x = useMotionValue(0);
@@ -609,13 +777,6 @@ const App = () => {
         style={{
           backgroundColor,
           color,
-        }}
-        animate={{
-          transition: {
-            duration: 0.8,
-            delay: 0.5,
-            ease: [0, 0.71, 0.2, 1.01],
-          },
         }}
         onMouseEnter={() => {
           x.set(100);
@@ -636,7 +797,7 @@ const App = () => {
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/usetransform-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/usetransform-min.gif" alt="useTransform animation example" />
 </div>
 
 Another example is to combine the `useTransform` hook with the `useSpring` hook to get a spring animation on a transformed motion value on hover.
@@ -644,7 +805,7 @@ Another example is to combine the `useTransform` hook with the `useSpring` hook 
 **Code:**
 
 ```tsx
-import { motion, useSpring, useTransform, useMotionValue } from "framer-motion";
+import { motion, useSpring, useTransform, useMotionValue } from "motion/react";
 
 const App = () => {
   const springConfig = { stiffness: 100, damping: 5 };
@@ -654,7 +815,7 @@ const App = () => {
 
   const scale = useSpring(useTransform(scaleMV, [0, 1], [0, 1]), springConfig);
 
-  const translateX = useSpring(
+  const rotateX = useSpring(
     useTransform(transformMV, [0, 100], [0, 50]),
     springConfig,
   );
@@ -665,7 +826,7 @@ const App = () => {
         className="flex h-10 w-full cursor-pointer items-center justify-center rounded-lg bg-black p-4 text-sm text-white"
         style={{
           scale,
-          rotateX: translateX,
+          rotateX,
         }}
         onMouseEnter={() => {
           scaleMV.set(1);
@@ -684,7 +845,7 @@ const App = () => {
 ```
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/usetransform-usespring-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/usetransform-usespring-min.gif" alt="useTransform with useSpring animation example" />
 </div>
 
 ### useVelocity
@@ -694,18 +855,16 @@ When a motion value is supplied, the `useVelocity` hook takes it and provides a 
 **Code:**
 
 ```tsx
-import { useMotionValue, useVelocity } from "framer-motion";
+import { useMotionValue, useVelocity, useMotionValueEvent } from "motion/react";
 
 function Component() {
   const x = useMotionValue(0);
 
   const xVelocity = useVelocity(x);
 
-  useEffect(() => {
-    return xVelocity.onChange((latestVelocity) => {
-      console.log("Velocity", latestVelocity);
-    });
-  }, []);
+  useMotionValueEvent(xVelocity, "change", (latestVelocity) => {
+    console.log("Velocity", latestVelocity);
+  });
 
   return <motion.div style={{ x }} />;
 }
@@ -714,7 +873,7 @@ function Component() {
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/usevelocity-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/usevelocity-min.gif" alt="useVelocity animation example" />
 </div>
 
 #### Use cases of the useVelocity hook.
@@ -766,40 +925,210 @@ const App = () => {
 **View:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-20-framer-motion/usetransform-usespring-min.gif" alt="typescript zod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-20-framer-motion/usetransform-usespring-min.gif" alt="useTransform with useSpring animation example" />
 </div>
 
-## When to use Framer Motion
+## Motion + Tailwind CSS
+
+If you are already using [Tailwind CSS](https://tailwindcss.com/) for styling, Motion is a natural pairing. Tailwind handles the visual design (colors, spacing, typography) while Motion handles the movement. You don't need CSS keyframes or timeline-based libraries, you just drop `motion.` prefixed elements into your existing Tailwind markup.
+
+A practical pattern is a notification toast that slides in and slides out:
+
+```tsx
+import { motion, AnimatePresence } from "motion/react";
+
+function Toast({ message, visible }: { message: string; visible: boolean }) {
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ type: "spring", damping: 20, stiffness: 300 }}
+          className="fixed right-4 top-4 z-50 rounded-lg bg-gray-900 px-4 py-3 text-sm text-white shadow-lg"
+        >
+          {message}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+```
+
+Tailwind gives you the positioning, color, and radius. Motion gives you the spring physics. Neither gets in the other's way, and the result is a component you can drop into any project without extra CSS files or global animation configuration.
+
+## Real-World Use Case: Refine + Motion
+
+[Refine](https://refine.dev/) is a React meta-framework for building [internal tools](/blog/what-is-internal-tools/), admin panels, and dashboards. Because Refine is headless, you are free to use any UI library or animation approach. Motion fits naturally into Refine projects for adding polish to data-heavy interfaces.
+
+Here are a few patterns that work well together.
+
+### Drawer open/close with AnimatePresence
+
+A detail drawer that slides in from the right when a user selects a record:
+
+```tsx
+import { motion, AnimatePresence } from "motion/react";
+
+function RecordDrawer({
+  open,
+  onClose,
+  children,
+}: {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.4 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 z-40 bg-black"
+          />
+          <motion.aside
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed right-0 top-0 z-50 h-full w-[400px] overflow-y-auto bg-white p-6 shadow-xl"
+          >
+            {children}
+          </motion.aside>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+```
+
+### Staggered table rows
+
+Rows that fade in one after another when data loads, using the variants pattern:
+
+```tsx
+import { motion } from "motion/react";
+
+const tableVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.04 } },
+};
+
+const rowVariants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { opacity: 1, y: 0 },
+};
+
+function AnimatedTable({ rows }: { rows: { id: number; name: string }[] }) {
+  return (
+    <motion.tbody variants={tableVariants} initial="hidden" animate="visible">
+      {rows.map((row) => (
+        <motion.tr key={row.id} variants={rowVariants}>
+          <td className="px-4 py-2">{row.id}</td>
+          <td className="px-4 py-2">{row.name}</td>
+        </motion.tr>
+      ))}
+    </motion.tbody>
+  );
+}
+```
+
+### Form validation shake
+
+A quick horizontal shake that draws attention to a field with a validation error:
+
+```tsx
+import { motion } from "motion/react";
+
+function ShakeOnError({
+  error,
+  children,
+}: {
+  error: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <motion.div
+      animate={error ? { x: [0, -6, 6, -4, 4, 0] } : { x: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+```
+
+These patterns are small and composable. You can mix and match them the same way you combine Refine's data hooks with any UI component.
+
+## When to use Motion
 
 #### Complex Animations
 
-If your project is something where you need complex animations that involve multi-step or multiple elements, Framer Motion quickly becomes the best way to handle such kinds of robust APIs and features.
+If your project needs complex animations that involve multi-step sequences or multiple elements, Motion's robust API, especially variants and staggered children, makes orchestration straightforward.
 
 #### Performance
 
-If performance is a critical point in your application, Framer Motion was built for performance and will easily handle the animations of even hundreds of elements on the screen.
+Motion was built for performance and can handle hundreds of animated elements on the screen using hardware-accelerated transforms.
 
 #### Interactive UI
 
-For making interactive user interfaces, it allows you to make elements react to the user input smoothly and visually appealingly, which generally provides tools like gestures and drag animations.
+For making interactive user interfaces, Motion provides gesture handlers for hover, tap, pan, and drag that let elements react to user input smoothly.
 
 #### State-based Animations
 
-If you want to animate components based on changing state, Framer Motion is seamless with React's state and props; it makes developing dynamic animations very easy.
+If you want to animate components based on changing state, Motion integrates seamlessly with React's state and props.
 
-#### Ease of Use
+#### Scroll-triggered Animations
 
-If you'd like a library that can easily be integrated and used in your React project, Framer Motion exposes a user-friendly API with features and examples that are well documented.
+With `whileInView` and the `useScroll` hook, Motion makes viewport-driven animations trivial, which is a common requirement for landing pages and dashboards.
 
-#### Custom Animations
+#### Accessibility
 
-In case the need arises for more refined and controlled fine-tuning of your animations, with Framer Motion, you can define your animations down to the smallest detail.
+The `useReducedMotion` hook gives you a one-line way to respect user preferences and reduce or disable motion for users who need it.
 
-#### Choreographed Animations
+## What's New in Motion v12
 
-For choreographed or synchronized animations, Framer Motion includes tools such as variants and keyframes to make their management super easy.
+The library went through two major milestones since its early days as Framer Motion. In mid-2025 it became an independent project and was renamed to **Motion**, with the package changing from `framer-motion` to `motion` and the recommended import moving to `motion/react`. Then came **v12**, the current major release, which brought a long list of improvements:
+
+- **New color type support**: `oklch`, `oklab`, `lab`, `lch`, and `color-mix` values can now be animated directly.
+- **Hardware-accelerated scroll animations**: `useScroll` and the `scroll()` function now leverage hardware acceleration for smoother performance.
+- **`layoutAnchor` prop**: Configures a custom anchor point for resolving relative projection boxes in layout animations.
+- **Axis-locked layout animations**: `layout="x"` and `layout="y"` let you animate layout changes on a single axis.
+- **`skipInitialAnimation` in `useSpring`**: Skip the first animation if the value is set before the component mounts.
+- **ViewTimeline support**: CSS `ViewTimeline` can now drive `scroll()`-based animations.
+- **React 19 compatibility**: Full support for concurrent rendering and the latest React features.
+
+If you are still on `framer-motion`, upgrading to `motion@^12` is a straightforward swap of the package name and import paths, with no API-level breaking changes for most usage.
+
+## FAQ
+
+### Is Framer Motion the same as Motion?
+
+Yes. Framer Motion was renamed to Motion in 2025 when it became an independent project. The API is the same, the package just moved from `framer-motion` to `motion` on npm, and the import path changed to `motion/react`.
+
+### Do I need to rewrite my code when migrating from framer-motion to motion?
+
+No. The only required change is swapping the import path from `"framer-motion"` to `"motion/react"`. The component and hook APIs are identical.
+
+### How do I respect users who prefer reduced motion?
+
+Use the `useReducedMotion` hook. It returns `true` when the operating system's "Reduce motion" setting is enabled, letting you conditionally simplify or disable animations.
+
+### Can I use Motion with Tailwind CSS?
+
+Absolutely. Tailwind handles visual styling and Motion handles animation. You apply Tailwind classes for layout and appearance, then use Motion props like `initial`, `animate`, and `whileHover` for movement. They don't conflict.
+
+### What is the difference between animate and whileInView?
+
+`animate` runs immediately when the component mounts. `whileInView` waits until the element scrolls into the viewport. Use `whileInView` with `viewport={{ once: true }}` for scroll-triggered entrance animations.
 
 ## Conclusion
 
-In this article, we learned how to use various Framer Motion components and props to create stunning animations with Framer motion. Framer Motion has more amazing features in its [documentation](https://www.framer.com/motion/) that we did not cover in this tutorial. You should check them out.
-I hope this article becomes useful to you in building animations in React.
+Motion (formerly Framer Motion) has grown into one of the most capable animation libraries in the React ecosystem. Between `motion` components, variants, scroll-driven hooks, and gesture handlers, it covers everything from simple fade-ins to complex choreographed sequences.
+
+For more, check the official [Motion documentation](https://motion.dev/). If you're building [internal tools](/blog/what-is-internal-tools/) or admin panels with React, combining Motion with a framework like [Refine](https://refine.dev/) gives you both productivity and polish.

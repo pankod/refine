@@ -42,14 +42,29 @@ const renderItem = (item: IProduct) => {
 };
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "products",
-      list: ProductList,
-    },
-  ],
-});
-
-render(<RefineAntdDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "products",
+          list: "/products",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/products"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<ProductList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

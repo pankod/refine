@@ -31,7 +31,10 @@ export const PostList = () => {
 
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-  const { data, isLoading } = useMany<ICategory>({
+  const {
+    result: data,
+    query: { isLoading },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -42,12 +45,16 @@ export const PostList = () => {
   const { selectProps: categorySelectProps } = useSelect<ICategory>({
     resource: "categories",
     defaultValue: categoryIds,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const {
     mutate,
-    isSuccess,
-    isLoading: deleteManyIsLoading,
+
+    mutation: { isSuccess, isPending: deleteManyIsLoading },
   } = useDeleteMany<IPost>();
 
   const deleteSelectedItems = () => {

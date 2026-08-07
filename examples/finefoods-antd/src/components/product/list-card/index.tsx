@@ -22,7 +22,7 @@ import { PaginationTotal } from "../../paginationTotal";
 import { EyeOutlined, TagOutlined } from "@ant-design/icons";
 import { useMemo } from "react";
 import { useStyles } from "./styled";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 export const ProductListCard = () => {
   const { styles, cx } = useStyles();
@@ -32,30 +32,31 @@ export const ProductListCard = () => {
   const { pathname } = useLocation();
   const { showUrl } = useNavigation();
 
-  const {
-    listProps: productListProps,
-    filters,
-    setFilters,
-  } = useSimpleList<IProduct, HttpError>({
-    pagination: {
-      current: 1,
-      pageSize: 12,
-    },
-    filters: {
-      initial: [
-        {
-          field: "category.id",
-          operator: "in",
-          value: [],
-        },
-      ],
-    },
-  });
+  const //`useSimpleList` does not accept all of Ant Design's `List` component props anymore. You can directly use `List` component instead.,
+    {
+      listProps: productListProps,
+      filters,
+      setFilters,
+    } = useSimpleList<IProduct, HttpError>({
+      pagination: {
+        currentPage: 1,
+        pageSize: 12,
+      },
+      filters: {
+        initial: [
+          {
+            field: "category.id",
+            operator: "in",
+            value: [],
+          },
+        ],
+      },
+    });
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useList<
-    ICategory,
-    HttpError
-  >({
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useList<ICategory, HttpError>({
     resource: "categories",
     pagination: {
       mode: "off",

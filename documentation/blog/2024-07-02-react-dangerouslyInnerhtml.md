@@ -3,9 +3,11 @@ title: When to use dangerouslySetInnerHTML in React?
 description: Find out when to use dangerouslySetInnerHTML in React and how it can help avoid XSS attacks.
 slug: use-react-dangerouslysetinnerhtml
 authors: clara_ekekenta
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-25-react-dangerouslyInnerhtml/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-25-react-dangerouslyInnerhtml/social-2.png
 hide_table_of_contents: false
+last_update: 2024-07-03
 ---
 
 **This article was last updated on July 02, 2024, to add sections for XSS Attacks and Risks of Using innerHTML.**
@@ -72,7 +74,7 @@ const App = () => {
 A piece of JavaScript code was embedded in the above code. This will trigger an alert each time a user tries to access the application. This is because the data was not sanitized before being rendered in the application. The above code will return the below result.
 
 ```tsx
-lorem ipsum <img src="" onerror="alert('mailicious message');" />
+lorem ipsum <img src="" alt="Malicious image payload" onerror="alert('mailicious message');" />
 ```
 
 As shown below, you can sanitize the data to remove all malicious code and scripts embedded in it.
@@ -98,7 +100,7 @@ export default App;
 The above code will strip out the script in the data that has been rendered on the application and the result below.
 
 ```tsx
- lorem test <img src="">
+ lorem test <img src="" alt="Empty image placeholder">
 ```
 
 ### Risks involved with using innerHTML
@@ -124,7 +126,7 @@ npx superplate-cli blog
 The above command will prompt you to choose the configuration for your project. Your selection should look like the screenshot below.
 
 <div class="img-container" align-items="center" style={{alignSelf:"center", width:"400px"}} >
-   <img   src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-25-react-dangerouslyInnerhtml/dangerouslySetInnerhtml-cli.png"  alt="dangerouslySetInnerhtml cli" />
+  <img   src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-25-react-dangerouslyInnerhtml/dangerouslySetInnerhtml-cli.png"  alt="Superplate CLI configuration prompt" />
 </div>
 
 <br/>
@@ -211,7 +213,7 @@ For the Card title and Text, we added div elements and attached the **dangerousl
 To allow the div where the contents are rendered to have children, we passed in the `--html` key to **dangerouslySetInnerHTML** and wrapped the content to be rendered in the dompurify **sanitize** method.
 
 <div class="img-container" align-items="center" >
-   <img   src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-25-react-dangerouslyInnerhtml/dangerouslySetInnerhtml-usage.png"  alt="dangerouslySetInnerhtml usage" />
+  <img   src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-25-react-dangerouslyInnerhtml/dangerouslySetInnerhtml-usage.png"  alt="Rendered blog cards with sanitized HTML content" />
 </div>
 
 <br/>

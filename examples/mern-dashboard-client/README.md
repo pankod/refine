@@ -8,8 +8,8 @@
 <div align="center">
     <a href="https://refine.dev">Home Page</a> |
     <a href="https://discord.gg/refine">Discord</a> |
-    <a href="https://refine.dev/examples/">Examples</a> | 
-    <a href="https://refine.dev/blog/">Blog</a> | 
+    <a href="https://refine.dev/examples/">Examples</a> |
+    <a href="https://refine.dev/blog/">Blog</a> |
     <a href="https://refine.dev/docs/">Documentation</a>
 </div>
 </div>
@@ -32,7 +32,7 @@
 
 ![app_cover](https://user-images.githubusercontent.com/18739364/218060209-b0119d40-5c9c-48d0-b96b-ec802816ab50.png)
 
-[Refer to the server app source code](https://github.com/refinedev/refine/tree/master/examples/mern-dashboard-server)
+[Refer to the server app source code](https://github.com/refinedev/refine/tree/main/examples/mern-dashboard-server)
 
 With modern material design, a fully functional dashboard, a property management page, and a users page - both connected to our database and a profile page that connects the two, this video is the updated full-stack MERN course you’ve all been waiting for.
 

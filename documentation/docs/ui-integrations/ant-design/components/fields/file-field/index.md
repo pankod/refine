@@ -1,5 +1,8 @@
 ---
-title: File
+title: "Ant Design File Field Component | UI Component in Refine v5"
+display_title: "File"
+sidebar_label: "File"
+description: "Integrate File Field in Refine v5. Learn best practices. Learn integration patterns for Ant Design for polished admin UIs. Learn with code examples."
 swizzle: true
 ---
 
@@ -7,7 +10,7 @@ This field is used to display files and uses [`<Typography.Link>`](https://ant.d
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -15,7 +18,9 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 
 Let's see how we can use `<FileField>` with the example in the edit page:
 
-```tsx live
+```tsx live previewHeight=280px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import {
   List,
@@ -32,7 +37,7 @@ const PostList: React.FC = () => {
     <List>
       <Table {...tableProps} rowKey="id">
         <Table.Column dataIndex="id" title="ID" />
-        <Table.Column dataIndex="title" title="Title" width="50%" />
+        <Table.Column dataIndex="title" title="Title" />
         <Table.Column<IPost>
           title="Image"
           dataIndex="image"
@@ -40,7 +45,6 @@ const PostList: React.FC = () => {
             // highlight-next-line
             <FileField src={record.image[0].url} />
           )}
-          width="50%"
         />
       </Table>
     </List>
@@ -59,14 +63,27 @@ interface IPost {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <PostList />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

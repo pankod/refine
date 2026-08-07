@@ -12,15 +12,15 @@
 | [useDeleteMany][use-delete-many]                            | [deleteMany](#deletemany) | delete multiple records.    |
 | [useUpdateMany][use-update-many]                            | [updateMany](#updatemany) | update multiple records.    |
 
-[use-api-url]: /docs/data/hooks/use-api-url/
-[use-create]: /docs/data/hooks/use-create/
-[use-create-many]: /docs/data/hooks/use-create-many/
-[use-custom]: /docs/data/hooks/use-custom/
-[use-delete]: /docs/data/hooks/use-delete/
-[use-delete-many]: /docs/data/hooks/use-delete-many/
-[use-list]: /docs/data/hooks/use-list/
-[use-infinite-list]: /docs/data/hooks/use-infinite-list/
-[use-many]: /docs/data/hooks/use-many/
-[use-one]: /docs/data/hooks/use-one/
-[use-update]: /docs/data/hooks/use-update/
-[use-update-many]: /docs/data/hooks/use-update-many/
+[use-api-url]: /core/docs/data/hooks/use-api-url/
+[use-create]: /core/docs/data/hooks/use-create/
+[use-create-many]: /core/docs/data/hooks/use-create-many/
+[use-custom]: /core/docs/data/hooks/use-custom/
+[use-delete]: /core/docs/data/hooks/use-delete/
+[use-delete-many]: /core/docs/data/hooks/use-delete-many/
+[use-list]: /core/docs/data/hooks/use-list/
+[use-infinite-list]: /core/docs/data/hooks/use-infinite-list/
+[use-many]: /core/docs/data/hooks/use-many/
+[use-one]: /core/docs/data/hooks/use-one/
+[use-update]: /core/docs/data/hooks/use-update/
+[use-update-many]: /core/docs/data/hooks/use-update-many/

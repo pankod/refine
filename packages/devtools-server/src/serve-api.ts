@@ -13,8 +13,6 @@ import { getAllPackages } from "./packages/get-all-packages";
 import { getAvailablePackages } from "./packages/get-available-packages";
 import { updatePackage } from "./packages/update-package";
 import { getLatestPackageData } from "./packages/get-latest-package-data";
-import { getProjectIdFromPackageJson } from "./project-id/get-project-id-from-package-json";
-import { updateProjectId } from "./project-id/update-project-id";
 
 export const serveApi = (app: Express, db: Data) => {
   app.use("/api", json());
@@ -128,47 +126,5 @@ export const serveApi = (app: Express, db: Data) => {
     res.header("x-total-count", `${cachedFeed.length}`);
 
     res.json({ data: cachedFeed });
-  });
-
-  app.get("/api/project-id/status", async (_, res) => {
-    const CODES = {
-      OK: 0,
-      NOT_FOUND: 1,
-      ERROR: 2,
-    };
-
-    const projectId = await getProjectIdFromPackageJson();
-
-    if (projectId) {
-      res.status(200).json({ projectId, status: CODES.OK });
-      return;
-    }
-    if (projectId === false) {
-      res.status(200).json({ projectId: null, status: CODES.NOT_FOUND });
-      return;
-    }
-    res.status(200).json({ projectId: null, status: CODES.ERROR });
-    return;
-  });
-
-  app.post("/api/project-id/update", async (req, res) => {
-    const { projectId } = req.body ?? {};
-
-    if (!projectId) {
-      res.status(400).json({ error: "Project ID is required" });
-      return;
-    }
-
-    const success = await updateProjectId(projectId);
-
-    if (success) {
-      res.status(200).json({ success: true });
-      return;
-    }
-    res.status(500).json({
-      success: false,
-      error: "Failed to update project ID",
-    });
-    return;
   });
 };

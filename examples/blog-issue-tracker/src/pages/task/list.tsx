@@ -2,6 +2,7 @@ import React from "react";
 import { useMany, type HttpError, type CrudFilters } from "@refinedev/core";
 
 import {
+  useSelect,
   useTable,
   List,
   TextField,
@@ -12,7 +13,9 @@ import {
   DeleteButton,
 } from "@refinedev/antd";
 
+import { SearchOutlined } from "@ant-design/icons";
 import { Table, Space, Row, Col, Card } from "antd";
+import { Form, type FormProps, Input, Select, DatePicker, Button } from "antd";
 
 import type {
   ILabel,
@@ -21,20 +24,25 @@ import type {
   ITaskFilterVariables,
   IStatus,
   IAuthUser,
-} from "interfaces";
-
-import { Filter } from "../task";
+} from "../../types";
 
 export const TaskList = () => {
-  const { tableProps, searchFormProps } = useTable<
+  const { tableProps, result, searchFormProps } = useTable<
     ITask,
     HttpError,
     ITaskFilterVariables
   >({
     onSearch: (params) => {
       const filters: CrudFilters = [];
-      const { title, label, priority, users, status, start_time, end_time } =
-        params;
+      const {
+        title,
+        label_id,
+        priority_id,
+        user_id,
+        status_id,
+        start_time,
+        end_time,
+      } = params;
 
       filters.push(
         {
@@ -44,27 +52,27 @@ export const TaskList = () => {
         },
 
         {
-          field: "label",
+          field: "label_id",
           operator: "eq",
-          value: label,
+          value: label_id,
         },
 
         {
-          field: "priority",
+          field: "priority_id",
           operator: "eq",
-          value: priority,
+          value: priority_id,
         },
 
         {
-          field: "users",
+          field: "user_id",
           operator: "eq",
-          value: users,
+          value: user_id,
         },
 
         {
-          field: "status",
+          field: "status_id",
           operator: "eq",
-          value: status,
+          value: status_id,
         },
 
         {
@@ -95,30 +103,37 @@ export const TaskList = () => {
     },
   });
 
-  const labelIds = tableProps?.dataSource?.map((item) => item.label) ?? [];
+  const labelIds =
+    result?.data?.map((item) => item.label_id).filter(Boolean) ?? [];
   const priorityIds =
-    tableProps?.dataSource?.map((item) => item.priority) ?? [];
-  const assignedIds = tableProps?.dataSource?.map((item) => item.users) ?? [];
-  const statusIds = tableProps?.dataSource?.map((item) => item.status) ?? [];
+    result?.data?.map((item) => item.priority_id).filter(Boolean) ?? [];
+  const assignedIds =
+    result?.data?.map((item) => item.user_id).filter(Boolean) ?? [];
+  const statusIds =
+    result?.data?.map((item) => item.status_id).filter(Boolean) ?? [];
 
-  const { data: labels } = useMany<ILabel>({
+  const { result: labels } = useMany<ILabel>({
     resource: "label",
     ids: labelIds,
+    queryOptions: { enabled: !!labelIds.length },
   });
 
-  const { data: priority } = useMany<IPriority>({
+  const { result: priority } = useMany<IPriority>({
     resource: "priority",
     ids: priorityIds,
+    queryOptions: { enabled: !!priorityIds.length },
   });
 
-  const { data: assigned } = useMany<IAuthUser>({
+  const { result: assigned } = useMany<IAuthUser>({
     resource: "users",
     ids: assignedIds,
+    queryOptions: { enabled: !!assignedIds.length },
   });
 
-  const { data: status } = useMany<IStatus>({
+  const { result: status } = useMany<IStatus>({
     resource: "status",
     ids: statusIds,
+    queryOptions: { enabled: !!statusIds.length },
   });
 
   return (
@@ -133,7 +148,7 @@ export const TaskList = () => {
           <Table {...tableProps} rowKey="id">
             <Table.Column dataIndex="title" title="Title" />
             <Table.Column
-              dataIndex="label"
+              dataIndex="label_id"
               title="Label"
               render={(value) => {
                 return (
@@ -149,7 +164,7 @@ export const TaskList = () => {
               }}
             />
             <Table.Column
-              dataIndex="priority"
+              dataIndex="priority_id"
               title="Priority"
               render={(value) => {
                 return (
@@ -162,7 +177,7 @@ export const TaskList = () => {
               }}
             />
             <Table.Column
-              dataIndex="users"
+              dataIndex="user_id"
               title="Assigned"
               render={(value) => {
                 return (
@@ -175,7 +190,7 @@ export const TaskList = () => {
               }}
             />
             <Table.Column
-              dataIndex="status"
+              dataIndex="status_id"
               title="Status"
               render={(value) => {
                 return (
@@ -230,5 +245,58 @@ export const TaskList = () => {
         </List>
       </Col>
     </Row>
+  );
+};
+
+const { RangePicker } = DatePicker;
+
+const Filter: React.FC<{ formProps: FormProps }> = ({ formProps }) => {
+  const { selectProps: labelSelectProps } = useSelect<ILabel>({
+    resource: "label",
+  });
+
+  const { selectProps: priorityProps } = useSelect<IPriority>({
+    resource: "priority",
+  });
+
+  const { selectProps: statusProps } = useSelect<IStatus>({
+    resource: "status",
+  });
+
+  const { selectProps: assigneeProps } = useSelect<IAuthUser>({
+    resource: "users",
+    optionValue: () => "id",
+    optionLabel: () => "email",
+  });
+
+  return (
+    <Form layout="vertical" {...formProps}>
+      <Form.Item label="Search" name="title">
+        <Input placeholder="Title" prefix={<SearchOutlined />} />
+      </Form.Item>
+      <Form.Item label="Label" name="label_id">
+        <Select {...labelSelectProps} allowClear placeholder="Search Label" />
+      </Form.Item>
+      <Form.Item label="Priority" name="priority_id">
+        <Select {...priorityProps} allowClear placeholder="Search Priority" />
+      </Form.Item>
+      <Form.Item label="Status" name="status_id">
+        <Select {...statusProps} allowClear placeholder="Search Status" />
+      </Form.Item>
+      <Form.Item label="Assigned" name="user_id">
+        <Select {...assigneeProps} allowClear placeholder="Search Assignee" />
+      </Form.Item>
+      <Form.Item label="Start Date" name="start_time">
+        <RangePicker />
+      </Form.Item>
+      <Form.Item label="Due Date" name="end_time">
+        <RangePicker />
+      </Form.Item>
+      <Form.Item>
+        <Button htmlType="submit" type="primary">
+          Filter
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };

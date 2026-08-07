@@ -1,6 +1,9 @@
 ---
 id: remix-headless
-title: Headless
+title: "Remix Headless Example | Best Practices in Refine v5"
+display_title: "Headless"
+sidebar_label: "Headless"
+description: "Explore how to build with the Remix Headless example in Refine v5. Explore provider for real-world React admin panels. Real-world snippets included."
 example-tags: [remix, headless]
 ---
 

@@ -1,8 +1,7 @@
 import React from "react";
-import {
-  type UpdatePasswordPageProps,
-  type UpdatePasswordFormTypes,
-  useActiveAuthProvider,
+import type {
+  UpdatePasswordPageProps,
+  UpdatePasswordFormTypes,
 } from "@refinedev/core";
 import { useUpdatePassword, useTranslate } from "@refinedev/core";
 import {
@@ -25,7 +24,7 @@ import {
   pageTitleStyles,
 } from "../styles";
 import type { FormPropsType } from "../..";
-import { ThemedTitleV2 } from "@components";
+import { ThemedTitle } from "@components";
 
 type UpdatePassworProps = UpdatePasswordPageProps<
   BoxProps,
@@ -69,16 +68,13 @@ export const UpdatePasswordPage: React.FC<UpdatePassworProps> = ({
   });
   const { getInputProps, onSubmit } = form;
 
-  const authProvider = useActiveAuthProvider();
-  const { mutate: updatePassword, isLoading } =
-    useUpdatePassword<UpdatePasswordFormTypes>({
-      v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-    });
+  const { mutate: updatePassword, isPending } =
+    useUpdatePassword<UpdatePasswordFormTypes>({});
 
   const PageTitle =
     title === false ? null : (
       <div style={pageTitleStyles}>
-        {title ?? <ThemedTitleV2 collapsed={false} />}
+        {title ?? <ThemedTitle collapsed={false} />}
       </div>
     );
 
@@ -121,7 +117,7 @@ export const UpdatePasswordPage: React.FC<UpdatePassworProps> = ({
             placeholder="●●●●●●●●"
             {...getInputProps("confirmPassword")}
           />
-          <Button mt="lg" fullWidth size="md" type="submit" loading={isLoading}>
+          <Button mt="lg" fullWidth size="md" type="submit" loading={isPending}>
             {translate("pages.updatePassword.buttons.submit", "Update")}
           </Button>
         </form>

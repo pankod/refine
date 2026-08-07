@@ -6,6 +6,7 @@ import {
   useShow,
   useParsed,
   useIsAuthenticated,
+  useGo,
 } from "@refinedev/core";
 import { useModal } from "@refinedev/antd";
 
@@ -25,6 +26,7 @@ type Colors = typeof colors;
 
 export const CanvasShow: React.FC = () => {
   const { pathname } = useParsed();
+  const go = useGo();
   const [color, setColor] = useState<Colors[number]>("black");
   const { modalProps, show, close } = useModal();
   const { data: identity } = useGetIdentity<any>();
@@ -44,15 +46,15 @@ export const CanvasShow: React.FC = () => {
       canvas,
     },
   });
-  const { list, push } = useNavigation();
+  const { list } = useNavigation();
 
   const onSubmit = (x: number, y: number) => {
     if (!authenticated) {
       if (pathname) {
-        return push(`/login?to=${encodeURIComponent(pathname)}`);
+        return go({ to: `/login?to=${encodeURIComponent(pathname)}` });
       }
 
-      return push("/login");
+      return go({ to: "/login" });
     }
 
     if (typeof x === "number" && typeof y === "number" && canvas?.id) {

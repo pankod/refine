@@ -1,5 +1,5 @@
 import React, { type ReactNode } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 
 import {
   type AccessControlProvider,
@@ -9,15 +9,15 @@ import {
   type I18nProvider,
   type DataProvider,
   type IResourceItem,
-  type RouterBindings,
+  type RouterProvider,
   type IRefineOptions,
 } from "@refinedev/core";
 
-import { MockJSONServer, mockRouterBindings } from "./dataMocks";
+import { MockJSONServer, mockRouterProvider } from "./dataMocks";
 
 export interface ITestWrapperProps {
   dataProvider?: DataProvider;
-  routerProvider?: RouterBindings;
+  routerProvider?: RouterProvider;
   authProvider?: AuthProvider;
   resources?: IResourceItem[];
   notificationProvider?: NotificationProvider;
@@ -52,35 +52,34 @@ export const TestWrapper: (
     });
   }
 
-  return ({ children }): React.ReactElement => {
+  return ({ children }): React.JSX.Element => {
     return (
       <BrowserRouter>
-        <Refine
-          dataProvider={dataProvider ?? MockJSONServer}
-          i18nProvider={i18nProvider}
-          routerProvider={routerProvider ?? mockRouterBindings()}
-          authProvider={authProvider}
-          notificationProvider={notificationProvider}
-          resources={resources ?? [{ name: "posts", list: "/posts" }]}
-          accessControlProvider={accessControlProvider}
-          options={{
+        {(Refine as any)({
+          dataProvider: dataProvider ?? MockJSONServer,
+          i18nProvider,
+          routerProvider: routerProvider ?? mockRouterProvider(),
+          authProvider,
+          notificationProvider,
+          resources: resources ?? [{ name: "posts", list: "/posts" }],
+          accessControlProvider,
+          options: {
             ...options,
             disableTelemetry: true,
             reactQuery: {
               clientConfig: {
                 defaultOptions: {
                   queries: {
-                    cacheTime: 0,
+                    gcTime: 0,
                     staleTime: 0,
                     networkMode: "always",
                   },
                 },
               },
             },
-          }}
-        >
-          {children}
-        </Refine>
+          },
+          children,
+        })}
       </BrowserRouter>
     );
   };

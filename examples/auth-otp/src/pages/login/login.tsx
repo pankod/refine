@@ -11,6 +11,7 @@ import {
   Input,
   Button,
 } from "antd";
+import { format } from "node:util";
 export interface ILoginForm {
   gsmNumber: string;
   code: string;
@@ -21,7 +22,7 @@ export const Login: React.FC = () => {
   const [gsmNumber, setGsmNumber] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { mutate: login, isLoading } = useLogin<ILoginForm>();
+  const { mutate: login, isPending } = useLogin<ILoginForm>();
 
   const onGsmFormSubmit = (values: Pick<ILoginForm, "gsmNumber">) => {
     setLoading(true);
@@ -89,7 +90,7 @@ export const Login: React.FC = () => {
           size="large"
           htmlType="submit"
           block
-          loading={isLoading}
+          loading={isPending}
         >
           Login
         </Button>

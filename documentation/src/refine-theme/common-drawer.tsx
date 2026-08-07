@@ -90,9 +90,9 @@ const DrawerComponent: FC<PropsWithChildren<Props>> = ({
           "w-[240px] h-full",
           "ml-auto",
           "p-4",
-          variant === "templates" && "bg-gray-0 dark:bg-gray-900 ",
-          variant === "blog" && "bg-white dark:bg-refine-react-7",
-          "border-l dark:border-gray-800",
+          variant === "templates" && "bg-zinc-0 dark:bg-zinc-900 ",
+          variant === "blog" && "bg-white dark:bg-zinc-700",
+          "border-l dark:border-zinc-800",
           "dark:shadow-[0_0_72px_24px_#14141F]",
           "shadow-[0_0_72px_24px_rgba(20, 20, 31, 0.50)]",
         )}
@@ -110,7 +110,7 @@ const DrawerComponent: FC<PropsWithChildren<Props>> = ({
             "items-center",
             "justify-between",
             "mb-10",
-            "dark:text-gray-300 text-gray-900",
+            "dark:text-zinc-300 text-zinc-900",
           )}
         >
           <h3 className={clsx("text-base", "font-semibold")}>{title}</h3>

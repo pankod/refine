@@ -12,7 +12,11 @@ export const dataProvider = (
 
   return {
     getList: async ({ resource, pagination, sorters, filters }) => {
-      const { current = 1, pageSize = 10, mode = "server" } = pagination ?? {};
+      const {
+        currentPage = 1,
+        pageSize = 10,
+        mode = "server",
+      } = pagination ?? {};
 
       const generatedSort = generateSort(sorters) || [];
       const queryFilters = generateFilter(filters);
@@ -29,8 +33,10 @@ export const dataProvider = (
       return {
         data: data
           .slice(
-            isServerPaginationEnabled ? (current - 1) * pageSize : undefined,
-            isServerPaginationEnabled ? current * pageSize : undefined,
+            isServerPaginationEnabled
+              ? (currentPage - 1) * pageSize
+              : undefined,
+            isServerPaginationEnabled ? currentPage * pageSize : undefined,
           )
           .map((p) => ({
             id: p.id,

@@ -14,11 +14,12 @@ describe("data-provider-strapi-v4", () => {
       cy.get("#password").type(auth.password);
     });
 
+    cy.interceptStrapiV4Login();
+
     submitAuthForm();
   };
 
   beforeEach(() => {
-    cy.wait(2000);
     cy.clearAllCookies();
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
@@ -133,8 +134,22 @@ describe("data-provider-strapi-v4", () => {
 
       cy.getAntdFilterTrigger(0).click();
       cy.get(".ant-select-selector").eq(1).click();
+
+      // Wait for dropdown options to be visible and have proper dimensions
+      cy.get(".ant-select-dropdown").should("be.visible");
+      cy.get(".ant-select-item-option-content").should(
+        "have.length.at.least",
+        1,
+      );
+
       cy.fixture("categories").then((categories) => {
         const category = categories[0];
+
+        cy.get(".ant-select-item-option-content")
+          .contains(category.title)
+          .should("be.visible")
+          .should("have.css", "width")
+          .and("not.equal", "0px");
 
         cy.get(".ant-select-item-option-content")
           .contains(category.title)
@@ -144,7 +159,7 @@ describe("data-provider-strapi-v4", () => {
         cy.wait("@strapiV4GetPosts").then(({ request }) => {
           const query = request.query;
           console.log(query);
-          expect(query?.["filters["]).to.deep.equal({
+          expect(query?.filters).to.deep.equal({
             category: {
               id: {
                 $in: ["1"],
@@ -185,9 +200,10 @@ describe("data-provider-strapi-v4", () => {
         expect(response?.body).to.deep.equal({
           data: {
             id: 1,
-            title: "Ut Voluptatem Est",
+            title:
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
             content:
-              "Repellendus temporibus provident nobis. Non adipisci quod et est dolorem sed qui. A ut omnis. Et perspiciatis quibusdam maiores aliquid est fugit nam odit. Aut aliquam consectetur deleniti commodi velit. Eum eum aperiam voluptate quos quo. Ut quia doloribus a. Molestiae non est fugit enim fugiat non ea quas accusamus. Consequuntur voluptatem nesciunt dolorum expedita optio deserunt. Illo dolorem et similique.",
+              "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
             category: {
               id: 1,
             },

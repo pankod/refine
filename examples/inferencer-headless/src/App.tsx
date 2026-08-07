@@ -6,15 +6,15 @@ import {
 } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
-import routerBindings, {
+import routerProvider, {
   CatchAllNavigate,
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { useTranslation } from "react-i18next";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import "./App.css";
 import { authProvider } from "./authProvider";
 import { Layout } from "./components/layout";
@@ -49,7 +49,7 @@ function App() {
       <RefineKbarProvider>
         <Refine
           dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           authProvider={authProvider}
           i18nProvider={i18nProvider}
           resources={[

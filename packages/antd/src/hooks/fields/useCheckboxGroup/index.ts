@@ -8,13 +8,13 @@ import {
   type UseSelectProps,
   useSelect,
   type BaseKey,
-  pickNotDeprecated,
   type BaseOption,
 } from "@refinedev/core";
 
 export type UseCheckboxGroupReturnType<
   TData extends BaseRecord = BaseRecord,
   TOption extends BaseOption = BaseOption,
+  TError extends HttpError = HttpError,
 > = {
   checkboxGroupProps: Omit<
     React.ComponentProps<typeof Checkbox.Group>,
@@ -22,11 +22,7 @@ export type UseCheckboxGroupReturnType<
   > & {
     options: TOption[];
   };
-  query: QueryObserverResult<GetListResponse<TData>>;
-  /**
-   * @deprecated Use `query` instead
-   */
-  queryResult: QueryObserverResult<GetListResponse<TData>>;
+  query: QueryObserverResult<GetListResponse<TData>, TError>;
 };
 
 type UseCheckboxGroupProps<TQueryFnData, TError, TData> = Omit<
@@ -57,13 +53,11 @@ export const useCheckboxGroup = <
   TOption extends BaseOption = BaseOption,
 >({
   resource,
-  sort,
   sorters,
   filters,
   optionLabel,
   optionValue,
   queryOptions,
-  fetchSize,
   pagination,
   liveMode,
   defaultValue,
@@ -71,8 +65,8 @@ export const useCheckboxGroup = <
   onLiveEvent,
   liveParams,
   meta,
-  metaData,
   dataProviderName,
+  ...rest
 }: UseCheckboxGroupProps<
   TQueryFnData,
   TError,
@@ -80,22 +74,20 @@ export const useCheckboxGroup = <
 >): UseCheckboxGroupReturnType<TData, TOption> => {
   const { query, options } = useSelect<TQueryFnData, TError, TData, TOption>({
     resource,
-    sort,
     sorters,
     filters,
     optionLabel,
     optionValue,
     queryOptions,
-    fetchSize,
     pagination,
     liveMode,
     defaultValue,
     selectedOptionsOrder,
     onLiveEvent,
     liveParams,
-    meta: pickNotDeprecated(meta, metaData),
-    metaData: pickNotDeprecated(meta, metaData),
+    meta,
     dataProviderName,
+    ...rest,
   });
   return {
     checkboxGroupProps: {
@@ -103,6 +95,5 @@ export const useCheckboxGroup = <
       defaultValue,
     },
     query,
-    queryResult: query,
   };
 };

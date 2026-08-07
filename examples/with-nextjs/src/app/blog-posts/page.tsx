@@ -17,7 +17,10 @@ export default function BlogPostList() {
     syncWithLocation: true,
   });
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useMany({
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useMany({
     resource: "categories",
     ids:
       tableProps?.dataSource

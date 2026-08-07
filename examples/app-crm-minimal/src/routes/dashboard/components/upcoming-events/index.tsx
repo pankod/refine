@@ -11,9 +11,10 @@ import type { DashboardCalendarUpcomingEventsQuery } from "@/graphql/types";
 import { DASHBOARD_CALENDAR_UPCOMING_EVENTS_QUERY } from "./queries";
 
 export const CalendarUpcomingEvents = () => {
-  const { data, isLoading } = useList<
-    GetFieldsFromList<DashboardCalendarUpcomingEventsQuery>
-  >({
+  const {
+    result: data,
+    query: { isLoading },
+  } = useList<GetFieldsFromList<DashboardCalendarUpcomingEventsQuery>>({
     resource: "events",
     pagination: {
       pageSize: 5,

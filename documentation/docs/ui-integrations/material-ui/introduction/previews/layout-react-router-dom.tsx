@@ -9,20 +9,20 @@ export default function LayoutReactRouterDom() {
       //   showFiles
       initialPercentage={35}
       dependencies={{
-        "@refinedev/mui": "5.0.0",
+        "@refinedev/mui": "latest",
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-router-v6": "latest",
-        "@refinedev/react-hook-form": "^4.8.12",
+        "@refinedev/react-router": "latest",
+        "@refinedev/react-hook-form": "latest",
         "@emotion/react": "^11.8.2",
         "@emotion/styled": "^11.8.1",
-        "@mui/lab": "^5.0.0-alpha.85",
-        "@mui/material": "^5.14.2",
-        "@mui/system": "latest",
-        "@mui/x-data-grid": "^6.6.0",
-        "react-router-dom": "latest",
-        "react-router": "latest",
-        "react-hook-form": "^7.43.5",
+        "@mui/utils": "^7.1.0",
+        "@mui/lab": "^6.0.0-beta.14",
+        "@mui/material": "^6.1.7",
+        "@mui/system": "^6.4.11",
+        "@mui/x-data-grid": "^7.23.5",
+        "react-router": "^7.0.2",
+        "react-hook-form": "^7.57.0",
       }}
       startRoute="/products"
       files={{
@@ -44,11 +44,11 @@ import React from "react";
 
 import { Refine, Authenticated } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router";
 
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   RefineThemes,
   notificationProvider,
@@ -85,9 +85,9 @@ export default function App() {
                 <Route
                   // The layout will wrap all the pages inside this route
                   element={
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   }
                 >
                     <Route path="/products" element={<ProductList />} />
@@ -126,7 +126,7 @@ export const ProductList = () => {
 
   return (
     <List>
-        <DataGrid {...dataGridProps} columns={columns} autoHeight />
+        <DataGrid {...dataGridProps} columns={columns}  />
     </List>
   );
 };

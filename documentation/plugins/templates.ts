@@ -1,21 +1,48 @@
 import type { Plugin } from "@docusaurus/types";
 
+export const TEMPLATE_UI_FRAMEWORKS = [
+  "Ant Design",
+  "Material UI",
+  "Headless",
+  "Chakra UI",
+  "Mantine",
+];
+
+export const TEMPLATE_BACKENDS = [
+  "Supabase",
+  "Rest API",
+  "GraphQL",
+  "Strapi",
+  "Appwrite",
+  "Medusa",
+];
+
+// Convert filter labels to URL slugs. Example: "Ant Design" -> "ant-design" "Strapi V4 " -> "strapi-v4".
+export const toSlug = (value: string) => {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+};
+
 export default async function RefineTemplates(): Promise<Plugin> {
   return {
     name: "docusaurus-plugin-refine-templates",
-    contentLoaded: async (args) => {
+    contentLoaded: async (args: any) => {
       const { content, actions } = args;
       const { addRoute, createData } = actions;
 
       await Promise.all(
         (content as typeof templates).map(async (data) => {
+          // Persist per-template data so the detail page can read it at build time.
           const json = await createData(
             `templates-${data.slug}.json`,
             JSON.stringify(data, null, 2),
           );
 
+          // Detail pages live at /core/templates/<slug>.
           addRoute({
-            path: `/templates/${data.slug}`,
+            path: `/core/templates/${data.slug}`,
             component: "@site/src/components/templates-detail-page/index",
             exact: true,
             modules: {
@@ -24,6 +51,57 @@ export default async function RefineTemplates(): Promise<Plugin> {
           });
         }),
       );
+
+      // Filtered list routes for UI framework and UI+backend combos.
+      for (const uiFramework of TEMPLATE_UI_FRAMEWORKS) {
+        const hasUiTemplates = (content as typeof templates).some(
+          (t) => t.uiFramework === uiFramework,
+        );
+        if (!hasUiTemplates) {
+          continue;
+        }
+
+        const uiSlug = toSlug(uiFramework);
+        const uiJson = await createData(
+          `templates-filter-${uiSlug}.json`,
+          JSON.stringify({ uiFramework }, null, 2),
+        );
+
+        // UI-only filter page at /core/templates/<ui>.
+        addRoute({
+          path: `/core/templates/${uiSlug}`,
+          component: "@site/src/components/templates-filtered-page/index",
+          exact: true,
+          modules: {
+            filters: uiJson,
+          },
+        });
+
+        for (const backend of TEMPLATE_BACKENDS) {
+          const hasComboTemplates = (content as typeof templates).some(
+            (t) => t.uiFramework === uiFramework && t.dataProvider === backend,
+          );
+          if (!hasComboTemplates) {
+            continue;
+          }
+
+          const backendSlug = toSlug(backend);
+          const comboJson = await createData(
+            `templates-filter-${uiSlug}-${backendSlug}.json`,
+            JSON.stringify({ uiFramework, backend }, null, 2),
+          );
+
+          // UI + backend filter page at /core/templates/<ui>/<backend>.
+          addRoute({
+            path: `/core/templates/${uiSlug}/${backendSlug}`,
+            component: "@site/src/components/templates-filtered-page/index",
+            exact: true,
+            modules: {
+              filters: comboJson,
+            },
+          });
+        }
+      }
     },
     loadContent: async () => {
       return templates;
@@ -38,6 +116,8 @@ const templates = [
     images: [
       "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-refine-crm.png",
     ],
+    imageAlt:
+      "CRM application dashboard showing sales pipeline, kanban board, and customer management interface",
     runOnYourLocalPath: null,
     edition: "Enterprise",
     liveDemo: "https://example.crm.refine.dev/",
@@ -93,6 +173,8 @@ This CRM app template can be used in for various app requirements like B2B appli
     images: [
       "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-refine-hr.png",
     ],
+    imageAlt:
+      "HR management application showing employee directory, leave management, and organizational hierarchy",
     runOnYourLocalPath: null,
     github: null,
     liveDemo: "https://hr.refine.dev",
@@ -103,13 +185,13 @@ This CRM app template can be used in for various app requirements like B2B appli
     authProvider: "Custom",
     description: `Demonstrating Refine's Capabilities for Building Enterprise-Level HR Management App
 
-This HR management app, built with Refine, is an example designed to showcase the framework’s flexibility and power in creating enterprise-level internal tools like managing employee information, leave requests, polls, and more. 
+This HR management app, built with Refine, is an example designed to showcase the framework’s flexibility and power in creating enterprise-level internal tools like managing employee information, leave requests, polls, and more.
 
 While not a product, this template demonstrates how quickly and efficiently similar complex apps can be developed using Refine, serving as both a learning resource and inspiration for building your own applications.
 
 ### Enterprise Needs in Focus
 
-Our HR app example is designed for enterprise companies needs, which is why its source code is only available to Refine enterprise users. 
+Our HR app example is designed for enterprise companies needs, which is why its source code is only available to Refine enterprise users.
 
 Even if you don’t have access to the HR app's source code, you can still explore the capabilities of Refine through our other complete app examples.
 
@@ -126,18 +208,18 @@ Even if you don’t have access to the HR app's source code, you can still explo
 
 This HR app template can be used in for various app requirements like B2B applications, internal tools, admin panel, dashboard. Such as:
 
-- **Recruitment and Applicant Tracking Systems (ATS)**  
-- **Employee Engagement Platforms**  
-- **Compensation and Benefits Management Tools**  
-- **Workforce Planning and Time Tracking Solutions**  
-- **Compliance Management Systems**  
-- **Employee Self-Service Portals**  
-- **Succession Planning Tools**  
-- **Employee Wellness and Assistance Programs**  
-- **HR Analytics and Reporting Tools**  
-- **Performance Review and Incentive Management Systems**  
-- **Training and Development Management**  
-- **Onboarding and Offboarding Solutions**  
+- **Recruitment and Applicant Tracking Systems (ATS)**
+- **Employee Engagement Platforms**
+- **Compensation and Benefits Management Tools**
+- **Workforce Planning and Time Tracking Solutions**
+- **Compliance Management Systems**
+- **Employee Self-Service Portals**
+- **Succession Planning Tools**
+- **Employee Wellness and Assistance Programs**
+- **HR Analytics and Reporting Tools**
+- **Performance Review and Incentive Management Systems**
+- **Training and Development Management**
+- **Onboarding and Offboarding Solutions**
 - **Payroll Management Tools**
 
 By using this app as a starting point, companies can build a customized HR platform that suits their specific internal processes, speeding up development and reducing the complexity of building from scratch.
@@ -149,11 +231,13 @@ By using this app as a starting point, companies can build a customized HR platf
     images: [
       "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-storefront.png",
     ],
+    imageAlt:
+      "E-commerce storefront with product listings, shopping cart, and modern Tailwind CSS design",
     runOnYourLocalPath: "finefoods-client",
     edition: "Community",
     liveDemo: "https://example.refine.dev/",
     github:
-      "https://github.com/refinedev/refine/tree/master/examples/finefoods-client",
+      "https://github.com/refinedev/refine/tree/main/examples/finefoods-client",
     reactPlatform: "Next.js",
     uiFramework: "Headless",
     dataProvider: "Rest API",
@@ -176,11 +260,13 @@ The source code is also open-source; feel free to use or inspect it to discover 
     images: [
       "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-finefoods-material-ui.png",
     ],
+    imageAlt:
+      "Food delivery admin panel with Material UI showing orders dashboard, analytics charts, and order management",
     runOnYourLocalPath: "finefoods-material-ui",
     edition: "Community",
     liveDemo: "https://example.mui.admin.refine.dev",
     github:
-      "https://github.com/refinedev/refine/tree/master/examples/finefoods-material-ui",
+      "https://github.com/refinedev/refine/tree/main/examples/finefoods-material-ui",
     reactPlatform: "Vite",
     uiFramework: "Material UI",
     dataProvider: "Rest API",
@@ -227,11 +313,13 @@ This admin panel template can be used in for various app requirements like B2B a
     images: [
       "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-finefoods-ant-design.png",
     ],
+    imageAlt:
+      "Food delivery admin panel with Ant Design showing orders list, filters, and detailed order information",
     runOnYourLocalPath: "finefoods-antd",
     edition: "Community",
     liveDemo: "https://example.admin.refine.dev",
     github:
-      "https://github.com/refinedev/refine/tree/master/examples/finefoods-antd",
+      "https://github.com/refinedev/refine/tree/main/examples/finefoods-antd",
     reactPlatform: "Vite",
     uiFramework: "Ant Design",
     dataProvider: "Rest API",
@@ -275,50 +363,18 @@ This admin panel template can be used in for various app requirements like B2B a
 `,
   },
   {
-    slug: "next-js-ecommerce-store",
-    title: "Swag Store",
-    images: [
-      "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-store.png",
-    ],
-    runOnYourLocalPath: "store",
-    edition: "Community",
-    liveDemo: "https://store.refine.dev/",
-    github: "https://github.com/refinedev/refine/tree/master/examples/store",
-    reactPlatform: "Next.js",
-    uiFramework: "Ant Design",
-    dataProvider: "Medusa",
-    authProvider: "Medusa",
-    description: `
-This template is a comprehensive e-commerce storefront app created using Refine, Medusa.js, Next.js, and Stripe, encompassing all the necessary features for an e-commerce web application. Its source code is open-source, allowing you to freely use or explore it to gain a deeper understanding of how Refine integrates with Next.js and Tailwind CSS.
-
-The app interfaces with the Medusa API through Refine's Medusa data provider, and its user interface is crafted with Tailwind CSS. This template is designed to showcase the effectiveness of the Refine framework in streamlining and accelerating the development process for storefront apps, providing an optimal approach to using Refine in storefront app development.
-
-With its production-ready status, this template offers a solid foundation for building your own storefront, whether you choose to use it as a starting point or implement it directly as it is.
-
-
-### Key Features:
-
-- **Authentication & Authorization**: Securely manages user logins and permissions.
-- **Product Listing**: Displays a catalog of products available for purchase.
-- **Account Information Pages**: Allows users to view and edit their account details.
-- **Product Detail**: Provides detailed information about each product, including descriptions, prices, and images.
-- **Shopping Cart**: Enables customers to add products to a virtual cart and manage their selections before checkout.
-- **Payment with Stripe**: Offers a secure payment system through Stripe for processing transactions.
-- **Gift Code Feature**: Allows gift codes for discounts or special offers during the checkout process.
-- **Email Send and Verification**: Handles the sending of emails for purposes like account verification and marketing, and verifies email addresses.
-                `,
-  },
-  {
     slug: "supabase-crud-app",
     title: "Pixels",
     images: [
       "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-pixels.png",
     ],
+    imageAlt:
+      "Collaborative pixel canvas application with real-time drawing features powered by Supabase",
     runOnYourLocalPath: "pixels",
     edition: "Community",
     liveDemo: "https://pixels.refine.dev/",
-    github: "https://github.com/refinedev/refine/tree/master/examples/pixels",
-    tutorial: "https://refine.dev/week-of-refine-supabase/",
+    github: "https://github.com/refinedev/refine/tree/main/examples/pixels",
+    tutorial: "https://refine.dev/core/week-of-refine-supabase/",
     reactPlatform: "Vite",
     uiFramework: "Ant Design",
     dataProvider: "Supabase",
@@ -345,10 +401,12 @@ We built this template to demonstrate how the Refine framework simplifies and sp
     images: [
       "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-invoice-generator.png",
     ],
+    imageAlt:
+      "Invoice generator interface showing client management, invoice creation form, and PDF preview",
     runOnYourLocalPath: "invoicer",
     edition: "Community",
-    liveDemo: "https://refine-invoicer-8mk7d.ondigitalocean.app/",
-    github: "https://github.com/refinedev/refine/tree/master/examples/invoicer",
+    liveDemo: "https://refine-invoicer.netlify.app/",
+    github: "https://github.com/refinedev/refine/tree/main/examples/invoicer",
     reactPlatform: "Vite",
     uiFramework: "Ant Design",
     dataProvider: "Strapi",
@@ -375,10 +433,12 @@ We built this template to showcase the efficiency and ease of using the Refine f
     images: [
       "https://refine.ams3.cdn.digitaloceanspaces.com/templates/video-club-win95.png",
     ],
+    imageAlt:
+      "Retro Windows 95 styled video club admin panel with classic UI elements and nostalgic design",
     runOnYourLocalPath: "win95",
     edition: "Community",
     liveDemo: "https://videoclub.refine.dev",
-    github: "https://github.com/refinedev/refine/tree/master/examples/win95",
+    github: "https://github.com/refinedev/refine/tree/main/examples/win95",
     reactPlatform: "Vite",
     uiFramework: "Headless",
     dataProvider: "Supabase",
@@ -395,6 +455,8 @@ The source code of the CRUD app is also open-source; feel free to use or inspect
     images: [
       "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-realworld.png",
     ],
+    imageAlt:
+      "RealWorld example application showing article feed, user authentication, and social features",
     runOnYourLocalPath: "real-world-example",
     edition: "Community",
     liveDemo: "https://refine-real-world.netlify.app/",
@@ -427,8 +489,10 @@ Since the source code of this RealWorld app is open-source, you have the freedom
     slug: "multitenancy-strapi",
     title: "Multitenancy App with Strapi",
     images: [
-      "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-multitenancy-strapi.png",
+      "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-multitenancy-strapi.webp",
     ],
+    imageAlt:
+      "Multi-tenant application dashboard with store selection, product management, and Strapi integration",
     runOnYourLocalPath: null,
     edition: "Enterprise",
     liveDemo: "https://multi-tenancy-strapi.refine.dev",
@@ -452,13 +516,14 @@ The source code of this multitenancy app is open-source, allowing you to use or 
     images: [
       "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-ant-design-template.png",
     ],
+    imageAlt:
+      "Generic internal tool template with Ant Design showing authentication screens and CRUD operations",
     runOnYourLocalPath: "auth-antd",
     edition: "Community",
     liveDemo:
-      "https://codesandbox.io/p/sandbox/github/refinedev/refine/tree/master/examples/auth-antd",
-    github:
-      "https://github.com/refinedev/refine/tree/master/examples/auth-antd",
-    tutorial: "https://refine.dev/tutorial",
+      "https://codesandbox.io/p/sandbox/github/refinedev/refine/tree/main/examples/auth-antd",
+    github: "https://github.com/refinedev/refine/tree/main/examples/auth-antd",
+    tutorial: "https://refine.dev/core/tutorial",
     reactPlatform: "Vite",
     uiFramework: "Ant Design",
     dataProvider: "Rest API",
@@ -473,13 +538,15 @@ Complete internal tool template built with Material UI. Features authentication 
     images: [
       "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-material-ui-template.png",
     ],
+    imageAlt:
+      "Generic internal tool template with Material UI showing login page and data table interface",
     runOnYourLocalPath: "auth-material-ui",
     edition: "Community",
     liveDemo:
-      "https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/auth-material-ui",
+      "https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/auth-material-ui",
     github:
-      "https://github.com/refinedev/refine/tree/master/examples/auth-material-ui",
-    tutorial: "https://refine.dev/tutorial",
+      "https://github.com/refinedev/refine/tree/main/examples/auth-material-ui",
+    tutorial: "https://refine.dev/core/tutorial",
     reactPlatform: "Vite",
     uiFramework: "Material UI",
     dataProvider: "Rest API",
@@ -494,13 +561,15 @@ Complete internal tool template built with Material UI. Features authentication 
     images: [
       "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-mantine-template.png",
     ],
+    imageAlt:
+      "Generic internal tool template with Mantine UI showing clean design with authentication and data management",
     runOnYourLocalPath: "auth-mantine",
     edition: "Community",
     liveDemo:
-      "https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/auth-mantine",
+      "https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/auth-mantine",
     github:
-      "https://github.com/refinedev/refine/tree/master/examples/auth-mantine",
-    tutorial: "https://refine.dev/tutorial",
+      "https://github.com/refinedev/refine/tree/main/examples/auth-mantine",
+    tutorial: "https://refine.dev/core/tutorial",
     reactPlatform: "Vite",
     uiFramework: "Mantine",
     dataProvider: "Rest API",
@@ -515,13 +584,15 @@ Complete internal tool template built with Mantine. Features authentication and 
     images: [
       "https://refine.ams3.cdn.digitaloceanspaces.com/templates/detail-chakra-ui-template.png",
     ],
+    imageAlt:
+      "Generic admin panel template with Chakra UI showing authentication screens and CRUD functionality",
     runOnYourLocalPath: "auth-chakra-ui",
     edition: "Community",
     liveDemo:
-      "https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/auth-chakra-ui",
+      "https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/auth-chakra-ui",
     github:
-      "https://github.com/refinedev/refine/tree/master/examples/auth-chakra-ui",
-    tutorial: "https://refine.dev/tutorial",
+      "https://github.com/refinedev/refine/tree/main/examples/auth-chakra-ui",
+    tutorial: "https://refine.dev/core/tutorial",
     reactPlatform: "Vite",
     uiFramework: "Chakra UI",
     dataProvider: "Rest API",

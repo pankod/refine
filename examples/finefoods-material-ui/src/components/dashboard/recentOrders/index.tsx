@@ -37,27 +37,37 @@ export const RecentOrders: React.FC = () => {
 
   const { dataGridProps } = useDataGrid<IOrder>({
     resource: "orders",
-    initialSorter: [
-      {
-        field: "createdAt",
-        order: "desc",
-      },
-    ],
-    initialPageSize: 10,
-    permanentFilter: [
-      {
-        field: "status.text",
-        operator: "eq",
-        value: "Pending",
-      },
-    ],
     syncWithLocation: false,
+
+    pagination: {
+      pageSize: 10,
+    },
+
+    filters: {
+      permanent: [
+        {
+          field: "status.text",
+          operator: "eq",
+          value: "Pending",
+        },
+      ],
+    },
+
+    sorters: {
+      initial: [
+        {
+          field: "createdAt",
+          order: "desc",
+        },
+      ],
+    },
   });
 
   const columns = useMemo<GridColDef<IOrder>[]>(
     () => [
       {
         field: "orderNumber",
+        display: "flex",
         renderCell: function render({ row }) {
           return <Typography>#{row.orderNumber}</Typography>;
         },
@@ -66,6 +76,7 @@ export const RecentOrders: React.FC = () => {
       {
         field: "user",
         width: 220,
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <Stack spacing="4px">
@@ -92,6 +103,7 @@ export const RecentOrders: React.FC = () => {
       {
         field: "products",
         flex: 1,
+        display: "flex",
         renderCell: function render({ row }) {
           const products = getUniqueListWithCount({
             list: row.products,
@@ -119,6 +131,7 @@ export const RecentOrders: React.FC = () => {
         field: "amount",
         align: "right",
         width: 80,
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <NumberField
@@ -140,7 +153,6 @@ export const RecentOrders: React.FC = () => {
           <GridActionsCellItem
             key={1}
             icon={<CheckOutlined color="success" />}
-            sx={{ padding: "2px 6px" }}
             label={t("buttons.accept")}
             showInMenu
             onClick={() => {
@@ -158,7 +170,6 @@ export const RecentOrders: React.FC = () => {
           <GridActionsCellItem
             key={2}
             icon={<CloseOutlined color="error" />}
-            sx={{ padding: "2px 6px" }}
             label={t("buttons.reject")}
             showInMenu
             onClick={() =>

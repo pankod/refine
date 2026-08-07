@@ -25,7 +25,7 @@ describe("auth-antd", () => {
   };
 
   describe("login", () => {
-    it.skip("should login", () => {
+    it("should login", () => {
       login();
 
       cy.location("pathname").should("eq", "/");
@@ -42,7 +42,7 @@ describe("auth-antd", () => {
       cy.location("pathname").should("eq", "/login");
     });
 
-    it.skip("should has 'to' param on URL after redirected to /login", () => {
+    it("should has 'to' param on URL after redirected to /login", () => {
       login();
       cy.location("pathname").should("eq", "/");
 
@@ -68,7 +68,7 @@ describe("auth-antd", () => {
   });
 
   describe("register", () => {
-    it.skip("should register", () => {
+    it("should register", () => {
       cy.get("a")
         .contains(/sign up/i)
         .click();

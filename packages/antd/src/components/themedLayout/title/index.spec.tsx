@@ -1,8 +1,11 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { ThemedTitle } from ".";
+import { layoutTitleTests } from "@refinedev/ui-tests";
 
 describe("Themed Title", () => {
+  layoutTitleTests.bind(this)(ThemedTitle);
+
   test("should render default text", () => {
     const { getByText } = render(<ThemedTitle collapsed={false} />);
     expect(getByText("Refine Project")).toBeInTheDocument();

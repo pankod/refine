@@ -33,7 +33,7 @@ export const LandingDocSearchButton = React.forwardRef<
         className={clsx(
           "h-5",
           "border",
-          "border-gray-0 border-opacity-20",
+          "border-opacity-20",
           "py-px px-1",
           "rounded",
           "bg-refine-bg",

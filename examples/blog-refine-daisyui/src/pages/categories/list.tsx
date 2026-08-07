@@ -82,17 +82,20 @@ export const CategoryList = () => {
   const { edit, show, create } = useNavigation();
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    refineCore: { setCurrent, filters, setFilters },
-    getState,
-    setPageIndex,
-    getCanPreviousPage,
-    getPageCount,
-    getCanNextPage,
-    nextPage,
-    previousPage,
-    setPageSize,
+    reactTable: {
+      getHeaderGroups,
+      getRowModel,
+      getState,
+      setPageIndex,
+      getCanPreviousPage,
+      getPageCount,
+      getCanNextPage,
+      nextPage,
+      previousPage,
+      setPageSize,
+    },
+
+    refineCore: { setCurrentPage: setCurrent, filters, setFilters },
   } = useTable({
     columns,
   });

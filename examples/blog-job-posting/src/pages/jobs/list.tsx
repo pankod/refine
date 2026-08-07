@@ -17,17 +17,23 @@ import { Table, Space } from "antd";
 import type { ICompany, IJob } from "interfaces";
 
 export const JobList = () => {
-  const { tableProps, sorter } = useTable<IJob>({
-    initialSorter: [
-      {
-        field: "id",
-        order: "desc",
-      },
-    ],
+  const { tableProps, sorters: sorter } = useTable<IJob>({
+    sorters: {
+      initial: [
+        {
+          field: "id",
+          order: "desc",
+        },
+      ],
+    },
   });
 
   const { selectProps: companySelectProps } = useSelect<ICompany>({
     resource: "companies",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

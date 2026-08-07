@@ -15,7 +15,7 @@ Data providers works like an adapter system infrastructure. So they can communic
 
 As shown below, we will begin by creating a file and adding additional methods as we proceed.
 
-Using `axios` as our HTTP client will allow us to make efficient and reliable HTTP requests to our server. Interceptors provide several benefits, such as centralized error handling, the ability to modify request or response data, and show global loading indicators.  
+Using `axios` as our HTTP client will allow us to make efficient and reliable HTTP requests to our server. Interceptors provide several benefits, such as centralized error handling, the ability to modify request or response data, and show global loading indicators.
 To get started, install the `axios` to our project.
 
 <InstallPackagesCommand args="axios"/>
@@ -198,7 +198,7 @@ access-control-expose-headers: X-Total-Count
    ```
 
    **refine** uses the `sort` parameter for sorting. This parameter includes `field` and `order` values.
-   Supports multiple field sorting. [CrudSort[]](../../api-reference/core/interfaces.md#CrudSorting) type, it comes in the data provider as follows.
+   Supports multiple field sorting. [CrudSort[]](../../api-reference/core/interfaces#CrudSorting) type, it comes in the data provider as follows.
 
    ```bash
    [
@@ -259,7 +259,7 @@ access-control-expose-headers: X-Total-Count
    [GET] https://api.fake-rest.refine.dev/posts?_limit=10&_page=2&_sort=id&_order=desc&title_like
    ```
 
-   **refine** uses the `filters` parameter for filtering. This parameter contains `field`, `operator` and `value` with type [CrudFilters []](../../api-reference/core/interfaces.md#crudfilters).
+   **refine** uses the `filters` parameter for filtering. This parameter contains `field`, `operator` and `value` with type [CrudFilters []](../../api-reference/core/interfaces#crudfilters).
 
    ```bash
    [
@@ -276,7 +276,7 @@ access-control-expose-headers: X-Total-Count
    ]
    ```
 
-   The `operator` data comes with the [CrudOperators](../../api-reference/core/interfaces.md#crudoperators) type and needs to be mapped to the API. For this, the following `mapOperator` function is written.
+   The `operator` data comes with the [CrudOperators](../../api-reference/core/interfaces#crudoperators) type and needs to be mapped to the API. For this, the following `mapOperator` function is written.
 
    ```ts
    // Map refine operators to API operators
@@ -396,13 +396,13 @@ access-control-expose-headers: X-Total-Count
 
    **Parameter Types:**
 
-   | Name           | Type                                                                |
-   | -------------- | ------------------------------------------------------------------- |
-   | resource       | `string`                                                            |
-   | hasPagination? | `boolean` _(defaults to `true`)_                                    |
-   | pagination?    | [`Pagination`](../../api-reference/core/interfaces.md#pagination)   |
-   | sort?          | [`CrudSorting`](../../api-reference/core/interfaces.md#crudsorting) |
-   | filters?       | [`CrudFilters`](../../api-reference/core/interfaces.md#crudfilters) |
+   | Name           | Type                                                             |
+   | -------------- | ---------------------------------------------------------------- |
+   | resource       | `string`                                                         |
+   | hasPagination? | `boolean` _(defaults to `true`)_                                 |
+   | pagination?    | [`Pagination`](../../api-reference/core/interfaces#pagination)   |
+   | sort?          | [`CrudSorting`](../../api-reference/core/interfaces#crudsorting) |
+   | filters?       | [`CrudFilters`](../../api-reference/core/interfaces#crudfilters) |
 
 <br/>
 
@@ -431,7 +431,7 @@ const { data } = useList({
 });
 ```
 
-> [Refer to the useList documentation for more information. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useList)
+> [Refer to the useList documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList)
 
 ### create
 
@@ -460,7 +460,7 @@ export const dataProvider = (apiUrl: string): DataProvider => ({
 | resource  | `string`     |         |
 | variables | `TVariables` | `{}`    |
 
-> `TVariables` is a user defined type which can be passed to [`useCreate`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate#type-parameters) to type `variables`
+> `TVariables` is a user defined type which can be passed to [`useCreate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate#type-parameters) to type `variables`
 
 <br/>
 
@@ -479,7 +479,7 @@ mutate({
 });
 ```
 
-> [Refer to the useCreate documentation for more information. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/)
+> [Refer to the useCreate documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/)
 
 ### update
 
@@ -503,13 +503,13 @@ export const dataProvider = (apiUrl: string): DataProvider => ({
 
 **Parameter Types:**
 
-| Name      | Type                                                      | Default |
-| --------- | --------------------------------------------------------- | ------- |
-| resource  | `string`                                                  |         |
-| id        | [BaseKey](../../api-reference/core/interfaces.md#basekey) |         |
-| variables | `TVariables`                                              | `{}`    |
+| Name      | Type                                                   | Default |
+| --------- | ------------------------------------------------------ | ------- |
+| resource  | `string`                                               |         |
+| id        | [BaseKey](../../api-reference/core/interfaces#basekey) |         |
+| variables | `TVariables`                                           | `{}`    |
 
-> `TVariables` is a user defined type which can be passed to [`useUpdate`](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate#type-parameters) to type `variables`
+> `TVariables` is a user defined type which can be passed to [`useUpdate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate#type-parameters) to type `variables`
 
 <br/>
 
@@ -527,7 +527,7 @@ mutate({
 });
 ```
 
-> [Refer to the useUpdate documentation for more information. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/)
+> [Refer to the useUpdate documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdate/)
 
 ### deleteOne
 
@@ -553,13 +553,13 @@ export const dataProvider = (apiUrl: string): DataProvider => ({
 
 **Parameter Types:**
 
-| Name      | Type                                                      | Default |
-| --------- | --------------------------------------------------------- | ------- |
-| resource  | `string`                                                  |         |
-| id        | [BaseKey](../../api-reference/core/interfaces.md#basekey) |         |
-| variables | `TVariables[]`                                            | `{}`    |
+| Name      | Type                                                   | Default |
+| --------- | ------------------------------------------------------ | ------- |
+| resource  | `string`                                               |         |
+| id        | [BaseKey](../../api-reference/core/interfaces#basekey) |         |
+| variables | `TVariables[]`                                         | `{}`    |
 
-> `TVariables` is a user defined type which can be passed to [`useDelete`](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) to type `variables`
+> `TVariables` is a user defined type which can be passed to [`useDelete`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) to type `variables`
 
 <br/>
 
@@ -573,7 +573,7 @@ const { mutate } = useDelete();
 mutate({ resource: "posts", id: 2 });
 ```
 
-> [Refer to the useDelete documentation for more information. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/)
+> [Refer to the useDelete documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/)
 
 ### getOne
 
@@ -597,10 +597,10 @@ export const dataProvider = (apiUrl: string): DataProvider => ({
 
 **Parameter Types:**
 
-| Name     | Type                                                      | Default |
-| -------- | --------------------------------------------------------- | ------- |
-| resource | `string`                                                  |         |
-| id       | [BaseKey](../../api-reference/core/interfaces.md#basekey) |         |
+| Name     | Type                                                   | Default |
+| -------- | ------------------------------------------------------ | ------- |
+| resource | `string`                                               |         |
+| id       | [BaseKey](../../api-reference/core/interfaces#basekey) |         |
 
 <br/>
 
@@ -612,7 +612,7 @@ import { useOne } from "@pankod/refine-core";
 const { data } = useOne({ resource: "posts", id: 1 });
 ```
 
-> [Refer to the useOne documentation for more information. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useOne/)
+> [Refer to the useOne documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useOne/)
 
 <br/>
 
@@ -638,7 +638,7 @@ import { useApiUrl } from "@pankod/refine-core";
 const { data } = useApiUrl();
 ```
 
-> [Refer to the useApiUrl documentation for more information. &#8594](../../api-reference/core/hooks/data/useApiUrl.md)
+> [Refer to the useApiUrl documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useApiUrl/)
 
 ### custom
 
@@ -702,15 +702,15 @@ export const dataProvider = (apiUrl: string): DataProvider => ({
 
 **Parameter Types**
 
-| Name     | Type                                                                 |
-| -------- | -------------------------------------------------------------------- |
-| url      | `string`                                                             |
-| method   | `get`, `delete`, `head`, `options`, `post`, `put`, `patch`           |
-| sort?    | [`CrudSorting`](../../api-reference/core/interfaces.md#crudsorting); |
-| filters? | [`CrudFilters`](../../api-reference/core/interfaces.md#crudfilters); |
-| payload? | `{}`                                                                 |
-| query?   | `{}`                                                                 |
-| headers? | `{}`                                                                 |
+| Name     | Type                                                              |
+| -------- | ----------------------------------------------------------------- |
+| url      | `string`                                                          |
+| method   | `get`, `delete`, `head`, `options`, `post`, `put`, `patch`        |
+| sort?    | [`CrudSorting`](../../api-reference/core/interfaces#crudsorting); |
+| filters? | [`CrudFilters`](../../api-reference/core/interfaces#crudfilters); |
+| payload? | `{}`                                                              |
+| query?   | `{}`                                                              |
+| headers? | `{}`                                                              |
 
 <br/>
 
@@ -730,14 +730,14 @@ const { data, isLoading } = useCustom({
 });
 ```
 
-> [Refer to the useCustom documentation for more information. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useCustom/)
+> [Refer to the useCustom documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCustom/)
 
 ## Bulk Actions
 
 Bulk actions are actions that can be performed on multiple items at once. Performing bulk actions is a common pattern in admin panels. If your API supports bulk actions, you can implement them in your data provider.
 
 :::tip
-Bulk operations are a way to perform many database operations at once, improving speed and efficiency. They can be used for data [`import`](../../examples/core/useImport.md) and [`export`](../../api-reference/core/hooks/import-export/useExport.md), and have the added benefit of being atomic, meaning that they are treated as a single unit.
+Bulk operations are a way to perform many database operations at once, improving speed and efficiency. They can be used for data [`import`](../../examples/core/useImport) and [`export`](../../api-reference/core/hooks/import-export/useExport), and have the added benefit of being atomic, meaning that they are treated as a single unit.
 :::
 
 ### getMany
@@ -762,10 +762,10 @@ export const dataProvider = (apiUrl: string): DataProvider => ({
 
 **Parameter Types:**
 
-| Name     | Type                                                        | Default |
-| -------- | ----------------------------------------------------------- | ------- |
-| resource | `string`                                                    |         |
-| ids      | [[BaseKey](../../api-reference/core/interfaces.md#basekey)] |         |
+| Name     | Type                                                     | Default |
+| -------- | -------------------------------------------------------- | ------- |
+| resource | `string`                                                 |         |
+| ids      | [[BaseKey](../../api-reference/core/interfaces#basekey)] |         |
 
 <br/>
 
@@ -777,7 +777,7 @@ import { useMany } from "@pankod/refine-core";
 const { data } = useMany({ resource: "posts", ids: [1, 2] });
 ```
 
-> [Refer to the useMany documentation for more information. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useMany/)
+> [Refer to the useMany documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useMany/)
 
 ### createMany
 
@@ -805,7 +805,7 @@ export const dataProvider = (apiUrl: string): DataProvider => ({
 | resource  | `string`       |         |
 | variables | `TVariables[]` | `{}`    |
 
-> `TVariables` is a user defined type which can be passed to [`useCreateMany`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/) to type `variables`
+> `TVariables` is a user defined type which can be passed to [`useCreateMany`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/) to type `variables`
 
 <br/>
 
@@ -829,7 +829,7 @@ mutate({
 });
 ```
 
-> [Refer to the useCreateMany documentation for more information. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/)
+> [Refer to the useCreateMany documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/)
 
 ### deleteMany
 
@@ -852,13 +852,13 @@ export const dataProvider = (apiUrl: string): DataProvider => ({
 
 **Parameter Types:**
 
-| Name      | Type                                                        | Default |
-| --------- | ----------------------------------------------------------- | ------- |
-| resource  | `string`                                                    |         |
-| ids       | [[BaseKey](../../api-reference/core/interfaces.md#basekey)] |         |
-| variables | `TVariables[]`                                              | `{}`    |
+| Name      | Type                                                     | Default |
+| --------- | -------------------------------------------------------- | ------- |
+| resource  | `string`                                                 |         |
+| ids       | [[BaseKey](../../api-reference/core/interfaces#basekey)] |         |
+| variables | `TVariables[]`                                           | `{}`    |
 
-> `TVariables` is a user defined type which can be passed to [`useDeleteMany`](/docs/3.xx.xx/api-reference/core/hooks/data/useDeleteMany/) to type `variables`
+> `TVariables` is a user defined type which can be passed to [`useDeleteMany`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDeleteMany/) to type `variables`
 
 <br/>
 
@@ -875,7 +875,7 @@ mutate({
 });
 ```
 
-> [Refer to the useDeleteMany documentation for more information. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useDeleteMany/)
+> [Refer to the useDeleteMany documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDeleteMany/)
 
 ### updateMany
 
@@ -910,7 +910,7 @@ mutate({
 });
 ```
 
-> [Refer to the useUpdateMany documentation for more information. &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useUpdateMany/)
+> [Refer to the useUpdateMany documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useUpdateMany/)
 
 ## metaData Usage
 

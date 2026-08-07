@@ -8,7 +8,7 @@ const stepTitles = ["Title", "Status", "Category and content"];
 
 export const PostEdit: React.FC = () => {
   const {
-    refineCore: { onFinish, formLoading, queryResult },
+    refineCore: { onFinish, formLoading, query },
     register,
     handleSubmit,
     formState: { errors },
@@ -18,7 +18,11 @@ export const PostEdit: React.FC = () => {
 
   const { options } = useSelect({
     resource: "categories",
-    defaultValue: queryResult?.data?.data.category.id,
+    defaultValue: query?.data?.data.category.id,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const renderFormByStep = (step: number) => {
@@ -60,7 +64,7 @@ export const PostEdit: React.FC = () => {
                     <select
                       id="category"
                       {...field}
-                      value={queryResult?.data?.data.category.id}
+                      value={query?.data?.data.category.id}
                     >
                       {options?.map((category) => (
                         <option key={category.value} value={category.value}>

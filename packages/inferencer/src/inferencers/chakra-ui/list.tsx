@@ -73,7 +73,10 @@ export const renderer = ({
   isCustomPage,
   i18n,
 }: RendererContext) => {
-  const COMPONENT_NAME = componentName(resource.label ?? resource.name, "list");
+  const COMPONENT_NAME = componentName(
+    resource.meta?.label ?? resource.name,
+    "list",
+  );
   const recordName = "tableData?.data";
   const imports: Array<ImportElement> = [
     ["useTable", "@refinedev/react-table"],
@@ -136,7 +139,7 @@ export const renderer = ({
         }
 
         return `
-                const { data: ${getVariableName(field.key, "Data")} } =
+                const { result: ${getVariableName(field.key, "Data")} } =
                 useMany({
                     resource: "${field.resource.name}",
                     ids: ${idsString},
@@ -166,7 +169,7 @@ export const renderer = ({
 
   const renderRelationFields = (field: InferField) => {
     if (field.relation && field.resource) {
-      const variableName = `${getVariableName(field.key, "Data")}?.data`;
+      const variableName = `${getVariableName(field.key, "Data")}`;
 
       if (Array.isArray(field.accessor)) {
         // not handled - not possible case
@@ -222,7 +225,10 @@ export const renderer = ({
                     };
 
                     const ${getVariableName(field.key, "")} = getValue<any[]>()?.map((item) => {
-                        return meta.${getVariableName(field.key, "Data")}?.data?.find(
+                                return meta.${getVariableName(
+                                  field.key,
+                                  "Data",
+                                )}?.data?.find(
                             (resourceItems) => resourceItems.id === ${accessor(
                               "item",
                               undefined,
@@ -265,7 +271,7 @@ export const renderer = ({
                         const ${getVariableName(
                           field.key,
                           "",
-                        )} = meta.${variableName}?.find(
+                        )} = meta.${variableName}?.data?.find(
                             (item) => item.id == getValue<any>(),
                         );
 
@@ -692,14 +698,11 @@ export const renderer = ({
     return undefined;
   };
 
-  const {
-    canEdit,
-    canShow,
-    canDelete: canDeleteProp,
-    meta: resourceMeta,
-  } = resource ?? {};
+  const { meta: resourceMeta, edit, show } = resource ?? {};
 
-  const canDelete = canDeleteProp || resourceMeta?.canDelete;
+  const canEdit = edit || resourceMeta?.canEdit;
+  const canShow = show || resourceMeta?.canShow;
+  const canDelete = resourceMeta?.canDelete;
 
   if (canEdit) {
     imports.push(["EditButton", "@refinedev/chakra-ui"]);
@@ -797,14 +800,16 @@ export const renderer = ({
         ], [${i18n ? "translate" : ""}]);
 
         const {
-            getHeaderGroups,
-            getRowModel,
-            setOptions,
+            reactTable: {
+                getHeaderGroups,
+                getRowModel,
+                setOptions
+            },
             refineCore: {
-                setCurrent,
+                setCurrentPage,
                 pageCount,
-                current,
-                tableQueryResult: { data: tableData },
+                currentPage,
+                tableQuery: { data: tableData },
             },
         } = useTable({
             columns,
@@ -879,9 +884,9 @@ export const renderer = ({
                     </Table>
                 </TableContainer>
                 <Pagination
-                    current={current}
+                    current={currentPage}
                     pageCount={pageCount}
-                    setCurrent={setCurrent}
+                    setCurrent={setCurrentPage}
                 />
             </List>   
         );

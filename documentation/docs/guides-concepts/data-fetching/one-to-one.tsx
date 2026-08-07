@@ -81,20 +81,18 @@ import React from "react";
 import { useOne, BaseKey } from "@refinedev/core";
 
 export const Product: React.FC = () => {
-    const { data: productData, isLoading: productLoading } = useOne<IProduct>({
+    const { result: product, query: { isLoading: productLoading } } = useOne<IProduct>({
         resource: "products",
         id: 123,
     });
-    const product = productData?.data;
 
-    const { data: productDetailData, isLoading: productDetailLoading }  = useOne<IProductDetail>({
+    const { result: productDetail, query: { isLoading: productDetailLoading } }  = useOne<IProductDetail>({
         resource: "product-detail",
         id: product?.id,
         queryOptions: {
             enabled: !!product,
         },
     });
-    const productDetail = productDetailData?.data;
 
     loading = productLoading || productDetailLoading;
 

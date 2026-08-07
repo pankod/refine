@@ -162,7 +162,10 @@ export const authProvider: AuthProvider = {
     if (error?.status === 401) {
       return {
         logout: true,
-        error: { message: "Unauthorized" },
+        error: {  message: "Unauthorized",
+          name: "Error",
+          statusCode: error?.status ?? 403,
+        },
       };
     }
 

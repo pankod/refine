@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example form-mantine-use-steps-form
 
 <br/>
 
-[![Open form-mantine-use-steps-form example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/form-mantine-use-steps-form?view=preview&theme=dark&codemirror=1)
+[![Open form-mantine-use-steps-form example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/form-mantine-use-steps-form?view=preview&theme=dark&codemirror=1)

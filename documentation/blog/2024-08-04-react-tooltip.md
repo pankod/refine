@@ -3,9 +3,11 @@ title: Creating responsive tooltips in React with react-tooltip
 description: We'll explore how to create a custom tooltip component in a React application, as well as integrating the react-tooltip library.
 slug: react-tooltip
 authors: david_omotayo
+category: "Ecosystem / Integrations"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/social-2.png
 hide_table_of_contents: false
+last_update: 2024-08-05
 ---
 
 **This article was last updated on August 05,2024 to add sections for Advanced Custom Tooltip Features and Performance Optimization.**
@@ -18,7 +20,7 @@ Typically, a tooltip is displayed as a small box or pop-up and is commonly used 
 
 You can see a tooltip in action through the following GIF example:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/first.gif" alt="react tooltip" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/first.avif" alt="Tooltip hover preview" />
 
 <br/>
 
@@ -35,7 +37,7 @@ To get started, head on to [https://refine.new/](https://refine.new/), scroll do
 
 Upon clicking the button, you’ll be presented with a stepper component that let you choose and combine your preferred React platform, UI framework, backend connector, and auth provider.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/select.png" alt="react tooltip" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/select.png" alt="refine.new setup stepper" />
 
 <br/>
 
@@ -60,7 +62,7 @@ These commands will install the necessary dependencies for your project and star
 
 <br/>
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/welcome.png" alt="react tooltip" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/welcome.png" alt="Headless Refine starter screen" />
 
 <br/>
 
@@ -69,17 +71,17 @@ Refine was originally designed to provide a rapid way of bootstrapping enterpris
 <br/>
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/inferencer.png"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/inferencer.png"  alt="Inferencer-generated list page" />
 </div>
 
 <br/>
 
-The Refine inferencer package is a tool that automates the generation of CRUD (Create, Read, Update, Delete) pages for resources in your Refine application based on the data model. You can find more information about this package by visiting the [documentation](https://refine.dev/docs/packages/documentation/inferencer).
+The Refine inferencer package is a tool that automates the generation of CRUD (Create, Read, Update, Delete) pages for resources in your Refine application based on the data model. You can find more information about this package by visiting the [documentation](https://refine.dev/core/docs/packages/documentation/inferencer).
 
 Since our application's pages are being populated by the inferencer, we don't have direct access to the rendered content, so we cannot add a tooltip to a specific element like the `create` button on the table. However, we can access the sidebar navigations via the `Menu` component in the `src/component` directory.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/menu.png"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/menu.png"  alt="Sidebar menu component" />
 </div>
 
 <br/>
@@ -87,7 +89,7 @@ Since our application's pages are being populated by the inferencer, we don't ha
 When you create a Headless Refine application, a `Layout` component is automatically generated in the `src/components` directory. This component wraps the pages created by the inferencer and the `Menu` component, which contains the sidebar navigation.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/layout.png"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/layout.png"  alt="Layout component structure" />
 </div>
 
 <br/>
@@ -147,7 +149,7 @@ Here, we’re positioning the tooltip absolutely to the navigation links. initia
 If you save your progress and go back to the browser, you should see something similar to the GIF below.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/custom_tip.gif"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/custom_tip.gif"  alt="Custom tooltip on sidebar links" />
 </div>
 
 <br/>
@@ -225,7 +227,7 @@ export const Menu = () => {
 <br/>
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/custom_last.gif"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/custom_last.gif"  alt="Reusable tooltip component demo" />
 </div>
 
 <br/>
@@ -324,7 +326,7 @@ This will bind the `<Tooltip/>` component to the navigations and display the spe
 <br/>
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/rtt-first.gif"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/rtt-first.gif"  alt="react-tooltip with data attributes" />
 </div>
 
 <br/>
@@ -368,7 +370,7 @@ The tooltip will render on the browser just the same.
 <br/>
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/using_rtt2.gif"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/using_rtt2.gif"  alt="react-tooltip with anchorSelect" />
 </div>
 
 <br/>
@@ -382,7 +384,7 @@ The `place` prop in the react-tooltip package is used to set the position of the
 - `top`: This positions the tooltip at the top of the anchor element
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/positioning-top.png"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/positioning-top.png"  alt="Tooltip positioned at top" />
 </div>
 
 <br/>
@@ -390,7 +392,7 @@ The `place` prop in the react-tooltip package is used to set the position of the
 - `right`: This positions the tooltip on the right side of the anchor element
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/positioning-right.png"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/positioning-right.png"  alt="Tooltip positioned at right" />
 </div>
 
 <br/>
@@ -398,7 +400,7 @@ The `place` prop in the react-tooltip package is used to set the position of the
 - `bottom`: This positions the tooltip at the top of the anchor element
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/positioning-bottom.png"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/positioning-bottom.png"  alt="Tooltip positioned at bottom" />
 </div>
 
 <br/>
@@ -406,7 +408,7 @@ The `place` prop in the react-tooltip package is used to set the position of the
 - `left`: This positions the tooltip on the left side of the anchor element
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/positioning_left.png"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/positioning_left.png"  alt="Tooltip positioned at left" />
 </div>
 
 <br/>
@@ -440,7 +442,7 @@ The `tooltip-delay-show` attribute adds a delay before the tooltip appears when 
 <br/>
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/delay_show.gif"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/delay_show.gif"  alt="Tooltip delay show example" />
 </div>
 
 <br/>
@@ -468,7 +470,7 @@ This attribute does the opposite of the former, as it adds a delay to when the t
 <br/>
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/delay_hide.gif"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/delay_hide.gif"  alt="Tooltip delay hide example" />
 </div>
 
 <br/>
@@ -497,7 +499,7 @@ react-tooltip also provides a feature that allows you to create clickable toolti
 ```
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-23-react-tooltip/clickable.gif"  alt="react tooltip" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-23-react-tooltip/clickable.avif"  alt="Clickable tooltip example" />
 </div>
 
 <br/>

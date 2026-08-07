@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Button, GroupBox, Select, Separator, TextInput } from "react95";
 import { useForm } from "@refinedev/react-hook-form";
 import { Controller, type FieldValues } from "react-hook-form";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router";
 import dayjs from "dayjs";
 import { VideoClubPageTapeSelectTitle } from "@/routes/video-club/tapes/select-title";
 import { VideoClubLayoutSubPage } from "@/components/layout";
@@ -40,9 +40,8 @@ export const VideoClubPageTapeRent = () => {
   const [screen, setScreen] = useState<"titles" | "rent">("titles");
 
   const {
-    data: dataMember,
-    isLoading,
-    refetch,
+    result: dataMember,
+    query: { isLoading, refetch },
   } = useOne<ExtendedMember>({
     resource: "members",
     id: memberId,
@@ -53,7 +52,7 @@ export const VideoClubPageTapeRent = () => {
       select: "*, rentals(*)",
     },
   });
-  const member = dataMember?.data || null;
+  const member = dataMember || null;
 
   useSubscription({
     channel: "rentals",
@@ -148,7 +147,7 @@ const TableCurrentRentals = ({ member }: { member: ExtendedMember | null }) => {
     (rental) => !rental.returned_at,
   );
 
-  const { data } = useMany<VideoTitle>({
+  const { result: data } = useMany<VideoTitle>({
     resource: "titles",
     ids: currentRentals?.map((rental) => rental.title_id) || [],
     queryOptions: {
@@ -275,7 +274,10 @@ const RentTapeForm = ({
   member: ExtendedMember | null;
   title: ExtendedVideoTitle | null;
 }) => {
-  const { data: dataTapes, isSuccess: tapesIsSuccess } = useList<Tape>({
+  const {
+    result: dataTapes,
+    query: { isSuccess: tapesIsSuccess },
+  } = useList<Tape>({
     resource: "tapes",
     filters: [
       {

@@ -1,5 +1,8 @@
 ---
-title: Interface References
+title: "Interface References Guide | Best Practices in Refine v5"
+display_title: "Interface References"
+sidebar_label: "Interface References"
+description: "Learn to implement Interface References in Refine v5. Learn best practices for basekey and baserecord for real-world React admin panels."
 ---
 
 ### CrudFilters
@@ -40,6 +43,8 @@ type ConditionalFilter = {
 type CrudOperators =
   | "eq" // Equal
   | "ne" // Not equal
+  | "eqs" // Equal, case sensitive
+  | "nes" // Not equal, case sensitive
   | "lt" // Less than
   | "gt" // Greater than
   | "lte" // Less than or equal to
@@ -68,6 +73,12 @@ type CrudOperators =
   | "and"; // Logical AND
 ```
 
+:::note
+
+The `eq` and `ne` operators in most data-provider integrations are case-sensitive. The explicit `eqs` and `nes` operators are mainly intended for custom data-providers.
+
+:::
+
 ### CrudSorting
 
 ```tsx
@@ -89,7 +100,7 @@ type CrudSort = {
 
 ```tsx
 type Pagination = {
-  current?: number; // Initial page index
+  currentPage?: number; // Initial page index
   pageSize?: number; // Initial number of items per page
   mode?: "client" | "server" | "off"; // Whether to use server side pagination or not.
 };
@@ -215,7 +226,7 @@ type GraphQLQueryOptions = {
 
 ### QueryFunctionContext
 
-Context to be passed to the query function. Refer to [Query Function Context](https://tanstack.com/query/v4/docs/guides/query-functions#queryfunctioncontext) for more information.
+Context to be passed to the query function. Refer to [Query Function Context](https://tanstack.com/query/v5/docs/react/guides/query-functions#queryfunctioncontext) for more information.
 
 ### QueryBuilderOptions
 
@@ -391,7 +402,7 @@ type ResourceAuditLogPermissions = "create" | "update" | "delete" | string;
 
 ```tsx
 type SyncWithLocationParams = {
-  pagination: { current?: number; pageSize?: number };
+  pagination: { currentPage?: number; pageSize?: number };
   sorters: CrudSorting;
   filters: CrudFilters;
 };

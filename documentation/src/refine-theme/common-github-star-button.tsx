@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 import { useCommunityStatsContext } from "../context/CommunityStats";
-import { GithubIcon } from "./icons/github";
+import { StarIcon } from "lucide-react";
 import { Spinner } from "./spinner";
 
 type Props = {
@@ -15,34 +15,38 @@ export const CommonGithubStarButton = ({ className }: Props) => {
     <a
       href="https://github.com/refinedev/refine"
       target="_blank"
-      rel="noreferrer"
+      rel="noopener"
       className={clsx(
-        "text-sm",
-        "text-gray-500 dark:text-gray-400",
-        "rounded-[32px]",
-        "border border-solid border-gray-300 dark:border-gray-700",
-        "flex gap-2 items-center",
-        "py-2 pl-2.5 pr-4",
-        "no-underline",
-        className,
+        "flex gap-2 items-center justify-center",
+        "font-medium",
+        "text-base",
+        "text-zinc-500 dark:text-zinc-300",
+        "hover:no-underline",
+        "pl-2.5",
+        "pr-4",
+        "h-10",
+        "min-w-[102px]",
+        "rounded-lg",
+        "border border-zinc-200 dark:border-zinc-700",
+        "font-jetBrains-mono",
+        "tabular-nums",
+        "tracking-normal",
       )}
     >
-      <GithubIcon className={clsx("w-5 h-5")} />
-      <div className={clsx("flex items-center", "min-w-[76px] h-6")}>
-        Star:&nbsp;
+      {/* @ts-expect-error - lucide-react type issue */}
+      <StarIcon
+        className={clsx("w-4 h-4", "text-orange-500", "dark:text-orange-400")}
+      />
+      <div className={clsx("flex items-center")}>
         {loading ? (
           <Spinner
-            className={clsx("w-5 h-5")}
+            className={clsx("w-12 h-5")}
             wrapperProps={{
               className: clsx("mx-auto"),
             }}
           />
         ) : (
-          <span
-            className={clsx("tabular-nums text-gray-800 dark:text-gray-100")}
-          >
-            {githubStarCountText}
-          </span>
+          <span>{githubStarCountText}</span>
         )}
       </div>
     </a>

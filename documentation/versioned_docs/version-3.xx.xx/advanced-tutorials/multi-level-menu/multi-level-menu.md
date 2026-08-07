@@ -12,7 +12,7 @@ The multi-level menu is a great way to organize your sider menu items. You can c
 
 ## Usage
 
-To do this, it is necessary to create an object array with the following [resources properties](/api-reference/core/interfaces.md#resourceitemprops):
+To do this, it is necessary to create an object array with the following [resources properties](/core/docs/3.xx.xx/api-reference/core/interfaces#resourceitemprops):
 
 ```tsx title="src/App.tsx"
         <Refine
@@ -93,17 +93,17 @@ Since your Next.js applications are routing file-based, you need to manage the n
 
 ### Headless
 
-If you want to create your multi-level menu without any UI framework integration, [`useMenu`](/api-reference/core/hooks/ui/useMenu.md) hook gives your resources. The `createTreeView` helper from refine core allows you to create a tree for your headless sider.
+If you want to create your multi-level menu without any UI framework integration, [`useMenu`](/core/docs/3.xx.xx/api-reference/core/hooks/ui/useMenu) hook gives your resources. The `createTreeView` helper from refine core allows you to create a tree for your headless sider.
 
 ```tsx title="src/components/layout/sider/index.tsx"
 //highlight-next-line
 import { useMenu } from "@pankod/refine-core";
 
 export const Sider: React.FC = () => {
-    //highlight-next-line
-    const { menuItems, selectedKey, defaultOpenKeys } = useMenu();
+  //highlight-next-line
+  const { menuItems, selectedKey, defaultOpenKeys } = useMenu();
 
-    // Here create your Sider to your UI choice
+  // Here create your Sider to your UI choice
 };
 ```
 

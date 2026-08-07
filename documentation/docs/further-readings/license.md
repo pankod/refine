@@ -1,5 +1,8 @@
 ---
-title: License
+title: "License Guide | Best Practices in Refine v5"
+display_title: "License"
+sidebar_label: "License"
+description: "Set up License in Refine v5. Learn best practices. Learn best practices for software and copyright for real-world React admin panels."
 ---
 
 # Overview

@@ -69,6 +69,10 @@ export const PostList: React.FC = () => {
 
   const { selectProps: filterSelectProps } = useSelect<ICategory>({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const columns = React.useMemo<ColumnDef<IPost>[]>(
@@ -188,16 +192,20 @@ export const PostList: React.FC = () => {
   );
 
   const {
-    setOptions,
-    getAllColumns,
-    getHeaderGroups,
-    getRowModel,
-    resetRowSelection,
+    reactTable: {
+      setOptions,
+      getAllColumns,
+      getHeaderGroups,
+      getRowModel,
+      resetRowSelection,
+    },
+
     refineCore: {
       tableQuery: { data: tableData },
-      setCurrent,
+
+      setCurrentPage: setCurrent,
       pageCount,
-      current,
+      currentPage: current,
     },
   } = useTable<IPost>({
     columns,
@@ -205,7 +213,7 @@ export const PostList: React.FC = () => {
   });
 
   const categoryIds = tableData?.data?.map((item) => item.category.id) ?? [];
-  const { data: categoriesData } = useMany<ICategory>({
+  const { result: categoriesData } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -216,6 +224,10 @@ export const PostList: React.FC = () => {
   const { selectProps } = useSelect<ICategory>({
     resource: "categories",
     defaultValue: categoryIds,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   setOptions((prev) => ({

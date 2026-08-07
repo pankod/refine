@@ -7,7 +7,6 @@ import {
   type BaseRecord,
   type GetListResponse,
   type HttpError,
-  pickNotDeprecated,
   useSelect,
   type UseSelectProps,
 } from "@refinedev/core";
@@ -15,15 +14,12 @@ import {
 export type UseRadioGroupReturnType<
   TData extends BaseRecord = BaseRecord,
   TOption extends BaseOption = BaseOption,
+  TError extends HttpError = HttpError,
 > = {
   radioGroupProps: Omit<React.ComponentProps<typeof Radio.Group>, "options"> & {
     options: TOption[];
   };
-  query: QueryObserverResult<GetListResponse<TData>>;
-  /**
-   * @deprecated Use `query` instead
-   */
-  queryResult: QueryObserverResult<GetListResponse<TData>>;
+  query: QueryObserverResult<GetListResponse<TData>, TError>;
 };
 
 type UseRadioGroupProps<TQueryFnData, TError, TData> = Omit<
@@ -54,13 +50,11 @@ export const useRadioGroup = <
   TOption extends BaseOption = BaseOption,
 >({
   resource,
-  sort,
   sorters,
   filters,
   optionLabel,
   optionValue,
   queryOptions,
-  fetchSize,
   pagination,
   liveMode,
   defaultValue,
@@ -68,30 +62,28 @@ export const useRadioGroup = <
   onLiveEvent,
   liveParams,
   meta,
-  metaData,
   dataProviderName,
+  ...rest
 }: UseRadioGroupProps<TQueryFnData, TError, TData>): UseRadioGroupReturnType<
   TData,
   TOption
 > => {
   const { query, options } = useSelect<TQueryFnData, TError, TData, TOption>({
     resource,
-    sort,
     sorters,
     filters,
     optionLabel,
     optionValue,
     queryOptions,
-    fetchSize,
     pagination,
     liveMode,
     defaultValue,
     selectedOptionsOrder,
     onLiveEvent,
     liveParams,
-    meta: pickNotDeprecated(meta, metaData),
-    metaData: pickNotDeprecated(meta, metaData),
+    meta,
     dataProviderName,
+    ...rest,
   });
 
   return {
@@ -100,6 +92,5 @@ export const useRadioGroup = <
       defaultValue,
     },
     query,
-    queryResult: query,
   };
 };

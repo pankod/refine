@@ -10,9 +10,8 @@ import React from "react";
 import { HEADER_HEIGHT } from "./doc-header";
 import { ChevronDownIcon } from "./icons/chevron-down";
 import { DashIcon } from "./icons/dash";
-import { NewBadgePurple } from "./icons/new-badge-purple";
 
-const SIDEBAR_WIDTH = 260;
+const SIDEBAR_WIDTH = 240;
 
 const componentRegexp = /<([A-Z][a-z]+)\s?\/>/gi;
 
@@ -119,40 +118,33 @@ const SidebarCategory = ({
     });
   }, []);
 
-  const Comp = !isHeader && item.href && !isSame ? Link : "button";
+  const Comp = "button";
 
   return (
     <div
       className={clsx(
         !line && "pl-0",
-        // SPACING
         line && "pl-2",
         line && "ml-[12px]",
         "relative",
-        // line && "border-l border-l-gray-200 dark:border-l-gray-600",
       )}
     >
       <Comp
         type="button"
-        onClick={isHeader ? () => 0 : toggle}
-        {...(Comp === "button"
-          ? {}
-          : {
-              isNavLink: true,
-            })}
-        href={item.href}
+        onClick={isHeader ? undefined : toggle}
+        aria-expanded={collapsible ? !collapsed : undefined}
         className={clsx(
-          // isHeader && item.label !== "Getting Started" && "mt-6",
           isHeader && "cursor-default",
           "w-full",
           "min-h-[28px]",
+          "rounded-md",
           "border-0",
           "appearance-none",
           "focus:outline-none",
-          !isHeader && "text-gray-400 dark:text-gray-300",
-          isHeader && "text-gray-500 dark:text-gray-400",
+          !isHeader && "text-zinc-400 dark:text-zinc-300",
+          isHeader && "text-zinc-500 dark:text-zinc-400",
           isHeader && "font-semibold",
-          !isHeader && "hover:text-gray-600 dark:hover:text-gray-300",
+          !isHeader && "hover:bg-zinc-200 dark:hover:bg-[#303035]",
           "font-normal",
           "flex items-center",
           isHeader ? "pt-2 pb-4" : "py-2",
@@ -171,34 +163,32 @@ const SidebarCategory = ({
             className={clsx(
               "opacity-70",
               isActive
-                ? "text-gray-500 dark:text-gray-400"
-                : "text-gray-500 dark:text-gray-400",
+                ? "text-zinc-500 dark:text-zinc-400"
+                : "text-zinc-500 dark:text-zinc-400",
               "h-5 w-5",
               "flex-shrink-0",
               "z-[1]",
               "transition-transform duration-200 ease-in-out",
-              "group-hover:text-gray-600 dark:group-hover:text-gray-300",
+              "group-hover:text-zinc-600 dark:group-hover:text-zinc-300",
               {
                 "-rotate-90 transform": collapsed,
               },
             )}
           />
         )}
-        <span className="z-[1] text-refine-react-6 dark:text-refine-react-3">
+        <span className="z-[1] text-zinc-600 dark:text-zinc-300">
           {item.label}
         </span>
         <div
           className={clsx(
             "absolute",
-            "rounded-[18px]",
+            "rounded-md",
             "transition-opacity",
             "duration-200 ease-in-out",
             "top-0",
             {
-              "group-hover:bg-gray-100 dark:group-hover:bg-gray-700":
+              "group-hover:bg-zinc-200 dark:group-hover:bg-[#303035]":
                 !isActive && !isSame,
-              "bg-refine-blue-2-light dark:bg-refine-blue-2 dark:bg-opacity-10":
-                isActive && isSame,
               "right-0": variant === "desktop",
               "-left-2": variant === "mobile",
             },
@@ -213,7 +203,7 @@ const SidebarCategory = ({
         />
       </Comp>
       {line && (
-        <div className="z-[1] absolute left-0 top-1/2 -translate-y-1/2 border-l border-l-gray-300 dark:border-l-gray-600 h-full w-px" />
+        <div className="z-[1] absolute left-0 top-1/2 -translate-y-1/2 border-l border-l-zinc-300 dark:border-l-zinc-600 h-full w-px" />
       )}
       <div
         className={clsx(
@@ -222,6 +212,8 @@ const SidebarCategory = ({
           !collapsed && "opacity-100",
           !collapsed && !settled && "max-h-screen",
           !collapsed && settled && "max-h-max",
+          "flex",
+          "flex-col",
         )}
       >
         {
@@ -258,11 +250,9 @@ const EnterpriseEditionItem = ({
         "flex-shrink-0",
         "relative",
         "min-h-[28px]",
-        "rounded-[18px]",
-        "bg-refine-enterprise-purple-2 bg-opacity-10",
-        "dark-bg-refine-enterprise-purple-2 dark:bg-opacity-30",
-        "text-refine-enterprise-purple",
-        "dark:text-refine-enterprise-purple-3",
+        "rounded-md",
+        "bg-sky-950",
+        "text-sky-400",
         "pl-6 pr-3 py-2",
         "text-sm font-normal",
         "flex items-start justify-start",
@@ -274,7 +264,42 @@ const EnterpriseEditionItem = ({
     >
       <div className={"flex items-center flex-1"}>
         <span className="z-[1] flex-shrink-0">{item.label}</span>
-        <NewBadgePurple className="flex-shrink-0 ml-auto" />
+      </div>
+    </Link>
+  );
+};
+
+const ShadcnItem = ({
+  item,
+  onClick,
+}: {
+  item: SidebarLinkItem;
+  onClick?: () => void;
+}) => {
+  return (
+    <Link
+      href={item.href}
+      isNavLink
+      onClick={onClick}
+      className={clsx(
+        "flex-shrink-0",
+        "relative",
+        "min-h-[28px]",
+        "rounded-md",
+        "bg-black dark:bg-black",
+        "text-white",
+        "dark:text-white",
+        "pl-6 pr-3 py-2",
+        "text-sm font-normal",
+        "flex items-start justify-start",
+        "group",
+        "transition-colors duration-200 ease-in-out",
+        "no-underline",
+        item.className,
+      )}
+    >
+      <div className={"flex items-center flex-1"}>
+        <span className="z-[1] flex-shrink-0">{item.label}</span>
       </div>
     </Link>
   );
@@ -319,6 +344,7 @@ const SidebarLink = ({
   const isActive = isActiveSidebarItem(item, path);
   const isSame = isSamePath(item.href, path);
   const isEnterprise = item.className?.includes("enterprise-badge") || false;
+  const isShadcn = item.className?.includes("shadcn-badge") || false;
 
   React.useEffect(() => {
     if (isActive && !once.current) {
@@ -337,6 +363,10 @@ const SidebarLink = ({
     return <EnterpriseEditionItem item={item} onClick={onClick} />;
   }
 
+  if (isShadcn) {
+    return <ShadcnItem item={item} onClick={onClick} />;
+  }
+
   const isComponentLabel = componentRegexp.test(item.label);
 
   return (
@@ -348,10 +378,9 @@ const SidebarLink = ({
       className={clsx(
         "relative",
         "min-h-[28px]",
-        !isActive && "text-gray-600 dark:text-gray-300",
-        !isActive && "hover:text-gray-600 dark:hover:text-gray-300",
-        isActive &&
-          "text-refine-react-light-link dark:text-refine-react-dark-link",
+        !isActive && "text-zinc-600 dark:text-zinc-300",
+        !isActive && "hover:text-zinc-600 dark:hover:text-zinc-300",
+        isActive && "text-zinc-900 dark:text-white",
         "px-4 py-2",
         "text-sm font-normal",
         "flex items-start justify-start",
@@ -369,7 +398,7 @@ const SidebarLink = ({
         <DashIcon
           className={clsx(
             "z-[1] h-5 w-5 flex-shrink-0",
-            "text-gray-300 dark:text-gray-600",
+            "text-zinc-300 dark:text-zinc-600",
             isActive &&
               "text-refine-react-light-link dark:text-refine-react-dark-link text-opacity-50 dark:text-opacity-50",
           )}
@@ -388,14 +417,13 @@ const SidebarLink = ({
       <div
         className={clsx(
           "absolute",
-          "rounded-[18px]",
+          "rounded-md",
           "transition-opacity",
           "duration-200 ease-in-out",
           {
-            "group-hover:bg-gray-100 dark:group-hover:bg-gray-700":
+            "group-hover:bg-zinc-200 dark:group-hover:bg-[#303035]":
               !isActive && !isSame,
-            "bg-refine-blue-2-light dark:bg-refine-blue-2 dark:bg-opacity-10":
-              isActive && isSame,
+            "bg-zinc-200 dark:bg-zinc-700": isActive && isSame,
             "right-0": variant === "desktop",
             // "-right-2": variant === "mobile",
             "-left-2": variant === "mobile",
@@ -411,7 +439,7 @@ const SidebarLink = ({
         }}
       />
       {line && (
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 border-l border-l-gray-300 dark:border-l-gray-600 h-full w-px" />
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 border-l border-l-zinc-300 dark:border-l-zinc-600 h-full w-px" />
       )}
     </Link>
   );
@@ -441,12 +469,12 @@ const SidebarHtml = ({
         "group",
         "transition-colors duration-200 ease-in-out",
         "no-underline",
-        "text-gray-500 dark:text-gray-400",
+        "text-zinc-500 dark:text-zinc-400",
         "after:content-['']",
         "after:w-[calc(100%)]",
         "after:h-px",
-        "after:bg-gray-300",
-        "dark:after:bg-gray-600",
+        "after:bg-zinc-300",
+        "dark:after:bg-zinc-600",
         "after:absolute",
         "after:left-0",
         "after:top-1/2",
@@ -454,15 +482,15 @@ const SidebarHtml = ({
       )}
     >
       {line && (
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 border-l border-l-gray-300 dark:border-l-gray-600 h-full w-px" />
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 border-l border-l-zinc-300 dark:border-l-zinc-600 h-full w-px" />
       )}
       <span
         className={clsx(
           "z-[1]",
           "-ml-1",
           "px-1",
-          "bg-gray-0",
-          "dark:bg-gray-900",
+          "bg-zinc-50",
+          "dark:bg-zinc-900",
         )}
         // biome-ignore lint/security/noDangerouslySetInnerHtml: explicitly disabled
         dangerouslySetInnerHTML={{ __html: item.value }}
@@ -553,22 +581,16 @@ export const DocSidebar = () => {
         "left-0",
         "overflow-auto",
         "w-full",
-        // "scrollbar-slim",
+        "rounded-tr-xl",
+        "bg-zinc-50 dark:bg-[#27272A80]",
       )}
       style={{
         maxWidth: `${SIDEBAR_WIDTH}px`,
-        top: `${HEADER_HEIGHT}px`,
+        top: `${HEADER_HEIGHT + 4}px`,
         height: `calc(100vh - ${HEADER_HEIGHT}px)`,
       }}
     >
-      <div
-        className={clsx(
-          "px-4",
-          "py-4",
-          "border-r border-r-gray-300 dark:border-r-gray-700",
-          "flex flex-col gap-6",
-        )}
-      >
+      <div className={clsx("px-4", "py-4", "flex flex-col gap-6")}>
         {renderItems({
           items: sidebar?.items,
           path: pathname,

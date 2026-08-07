@@ -36,3 +36,11 @@ examples/**/package-lock.json
 
 # nx daemon
 .nx
+
+# cursor
+.cursorrules
+# claude
+.claude/
+
+# Local Netlify folder
+.netlify

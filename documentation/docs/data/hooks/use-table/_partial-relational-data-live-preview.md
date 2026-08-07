@@ -38,15 +38,15 @@ interface IPost {
 }
 
 const PostList: React.FC = () => {
-  const { tableQuery } = useTable<IPost, HttpError>();
-  const posts = tableQuery?.data?.data ?? [];
+  const { result, tableQuery } = useTable<IPost, HttpError>();
+  const posts = result.data;
 
   // highlight-start
   // Fetches the category of each post. It uses the useMany hook to fetch the category data from the API.
-  const { data: categoryData, isLoading: categoryIsLoading } = useMany<
-    ICategory,
-    HttpError
-  >({
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useMany<ICategory, HttpError>({
     resource: "categories",
     // Creates the array of ids. This will filter and fetch the category data for the relevant posts.
     ids: posts.map((item) => item?.category?.id),
@@ -105,10 +105,18 @@ setRefineProps({
   resources: [
     {
       name: "posts",
-      list: PostList,
+      list: "/posts",
     },
   ],
 });
 
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo>
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<PostList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

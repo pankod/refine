@@ -1,5 +1,437 @@
 # @refinedev/mui
 
+## 8.0.3
+
+### Patch Changes
+
+- [#7428](https://github.com/refinedev/refine/pull/7428) [`c6c27b57f704e0a3b9cc9f01a996a072a179e47f`](https://github.com/refinedev/refine/commit/c6c27b57f704e0a3b9cc9f01a996a072a179e47f) Thanks [@Will-thom](https://github.com/Will-thom)! - Fix ThemedTitle to avoid rendering nested anchor elements.
+
+## 8.0.2
+
+### Patch Changes
+
+- [#7345](https://github.com/refinedev/refine/pull/7345) [`af721fe26017cbe11ec997574908b40862a51a63`](https://github.com/refinedev/refine/commit/af721fe26017cbe11ec997574908b40862a51a63) Thanks [@tysoncung](https://github.com/tysoncung)! - fix(mui): respect custom `startIcon` when `hideText` is true on all button components
+
+  When `hideText={true}` is used with a custom `startIcon`, all MUI button components (`ShowButton`, `EditButton`, `DeleteButton`, `CloneButton`, `CreateButton`, `ListButton`, `RefreshButton`, `SaveButton`, `ExportButton`, `ImportButton`) ignored the custom icon and always showed the default one. This also caused two icons to appear at the same time.
+
+  Now the custom `startIcon` is used when provided, and the default icon is only used as a fallback.
+
+  Resolves #7343
+
+## 8.0.1
+
+### Patch Changes
+
+- [#7266](https://github.com/refinedev/refine/pull/7266) [`91f0eac72e58fd220add066c12329d39bb38a326`](https://github.com/refinedev/refine/commit/91f0eac72e58fd220add066c12329d39bb38a326) Thanks [@kaigritun](https://github.com/kaigritun)! - fix(mui): prevent nested interactive elements in navigation buttons
+
+## 8.0.0
+
+### Major Changes
+
+- [#7208](https://github.com/refinedev/refine/pull/7208) [`367b4681ae7e336d9cc0397e95c9b9d36186a656`](https://github.com/refinedev/refine/commit/367b4681ae7e336d9cc0397e95c9b9d36186a656) Thanks [@JuicyBenjamin](https://github.com/JuicyBenjamin)! - feat: upgrade `@mui/x-data-grid` from v7 to v8
+
+  Updated the `@mui/x-data-grid` peer dependency from `^7.23.5` to `^8.24.0`.
+
+  This is a major version bump as MUI X v8 includes breaking changes that users should be aware of:
+
+  - Minimum TypeScript version is now v5
+  - Package structure updated to use Node.js `exports` field
+  - Some removed props: `rowPositionsDebounceMs`, `resetPageOnSortFilter`
+  - `showToolbar` prop is now required to display the toolbar
+
+  The `useDataGrid` hook and all DataGrid-related types remain fully compatible with v8.
+
+  Here is the updated version alignment:
+
+  | @refinedev/mui | @mui/x-data-grid | @mui/material |
+  | -------------- | ---------------- | ------------- |
+  | 6.x.x          | 7.x.x            | 6.x.x         |
+  | 7.x.x          | 7.x.x            | 6.x.x         |
+  | 8.x.x          | 8.x.x            | 6.x.x         |
+
+  For the full MUI X v8 migration guide, see: https://mui.com/x/migration/migration-data-grid-v7/
+
+### Patch Changes
+
+- [#7217](https://github.com/refinedev/refine/pull/7217) [`adc4c6431252c035caa62acbaf42f79854535548`](https://github.com/refinedev/refine/commit/adc4c6431252c035caa62acbaf42f79854535548) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix: prevent server-side filter input from dropping characters in `useDataGrid`
+
+  When typing in the DataGrid filter panel with server mode, the input could lose
+  recent characters because the server update resets the filter model mid-typing.
+  We now debounce the `setFilters` call inside `useDataGrid` and disable the
+  DataGrid's own debounce to keep the input state stable while still triggering
+  server queries.
+
+  Resolves #7216
+
+## 7.0.1
+
+### Patch Changes
+
+- [#7105](https://github.com/refinedev/refine/pull/7105) [`fb46cddfb8eb33b2490fc4f05a8bc7caba2b3691`](https://github.com/refinedev/refine/commit/fb46cddfb8eb33b2490fc4f05a8bc7caba2b3691) Thanks [@francoa](https://github.com/francoa)! - fix: Prevent DataGrid Pagination reset. #7099
+
+  Fixed an issue in useDataGrid in which the sortModel sent in response was constantly receiving a new Object, even though the content of it was not changing
+
+  Fixes #7099
+
+- [#7107](https://github.com/refinedev/refine/pull/7107) [`3edacb0832090c5d0cfd36f933cb97a86328ea7c`](https://github.com/refinedev/refine/commit/3edacb0832090c5d0cfd36f933cb97a86328ea7c) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix: update TSDoc links in MUI button components
+
+  Fixed Material UI documentation links in button components to point to the correct URL.
+
+- Updated dependencies [[`64625bb337a222ef80727862c758cae86371fa4b`](https://github.com/refinedev/refine/commit/64625bb337a222ef80727862c758cae86371fa4b)]:
+  - @refinedev/react-hook-form@5.0.3
+
+## 7.0.0
+
+### Major Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: upgrade Material-UI integration for Refine 5.0
+
+  - Updated Material-UI components with deprecated API cleanup and improved TypeScript support.
+  - Removed legacy components and restructured hooks and componetns for better developer experience.
+
+  > 🚨 Breaking changes require migration - check our guide at https://refine.dev/docs/migration-guide/4x-to-5x/
+
+### Patch Changes
+
+- Updated dependencies [[`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98), [`807099eecb4e8d41b1cf9ab557d71d34d12bec35`](https://github.com/refinedev/refine/commit/807099eecb4e8d41b1cf9ab557d71d34d12bec35), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/react-hook-form@5.0.0
+  - @refinedev/ui-types@2.0.0
+  - @refinedev/core@5.0.0
+
+## 6.3.0
+
+### Minor Changes
+
+- [#6880](https://github.com/refinedev/refine/pull/6880) [`2b4c2082b2e07f6c5afa514c4beeb7abc4082ea2`](https://github.com/refinedev/refine/commit/2b4c2082b2e07f6c5afa514c4beeb7abc4082ea2) Thanks [@arndom](https://github.com/arndom)! - - Add `siderItemsAreCollapsed` prop to all `Sider` components to set default expanded/collapsed nested sider items.
+
+  - UI packages: AntDesign, Manitine, Charka-UI, Material-UI
+  - Add documentation for this addition
+
+  [Resolves #6721](https://github.com/refinedev/refine/issues/6721)
+
+### Patch Changes
+
+- [#6943](https://github.com/refinedev/refine/pull/6943) [`d9efe95994a9f5ce33b80393cfc1fca862fa1e27`](https://github.com/refinedev/refine/commit/d9efe95994a9f5ce33b80393cfc1fca862fa1e27) Thanks [@jwgmeligmeyling](https://github.com/jwgmeligmeyling)! - Add missing string operators
+
+## 6.2.2
+
+### Patch Changes
+
+- [#6834](https://github.com/refinedev/refine/pull/6834) [`5e032d577502cd81593b7396f55269749ccb6e5f`](https://github.com/refinedev/refine/commit/5e032d577502cd81593b7396f55269749ccb6e5f) Thanks [@kdevo](https://github.com/kdevo)! - fix(mui): pass `meta` to `useUpdate` in `useDataGrid` hook for editable data grid. #6833
+
+  ```tsx
+  import { useDataGrid } from "@refinedev/mui";
+
+  const { dataGridProps } = useDataGrid({
+    resource: "posts",
+    editable: true,
+    updateMutationOptions: {
+      meta: { foo: "bar" },
+    },
+  });
+  ```
+
+  Resolves [#6833]
+
+- [#6859](https://github.com/refinedev/refine/pull/6859) [`d6a9809f354bfd0065cb447f5741116ab3b56682`](https://github.com/refinedev/refine/commit/d6a9809f354bfd0065cb447f5741116ab3b56682) Thanks [@garrylachman](https://github.com/garrylachman)! - fix(mui): on page change, `useDataGrid` resets to first page. #6828 #6798
+
+  Resolves [#6828] [#6798]
+
+- Updated dependencies [[`e78213ff7fdcace9bac455861123299bfdab4452`](https://github.com/refinedev/refine/commit/e78213ff7fdcace9bac455861123299bfdab4452)]:
+  - @refinedev/react-hook-form@4.10.2
+
+## 6.2.1
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- Add support for unique id to `transformCrudFiltersToFilterModel` when filters have the same field and operator.
+
+  [Resolves #6710](https://github.com/refinedev/refine/issues/6710)
+
+📢 **Refine Community Release** 📢
+
+- chore: update `react-hook-form` to `7.57.0` to support new features like [`subscribe`](https://react-hook-form.com/docs/useform/subscribe).
+  for more information, see [React Hook Form release notes](https://github.com/react-hook-form/react-hook-form/releases).
+- Updated dependencies []:
+  - @refinedev/react-hook-form@4.10.1
+
+## 6.2.0
+
+### Minor Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6824](https://github.com/refinedev/refine/pull/6824) [`a6ff3d3e888e3a0bd61c1ddda89d2715e493fa01`](https://github.com/refinedev/refine/commit/a6ff3d3e888e3a0bd61c1ddda89d2715e493fa01) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - chore: update `react-hook-form` to `7.57.0` to support new features like [`subscribe`](https://react-hook-form.com/docs/useform/subscribe).
+  for more information, see [React Hook Form release notes](https://github.com/react-hook-form/react-hook-form/releases).
+
+### Patch Changes
+
+- Updated dependencies [[`a6ff3d3e888e3a0bd61c1ddda89d2715e493fa01`](https://github.com/refinedev/refine/commit/a6ff3d3e888e3a0bd61c1ddda89d2715e493fa01)]:
+  - @refinedev/react-hook-form@4.10.0
+
+## 6.1.3
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- Add support for unique id to `transformCrudFiltersToFilterModel` when filters have the same field and operator.
+
+  [Resolves #6710](https://github.com/refinedev/refine/issues/6710)
+
+## 6.1.2
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6756](https://github.com/refinedev/refine/pull/6756) [`293668873913c246edbd95c74c7593438de4980f`](https://github.com/refinedev/refine/commit/293668873913c246edbd95c74c7593438de4980f) Thanks [@arndom](https://github.com/arndom)! - Add support for unique id to `transformCrudFiltersToFilterModel` when filters have the same field and operator.
+
+  [Resolves #6710](https://github.com/refinedev/refine/issues/6710)
+
+## 6.1.1
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- - Add `deleteButtonProps` prop to the `Show` component of UI packages: AntDesign, Manitine, Charka-UI, Material-UI
+  - Add documentation for this addition
+
+  [Resolves #6692](https://github.com/refinedev/refine/issues/6692)
+
+- Updated dependencies []:
+  - @refinedev/ui-types@1.24.2
+
+## 6.1.0
+
+### Minor Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6699](https://github.com/refinedev/refine/pull/6699) [`cd938b04cb004b61174d65811467469abaf2db3f`](https://github.com/refinedev/refine/commit/cd938b04cb004b61174d65811467469abaf2db3f) Thanks [@arndom](https://github.com/arndom)! - - Add `deleteButtonProps` prop to the `Show` component of UI packages: AntDesign, Manitine, Charka-UI, Material-UI
+
+  - Add documenation for this addition
+
+  [Resolves #6692](https://github.com/refinedev/refine/issues/6692)
+
+### Patch Changes
+
+- Updated dependencies [[`cd938b04cb004b61174d65811467469abaf2db3f`](https://github.com/refinedev/refine/commit/cd938b04cb004b61174d65811467469abaf2db3f)]:
+  - @refinedev/ui-types@1.24.0
+
+## 6.0.3
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- fix: `@refinedev/mui` package gives following error: `Cannot find module '@mui/x-internals/forwardRef' from '/node_modules/@mui/x-data-grid/components/GridPagination.js'` #6615
+
+  To fix that, `@mui/x-data-grid` version is updated to `7.23.5`.
+
+  [Resolves #6615](https://github.com/refinedev/refine/issues/6615)
+
+## 6.0.2
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6616](https://github.com/refinedev/refine/pull/6616) [`51b647c5d35b943c3d154a1da128c327576b633d`](https://github.com/refinedev/refine/commit/51b647c5d35b943c3d154a1da128c327576b633d) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix: `@refinedev/mui` package gives following error: `Cannot find module '@mui/x-internals/forwardRef' from '/node_modules/@mui/x-data-grid/components/GridPagination.js'` #6615
+
+  To fix that, `@mui/x-data-grid` version is updated to `7.23.5`.
+
+  [Resolves #6615](https://github.com/refinedev/refine/issues/6615)
+
+## 6.0.1
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- chore: update package descriptions
+
+📢 **Refine Community Release** 📢
+
+- fix: UI buttons doesn't respect `hidden` prop.
+  From now on, `hidden` prop will work as expected on all [UI buttons](https://refine.dev/docs/guides-concepts/ui-libraries/#buttons).
+
+  UI Buttons:
+
+  - `CreateButton`
+  - `ShowButton`
+  - `ListButton`
+  - `EditButton`
+  - `DeleteButton`
+  - `CloneButton`
+
+  Resolves [#6513](https://github.com/refinedev/refine/issues/6513)
+
+📢 **Refine Community Release** 📢
+
+- fix: UI buttons doesn't respect `disabled` prop.
+  From now on, `disabled` prop will work as expected on all [UI buttons](https://refine.dev/docs/guides-concepts/ui-libraries/#buttons).
+
+  UI Buttons:
+
+  - `CreateButton`
+  - `ShowButton`
+  - `ListButton`
+  - `EditButton`
+  - `DeleteButton`
+  - `CloneButton`
+
+  Resolves [#6513](https://github.com/refinedev/refine/issues/6513)
+
+📢 **Refine Community Release** 📢
+
+- feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
+📢 **Refine Community Release** 📢
+
+- feat: added support for Material UI v6 and X Data Grid v7 #6333
+
+  ```diff
+  - "@mui/icons-material": "^5.8.3",
+  + "@mui/icons-material": "^6.1.6",
+  - "@mui/lab": "^5.0.0-alpha.85",
+  + "@mui/lab": "^6.0.0-beta.14",
+  - "@mui/material": "^5.14.2",
+  + "@mui/material": "^6.1.7",
+
+  - "@mui/x-data-grid": "^6.6.0",
+  + "@mui/x-data-grid": "^7.22.2",
+  ```
+
+  Here is the updated version alignment:
+
+  | @refinedev/mui | @mui/x-data-grid | @mui/material | @mui/system | @mui/lab | @mui/icons-material | @refinedev/inferencer |
+  | -------------- | ---------------- | ------------- | ----------- | -------- | ------------------- | --------------------- |
+  | 5.x.x          | 6.x.x            | 5.x.x         | 5.x.x       | 5.x.x    | 5.x.x               | 4.x.x                 |
+  | 6.x.x          | 7.x.x            | 6.x.x         | 6.x.x       | 6.x.x    | 6.x.x               | 5.x.x                 |
+
+  Please refer to the [Migration Guide for Material UI v6 and X Data Grid v7](https://refine.dev/docs/ui-integrations/material-ui/migration-guide/material-ui-v5-to-v6) for more information.
+
+  Resolves [#6333](https://github.com/refinedev/refine/issues/6333)
+
+📢 **Refine Community Release** 📢
+
+- Introduced containerBoxProps and childrenBoxProps props to ThemedLayoutV2 to allow for greater control over the layout - including styling.
+
+📢 **Refine Community Release** 📢
+
+- feat: added `minItems` prop to specify the minimum number of items required for rendering breadcrumbs. #6497
+
+  Resolves [#6497](https://github.com/refinedev/refine/issues/6497)
+
+📢 **Refine Community Release** 📢
+
+- Enhanced the ThemedSideV2 component with new functionality to support dynamic onSiderCollapsed handling. This allows better customization of sider collapse/expand events and improved responsiveness for mobile and desktop views. Added additional type definitions and ensured compatibility across all layout contexts. resolves #6508
+
+- Updated dependencies []:
+  - @refinedev/ui-types@1.23.1
+  - @refinedev/react-hook-form@4.9.3
+
+## 6.0.0
+
+### Major Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6518](https://github.com/refinedev/refine/pull/6518) [`afb156d808ee07bfffed20f27b04c92d95cc01d4`](https://github.com/refinedev/refine/commit/afb156d808ee07bfffed20f27b04c92d95cc01d4) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: added support for Material UI v6 and X Data Grid v7 #6333
+
+  ```diff
+  - "@mui/icons-material": "^5.8.3",
+  + "@mui/icons-material": "^6.1.6",
+  - "@mui/lab": "^5.0.0-alpha.85",
+  + "@mui/lab": "^6.0.0-beta.14",
+  - "@mui/material": "^5.14.2",
+  + "@mui/material": "^6.1.7",
+
+  - "@mui/x-data-grid": "^6.6.0",
+  + "@mui/x-data-grid": "^7.22.2",
+  ```
+
+  Here is the updated version alignment:
+
+  | @refinedev/mui | @mui/x-data-grid | @mui/material | @mui/system | @mui/lab | @mui/icons-material | @refinedev/inferencer |
+  | -------------- | ---------------- | ------------- | ----------- | -------- | ------------------- | --------------------- |
+  | 5.x.x          | 6.x.x            | 5.x.x         | 5.x.x       | 5.x.x    | 5.x.x               | 4.x.x                 |
+  | 6.x.x          | 7.x.x            | 6.x.x         | 6.x.x       | 6.x.x    | 6.x.x               | 5.x.x                 |
+
+  Please refer to the [Migration Guide for Material UI v6 and X Data Grid v7](https://refine.dev/docs/ui-integrations/material-ui/migration-guide/material-ui-v5-to-v6) for more information.
+
+  Resolves [#6333](https://github.com/refinedev/refine/issues/6333)
+
+### Minor Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6518](https://github.com/refinedev/refine/pull/6518) [`d082ce09ff10fd8b3bf2070b163f1608c67d028b`](https://github.com/refinedev/refine/commit/d082ce09ff10fd8b3bf2070b163f1608c67d028b) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - Introduced containerBoxProps and childrenBoxProps props to ThemedLayoutV2 to allow for greater control over the layout - including styling.
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6503](https://github.com/refinedev/refine/pull/6503) [`29d00f8dc49485e0f5c42d208417e158118d11f2`](https://github.com/refinedev/refine/commit/29d00f8dc49485e0f5c42d208417e158118d11f2) Thanks [@aress31](https://github.com/aress31)! - feat: added `minItems` prop to specify the minimum number of items required for rendering breadcrumbs. #6497
+
+  Resolves [#6497](https://github.com/refinedev/refine/issues/6497)
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6527](https://github.com/refinedev/refine/pull/6527) [`1d2613381c50f438270d6a3e486595d54496ef92`](https://github.com/refinedev/refine/commit/1d2613381c50f438270d6a3e486595d54496ef92) Thanks [@OmkarBansod02](https://github.com/OmkarBansod02)! - Enhanced the ThemedSideV2 component with new functionality to support dynamic onSiderCollapsed handling. This allows better customization of sider collapse/expand events and improved responsiveness for mobile and desktop views. Added additional type definitions and ensured compatibility across all layout contexts. resolves #6508
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6554](https://github.com/refinedev/refine/pull/6554) [`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706) Thanks [@necatiozmen](https://github.com/necatiozmen)! - chore: update package descriptions
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6515](https://github.com/refinedev/refine/pull/6515) [`2312f4648cf8cae427884163cc025c3f925da988`](https://github.com/refinedev/refine/commit/2312f4648cf8cae427884163cc025c3f925da988) Thanks [@OmkarBansod02](https://github.com/OmkarBansod02)! - fix: UI buttons doesn't respect `hidden` prop.
+  From now on, `hidden` prop will work as expected on all [UI buttons](https://refine.dev/docs/guides-concepts/ui-libraries/#buttons).
+
+  UI Buttons:
+
+  - `CreateButton`
+  - `ShowButton`
+  - `ListButton`
+  - `EditButton`
+  - `DeleteButton`
+  - `CloneButton`
+
+  Resolves [#6513](https://github.com/refinedev/refine/issues/6513)
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6515](https://github.com/refinedev/refine/pull/6515) [`2312f4648cf8cae427884163cc025c3f925da988`](https://github.com/refinedev/refine/commit/2312f4648cf8cae427884163cc025c3f925da988) Thanks [@OmkarBansod02](https://github.com/OmkarBansod02)! - fix: UI buttons doesn't respect `disabled` prop.
+  From now on, `disabled` prop will work as expected on all [UI buttons](https://refine.dev/docs/guides-concepts/ui-libraries/#buttons).
+
+  UI Buttons:
+
+  - `CreateButton`
+  - `ShowButton`
+  - `ListButton`
+  - `EditButton`
+  - `DeleteButton`
+  - `CloneButton`
+
+  Resolves [#6513](https://github.com/refinedev/refine/issues/6513)
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6556](https://github.com/refinedev/refine/pull/6556) [`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
+- Updated dependencies [[`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706), [`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53), [`29d00f8dc49485e0f5c42d208417e158118d11f2`](https://github.com/refinedev/refine/commit/29d00f8dc49485e0f5c42d208417e158118d11f2), [`1d2613381c50f438270d6a3e486595d54496ef92`](https://github.com/refinedev/refine/commit/1d2613381c50f438270d6a3e486595d54496ef92)]:
+  - @refinedev/ui-types@1.23.0
+  - @refinedev/react-hook-form@4.9.2
+
 ## 5.22.0
 
 ### Minor Changes

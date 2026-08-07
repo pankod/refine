@@ -84,7 +84,7 @@ describe("inferencer-antd", () => {
       cy.get("#content").should("have.value", data?.content);
       cy.fixture("hasura-categories").then((categories) => {
         const category = categories.data.categories.find(
-          (category) => category.id === data?.category_id,
+          (category: any) => category.id === data?.category_id,
         );
         cy.get(`.ant-select-selection-item[title="${category?.title}"]`).should(
           "exist",
@@ -174,10 +174,10 @@ describe("inferencer-antd", () => {
 
     cy.getAntdPaginationItem(2).click();
     cy.wait("@getSecondPagePosts");
-    cy.url().should("include", "current=2");
+    cy.url().should("include", "currentPage=2");
 
     cy.get(".ant-pagination-prev").first().click();
     cy.wait("@getFirstPagePosts");
-    cy.url().should("include", "current=1");
+    cy.url().should("include", "currentPage=1");
   });
 });

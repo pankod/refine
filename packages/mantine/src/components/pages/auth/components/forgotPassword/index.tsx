@@ -2,14 +2,9 @@ import React from "react";
 import {
   type ForgotPasswordPageProps,
   type ForgotPasswordFormTypes,
-  useRouterType,
   useLink,
 } from "@refinedev/core";
-import {
-  useTranslate,
-  useRouterContext,
-  useForgotPassword,
-} from "@refinedev/core";
+import { useTranslate, useForgotPassword } from "@refinedev/core";
 import {
   Box,
   Card,
@@ -25,7 +20,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 
-import { ThemedTitleV2 } from "@components";
+import { ThemedTitle } from "@components";
 import { FormContext } from "@contexts/form-context";
 import {
   layoutStyles,
@@ -58,11 +53,7 @@ export const ForgotPasswordPage: React.FC<ResetPassworProps> = ({
   const { useForm, FormProvider } = FormContext;
   const { onSubmit: onSubmitProp, ...useFormProps } = formProps || {};
   const translate = useTranslate();
-  const routerType = useRouterType();
   const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
-
-  const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
 
   const form = useForm({
     initialValues: {
@@ -81,13 +72,13 @@ export const ForgotPasswordPage: React.FC<ResetPassworProps> = ({
   });
   const { getInputProps, onSubmit } = form;
 
-  const { mutate: forgotPassword, isLoading } =
+  const { mutate: forgotPassword, isPending } =
     useForgotPassword<ForgotPasswordFormTypes>();
 
   const PageTitle =
     title === false ? null : (
       <div style={pageTitleStyles}>
-        {title ?? <ThemedTitleV2 collapsed={false} />}
+        {title ?? <ThemedTitle collapsed={false} />}
       </div>
     );
 
@@ -129,13 +120,13 @@ export const ForgotPasswordPage: React.FC<ResetPassworProps> = ({
                     "Have an account? ",
                   ),
                 )}{" "}
-                <Anchor component={ActiveLink as any} to="/login" weight={700}>
+                <Anchor component={Link as any} to="/login" weight={700}>
                   {translate("pages.forgotPassword.signin", "Sign in")}
                 </Anchor>
               </Text>
             </Group>
           )}
-          <Button mt="lg" fullWidth size="md" type="submit" loading={isLoading}>
+          <Button mt="lg" fullWidth size="md" type="submit" loading={isPending}>
             {translate(
               "pages.forgotPassword.buttons.submit",
               "Send reset instructions",

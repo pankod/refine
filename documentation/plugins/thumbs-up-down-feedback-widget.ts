@@ -1,5 +1,5 @@
-import visit from "unist-util-visit";
 import fs from "fs";
+import visit from "unist-util-visit";
 
 /*
   This plugin wraps children of each heading with thumbs up-down feedback widget.

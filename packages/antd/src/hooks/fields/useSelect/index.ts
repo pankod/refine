@@ -14,18 +14,11 @@ import {
 export type UseSelectReturnType<
   TData extends BaseRecord = BaseRecord,
   TOption extends BaseOption = BaseOption,
+  TError extends HttpError = HttpError,
 > = {
   selectProps: SelectProps<TOption>;
-  query: QueryObserverResult<GetListResponse<TData>>;
-  defaultValueQuery: QueryObserverResult<GetManyResponse<TData>>;
-  /**
-   * @deprecated Use `query` instead
-   */
-  queryResult: QueryObserverResult<GetListResponse<TData>>;
-  /**
-   * @deprecated Use `defaultValueQuery` instead
-   */
-  defaultValueQueryResult: QueryObserverResult<GetManyResponse<TData>>;
+  query: QueryObserverResult<GetListResponse<TData>, TError>;
+  defaultValueQuery: QueryObserverResult<GetManyResponse<TData>, TError>;
 };
 
 /**
@@ -58,13 +51,11 @@ export const useSelect = <
     selectProps: {
       options,
       onSearch,
-      loading: defaultValueQuery.isFetching,
+      loading: defaultValueQuery.query.isFetching,
       showSearch: true,
       filterOption: false,
     },
     query,
-    defaultValueQuery,
-    queryResult: query,
-    defaultValueQueryResult: defaultValueQuery,
+    defaultValueQuery: defaultValueQuery.query,
   };
 };

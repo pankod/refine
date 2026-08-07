@@ -56,9 +56,6 @@ export type {
   RefineThemedLayoutHeaderProps,
   RefineThemedLayoutProps,
   RefineLayoutThemedTitleProps,
-  RefineThemedLayoutV2Props,
-  RefineThemedLayoutV2SiderProps,
-  RefineThemedLayoutV2HeaderProps,
 } from "./types/index.js";
 
 export { RefineButtonTestIds } from "./ids.js";

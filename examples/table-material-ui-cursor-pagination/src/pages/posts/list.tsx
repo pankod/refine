@@ -8,11 +8,14 @@ import type { ICommit } from "../../interfaces";
 export const PostList: React.FC = () => {
   const [next, setNext] = React.useState<string | undefined>(undefined);
   const { dataGridProps, tableQuery: tableQueryResult } = useDataGrid<ICommit>({
-    initialPageSize: 5,
-    metaData: {
+    meta: {
       cursor: {
         next,
       },
+    },
+
+    pagination: {
+      pageSize: 5,
     },
   });
 
@@ -34,6 +37,7 @@ export const PostList: React.FC = () => {
       flex: 1,
       filterable: false,
       sortable: false,
+      display: "flex",
       renderCell: ({ row }) => {
         return row.commit.message;
       },
@@ -45,6 +49,7 @@ export const PostList: React.FC = () => {
       flex: 1,
       filterable: false,
       sortable: false,
+      display: "flex",
       renderCell: ({ row }) => {
         return row.commit.author.name;
       },
@@ -56,6 +61,7 @@ export const PostList: React.FC = () => {
       flex: 1,
       filterable: false,
       sortable: false,
+      display: "flex",
       renderCell: ({ row }) => {
         return row.commit.author.date;
       },
@@ -76,7 +82,6 @@ export const PostList: React.FC = () => {
           dataGridProps.onPaginationModelChange?.(model, details);
         }}
         columns={columns}
-        autoHeight
       />
     </List>
   );

@@ -6,7 +6,7 @@ import {
 } from "@refinedev/core";
 import {
   AuthPage,
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   RefineThemes,
   useNotificationProvider,
@@ -18,8 +18,8 @@ import routerProvider, {
   CatchAllNavigate,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { IconBrandGoogle, IconBrandGithub } from "@tabler/icons-react";
 
 import { PostCreate, PostEdit, PostList, PostShow } from "./pages";
@@ -180,9 +180,9 @@ const App: React.FC = () => {
                   key="authenticated-routes"
                   fallback={<CatchAllNavigate to="/login" />}
                 >
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -261,9 +261,9 @@ const App: React.FC = () => {
             <Route
               element={
                 <Authenticated key="catch-all">
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >

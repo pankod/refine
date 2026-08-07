@@ -48,7 +48,7 @@ export const RefineWeek = ({ variant }: Props) => {
                 key={item.label}
                 href={item.link}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener"
                 className={clsx(
                   "no-underline",
                   "flex items-start gap-4",

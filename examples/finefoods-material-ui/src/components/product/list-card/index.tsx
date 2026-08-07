@@ -3,9 +3,9 @@ import { useGo, useNavigation, useTranslate } from "@refinedev/core";
 import { NumberField, type UseDataGridReturnType } from "@refinedev/mui";
 import Typography from "@mui/material/Typography";
 import type { ICategory, IProduct } from "../../../interfaces";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { ProductStatus } from "../status";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -28,7 +28,7 @@ export const ProductListCard = (props: Props) => {
   const { pathname } = useLocation();
   const { editUrl } = useNavigation();
   const t = useTranslate();
-  const products = props.tableQueryResult?.data?.data || [];
+  const products = props.tableQuery?.data?.data || [];
 
   const categoryFilters = useMemo(() => {
     const filter = props.filters.find((filter) => {
@@ -67,7 +67,7 @@ export const ProductListCard = (props: Props) => {
         value: newFilters,
       },
     ]);
-    props.setCurrent(1);
+    props.setCurrentPage(1);
   };
 
   return (
@@ -88,7 +88,7 @@ export const ProductListCard = (props: Props) => {
                 value: [],
               },
             ]);
-            props.setCurrent(1);
+            props.setCurrentPage(1);
           }}
         />
         {props.categories.map((category) => {
@@ -125,7 +125,14 @@ export const ProductListCard = (props: Props) => {
           );
 
           return (
-            <Grid key={product.id} item sm={3} md={4} lg={3}>
+            <Grid
+              key={product.id}
+              size={{
+                sm: 3,
+                md: 4,
+                lg: 3,
+              }}
+            >
               <Card
                 sx={{
                   height: "100%",
@@ -250,7 +257,7 @@ export const ProductListCard = (props: Props) => {
           props.setPageSize(+e.target.value);
         }}
         onPageChange={(_e, page) => {
-          props.setCurrent(page + 1);
+          props.setCurrentPage(page + 1);
         }}
       />
     </>

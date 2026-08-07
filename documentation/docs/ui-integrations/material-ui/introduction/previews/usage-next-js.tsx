@@ -8,17 +8,18 @@ export default function UsageNextjs() {
       hidePreview
       showFiles
       dependencies={{
-        "@refinedev/mui": "5.0.0",
+        "@refinedev/mui": "latest",
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-hook-form": "^4.8.12",
+        "@refinedev/react-hook-form": "latest",
         "@emotion/react": "^11.8.2",
         "@emotion/styled": "^11.8.1",
-        "@mui/lab": "^5.0.0-alpha.85",
-        "@mui/material": "^5.14.2",
-        "@mui/system": "latest",
-        "@mui/x-data-grid": "^6.6.0",
-        "react-hook-form": "^7.43.5",
+        "@mui/utils": "^7.1.0",
+        "@mui/lab": "^6.0.0-beta.14",
+        "@mui/material": "^6.1.7",
+        "@mui/system": "^6.4.11",
+        "@mui/x-data-grid": "7.23.5",
+        "react-hook-form": "^7.57.0",
         "@refinedev/nextjs-router": "latest",
       }}
       // template="nextjs"
@@ -128,7 +129,7 @@ import routerProvider from "@refinedev/nextjs-router/pages";
 import dataProvider from "@refinedev/simple-rest";
 import type { AppProps } from "next/app";
 
-import { RefineThemes, ThemedLayoutV2, notificationProvider, RefineSnackbarProvider } from "@refinedev/mui";
+import { RefineThemes, ThemedLayout, notificationProvider, RefineSnackbarProvider } from "@refinedev/mui";
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import { ThemeProvider } from "@mui/material/styles";
@@ -150,9 +151,9 @@ function App({ Component, pageProps }: ExtendedAppProps) {
       }
 
       return (
-          <ThemedLayoutV2>
+          <ThemedLayout>
               <Component {...pageProps} />
-          </ThemedLayoutV2>
+          </ThemedLayout>
       );
   }
 
@@ -212,6 +213,7 @@ export default function ProductList() {
         {
           field: "actions",
           headerName: "Actions",
+          display: "flex",
           renderCell: function render({ row }) {
               return (
                   <div>
@@ -230,7 +232,7 @@ export default function ProductList() {
 
   return (
     <List>
-        <DataGrid {...dataGridProps} columns={columns} autoHeight />
+        <DataGrid {...dataGridProps} columns={columns}  />
     </List>
   );
 };
@@ -279,10 +281,8 @@ import Stack from "@mui/material/Stack";
 import authProvider from "../../src/auth-provider";
 
 export default function ProductShow() {
-  const { queryResult } = useShow();
-  const { data, isLoading } = queryResult;
-
-  const record = data?.data;
+  const { result: product, query } = useShow();
+  const { data, isLoading } = query;
 
   return (
     <Show isLoading={isLoading}>
@@ -290,23 +290,23 @@ export default function ProductShow() {
         <Typography variant="body1" fontWeight="bold">
             Id
         </Typography>
-        <NumberField value={record?.id ?? ""} />
+        <NumberField value={product?.id ?? ""} />
         <Typography variant="body1" fontWeight="bold">
             Name
         </Typography>
-        <TextField value={record?.name} />
+        <TextField value={product?.name} />
         <Typography variant="body1" fontWeight="bold">
             Material
         </Typography>
-        <TextField value={record?.material} />
+        <TextField value={product?.material} />
         <Typography variant="body1" fontWeight="bold">
             Description
         </Typography>
-        <MarkdownField value={record?.description} />
+        <MarkdownField value={product?.description} />
         <Typography variant="body1" fontWeight="bold">
             Price
         </Typography>
-        <TextField value={record?.price} />
+        <TextField value={product?.price} />
       </Stack>
     </Show>
   );
@@ -349,7 +349,7 @@ import authProvider from "../../../src/auth-provider";
 export default function ProductEdit() {
   const {
     saveButtonProps,
-    refineCore: { queryResult, autoSaveProps },
+    refineCore: { query, autoSaveProps },
     register,
     control,
     formState: { errors },
@@ -455,7 +455,7 @@ import authProvider from "../../src/auth-provider";
 export default function ProductCreate() {
   const {
     saveButtonProps,
-    refineCore: { queryResult, autoSaveProps },
+    refineCore: { query, autoSaveProps },
     register,
     control,
     formState: { errors },

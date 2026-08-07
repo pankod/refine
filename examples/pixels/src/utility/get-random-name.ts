@@ -2151,7 +2151,6 @@ export const getRandomName = () => {
     "fruit",
     "glass",
     "joint",
-    "master",
     "muscle",
     "red",
     "strength",

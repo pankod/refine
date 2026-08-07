@@ -1,5 +1,8 @@
 ---
-title: Next.js
+title: "Next.js Guide | Best Practices in Refine v5"
+display_title: "Next.js"
+sidebar_label: "Next.js"
+description: "Learn to implement Next.js in Refine v5. Explore server and route for real-world React admin panels. Hands-on examples included."
 ---
 
 import { NextJSAppProviderServerClient } from "./provider-client-server";
@@ -107,10 +110,11 @@ export default function PostList() {
   // `posts` resource will be inferred from the route.
   // Because we've defined `/posts` as the `list` action of the `posts` resource.
   const {
-    tableQuery: { data, isLoading },
+    result,
+    tableQuery: { isLoading },
   } = useTable<IPost>();
 
-  const tableData = data?.data;
+  const tableData = result?.data;
 
   return (
     <div>
@@ -143,16 +147,14 @@ type IPost = {
 export default function PostShow() {
     // `posts` resource and the `id` will be inferred from the route.
     // Because we've defined `/posts/show/:id` as the `show` action of the `posts` resource.
-    const { queryResult: { data, isLoading } } = useShow<IPost>();
-
-    const postData = data?.data;
+    const { result: post, query: { isLoading } } = useShow<IPost>();
 
     return (
         <div>
             {isLoading && <p>Loading...</p>}
             {!isLoading && (
-                <h1>{postData?.title}</h1>
-                <p>{postData?.description}</p>
+                <h1>{post?.title}</h1>
+                <p>{post?.description}</p>
             )}
         </div>
     );
@@ -174,10 +176,11 @@ export default function CategoryList() {
   // `categories` resource will be inferred from the route.
   // Because we've defined `/categories` as the `list` action of the `categories` resource.
   const {
+    result,
     tableQuery: { data, isLoading },
   } = useTable<ICategory>();
 
-  const tableData = data?.data;
+  const tableData = result?.data;
 
   return (
     <div>
@@ -212,14 +215,13 @@ export default function CategoryShow() {
   // `categories` resource and the `id` will be inferred from the route.
   // Because we've defined `/categories/show/:id` as the `show` action of the `categories` resource.
   const {
-    queryResult: { data, isLoading },
+    result: category,
+    query: { isLoading },
   } = useShow<ICategory>();
-
-  const categoryData = data?.data;
 
   return (
     <div>
-      <h1>{categoryData?.label}</h1>
+      <h1>{category?.label}</h1>
     </div>
   );
 }
@@ -320,10 +322,11 @@ export default function PostList() {
   // `posts` resource will be inferred from the route.
   // Because we've defined `/posts` as the `list` action of the `posts` resource.
   const {
+    result,
     tableQuery: { data, isLoading },
   } = useTable<IPost>();
 
-  const tableData = data?.data;
+  const tableData = result?.data;
 
   return (
     <div>
@@ -354,16 +357,14 @@ type IPost = {
 export default function PostShow() {
     // `posts` resource and the `id` will be inferred from the route.
     // Because we've defined `/posts/show/:id` as the `show` action of the `posts` resource.
-    const { queryResult: { data, isLoading } } = useShow<IPost>();
-
-    const postData = data?.data;
+    const { result: post, query: { isLoading } } = useShow<IPost>();
 
     return (
         <div>
             {isLoading && <p>Loading...</p>}
             {!isLoading && (
-                <h1>{postData?.title}</h1>
-                <p>{postData?.description}</p>
+                <h1>{post?.title}</h1>
+                <p>{post?.description}</p>
             )}
         </div>
     );
@@ -383,10 +384,11 @@ export default function CategoryList() {
   // `categories` resource will be inferred from the route.
   // Because we've defined `/categories` as the `list` action of the `categories` resource.
   const {
+    result,
     tableQuery: { data, isLoading },
   } = useTable<ICategory>();
 
-  const tableData = data?.data;
+  const tableData = result?.data;
 
   return (
     <div>
@@ -419,14 +421,13 @@ export default function CategoryShow() {
   // `categories` resource and the `id` will be inferred from the route.
   // Because we've defined `/categories/show/:id` as the `show` action of the `categories` resource.
   const {
-    queryResult: { data, isLoading },
+    result: category,
+    query: { isLoading },
   } = useShow<ICategory>();
-
-  const categoryData = data?.data;
 
   return (
     <div>
-      <h1>{categoryData?.label}</h1>
+      <h1>{category?.label}</h1>
     </div>
   );
 }
@@ -481,6 +482,8 @@ export default function IndexPage() {
 #### Properties
 
 `resource` (optional) - The name of the resource to navigate to. It will redirect to the first `list` route in the `resources` array if not provided.
+
+`fallbackTo` (optional) - The path to navigate to if no resource is found. If not provided and no resource is found, no navigation will be made.
 
 `meta` (optional) - The meta object to use if the route has parameters in it. The parameters in the current location will also be used to compose the route but `meta` will take precedence.
 
@@ -654,7 +657,7 @@ For page level authentication, server-side approach is recommended.
 
 ### Client side
 
-On the client-side, you can wrap your pages with [`Authenticated`](/docs/authentication/components/authenticated) component from `@refinedev/core` to protect your pages from unauthenticated access.
+On the client-side, you can wrap your pages with [`Authenticated`](/core/docs/authentication/components/authenticated/) component from `@refinedev/core` to protect your pages from unauthenticated access.
 
 ### Server Side
 
@@ -664,7 +667,7 @@ For page level authentication, server-side approach is recommended.
 
 :::
 
-First let's create our [AuthProvider](/docs/authentication/auth-provider)
+First let's create our [AuthProvider](/core/docs/authentication/auth-provider/)
 
 let's install the `nookies` packages in our project.
 
@@ -869,7 +872,7 @@ For page level access control, server-side approach is recommended.
 
 :::
 
-First, let's build our [AccessControlProvider](/docs/authorization/access-control-provider)
+First, let's build our [AccessControlProvider](/core/docs/authorization/access-control-provider/)
 
 ```tsx title="src/acccessControlProvider.ts"
 export const accessControlProvider = {
@@ -892,7 +895,7 @@ export const accessControlProvider = {
 
 ### Client Side
 
-For client-side, you can wrap your pages with [`CanAccess`](/docs/authorization/components/can-access) component from `@refinedev/core` to protect your pages from unauthorized access.
+For client-side, you can wrap your pages with [`CanAccess`](/core/docs/authorization/components/can-access/) component from `@refinedev/core` to protect your pages from unauthorized access.
 
 ```tsx
 import { CanAccess } from "@refinedev/core";
@@ -1040,7 +1043,7 @@ export default async function ProductList() {
 async function getData() {
   const response = await dataProvider(API_URL).getList({
     resource: "posts",
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
   });
 
   return {
@@ -1147,7 +1150,7 @@ type GetDataParams = {
 
 async function getData(
   params: GetDataParams = {
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
     filters: [],
   },
 ) {
@@ -1568,10 +1571,7 @@ Default paths are:
 By default [`<DocumentTitleHandler/>`](#documenttitlehandler) component will generate the document title based on current resource and action with the "Refine" suffix. You can customize the title generation process by providing a custom `handler` function.
 
 ```tsx
-import {
-  BrowserRouter,
-  DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
+import { BrowserRouter, DocumentTitleHandler } from "@refinedev/react-router";
 import { Refine } from "@refinedev/core";
 
 const App = () => {
@@ -1609,4 +1609,4 @@ const App = () => {
 
 <CodeSandboxExample path="with-nextjs" />
 
-[routerprovider]: /docs/routing/router-provider
+[routerprovider]: /core/docs/routing/router-provider

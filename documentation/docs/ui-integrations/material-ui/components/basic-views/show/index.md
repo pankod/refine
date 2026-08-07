@@ -1,5 +1,8 @@
 ---
-title: Show
+title: "MUI Show Component | UI Component in Refine v5"
+display_title: "Show"
+sidebar_label: "Show"
+description: "Secure Show in Refine v5. Learn best practices. Explore customization options for hide for polished admin UIs. Real-world snippets included."
 swizzle: true
 ---
 
@@ -8,6 +11,8 @@ swizzle: true
 We will show what `<Show>` does using properties with examples.
 
 ```tsx live hideCode url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
+
 // visible-block-start
 import React from "react";
 import { useShow, useOne } from "@refinedev/core";
@@ -20,17 +25,20 @@ import {
 } from "@refinedev/mui";
 import { Stack, Typography } from "@mui/material";
 
-const SampleShow = () => {
-  const { queryResult } = useShow();
-  const { data, isLoading } = queryResult;
+const ShowPage = () => {
+  const {
+    result: product,
+    query: { isLoading },
+  } = useShow();
 
-  const record = data?.data;
-
-  const { data: categoryData, isLoading: categoryIsLoading } = useOne({
+  const {
+    result: category,
+    query: { isLoading: categoryIsLoading },
+  } = useOne({
     resource: "categories",
-    id: record?.category?.id || "",
+    id: product?.category?.id || "",
     queryOptions: {
-      enabled: !!record,
+      enabled: !!product,
     },
   });
 
@@ -40,23 +48,23 @@ const SampleShow = () => {
         <Typography variant="body1" fontWeight="bold">
           Id
         </Typography>
-        <NumberField value={record?.id ?? ""} />
+        <NumberField value={product?.id ?? ""} />
         <Typography variant="body1" fontWeight="bold">
           Title
         </Typography>
-        <TextField value={record?.title} />
+        <TextField value={product?.title} />
         <Typography variant="body1" fontWeight="bold">
           Content
         </Typography>
-        <MarkdownField value={record?.content} />
+        <MarkdownField value={product?.content} />
         <Typography variant="body1" fontWeight="bold">
           Category
         </Typography>
-        {categoryIsLoading ? <>Loading...</> : <>{categoryData?.data?.title}</>}
+        {categoryIsLoading ? <>Loading...</> : <>{category?.title}</>}
         <Typography variant="body1" fontWeight="bold">
           Created At
         </Typography>
-        <DateField value={record?.createdAt} />
+        <DateField value={product?.createdAt} />
       </Stack>
     </Show>
   );
@@ -64,16 +72,47 @@ const SampleShow = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/samples/show/123"]}
-    resources={[{ name: "samples", show: SampleShow, list: SampleList }]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          show: "/posts/show/:id",
+          edit: "/posts/edit/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<SampleList />} />
+        </ReactRouter.Route>
+        <ReactRouter.Route
+          path="/posts/show/:id"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<SampleShow />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 :::simple Good to know
 
-You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-packages) to customize it.
+You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 
 :::
 
@@ -83,7 +122,9 @@ You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-
 
 `title` allows the addition of titles inside the `<Show>` component. if you don't pass title props it uses the "Show" prefix and the singular resource name by default. For example, for the "posts" resource, it would be "Show post".
 
-```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/create
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
+
 // visible-block-start
 import { Show } from "@refinedev/mui";
 import { Typography } from "@mui/material";
@@ -101,21 +142,30 @@ const ShowPage: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts/show/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.ShowButton recordItemId="123" />
-          </div>
-        ),
-        show: ShowPage,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          show: "/posts/show/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts/show/:id"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<ShowPage />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -124,13 +174,8 @@ render(
 The `<Show>` component reads the `resource` information from the route by default. If you want to use a custom resource for the `<Show>` component, you can use the `resource` prop.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/custom
-// handle initial routes in new way
 setInitialRoutes(["/custom"]);
 
-import { Refine } from "@refinedev/core";
-import { Layout } from "@refinedev/mui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
 // visible-block-start
 import { Show } from "@refinedev/mui";
 
@@ -143,45 +188,45 @@ const CustomPage: React.FC = () => {
   );
 };
 // visible-block-end
-const App: React.FC = () => {
-  return (
-    <Refine
-      legacyRouterProvider={{
-        ...routerProvider,
-        // highlight-start
-        routes: [
-          {
-            element: <CustomPage />,
-            path: "/custom",
-          },
-        ],
-        // highlight-end
-      }}
-      Layout={Layout}
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      resources={[{ name: "posts" }]}
-    />
-  );
-};
 
 render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          show: "/posts/show/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/custom"
+          element={
+            <div style={{ padding: 16 }}>
+              <CustomPage />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### canDelete and canEdit
 
 `canDelete` and `canEdit` allows us to add the delete and edit buttons inside the `<Show>` component. If the resource has `canDelete` or `canEdit` property Refine adds the buttons by default.
 
-When clicked on, delete button executes the [`useDelete`](/docs/data/hooks/use-delete) method provided by the [`dataProvider`](/docs/data/data-provider) and the edit button redirects the user to the record edit page.
+When clicked on, delete button executes the [`useDelete`](/core/docs/data/hooks/use-delete/) method provided by the [`dataProvider`](/core/docs/data/data-provider/) and the edit button redirects the user to the record edit page.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
 const { default: simpleRest } = RefineSimpleRest;
 
 const dataProvider = simpleRest("https://api.fake-rest.refine.dev");
@@ -238,7 +283,7 @@ const authProvider = {
 import { Show } from "@refinedev/mui";
 import { usePermissions } from "@refinedev/core";
 
-const PostShow: React.FC = () => {
+const ShowPage: React.FC = () => {
   const { data: permissionsData } = usePermissions();
   return (
     <Show
@@ -257,41 +302,148 @@ const PostShow: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    authProvider={authProvider}
-    dataProvider={customDataProvider}
-    initialRoutes={["/posts/show/123"]}
-    Layout={RefineMui.Layout}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.ShowButton recordItemId="123" />
-          </div>
-        ),
-        show: PostShow,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      authProvider={authProvider}
+      dataProvider={customDataProvider}
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          show: "/posts/show/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts/show/:id"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostShow />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`<DeleteButton>` &#8594](/docs/ui-integrations/material-ui/components/buttons/delete-button), [`<EditButton>` &#8594](/docs/ui-integrations/material-ui/components/buttons/edit-button) and [`usePermission` &#8594](/docs/authentication/hooks/use-permissions) documentations.
+> For more information, refer to the [`<DeleteButton>` &#8594](/core/docs/ui-integrations/material-ui/components/buttons/delete-button/), [`<EditButton>` &#8594](/core/docs/ui-integrations/material-ui/components/buttons/edit-button/) and [`usePermission` &#8594](/core/docs/authentication/hooks/use-permissions/) documentations.
+
+### deleteButtonProps
+
+If the resource has the `canDelete` property and you want to customize this button, you can use the `deleteButtonProps` property like the code below.
+
+```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
+
+const { default: simpleRest } = RefineSimpleRest;
+
+const dataProvider = simpleRest("https://api.fake-rest.refine.dev");
+
+const customDataProvider = {
+  ...dataProvider,
+  deleteOne: async ({ resource, id, variables }) => {
+    return {
+      data: {},
+    };
+  },
+};
+
+const authProvider = {
+  login: async () => {
+    return {
+      success: true,
+      redirectTo: "/",
+    };
+  },
+  register: async () => {
+    return {
+      success: true,
+    };
+  },
+  forgotPassword: async () => {
+    return {
+      success: true,
+    };
+  },
+  updatePassword: async () => {
+    return {
+      success: true,
+    };
+  },
+  logout: async () => {
+    return {
+      success: true,
+      redirectTo: "/",
+    };
+  },
+  check: async () => ({
+    authenticated: true,
+  }),
+  onError: async (error) => {
+    console.error(error);
+    return { error };
+  },
+  getPermissions: async () => ["admin"],
+  getIdentity: async () => null,
+};
+
+// visible-block-start
+import { Show } from "@refinedev/mui";
+import { usePermissions } from "@refinedev/core";
+
+const ShowPage: React.FC = () => {
+  const { data: permissionsData } = usePermissions();
+  return (
+    <Show
+      /* highlight-start */
+      canDelete={permissionsData?.includes("admin")}
+      deleteButtonProps={{ size: "small" }}
+      canEdit={
+        permissionsData?.includes("editor") ||
+        permissionsData?.includes("admin")
+      }
+      /* highlight-end */
+    >
+      <p>Rest of your page here</p>
+    </Show>
+  );
+};
+// visible-block-end
+
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      authProvider={authProvider}
+      dataProvider={customDataProvider}
+      resources={[
+        {
+          name: "posts",
+          show: "/posts/show/:id",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route element={<ShowPage />} path="/posts/show/123" />
+        <ReactRouter.Route element={<SampleList />} path="/posts" />
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
+);
+```
 
 ### recordItemId
 
 `<Show>` component reads the `id` information from the route by default. `recordItemId` is used when it cannot read from the URL (when used on a custom page, modal or drawer).
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/custom
-// handle initial routes in new way
 setInitialRoutes(["/custom"]);
 
-import { Refine } from "@refinedev/core";
-import { Layout } from "@refinedev/mui";
-import routerProvider from "@refinedev/react-router-v6/legacy";
-import dataProvider from "@refinedev/simple-rest";
 // visible-block-start
 import { Show } from "@refinedev/mui";
 
@@ -305,33 +457,33 @@ const CustomPage: React.FC = () => {
 };
 // visible-block-end
 
-const App: React.FC = () => {
-  return (
-    <Refine
-      legacyRouterProvider={{
-        ...routerProvider,
-        routes: [
-          {
-            element: <CustomPage />,
-            path: "/custom",
-          },
-        ],
-      }}
-      Layout={Layout}
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      resources={[{ name: "posts" }]}
-    />
-  );
-};
-
 render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          show: "/posts/show/:id",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/custom"
+          element={
+            <div style={{ padding: 16 }}>
+              <CustomPage />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-`<Show>` component needs the `id` information for [`<RefreshButton>`](/docs/ui-integrations/material-ui/components/buttons/refresh-button) to work properly.
+`<Show>` component needs the `id` information for [`<RefreshButton>`](/core/docs/ui-integrations/material-ui/components/buttons/refresh-button/) to work properly.
 
 ### dataProviderName
 
@@ -370,24 +522,7 @@ export const App: React.FC = () => {
 To customize the back button or to disable it, you can use the `goBack` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
-import { useNavigation } from "@refinedev/core";
-
-const RealBackButton = () => {
-  const { goBack } = useNavigation();
-
-  return <Button onClick={goBack}>BACK!</Button>;
-};
-
-const RealPostShow: React.FC = () => {
-  return (
-    <Show
-      // highlight-next-line
-      goBack={<RealBackButton />}
-    >
-      <span>Rest of your page here</span>
-    </Show>
-  );
-};
+setInitialRoutes(["/posts/show/123"]);
 
 // visible-block-start
 import { Show } from "@refinedev/mui";
@@ -413,21 +548,35 @@ const PostShow: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/show/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.ShowButton recordItemId={123} />
-          </div>
-        ),
-        show: RealPostShow,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: () => (
+            <div>
+              <p>This page is empty.</p>
+              <ShowButton recordItemId="123" />
+            </div>
+          ),
+          show: PostShow,
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts/show/:id"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostShow />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -436,6 +585,7 @@ render(
 To toggle the loading state of the `<Show/>` component, you can use the `isLoading` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
 // visible-block-start
 import { Show } from "@refinedev/mui";
 
@@ -454,21 +604,22 @@ const PostShow: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/show/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.ShowButton recordItemId={123} />
-          </div>
-        ),
-        show: PostShow,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          show: "/posts/show/:id",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route element={<PostShow />} path="/posts/show/123" />
+        <ReactRouter.Route element={<SampleList />} path="/posts" />
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -477,6 +628,8 @@ render(
 To customize or disable the breadcrumb, you can use the `breadcrumb` property. By default it uses the `Breadcrumb` component from `@refinedev/mui` package.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
+
 // visible-block-start
 import { Show, Breadcrumb } from "@refinedev/mui";
 
@@ -503,31 +656,34 @@ const PostShow: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/show/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.ShowButton recordItemId={123} />
-          </div>
-        ),
-        show: PostShow,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          show: "/posts/show/:id",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route element={<PostShow />} path="/posts/show/123" />
+        <ReactRouter.Route element={<SampleList />} path="/posts" />
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-> For more information, refer to the [`Breadcrumb` documentation &#8594](/docs/ui-integrations/material-ui/components/breadcrumb)
+> For more information, refer to the [`Breadcrumb` documentation &#8594](/core/docs/ui-integrations/material-ui/components/breadcrumb/)
 
 ### wrapperProps
 
 If you want to customize the wrapper of the `<Show/>` component, you can use the `wrapperProps` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
+
 // visible-block-start
 import { Show } from "@refinedev/mui";
 
@@ -551,21 +707,22 @@ const PostShow: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/show/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.ShowButton recordItemId={123} />
-          </div>
-        ),
-        show: PostShow,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          show: "/posts/show/:id",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route element={<PostShow />} path="/posts/show/123" />
+        <ReactRouter.Route element={<SampleList />} path="/posts" />
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -576,6 +733,8 @@ render(
 If you want to customize the header of the `<Show/>` component, you can use the `headerProps` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
+
 // visible-block-start
 import { Show } from "@refinedev/mui";
 
@@ -599,21 +758,22 @@ const PostShow: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/show/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.ShowButton recordItemId={123} />
-          </div>
-        ),
-        show: PostShow,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          show: "/posts/show/:id",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route element={<PostShow />} path="/posts/show/123" />
+        <ReactRouter.Route element={<SampleList />} path="/posts" />
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -680,6 +840,8 @@ If [`canDelete`](#candelete-and-canedit) is `false`, the [`<DeleteButton>`][dele
 If [`canEdit`](#candelete-and-canedit) is `false`, [`<EditButton>`][edit-button] will not render and `editButtonProps` will be `undefined`.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
+
 // visible-block-start
 import { Show } from "@refinedev/mui";
 import { Button } from "@mui/material";
@@ -705,27 +867,43 @@ const PostShow: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/show/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.ShowButton recordItemId={123} />
-          </div>
-        ),
-        show: PostShow,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: () => (
+            <div>
+              <p>This page is empty.</p>
+              <ShowButton recordItemId="123" />
+            </div>
+          ),
+          show: PostShow,
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts/show/:id"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostShow />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-Or, instead of using the `defaultButtons`, you can create your own buttons. If you want, you can use `createButtonProps` to utilize the default values of the [`<ListButton>`][list-button], [`<EditButton>`][edit-button], [`<DeleteButton>`][delete-button], and, [`<RefreshButton>`][refresh-button] components.
+Or, instead of using the `defaultButtons`, you can create your own buttons:
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
+
 // visible-block-start
 import {
   Show,
@@ -772,14 +950,13 @@ const PostShow: React.FC = () => {
 
 render(
   <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/show/123"]}
     resources={[
       {
         name: "posts",
         list: () => (
           <div>
             <p>This page is empty.</p>
-            <RefineMui.ShowButton recordItemId={123} />
+            <ShowButton recordItemId="123" />
           </div>
         ),
         show: PostShow,
@@ -794,6 +971,8 @@ render(
 You can customize the wrapper element of the buttons at the header by using the `headerButtonProps` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
+
 // visible-block-start
 import { Show } from "@refinedev/mui";
 import { Button } from "@mui/material";
@@ -824,31 +1003,45 @@ const PostShow: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/show/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.ShowButton recordItemId={123} />
-          </div>
-        ),
-        show: PostShow,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: () => (
+            <div>
+              <p>This page is empty.</p>
+              <ShowButton recordItemId="123" />
+            </div>
+          ),
+          show: PostShow,
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts/show/:id"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostShow />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
-
-> For more information, refer to the [`Box` documentation from Material UI &#8594](https://mui.com/material-ui/api/box/)
 
 ### footerButtons
 
 You can customize the buttons at the footer by using the `footerButtons` property. It accepts `React.ReactNode` or a render function `({ defaultButtons }) => React.ReactNode` which you can use to keep the existing buttons and add your own.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
+
 // visible-block-start
 import { Show } from "@refinedev/mui";
 import { Button } from "@mui/material";
@@ -874,21 +1067,35 @@ const PostShow: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/show/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.ShowButton recordItemId={123} />
-          </div>
-        ),
-        show: PostShow,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: () => (
+            <div>
+              <p>This page is empty.</p>
+              <ShowButton recordItemId="123" />
+            </div>
+          ),
+          show: PostShow,
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts/show/:id"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostShow />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -897,6 +1104,8 @@ render(
 You can customize the wrapper element of the buttons at the footer by using the `footerButtonProps` property.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
+setInitialRoutes(["/posts/show/123"]);
+
 // visible-block-start
 import { Show } from "@refinedev/mui";
 import { Button } from "@mui/material";
@@ -927,21 +1136,35 @@ const PostShow: React.FC = () => {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    initialRoutes={["/posts", "/posts/show/123"]}
-    resources={[
-      {
-        name: "posts",
-        list: () => (
-          <div>
-            <p>This page is empty.</p>
-            <RefineMui.ShowButton recordItemId={123} />
-          </div>
-        ),
-        show: PostShow,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: () => (
+            <div>
+              <p>This page is empty.</p>
+              <ShowButton recordItemId="123" />
+            </div>
+          ),
+          show: PostShow,
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts/show/:id"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostShow />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -956,9 +1179,9 @@ wrapperProps-type="[`CardProps`](https://mui.com/material-ui/api/card/#props)"
 contentProps-type="[`CardContentProps`](https://mui.com/material-ui/api/card-content/#props)"
 headerProps-type="[`CardHeaderProps`](https://mui.com/material-ui/api/card-header/#props)"
 headerButtonProps-type="[`BoxProps`](https://mui.com/material-ui/api/box/#props)"
-headerButtons-default="[`ListButton`](/docs/ui-integrations/material-ui/components/buttons/list-button/), [`EditButton`](/docs/ui-integrations/material-ui/components/buttons/edit-button/), [`DeleteButton`](/docs/ui-integrations/material-ui/components/buttons/delete-button/), [`RefreshButton`](/docs/ui-integrations/material-ui/components/buttons/refresh-button/)"
+headerButtons-default="[`ListButton`](/core/docs/ui-integrations/material-ui/components/buttons/list-button/), [`EditButton`](/core/docs/ui-integrations/material-ui/components/buttons/edit-button/), [`DeleteButton`](/core/docs/ui-integrations/material-ui/components/buttons/delete-button/), [`RefreshButton`](/core/docs/ui-integrations/material-ui/components/buttons/refresh-button/)"
 footerButtonProps-type="[`CardActionsProps`](https://mui.com/material-ui/api/card-actions/#props)"
-breadcrumb-default="[`<Breadcrumb/>`](/docs/ui-integrations/material-ui/components/breadcrumb)"
+breadcrumb-default="[`<Breadcrumb/>`](/core/docs/ui-integrations/material-ui/components/breadcrumb/)"
 goBack-default="`<ArrowLeft />`"
 goBack-type="`ReactNode`"
 />
@@ -967,14 +1190,16 @@ goBack-type="`ReactNode`"
 const SampleList = () => {
   const { dataGridProps } = RefineMui.useDataGrid();
 
-  const { data: categoryData, isLoading: categoryIsLoading } =
-    RefineCore.useMany({
-      resource: "categories",
-      ids: dataGridProps?.rows?.map((item: any) => item?.category?.id) ?? [],
-      queryOptions: {
-        enabled: !!dataGridProps?.rows,
-      },
-    });
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = RefineCore.useMany({
+    resource: "categories",
+    ids: dataGridProps?.rows?.map((item: any) => item?.category?.id) ?? [],
+    queryOptions: {
+      enabled: !!dataGridProps?.rows,
+    },
+  });
 
   const columns = React.useMemo<GridColDef<any>[]>(
     () => [
@@ -998,6 +1223,7 @@ const SampleList = () => {
           return value;
         },
         minWidth: 300,
+        display: "flex",
         renderCell: function render({ value }) {
           return categoryIsLoading ? (
             <>Loading...</>
@@ -1010,6 +1236,7 @@ const SampleList = () => {
         field: "createdAt",
         headerName: "Created At",
         minWidth: 250,
+        display: "flex",
         renderCell: function render({ value }) {
           return <RefineMui.DateField value={value} />;
         },
@@ -1017,6 +1244,7 @@ const SampleList = () => {
       {
         field: "actions",
         headerName: "Actions",
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <>
@@ -1034,25 +1262,13 @@ const SampleList = () => {
 
   return (
     <RefineMui.List>
-      <MuiXDataGrid.DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <MuiXDataGrid.DataGrid {...dataGridProps} columns={columns} />
     </RefineMui.List>
-  );
-};
-
-const Wrapper = ({ children }) => {
-  return (
-    <MuiMaterial.ThemeProvider theme={RefineMui.LightTheme}>
-      <MuiMaterial.CssBaseline />
-      <MuiMaterial.GlobalStyles
-        styles={{ html: { WebkitFontSmoothing: "auto" } }}
-      />
-      {children}
-    </MuiMaterial.ThemeProvider>
   );
 };
 ```
 
-[list-button]: /docs/ui-integrations/material-ui/components/buttons/list-button
-[refresh-button]: /docs/ui-integrations/material-ui/components/buttons/refresh-button
-[edit-button]: /docs/ui-integrations/material-ui/components/buttons/edit-button
-[delete-button]: /docs/ui-integrations/material-ui/components/buttons/delete-button
+[list-button]: /core/docs/ui-integrations/material-ui/components/buttons/list-button
+[refresh-button]: /core/docs/ui-integrations/material-ui/components/buttons/refresh-button
+[edit-button]: /core/docs/ui-integrations/material-ui/components/buttons/edit-button
+[delete-button]: /core/docs/ui-integrations/material-ui/components/buttons/delete-button

@@ -25,7 +25,7 @@ export const useStoreForm = (props: Props) => {
       setIsFormDisabled(true);
     },
   });
-  const store = form.queryResult?.data?.data;
+  const store = form.query?.data?.data;
 
   const [latLng, setLatLng] = useState<Partial<LatLng>>({
     lat: props.action === "create" ? 39.66853 : undefined,
@@ -93,7 +93,7 @@ export const useStoreForm = (props: Props) => {
     setIsFormDisabled(value);
   };
 
-  const isLoading = form.queryResult?.isFetching || form.formLoading;
+  const isLoading = form.query?.isFetching || form.formLoading;
 
   return {
     ...form,

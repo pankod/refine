@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useSelect, useForm, useNavigation } from "@refinedev/core";
+import { useSelect, useForm } from "@refinedev/core";
 
 import type { IPost } from "../../interfaces";
+import { useNavigate } from "react-router";
 
 export const PostEdit: React.FC = () => {
   const {
@@ -18,6 +19,10 @@ export const PostEdit: React.FC = () => {
   const { options } = useSelect({
     resource: "categories",
     defaultValue: queryResult?.data?.data.category.id,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const [formValues, setFormValues] = useState({
@@ -40,7 +45,7 @@ export const PostEdit: React.FC = () => {
     });
   }, [result]);
 
-  const { goBack } = useNavigation();
+  const navigate = useNavigate();
 
   const handleSubmit = async (redirectTo: "list" | "edit" | "create") => {
     await onFinish(formValues);
@@ -50,7 +55,7 @@ export const PostEdit: React.FC = () => {
 
   return (
     <div>
-      <button className="back" onClick={() => goBack()}>
+      <button className="back" onClick={() => navigate(-1)}>
         Go Back
       </button>
       {result && (

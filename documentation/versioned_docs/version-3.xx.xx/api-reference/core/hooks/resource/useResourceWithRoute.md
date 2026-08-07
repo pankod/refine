@@ -19,6 +19,6 @@ const resource = resourceWithRoute("posts");
 
 ### Return value
 
-| Description       | Type                                                                                      |
-| ----------------- | ----------------------------------------------------------------------------------------- |
-| resourceWithRoute | [`(route: string) => IResourceItem`](/api-reference/core/interfaces.md#resourceitemprops) |
+| Description       | Type                                                                                                     |
+| ----------------- | -------------------------------------------------------------------------------------------------------- |
+| resourceWithRoute | [`(route: string) => IResourceItem`](/core/docs/3.xx.xx/api-reference/core/interfaces#resourceitemprops) |

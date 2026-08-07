@@ -1,5 +1,8 @@
 ---
-title: Import - Export
+title: "Import Export Guide | Guides Concepts in Refine v5"
+display_title: "Import - Export"
+sidebar_label: "Import - Export"
+description: "Set up Import Export in Refine v5. Learn best practices. Learn data for real-world React admin panels. Learn with code examples."
 ---
 
 # CSV Import - Export
@@ -9,7 +12,7 @@ import UseImportExample from "./use-import";
 
 Importing and exporting data are essential tasks for managing information in data extensive applications. With `CSV` export and import, we can speed up the process of data entry and data migration.
 
-Refine provides [`useImport`](/docs/core/hooks/utilities/use-import/) and [`useExport`](/docs/core/hooks/utilities/use-export/) hooks for both bulk importing and exporting data, making it easy to move large datasets between your application and external sources.
+Refine provides [`useImport`](/core/docs/core/hooks/utilities/use-import/) and [`useExport`](/core/docs/core/hooks/utilities/use-export/) hooks for both bulk importing and exporting data, making it easy to move large datasets between your application and external sources.
 
 ## Import
 
@@ -30,10 +33,10 @@ name,material,description,price,category
 
 Refine also provides `<ImportButton />`. It's compatible with `useImport` hook to easily handle the import process.
 
-- [Ant Design](/docs/ui-integrations/ant-design/components/buttons/import-button/)
-- [Material UI](/docs/ui-integrations/material-ui/components/buttons/import-button/)
-- [Mantine](/docs/ui-integrations/mantine/components/buttons/import-button/)
-- [Chakra UI](/docs/ui-integrations/chakra-ui/components/buttons/import-button/)
+- [Ant Design](/core/docs/ui-integrations/ant-design/components/buttons/import-button/)
+- [Material UI](/core/docs/ui-integrations/material-ui/components/buttons/import-button/)
+- [Mantine](/core/docs/ui-integrations/mantine/components/buttons/import-button/)
+- [Chakra UI](/core/docs/ui-integrations/chakra-ui/components/buttons/import-button/)
 
 ## Export
 
@@ -47,9 +50,9 @@ Internally, it uses [Papa Parse][papaparse] to create the `CSV` file.
 
 Refine also provides `<ExportButton />`. It's compatible with `useExport` hook to easily handle the export process.
 
-- [Ant Design](/docs/ui-integrations/ant-design/components/buttons/export-button/)
-- [Material UI](/docs/ui-integrations/material-ui/components/buttons/export-button/)
-- [Mantine](/docs/ui-integrations/mantine/components/buttons/export-button/)
-- [Chakra UI](/docs/ui-integrations/chakra-ui/components/buttons/export-button/)
+- [Ant Design](/core/docs/ui-integrations/ant-design/components/buttons/export-button/)
+- [Material UI](/core/docs/ui-integrations/material-ui/components/buttons/export-button/)
+- [Mantine](/core/docs/ui-integrations/mantine/components/buttons/export-button/)
+- [Chakra UI](/core/docs/ui-integrations/chakra-ui/components/buttons/export-button/)
 
 [papaparse]: https://www.papaparse.com/

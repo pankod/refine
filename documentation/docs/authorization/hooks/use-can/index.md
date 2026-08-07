@@ -1,5 +1,8 @@
 ---
-title: useCan
+title: "useCan Hook | Authorization in Refine v5"
+display_title: "useCan"
+sidebar_label: "useCan"
+description: "Learn to use the useCan hook in Refine v5. Learn how to secure RBAC, ABAC for secure enterprise React apps. Learn with code examples."
 siderbar_label: useCan
 ---
 
@@ -123,9 +126,9 @@ const MyComponent = () => {
 
 ### Type Parameters
 
-| Property                                                   | Description                                                                       |
-| ---------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| [CanResponse](/docs/core/interface-references#canresponse) | Result data of the query [`HttpError`](/docs/core/interface-references#httperror) |
+| Property                                                        | Description                                                                            |
+| --------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [CanResponse](/core/docs/core/interface-references#canresponse) | Result data of the query [`HttpError`](/core/docs/core/interface-references#httperror) |
 
 ### Return values
 
@@ -133,8 +136,8 @@ const MyComponent = () => {
 | ------------------------------------------------------------------------ | ---------------------------------------------------------------- |
 | Result of the [TanStack Query's][tanstack-query] [`useQuery`][use-query] | [`QueryObserverResult<{ data: CanReturnType; }>`][query-options] |
 
-[access-control-provider]: /docs/authorization/access-control-provider
+[access-control-provider]: /core/docs/authorization/access-control-provider
 [use-query]: https://tanstack.com/query/latest/docs/react/guides/queries
 [tanstack-query]: https://tanstack.com/query/latest
-[query-options]: https://tanstack.com/query/v4/docs/react/reference/useQuery
-[can-params]: /docs/core/interface-references#canparams
+[query-options]: https://tanstack.com/query/v5/docs/react/reference/useQuery
+[can-params]: /core/docs/core/interface-references#canparams

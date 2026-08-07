@@ -11,19 +11,19 @@ Internally, it uses the `useHistory` of the [`routerProvider`][routerprovider].
 import { useNavigation } from "@pankod/refine-core";
 
 const {
-    list,
-    create,
-    edit,
-    show,
-    clone,
-    push,
-    replace,
-    goBack,
-    listUrl,
-    createUrl,
-    editUrl,
-    showUrl,
-    cloneUrl,
+  list,
+  create,
+  edit,
+  show,
+  clone,
+  push,
+  replace,
+  goBack,
+  listUrl,
+  createUrl,
+  editUrl,
+  showUrl,
+  cloneUrl,
 } = useNavigation();
 ```
 
@@ -227,5 +227,5 @@ cloneUrl("posts", "1"); // It returns the `/posts/clone/1` URL
 export type HistoryType = "push" | "replace";
 ```
 
-[routerprovider]: /api-reference/core/providers/router-provider.md
-[basekey]: /api-reference/core/interfaces.md#basekey
+[routerprovider]: /core/docs/3.xx.xx/api-reference/core/providers/router-provider
+[basekey]: /core/docs/3.xx.xx/api-reference/core/interfaces#basekey

@@ -20,7 +20,7 @@ import {
   CourierStatus,
   CourierTableColumnRating,
 } from "../../components";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import type { PropsWithChildren } from "react";
 
 export const CourierList = ({ children }: PropsWithChildren) => {

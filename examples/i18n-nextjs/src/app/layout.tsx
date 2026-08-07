@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import React, { Suspense } from "react";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import { RefineContext } from "./_refine_context";
+
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
 export const metadata: Metadata = {
@@ -13,23 +17,25 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const cookieStore = cookies();
   const theme = cookieStore.get("theme");
-  const lang = cookieStore.get("NEXT_LOCALE");
+
+  const locale = await getLocale();
+  const messages = await getMessages();
 
   return (
-    <html lang={lang?.value || "en"}>
+    <html lang={locale}>
       <body>
-        <Suspense>
-          <AntdRegistry>
+        <AntdRegistry>
+          <NextIntlClientProvider locale={locale} messages={messages}>
             <RefineContext themeMode={theme?.value}>{children}</RefineContext>
-          </AntdRegistry>
-        </Suspense>
+          </NextIntlClientProvider>
+        </AntdRegistry>
       </body>
     </html>
   );

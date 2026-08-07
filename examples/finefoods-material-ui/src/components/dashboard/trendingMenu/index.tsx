@@ -15,11 +15,9 @@ import { Rank5Icon } from "../../icons/rank-5";
 import type { ReactNode } from "react";
 
 export const TrendingMenu: React.FC = () => {
-  const { data } = useList<ITrendingProducts>({
+  const { result: data } = useList<ITrendingProducts>({
     resource: "trendingProducts",
-    config: {
-      pagination: { pageSize: 5 },
-    },
+    pagination: { pageSize: 5 },
   });
 
   const trending = data?.data || [];

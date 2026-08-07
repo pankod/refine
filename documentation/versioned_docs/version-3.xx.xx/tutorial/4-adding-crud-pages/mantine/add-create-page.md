@@ -83,7 +83,7 @@ We will go through the create page components and hooks one by one.
 
 - `<Create/>` is a **refine** component that is used to presentation purposes like showing the title of the page, save button etc.
 
-  [Refer to the `<Create/>` documentation for more information &#8594](/docs/3.xx.xx/api-reference/mantine/components/basic-views/create)
+  [Refer to the `<Create/>` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/mantine/components/basic-views/create)
 
 - `useForm` hook, imported from `@pankod/refine-mantine` package, has been developed by using the **Mantine** `useForm` hook and `@pankod/refine-core` `useForm` hook. It is used to handle the form state and form submission.
 
@@ -91,7 +91,7 @@ We will go through the create page components and hooks one by one.
 
   When you use `useForm` in the edit page,it sends the form data to `dataProvider`'s `create` method when the form is submitted.
 
-  [Refer to the `useForm` documentation for more information &#8594](https://refine.dev/docs/api-reference/mantine/hooks/form/useForm/)
+  [Refer to the `useForm` documentation for more information &#8594](https://refine.dev/core/docs/api-reference/mantine/hooks/form/useForm/)
 
   [Refer to the **Mantine** documentation for more information &#8594](https://mantine.dev/form/use-form/)
 
@@ -103,7 +103,7 @@ We will go through the create page components and hooks one by one.
 
 In the create page, we may need to select a record from another resource. For example, we may need to select a category from the `categories` resource to assign the blog post to the category. In this case, we can use the `useSelect` hook provided by **refine**. This hook fetches the data by passing the resource name to the `dataProvider`'s `getList` method. Then, it returns the `options` to be used in the `<Select/>` component.
 
-[Refer to the `useSelect` documentation for more information &#8594](/docs/3.xx.xx/api-reference/mantine/hooks/useSelect/)
+[Refer to the `useSelect` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/mantine/hooks/useSelect/)
 
 [Refer to the **Mantine** `<Select/>` documentation for more information &#8594](https://mantine.dev/core/select/)
 

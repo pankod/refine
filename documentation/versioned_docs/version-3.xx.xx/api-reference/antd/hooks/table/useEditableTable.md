@@ -362,15 +362,15 @@ Takes a `id` as a parameter and returns `true` if the given `BaseKey` is equal t
 
 [table]: https://ant.design/components/table/#API
 [form]: https://ant.design/components/form/#API
-[useform]: /docs/3.xx.xx/api-reference/antd/hooks/table/useTable/
-[usetable]: /docs/3.xx.xx/api-reference/antd/hooks/table/useTable
+[useform]: /core/docs/3.xx.xx/api-reference/antd/hooks/table/useTable/
+[usetable]: /core/docs/3.xx.xx/api-reference/antd/hooks/table/useTable
 [usequery]: https://react-query.tanstack.com/reference/useQuery
-[usemutation]: https://react-query.tanstack.com/reference/useMutation
-[baserecord]: /api-reference/core/interfaces.md#baserecord
-[basekey]: /api-reference/core/interfaces.md#basekey
-[crudsorting]: /api-reference/core/interfaces.md#crudsorting
-[crudfilters]: /api-reference/core/interfaces.md#crudfilters
-[httperror]: /api-reference/core/interfaces.md#httperror
+[usemutation]: https://tanstack.com/query/v4/docs/framework/react/reference/useMutation
+[baserecord]: /core/docs/3.xx.xx/api-reference/core/interfaces#baserecord
+[basekey]: /core/docs/3.xx.xx/api-reference/core/interfaces#basekey
+[crudsorting]: /core/docs/3.xx.xx/api-reference/core/interfaces#crudsorting
+[crudfilters]: /core/docs/3.xx.xx/api-reference/core/interfaces#crudfilters
+[httperror]: /core/docs/3.xx.xx/api-reference/core/interfaces#httperror
 [table search]: /advanced-tutorials/search/table-search.md
 [table.column]: https://ant.design/components/table/#Column
 [forminstance]: https://ant.design/components/form/#FormInstance

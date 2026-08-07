@@ -12,9 +12,9 @@ import TabItem from '@theme/TabItem';
 
 An audit log provider must have the following three methods:
 
--   `create`: Logs an event to the audit log.
--   `get`: Returns a list of events.
--   `update`: Updates an event in the audit log.
+- `create`: Logs an event to the audit log.
+- `get`: Returns a list of events.
+- `update`: Updates an event in the audit log.
 
 Below are the corresponding interfaces for each of these methods.
 
@@ -59,7 +59,7 @@ import { Refine } from "@pankod/refine-core";
 import auditLogProvider from "./auditLogProvider";
 
 const App: React.FC = () => {
-    return <Refine auditLogProvider={auditLogProvider} />;
+  return <Refine auditLogProvider={auditLogProvider} />;
 };
 ```
 
@@ -75,10 +75,10 @@ For example, using `useLogList` hook to list all resource activities by a specif
 
 ```json
 {
-    "resource": "posts",
-    "meta": {
-        "id": "1"
-    }
+  "resource": "posts",
+  "meta": {
+    "id": "1"
+  }
 }
 ```
 
@@ -96,25 +96,25 @@ const API_URL = "https://api.fake-rest.refine.dev";
 const dataProvider = refineSimpleRestDataProvider(API_URL);
 
 const auditLogProvider: AuditLogProvider = {
-    get: async ({ resource, meta }) => {
-        const { data } = await dataProvider(API_URL).getList({
-            resource: "logs",
-            filters: [
-                {
-                    field: "resource",
-                    operator: "eq",
-                    value: resource,
-                },
-                {
-                    field: "meta.id",
-                    operator: "eq",
-                    value: meta?.id,
-                },
-            ],
-        });
+  get: async ({ resource, meta }) => {
+    const { data } = await dataProvider(API_URL).getList({
+      resource: "logs",
+      filters: [
+        {
+          field: "resource",
+          operator: "eq",
+          value: resource,
+        },
+        {
+          field: "meta.id",
+          operator: "eq",
+          value: meta?.id,
+        },
+      ],
+    });
 
-        return data;
-    },
+    return data;
+  },
 };
 ```
 
@@ -152,18 +152,18 @@ When a record is created, refine automatically sends an event to `create` method
 
 ```json
 {
-    "action": "create",
-    "resource": "posts",
-    "data": {
-        "id": "1",
-        "title": "Hello World",
-        "content": "Hello World"
-    },
-    "meta": {
-        "dataProviderName": "simple-rest",
-        // If request response has a `id` field, it will be add in the `meta` field.
-        "id": "1"
-    }
+  "action": "create",
+  "resource": "posts",
+  "data": {
+    "id": "1",
+    "title": "Hello World",
+    "content": "Hello World"
+  },
+  "meta": {
+    "dataProviderName": "simple-rest",
+    // If request response has a `id` field, it will be add in the `meta` field.
+    "id": "1"
+  }
 }
 ```
 
@@ -178,22 +178,22 @@ When a record is updated, refine automatically sends an event to `create` method
 
 ```json
 {
-    "action": "update",
-    "resource": "posts",
-    "data": {
-        "id": "1",
-        "title": "New Hello World",
-        "content": "New Hello World"
-    },
-    "previousData": {
-        "id": "1",
-        "title": "Hello World",
-        "content": "Hello World"
-    },
-    "meta": {
-        "dataProviderName": "simple-rest",
-        "id": "1"
-    }
+  "action": "update",
+  "resource": "posts",
+  "data": {
+    "id": "1",
+    "title": "New Hello World",
+    "content": "New Hello World"
+  },
+  "previousData": {
+    "id": "1",
+    "title": "Hello World",
+    "content": "Hello World"
+  },
+  "meta": {
+    "dataProviderName": "simple-rest",
+    "id": "1"
+  }
 }
 ```
 
@@ -208,12 +208,12 @@ When a record is deleted, refine automatically sends an event to `create` method
 
 ```json
 {
-    "action": "delete",
-    "resource": "posts",
-    "meta": {
-        "dataProviderName": "simple-rest",
-        "id": "1"
-    }
+  "action": "delete",
+  "resource": "posts",
+  "meta": {
+    "dataProviderName": "simple-rest",
+    "id": "1"
+  }
 }
 ```
 
@@ -221,7 +221,7 @@ When a record is deleted, refine automatically sends an event to `create` method
 </Tabs>
 
 :::tip
-If [`getUserIdentity`](/api-reference/core/providers/auth-provider.md) is defined in your auth provider, the `author` object is added to the event with the value returned by `getUserIdentity`.
+If [`getUserIdentity`](/core/docs/3.xx.xx/api-reference/core/providers/auth-provider) is defined in your auth provider, the `author` object is added to the event with the value returned by `getUserIdentity`.
 
 :::
 
@@ -237,12 +237,12 @@ const API_URL = "https://api.fake-rest.refine.dev";
 const dataProvider = refineSimpleRestDataProvider(API_URL);
 
 const auditLogProvider: AuditLogProvider = {
-    create: (params) => {
-        return dataProvider(API_URL).create({
-            resource: "logs",
-            variables: params,
-        });
-    },
+  create: (params) => {
+    return dataProvider(API_URL).create({
+      resource: "logs",
+      variables: params,
+    });
+  },
 };
 ```
 
@@ -261,9 +261,9 @@ This method can take the following parameters.
 <br/>
 
 :::info
-**refine** will use this `create` method in the [`useLog`](/api-reference/core/hooks/audit-log/useLog.md) hook.
+**refine** will use this `create` method in the [`useLog`](/core/docs/3.xx.xx/api-reference/core/hooks/audit-log/useLog) hook.
 
-[Refer to the `useLog` documentation for more information. &#8594](/api-reference/core/hooks/audit-log/useLog.md)
+[Refer to the `useLog` documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/audit-log/useLog)
 
 :::
 
@@ -279,8 +279,8 @@ For example, using `useLog`'s `log` method creates an event like below:
 
 ```json
 {
-    "id": "1",
-    "name": "event name"
+  "id": "1",
+  "name": "event name"
 }
 ```
 
@@ -292,14 +292,14 @@ const API_URL = "https://api.fake-rest.refine.dev";
 const dataProvider = refineSimpleRestDataProvider(API_URL);
 
 const auditLogProvider: AuditLogProvider = {
-    update: async ({ id, name }) => {
-        const { data } = await dataProvider(API_URL).update({
-            resource: "logs",
-            id,
-            variables: { name },
-        });
-        return data;
-    },
+  update: async ({ id, name }) => {
+    const { data } = await dataProvider(API_URL).update({
+      resource: "logs",
+      id,
+      variables: { name },
+    });
+    return data;
+  },
 };
 ```
 
@@ -316,9 +316,9 @@ This method can take the following parameters.
 
 :::info
 
-**refine** will use this `update` method in the [`useLog`](/api-reference/core/hooks/audit-log/useLog.md) hook.
+**refine** will use this `update` method in the [`useLog`](/core/docs/3.xx.xx/api-reference/core/hooks/audit-log/useLog) hook.
 
-[Refer to the `useLog` documentation for more information. &#8594](/api-reference/core/hooks/audit-log/useLog.md)
+[Refer to the `useLog` documentation for more information. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/audit-log/useLog)
 
 :::
 
@@ -334,32 +334,32 @@ When `useCreate` is called, `refine` sends the following parameters to audit log
 const { mutate } = useCreate();
 
 mutate({
-    resource: "posts",
-    values: {
-        title: "New Post",
-        status: "published",
-        content: "New Post Content",
-    },
-    metaData: {
-        foo: "bar",
-    },
+  resource: "posts",
+  values: {
+    title: "New Post",
+    status: "published",
+    content: "New Post Content",
+  },
+  metaData: {
+    foo: "bar",
+  },
 });
 ```
 
 ```json title="Create event"
 {
-    "action": "create",
-    "resource": "posts",
-    "data": {
-        "title": "Title",
-        "status": "published",
-        "content": "New Post Content"
-    },
-    "meta": {
-        "id": "1",
-        // `metaData` is included in `meta`.
-        "foo": "bar"
-    }
+  "action": "create",
+  "resource": "posts",
+  "data": {
+    "title": "Title",
+    "status": "published",
+    "content": "New Post Content"
+  },
+  "meta": {
+    "id": "1",
+    // `metaData` is included in `meta`.
+    "foo": "bar"
+  }
 }
 ```
 
@@ -371,31 +371,31 @@ When `useUpdate` is called, `refine` sends the following parameters to audit log
 const { mutate } = useUpdate();
 
 mutate({
-    id: 1,
-    resource: "posts",
-    values: {
-        title: "Updated New Title",
-    },
+  id: 1,
+  resource: "posts",
+  values: {
+    title: "Updated New Title",
+  },
 });
 ```
 
 ```json title="Update event"
 {
-    "action": "update",
-    "resource": "posts",
-    "data": {
-        "title": "Updated New Title",
-        "status": "published",
-        "content": "New Post Content"
-    },
-    "previousData": {
-        "title": "Title",
-        "status": "published",
-        "content": "New Post Content"
-    },
-    "meta": {
-        "id": 1
-    }
+  "action": "update",
+  "resource": "posts",
+  "data": {
+    "title": "Updated New Title",
+    "status": "published",
+    "content": "New Post Content"
+  },
+  "previousData": {
+    "title": "Title",
+    "status": "published",
+    "content": "New Post Content"
+  },
+  "meta": {
+    "id": 1
+  }
 }
 ```
 
@@ -407,18 +407,18 @@ When `useDelete` is called, `refine` sends the following parameters to audit log
 const { mutate } = useDelete();
 
 mutate({
-    id: 1,
-    resource: "posts",
+  id: 1,
+  resource: "posts",
 });
 ```
 
 ```json title="Delete event"
 {
-    "action": "delete",
-    "resource": "posts",
-    "meta": {
-        "id": 1
-    }
+  "action": "delete",
+  "resource": "posts",
+  "meta": {
+    "id": 1
+  }
 }
 ```
 
@@ -432,24 +432,24 @@ In this case, only events will be created for the `create` mutation.
 
 ```ts title="App.tsx"
 <Refine
-    dataProvider={dataProvider(API_URL)}
-    resources={[
-        {
-            name: "posts",
-            list: PostList,
-            create: PostCreate,
-            edit: PostEdit,
-            show: PostShow,
-            canDelete: true,
-            // highlight-start
-            options: {
-                auditLog: {
-                    permissions: ["create"],
-                },
-            },
-            // highlight-end
+  dataProvider={dataProvider(API_URL)}
+  resources={[
+    {
+      name: "posts",
+      list: PostList,
+      create: PostCreate,
+      edit: PostEdit,
+      show: PostShow,
+      canDelete: true,
+      // highlight-start
+      options: {
+        auditLog: {
+          permissions: ["create"],
         },
-    ]}
+      },
+      // highlight-end
+    },
+  ]}
 />
 ```
 

@@ -53,22 +53,28 @@ export const ProductsTable = ({ refineCoreProps }: Props) => {
   );
 
   const {
-    options: {
-      state: { pagination },
+    reactTable: {
+      options: {
+        state: { pagination },
+      },
+
+      getRowModel,
+      setPageIndex,
+      getCanPreviousPage,
+      getCanNextPage,
+      getPageOptions,
+      nextPage,
+      previousPage,
     },
-    getRowModel,
-    setPageIndex,
-    getCanPreviousPage,
-    getCanNextPage,
-    getPageOptions,
-    nextPage,
-    previousPage,
   } = useTable<Product>({
     columns,
+
     refineCoreProps: {
       syncWithLocation: true,
       resource: "products",
-      initialPageSize: 6,
+      pagination: {
+        pageSize: 6,
+      },
       ...(refineCoreProps || {}),
     },
   });

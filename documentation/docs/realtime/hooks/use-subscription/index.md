@@ -1,5 +1,8 @@
 ---
-title: useSubscription
+title: "useSubscription Hook | Options, Patterns & Edge Cases in Refine v5"
+display_title: "useSubscription"
+sidebar_label: "useSubscription"
+description: "Integrate Use Subscription in Refine v5. Learn best practices. Learn best practices for channel and properties for real-world React admin panels."
 source: packages/core/src/hooks/live/useSubscription/index.ts
 ---
 
@@ -59,6 +62,6 @@ You can pass the name of the data provider to use for the subscription. By defau
 
 <PropsTable module="@refinedev/core/useSubscription"  />
 
-[live-provider]: /docs/realtime/live-provider
-[live-provider-subscribe]: /docs/realtime/live-provider#subscribe
-[integrated-hooks]: /docs/realtime/live-provider#integrated-hooks
+[live-provider]: /core/docs/realtime/live-provider
+[live-provider-subscribe]: /core/docs/realtime/live-provider#subscribe
+[integrated-hooks]: /core/docs/realtime/live-provider#integrated-hooks

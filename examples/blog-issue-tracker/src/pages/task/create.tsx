@@ -2,7 +2,7 @@ import { useForm, Create, useSelect } from "@refinedev/antd";
 
 import { Form, Input, Select, DatePicker } from "antd";
 
-import type { ITask, ILabel, IPriority, IStatus, IAuthUser } from "interfaces";
+import type { ITask, ILabel, IPriority, IStatus, IAuthUser } from "../../types";
 
 export const TaskCreate = () => {
   const { formProps, saveButtonProps } = useForm<ITask>();
@@ -15,7 +15,7 @@ export const TaskCreate = () => {
     resource: "priority",
   });
 
-  const { selectProps: assigneSelectProps } = useSelect<IAuthUser>({
+  const { selectProps: assigneeSelectProps } = useSelect<IAuthUser>({
     resource: "users",
     optionValue: "id",
     optionLabel: "email",
@@ -42,16 +42,16 @@ export const TaskCreate = () => {
         <Form.Item label="Description" name="description">
           <Input />
         </Form.Item>
-        <Form.Item label="Label" name="label">
+        <Form.Item label="Label" name="label_id">
           <Select {...labelSelectProps} />
         </Form.Item>
-        <Form.Item label="Priority" name="priority">
+        <Form.Item label="Priority" name="priority_id">
           <Select {...prioritySelectPorps} />
         </Form.Item>
-        <Form.Item label="Assigne To" name="users">
-          <Select {...assigneSelectProps} />
+        <Form.Item label="Assign To" name="user_id">
+          <Select {...assigneeSelectProps} />
         </Form.Item>
-        <Form.Item label="Select Status" name="status">
+        <Form.Item label="Select Status" name="status_id">
           <Select {...statusSelectProps} />
         </Form.Item>
         <Form.Item label="Start Date" name="start_time">

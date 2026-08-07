@@ -86,13 +86,13 @@ const HomePageTsxCode = `
 import { useOne } from "@refinedev/core";
 
 export const HomePage = () => {
-    const { data: product, isLoading: isLoadingProduct } = useOne<IProduct>({
+    const { result: product, query: { isLoading: isLoadingProduct } } = useOne<IProduct>({
         resource: "products",
         id: 123,
         dataProviderName: "default",
     });
 
-    const { data: user, isLoading: isLoadingUser } = useOne<IUser>({
+    const { result: user, query: { isLoading: isLoadingUser } } = useOne<IUser>({
         resource: "users",
         id: 123,
         dataProviderName: "fineFoods",
@@ -103,17 +103,17 @@ export const HomePage = () => {
     return (
         <div>
             <h2>Product</h2>
-            <h4>{product?.data?.name}</h4>
-            <p>Material: {product?.data?.material}</p>
-            <p>Price {product?.data?.price}</p>
+            <h4>{product?.name}</h4>
+            <p>Material: {product?.material}</p>
+            <p>Price {product?.price}</p>
 
             <br />
 
             <h2>User</h2>
             <h4>
-                {user?.data?.firstName} {user?.data?.lastName}
+                {user?.firstName} {user?.lastName}
             </h4>
-            <p>Phone: {user?.data?.gsm}</p>
+            <p>Phone: {user?.gsm}</p>
         </div>
     );
 };

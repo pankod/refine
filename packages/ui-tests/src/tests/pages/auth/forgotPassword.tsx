@@ -1,11 +1,11 @@
+import { vi } from "vitest";
 import React, { type FC } from "react";
 import type { ForgotPasswordPageProps } from "@refinedev/core";
 
 import {
   fireEvent,
   mockAuthProvider,
-  mockRouterBindings,
-  MockRouterProvider,
+  mockRouterProvider,
   render,
   TestWrapper,
   waitFor,
@@ -174,7 +174,7 @@ export const pageForgotPasswordTests = (
     });
 
     it("should run forgotPassword mutation when form is submitted", async () => {
-      const forgotPasswordMock = jest.fn().mockResolvedValue({ success: true });
+      const forgotPasswordMock = vi.fn().mockResolvedValue({ success: true });
 
       const { getByLabelText, getByText } = render(<ForgotPasswordPage />, {
         wrapper: TestWrapper({
@@ -192,63 +192,31 @@ export const pageForgotPasswordTests = (
       fireEvent.click(getByText(/send reset instructions/i));
 
       await waitFor(() => {
-        expect(forgotPasswordMock).toBeCalledTimes(1);
+        expect(forgotPasswordMock).toHaveBeenCalledTimes(1);
       });
 
-      expect(forgotPasswordMock).toBeCalledWith({
+      expect(forgotPasswordMock).toHaveBeenCalledWith({
         email: "demo@refine.dev",
       });
     });
 
-    it("should work with legacy router provider Link", async () => {
-      jest.spyOn(console, "error").mockImplementation((message) => {
-        console.warn(message);
-      });
-      const LinkComponentMock = jest.fn();
-
-      render(<ForgotPasswordPage />, {
-        wrapper: TestWrapper({
-          legacyRouterProvider: {
-            ...MockRouterProvider,
-            Link: LinkComponentMock,
-          },
-        }),
-      });
-
-      expect(LinkComponentMock).toBeCalledWith(
-        expect.objectContaining({
-          to: "/login",
-        }),
-        {},
-      );
-    });
-
     it("should work with new router provider Link", async () => {
-      jest.spyOn(console, "error").mockImplementation((message) => {
+      vi.spyOn(console, "error").mockImplementation((message) => {
         console.warn(message);
       });
-      const LinkComponentMock = jest.fn();
 
-      render(<ForgotPasswordPage />, {
-        wrapper: TestWrapper({
-          routerProvider: mockRouterBindings({
-            fns: {
-              Link: LinkComponentMock,
-            },
-          }),
-        }),
+      const { getByText } = render(<ForgotPasswordPage />, {
+        wrapper: TestWrapper({}),
       });
 
-      expect(LinkComponentMock).toBeCalledWith(
-        expect.objectContaining({
-          to: "/login",
-        }),
-        {},
-      );
+      const link = getByText(/sign in/i);
+
+      expect(link).toBeInTheDocument();
+      expect(link.getAttribute("href")).toBe("/login");
     });
 
     it("should should accept 'mutationVariables'", async () => {
-      const forgotPasswordMock = jest.fn().mockResolvedValue({ success: true });
+      const forgotPasswordMock = vi.fn().mockResolvedValue({ success: true });
 
       const { getByRole, getByLabelText } = render(
         <ForgotPasswordPage

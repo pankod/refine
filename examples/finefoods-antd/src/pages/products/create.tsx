@@ -1,6 +1,6 @@
 import { useGetToPath, useGo } from "@refinedev/core";
 import { ProductDrawerForm } from "../../components/product/drawer-form";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 
 export const ProductCreate = () => {
   const getToPath = useGetToPath();

@@ -38,4 +38,4 @@ npm create refine-app@latest -- --example data-provider-appwrite-tutorial-docs
 
 <br/>
 
-[![Open data-provider-appwrite-tutorial-docs example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/data-provider-appwrite-tutorial-docs?view=preview&theme=dark&codemirror=1)
+[![Open data-provider-appwrite-tutorial-docs example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/data-provider-appwrite-tutorial-docs?view=preview&theme=dark&codemirror=1)

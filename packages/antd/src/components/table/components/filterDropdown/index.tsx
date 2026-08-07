@@ -12,7 +12,7 @@ export type MapValueEvent = "onChange" | "value";
 
 export type FilterDropdownProps = AntdFilterDropdownProps & {
   mapValue?: (selectedKeys: React.Key[], event: MapValueEvent) => any;
-  children: JSX.Element;
+  children: React.JSX.Element;
 };
 
 /**
@@ -74,7 +74,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = (props) => {
 
   const childrenWithProps = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child as React.ReactElement, {
+      return React.cloneElement(child as React.ReactElement<any>, {
         onChange,
         value: mapValue(selectedKeys, "value"),
       });

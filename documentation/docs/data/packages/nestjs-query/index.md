@@ -1,6 +1,9 @@
 ---
-title: Nest.js Query
-source: https://github.com/refinedev/refine/tree/master/packages/nestjs-query
+title: "Nestjs Query Integration Guide | REST API Integration in Refine v5"
+display_title: "Nest.js Query"
+sidebar_label: "Nest.js Query"
+description: "Secure Nestjs Query in Refine v5. Learn best practices. Learn patterns to scale queries and types for custom APIs and scalable data flows."
+source: https://github.com/refinedev/refine/tree/main/packages/nestjs-query
 ---
 
 Refine provides a data provider for APIs powered with [Nest.js Query](https://doug-martin.github.io/nestjs-query/), a module for Nest.js that provides easier ways to build CRUD graphql APIs.
@@ -10,8 +13,8 @@ Refine provides a data provider for APIs powered with [Nest.js Query](https://do
 - This library uses [`graphql-request@5`](https://github.com/jasonkuhrt/graphql-request) to handle the requests.
 - This library uses [`graphql-ws`](https://the-guild.dev/graphql/ws) to handle the subscriptions.
 - You can also use [`graphql-tag`](https://www.npmjs.com/package/graphql-tag) to write your queries and mutations.
-- To learn more about data fetching in Refine, check out the [Data Fetching](/docs/guides-concepts/data-fetching) guide.
-- To learn more about realtime features of Refine, check out the [Realtime](/docs/guides-concepts/realtime) guide.
+- To learn more about data fetching in Refine, check out the [Data Fetching](/core/docs/guides-concepts/data-fetching/) guide.
+- To learn more about realtime features of Refine, check out the [Realtime](/core/docs/guides-concepts/realtime/) guide.
 
 :::
 
@@ -207,7 +210,7 @@ import { GetFields, GetFieldsFromList } from "@refinedev/nestjs-query";
 import { PostsListQuery, PostEditMutation } from "src/graphql/types";
 import { POSTS_LIST_QUERY, POST_EDIT_MUTATION } from "./queries";
 
-const { data, isLoading } = useList<GetFieldsFromList<PostsListQuery>>({
+const { result, query } = useList<GetFieldsFromList<PostsListQuery>>({
   meta: { gqlQuery: POSTS_LIST_QUERY },
 });
 

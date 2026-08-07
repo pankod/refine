@@ -11,14 +11,14 @@ import FilteringLivePreview from "./\_partial-filtering-live-preview.md";
 import RelationalDataLivePreview from "./\_partial-relational-data-live-preview.md";
 import PropResource from "@site/src/partials/prop-resource";
 
-`useTable` allows us to fetch data according to the sorter, filter, and pagination states. Under the hood it uses [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) for the fetch. Since it is designed as headless, It expects you to handle the UI.
+`useTable` allows us to fetch data according to the sorter, filter, and pagination states. Under the hood it uses [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) for the fetch. Since it is designed as headless, It expects you to handle the UI.
 
 :::info
 If you're looking for a complete table library, Refine supports two table libraries out of the box.
 
-- [React Table](https://react-table.tanstack.com/) (for TanStack Table users) - [Documentation](/docs/3.xx.xx/packages/documentation/react-table) - [Example](#)
-- [Ant Design Table](https://ant.design/components/table/#header) (for Ant Design users) - [Documentation](/docs/3.xx.xx/api-reference/antd/hooks/table/useTable) - [Example](/examples/table/antd/useTable.md)
-- [Material UI Table](https://mui.com/x/react-data-grid/) (for Material UI users) - [Documentation](/docs/3.xx.xx/api-reference/mui/hooks/useDataGrid) - [Example](/examples/table/mui/useDataGrid.md)
+- [React Table](https://react-table.tanstack.com/) (for TanStack Table users) - [Documentation](/core/docs/3.xx.xx/packages/documentation/react-table) - [Example](#)
+- [Ant Design Table](https://ant.design/components/table/#header) (for Ant Design users) - [Documentation](/core/docs/3.xx.xx/api-reference/antd/hooks/table/useTable) - [Example](/core/docs/examples/table/antd/useTable)
+- [Material UI Table](https://mui.com/x/react-data-grid/) (for Material UI users) - [Documentation](/core/docs/3.xx.xx/api-reference/mui/hooks/useDataGrid) - [Example](/core/docs/examples/table/mui/useDataGrid)
 
 :::
 
@@ -76,11 +76,11 @@ If you are using `merge` behavior and want to remove one of the filters; you sho
 
 ## Realtime Updates
 
-> This feature is only available if you use a [Live Provider](/docs/3.xx.xx/api-reference/core/providers/live-provider).
+> This feature is only available if you use a [Live Provider](/core/docs/3.xx.xx/api-reference/core/providers/live-provider).
 
 When the `useTable` hook is mounted, it will call the `subscribe` method from the `liveProvider` with some parameters such as `channel`, `resource` etc. It is useful when you want to subscribe to live updates.
 
-[Refer to the `liveProvider` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/providers/live-provider)
+[Refer to the `liveProvider` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/providers/live-provider)
 
 ## Properties
 
@@ -249,7 +249,7 @@ useTable({
 
 ### `queryOptions`
 
-`useTable` uses [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery).
+`useTable` uses [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery).
 
 ```tsx
 useTable({
@@ -261,10 +261,10 @@ useTable({
 
 ### `metaData`
 
-[`metaData`](/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
+[`metaData`](/core/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
 
 - To pass additional information to data provider methods.
-- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
+- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/core/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
 
 In the following example, we pass the `headers` property in the `metaData` object to the `create` method. With similar logic, you can pass any properties to specifically handle the data provider methods.
 
@@ -344,10 +344,10 @@ useTable({
 
 ### `liveMode`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
 Determines whether to update data automatically ("auto") or not ("manual") if a related live event is received. It can be used to update and show data in Realtime throughout your app.
-For more information about live mode, please check [Live / Realtime](/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
+For more information about live mode, please check [Live / Realtime](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
 
 ```tsx
 useTable({
@@ -357,7 +357,7 @@ useTable({
 
 ### `onLiveEvent`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
 The callback function is executed when new events from a subscription have arrived.
 
@@ -371,15 +371,15 @@ useTable({
 
 ### `liveParams`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
-Params to pass to liveProvider's [subscribe](/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) method.
+Params to pass to liveProvider's [subscribe](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) method.
 
 ## Return Values
 
 ### `tableQueryResult`
 
-Returned values from [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
+Returned values from [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
 
 ### `sorter`
 
@@ -445,7 +445,7 @@ A function creates accessible links for `syncWithLocation`. It takes [SyncWithLo
 
 ### How can I handle relational data ?
 
-You can use [`useMany`](/docs/3.xx.xx/api-reference/core/hooks/data/useMany/) hook to fetch relational data.
+You can use [`useMany`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useMany/) hook to fetch relational data.
 
 <RelationalDataLivePreview/>
 
@@ -483,13 +483,13 @@ errorNotification-default='"There was an error creating resource (status code: `
 [table]: https://ant.design/components/table/#API
 [form]: https://ant.design/components/form/#API
 [usequery]: https://react-query.tanstack.com/reference/useQuery
-[baserecord]: /api-reference/core/interfaces.md#baserecord
-[crudsorting]: /api-reference/core/interfaces.md#crudsorting
-[crudfilters]: /api-reference/core/interfaces.md#crudfilters
-[httperror]: /api-reference/core/interfaces.md#httperror
+[baserecord]: /core/docs/3.xx.xx/api-reference/core/interfaces#baserecord
+[crudsorting]: /core/docs/3.xx.xx/api-reference/core/interfaces#crudsorting
+[crudfilters]: /core/docs/3.xx.xx/api-reference/core/interfaces#crudfilters
+[httperror]: /core/docs/3.xx.xx/api-reference/core/interfaces#httperror
 [table search]: /advanced-tutorials/search/table-search.md
-[refine swl]: /api-reference/core/components/refine-config.md#syncwithlocation
-[live mode]: /api-reference/core/providers/live-provider.md#usage-in-a-hook
-[live mod props]: /api-reference/core/interfaces.md#livemodeprops
-[syncwithlocationparams]: /api-reference/core/interfaces.md#syncwithlocationparams
-[notification-provider]: /api-reference/core/providers/notification-provider.md
+[refine swl]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#syncwithlocation
+[live mode]: /core/docs/3.xx.xx/api-reference/core/providers/live-provider#usage-in-a-hook
+[live mod props]: /core/docs/3.xx.xx/api-reference/core/interfaces#livemodeprops
+[syncwithlocationparams]: /core/docs/3.xx.xx/api-reference/core/interfaces#syncwithlocationparams
+[notification-provider]: /core/docs/3.xx.xx/api-reference/core/providers/notification-provider

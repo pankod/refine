@@ -4,7 +4,7 @@ title: Edit
 swizzle: true
 ---
 
-`<Edit>` provides us a layout for displaying the page. It does not contain any logic but adds extra functionalities like a [`<RefreshButton>`](/api-reference/mui/components/buttons/refresh.md).
+`<Edit>` provides us a layout for displaying the page. It does not contain any logic but adds extra functionalities like a [`<RefreshButton>`](/core/docs/3.xx.xx/api-reference/mui/components/buttons/refresh).
 
 We will show what `<Edit>` does using properties with examples.
 
@@ -123,7 +123,7 @@ render(
 ```
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Properties
@@ -171,7 +171,7 @@ render(
 
 The `<Edit>` component reads the `resource` information from the route by default. This default behavior will not work on custom pages. If you want to use the `<Edit>` component in a custom page, you can use the `resource` prop.
 
-[Refer to the custom pages documentation for detailed usage. &#8594](/advanced-tutorials/custom-pages.md)
+[Refer to the custom pages documentation for detailed usage. &#8594](/core/docs/3.xx.xx/advanced-tutorials/custom-pages)
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/custom
 // handle initial routes in new way
@@ -227,7 +227,7 @@ The `<Edit>` component has a save button by default. If you want to customize th
 
 Clicking on the save button will submit your form.
 
-[Refer to the `<SaveButton>` documentation for detailed usage. &#8594](/api-reference/mui/components/buttons/save.md)
+[Refer to the `<SaveButton>` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/mui/components/buttons/save)
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 // visible-block-start
@@ -266,9 +266,9 @@ render(
 
 `canDelete` allows us to add the delete button inside the `<Edit>` component. If the resource has the `canDelete` property, refine adds the delete button by default. If you want to customize this button you can use the `deleteButtonProps` property like the code below.
 
-When clicked on, the delete button executes the [`useDelete`](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) method provided by the [`dataProvider`](/api-reference/core/providers/data-provider.md).
+When clicked on, the delete button executes the [`useDelete`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) method provided by the [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider).
 
-[Refer to the `<DeleteButton>` documentation for detailed usage. &#8594](/api-reference/mui/components/buttons/delete.md)
+[Refer to the `<DeleteButton>` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/mui/components/buttons/delete)
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
 const { default: simpleRest } = RefineSimpleRest;
@@ -337,7 +337,7 @@ render(
 );
 ```
 
-[Refer to the `usePermission` documentation for detailed usage. &#8594](/api-reference/core/hooks/auth/usePermissions.md)
+[Refer to the `usePermission` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/usePermissions)
 
 ### `recordItemId`
 
@@ -390,14 +390,14 @@ render(
 ```
 
 :::note
-The `<Edit>` component needs the `id` information for the [`<RefreshButton>`](/api-reference/mui/components/buttons/refresh.md) to work properly.
+The `<Edit>` component needs the `id` information for the [`<RefreshButton>`](/core/docs/3.xx.xx/api-reference/mui/components/buttons/refresh) to work properly.
 :::
 
 ### `mutationMode`
 
-Determines which mode mutation will have while executing [`<DeleteButton>`](/api-reference/mui/components/buttons/delete.md).
+Determines which mode mutation will have while executing [`<DeleteButton>`](/core/docs/3.xx.xx/api-reference/mui/components/buttons/delete).
 
-[Refer to the mutation mode docs for further information. &#8594](/advanced-tutorials/mutation-mode.md)
+[Refer to the mutation mode docs for further information. &#8594](/core/docs/3.xx.xx/advanced-tutorials/mutation-mode)
 
 ```tsx live hideCode url=http://localhost:3000/posts/edit/123
 // visible-block-start
@@ -641,10 +641,10 @@ render(
 
 To customize or disable the breadcrumb, you can use the `breadcrumb` property. By default it uses the `Breadcrumb` component from `@pankod/refine-mui` package.
 
-[Refer to the `Breadcrumb` documentation for detailed usage. &#8594](/api-reference/mui/components/breadcrumb.md)
+[Refer to the `Breadcrumb` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/mui/components/breadcrumb)
 
 :::tip
-This feature can be managed globally via the `<Refine>` component's [options](/docs/3.xx.xx/api-reference/core/components/refine-config/#breadcrumb)
+This feature can be managed globally via the `<Refine>` component's [options](/core/docs/3.xx.xx/api-reference/core/components/refine-config/#breadcrumb)
 :::
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/edit/123
@@ -1044,7 +1044,7 @@ render(
 Use `headerButtons` or `footerButtons` instead.
 :::
 
-`<Edit>` uses the Material UI [`<CardActions>`](https://mui.com/material-ui/api/card-actions/#main-content) component. The children of the [`<CardActions>`](https://mui.com/material-ui/api/card-actions/#main-content) component shows [`<SaveButton>`](/api-reference/mui/components/buttons/save.md) and [`<DeleteButton>`](/api-reference/mui/components/buttons/delete.md) based on your resource definition in the`resources`property you pass to `<Refine>`. If you want to use other things instead of these buttons, you can use the `actionButton` property like the code below.
+`<Edit>` uses the Material UI [`<CardActions>`](https://mui.com/material-ui/api/card-actions/#main-content) component. The children of the [`<CardActions>`](https://mui.com/material-ui/api/card-actions/#main-content) component shows [`<SaveButton>`](/core/docs/3.xx.xx/api-reference/mui/components/buttons/save) and [`<DeleteButton>`](/core/docs/3.xx.xx/api-reference/mui/components/buttons/delete) based on your resource definition in the`resources`property you pass to `<Refine>`. If you want to use other things instead of these buttons, you can use the `actionButton` property like the code below.
 
 ```tsx title="src/pages/posts/edit.tsx"
 // highlight-next-line
@@ -1123,18 +1123,18 @@ Use `headerButtonProps` and `footerButtonProps` instead.
 
 ### Properties
 
-<PropsTable module="@pankod/refine-mui/Edit" 
+<PropsTable module="@pankod/refine-mui/Edit"
 wrapperProps-type="[`CardProps`](https://mui.com/material-ui/api/card/#props)"
 contentProps-type="[`CardContentProps`](https://mui.com/material-ui/api/card-content/#props)"
 headerProps-type="[`CardHeaderProps`](https://mui.com/material-ui/api/card-header/#props)"
-headerButtons-default="[`ListButton`](https://refine.dev/docs/api-reference/mui/components/buttons/list-button/) and [`RefreshButton`](https://refine.dev/docs/api-reference/mui/components/buttons/refresh-button/)"
+headerButtons-default="[`ListButton`](https://refine.dev/core/docs/api-reference/mui/components/buttons/list-button/) and [`RefreshButton`](https://refine.dev/core/docs/api-reference/mui/components/buttons/refresh-button/)"
 headerButtonProps-type="[`BoxProps`](https://mui.com/material-ui/api/box/#props)"
-deleteButtonProps-type="[`DeleteButtonProps`](/docs/3.xx.xx/api-reference/mui/components/buttons/delete-button/)"
-saveButtonProps-type="[`SaveButtonProps`](https://refine.dev/docs/api-reference/mui/components/buttons/save-button/)"
-footerButtons-default="[`SaveButton`](https://refine.dev/docs/api-reference/mui/components/buttons/save-button/) and [`DeleteButton`](https://refine.dev/docs/api-reference/mui/components/buttons/delete-button/)"
+deleteButtonProps-type="[`DeleteButtonProps`](/core/docs/3.xx.xx/api-reference/mui/components/buttons/delete-button/)"
+saveButtonProps-type="[`SaveButtonProps`](https://refine.dev/core/docs/api-reference/mui/components/buttons/save-button/)"
+footerButtons-default="[`SaveButton`](https://refine.dev/core/docs/api-reference/mui/components/buttons/save-button/) and [`DeleteButton`](https://refine.dev/core/docs/api-reference/mui/components/buttons/delete-button/)"
 footerButtonsProps-type="[`CardActionsProps`](https://mui.com/material-ui/api/card-actions/#props)"
-breadcrumb-default="[`<Breadcrumb/>`](/docs/3.xx.xx/api-reference/mui/components/mui-breadcrumb/)"
-goBack-default="`<ArrowLeft />`" 
+breadcrumb-default="[`<Breadcrumb/>`](/core/docs/3.xx.xx/api-reference/mui/components/mui-breadcrumb/)"
+goBack-default="`<ArrowLeft />`"
 goBack-type="`ReactNode`"
 />
 

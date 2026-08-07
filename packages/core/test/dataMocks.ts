@@ -1,12 +1,8 @@
 import type { AccessControlProvider } from "../src/contexts/accessControl/types";
-import type {
-  AuthProvider,
-  LegacyAuthProvider,
-} from "../src/contexts/auth/types";
+import type { AuthProvider } from "../src/contexts/auth/types";
 import type { DataProviders } from "../src/contexts/data/types";
 import type { LiveProvider } from "../src/contexts/live/types";
 import type { IResourceItem } from "../src/contexts/resource/types";
-import type { LegacyRouterProvider } from "../src/contexts/router/legacy/types";
 import type {
   Action,
   ParsedParams,
@@ -111,8 +107,8 @@ export const mockRouterProvider = ({
 } = {}): RouterProvider => {
   const routerProvider: RouterProvider = {
     go: () => {
-      return ({ type }) => {
-        if (type === "path") return "";
+      return ({ type, to }) => {
+        if (type === "path") return to || "";
         return undefined;
       };
     },
@@ -137,39 +133,6 @@ export const mockRouterProvider = ({
   };
 
   return routerProvider;
-};
-
-export const mockLegacyRouterProvider = () => {
-  const provider: LegacyRouterProvider = {
-    useHistory: () => {
-      return {
-        push: () => undefined,
-        replace: () => undefined,
-        goBack: () => undefined,
-      };
-    },
-    useLocation: () => {
-      return {
-        pathname: "",
-        search: "",
-      };
-    },
-    useParams: () => ({}) as any,
-    Link: () => null,
-    Prompt: () => null,
-  };
-
-  return provider;
-};
-
-export const mockLegacyAuthProvider: LegacyAuthProvider = {
-  login: () => Promise.resolve(),
-  logout: () => Promise.resolve(),
-  checkError: () => Promise.resolve(),
-  checkAuth: () => Promise.resolve(),
-  getPermissions: () => Promise.resolve(["admin"]),
-  getUserIdentity: () =>
-    Promise.resolve({ name: "John Doe", avatar: "localhost:3000" }),
 };
 
 export const mockAuthProvider: AuthProvider = {

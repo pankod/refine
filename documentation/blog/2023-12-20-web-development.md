@@ -3,8 +3,9 @@ title: The Anatomy of the Web Development in 2024
 description: This post depicts a general picture of where web development is headed in 2024 with a focus on the Node.js/React ecosystem - and provides an inside-out report on how Refine.js is starting to make an impact as a React-based meta-framework.
 slug: web-development
 authors: abdullah_numan
-tags: [react, comparison]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-20-web-development/social.jpg
+category: "Engineering"
+tags: [tech-industry]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-20-web-development/social.webp
 hide_table_of_contents: false
 ---
 
@@ -154,7 +155,7 @@ Using open-source tools and frameworks reduces development time and costs, as mo
 
 <a href="https://github.com/refinedev/refine">
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-20-web-development/refine-readme-banner.png" alt="refine.js" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-20-web-development/refine-readme-banner.png" alt="Refine README banner" />
 </div>
 </a>
 
@@ -166,19 +167,19 @@ Refine comes with a headless core package that bakes in authentication, authoriz
 
 Refine's core uses state-of-the-art libraries and technologies under the hood: such as [**React Query**](https://tanstack.com/query/v3/docs/react/overview) for querying and data state management, [**React Hook Form**](https://react-hook-form.com/get-started) and [**Yup**](https://github.com/jquense/yup) for handling form actions, field validations and error handling in RESTful APIs. [GraphQL Query Builder](https://github.com/atulmy/gql-query-builder) and [GraphQL Request](https://github.com/jasonkuhrt/graphql-request) APIs are used for achieving the same with GraphQL APIs.
 
-Besides building on top of React Query and React Hook Form, Refine augments its APIs with adapters to interface with supplementary packages. For example, Refine's support package for React Hook Form, [`@refinedev/react-hook-form`](https://refine.dev/docs/packages/react-hook-form/introduction/#installation), is easily hooked to Ant Design and Material UI components via Refine's own adapters for them. This is possible because Refine's core is loosely coupled and -- on top of the core layer -- it offers integration support for a wide range of frontend and backend APIs.
+Besides building on top of React Query and React Hook Form, Refine augments its APIs with adapters to interface with supplementary packages. For example, Refine's support package for React Hook Form, [`@refinedev/react-hook-form`](https://refine.dev/core/docs/packages/react-hook-form/introduction/#installation), is easily hooked to Ant Design and Material UI components via Refine's own adapters for them. This is possible because Refine's core is loosely coupled and -- on top of the core layer -- it offers integration support for a wide range of frontend and backend APIs.
 
 ### Refine's UX/UI Integrations
 
 Refine supports integration with Next.js and Remix applications by combining their respective router bindings and utilities with Refine's out-of-the-box.
 
-It also integrates, and augments its core set of providers, hooks, and components with packages for [**Ant Design**](https://ant.design/docs/react/introduce), [**Material UI**](https://mui.com/material-ui/getting-started/), [**Chakra UI**](https://chakra-ui.com/) and [**Mantine**](https://ui.mantine.dev/). These integrations make building complex components and user interfaces with each of these UI frameworks extremely easy. For example, in Refine, sophisticated components like editable tables is enabled with a few lines of code thanks to the [`useEditableTable()`](https://refine.dev/docs/ui-integrations/ant-design/hooks/use-editable-table/) hook. Whether you prefer Ant Design, Material UI, Chakra UI, or Mantine, because Refine's adapters handle interfacing, it follows a similar logic.
+It also integrates, and augments its core set of providers, hooks, and components with packages for [**Ant Design**](https://ant.design/docs/react/introduce), [**Material UI**](https://mui.com/material-ui/getting-started/), [**Chakra UI**](https://chakra-ui.com/) and [**Mantine**](https://ui.mantine.dev/). These integrations make building complex components and user interfaces with each of these UI frameworks extremely easy. For example, in Refine, sophisticated components like editable tables is enabled with a few lines of code thanks to the [`useEditableTable()`](https://refine.dev/core/docs/ui-integrations/ant-design/hooks/use-editable-table/) hook. Whether you prefer Ant Design, Material UI, Chakra UI, or Mantine, because Refine's adapters handle interfacing, it follows a similar logic.
 
 Apart from these, other UI frameworks such as TailwindCSS and Bootstrap can easily be integrated into a Refine app by installing respective `npm` packages and their dependencies.
 
 ### Refine's Backend Integrations
 
-Refine's support packages for backend integrations is wildly extensive. Refine interfaces with backend services with data providers and auth providers. It has data provider packages for REST, Supabase, Strapi, GraphQL, Appwrite, Airtable, Nest.js, and more. Please feel free to find a comprehensive list [here](https://refine.dev/docs/packages/list-of-packages/#data-provider-packages).
+Refine's support packages for backend integrations is wildly extensive. Refine interfaces with backend services with data providers and auth providers. It has data provider packages for REST, Supabase, Strapi, GraphQL, Appwrite, Airtable, Nest.js, and more. Please feel free to find a comprehensive list [here](https://refine.dev/core/docs/packages/list-of-packages/#data-provider-packages).
 
 ### Refine's Auth Integrations
 

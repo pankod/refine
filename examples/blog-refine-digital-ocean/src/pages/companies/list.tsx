@@ -25,6 +25,7 @@ export const CompanyList = () => {
         { salesOwner: ["id", "name"] },
       ],
     },
+
     onSearch: (params: { name: string }) => [
       {
         field: "name",

@@ -15,22 +15,15 @@ import {
 export type UseSelectReturnType<
   TData extends BaseRecord = BaseRecord,
   TOption extends BaseOption = BaseOption,
+  TError = Error,
 > = {
   selectProps: Prettify<
     Omit<SelectProps, "data"> & {
       data: TOption[];
     }
   >;
-  query: QueryObserverResult<GetListResponse<TData>>;
-  defaultValueQuery: QueryObserverResult<GetManyResponse<TData>>;
-  /**
-   * @deprecated Use `query` instead
-   */
-  queryResult: QueryObserverResult<GetListResponse<TData>>;
-  /**
-   * @deprecated Use `defaultValueQuery` instead
-   */
-  defaultValueQueryResult: QueryObserverResult<GetManyResponse<TData>>;
+  query: QueryObserverResult<GetListResponse<TData>, TError>;
+  defaultValueQuery: QueryObserverResult<GetManyResponse<TData>, TError>;
 };
 
 /**
@@ -54,7 +47,7 @@ export const useSelect = <
   TOption extends BaseOption = BaseOption,
 >(
   props: UseSelectProps<TQueryFnData, TError, TData>,
-): UseSelectReturnType<TData, TOption> => {
+): UseSelectReturnType<TData, TOption, TError> => {
   const { query, defaultValueQuery, onSearch, options } = useSelectCore<
     TQueryFnData,
     TError,
@@ -71,8 +64,6 @@ export const useSelect = <
       clearable: true,
     },
     query,
-    defaultValueQuery,
-    queryResult: query,
-    defaultValueQueryResult: defaultValueQuery,
+    defaultValueQuery: defaultValueQuery.query,
   };
 };

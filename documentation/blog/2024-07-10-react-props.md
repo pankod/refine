@@ -3,9 +3,11 @@ title: React Props Explained with Examples
 description: A detailed guide on React props with examples
 slug: react-props
 authors: chidume_nnamdi
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-16-react-props/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-16-react-props/social-2.png
 hide_table_of_contents: false
+last_update: 2024-07-10
 ---
 
 **This article was last updated on July 10, 2024, to add sections for Dynamic Component Rendering and Performance Optimization with React Props.**
@@ -15,20 +17,6 @@ hide_table_of_contents: false
 React.js is the backbone of modern web development. Almost all companies use it. This is because React is easy to install and use, has strong community support, and is still actively maintained by Facebook.
 
 It has a plethora of simple features that made it incredibly powerful. One of those features is Props, and we are going to learn what it is in this article.
-
-Steps we'll cover:
-
-- [Props in React](#props-in-react)
-- [Passing Array to React Component](#passing-array-to-react-component)
-- [Passing Function to React Component](#passing-function-to-react-component)
-- [Default Props in React](#default-props-in-react)
-- [Destructuring Props](#destructuring-props)
-- [React children prop](#react-children-prop)
-- [Dynamic Component Rendering](#dynamic-component-rendering)
-- [State vs Props](#state-vs-props)
-- [Optimize Performance with Props](#optimize-performance-with-props)
-  - [Memoization via React.memo](#memoization-via-reactmemo)
-  - [useCallback and useMemo Hooks](#usecallback-and-usememo-hooks)
 
 Props in simple terms are used for communication among components in React app. Component communication is a very essential feature that any framework based on component-driven design should have. Most popular frameworks like Angular and Vuejs have their own way of components passing data to each other.
 
@@ -127,7 +115,7 @@ Very simple.
 Now, to pass props to a React Component, we pass them like attributes on an HTML element:
 
 ```ts
-<img src="./image.jpg" width="120" height="90" />
+<img src="./image.jpg" width="120" height="90" alt="Example image" />
 ```
 
 The attributes here are `src`, `width`, and `height`. The `img` uses them to render an image. So these attributes are just like passing arguments to a function.

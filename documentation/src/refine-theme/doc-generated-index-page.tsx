@@ -26,7 +26,8 @@ function DocCategoryGeneratedIndexPageMetadata({ categoryGeneratedIndex }) {
 
 function DocCategoryGeneratedIndexPageContent({ categoryGeneratedIndex }) {
   const category = useCurrentSidebarCategory();
-
+  const displayTitle = category?.label ?? categoryGeneratedIndex.title;
+  const displayDescription = category?.description;
   const { label } = useDocsVersion();
 
   return (
@@ -49,13 +50,13 @@ function DocCategoryGeneratedIndexPageContent({ categoryGeneratedIndex }) {
           </div>
           <div className="refine-prose mb-16">
             <header>
-              <h1>{categoryGeneratedIndex.title}</h1>
-              {categoryGeneratedIndex.description && (
+              <h1>{displayTitle}</h1>
+              {displayDescription && (
                 <p
                   className="mb-8"
                   // biome-ignore lint/security/noDangerouslySetInnerHtml: explicitly disabled
                   dangerouslySetInnerHTML={{
-                    __html: categoryGeneratedIndex.description,
+                    __html: displayDescription,
                   }}
                 />
               )}

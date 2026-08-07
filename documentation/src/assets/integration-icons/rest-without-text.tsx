@@ -13,7 +13,7 @@ const SvgRestWithoutText = ({
     viewBox="0 0 16 14"
     fill="none"
     {...props}
-    className={clsx("dark:text-gray-100 text-[#273646]", className)}
+    className={clsx("text-zinc-500 dark:text-white", className)}
   >
     <path
       fill="currentColor"

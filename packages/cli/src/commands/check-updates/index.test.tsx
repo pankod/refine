@@ -1,89 +1,85 @@
+import { vi } from "vitest";
 import type {
   NpmOutdatedResponse,
   RefinePackageInstalledVersionData,
 } from "@definitions/package";
 import * as checkUpdates from "./index";
 import * as packageUtils from "@utils/package";
+import * as utils from "./utils";
 
 const { getOutdatedRefinePackages } = checkUpdates;
 
 test("Get outdated refine packages", async () => {
-  const testCases: {
+  const testCase: {
     input: NpmOutdatedResponse;
     output: RefinePackageInstalledVersionData[];
-  }[] = [
-    {
-      input: {
-        "@refinedev/core": {
-          current: "1.0.0",
-          wanted: "1.0.1",
-          latest: "2.0.0",
-          dependent: "",
-          location: "",
-        },
-        "@refinedev/cli": {
-          current: "1.1.1",
-          wanted: "1.1.1",
-          latest: "1.1.0",
-          dependent: "",
-          location: "",
-        },
-        "@pankod/canvas2video": {
-          current: "1.1.1",
-          wanted: "1.1.1",
-          latest: "1.1.1",
-          dependent: "",
-          location: "",
-        },
-        "@owner/package-name": {
-          current: "1.1.1",
-          wanted: "1.1.1",
-          latest: "1.1.0",
-          dependent: "",
-          location: "",
-        },
-        "@owner/package-name1": {
-          current: "N/A",
-          wanted: "undefined",
-          latest: "NaN",
-          dependent: "",
-          location: "",
-        },
-        "@owner/refine-react": {
-          current: "1.0.0",
-          wanted: "1.0.1",
-          latest: "2.0.0",
-          dependent: "",
-          location: "",
-        },
+  } = {
+    input: {
+      "@refinedev/core": {
+        current: "1.0.0",
+        wanted: "1.0.1",
+        latest: "2.0.0",
+        dependent: "",
+        location: "",
       },
-      output: [
-        {
-          name: "@refinedev/core",
-          current: "1.0.0",
-          wanted: "1.0.1",
-          latest: "2.0.0",
-          changelog: "https://c.refine.dev/core",
-          dependent: "",
-          location: "",
-        },
-      ],
+      "@refinedev/cli": {
+        current: "1.1.1",
+        wanted: "1.1.1",
+        latest: "1.1.0",
+        dependent: "",
+        location: "",
+      },
+      "@pankod/canvas2video": {
+        current: "1.1.1",
+        wanted: "1.1.1",
+        latest: "1.1.1",
+        dependent: "",
+        location: "",
+      },
+      "@owner/package-name": {
+        current: "1.1.1",
+        wanted: "1.1.1",
+        latest: "1.1.0",
+        dependent: "",
+        location: "",
+      },
+      "@owner/package-name1": {
+        current: "N/A",
+        wanted: "undefined",
+        latest: "NaN",
+        dependent: "",
+        location: "",
+      },
+      "@owner/refine-react": {
+        current: "1.0.0",
+        wanted: "1.0.1",
+        latest: "2.0.0",
+        dependent: "",
+        location: "",
+      },
     },
-  ];
+    output: [
+      {
+        name: "@refinedev/core",
+        current: "1.0.0",
+        wanted: "1.0.1",
+        latest: "2.0.0",
+        changelog: "https://c.refine.dev/core",
+        dependent: "",
+        location: "",
+      },
+    ],
+  };
 
-  for (const testCase of testCases) {
-    jest
-      .spyOn(checkUpdates, "getOutdatedPackageList")
-      .mockResolvedValue(testCase.input);
+  vi.spyOn(utils, "getOutdatedPackageList").mockResolvedValue(testCase.input);
 
-    const result = await getOutdatedRefinePackages();
-    expect(result).toEqual(testCase.output);
-  }
+  const result = await getOutdatedRefinePackages();
+  expect(result).toEqual(testCase.output);
 });
 
 describe("getWantedWithPreferredWildcard", () => {
   it("package not found in package.json", () => {
-    jest.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({});
+    vi.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({});
 
     const result = checkUpdates.getWantedWithPreferredWildcard(
       "@refinedev/core",
@@ -93,7 +89,7 @@ describe("getWantedWithPreferredWildcard", () => {
   });
 
   it("with carret", () => {
-    jest.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
+    vi.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
       "@refinedev/core": "^1.0.0",
     });
 
@@ -105,7 +101,7 @@ describe("getWantedWithPreferredWildcard", () => {
   });
 
   it("with tilda", () => {
-    jest.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
+    vi.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
       "@refinedev/core": "~1.0.0",
     });
 
@@ -117,7 +113,7 @@ describe("getWantedWithPreferredWildcard", () => {
   });
 
   it("without caret and tilda", () => {
-    jest.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
+    vi.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
       "@refinedev/core": "1.0.0",
     });
 
@@ -129,7 +125,7 @@ describe("getWantedWithPreferredWildcard", () => {
   });
 
   it("with `.x.x`", () => {
-    jest.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
+    vi.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
       "@refinedev/core": "1.x.x",
     });
 
@@ -141,7 +137,7 @@ describe("getWantedWithPreferredWildcard", () => {
   });
 
   it("with `.x`", () => {
-    jest.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
+    vi.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
       "@refinedev/core": "1.1.x",
     });
 
@@ -153,7 +149,7 @@ describe("getWantedWithPreferredWildcard", () => {
   });
 
   it("with `latest`", () => {
-    jest.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
+    vi.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
       "@refinedev/core": "latest",
     });
 
@@ -165,7 +161,7 @@ describe("getWantedWithPreferredWildcard", () => {
   });
 
   it("with range", () => {
-    jest.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
+    vi.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
       "@refinedev/core": ">=1.0.0 <=1.1.9",
     });
 
@@ -177,7 +173,7 @@ describe("getWantedWithPreferredWildcard", () => {
   });
 
   it("multiple sets", () => {
-    jest.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
+    vi.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
       "@refinedev/core": "^2 <2.2 || > 2.3",
     });
 
@@ -189,7 +185,7 @@ describe("getWantedWithPreferredWildcard", () => {
   });
 
   it("with `*`", () => {
-    jest.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
+    vi.spyOn(packageUtils, "getDependenciesWithVersion").mockReturnValue({
       "@refinedev/core": "*",
     });
 
@@ -227,9 +223,9 @@ describe("getLatestMinorVersionOfPackage", () => {
       expected: "1.0.1",
     },
   ])("should return %p", async ({ versionList, currentVersion, expected }) => {
-    jest
-      .spyOn(packageUtils, "getAllVersionsOfPackage")
-      .mockResolvedValueOnce(versionList);
+    vi.spyOn(packageUtils, "getAllVersionsOfPackage").mockResolvedValueOnce(
+      versionList,
+    );
     const result = await checkUpdates.getLatestMinorVersionOfPackage(
       "@refinedev/core",
       currentVersion,

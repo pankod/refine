@@ -1,7 +1,7 @@
 import type { NextPageContext } from "next";
 import type { ErrorProps } from "next/error";
 
-const Error = ({ statusCode, title }: ErrorProps): JSX.Element => {
+const Error = ({ statusCode, title }: ErrorProps): React.JSX.Element => {
   const getMessage = () => {
     if (title) {
       return title;

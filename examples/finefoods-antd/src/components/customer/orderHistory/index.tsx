@@ -14,24 +14,35 @@ export const CustomerOrderHistory = ({ customer }: Props) => {
 
   const { tableProps } = useTable<IOrder, HttpError, IOrderFilterVariables>({
     resource: "orders",
-    initialSorter: [
-      {
-        field: "createdAt",
-        order: "desc",
-      },
-    ],
-    permanentFilter: [
-      {
-        field: "user.id",
-        operator: "eq",
-        value: customer?.id,
-      },
-    ],
-    initialPageSize: 4,
+
     queryOptions: {
       enabled: customer !== undefined,
     },
+
     syncWithLocation: false,
+
+    pagination: {
+      pageSize: 4,
+    },
+
+    filters: {
+      permanent: [
+        {
+          field: "user.id",
+          operator: "eq",
+          value: customer?.id,
+        },
+      ],
+    },
+
+    sorters: {
+      initial: [
+        {
+          field: "createdAt",
+          order: "desc",
+        },
+      ],
+    },
   });
 
   return (

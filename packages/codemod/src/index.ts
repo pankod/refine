@@ -114,8 +114,24 @@ export function runTransform({ files, flags, transformer }) {
 
 const TRANSFORMER_INQUIRER_CHOICES = [
   {
+    name: "refine4-to-refine5: Transform from refine 4.x.x to at least 5.0.0",
+    value: "refine4-to-refine5",
+  },
+  {
+    name: "Rename '@refinedev/react-router-v6' imports to '@refinedev/react-router'",
+    value: "refine-react-router-v6-to-refine-react-router",
+  },
+  {
+    name: "Rename 'react-router-dom' imports to 'react-router'",
+    value: "react-router-dom-to-react-router",
+  },
+  {
     name: "Rename deprecated names (queryResult, tableQueryResult, mutationResult) to (query, tableQuery, mutation).",
     value: "rename-query-and-mutation-result",
+  },
+  {
+    name: "Transform mutation hook return types from spreading to mutation property",
+    value: "v5/mutation-result-to-mutation-property",
   },
   {
     name: "refine3-to-refine4: Transform from refine 3.x.x to at least 4.0.0",

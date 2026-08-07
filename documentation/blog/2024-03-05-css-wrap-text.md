@@ -3,23 +3,15 @@ title: How do you wrap text content in CSS?
 description: We'll look at the CSS features that allow us to wrap overflowing text in containers.
 slug: css-text-wrap
 authors: peter_osah
+category: "Tutorials"
 tags: [css]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-05-css-wrap-text/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-05-css-wrap-text/social.png
 hide_table_of_contents: false
 ---
 
 ## Introduction
 
 Text overflow happens when text does not fit completely within its container element. As a result, it goes outside of its boundaries, which might lead to broken layouts. However minor, this issue has been common among web developers. Fortunately, CSS has supplied certain CSS attributes that can control text-overflow. In this article, we'll look at the CSS features that allow us to wrap overflowing text in containers.
-
-Steps we'll cover:
-
-- [How does content wrapping work in browsers?](#how-does-content-wrapping-work-in-browsers)
-- [What's the distinction between a soft word wrap break and forceful line breaks?](#whats-the-distinction-between-a-soft-word-wrap-break-and-forceful-line-breaks)
-- [Explore the values of the overflow-wrap property](#explore-the-values-of-the-overflow-wrap-property)
-- [Explore the values of the word-break property](#explore-the-values-of-the-word-break-property)
-- [What makes a word-break different from an overflow-wrap?](#what-makes-a-word-break-different-from-an-overflow-wrap)
-- [Wrap text using word-break and overflow-wrap properties](#wrap-text-using-word-break-and-overflow-wrap-properties)
 
 ## How does content wrapping work in browsers?
 

@@ -14,7 +14,7 @@ import type { IPost } from "interfaces";
 
 export const PostList: React.FC = () => {
   const { dataGridProps } = useDataGrid<IPost>({
-    metaData: {
+    meta: {
       populate: ["category"],
     },
   });
@@ -27,6 +27,7 @@ export const PostList: React.FC = () => {
         headerName: "Category",
         minWidth: 250,
         flex: 1,
+        display: "flex",
         renderCell: function render({ row }) {
           return row.category?.title;
         },
@@ -36,6 +37,7 @@ export const PostList: React.FC = () => {
         field: "createdAt",
         headerName: "CreatedAt",
         minWidth: 220,
+        display: "flex",
         renderCell: function render({ row }) {
           return <DateField format="LLL" value={row.createdAt} />;
         },
@@ -48,6 +50,7 @@ export const PostList: React.FC = () => {
         align: "center",
         flex: 1,
         sortable: false,
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <Stack direction="row" spacing={1}>
@@ -63,7 +66,7 @@ export const PostList: React.FC = () => {
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 };

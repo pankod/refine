@@ -1,50 +1,27 @@
 import React from "react";
-import { useGetIdentity, useActiveAuthProvider } from "@refinedev/core";
+import { useGetIdentity } from "@refinedev/core";
 
 import AppBar from "@mui/material/AppBar";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-
-import Menu from "@mui/icons-material/Menu";
 
 import type { RefineThemedLayoutHeaderProps } from "../types";
 
-/**
- * @deprecated It is recommended to use the improved `ThemedLayoutV2`. Review migration guidelines. https://refine.dev/docs/api-reference/mui/components/mui-themed-layout/#migrate-themedlayout-to-themedlayoutv2
- */
-export const ThemedHeader: React.FC<RefineThemedLayoutHeaderProps> = ({
-  isSiderOpen,
-  onToggleSiderClick,
-  toggleSiderIcon: toggleSiderIconFromProps,
-}) => {
-  const authProvider = useActiveAuthProvider();
-  const { data: user } = useGetIdentity({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+import { HamburgerMenu } from "../hamburgerMenu";
 
-  const hasSidebarToggle = Boolean(onToggleSiderClick);
+export const ThemedHeader: React.FC<RefineThemedLayoutHeaderProps> = ({
+  sticky,
+}) => {
+  const { data: user } = useGetIdentity();
+
+  const prefferedSticky = sticky ?? true;
 
   return (
-    <AppBar position="sticky">
+    <AppBar position={prefferedSticky ? "sticky" : "relative"}>
       <Toolbar>
-        {hasSidebarToggle && (
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={() => onToggleSiderClick?.()}
-            edge="start"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              ...(isSiderOpen && { display: "none" }),
-            }}
-          >
-            {toggleSiderIconFromProps?.(Boolean(isSiderOpen)) ?? <Menu />}
-          </IconButton>
-        )}
+        <HamburgerMenu />
         <Stack
           direction="row"
           width="100%"
@@ -57,15 +34,12 @@ export const ThemedHeader: React.FC<RefineThemedLayoutHeaderProps> = ({
             alignItems="center"
             justifyContent="center"
           >
-            <Typography
-              sx={{
-                display: { xs: "none", md: "block" },
-              }}
-              variant="subtitle2"
-            >
-              {user?.name}
-            </Typography>
-            <Avatar src={user?.avatar} alt={user?.name} />
+            {user?.name && (
+              <Typography variant="subtitle2" data-testid="header-user-name">
+                {user?.name}
+              </Typography>
+            )}
+            {user?.avatar && <Avatar src={user?.avatar} alt={user?.name} />}
           </Stack>
         </Stack>
       </Toolbar>

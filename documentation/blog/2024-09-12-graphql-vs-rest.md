@@ -3,9 +3,11 @@ title: GraphQL vs REST - Key Differences and Use Cases
 description: We'll explore the key differences between GraphQL and REST, and discuss the use cases where each approach excels.
 slug: graphql-vs-rest
 authors: chidume_nnamdi
-tags: [dev-tools, comparison]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-03-graphql-vs-rest/social-2.png
+category: "Alternatives"
+tags: [backend, comparison]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-03-graphql-vs-rest/social-2.png
 hide_table_of_contents: false
+last_update: 2024-09-12
 ---
 
 **This article was last updated on September 12, 2024, to add sections on Error Handling, Batching Multiple Requests, Versioning, and Caching Strategies.**
@@ -15,19 +17,6 @@ hide_table_of_contents: false
 The internet is connected using a standard method called HTTP. This enabled communication between devices to be possible. Despite all these, protocols were put in place for the design and communication of these devices to be efficient. Protocols were created, SOAP, XML-RPC, etc. But the protocols that have stood the test of time are REST, coined by Roy Fielding in 2000 in his doctoral dissertation, Architectural Styles and the Design of Network-based Software Architecture, and GraphQL, a new kid on the block. These two have proven themselves over time, and they have become the most used protocols in the world.
 
 In this article, we will explore the key differences between GraphQL and REST, and discuss the use cases where each approach excels.
-
-Steps we'll cover:
-
-- [Architectural Style](#architectural-style)
-- [Architectural Style](#architectural-style)
-- [Data Fetching](#data-fetching)
-- [Flexibility and Efficiency](#flexibility-and-efficiency)
-- [Caching](#caching)
-- [Performance](#performance)
-- [Use Cases](#use-cases)
-- [Summary of differences: REST vs. GraphQL](#summary-of-differences-rest-vs-graphql)
-- [Batching Multiple Requests](#batching-multiple-requests)
-- [Versioning](#versioning)
 
 ## Architectural Style
 

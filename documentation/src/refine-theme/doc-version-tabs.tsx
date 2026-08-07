@@ -18,10 +18,10 @@ export const DocVersionTabs = () => {
           <Link
             key={version.label}
             to={version.to}
-            className={clsx("py-[4px] px-3", "rounded-[4px]", {
+            className={clsx("py-[4px] px-3", "rounded", {
               "hover:text-white text-white": isActive,
-              "dark:text-gray-500": !isActive,
-              "bg-gray-600": isActive,
+              "dark:text-zinc-500": !isActive,
+              "bg-zinc-600": isActive,
               "bg-transparent": isActive,
               "hover:brightness-110": !isActive,
             })}

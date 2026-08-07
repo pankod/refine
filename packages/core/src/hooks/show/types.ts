@@ -19,16 +19,14 @@ import type {
 } from "../../contexts/data/types";
 import type { LiveModeProps } from "../../contexts/live/types";
 import type { SuccessErrorNotification } from "../../contexts/notification/types";
+import type { MakeOptional } from "../../definitions/types";
 
 export type UseShowReturnType<
   TData extends BaseRecord = BaseRecord,
   TError extends HttpError = HttpError,
 > = {
   query: QueryObserverResult<GetOneResponse<TData>, TError>;
-  /**
-   * @deprecated Use `query` instead.
-   */
-  queryResult: QueryObserverResult<GetOneResponse<TData>, TError>;
+  result: TData | undefined;
   showId?: BaseKey;
   setShowId: React.Dispatch<React.SetStateAction<BaseKey | undefined>>;
 } & UseLoadingOvertimeReturnType;
@@ -49,12 +47,15 @@ export type UseShowProps<
    */
   id?: BaseKey;
   /**
-   * react-query's [useQuery](https://tanstack.com/query/v4/docs/reference/useQuery) options
+   * react-query's [useQuery](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery) options
    */
-  queryOptions?: UseQueryOptions<
-    GetOneResponse<TQueryFnData>,
-    TError,
-    GetOneResponse<TData>
+  queryOptions?: MakeOptional<
+    UseQueryOptions<
+      GetOneResponse<TQueryFnData>,
+      TError,
+      GetOneResponse<TData>
+    >,
+    "queryKey" | "queryFn"
   >;
   /**
    * Additional meta data to pass to the data provider's `getOne`
@@ -62,9 +63,6 @@ export type UseShowProps<
   meta?: MetaQuery;
   /**
    * Additional meta data to pass to the data provider's `getOne`
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
   /**
    * Target data provider name for API call to be made
    * @default `"default"`
@@ -77,20 +75,3 @@ export type UseShowProps<
     Prettify<{ id?: BaseKey } & MetaQuery>
   > &
   UseLoadingOvertimeOptionsProps;
-
-/**
- * @deprecated use `UseShowReturnType` instead
- */
-export type useShowReturnType<
-  TData extends BaseRecord = BaseRecord,
-  TError extends HttpError = HttpError,
-> = UseShowReturnType<TData, TError>;
-
-/**
- * @deprecated use `UseShowProps` instead
- */
-export type useShowProps<
-  TQueryFnData extends BaseRecord = BaseRecord,
-  TError extends HttpError = HttpError,
-  TData extends BaseRecord = TQueryFnData,
-> = UseShowProps<TQueryFnData, TError, TData>;

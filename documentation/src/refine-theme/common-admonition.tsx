@@ -6,6 +6,7 @@ import { InfoIcon } from "./icons/info";
 import { TipIcon } from "./icons/tip";
 import { NoteIcon } from "./icons/note";
 import { GithubIcon } from "./icons/github";
+import { isCurrentBlogRoute } from "../utils/is-blog-route";
 
 type Props = {
   type:
@@ -35,37 +36,70 @@ const icons = {
   "info-tip": TipIcon,
 };
 
-const colorTextClasses = {
-  caution: "text-refine-react-light-orange dark:text-refine-react-dark-orange",
+const colorTextClassesDoc = {
+  caution: "text-orange-700 dark:text-orange-400",
   info: "text-refine-react-light-purple dark:text-refine-react-dark-purple",
-  tip: "text-refine-react-light-green-alt dark:text-refine-react-dark-green-alt",
-  note: "text-refine-react-light-green dark:text-refine-react-dark-green",
-  "info-tip": "text-refine-blue dark:text-[#6EB3F7]",
+  tip: "text-green-700 dark:text-green-400",
+  note: "text-teal-700 dark:text-teal-400",
+  "info-tip": "text-blue-700 dark:text-blue-400",
   danger: "text-refine-red",
   "command-line": "text-refine-purple",
   sourcecode: "text-refine-pink",
   additional: "text-refine-cyan",
-  simple: "text-gray-700 dark:text-gray-100",
+  simple: "text-zinc-900 dark:text-white",
 };
 
-const colorWrapperClasses = {
+const colorWrapperClassesDoc = {
   caution:
-    "bg-refine-react-light-orange bg-opacity-[0.15] dark:bg-refine-react-dark-orange dark:bg-opacity-[0.15] border-l-refine-react-light-orange dark:border-l-refine-dark-orange",
+    "bg-[#FEEADC] dark:bg-[#3A261A] border-l-orange-700 dark:border-l-orange-400",
   info: "bg-refine-react-light-purple bg-opacity-[0.15] dark:bg-refine-react-dark-purple dark:bg-opacity-[0.15] border-l-refine-react-light-purple dark:border-l-refine-react-dark-purple",
-  tip: "bg-refine-react-light-green-alt bg-opacity-[0.05] dark:bg-refine-react-dark-green-alt dark:bg-opacity-[0.05] border-l-refine-react-light-green-alt dark:border-l-refine-react-dark-green-alt",
-  note: "bg-refine-react-light-green-bg dark:bg-refine-react-light-green dark:bg-opacity-[0.2] border-l-refine-react-light-green dark:border-l-refine-react-dark-green",
+  tip: "bg-[#E4FAEC] dark:bg-[#1A3225] border-l-green-700 dark:border-l-green-400",
+  note: "bg-[#DCF4F2] dark:bg-[#173030] border-l-teal-700 dark:border-l-teal-400",
   "info-tip":
-    "bg-refine-blue/10 dark:bg-[#6EB3F7]/10 bg-opacity-10  dark:bg-opacity-10 border-l-refine-blue",
+    "bg-[#E7F2FE] dark:bg-[#1D283C] border-l-blue-700 dark:border-l-blue-400",
   "command-line": "bg-refine-purple bg-opacity-10 border-l-refine-purple",
   danger: "bg-refine-red bg-opacity-10 border-l-refine-red",
+  warning: "bg-refine-red bg-opacity-10 border-l-refine-red",
   sourcecode: "bg-refine-pink bg-opacity-10 border-l-refine-pink",
   additional: "bg-refine-cyan bg-opacity-10 border-l-refine-cyan",
-  simple: "border dark:border-gray-700 border-gray-300",
+  simple:
+    "bg-zinc-50 dark:bg-zinc-800 border-l-zinc-400 dark:border-l-zinc-600",
+};
+
+const colorTextClassesBlog = {
+  caution: "text-amber-700 dark:text-amber-300",
+  info: "text-blue-700 dark:text-blue-300",
+  tip: "text-green-700 dark:text-green-300",
+  note: "text-teal-700 dark:text-teal-300",
+  "info-tip": "text-blue-700 dark:text-blue-300",
+  danger: "text-refine-red",
+  "command-line": "text-refine-purple",
+  sourcecode: "text-refine-pink",
+  additional: "text-refine-cyan",
+  simple: "text-zinc-900 dark:text-white",
+};
+
+const colorWrapperClassesBlog = {
+  caution:
+    "bg-[#FBBF2426] dark:bg-[#F59E0B33] border-l-amber-700 dark:border-l-amber-300",
+  info: "bg-[#60A5FA26] dark:bg-[#3B82F633] border-l-blue-700 dark:border-l-blue-300",
+  tip: "bg-[#4ADE8026] dark:bg-[#22C55E33] border-l-green-700 dark:border-l-green-300",
+  note: "bg-[#2DD4BF26] dark:bg-[#14B8A633] border-l-teal-700 dark:border-l-teal-300",
+  "info-tip":
+    "bg-[#60A5FA26] dark:bg-[#3B82F633] border-l-blue-700 dark:border-l-blue-300",
+  "command-line": "bg-refine-purple bg-opacity-10 border-l-refine-purple",
+  danger: "bg-refine-red bg-opacity-10 border-l-refine-red",
+  warning: "bg-refine-red bg-opacity-10 border-l-refine-red",
+  sourcecode: "bg-refine-pink bg-opacity-10 border-l-refine-pink",
+  additional: "bg-refine-cyan bg-opacity-10 border-l-refine-cyan",
+  simple:
+    "bg-zinc-100 dark:bg-[#27272A] border-l-zinc-400 dark:border-l-zinc-600",
 };
 
 const titles = {
   danger: "DANGER",
   caution: "CAUTION",
+  warning: "WARNING",
   "command-line": "COMMAND LINE",
   sourcecode: "SOURCE CODE",
   info: "INFORMATION",
@@ -77,6 +111,11 @@ const titles = {
 };
 
 export const Admonition = ({ type, title, children }: Props) => {
+  const isBlog = isCurrentBlogRoute();
+  const colorTextClasses = isBlog ? colorTextClassesBlog : colorTextClassesDoc;
+  const colorWrapperClasses = isBlog
+    ? colorWrapperClassesBlog
+    : colorWrapperClassesDoc;
   const Icon = icons[type] ?? (() => null);
   const clsText = colorTextClasses[type] ?? "tex-inherit";
   const clsWrapper = colorWrapperClasses[type] ?? "bg-inherit";
@@ -96,7 +135,6 @@ export const Admonition = ({ type, title, children }: Props) => {
         "admonition",
         `admonition-${type}`,
         "mb-6",
-        "refine-wider-container",
         clsWrapper,
       )}
     >
@@ -115,7 +153,7 @@ export const Admonition = ({ type, title, children }: Props) => {
         )}
       >
         {(title || titles[type]) && (
-          <div
+          <h6
             className={clsx(
               "flex",
               "items-center",
@@ -128,9 +166,9 @@ export const Admonition = ({ type, title, children }: Props) => {
           >
             <Icon />
             <span className="uppercase">{title ?? titles[type] ?? ""}</span>
-          </div>
+          </h6>
         )}
-        <div className={clsx("text-gray-0", "text-base", "last:mb-0")}>
+        <div className={clsx("text-white", "text-base", "last:mb-0")}>
           {children}
         </div>
       </div>
@@ -139,12 +177,20 @@ export const Admonition = ({ type, title, children }: Props) => {
 };
 
 const Simple = ({ type, title, children }: Props) => {
+  const isBlog = isCurrentBlogRoute();
+  const colorTextClasses = isBlog ? colorTextClassesBlog : colorTextClassesDoc;
+  const colorWrapperClasses = isBlog
+    ? colorWrapperClassesBlog
+    : colorWrapperClassesDoc;
   const clsText = colorTextClasses[type] ?? "tex-inherit";
   const clsWrapper = colorWrapperClasses[type] ?? "bg-inherit";
 
   return (
     <div
       className={clsx(
+        isBlog && "border-l-4",
+        isBlog && "border-l-solid",
+        isBlog && "border-l-inherit",
         "rounded-lg",
         "admonition",
         `admonition-${type}`,
@@ -170,7 +216,7 @@ const Simple = ({ type, title, children }: Props) => {
         )}
         <div
           className={clsx(
-            "text-gray-0",
+            "text-white",
             "text-base",
             "last:mb-0",
             "px-4 pb-4",

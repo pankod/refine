@@ -11,7 +11,7 @@ import EditOutlined from "@mui/icons-material/EditOutlined";
 import type { EditButtonProps } from "../types";
 
 /**
- * `<EditButton>` uses uses Material UI {@link https://mui.com/components/buttons/ `<Button>`} component.
+ * `<EditButton>` uses uses Material UI {@link https://mui.com/material-ui/react-button/ `<Button>`} component.
  * It uses the {@link https://refine.dev/docs/api-reference/core/hooks/navigation/useNavigation#edit `edit`} method from {@link https://refine.dev/docs/api-reference/core/hooks/navigation/useNavigation `useNavigation`} under the hood.
  * It can be useful when redirecting the app to the edit page with the record id route of resource}.
  *
@@ -19,7 +19,6 @@ import type { EditButtonProps } from "../types";
  */
 export const EditButton: React.FC<EditButtonProps> = ({
   resource: resourceNameFromProps,
-  resourceNameOrRouteName,
   recordItemId,
   hideText = false,
   accessControl,
@@ -30,22 +29,50 @@ export const EditButton: React.FC<EditButtonProps> = ({
   ...rest
 }) => {
   const { to, label, title, hidden, disabled, LinkComponent } = useEditButton({
-    resource: resourceNameFromProps ?? resourceNameOrRouteName,
+    resource: resourceNameFromProps,
     id: recordItemId,
     accessControl,
     meta,
   });
 
-  if (hidden) return null;
+  const isDisabled = disabled || rest.disabled;
+  const isHidden = hidden || rest.hidden;
 
-  const { sx, ...restProps } = rest;
+  if (isHidden) return null;
+
+  // `startIcon` is extracted from rest props so it doesn't get passed to the
+  // underlying MUI Button via `{...restProps}` (which would cause a double icon).
+  const { sx, startIcon, ...restProps } = rest;
+
+  const defaultIcon = <EditOutlined fontSize="small" {...svgIconProps} />;
+
+  // When `hideText` is true, the button renders only an icon (no startIcon prop).
+  // When `hideText` is false, the icon goes into the `startIcon` slot and text goes as children.
+  // In both modes, a user-provided `startIcon` takes priority over the default icon.
+  //
+  // | hideText | startIcon    | Button startIcon prop | Button children |
+  // |----------|--------------|-----------------------|-----------------|
+  // | false    | undefined    | <EditOutlined>        | "Edit"          |
+  // | false    | <CustomIcon> | <CustomIcon>          | "Edit"          |
+  // | true     | undefined    | undefined             | <EditOutlined>  |
+  // | true     | <CustomIcon> | undefined             | <CustomIcon>    |
+  const buttonStartIcon = hideText
+    ? undefined
+    : startIcon ?? (
+        <EditOutlined sx={{ selfAlign: "center" }} {...svgIconProps} />
+      );
+  const buttonChildren = hideText
+    ? startIcon ?? defaultIcon
+    : children ?? label;
 
   return (
-    <LinkComponent
+    <Button
+      disabled={isDisabled}
+      component={LinkComponent}
       to={to}
       replace={false}
       onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        if (disabled) {
+        if (isDisabled) {
           e.preventDefault();
           return;
         }
@@ -54,27 +81,14 @@ export const EditButton: React.FC<EditButtonProps> = ({
           onClick(e);
         }
       }}
-      style={{ textDecoration: "none" }}
+      startIcon={buttonStartIcon}
+      title={title}
+      sx={{ minWidth: 0, textDecoration: "none", ...sx }}
+      data-testid={RefineButtonTestIds.EditButton}
+      className={RefineButtonClassNames.EditButton}
+      {...restProps}
     >
-      <Button
-        disabled={disabled}
-        startIcon={
-          !hideText && (
-            <EditOutlined sx={{ selfAlign: "center" }} {...svgIconProps} />
-          )
-        }
-        title={title}
-        sx={{ minWidth: 0, ...sx }}
-        data-testid={RefineButtonTestIds.EditButton}
-        className={RefineButtonClassNames.EditButton}
-        {...restProps}
-      >
-        {hideText ? (
-          <EditOutlined fontSize="small" {...svgIconProps} />
-        ) : (
-          children ?? label
-        )}
-      </Button>
-    </LinkComponent>
+      {buttonChildren}
+    </Button>
   );
 };

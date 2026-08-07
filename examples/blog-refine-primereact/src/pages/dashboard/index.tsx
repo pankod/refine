@@ -16,7 +16,7 @@ const query = {
 export const Dashboard: React.FC = () => {
   const API_URL = useApiUrl();
 
-  const { data: dailyRevenue } = useCustom<IChart>({
+  const { result: dailyRevenue } = useCustom<IChart>({
     url: `${API_URL}/dailyRevenue`,
     method: "get",
     config: {
@@ -24,7 +24,7 @@ export const Dashboard: React.FC = () => {
     },
   });
 
-  const { data: dailyOrders } = useCustom<IChart>({
+  const { result: dailyOrders } = useCustom<IChart>({
     url: `${API_URL}/dailyOrders`,
     method: "get",
     config: {
@@ -32,7 +32,7 @@ export const Dashboard: React.FC = () => {
     },
   });
 
-  const { data: newCustomers } = useCustom<IChart>({
+  const { result: newCustomers } = useCustom<IChart>({
     url: `${API_URL}/newCustomers`,
     method: "get",
     config: {

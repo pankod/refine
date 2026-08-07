@@ -6,7 +6,7 @@ import { Sandpack, UseAuthPageInLogin } from "./sandpack.tsx";
 
 <Sandpack>
 
-Now our application is ready to use with layouts, views and notifications. Only thing left unstyled is the `/login` page. Refine provides [`<AuthPage />`](/docs/ui-integrations/ant-design/components/auth-page) components which works with Refine's auth hooks and uses the UI elements from the Ant Design.
+Now our application is ready to use with layouts, views and notifications. Only thing left unstyled is the `/login` page. Refine provides [`<AuthPage />`](/core/docs/ui-integrations/ant-design/components/auth-page) components which works with Refine's auth hooks and uses the UI elements from the Ant Design.
 
 `<AuthPage />` component supports multiple views such as:
 
@@ -14,8 +14,6 @@ Now our application is ready to use with layouts, views and notifications. Only 
 - Register page with type `register` which renders a register form and works with the `useRegister` hook.
 - Forgot password page with type `forgotPassword` which renders a forgot password form and works with the `useForgotPassword` hook.
 - Update password page with type `updatePassword` which renders a update password form and works with the `useUpdatePassword` hook.
-
-Now we've refactored our application with Ant Design, we only have one thing left to do: handle notifications. Refine triggers notification in various scenarios, such as when a record is created, updated, or deleted, when there is an error from your data provider or your auth provider. It's important to provide feedback to the user when interacting with the application.
 
 ## Using `<AuthPage />` Component
 

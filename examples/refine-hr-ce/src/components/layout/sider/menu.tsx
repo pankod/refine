@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useMenu, CanAccess, useList } from "@refinedev/core";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import {
   Box,
   List,
@@ -128,7 +128,7 @@ const MenuItem = ({
 };
 
 const RequestMenuItem = (props: MenuItemProps) => {
-  const { data: timeOffsData } = useList({
+  const { result: timeOffsData } = useList({
     resource: "time-offs",
     pagination: {
       // we need only the count of pending time-offs to show in the badge

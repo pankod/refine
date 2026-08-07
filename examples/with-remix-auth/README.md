@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example with-remix-auth
 
 <br/>
 
-[![Open with-remix-auth example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/with-remix-auth?view=preview&theme=dark&codemirror=1)
+[![Open with-remix-auth example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/with-remix-auth?view=preview&theme=dark&codemirror=1)

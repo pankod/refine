@@ -12,7 +12,7 @@ describe("generateUseListSubscription", () => {
     fields: ["id", "title", "createdAt"],
   };
   const pagination: Pagination = {
-    current: 2,
+    currentPage: 2,
     pageSize: 5,
     mode: "server",
   };

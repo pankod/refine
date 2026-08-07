@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 
-import {
-  useForgotPassword,
-  useLink,
-  useRouterContext,
-  useRouterType,
-  useTranslate,
-} from "@hooks";
+import { useForgotPassword, useLink, useTranslate } from "@hooks";
 
 import type { DivPropsType, FormPropsType } from "../..";
 import type {
@@ -30,19 +24,15 @@ export const ForgotPasswordPage: React.FC<ForgotPasswordProps> = ({
   mutationVariables,
 }) => {
   const translate = useTranslate();
-  const routerType = useRouterType();
   const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
-
-  const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
 
   const [email, setEmail] = useState("");
 
-  const { mutate: forgotPassword, isLoading } =
+  const { mutate: forgotPassword, isPending } =
     useForgotPassword<ForgotPasswordFormTypes>();
 
   const renderLink = (link: string, text?: string) => {
-    return <ActiveLink to={link}>{text}</ActiveLink>;
+    return <Link to={link}>{text}</Link>;
   };
 
   const content = (
@@ -81,7 +71,7 @@ export const ForgotPasswordPage: React.FC<ForgotPasswordProps> = ({
           />
           <input
             type="submit"
-            disabled={isLoading}
+            disabled={isPending}
             value={translate(
               "pages.forgotPassword.buttons.submit",
               "Send reset instructions",

@@ -50,31 +50,4 @@ describe("getParentPrefixForResource", () => {
       "/users/posts",
     );
   });
-
-  it("should return the parent prefix for deeply nested resources with legacy routes", () => {
-    const resources = [
-      {
-        name: "users",
-        options: {
-          route: "custom-users",
-        },
-      },
-      {
-        name: "posts",
-        meta: {
-          parent: "users",
-        },
-      },
-      {
-        name: "comments",
-        meta: {
-          parent: "posts",
-        },
-      },
-    ];
-
-    expect(getParentPrefixForResource(resources[2], resources, true)).toBe(
-      "/custom-users/posts",
-    );
-  });
 });

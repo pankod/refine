@@ -1,5 +1,141 @@
 # @refinedev/devtools
 
+## 2.0.5
+
+### Patch Changes
+
+- Updated dependencies [[`b319c8a7a2f11896008f349481b03ddcf9ed2de0`](https://github.com/refinedev/refine/commit/b319c8a7a2f11896008f349481b03ddcf9ed2de0)]:
+  - @refinedev/cli@2.16.52
+
+## 2.0.4
+
+### Patch Changes
+
+- Updated dependencies [[`a851672404703243df7ea150d0f918f002d1571d`](https://github.com/refinedev/refine/commit/a851672404703243df7ea150d0f918f002d1571d)]:
+  - @refinedev/devtools-server@2.0.2
+  - @refinedev/devtools-shared@2.0.2
+  - @refinedev/cli@2.16.51
+
+## 2.0.3
+
+### Patch Changes
+
+- [#7086](https://github.com/refinedev/refine/pull/7086) [`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3) Thanks [@BatuhanW](https://github.com/BatuhanW)! - feat: disable minify
+
+  Resolves #6417
+
+- Updated dependencies [[`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3)]:
+  - @refinedev/devtools-server@2.0.1
+  - @refinedev/devtools-shared@2.0.1
+  - @refinedev/cli@2.16.50
+
+## 2.0.2
+
+### Patch Changes
+
+- Updated dependencies [[`b07be7596fd72b1f83421a14098f0b44b6cdc8de`](https://github.com/refinedev/refine/commit/b07be7596fd72b1f83421a14098f0b44b6cdc8de)]:
+  - @refinedev/cli@2.16.49
+
+## 2.0.1
+
+### Patch Changes
+
+- [#6970](https://github.com/refinedev/refine/pull/6970) [`19e3ff328ac0f44e77532ff5a95a99421c0e1387`](https://github.com/refinedev/refine/commit/19e3ff328ac0f44e77532ff5a95a99421c0e1387) Thanks [@BatuhanW](https://github.com/BatuhanW)! - chore: dummy release
+
+## 2.0.0
+
+### Major Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: update DevTools for Refine 5 compatibility
+
+  - Updated DevTools packages to work with TanStack Query v5 and Refine 5.
+  - Internal API updates and compatibility improvements for the new architecture.
+
+  > 🚨 Breaking changes require migration - check our guide at https://refine.dev/docs/migration-guide/4x-to-5x/
+
+### Patch Changes
+
+- Updated dependencies [[`807099eecb4e8d41b1cf9ab557d71d34d12bec35`](https://github.com/refinedev/refine/commit/807099eecb4e8d41b1cf9ab557d71d34d12bec35), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/core@5.0.0
+  - @refinedev/cli@2.16.48
+  - @refinedev/devtools-server@2.0.0
+  - @refinedev/devtools-shared@2.0.0
+
+## 1.2.17
+
+### Patch Changes
+
+- Updated dependencies [[`992f202624c3f71a39fde26c71fe0ab6b8125b40`](https://github.com/refinedev/refine/commit/992f202624c3f71a39fde26c71fe0ab6b8125b40)]:
+  - @refinedev/cli@2.16.47
+
+## 1.2.16
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @refinedev/devtools-server@1.1.42
+  - @refinedev/cli@2.16.46
+
+## 1.2.15
+
+### Patch Changes
+
+- Updated dependencies [[`274fa2c92afdf4e5b9ee8ba057861bf9fb39cab5`](https://github.com/refinedev/refine/commit/274fa2c92afdf4e5b9ee8ba057861bf9fb39cab5)]:
+  - @refinedev/devtools-server@1.1.41
+  - @refinedev/cli@2.16.45
+
+## 1.2.14
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @refinedev/cli@2.16.44
+
+## 1.2.13
+
+### Patch Changes
+
+- Updated dependencies [[`a12a0821e3c573386c2a8eea4ac1582cc46dd26d`](https://github.com/refinedev/refine/commit/a12a0821e3c573386c2a8eea4ac1582cc46dd26d)]:
+  - @refinedev/cli@2.16.43
+
+## 1.2.12
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
+- Updated dependencies []:
+  - @refinedev/cli@2.16.42
+  - @refinedev/devtools-server@1.1.40
+  - @refinedev/devtools-shared@1.1.14
+
+## 1.2.11
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6556](https://github.com/refinedev/refine/pull/6556) [`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
+- Updated dependencies [[`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706), [`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53)]:
+  - @refinedev/cli@2.16.41
+  - @refinedev/devtools-server@1.1.39
+  - @refinedev/devtools-shared@1.1.13
+
+## 1.2.10
+
+### Patch Changes
+
+- Updated dependencies [[`6f2c1c22112a19ba89a9298469158d4da6096aa8`](https://github.com/refinedev/refine/commit/6f2c1c22112a19ba89a9298469158d4da6096aa8)]:
+  - @refinedev/devtools-server@1.1.38
+  - @refinedev/cli@2.16.40
+
 ## 1.2.9
 
 ### Patch Changes
@@ -428,7 +564,7 @@
   npm install @refinedev/cli@latest
   ```
 
-  > 🚨 If you don't have `@refinedev/cli` installed already, you can follow the [installation guide](https://refine.dev/docs/packages/documentation/cli/#how-to-add-to-an-existing-project) to add it to your project.
+  > 🚨 If you don't have `@refinedev/cli` installed already, you can follow the [installation guide](https://refine.dev/docs/packages/cli/#how-to-add-to-an-existing-project) to add it to your project.
 
   Install `@refinedev/devtools` with `@refinedev/cli`
 

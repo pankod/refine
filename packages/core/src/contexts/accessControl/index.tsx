@@ -5,9 +5,6 @@ import type {
   IAccessControlContextReturnType,
 } from "./types";
 
-/** @deprecated default value for access control context has no use and is an empty object. */
-export const defaultAccessControlContext = {} as IAccessControlContext;
-
 export const AccessControlContext =
   React.createContext<IAccessControlContextReturnType>({
     options: {

@@ -1,5 +1,8 @@
 ---
-title: Introduction
+title: "Introduction Guide | Best Practices in Refine v5"
+display_title: "Introduction"
+sidebar_label: "Introduction"
+description: "Explore how to integrate Introduction in Refine v5. Learn integration patterns for enterprise UI, components for polished admin UIs. See practical code samples."
 ---
 
 Refine provides an integration package for [Ant Design](https://ant.design/) framework. This package provides a set of ready to use components and hooks that connects Refine with Ant Design components. While Refine's integration offers a set of components and hooks, it is not a replacement for the Ant Design package, you will be able to use all the features of Ant Design in the same way you would use it in a regular React application. Refine's integration only provides components and hooks for an easier usage of Ant Design components in combination with Refine's features and functionalities.
@@ -19,7 +22,7 @@ Installing the package is as simple as just by running the following command wit
 We'll wrap our app with the [`<ConfigProvider />`](https://ant.design/components/config-provider) to make sure we have the theme available for our app, then we'll use the layout components to wrap them around our routes. Check out the examples below to see how to use Refine's Ant Design integration.
 
 <Tabs wrapContent={false}>
-<TabItem value="react-router-dom" label="React Router v6">
+<TabItem value="react-router-dom" label="React Router">
 
 import UsageReactRouterDom from "./previews/usage-react-router-dom.tsx";
 
@@ -44,7 +47,7 @@ import UsageRemix from "./previews/usage-remix.tsx";
 
 ## Tables
 
-Refine provides a seamless integration with the [`<Table />`](https://ant.design/components/table) component of Ant Design from pagination to sorting and filtering via the [`useTable`](/docs/ui-integrations/ant-design/hooks/use-table) hook exported from the `@refinedev/antd` package. This hook is an extension of the `@refinedev/core`'s [`useTable`](/docs/data/hooks/use-table) and provides a set of additional features and transformations to make it work with Ant Design's `<Table />` component without any additional configuration.
+Refine provides a seamless integration with the [`<Table />`](https://ant.design/components/table) component of Ant Design from pagination to sorting and filtering via the [`useTable`](/core/docs/ui-integrations/ant-design/hooks/use-table/) hook exported from the `@refinedev/antd` package. This hook is an extension of the `@refinedev/core`'s [`useTable`](/core/docs/data/hooks/use-table/) and provides a set of additional features and transformations to make it work with Ant Design's `<Table />` component without any additional configuration.
 
 ```tsx title="pages/products/list.tsx"
 import { useTable } from "@refinedev/antd";
@@ -75,11 +78,11 @@ interface IProduct {
 }
 ```
 
-`@refinedev/antd` package also provides a [`<FilterDropdown />`](/docs/ui-integrations/ant-design/components/filter-dropdown) component to be used in the filter popover of the `<Table />` component. This component makes it easy to apply filters from the Ant Design UI without any additional configuration.
+`@refinedev/antd` package also provides a [`<FilterDropdown />`](/core/docs/ui-integrations/ant-design/components/filter-dropdown/) component to be used in the filter popover of the `<Table />` component. This component makes it easy to apply filters from the Ant Design UI without any additional configuration.
 
 ## Forms
 
-Refine provides a seamless integration with the [`<Form />`](https://ant.design/components/form) component of Ant Design from validation to submission via the [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form) hook exported from the `@refinedev/antd` package. This hook is an extension of the `@refinedev/core`'s [`useForm`](/docs/data/hooks/use-form/) and provides a set of additional features and transformations to make it work with Ant Design's `<Form />` component.
+Refine provides a seamless integration with the [`<Form />`](https://ant.design/components/form) component of Ant Design from validation to submission via the [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form/) hook exported from the `@refinedev/antd` package. This hook is an extension of the `@refinedev/core`'s [`useForm`](/core/docs/data/hooks/use-form/) and provides a set of additional features and transformations to make it work with Ant Design's `<Form />` component.
 
 ```tsx title="pages/products/create.tsx"
 import { useForm, SaveButton } from "@refinedev/antd";
@@ -128,11 +131,11 @@ interface IProduct {
 }
 ```
 
-`@refinedev/antd` also offers hooks to implement different types of forms such as [`useDrawerForm`](/docs/ui-integrations/ant-design/hooks/use-drawer-form), [`useModalForm`](/docs/ui-integrations/ant-design/hooks/use-modal-form) and [`useStepsForm`](/docs/ui-integrations/ant-design/hooks/use-steps-form) hooks. Additionally [`useSelect`](/docs/ui-integrations/ant-design/hooks/use-select), [`useCheckboxGroup`](/docs/ui-integrations/ant-design/hooks/use-checkbox-group) and [`useRadioGroup`](/docs/ui-integrations/ant-design/hooks/use-radio-group) hooks are also provided to make it easier to implement form fields with relational data. These hooks leverage the [`useSelect`](/docs/data/hooks/use-select) hook from the `@refinedev/core` package.
+`@refinedev/antd` also offers hooks to implement different types of forms such as [`useDrawerForm`](/core/docs/ui-integrations/ant-design/hooks/use-drawer-form/), [`useModalForm`](/core/docs/ui-integrations/ant-design/hooks/use-modal-form/) and [`useStepsForm`](/core/docs/ui-integrations/ant-design/hooks/use-steps-form/) hooks. Additionally [`useSelect`](/core/docs/ui-integrations/ant-design/hooks/use-select/), [`useCheckboxGroup`](/core/docs/ui-integrations/ant-design/hooks/use-checkbox-group/) and [`useRadioGroup`](/core/docs/ui-integrations/ant-design/hooks/use-radio-group/) hooks are also provided to make it easier to implement form fields with relational data. These hooks leverage the [`useSelect`](/core/docs/data/hooks/use-select/) hook from the `@refinedev/core` package.
 
 ## Notifications
 
-Ant Design has its own [notification system](https://ant.design/components/notification) which works seamlessly with its UI elements. Refine also provides a seamless integration with Ant Design's notification system and show notifications for related actions and events. This integration is provided by the `useNotificationProvider` hook exported from the `@refinedev/antd` package which can be directly used in the [`notificationProvider`](/docs/core/refine-component#notificationprovider) prop of the `<Refine />` component.
+Ant Design has its own [notification system](https://ant.design/components/notification) which works seamlessly with its UI elements. Refine also provides a seamless integration with Ant Design's notification system and show notifications for related actions and events. This integration is provided by the `useNotificationProvider` hook exported from the `@refinedev/antd` package which can be directly used in the [`notificationProvider`](/core/docs/core/refine-component#notificationprovider) prop of the `<Refine />` component.
 
 ```tsx title="app.tsx"
 import { Refine } from "@refinedev/core";
@@ -163,7 +166,7 @@ If you have any configurations in the Ant Design's theme, you should wrap your a
 Refine provides Layout components that can be used to implement a layout for the application. These components are crafted using Ant Design's components and includes Refine's features and functionalities such as navigation menus, headers, authentication, authorization and more.
 
 <Tabs wrapContent={false}>
-<TabItem value="react-router-dom" label="React Router v6">
+<TabItem value="react-router-dom" label="React Router">
 
 import LayoutReactRouterDom from "./previews/layout-react-router-dom.tsx";
 
@@ -186,9 +189,9 @@ import LayoutRemix from "./previews/layout-remix.tsx";
 </TabItem>
 </Tabs>
 
-[`<ThemedLayoutV2 />`](/docs/ui-integrations/ant-design/components/themed-layout) component consists of a header, sider and a content area. The sider have a navigation menu items for the defined resources of Refine, if an authentication provider is present, it will also have a functional logout button. The header contains the app logo and name and also information about the current user if an authentication provider is present.
+[`<ThemedLayout />`](/core/docs/ui-integrations/ant-design/components/themed-layout/) component consists of a header, sider and a content area. The sider have a navigation menu items for the defined resources of Refine, if an authentication provider is present, it will also have a functional logout button. The header contains the app logo and name and also information about the current user if an authentication provider is present.
 
-Additionally, Refine also provides a [`<Breadcrumb />`](/docs/ui-integrations/ant-design/components/breadcrumb) component that uses the Ant Design's component as a base and provide appropriate breadcrumbs for the current route. This component is used in the basic views provided by Refine's Ant Design package automatically.
+Additionally, Refine also provides a [`<Breadcrumb />`](/core/docs/ui-integrations/ant-design/components/breadcrumb/) component that uses the Ant Design's component as a base and provide appropriate breadcrumbs for the current route. This component is used in the basic views provided by Refine's Ant Design package automatically.
 
 ### Buttons
 
@@ -202,7 +205,7 @@ Refine's Ant Design integration offers variety of buttons that are built above t
 - Form actions
 - Import/Export and more.
 
-You can use buttons such as [`<EditButton />`](/docs/ui-integrations/ant-design/components/buttons/edit-button) or [`<ListButton />`](/docs/ui-integrations/ant-design/components/buttons/list-button) etc. in your views to provide navigation for the related routes or [`<DeleteButton />`](/docs/ui-integrations/ant-design/components/buttons/delete-button) and [`<SaveButton />`](/docs/ui-integrations/ant-design/components/buttons/save-button) etc. to perform related actions without having to worry about the authorization checks and other logical functionalities.
+You can use buttons such as [`<EditButton />`](/core/docs/ui-integrations/ant-design/components/buttons/edit-button/) or [`<ListButton />`](/core/docs/ui-integrations/ant-design/components/buttons/list-button/) etc. in your views to provide navigation for the related routes or [`<DeleteButton />`](/core/docs/ui-integrations/ant-design/components/buttons/delete-button/) and [`<SaveButton />`](/core/docs/ui-integrations/ant-design/components/buttons/save-button/) etc. to perform related actions without having to worry about the authorization checks and other logical functionalities.
 
 An example usage of the `<EditButton />` component is as follows:
 
@@ -242,16 +245,16 @@ interface IProduct {
 
 The list of provided buttons are:
 
-- [`<CreateButton />`](/docs/ui-integrations/ant-design/components/buttons/create-button)
-- [`<EditButton />`](/docs/ui-integrations/ant-design/components/buttons/edit-button)
-- [`<ListButton />`](/docs/ui-integrations/ant-design/components/buttons/list-button)
-- [`<ShowButton />`](/docs/ui-integrations/ant-design/components/buttons/show-button)
-- [`<CloneButton />`](/docs/ui-integrations/ant-design/components/buttons/clone-button)
-- [`<DeleteButton />`](/docs/ui-integrations/ant-design/components/buttons/delete-button)
-- [`<SaveButton />`](/docs/ui-integrations/ant-design/components/buttons/save-button)
-- [`<RefreshButton />`](/docs/ui-integrations/ant-design/components/buttons/refresh-button)
-- [`<ImportButton />`](/docs/ui-integrations/ant-design/components/buttons/import-button)
-- [`<ExportButton />`](/docs/ui-integrations/ant-design/components/buttons/export-button)
+- [`<CreateButton />`](/core/docs/ui-integrations/ant-design/components/buttons/create-button/)
+- [`<EditButton />`](/core/docs/ui-integrations/ant-design/components/buttons/edit-button/)
+- [`<ListButton />`](/core/docs/ui-integrations/ant-design/components/buttons/list-button/)
+- [`<ShowButton />`](/core/docs/ui-integrations/ant-design/components/buttons/show-button/)
+- [`<CloneButton />`](/core/docs/ui-integrations/ant-design/components/buttons/clone-button/)
+- [`<DeleteButton />`](/core/docs/ui-integrations/ant-design/components/buttons/delete-button/)
+- [`<SaveButton />`](/core/docs/ui-integrations/ant-design/components/buttons/save-button/)
+- [`<RefreshButton />`](/core/docs/ui-integrations/ant-design/components/buttons/refresh-button/)
+- [`<ImportButton />`](/core/docs/ui-integrations/ant-design/components/buttons/import-button/)
+- [`<ExportButton />`](/core/docs/ui-integrations/ant-design/components/buttons/export-button/)
 
 Many of these buttons are already used in the views provided by Refine's Ant Design integration. If you're using the basic view elements provided by Refine, you will have the appropriate buttons placed in your application out of the box.
 
@@ -261,10 +264,10 @@ Views are designed as wrappers around the content of the pages in the applicatio
 
 The list of provided views are:
 
-- [`<List />`](/docs/ui-integrations/ant-design/components/basic-views/list)
-- [`<Show />`](/docs/ui-integrations/ant-design/components/basic-views/show)
-- [`<Edit />`](/docs/ui-integrations/ant-design/components/basic-views/edit)
-- [`<Create />`](/docs/ui-integrations/ant-design/components/basic-views/create)
+- [`<List />`](/core/docs/ui-integrations/ant-design/components/basic-views/list/)
+- [`<Show />`](/core/docs/ui-integrations/ant-design/components/basic-views/show/)
+- [`<Edit />`](/core/docs/ui-integrations/ant-design/components/basic-views/edit/)
+- [`<Create />`](/core/docs/ui-integrations/ant-design/components/basic-views/create/)
 
 import BasicViews from "./previews/basic-views.tsx";
 
@@ -276,16 +279,16 @@ Refine's Ant Design also provides field components to render values with appropr
 
 The list of provided field components are:
 
-- [`<BooleanField />`](/docs/ui-integrations/ant-design/components/fields/boolean-field)
-- [`<DateField />`](/docs/ui-integrations/ant-design/components/fields/date-field)
-- [`<EmailField />`](/docs/ui-integrations/ant-design/components/fields/email-field)
-- [`<FileField />`](/docs/ui-integrations/ant-design/components/fields/file-field)
-- [`<ImageField />`](/docs/ui-integrations/ant-design/components/fields/image-field)
-- [`<MarkdownField />`](/docs/ui-integrations/ant-design/components/fields/markdown-field)
-- [`<NumberField />`](/docs/ui-integrations/ant-design/components/fields/number-field)
-- [`<TagField />`](/docs/ui-integrations/ant-design/components/fields/tag-field)
-- [`<TextField />`](/docs/ui-integrations/ant-design/components/fields/text-field)
-- [`<UrlField />`](/docs/ui-integrations/ant-design/components/fields/url-field)
+- [`<BooleanField />`](/core/docs/ui-integrations/ant-design/components/fields/boolean-field/)
+- [`<DateField />`](/core/docs/ui-integrations/ant-design/components/fields/date-field/)
+- [`<EmailField />`](/core/docs/ui-integrations/ant-design/components/fields/email-field/)
+- [`<FileField />`](/core/docs/ui-integrations/ant-design/components/fields/file-field/)
+- [`<ImageField />`](/core/docs/ui-integrations/ant-design/components/fields/image-field/)
+- [`<MarkdownField />`](/core/docs/ui-integrations/ant-design/components/fields/markdown-field/)
+- [`<NumberField />`](/core/docs/ui-integrations/ant-design/components/fields/number-field/)
+- [`<TagField />`](/core/docs/ui-integrations/ant-design/components/fields/tag-field/)
+- [`<TextField />`](/core/docs/ui-integrations/ant-design/components/fields/text-field/)
+- [`<UrlField />`](/core/docs/ui-integrations/ant-design/components/fields/url-field/)
 
 ```tsx title="pages/products/show.tsx"
 import { useShow } from "@refinedev/core";
@@ -293,24 +296,25 @@ import { Show, TextField, NumberField } from "@refinedev/antd";
 import { Typography } from "antd";
 
 export const ProductShow = () => {
-  const { queryResult } = useShow<IProduct>();
-  const { data, isLoading } = queryResult;
-  const record = data?.data;
+  const {
+    result: product,
+    query: { data, isLoading },
+  } = useShow<IProduct>();
 
   return (
     <Show isLoading={isLoading}>
       <Typography.Title level={5}>Id</Typography.Title>
       {/* highlight-next-line */}
-      <TextField value={record?.id} />
+      <TextField value={product?.id} />
 
       <Typography.Title level={5}>Title</Typography.Title>
       {/* highlight-next-line */}
-      <TextField value={record?.title} />
+      <TextField value={product?.title} />
 
       <Typography.Title level={5}>Price</Typography.Title>
       {/* highlight-next-line */}
       <NumberField
-        value={record?.price}
+        value={product?.price}
         options={{ style: "currency", currency: "USD" }}
       />
     </Show>
@@ -336,7 +340,7 @@ The list of types of auth pages that are available in the UI integrations are:
 - `<AuthPage type="forgot-password" />`
 - `<AuthPage type="reset-password" />`
 
-An example usage of the [`<AuthPage />`](/docs/ui-integrations/ant-design/components/auth-page) component is as follows:
+An example usage of the [`<AuthPage />`](/core/docs/ui-integrations/ant-design/components/auth-page/) component is as follows:
 
 import AuthPage from "./previews/auth-page.tsx";
 
@@ -372,7 +376,7 @@ To learn more about the theme configuration of Ant Design, please refer to the [
 
 You can automatically generate views for your resources using `@refinedev/inferencer`. Inferencer exports the `AntdListInferencer`, `AntdShowInferencer`, `AntdEditInferencer`, `AntdCreateInferencer` components and finally the `AntdInferencer` component, which combines all in one place.
 
-To learn more about Inferencer, please refer to the [Ant Design Inferencer](/docs/ui-integrations/ant-design/components/inferencer) docs.
+To learn more about Inferencer, please refer to the [Ant Design Inferencer](/core/docs/ui-integrations/ant-design/components/inferencer/) docs.
 
 ## Known Issues
 

@@ -17,19 +17,26 @@ import type { IPost, ICategory } from "../../interfaces";
 
 export const PostList = () => {
   const { tableProps, sorters, filters } = useTable<IPost>({
-    initialSorter: [
-      {
-        field: "id",
-        order: "asc",
-      },
-    ],
-    metaData: {
+    meta: {
       select: "*, categories(title)",
+    },
+
+    sorters: {
+      initial: [
+        {
+          field: "id",
+          order: "asc",
+        },
+      ],
     },
   });
 
   const { selectProps } = useSelect<ICategory>({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

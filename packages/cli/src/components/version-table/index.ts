@@ -1,4 +1,4 @@
-import type { RefinePackageInstalledVersionData } from "@definitions/package";
+import type { RefinePackageInstalledVersionData } from "../../definitions/package";
 import Table from "cli-table3";
 import chalk from "chalk";
 import { removeANSIColors } from "@utils/text";

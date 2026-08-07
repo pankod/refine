@@ -1,12 +1,15 @@
 ---
-title: Usage with Existing Projects
+title: "Usage with Existing Projects Guide | Guides Concepts in Refine v5"
+display_title: "Usage with Existing Projects"
+sidebar_label: "Usage with Existing Projects"
+description: "Integrate Usage With Existing Projects in Refine v5. Learn best practices. Explore directory and page.tsx for real-world React admin panels."
 ---
 
 Integrating Refine into an existing project is as simple as installing `@refinedev/core` package and importing `Refine` component into your application.
 
 Once imported, `Refine` component provides necessary context to all children components for **Refine** hooks and components to work.
 
-Only required prop for `Refine` component is `dataProvider`. You can read more about data provider [here](/docs/data/data-provider).
+Only required prop for `Refine` component is `dataProvider`. You can read more about data provider [here](/core/docs/data/data-provider/).
 
 ## Quickstart
 
@@ -75,7 +78,7 @@ As you can see in the example below, wrapping `_app.tsx` file with `Refine` comp
 
 In the following examples below, we will integrate Refine into `/refine` route of an existing application.
 
-See the [Routing Guide](/docs/guides-concepts/routing) for more information.
+See the [Routing Guide](/core/docs/guides-concepts/routing/) for more information.
 
 <Tabs wrapContent={false} defaultValue="react-router">
 
@@ -85,7 +88,7 @@ import { ViteRouter } from './vite/router';
 
 First, we need to install necessary packages:
 
-<InstallPackagesCommand args="@refinedev/core @refinedev/react-router-v6 @refinedev/simple-rest" />
+<InstallPackagesCommand args="@refinedev/core @refinedev/react-router @refinedev/simple-rest" />
 
 :::simple
 
@@ -147,7 +150,7 @@ First, we need to install necessary packages:
 
 In the following examples below, as a follow-up from the previous router examples, we will add Ant Design layout from `@refinedev/antd` package.
 
-See the [UI Libraries guide](/docs/guides-concepts/ui-libraries) for more information.
+See the [UI Libraries guide](/core/docs/guides-concepts/ui-libraries/) for more information.
 
 <Tabs wrapContent={false} defaultValue="vite">
 
@@ -157,7 +160,7 @@ import { ViteAntdLayout } from './vite/layout/antd';
 
 First, we need to install necessary packages:
 
-<InstallPackagesCommand args="@refinedev/core @refinedev/react-router-v6 @refinedev/antd @refinedev/simple-rest" />
+<InstallPackagesCommand args="@refinedev/core @refinedev/react-router @refinedev/antd @refinedev/simple-rest" />
 
 :::simple
 
@@ -215,17 +218,17 @@ First, we need to install necessary packages:
 
 ## Authentication
 
-If want to use Refine with your existing application, probably you already have authentication in-place. In this case, in order to enable Authentication features of `Refine`, only thing you need to do is to implement `AuthProvider`'s [check](/docs/authentication/auth-provider#check) method.
+If want to use Refine with your existing application, probably you already have authentication in-place. In this case, in order to enable Authentication features of `Refine`, only thing you need to do is to implement `AuthProvider`'s [check](/core/docs/authentication/auth-provider#check) method.
 
 :::simple
 
-If you want to handle Authentication with Refine from scratch, check the [Authentication Guide](/docs/guides-concepts/authentication)
+If you want to handle Authentication with Refine from scratch, check the [Authentication Guide](/core/docs/guides-concepts/authentication/)
 
 :::
 
 ### check Method
 
-Once you provide the `check` method, you can use [Authenticated component](/docs/authentication/components/authenticated) and/or [useIsAuthenticated hook](/docs/authentication/hooks/use-is-authenticated) in your application. Refine will redirect user to given login page for unauthenticated users.
+Once you provide the `check` method, you can use [Authenticated component](/core/docs/authentication/components/authenticated/) and/or [useIsAuthenticated hook](/core/docs/authentication/hooks/use-is-authenticated/) in your application. Refine will redirect user to given login page for unauthenticated users.
 
 ```tsx
 import { AuthProvider } from "@refinedev/core";
@@ -265,26 +268,26 @@ Following methods are optional, but could be useful for various use-cases.
 
 #### getIdentity Method
 
-[getIdentity method](/docs/authentication/auth-provider/#getidentity) can be used to enable [useGetIdentity hook](/docs/authentication/hooks/use-get-identity).
+[getIdentity method](/core/docs/authentication/auth-provider/#getidentity) can be used to enable [useGetIdentity hook](/core/docs/authentication/hooks/use-get-identity/).
 
 This hook is also used to rendering current user information in the header of UI Integration layouts.
 
-- [Ant Design Header Docs Header Section](/docs/ui-integrations/ant-design/components/themed-layout#header)
-- [Material UI Header Docs Header Section](/docs/ui-integrations/material-ui/components/themed-layout#header)
-- [Chakra UI Header Docs Header Section](/docs/ui-integrations/chakra-ui/components/themed-layout#header)
-- [Mantine Header Docs Header Section](/docs/ui-integrations/mantine/components/themed-layout#header)
+- [Ant Design Header Docs Header Section](/core/docs/ui-integrations/ant-design/components/themed-layout#header)
+- [Material UI Header Docs Header Section](/core/docs/ui-integrations/material-ui/components/themed-layout#header)
+- [Chakra UI Header Docs Header Section](/core/docs/ui-integrations/chakra-ui/components/themed-layout#header)
+- [Mantine Header Docs Header Section](/core/docs/ui-integrations/mantine/components/themed-layout#header)
 
 #### onError
 
-See [Error Handling section in Authentication Guide](/docs/guides-concepts/authentication#error-handling) and [AuthProvider's onError documentation](/docs/authentication/auth-provider#onerror)
+See [Error Handling section in Authentication Guide](/core/docs/guides-concepts/authentication#error-handling) and [AuthProvider's onError documentation](/core/docs/authentication/auth-provider#onerror)
 
 #### logout
 
-[logout method](/docs/authentication/auth-provider#logout) can be used to enable [useLogout hook](/docs/authentication/hooks/use-logout)
+[logout method](/core/docs/authentication/auth-provider#logout) can be used to enable [useLogout hook](/core/docs/authentication/hooks/use-logout/)
 
 This hook is also used to render `Logout` button in the sider of UI Integration layouts.
 
-- [Ant Design Header Docs Sider Section](/docs/ui-integrations/ant-design/components/themed-layout#sider)
-- [Material UI Header Docs Sider Section](/docs/ui-integrations/material-ui/components/themed-layout#sider)
-- [Chakra UI Header Docs Sider Section](/docs/ui-integrations/chakra-ui/components/themed-layout#sider)
-- [Mantine Header Docs Sider Section](/docs/ui-integrations/mantine/components/themed-layout#sider)
+- [Ant Design Header Docs Sider Section](/core/docs/ui-integrations/ant-design/components/themed-layout#sider)
+- [Material UI Header Docs Sider Section](/core/docs/ui-integrations/material-ui/components/themed-layout#sider)
+- [Chakra UI Header Docs Sider Section](/core/docs/ui-integrations/chakra-ui/components/themed-layout#sider)
+- [Mantine Header Docs Sider Section](/core/docs/ui-integrations/mantine/components/themed-layout#sider)

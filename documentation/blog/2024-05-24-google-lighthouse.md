@@ -3,9 +3,11 @@ title: Using Google Lighthouse to improve app performance
 description: Learn how to use the Google Chrome Lighthouse performance audit tool to identify and improve problems with your app.
 slug: lighthouse-google-chrome
 authors: joseph_mawa
+category: "Ecosystem / Integrations"
 tags: [dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-31-google-lighthouse/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-31-google-lighthouse/social-2.png
 hide_table_of_contents: false
+last_update: 2024-05-24
 ---
 
 **_This article was last updated on May 24, 2024 to update screenshots, add new sections on advanced configuration, lighthouse metrics and common issues on Google Lighthouse_**
@@ -64,7 +66,7 @@ To use Google lighthouse in Chrome DevTools, navigate to the site you want to au
 
 You can open Chrome DevTools by pressing the <kbd> F12 </kbd> key. Click the lighthouse tab after that.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-31-google-lighthouse/categories-2.png" alt="Lighthouse checked" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-31-google-lighthouse/categories-2.png" alt="Lighthouse checked" />
 
 <br/>
 
@@ -82,7 +84,7 @@ You can click the `Analyze page load` button to start auditing the website.
 
 After successfully analyzing the page, Google lighthouse will present the lighthouse scores and provide suggestions on where to make improvements. The lighthouse scores for the [React](https://react.dev/) landing page look like the image below.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-31-google-lighthouse/score-categories.png" alt="Lighthouse scores for all categories" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-31-google-lighthouse/score-categories.png" alt="Lighthouse scores for all categories" />
 
 <br/>
 
@@ -230,7 +232,7 @@ As pointed out above, Google lighthouse can audit a website for performance, bes
 
 If you navigate to the [React landing page](https://react.dev/) and use Lighthouse to audit the site for PWA features and best practices, you will get a report similar to the image below. Because [React](https://react.dev/) is not a PWA, most of the tests will fail. Google lighthouse will highlight the failing test and provide a link to documentation that explains the feature.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-31-google-lighthouse/pwa.png" alt="Lighthouse pwa" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-31-google-lighthouse/pwa.png" alt="Lighthouse pwa" />
 
 <br/>
 

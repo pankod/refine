@@ -3,8 +3,9 @@ title: Kubectl Scale - DevOps Guide
 description: Kubectl scale is a powerful command that allows you to scale your Kubernetes resources. This article will explore different scenarios to scale your Kubernetes replica/nodes.
 slug: kubectl-scale
 authors: muhammad_khabbab
-tags: [kubernetes, docker]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-25-kubectl-scale/social.png
+category: "Ecosystem / Integrations"
+tags: [kubernetes]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-25-kubectl-scale/social.png
 hide_table_of_contents: false
 ---
 
@@ -48,14 +49,14 @@ This command allows you to specify the desired number of replicas for a particul
 Consider you have a Kubernetes deployment named `printing` that has currently just one replica. We will use the command `kubectl get deployment <deploymentName>` to currently serve replicas. Notice the value in the "available" column, which shows the current replica count available to serve. That is currently 1.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-25-kubectl-scale/image1.PNG" alt="kubectl scale" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-25-kubectl-scale/image1.PNG" alt="kubectl get deployment output showing printing deployment with 1 available replica" />
 </div>
 
 Now you want to scale it to 3 replicas. Here's how you would do it:
 `kubectl scale --replicas=3 deployment/printing`
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-25-kubectl-scale/image2.PNG" alt="kubectl scale" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-25-kubectl-scale/image2.PNG" alt="kubectl scale command increasing printing deployment replicas to 3" />
 </div>
 
 As you can see from above srcreenshot, this command has increased the number of replicas for `printing` deployment to 3.
@@ -80,13 +81,13 @@ Let's try this command. In our example, we will use the "deployment" resource.
 `kubectl scale --current-replicas=3 --replicas=5 deployment/printing` So this command should increase the replicas to 5, right?
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-25-kubectl-scale/image3.PNG" alt="kubectl scale" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-25-kubectl-scale/image3.PNG" alt="Conditional scaling failure due to mismatched current replica count" />
 </div>
 
 What do you think what happened? The scaling operation failed. And this is the difference between this command (conditional scaling) and the simple non-conditional scaling command we discussed above. The conditional scaling command verifies whether you have specified the current replica count correctly or not. If incorrect, it will not scale. This is contrary to the simple non-conditional scaling command that will scale the replicas to the desired number regardless of the current replica count. Let's correct the command and try again. As you can see below, it worked fine this time.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-25-kubectl-scale/image4.PNG" alt="kubectl scale" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-25-kubectl-scale/image4.PNG" alt="Conditional scaling succeeds after specifying correct current replicas" />
 </div>
 
 #### B. Scaling Multiple Resources
@@ -98,7 +99,7 @@ You can use the command: `kubectl scale --replicas=<number> deployment/<deployme
     kubectl scale --replicas=3 deployment/hello-app deployment/printing
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-25-kubectl-scale/image5.PNG" alt="kubectl scale" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-25-kubectl-scale/image5.PNG" alt="Scaling multiple deployments in one kubectl scale command" />
 </div>
 The above screenshots show that both deployments were scaled successfully.
 
@@ -108,7 +109,7 @@ The above screenshots show that both deployments were scaled successfully.
 - If you specify two deployments to scale, but the name of one of the deployments is incorrect, the deployment with the correct name will scale successfully, but the other one with the incorrect name will fail, and you will see its error, too. See the screenshot below for an example.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-25-kubectl-scale/image6.PNG" alt="kubectl scale partial failure" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-25-kubectl-scale/image6.PNG" alt="Partial failure when one deployment name is incorrect during scaling" />
 </div>
 
 ## Automated Scaling vs. Manual Scaling

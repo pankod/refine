@@ -13,7 +13,7 @@ body {
 
 `useMenu` is used to get menu items derived from the resources. These items include a link to the dashboard page (if it exists) and links to the user-defined resources (passed as children to `<Refine>`).
 
-This hook can also be used to build custom menus, including multi-level support. `<Sider/>` components inside [`@pankod/refine-antd`](/docs/3.xx.xx/api-reference/antd/), [`@pankod/refine-mui`](/docs/3.xx.xx/api-reference/mui/), [`@pankod/refine-chakra-ui`](/docs/3.xx.xx/api-reference/chakra-ui/) and, [`@pankod/refine-mantine`](/docs/3.xx.xx/api-reference/mantine/) packages are using this hook as a base for their menus.
+This hook can also be used to build custom menus, including multi-level support. `<Sider/>` components inside [`@pankod/refine-antd`](/core/docs/3.xx.xx/api-reference/antd/), [`@pankod/refine-mui`](/core/docs/3.xx.xx/api-reference/mui/), [`@pankod/refine-chakra-ui`](/core/docs/3.xx.xx/api-reference/chakra-ui/) and, [`@pankod/refine-mantine`](/core/docs/3.xx.xx/api-reference/mantine/) packages are using this hook as a base for their menus.
 
 ```ts
 const { selectedKey, menuItems, defaultOpenKeys } = useMenu();
@@ -34,13 +34,13 @@ const { selectedKey, menuItems, defaultOpenKeys } = useMenu();
 
 :::tip
 
-If you are using [`@pankod/refine-antd`](/docs/3.xx.xx/api-reference/antd/), [`@pankod/refine-mui`](/docs/3.xx.xx/api-reference/mui/), [`@pankod/refine-chakra-ui`](/docs/3.xx.xx/api-reference/chakra-ui/) or [`@pankod/refine-mantine`](/docs/3.xx.xx/api-reference/mantine/) as a UI framework integration, you can find out more info about how their `<Sider/>` components are created and how to create a custom one by following their guides.
+If you are using [`@pankod/refine-antd`](/core/docs/3.xx.xx/api-reference/antd/), [`@pankod/refine-mui`](/core/docs/3.xx.xx/api-reference/mui/), [`@pankod/refine-chakra-ui`](/core/docs/3.xx.xx/api-reference/chakra-ui/) or [`@pankod/refine-mantine`](/core/docs/3.xx.xx/api-reference/mantine/) as a UI framework integration, you can find out more info about how their `<Sider/>` components are created and how to create a custom one by following their guides.
 
-[Ant Design > Customization > Custom Sider &#8594](/docs/3.xx.xx/api-reference/antd/customization/antd-custom-sider/)
+[Ant Design > Customization > Custom Sider &#8594](/core/docs/3.xx.xx/api-reference/antd/customization/antd-custom-sider/)
 
-[Material UI > Customization > Custom Sider &#8594](/docs/3.xx.xx/api-reference/mui/customization/mui-custom-sider/)
+[Material UI > Customization > Custom Sider &#8594](/core/docs/3.xx.xx/api-reference/mui/customization/mui-custom-sider/)
 
-[Mantine > Customization > Custom Sider &#8594](/docs/3.xx.xx/api-reference/mantine/customization/sider/)
+[Mantine > Customization > Custom Sider &#8594](/core/docs/3.xx.xx/api-reference/mantine/customization/sider/)
 
 :::
 
@@ -163,7 +163,7 @@ We created `<Layout>` with a header with a logo and a list of links to all menu 
 
 :::tip
 
-[Refer to Custom Layout guide for more detailed information on layout customization. &#8594](/docs/3.xx.xx/advanced-tutorials/custom-layout/)  
+[Refer to Custom Layout guide for more detailed information on layout customization. &#8594](/core/docs/3.xx.xx/advanced-tutorials/custom-layout/)  
 :::
 
 After creating the `<Layout/>` component, we can use it in our application. We need to pass it to the `<Refine/>` component as a prop.
@@ -373,4 +373,4 @@ type ITreeMenu = IMenuItem & {
 
 <CodeSandboxExample path="core-use-menu" />
 
-[use-navigation]: /docs/3.xx.xx/api-reference/core/hooks/navigation/useNavigation/
+[use-navigation]: /core/docs/3.xx.xx/api-reference/core/hooks/navigation/useNavigation/

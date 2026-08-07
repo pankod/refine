@@ -1,17 +1,15 @@
 import type { NavMenu } from "../types/nav-menu";
 import {
-  DocumentsIcon,
-  IntegrationsIcon,
-  TutorialIcon,
-  ExamplesIcon,
-  AwesomeIcon,
-  ExpertIcon,
-  ContributeIcon,
-  UseCasesIcon,
-  RefineWeekIcon,
   AboutUsIcon,
-  RefineStoreIcon,
+  AwesomeIcon,
+  ContributeIcon,
+  DocumentsIcon,
+  ExamplesIcon,
+  ExpertIcon,
+  IntegrationsIcon,
   RefineIcon,
+  TutorialIcon,
+  UseCasesIcon,
 } from "./popover-icons";
 
 export const POPOVERMENUS: NavMenu[] = [
@@ -21,25 +19,25 @@ export const POPOVERMENUS: NavMenu[] = [
       {
         label: "Documents",
         description: "Everything you need to get started",
-        link: "/docs/",
+        link: "/core/docs/",
         icon: DocumentsIcon,
       },
       {
         label: "Integrations",
         description: "Discover the Refine ecosystem",
-        link: "/integrations",
+        link: "/core/integrations/",
         icon: IntegrationsIcon,
       },
       {
         label: "Tutorial",
         description: "Your first Refine application",
-        link: "/tutorial/essentials/intro",
+        link: "/core/tutorial/essentials/intro/",
         icon: TutorialIcon,
       },
       {
         label: "Templates",
         description: "Ready-made examples for your project",
-        link: "/templates",
+        link: "/core/templates/",
         icon: ExamplesIcon,
       },
       {
@@ -59,35 +57,23 @@ export const POPOVERMENUS: NavMenu[] = [
       {
         label: "Hire an expert",
         description: "Find a trusted partner",
-        link: "/become-a-refine-expert",
+        link: "/core/become-a-refine-expert/",
         icon: ExpertIcon,
       },
       {
         label: "Contributing",
         description: "Join open-source contributors",
-        link: "/docs/guides-concepts/contributing/",
+        link: "guides-concepts/contributing/",
         icon: ContributeIcon,
       },
       {
         label: "Use cases",
         description: "Inspiring projects built with Refine",
-        link: "/use-cases",
+        link: "/core/use-cases/",
         icon: UseCasesIcon,
       },
-      {
-        label: "refineweek ft. Supabase",
-        description: "The official Refine event",
-        link: "/week-of-refine",
-        icon: RefineWeekIcon,
-      },
-      {
-        label: "refineweek ft. Strapi",
-        description: "The official Refine event",
-        link: "/week-of-refine-strapi",
-        icon: RefineWeekIcon,
-      },
     ],
-    imageLink: "/examples",
+    imageLink: "/examples/",
     imageURL:
       "https://refine.ams3.cdn.digitaloceanspaces.com/website/static/landing/popovers/community.png",
   },
@@ -97,14 +83,8 @@ export const POPOVERMENUS: NavMenu[] = [
       {
         label: "About Us",
         description: "Team & company information",
-        link: "/about",
+        link: "/core/about/",
         icon: AboutUsIcon,
-      },
-      {
-        label: "Swag Store",
-        description: "T-shirts, caps, and more",
-        link: "https://store.refine.dev",
-        icon: RefineStoreIcon,
       },
       {
         label: "Meet Refine",
@@ -113,7 +93,7 @@ export const POPOVERMENUS: NavMenu[] = [
         icon: RefineIcon,
       },
     ],
-    imageLink: "https://store.refine.dev",
+    imageLink: "/about/",
     imageURL:
       "https://refine.ams3.cdn.digitaloceanspaces.com/website/static/landing/popovers/company.png",
   },

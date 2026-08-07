@@ -1,6 +1,6 @@
 import { redirect } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
-import { ThemedLayoutV2 } from "@refinedev/mui";
+import { ThemedLayout } from "@refinedev/mui";
 
 import { authProvider } from "~/authProvider";
 import { Header } from "~/components/header";
@@ -10,9 +10,9 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 export default function BaseLayout() {
   return (
     <>
-      <ThemedLayoutV2 Header={Header}>
+      <ThemedLayout Header={Header}>
         <Outlet />
-      </ThemedLayoutV2>
+      </ThemedLayout>
     </>
   );
 }

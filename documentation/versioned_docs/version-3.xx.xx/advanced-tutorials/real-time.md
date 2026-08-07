@@ -3,9 +3,9 @@ id: real-time
 title: Live / Realtime
 ---
 
-**refine** lets you add Realtime support to your app via the `liveProvider` prop for [`<Refine>`](/api-reference/core/components/refine-config.md). It can be used to update and show data in Realtime throughout your app. **refine** remains agnostic in its API to allow different solutions([Ably](https://ably.com), [Socket.IO](https://socket.io/), [Mercure](https://mercure.rocks/), [supabase](https://supabase.com), etc.) to be integrated.
+**refine** lets you add Realtime support to your app via the `liveProvider` prop for [`<Refine>`](/core/docs/3.xx.xx/api-reference/core/components/refine-config). It can be used to update and show data in Realtime throughout your app. **refine** remains agnostic in its API to allow different solutions([Ably](https://ably.com), [Socket.IO](https://socket.io/), [Mercure](https://mercure.rocks/), [supabase](https://supabase.com), etc.) to be integrated.
 
-[Refer to the Live Provider documentation for detailed information. &#8594](/api-reference/core/providers/live-provider.md)
+[Refer to the Live Provider documentation for detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/providers/live-provider)
 
 We will be using [Ably](https://ably.com) in this guide to provide Realtime features.
 
@@ -93,7 +93,7 @@ export default App;
 
 For live features to work automatically we added `liveMode: "auto"` in the `options` prop.
 
-[Refer to the Live Provider documentation for detailed information. &#8594](/api-reference/core/providers/live-provider.md#livemode)
+[Refer to the Live Provider documentation for detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/providers/live-provider#livemode)
 :::
 
 <br/>
@@ -173,7 +173,7 @@ We can also implement a similar thing on the show page.
 :::
 
 <br/>
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/real-time/manual-mode.gif" alt="Manual Mode Demo" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/real-time/manual-mode.avif" alt="Manual Mode Demo" />
 
 ## Custom Subscriptions
 
@@ -181,7 +181,7 @@ You can subscribe to events emitted within **refine** in any place in your app w
 
 For example, we can subscribe to **_create_** event for **_posts_** resource and we can show a badge for the number of events in the sider menu.
 
-Firstly, let's implement a custom sider like in [this example](/examples/customization/customSider.md).
+Firstly, let's implement a custom sider like in [this example](/core/docs/examples/customization/customSider).
 
 <details>
 <summary>Custom Sider Menu</summary>

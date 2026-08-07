@@ -1,32 +1,61 @@
 import React from "react";
 
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
-import { render, TestWrapper } from "@test";
+import { render, TestWrapper, MockRouterProvider } from "@test";
 import { Create } from "./";
 import { crudCreateTests } from "@refinedev/ui-tests";
 import { SaveButton } from "@components/buttons";
 import { RefineButtonTestIds } from "@refinedev/ui-types";
+import { Breadcrumb } from "@components";
 
 describe("Create", () => {
   crudCreateTests.bind(this)(Create);
 
   it("should render breadcrumb", async () => {
-    const { getAllByLabelText } = render(
+    const { getByText } = render(
       <Routes>
         <Route
           path="/:resource/:action"
-          element={<Create resource="posts" />}
+          element={
+            <Create resource="posts" breadcrumb={<Breadcrumb minItems={1} />} />
+          }
         />
       </Routes>,
       {
         wrapper: TestWrapper({
           routerInitialEntries: ["/posts/create"],
+          resources: [
+            {
+              name: "posts",
+              list: "/posts",
+              create: "/posts/create",
+              meta: {
+                label: "Posts",
+              },
+            },
+          ],
+          routerProvider: {
+            ...MockRouterProvider(),
+            parse: () => () => ({
+              params: {},
+              action: "create",
+              resource: {
+                name: "posts",
+                list: "/posts",
+                create: "/posts/create",
+                meta: { label: "Posts" },
+              },
+              pathname: "/posts/create",
+            }),
+          },
         }),
       },
     );
 
-    expect(getAllByLabelText("breadcrumb")).not.toBeNull();
+    // Breadcrumb is rendered - we can see "Posts" and "Create" in the breadcrumb
+    expect(getByText("Posts")).toBeInTheDocument();
+    expect(getByText("Create")).toBeInTheDocument();
   });
 
   it("should not render breadcrumb", async () => {
@@ -40,6 +69,16 @@ describe("Create", () => {
       {
         wrapper: TestWrapper({
           routerInitialEntries: ["/posts/create"],
+          resources: [
+            {
+              name: "posts",
+              list: "/posts",
+              create: "/posts/create",
+              meta: {
+                label: "Posts",
+              },
+            },
+          ],
         }),
       },
     );
@@ -72,6 +111,30 @@ describe("Create", () => {
       {
         wrapper: TestWrapper({
           routerInitialEntries: ["/posts/create"],
+          resources: [
+            {
+              name: "posts",
+              list: "/posts",
+              create: "/posts/create",
+              meta: {
+                label: "Posts",
+              },
+            },
+          ],
+          routerProvider: {
+            ...MockRouterProvider(),
+            parse: () => () => ({
+              params: {},
+              action: "create",
+              resource: {
+                name: "posts",
+                list: "/posts",
+                create: "/posts/create",
+                meta: { label: "Posts" },
+              },
+              pathname: "/posts/create",
+            }),
+          },
         }),
       },
     );

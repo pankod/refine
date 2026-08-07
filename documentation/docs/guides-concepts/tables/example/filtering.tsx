@@ -48,7 +48,7 @@ import { useTable } from "@refinedev/core";
 
 
 export const ProductTable: React.FC = () => {
-  const { tableQuery, filters, setFilters } = useTable<IProduct>({
+  const { result, tableQuery, filters, setFilters } = useTable<IProduct>({
       resource: "products",
       filters: {
           permanent: [
@@ -61,7 +61,7 @@ export const ProductTable: React.FC = () => {
           initial: [{ field: "category.id", operator: "eq", value: "1" }],
       },
   });
-  const products = tableQuery?.data?.data ?? [];
+  const products = result.data
 
   const getFilterByField = (field: string) => {
       return filters.find((filter) => {

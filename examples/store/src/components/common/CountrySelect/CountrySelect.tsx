@@ -19,7 +19,7 @@ export const CountrySelect: React.FC<CountrySelectProps> = ({
     formState: { errors, touchedFields },
   } = useFormContext();
 
-  const { data: cartData } = useOne<{ cart: Cart }>({
+  const { result: cartData } = useOne<{ cart: Cart }>({
     id: cart?.id || "",
     resource: "carts",
     queryOptions: {
@@ -27,7 +27,7 @@ export const CountrySelect: React.FC<CountrySelectProps> = ({
     },
   });
 
-  const countries: Country[] = cartData?.data.cart?.region.countries;
+  const countries: Country[] = cartData?.cart?.region.countries;
 
   return (
     <NativeSelect

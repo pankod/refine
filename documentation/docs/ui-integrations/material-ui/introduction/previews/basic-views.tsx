@@ -7,20 +7,20 @@ export default function BasicViews() {
       showNavigator
       initialPercentage={40}
       dependencies={{
-        "@refinedev/mui": "5.0.0",
+        "@refinedev/mui": "latest",
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-router-v6": "latest",
-        "@refinedev/react-hook-form": "^4.8.12",
+        "@refinedev/react-router": "latest",
+        "@refinedev/react-hook-form": "latest",
         "@emotion/react": "^11.8.2",
         "@emotion/styled": "^11.8.1",
-        "@mui/lab": "^5.0.0-alpha.85",
-        "@mui/material": "^5.14.2",
-        "@mui/system": "latest",
-        "@mui/x-data-grid": "^6.6.0",
-        "react-router-dom": "latest",
-        "react-router": "latest",
-        "react-hook-form": "^7.43.5",
+        "@mui/utils": "^7.1.0",
+        "@mui/lab": "^6.0.0-beta.14",
+        "@mui/material": "^6.1.7",
+        "@mui/system": "^6.4.11",
+        "@mui/x-data-grid": "7.23.5",
+        "react-router": "^7.0.2",
+        "react-hook-form": "^7.57.0",
       }}
       startRoute="/products"
       files={{
@@ -60,11 +60,11 @@ export * from "./create";
 const AppTsxCode = /* jsx */ `
 import { Refine } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
-import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router";
 
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   RefineThemes,
   notificationProvider,
@@ -110,9 +110,9 @@ export default function App() {
                 <Routes>
                     <Route
                         element={
-                            <ThemedLayoutV2>
+                            <ThemedLayout>
                                 <Outlet />
-                            </ThemedLayoutV2>
+                            </ThemedLayout>
                         }
                     >
                         <Route index element={<NavigateToResource resource="products" />} />
@@ -154,6 +154,7 @@ export const ProductList = () => {
         {
           field: "actions",
           headerName: "Actions",
+          display: "flex",
           renderCell: function render({ row }) {
               return (
                   <div>
@@ -172,7 +173,7 @@ export const ProductList = () => {
 
   return (
     <List>
-        <DataGrid {...dataGridProps} columns={columns} autoHeight />
+        <DataGrid {...dataGridProps} columns={columns}  />
     </List>
   );
 };
@@ -198,10 +199,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 
 export const ProductShow = () => {
-  const { queryResult } = useShow();
-  const { data, isLoading } = queryResult;
-
-  const record = data?.data;
+  const { result: product, query: { isLoading } } = useShow();
 
   return (
     <Show isLoading={isLoading}>
@@ -209,23 +207,23 @@ export const ProductShow = () => {
         <Typography variant="body1" fontWeight="bold">
             Id
         </Typography>
-        <NumberField value={record?.id ?? ""} />
+        <NumberField value={product?.id ?? ""} />
         <Typography variant="body1" fontWeight="bold">
             Name
         </Typography>
-        <TextField value={record?.name} />
+        <TextField value={product?.name} />
         <Typography variant="body1" fontWeight="bold">
             Material
         </Typography>
-        <TextField value={record?.material} />
+        <TextField value={product?.material} />
         <Typography variant="body1" fontWeight="bold">
             Description
         </Typography>
-        <MarkdownField value={record?.description} />
+        <MarkdownField value={product?.description} />
         <Typography variant="body1" fontWeight="bold">
             Price
         </Typography>
-        <TextField value={record?.price} />
+        <TextField value={product?.price} />
       </Stack>
     </Show>
   );
@@ -245,7 +243,7 @@ import { Controller } from "react-hook-form";
 export const ProductEdit = () => {
   const {
     saveButtonProps,
-    refineCore: { queryResult, autoSaveProps },
+    refineCore: { query, autoSaveProps },
     register,
     control,
     formState: { errors },
@@ -328,7 +326,7 @@ import { Controller } from "react-hook-form";
 export const ProductCreate = () => {
   const {
     saveButtonProps,
-    refineCore: { queryResult, autoSaveProps },
+    refineCore: { query, autoSaveProps },
     register,
     control,
     formState: { errors },

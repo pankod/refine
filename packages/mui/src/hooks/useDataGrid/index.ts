@@ -1,10 +1,11 @@
 import {
   useUpdate,
   useLiveMode,
-  pickNotDeprecated,
   useTable as useTableCore,
   type BaseRecord,
+  type CrudFilter,
   type CrudFilters,
+  type CrudSort,
   type HttpError,
   type Pagination,
   type Prettify,
@@ -13,15 +14,13 @@ import {
   type useTableReturnType as useTableReturnTypeCore,
   useResourceParams,
 } from "@refinedev/core";
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import type {
   DataGridProps,
   GridFilterModel,
   GridSortModel,
 } from "@mui/x-data-grid";
-
-import { darken, useTheme } from "@mui/material/styles";
 
 import differenceWith from "lodash/differenceWith";
 import isEqual from "lodash/isEqual";
@@ -48,7 +47,6 @@ type DataGridPropsType = Required<
     | "onSortModelChange"
     | "filterMode"
     | "onFilterModelChange"
-    | "sx"
     | "disableRowSelectionOnClick"
     | "onStateChange"
     | "paginationMode"
@@ -59,6 +57,7 @@ type DataGridPropsType = Required<
     | "paginationModel"
     | "onPaginationModelChange"
     | "filterModel"
+    | "filterDebounceMs"
     | "processRowUpdate"
   >;
 
@@ -124,6 +123,10 @@ export type UseDataGridReturnType<
  *
  */
 
+const defaultPermanentFilter: CrudFilter[] = [];
+const defaultPermanentSort: CrudSort[] = [];
+const DEFAULT_FILTER_DEBOUNCE_MS = 300;
+
 export function useDataGrid<
   TQueryFnData extends BaseRecord = BaseRecord,
   TError extends HttpError = HttpError,
@@ -131,15 +134,7 @@ export function useDataGrid<
   TData extends BaseRecord = TQueryFnData,
 >({
   onSearch: onSearchProp,
-  initialCurrent,
-  initialPageSize = 25,
-  pagination,
-  hasPagination = true,
-  initialSorter,
-  permanentSorter,
-  defaultSetFilterBehavior = "replace",
-  initialFilter,
-  permanentFilter,
+  pagination = { pageSize: 25 },
   filters: filtersFromProp,
   sorters: sortersFromProp,
   syncWithLocation: syncWithLocationProp,
@@ -151,7 +146,6 @@ export function useDataGrid<
   onLiveEvent,
   liveParams,
   meta,
-  metaData,
   dataProviderName,
   overtimeOptions,
   editable = false,
@@ -162,42 +156,36 @@ export function useDataGrid<
   TSearchVariables,
   TData
 > = {}): UseDataGridReturnType<TData, TError, TSearchVariables> {
-  const theme = useTheme();
   const liveMode = useLiveMode(liveModeFromProp);
 
-  const [columnsTypes, setColumnsType] = useState<Record<string, string>>();
+  const columnsTypes = useRef<Record<string, string>>({});
+  // Debounce server-side filter fetches so UI input stays responsive.
+  const filterDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { identifier } = useResourceParams({ resource: resourceFromProp });
 
   const {
-    tableQueryResult,
     tableQuery,
-    current,
-    setCurrent,
+    currentPage,
+    setCurrentPage,
     pageSize,
     setPageSize,
     filters,
     setFilters,
     sorters,
     setSorters,
-    sorter,
-    setSorter,
     pageCount,
     createLinkForSyncWithLocation,
     overtime,
+    result,
   } = useTableCore<TQueryFnData, TError, TData>({
-    permanentSorter,
-    permanentFilter,
-    initialCurrent,
-    initialPageSize,
-    pagination,
-    hasPagination,
-    initialSorter,
-    initialFilter,
-    filters: filtersFromProp,
+    pagination: {
+      ...pagination,
+      pageSize: pagination?.pageSize ?? 25,
+    },
+    filters: { ...filtersFromProp, defaultBehavior: "replace" },
     sorters: sortersFromProp,
     syncWithLocation: syncWithLocationProp,
-    defaultSetFilterBehavior,
     resource: resourceFromProp,
     successNotification,
     errorNotification,
@@ -205,37 +193,64 @@ export function useDataGrid<
     liveMode: liveModeFromProp,
     onLiveEvent,
     liveParams,
-    meta: pickNotDeprecated(meta, metaData),
-    metaData: pickNotDeprecated(meta, metaData),
+    meta,
     dataProviderName,
     overtimeOptions,
   });
 
   const [muiCrudFilters, setMuiCrudFilters] = useState<CrudFilters>(filters);
 
-  const { data, isFetched, isLoading } = tableQueryResult;
+  const { data, isFetched, isLoading } = tableQuery;
+
+  const rowCountRef = useRef(data?.total || 0);
+  const rowCount = useMemo(() => {
+    if (data?.total) {
+      rowCountRef.current = data.total;
+    }
+    return rowCountRef.current;
+  }, [data]);
 
   const isServerSideFilteringEnabled =
     (filtersFromProp?.mode || "server") === "server";
   const isServerSideSortingEnabled =
     (sortersFromProp?.mode || "server") === "server";
-  const hasPaginationString = hasPagination === false ? "off" : "server";
-  const isPaginationEnabled =
-    (pagination?.mode ?? hasPaginationString) !== "off";
+  const isPaginationEnabled = (pagination?.mode ?? "server") !== "off";
 
   const preferredPermanentSorters =
-    pickNotDeprecated(sortersFromProp?.permanent, permanentSorter) ?? [];
+    sortersFromProp?.permanent ?? defaultPermanentSort;
   const preferredPermanentFilters =
-    pickNotDeprecated(filtersFromProp?.permanent, permanentFilter) ?? [];
+    filtersFromProp?.permanent ?? defaultPermanentFilter;
 
   const handlePageChange = (page: number) => {
     if (isPaginationEnabled) {
-      setCurrent(page + 1);
+      setCurrentPage(page + 1);
     }
   };
   const handlePageSizeChange = (pageSize: number) => {
     if (isPaginationEnabled) {
       setPageSize(pageSize);
+    }
+  };
+
+  const clearFilterDebounce = () => {
+    if (filterDebounceRef.current) {
+      clearTimeout(filterDebounceRef.current);
+      filterDebounceRef.current = null;
+    }
+  };
+
+  // Ensure no pending filter update fires after unmount.
+  useEffect(() => {
+    return () => {
+      clearFilterDebounce();
+    };
+  }, []);
+
+  // Apply filters immediately to local state (and reset page if needed).
+  const applyFilters = (crudFilters: CrudFilters) => {
+    setFilters(crudFilters.filter((f) => f.value !== ""));
+    if (isPaginationEnabled) {
+      setCurrentPage(1);
     }
   };
 
@@ -247,20 +262,23 @@ export function useDataGrid<
   const handleFilterModelChange = (filterModel: GridFilterModel) => {
     const crudFilters = transformFilterModelToCrudFilters(filterModel);
     setMuiCrudFilters(crudFilters);
-    setFilters(crudFilters.filter((f) => f.value !== ""));
-    if (isPaginationEnabled) {
-      setCurrent(1);
+    if (isServerSideFilteringEnabled) {
+      // Let the input update immediately; debounce only the server query.
+      clearFilterDebounce();
+      filterDebounceRef.current = setTimeout(() => {
+        applyFilters(crudFilters);
+      }, DEFAULT_FILTER_DEBOUNCE_MS);
+      return;
     }
+    applyFilters(crudFilters);
   };
 
   const search = async (value: TSearchVariables) => {
     if (onSearchProp) {
       const searchFilters = await onSearchProp(value);
+      clearFilterDebounce();
       setMuiCrudFilters(searchFilters);
-      setFilters(searchFilters.filter((f) => f.value !== ""));
-      if (isPaginationEnabled) {
-        setCurrent(1);
-      }
+      applyFilters(searchFilters);
     }
   };
 
@@ -273,7 +291,7 @@ export function useDataGrid<
       return {
         paginationMode: "server" as const,
         paginationModel: {
-          page: current - 1,
+          page: currentPage - 1,
           pageSize,
         },
         onPaginationModelChange: (model) => {
@@ -307,12 +325,13 @@ export function useDataGrid<
           resource: identifier,
           id: newRow.id as string,
           values: newRow,
+          meta: updateMutationOptions?.meta,
         },
         {
           onError: (error) => {
             reject(error);
           },
-          onSuccess: (data) => {
+          onSuccess: () => {
             resolve(newRow);
           },
         },
@@ -320,24 +339,31 @@ export function useDataGrid<
     });
   };
 
+  const transformedSortModel = useMemo(
+    () =>
+      transformCrudSortingToSortModel(
+        differenceWith(sorters, preferredPermanentSorters, isEqual),
+      ),
+    [sorters, preferredPermanentSorters],
+  );
+
   return {
-    tableQueryResult,
     tableQuery,
     dataGridProps: {
       disableRowSelectionOnClick: true,
       rows: data?.data || [],
       loading: liveMode === "auto" ? isLoading : !isFetched,
-      rowCount: data?.total || 0,
+      rowCount,
       ...dataGridPaginationValues(),
       sortingMode: isServerSideSortingEnabled ? "server" : "client",
-      sortModel: transformCrudSortingToSortModel(
-        differenceWith(sorters, preferredPermanentSorters, isEqual),
-      ),
+      sortModel: transformedSortModel,
       onSortModelChange: handleSortModelChange,
       filterMode: isServerSideFilteringEnabled ? "server" : "client",
+      // Disable DataGrid's debounce for server filtering to prevent input resets.
+      filterDebounceMs: isServerSideFilteringEnabled ? 0 : undefined,
       filterModel: transformCrudFiltersToFilterModel(
         differenceWith(muiCrudFilters, preferredPermanentFilters, isEqual),
-        columnsTypes,
+        columnsTypes.current,
       ),
       onFilterModelChange: handleFilterModelChange,
       onStateChange: (state) => {
@@ -346,43 +372,26 @@ export function useDataGrid<
             return [key, (value as any).type];
           }),
         );
-        const isStateChanged = !isEqual(newColumnsTypes, columnsTypes);
+        const isStateChanged = !isEqual(newColumnsTypes, columnsTypes.current);
 
         if (isStateChanged) {
-          setColumnsType(newColumnsTypes);
+          columnsTypes.current = newColumnsTypes;
         }
-      },
-      sx: {
-        border: "none",
-        "& .MuiDataGrid-columnHeaders": {
-          background: darken(theme.palette.background.paper, 0.05),
-          borderBottom: `1px solid ${darken(
-            theme.palette.background.paper,
-            0.1,
-          )}`,
-        },
-        "& .MuiDataGrid-cell": {
-          borderBottom: `1px solid ${darken(
-            theme.palette.background.paper,
-            0.05,
-          )}`,
-        },
       },
       processRowUpdate: editable ? processRowUpdate : undefined,
     },
-    current,
-    setCurrent,
+    currentPage,
+    setCurrentPage,
     pageSize,
     setPageSize,
     pageCount,
     sorters,
     setSorters,
-    sorter,
-    setSorter,
     filters,
     setFilters,
     search,
     createLinkForSyncWithLocation,
     overtime,
+    result,
   };
 }

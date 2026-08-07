@@ -1,7 +1,7 @@
+import "./index.mock";
 import axios from "axios";
 
 import JsonServer from "../../src/index";
-import "./index.mock";
 
 describe("create", () => {
   it("correct response", async () => {

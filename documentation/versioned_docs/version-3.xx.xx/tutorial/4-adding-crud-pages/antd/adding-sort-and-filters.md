@@ -7,7 +7,7 @@ tutorial:
   next: false
 ---
 
-In the previous [Adding List Page](/docs/3.xx.xx/tutorial/adding-crud-pages/antd/index) section, we have displayed blog posts data in a table. Now we will learn how to add sorting and filtering to the table to user can have more control over the data.
+In the previous [Adding List Page](/core/docs/3.xx.xx/tutorial/adding-crud-pages/antd/index) section, we have displayed blog posts data in a table. Now we will learn how to add sorting and filtering to the table to user can have more control over the data.
 
 ## Adding Sorting
 
@@ -53,7 +53,7 @@ We will use `<Table.Column/>`'s `filterDropdown` prop and `<FilterDropdown/>` co
 
 `<FilterDropdown/>` component is a wrapper component. It serves as a bridge between its child input and **refine**'s `useTable` hook. It provides the necessary props to the child input and handles the logic of filtering the data. It also provides a filter and clear button to make the filtering process easier.
 
-[Refer to the `<FilterDropdown/>` documentation for more information &#8594](/docs/3.xx.xx/api-reference/antd/components/filter-dropdown/)
+[Refer to the `<FilterDropdown/>` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/antd/components/filter-dropdown/)
 
 Also, to get more information about the `filterDropdown` prop, you can refer to the [**Ant Design**'s `<Table/>` documentation](https://ant.design/components/table#components-table-demo-custom-filter-panel).
 
@@ -61,7 +61,7 @@ In this tutorial, we will add filters capabilities to the `category` column. To 
 
 [Refer to the **Ant Desing** `<Select/>` documentation for more information &#8594](https://ant.design/components/select)
 
-[Refer to the `useSelect` documentation for more information &#8594](/docs/3.xx.xx/api-reference/antd/hooks/field/useSelect/)
+[Refer to the `useSelect` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/field/useSelect/)
 
 1. Open `src/pages/blog-posts/list.tsx` file and import the following components and hooks like below.
 

@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { file2Base64 } from "./index";
 
 class FileReaderMock {
@@ -7,35 +8,35 @@ class FileReaderMock {
   readyState = 0;
   error: FileReader["error"] = null;
   result: FileReader["result"] = null;
-  abort = jest.fn();
-  addEventListener = jest.fn();
-  dispatchEvent = jest.fn();
-  onabort = jest.fn();
-  onerror = jest.fn();
-  onload = jest.fn();
-  onloadend = jest.fn();
-  onloadprogress = jest.fn();
-  onloadstart = jest.fn();
-  onprogress = jest.fn();
-  readAsArrayBuffer = jest.fn();
-  readAsBinaryString = jest.fn();
-  readAsDataURL = jest.fn();
-  readAsText = jest.fn();
-  removeEventListener = jest.fn();
+  abort = vi.fn();
+  addEventListener = vi.fn();
+  dispatchEvent = vi.fn();
+  onabort = vi.fn();
+  onerror = vi.fn();
+  onload = vi.fn();
+  onloadend = vi.fn();
+  onloadprogress = vi.fn();
+  onloadstart = vi.fn();
+  onprogress = vi.fn();
+  readAsArrayBuffer = vi.fn();
+  readAsBinaryString = vi.fn();
+  readAsDataURL = vi.fn();
+  readAsText = vi.fn();
+  removeEventListener = vi.fn();
 }
 
 describe("definitions/upload", () => {
   const file = new File([new ArrayBuffer(1)], "file.jpg");
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("file2Base64 success", async () => {
     const fileReader = new FileReaderMock();
-    jest
-      .spyOn(window, "FileReader")
-      .mockImplementation(() => fileReader as FileReader);
+    vi.spyOn(window, "FileReader").mockImplementation(
+      () => fileReader as FileReader,
+    );
 
     fileReader.result = "file content";
     fileReader.addEventListener.mockImplementation((_, fn) => fn());

@@ -105,7 +105,7 @@ export const BasketContextProvider: React.FC<PropsWithChildren> = ({
     .map((o) => o.productId)
     .filter((value, index, array) => array.indexOf(value) === index);
 
-  const { data: productsData } = useMany<Product>({
+  const { result: productsData } = useMany<Product>({
     resource: "products",
     ids: productIds,
     queryOptions: {

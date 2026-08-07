@@ -9,7 +9,8 @@ body {
 setInitialRoutes(["/posts"]);
 
 // visible-block-start
-import { HttpError, useMany, getDefaultFilter } from "@refinedev/core";
+import { HttpError, useMany } from "@refinedev/core";
+import { getDefaultFilter } from "@refinedev/antd";
 
 import {
   List,
@@ -116,14 +117,29 @@ const PostList: React.FC = () => {
 
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
-
-render(<RefineAntdDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

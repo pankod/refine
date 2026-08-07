@@ -1,5 +1,8 @@
 ---
-title: Introduction
+title: "Introduction Integration Guide | Pagination in Refine v5"
+display_title: "Introduction"
+sidebar_label: "Introduction"
+description: "Learn to implement Introduction in Refine v5. Learn best practices for tanstack and open for real-world React admin panels. Learn with code examples."
 source: /packages/react-table/src/useTable
 ---
 
@@ -46,13 +49,13 @@ We provide implementation examples for the Mantine and Chakra UI. If you using a
 </Tabs>
 
 [tanstack-table]: https://tanstack.com/table/v8
-[refine-react-table]: https://github.com/refinedev/refine/tree/master/packages/react-table
-[use-table-core]: /docs/data/hooks/use-table
-[use-table-tanstack]: /docs/packages/list-of-packages
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
-[syncwithlocationparams]: /docs/core/interface-references#syncwithlocationparams
-[notification-provider]: /docs/notification/notification-provider
-[crudsorting]: /docs/core/interface-references#crudsorting
-[crudfilters]: /docs/core/interface-references#crudfilters
-[Refine swl]: /docs/core/refine-component#syncwithlocation
+[refine-react-table]: https://github.com/refinedev/refine/tree/main/packages/react-table
+[use-table-core]: /core/docs/data/hooks/use-table
+[use-table-tanstack]: /core/docs/packages/list-of-packages
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror
+[syncwithlocationparams]: /core/docs/core/interface-references#syncwithlocationparams
+[notification-provider]: /core/docs/notification/notification-provider
+[crudsorting]: /core/docs/core/interface-references#crudsorting
+[crudfilters]: /core/docs/core/interface-references#crudfilters
+[Refine swl]: /core/docs/core/refine-component#syncwithlocation

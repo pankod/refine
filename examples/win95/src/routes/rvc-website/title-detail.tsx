@@ -1,10 +1,6 @@
 import { Fragment } from "react";
 import { useShow } from "@refinedev/core";
-import {
-  Link as ReactRouterLink,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { Link as ReactRouterLink, useNavigate, useParams } from "react-router";
 import { Hourglass } from "react95";
 import styled from "styled-components";
 import { ImagePixelated } from "@/components/image-pixelated";

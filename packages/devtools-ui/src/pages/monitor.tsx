@@ -27,7 +27,7 @@ import { MonitorDetails } from "src/components/monitor-details";
 import { TraceList } from "src/components/trace-list";
 import { MonitorTable } from "src/components/monitor-table";
 import { type Filters, MonitorFilters } from "src/components/monitor-filters";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { getResourceValue } from "src/utils/get-resource-value";
 import { ResourceValue } from "src/components/resource-value";
 import { useLocalStorage } from "src/hooks/use-local-storage";

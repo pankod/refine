@@ -66,16 +66,16 @@ export const useAutocomplete = <
       options:
         props.selectedOptionsOrder === "selected-first"
           ? unionWith(
-              defaultValueQuery.data?.data || [],
+              defaultValueQuery.result?.data || [],
               query.data?.data || [],
               isEqual,
             )
           : unionWith(
               query.data?.data || [],
-              defaultValueQuery.data?.data || [],
+              defaultValueQuery.result?.data || [],
               isEqual,
             ),
-      loading: query.isFetching || defaultValueQuery.isFetching,
+      loading: query.isFetching || defaultValueQuery.query.isFetching,
       onInputChange: (event, value) => {
         if (event?.type === "change") {
           onSearch(value);
@@ -88,8 +88,6 @@ export const useAutocomplete = <
     onSearch,
     query,
     defaultValueQuery,
-    queryResult: query,
-    defaultValueQueryResult: defaultValueQuery,
     overtime,
   };
 };

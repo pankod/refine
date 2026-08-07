@@ -6,9 +6,9 @@ import { Sandpack, AddCustomTitleToLayout } from "./sandpack.tsx";
 
 <Sandpack>
 
-Having wrapped our app with the necessary styling components, we're now ready to add our layout into the application. Refine provides default layouts for its supported UI libraries through [`<ThemedLayoutV2 />`](/docs/ui-integrations/ant-design/components/themed-layout) components, delivering a two-column layout with a sidebar and a main content area.
+Having wrapped our app with the necessary styling components, we're now ready to add our layout into the application. Refine provides default layouts for its supported UI libraries through [`<ThemedLayout />`](/core/docs/ui-integrations/ant-design/components/themed-layout) components, delivering a two-column layout with a sidebar and a main content area.
 
-`<ThemedLayoutV2 />` components includes an header with user information (if an `authProvider` is provided), a sidebar with navigation links based on your resource definitions, a logout button (if an `authProvider` is provided), and a main content area where your content will be rendered.
+`<ThemedLayout />` components includes an header with user information (if an `authProvider` is provided), a sidebar with navigation links based on your resource definitions, a logout button (if an `authProvider` is provided), and a main content area where your content will be rendered.
 
 :::tip
 
@@ -18,24 +18,24 @@ Notice that we've removed the `<Header />` component from our app since the layo
 
 ## Adding a Custom Title
 
-Layout components are a composition of smaller components and they can be customized by providing respective props. The `<ThemedLayoutV2 />` component consists of the following components:
+Layout components are a composition of smaller components and they can be customized by providing respective props. The `<ThemedLayout />` component consists of the following components:
 
-- `<ThemedHeaderV2 />` for the header and can be customized via `Header` prop.
-- `<ThemedSiderV2 />` for the sidebar and can be customized via `Sider` prop.
-- `<ThemedTitleV2 />` for the logo and the title of the app and can be customized via `Title` prop.
+- `<ThemedHeader />` for the header and can be customized via `Header` prop.
+- `<ThemedSider />` for the sidebar and can be customized via `Sider` prop.
+- `<ThemedTitle />` for the logo and the title of the app and can be customized via `Title` prop.
 - There are also `Footer` and `OffLayoutArea` props for the footer and off-layout area respectively but they don't have default components for the layout.
 
-Let's change the title of our app with using the `Title` prop of the `<ThemedLayoutV2 />` component and the `<ThemedTitleV2 />` component.
+Let's change the title of our app with using the `Title` prop of the `<ThemedLayout />` component and the `<ThemedTitle />` component.
 
 Update your `src/App.tsx` file by adding the following lines:
 
 ```tsx title="src/App.tsx"
 import { Refine, Authenticated } from "@refinedev/core";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 // highlight-next-line
-import { ThemedLayoutV2, ThemedTitleV2 } from "@refinedev/antd";
+import { ThemedLayout, ThemedTitle } from "@refinedev/antd";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { ConfigProvider, App as AntdApp } from "antd";
 
@@ -78,15 +78,15 @@ export default function App(): JSX.Element {
                     key="authenticated-routes"
                     redirectOnFail="/login"
                   >
-                    <ThemedLayoutV2
+                    <ThemedLayout
                       // highlight-start
                       Title={(props) => (
-                        <ThemedTitleV2 {...props} text="Awesome Project" />
+                        <ThemedTitle {...props} text="Awesome Project" />
                       )}
                       // highlight-end
                     >
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >

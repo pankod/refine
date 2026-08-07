@@ -1,16 +1,16 @@
 import { Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-import { ThemedLayoutV2, useNotificationProvider } from "@refinedev/antd";
+import { ThemedLayout, useNotificationProvider } from "@refinedev/antd";
 import dataProvider, {
   GraphQLClient,
   liveProvider,
 } from "@refinedev/nestjs-query";
 import { createClient } from "graphql-ws";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import routerBindings, {
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
+import routerProvider, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import {
   DashboardOutlined,
   ShopOutlined,
@@ -32,6 +32,7 @@ import {
   ContactShow,
 } from "./pages/contacts";
 
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
 const API_URL = "https://api.crm.refine.dev/graphql";
@@ -63,7 +64,7 @@ function App() {
             dataProvider={dataProvider(gqlClient)}
             liveProvider={liveProvider(wsClient)}
             notificationProvider={useNotificationProvider}
-            routerProvider={routerBindings}
+            routerProvider={routerProvider}
             resources={[
               {
                 name: "dashboard",
@@ -104,9 +105,9 @@ function App() {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 <Route path="/">

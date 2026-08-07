@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example customization-top-menu-layout
 
 <br/>
 
-[![Open customization-top-menu-layout example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/customization-top-menu-layout?view=preview&theme=dark&codemirror=1)
+[![Open customization-top-menu-layout example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/customization-top-menu-layout?view=preview&theme=dark&codemirror=1)

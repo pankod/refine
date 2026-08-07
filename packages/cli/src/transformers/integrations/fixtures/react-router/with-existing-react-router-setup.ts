@@ -1,8 +1,8 @@
 export const WITH_EXISTING_REACT_ROUTER_SETUP_SOURCE = `
 import { Refine, WelcomePage, ErrorComponent } from "@refinedev/core";
 
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route } from "react-router";
 
 function App() {
     return (

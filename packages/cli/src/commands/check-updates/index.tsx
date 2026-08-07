@@ -3,16 +3,12 @@ import { printUpdateWarningTable } from "@components/update-warning-table";
 import {
   getAllVersionsOfPackage,
   getDependenciesWithVersion,
-  pmCommands,
 } from "@utils/package";
-import execa from "execa";
 import spinner from "@utils/spinner";
-import type {
-  NpmOutdatedResponse,
-  RefinePackageInstalledVersionData,
-} from "@definitions/package";
+import type { RefinePackageInstalledVersionData } from "../../definitions/package";
 import semverDiff from "semver-diff";
 import { maxSatisfying } from "semver";
+import { getOutdatedPackageList } from "./utils";
 
 const load = (program: Command) => {
   return program
@@ -75,26 +71,6 @@ export const getOutdatedRefinePackages = async () => {
   });
 
   return filteredList;
-};
-
-/**
- * @returns `npm outdated` command response
- */
-export const getOutdatedPackageList = async () => {
-  const pm = "npm";
-
-  const { stdout, timedOut } = await execa(pm, pmCommands[pm].outdatedJson, {
-    reject: false,
-    timeout: 25 * 1000,
-  });
-
-  if (timedOut) {
-    throw new Error("Timed out while checking for updates.");
-  }
-
-  if (!stdout) return null;
-
-  return JSON.parse(stdout) as NpmOutdatedResponse | null;
 };
 
 /**

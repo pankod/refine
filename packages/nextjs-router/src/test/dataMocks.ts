@@ -2,7 +2,7 @@ import type {
   ParsedParams,
   IResourceItem,
   Action,
-  RouterBindings,
+  RouterProvider,
 } from "@refinedev/core";
 
 export const posts = [
@@ -54,7 +54,7 @@ const MockDataProvider = () => {
 
 export const MockJSONServer = MockDataProvider() as any;
 
-export const mockRouterBindings = ({
+export const mockRouterProvider = ({
   pathname,
   params,
   resource,
@@ -67,9 +67,9 @@ export const mockRouterBindings = ({
   resource?: IResourceItem;
   action?: Action;
   id?: string;
-  fns?: Partial<RouterBindings>;
-} = {}): RouterBindings => {
-  const bindings: RouterBindings = {
+  fns?: Partial<RouterProvider>;
+} = {}): RouterProvider => {
+  const bindings: RouterProvider = {
     go: () => {
       return ({ type }) => {
         if (type === "path") return "";

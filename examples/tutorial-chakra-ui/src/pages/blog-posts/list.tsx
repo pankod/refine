@@ -110,20 +110,20 @@ export const BlogPostList = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    setOptions,
+    reactTable: { getHeaderGroups, getRowModel, setOptions },
+
     refineCore: {
-      setCurrent,
+      setCurrentPage: setCurrent,
       pageCount,
-      current,
+      currentPage: current,
+
       tableQuery: { data: tableData },
     },
   } = useTable({
     columns,
   });
 
-  const { data: categoryData } = useMany({
+  const { result: categoryData } = useMany({
     resource: "categories",
     ids: tableData?.data?.map((item) => item?.category?.id) ?? [],
     queryOptions: {

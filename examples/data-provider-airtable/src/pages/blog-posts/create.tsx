@@ -13,6 +13,10 @@ export const BlogPostCreate = () => {
 
   const { selectProps: categorySelectProps } = useSelect<ICategory>({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

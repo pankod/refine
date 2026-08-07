@@ -15,11 +15,11 @@ export const PostEdit = () => {
     stepsProps,
     formProps,
     saveButtonProps,
-    queryResult,
+    query,
     formLoading,
   } = useStepsForm<IPost>();
 
-  const postData = queryResult?.data?.data;
+  const postData = query?.data?.data;
   const { selectProps: categorySelectProps } = useSelect<ICategory>({
     resource: "categories",
     defaultValue: postData?.category.id,

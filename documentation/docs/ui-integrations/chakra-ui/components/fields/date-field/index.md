@@ -1,18 +1,12 @@
 ---
-title: Date
+title: "Chakra UI Date Field Component | UI Component in Refine v5"
+display_title: "Date"
+sidebar_label: "Date"
+description: "Implement Date Field in Refine v5. Learn the key steps. Explore customization options for locales for polished admin UIs. Learn with code examples."
 swizzle: true
 ---
 
 ```tsx live shared
-const { default: routerProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: routerProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  Layout: RefineChakra.Layout,
-  Sider: () => null,
-});
-
 const Wrapper = ({ children }) => {
   return (
     <ChakraUI.ChakraProvider theme={RefineChakra.refineTheme}>
@@ -26,7 +20,7 @@ This field is used to display dates. It uses [`Day.js`](https://day.js.org/docs/
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -36,8 +30,6 @@ Let's see how we can use `<DateField>` with the example in the post list.
 
 ```tsx live url=http://localhost:3000/posts previewHeight=420px hideCode
 setInitialRoutes(["/posts"]);
-import { Refine } from "@refinedev/core";
-import dataProvider from "@refinedev/simple-rest";
 
 // visible-block-start
 import {
@@ -85,7 +77,9 @@ const PostList: React.FC = () => {
     [],
   );
 
-  const { getHeaderGroups, getRowModel } = useTable({
+  const {
+    reactTable: { getHeaderGroups, getRowModel },
+  } = useTable({
     columns,
   });
 
@@ -135,23 +129,31 @@ const PostList: React.FC = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
-      notificationProvider={RefineChakra.notificationProvider()}
-      dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-      resources={[
-        {
-          name: "posts",
-          list: PostList,
-        },
-      ]}
-    />
-  );
-};
 render(
   <Wrapper>
-    <App />
+    <ReactRouter.BrowserRouter>
+      <RefineChakraDemo
+        resources={[
+          {
+            name: "posts",
+            list: "/posts",
+          },
+        ]}
+      >
+        <ReactRouter.Routes>
+          <ReactRouter.Route
+            path="/posts"
+            element={
+              <div style={{ padding: 16 }}>
+                <ReactRouter.Outlet />
+              </div>
+            }
+          >
+            <ReactRouter.Route index element={<PostList />} />
+          </ReactRouter.Route>
+        </ReactRouter.Routes>
+      </RefineChakraDemo>
+    </ReactRouter.BrowserRouter>
   </Wrapper>,
 );
 ```

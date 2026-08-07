@@ -3,8 +3,9 @@ title: Build Access Control Mechanism using Permify
 description: We'll examine how to build an Access Control mechanism in Refine using Permify, an authorization as a service that helps you create any kind of authorization system easily with its panel.
 slug: access-control
 authors: ege
-tags: [dev-tools, access-control, Refine]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-09-permify-access-control/social.png
+category: "Ecosystem / Integrations"
+tags: [admin-panel, tech-industry]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-09-permify-access-control/social.png
 hide_table_of_contents: false
 ---
 
@@ -23,7 +24,7 @@ As an overview, we will:
 
 ## Step 1: Setup the Permify in Refine application
 
-First, let's create a demo react application using refine. You can follow the [tutorial to create a simple](https://refine.dev/tutorial) admin panel for a CMS-like application.
+First, let's create a demo react application using refine. You can follow the [tutorial to create a simple](https://refine.dev/core/tutorial) admin panel for a CMS-like application.
 
 If your application is ready, let's set up Permify Instance.
 
@@ -44,7 +45,7 @@ docker run -p 3476:3476 -p 3478:3478 ghcr.io/permify/permify serve
 You should see similar output in your terminal after this operation:
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-09-permify-access-control/run-terminal-output.png" alt="Verifying Kubectl installation" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-09-permify-access-control/run-terminal-output.png" alt="Terminal output from running Permify service with docker run" />
 </div>
 
 #### Test your connection
@@ -58,14 +59,14 @@ localhost:3476/healthz
 ```
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-09-permify-access-control/healthz-check.png" alt="Verifying Kubectl installation" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-09-permify-access-control/healthz-check.png" alt="Health check request to localhost:3476/healthz returning OK" />
 </div>
 
 Before creating and initializing Permify Client, let's first create the access control mechanism in Refine.
 
 ## Step 2: Create an access control mechanism in Refine Access Control Provider
 
-Refine provides an agnostic API via the [accessControlProvider](https://refine.dev/docs/core/providers/accessControl-provider/) to manage access control throughout your app.
+Refine provides an agnostic API via the [accessControlProvider](https://refine.dev/core/docs/core/providers/accessControl-provider/) to manage access control throughout your app.
 Let's create a mechanism in our Access Control Provider using the Permify client's isAuthorized function.
 
 **_Note:_** _Since we haven't initialized the Permify Client yet, the isAuthorized function will generate an error. We will implement and initialize it in the third step._
@@ -174,13 +175,13 @@ As we mentioned earlier, Permify evaluates Permission check requests according t
 Firstly, let's copy the above schema to [Permify Playground's Schema](https://play.permify.co/?s=GD27_Snr4trNo6W3DcG-8) section and copy the authorization schema to clipboard with clicking the **Copy** Button.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-09-permify-access-control/copy-from-playground.png" alt="Verifying Kubectl installation" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-09-permify-access-control/copy-from-playground.png" alt="Copying authorization schema from Permify Playground" />
 </div>
 
 Let's define this schema to our running instance with using [WriteSchema API](https://docs.permify.co/docs/api-overview/schema/write-schema/). Again I will use the Postman to do so.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-09-permify-access-control/write-schema-request.png" alt="Verifying Kubectl installation" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-09-permify-access-control/write-schema-request.png" alt="WriteSchema API request in Postman for Permify" />
 </div>
 
 Voila! we successfully defined the authorization model!
@@ -254,7 +255,7 @@ const permify = new PermifyClient(instance);
 Let's run our application to see results.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-09-permify-access-control/unauthorized-application-screenshot.png" alt="Verifying Kubectl installation" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-09-permify-access-control/unauthorized-application-screenshot.png" alt="Refine app showing unauthorized state for posts list" />
 </div>
 
 Since Permify side doesn't have the necessary data and information about the logged user (user: demo_user_1) yet, our user has no access to list posts.
@@ -275,7 +276,7 @@ Let's define the authorization data below to link our users to an organization.
 We can define these to Permify side with a single [WriteData API](https://docs.permify.co/docs/api-overview/data/write-data/) request.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-09-permify-access-control/first-write-api-request.png" alt="Verifying Kubectl installation" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-09-permify-access-control/first-write-api-request.png" alt="WriteData API request defining organization roles for users" />
 </div>
 
 Here is the full payload,
@@ -315,7 +316,7 @@ Here is the full payload,
 Let's run our application again.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-09-permify-access-control/first-write-api-request.png" alt="Verifying Kubectl installation" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-09-permify-access-control/first-write-api-request.png" alt="Verifying Kubectl installation" />
 </div>
 
 **_Note:_** _If you're using Refine's demo API (as we did in this tutorial), create a data folder and add sample users there. We will use the **Header** layout component to change logged-in sample users._
@@ -330,19 +331,19 @@ Let's add `post:1` relationships with again using WriteData API request:
 - `user:demo_user_2` is editor in `posts:1` - Assigning the `user:2` as editor of post:1
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-09-permify-access-control/second-write-data-request.png" alt="Verifying Kubectl installation" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-09-permify-access-control/second-write-data-request.png" alt="WriteData API request linking posts to organization and editor" />
 </div>
 
 Let's run our application again; we should see the **"Edit"** button of the first resource (resource with id: 1) not blocked.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-09-permify-access-control/edit-not-blocked.png" alt="Verifying Kubectl installation" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-09-permify-access-control/edit-not-blocked.png" alt="Edit button enabled for authorized user in posts list" />
 </div>
 
 Now, let's move on to the details of this post.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-09-permify-access-control/details-of-this-post.png" alt="Verifying Kubectl installation" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-09-permify-access-control/details-of-this-post.png" alt="Post details page visible to admin user" />
 </div>
 
 Since our current user (`user:demo_user_1`) is an admin in the organization to which this post belongs, this user can access everything.
@@ -350,7 +351,7 @@ Since our current user (`user:demo_user_1`) is an admin in the organization to w
 On this page, let's switch to our second demo user (demo_user_2) by clicking the **"Editor"** tab above.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-09-permify-access-control/clicking-editor-tab.png" alt="Verifying Kubectl installation" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-09-permify-access-control/clicking-editor-tab.png" alt="Switching to editor user tab in the Refine demo app" />
 </div>
 
 Since only admins can delete a specific post, as defined in the authorization schema:

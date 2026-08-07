@@ -3,8 +3,9 @@ title: Framer Motion examples for React animations
 description: Framer Motion tutorial - Create text and image animations in React apps easily.
 slug: framer-motion-react-animations
 authors: joel_ezimorah
-tags: [css, react, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-01-framer-text-animations/social.png
+category: "Ecosystem / Integrations"
+tags: [react, css]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-01-framer-text-animations/social.png
 hide_table_of_contents: false
 ---
 
@@ -17,13 +18,6 @@ Many developers avoid adding animation to their web applications since animation
 In this article, we'll examine Framer Motion's functionality, installation process, and usability by using it to animate text and images.
 
 <!--truncate-->
-
-Steps we'll cover:
-
-- [What is Framer Motion?](#what-is-framer-motion)
-- [Getting started with Framer Motion in React](#getting-started-with-framer-motion-in-react)
-- [Getting started with text animation](#getting-started-with-text-animation)
-- [Getting started with image animation](#getting-started-with-image-animation)
 
 ## Prerequisites
 
@@ -99,7 +93,7 @@ Finally, we use the Framer Motion `transition` prop because every effective anim
 
 The easing shows the scale at which the text animation enters before going to its original scale.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-01-framer-text-animations/scale1.gif" alt="Scale for text" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-01-framer-text-animations/scale1.avif" alt="Text scale entrance animation" />
 
 <br/>
 
@@ -123,14 +117,14 @@ function App() {
 }
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-01-framer-text-animations/scale2.gif" alt="Scale for text" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-01-framer-text-animations/scale2.gif" alt="Text hover scale animation" />
 
 <br/>
 
 <br/>
 <div>
 <a href="https://github.com/refinedev/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/github-support-banner.png" alt="github support banner" />
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/github-support-banner.png" alt="Support Refine on GitHub banner" />
 </a>
 </div>
 
@@ -212,7 +206,7 @@ function App() {
               >
                 <img
                   src="https://refine.ams3.cdn.digitaloceanspaces.comundefined"
-                  alt="image"
+                  alt="Carousel image placeholder"
                 />
               </motion.div>
             );
@@ -234,7 +228,7 @@ The inner carousel will perform the spinning and sliding effects. The framer mot
 
 This will give it a unique spinning effect, as you can see below:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-01-framer-text-animations/photos-1.gif" alt="Scale for photo" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-01-framer-text-animations/photos-1.avif" alt="Spinning carousel animation preview" />
 
 <br/>
 
@@ -269,7 +263,7 @@ function App() {
 }
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-01-framer-text-animations/photos-2.gif" alt="Scale for photo" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-01-framer-text-animations/photos-2.avif" alt="Carousel scaling animation preview" />
 
 <br/>
 
@@ -294,7 +288,7 @@ function App() {
                                whileTap={{ scale: 2 }}
                              //highlight-end
                            >
-                               <img src="https://refine.ams3.cdn.digitaloceanspaces.comundefined" alt="image" />
+                               <img src="https://refine.ams3.cdn.digitaloceanspaces.comundefined" alt="Carousel image placeholder" />
                            </motion.div>
                        );
                    })}
@@ -305,7 +299,7 @@ function App() {
 }
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-01-framer-text-animations/photos-3.gif" alt="Scale for photo" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-01-framer-text-animations/photos-3.avif" alt="Hover and tap scaling effect" />
 
 <br/>
 
@@ -316,7 +310,7 @@ You can access the app [here](https://framer-motion-animation-snowy.vercel.app/)
 <br/>
 <div>
 <a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord-banner.png" alt="discord banner" />
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord-banner.png" alt="Join Refine on Discord banner" />
 </a>
 </div>
 

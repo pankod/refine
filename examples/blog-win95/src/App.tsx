@@ -1,13 +1,13 @@
 import { Refine, Authenticated } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import { dataProvider, liveProvider } from "@refinedev/supabase";
-import routerBindings, {
+import routerProvider, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
   NavigateToResource,
   CatchAllNavigate,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import original from "react95/dist/themes/original";
 import { ThemeProvider } from "styled-components";
 
@@ -33,7 +33,7 @@ function App() {
             dataProvider={dataProvider(supabaseClient)}
             liveProvider={liveProvider(supabaseClient)}
             authProvider={authProvider}
-            routerProvider={routerBindings}
+            routerProvider={routerProvider}
             resources={[
               {
                 name: "posts",

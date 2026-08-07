@@ -1,8 +1,8 @@
 import { GitHubBanner, Refine, Authenticated } from "@refinedev/core";
 import { useNotificationProvider, ErrorComponent } from "@refinedev/antd";
 import { dataProvider, liveProvider } from "@refinedev/supabase";
-import routerBindings, { NavigateToResource } from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { ConfigProvider, App as AntdApp } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
 
@@ -12,6 +12,7 @@ import { AuthPage } from "./pages/auth";
 import { supabaseClient } from "./utility";
 import { authProvider, auditLogProvider } from "./providers";
 
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 import "./styles/style.css";
 
@@ -38,7 +39,7 @@ function App() {
             dataProvider={dataProvider(supabaseClient)}
             liveProvider={liveProvider(supabaseClient)}
             auditLogProvider={auditLogProvider}
-            routerProvider={routerBindings}
+            routerProvider={routerProvider}
             resources={[
               {
                 name: "canvases",
@@ -47,6 +48,7 @@ function App() {
               },
             ]}
             notificationProvider={useNotificationProvider}
+            options={{}}
           >
             <Routes>
               <Route

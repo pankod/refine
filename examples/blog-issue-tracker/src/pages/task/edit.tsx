@@ -2,12 +2,12 @@ import { useForm, Edit, useSelect } from "@refinedev/antd";
 
 import { Form, Input, Select } from "antd";
 
-import type { ITask, IPriority, IStatus, IAuthUser } from "interfaces";
+import type { ITask, ILabel, IPriority, IStatus, IAuthUser } from "../../types";
 
 export const TaskEdit = () => {
   const { formProps, saveButtonProps } = useForm<ITask>();
 
-  const { selectProps: labelSelectProps } = useSelect<ITask>({
+  const { selectProps: labelSelectProps } = useSelect<ILabel>({
     resource: "label",
   });
 
@@ -15,7 +15,7 @@ export const TaskEdit = () => {
     resource: "priority",
   });
 
-  const { selectProps: assigneProps } = useSelect<IAuthUser>({
+  const { selectProps: assigneeProps } = useSelect<IAuthUser>({
     resource: "users",
     optionValue: "id",
     optionLabel: "email",
@@ -34,17 +34,17 @@ export const TaskEdit = () => {
         <Form.Item label="Description" name="description">
           <Input />
         </Form.Item>
-        <Form.Item label="Label" name="label">
+        <Form.Item label="Label" name="label_id">
           <Select {...labelSelectProps} />
         </Form.Item>
-        <Form.Item label="Priority" name="priority">
+        <Form.Item label="Priority" name="priority_id">
           <Select {...priorityProps} />
         </Form.Item>
-        <Form.Item label="Status" name="status">
+        <Form.Item label="Status" name="status_id">
           <Select {...statusProps} />
         </Form.Item>
-        <Form.Item label="Assigne" name="users">
-          <Select {...assigneProps} />
+        <Form.Item label="Assignee" name="user_id">
+          <Select {...assigneeProps} />
         </Form.Item>
       </Form>
     </Edit>

@@ -124,7 +124,10 @@ const GiftCardForm = ({
   onSuccess: () => void;
 }) => {
   const invalidate = useInvalidate();
-  const { mutate, isLoading } = useUpdate({
+  const {
+    mutate,
+    mutation: { isLoading },
+  } = useUpdate({
     resource: "carts",
     id: cart.id,
 

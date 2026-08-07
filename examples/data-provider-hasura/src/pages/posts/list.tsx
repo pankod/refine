@@ -29,12 +29,6 @@ export const PostList = () => {
   const { tableProps, filters, sorters } = useTable<
     GetFieldsFromList<GetPostsQuery>
   >({
-    initialSorter: [
-      {
-        field: "id",
-        order: "asc",
-      },
-    ],
     filters: {
       initial: [
         {
@@ -44,8 +38,18 @@ export const PostList = () => {
         },
       ],
     },
-    metaData: {
+
+    meta: {
       gqlQuery: POSTS_QUERY,
+    },
+
+    sorters: {
+      initial: [
+        {
+          field: "id",
+          order: "asc",
+        },
+      ],
     },
   });
 
@@ -53,8 +57,13 @@ export const PostList = () => {
     GetFieldsFromList<GetPostCategoriesSelectQuery>
   >({
     resource: "categories",
-    metaData: {
+
+    meta: {
       gqlQuery: POST_CATEGORIES_SELECT_QUERY,
+    },
+
+    pagination: {
+      mode: "server",
     },
   });
 

@@ -17,10 +17,18 @@ export const PostCreate: React.FC = () => {
 
   const { selectProps } = useSelect({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { selectProps: tagSelectProps } = useSelect<ITag>({
     resource: "tags",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

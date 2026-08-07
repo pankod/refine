@@ -1,6 +1,9 @@
 ---
 id: table-search
-title: Table Search
+title: "Table Search Tutorial | Pagination in Refine v5"
+display_title: "Table Search"
+sidebar_label: "Table Search"
+description: "Learn to implement Table Search in Refine v5. Learn advanced patterns for pagination, sorting for production-ready workflows. Hands-on examples included."
 ---
 
 We can make extensive search / filter operations using the `useTable` hook on the listing pages.
@@ -76,7 +79,7 @@ interface IPost {
 
 <br />
 
-When the form is submitted, the `onSearch` method runs and we get the search form values. We have to return an object of type [`CrudFilters`](/docs/core/interface-references#crudfilters) for this method.
+When the form is submitted, the `onSearch` method runs and we get the search form values. We have to return an object of type [`CrudFilters`](/core/docs/core/interface-references#crudfilters) for this method.
 
 ```tsx title="pages/list.tsx"
 ...

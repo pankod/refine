@@ -22,7 +22,7 @@ const run = async (
         [
           chalk`You can find {bold refine} examples at:`,
           "",
-          chalk`{dim.cyan github.com/}{cyan refinedev/refine/tree/master/examples}`,
+          chalk`{dim.cyan github.com/}{cyan refinedev/refine/tree/main/examples}`,
         ].join("\n"),
         {
           title: chalk`No example provided`,
@@ -60,7 +60,7 @@ const run = async (
         [
           chalk`You can find {bold refine} examples at:`,
           "",
-          chalk`{dim.cyan github.com/}{cyan refinedev/refine/tree/master/examples}`,
+          chalk`{dim.cyan github.com/}{cyan refinedev/refine/tree/main/examples}`,
         ].join("\n"),
         {
           title: chalk`Example not found`,

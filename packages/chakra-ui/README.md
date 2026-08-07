@@ -9,11 +9,11 @@
 <div align="center">
     <a href="https://refine.dev">Home Page</a> |
     <a href="https://discord.gg/refine">Discord</a> |
-    <a href="https://refine.dev/examples/">Examples</a> | 
-    <a href="https://refine.dev/blog/">Blog</a> | 
+    <a href="https://refine.dev/examples/">Examples</a> |
+    <a href="https://refine.dev/blog/">Blog</a> |
     <a href="https://refine.dev/docs/">Documentation</a>
 
-<br/>   
+<br/>
 <br/>
 
 [![Discord](https://img.shields.io/discord/837692625737613362.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/refine)
@@ -24,8 +24,6 @@
 </div>
 
 <br/>
-
-w
 
 <div align="center">Refine is an open-source, headless React framework for developers building enterprise internal tools, admin panels, dashboards, B2B applications.
 
@@ -67,102 +65,225 @@ Or you can create a new project on your browser:
 
 ## Quick Start
 
-Here's Refine in action, the below code is an example of a simple CRUD application using Refine + React Router + Material UI:
+Here's Refine in action, the below code is an example of a simple CRUD application using Refine + React Router + Chakra UI:
 
 ```tsx
 import React from "react";
-import { Refine, useMany } from "@refinedev/core";
-import { ThemedLayoutV2 } from "@refinedev/mui";
+import { Refine } from "@refinedev/core";
+import {
+  ErrorComponent,
+  ThemedLayoutV2,
+  RefineThemes,
+  useNotificationProvider,
+} from "@refinedev/chakra-ui";
 import dataProvider from "@refinedev/simple-rest";
-import routerBindings from "@refinedev/react-router-v6";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
-import CssBaseline from "@mui/material/CssBaseline";
+import { ProductList } from "./pages/products/list";
 
 export default function App() {
   return (
     <BrowserRouter>
-      <CssBaseline />
-      <Refine
-        dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-        routerProvider={routerBindings}
-        resources={[
-          {
-            name: "products",
-            list: "/products",
-          },
-        ]}
-      >
-        <Routes>
-          <Route
-            element={
-              <ThemedLayoutV2>
-                <Outlet />
-              </ThemedLayoutV2>
-            }
-          >
-            <Route path="/products">
-              <Route index element={<ProductList />} />
+      <ChakraProvider theme={RefineThemes.Blue}>
+        <Refine
+          routerProvider={routerProvider}
+          dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+          notificationProvider={useNotificationProvider()}
+          resources={[
+            {
+              name: "products",
+              list: "/products",
+            },
+          ]}
+          options={{
+            syncWithLocation: true,
+            warnWhenUnsavedChanges: true,
+          }}
+        >
+          <Routes>
+            <Route
+              element={
+                <ThemedLayoutV2>
+                  <Outlet />
+                </ThemedLayoutV2>
+              }
+            >
+              <Route path="/products">
+                <Route index element={<ProductList />} />
+              </Route>
+
+              <Route path="*" element={<ErrorComponent />} />
             </Route>
-          </Route>
-        </Routes>
-      </Refine>
+          </Routes>
+        </Refine>
+      </ChakraProvider>
     </BrowserRouter>
   );
 }
 
 // src/pages/products/list.tsx
 
-import { List, useDataGrid, DateField } from "@refinedev/mui";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import React from "react";
+import { type GetManyResponse, useMany } from "@refinedev/core";
+import { useTable } from "@refinedev/react-table";
+import { List } from "@refinedev/chakra-ui";
+import { type ColumnDef, flexRender } from "@tanstack/react-table";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
+  HStack,
+  Text,
+} from "@chakra-ui/react";
 
 export const ProductList = () => {
-  const { dataGridProps } = useDataGrid();
+  const columns = React.useMemo<ColumnDef<IPost>[]>(
+    () => [
+      {
+        id: "id",
+        header: "ID",
+        accessorKey: "id",
+      },
+      {
+        id: "name",
+        header: "Name",
+        accessorKey: "name",
+      },
+      {
+        id: "category",
+        header: "Category",
+        accessorKey: "category",
+        cell: function render({ getValue, table }) {
+          const meta = table.options.meta as TableMeta;
+          const loading = meta.loading;
+          const categoriesData = meta.categoriesData;
+          const category = categoriesData?.data.find(
+            (item) => item?.id === getValue<IPost["category"]>()?.id,
+          );
 
-  const { data: categories, isLoading } = useMany({
-    resource: "categories",
-    ids:
-      dataGridProps?.rows?.map((item) => item?.category?.id).filter(Boolean) ??
-      [],
-    queryOptions: {
-      enabled: !!dataGridProps?.rows,
+          if (loading) {
+            return "Loading...";
+          }
+
+          return category?.title ?? "-";
+        },
+      },
+    ],
+    [],
+  );
+
+  const {
+    reactTable: { getHeaderGroups, getRowModel, setOptions },
+    refineCore: {
+      tableQuery: { data: tableData, isLoading: tableIsLoading },
+    },
+  } = useTable({
+    columns,
+    meta: {
+      categoriesData: [],
+      loading: true,
+    },
+    refineCoreProps: {
+      sorters: {
+        initial: [
+          {
+            field: "id",
+            order: "desc",
+          },
+        ],
+      },
     },
   });
 
-  const columns = React.useMemo<GridColDef[]>(
-    () => [
-      { field: "id", headerName: "ID", type: "number" },
-      { field: "name", flex: 1, headerName: "Name" },
-      {
-        field: "category",
-        flex: 1,
-        headerName: "Category",
-        renderCell: ({ value }) =>
-          isLoading
-            ? "Loading..."
-            : categories?.data?.find((item) => item.id === value?.id)?.title,
+  const categoryIds = tableData?.data?.map((item) => item.category?.id) ?? [];
+  const { data: categoriesData, isLoading: categoriesIsLoading } =
+    useMany<ICategory>({
+      resource: "categories",
+      ids: categoryIds,
+      queryOptions: {
+        enabled: categoryIds.length > 0,
       },
-      {
-        field: "createdAt",
-        flex: 1,
-        headerName: "Created at",
-        renderCell: ({ value }) => <DateField value={value} />,
-      },
-    ],
-    [categories?.data, isLoading],
-  );
+    });
+
+  const loading = tableIsLoading || categoriesIsLoading;
+
+  setOptions((prev) => ({
+    ...prev,
+    meta: {
+      ...prev.meta,
+      loading,
+      categoriesData,
+    },
+  }));
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <TableContainer whiteSpace="pre-line">
+        <Table variant="simple">
+          <Thead>
+            {getHeaderGroups().map((headerGroup) => (
+              <Tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <Th key={header.id}>
+                    {!header.isPlaceholder && (
+                      <HStack spacing="2">
+                        <Text>
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                        </Text>
+                      </HStack>
+                    )}
+                  </Th>
+                ))}
+              </Tr>
+            ))}
+          </Thead>
+          <Tbody>
+            {getRowModel().rows.map((row) => (
+              <Tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <Td key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Td>
+                ))}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
     </List>
   );
+};
+
+type TableMeta = {
+  loading: boolean;
+  categoriesData: GetManyResponse<ICategory>;
+};
+
+type ICategory = {
+  id: number;
+  title: string;
+};
+
+type IPost = {
+  id: number;
+  title: string;
+  content: string;
+  status: "published" | "draft" | "rejected";
+  category: { id: number };
 };
 ```
 
 The result will look like this:
 
-[![Refine + Material UI Example](https://refine.ams3.cdn.digitaloceanspaces.com/assets/refine-mui-simple-example-screenshot-rounded.webp)](https://refine.new/preview/c85442a8-8df1-4101-a09a-47d3ca641798)
+[![Refine + Chakra UI Example](https://refine.ams3.cdn.digitaloceanspaces.com/assets/refine-chakra-ui-example-screenshot.png)](https://github.com/refinedev/refine/tree/master/examples/base-chakra-ui)
 
 ## Documentation
 

@@ -1,38 +1,63 @@
-import React, { useMemo, useRef } from "react";
-import clsx from "clsx";
 import Link from "@docusaurus/Link";
-import {
-  useSidebarBreadcrumbs,
-  useHomePageRoute,
-} from "@docusaurus/theme-common/internal";
+import { useSidebarBreadcrumbs } from "@docusaurus/theme-common/internal";
 import { translate } from "@docusaurus/Translate";
-import { HomeIcon } from "./icons/home";
-import { ChevronRightIcon } from "./icons/chevron-right";
+import clsx from "clsx";
+import React, { useMemo } from "react";
+import {
+  BreadcrumbJsonLd,
+  type BreadcrumbItem,
+} from "@site/src/components/json-ld";
 import { useTWBreakpoints } from "../hooks/use-tw-breakpoints";
+import { ChevronRightIcon } from "./icons/chevron-right";
+import { HomeIcon } from "./icons/home";
 
 const hiddenBreadcrumbText = "...";
 
 export const DocBreadcrumbs = () => {
   const breakpoints = useTWBreakpoints();
   const breadcrumbs = useSidebarBreadcrumbs();
-  const homePageRoute = useHomePageRoute();
 
   if (!breadcrumbs) {
     return null;
   }
 
+  const breadcrumbItems = useMemo(() => {
+    const baseItems: BreadcrumbItem[] = [
+      { label: "Home", href: "/core/" },
+      { label: "Docs", href: "/core/docs/" },
+    ];
+
+    const sidebarItems: BreadcrumbItem[] = (breadcrumbs as any[]).map(
+      (item) => ({
+        label: item.label,
+        href: item.href,
+      }),
+    );
+
+    return [...baseItems, ...sidebarItems];
+  }, [breadcrumbs]);
+
   const [breadcrumbList, renderDots] = useMemo(() => {
-    const shouldRenderDotdotdot = breadcrumbs.length > 3 && !breakpoints.sm;
+    const shouldRenderDotdotdot = breadcrumbItems.length > 4 && !breakpoints.sm;
 
     return [
-      (breadcrumbs as any[]).map((item, index, array) => ({
+      breadcrumbItems.map((item, index, array) => ({
         ...item,
         hideOnMobile:
-          shouldRenderDotdotdot && index > 0 && index < array.length - 2,
+          shouldRenderDotdotdot && index > 1 && index < array.length - 2,
       })),
       shouldRenderDotdotdot,
     ];
-  }, [breadcrumbs]);
+  }, [breadcrumbItems, breakpoints.sm]);
+
+  const lastVisibleIndex = useMemo(() => {
+    for (let i = breadcrumbList.length - 1; i >= 0; i -= 1) {
+      if (!breadcrumbList[i].hideOnMobile) {
+        return i;
+      }
+    }
+    return breadcrumbList.length - 1;
+  }, [breadcrumbList]);
 
   return (
     <nav
@@ -43,6 +68,7 @@ export const DocBreadcrumbs = () => {
         description: "The ARIA label for the breadcrumbs",
       })}
     >
+      <BreadcrumbJsonLd items={breadcrumbItems} />
       {breadcrumbList.find((item) => item.label === "Examples") && (
         <div
           className={clsx(
@@ -60,28 +86,10 @@ export const DocBreadcrumbs = () => {
           {" Example"}
         </div>
       )}
-      <ul
-        className={clsx("breadcrumbs", "flex flex-wrap items-center")}
-        itemScope
-        itemType="https://schema.org/BreadcrumbList"
-      >
-        {homePageRoute && (
-          <li
-            itemScope={true}
-            itemProp="itemListElement"
-            itemType="https://schema.org/ListItem"
-          >
-            <Link href="/docs" itemProp="item">
-              <HomeIcon className="text-gray-400 dark:text-gray-500" />
-              <span className="sr-only" itemProp="name">
-                Documentation
-              </span>
-              <meta itemProp="position" content="1" />
-            </Link>
-          </li>
-        )}
+      <ul className={clsx("breadcrumbs", "flex flex-wrap items-center")}>
         {breadcrumbList.map((item, idx) => {
-          const isLast = idx === breadcrumbs.length - 1;
+          const isLast = idx === lastVisibleIndex;
+          const isHome = idx === 0 && item.label.toLowerCase() === "home";
 
           return (
             <React.Fragment key={idx}>
@@ -90,42 +98,50 @@ export const DocBreadcrumbs = () => {
                   "flex-row flex-nowrap",
                   item.hideOnMobile ? "hidden" : "flex",
                 )}
-                itemScope={true}
-                itemProp="itemListElement"
-                itemType="https://schema.org/ListItem"
               >
-                <ChevronRightIcon className="text-gray-400 dark:text-gray-500" />
+                {idx > 0 && (
+                  <ChevronRightIcon className="text-zinc-300 dark:text-zinc-400" />
+                )}
                 {item.href && !isLast ? (
                   <Link
                     href={item.href}
                     className={clsx(
-                      "text-gray-500 dark:text-gray-400",
+                      "text-zinc-500 dark:text-zinc-400",
                       "text-base",
                     )}
-                    itemProp="item"
-                    itemID={item.href}
                   >
-                    <span itemProp="name">{item.label}</span>
+                    {isHome ? (
+                      <>
+                        <HomeIcon className="text-zinc-500 dark:text-zinc-400" />
+                        <span className="sr-only">{item.label}</span>
+                      </>
+                    ) : (
+                      item.label
+                    )}
                   </Link>
                 ) : (
                   <span
                     className={clsx(
                       isLast
-                        ? "text-gray-400 dark:text-gray-500"
-                        : "text-gray-500 dark:text-gray-400",
+                        ? "text-zinc-400 dark:text-zinc-300"
+                        : "text-zinc-500 dark:text-zinc-400",
                     )}
-                    itemProp="item"
-                    itemID="#"
                   >
-                    <span itemProp="name">{item.label}</span>
+                    {isHome ? (
+                      <>
+                        <HomeIcon className="text-zinc-500 dark:text-zinc-400" />
+                        <span className="sr-only">{item.label}</span>
+                      </>
+                    ) : (
+                      item.label
+                    )}
                   </span>
                 )}
-                <meta itemProp="position" content={String(idx + 2)} />
               </li>
-              {idx === 0 && breadcrumbList.length > 1 && renderDots ? (
+              {idx === 1 && breadcrumbList.length > 2 && renderDots ? (
                 <li className={clsx("flex flex-row flex-nowrap")}>
-                  <ChevronRightIcon className="text-gray-400 dark:text-gray-500" />
-                  <div className="text-gray-500 dark:text-gray-400">
+                  <ChevronRightIcon className="text-zinc-300 dark:text-zinc-400" />
+                  <div className="text-zinc-500 dark:text-zinc-400">
                     {hiddenBreadcrumbText}
                   </div>
                 </li>

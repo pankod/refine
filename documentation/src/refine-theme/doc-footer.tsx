@@ -2,8 +2,6 @@ import React from "react";
 import clsx from "clsx";
 import { ThemeClassNames } from "@docusaurus/theme-common";
 import { useDoc } from "@docusaurus/theme-common/internal";
-import LastUpdated from "@theme/LastUpdated";
-import EditThisPage from "@theme/EditThisPage";
 import TagsListInline from "@theme/TagsListInline";
 
 function TagsRow(props) {
@@ -39,7 +37,7 @@ function EditMetaRow({
         <a
           href={editUrl}
           target="_blank"
-          rel="noreferrer noopener"
+          rel="noopener"
           className={clsx(
             "text-refine-link-light dark:text-refine-link-dark",
             "text-xs content-4xl:text-sm",

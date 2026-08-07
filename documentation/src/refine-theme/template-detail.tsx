@@ -1,27 +1,32 @@
+import Link from "@docusaurus/Link";
+import * as Icons from "@site/src/assets/integration-icons";
+import { CommonHeader } from "@site/src/refine-theme/common-header";
+import { CommonLayout } from "@site/src/refine-theme/common-layout";
+import { LandingFooter } from "@site/src/refine-theme/landing-footer";
+import clsx from "clsx";
 import React, {
-  Fragment,
   useState,
   type FC,
   type PropsWithChildren,
   type SVGProps,
 } from "react";
-import clsx from "clsx";
-import Link from "@docusaurus/Link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
-import { CommonLayout } from "@site/src/refine-theme/common-layout";
-import { CommonHeader } from "@site/src/refine-theme/common-header";
-import { LandingFooter } from "@site/src/refine-theme/landing-footer";
-import { EnterpriseTemplateContactUsModal } from "./enterprise-template-contact-us-modal";
-import { CommonCircleChevronLeft } from "./common-circle-chevron-left";
-import { ShareIcon } from "./icons/share";
-import * as Icons from "@site/src/assets/integration-icons";
+import { TemplateEdition } from "../types/integrations";
 import { CommonRunLocalPrompt } from "./common-run-local-prompt";
 import { GithubIcon } from "./icons/github";
-import { TutorialIcon } from "./icons/tutorial";
 import { LockedIcon } from "./icons/locked";
-import { TemplateEdition } from "../types/integrations";
+import { ShareIcon } from "./icons/share";
+import { TutorialIcon } from "./icons/tutorial";
+import { getImgixSrc, Image } from "../components/image";
+import { Breadcrumbs } from "@site/src/components/breadcrumbs";
+import { TEMPLATE_BACKENDS, toSlug } from "../../plugins/templates";
+
+const backendLabelMap: Record<string, string> = {
+  "Nestjs-query": "GraphQL",
+  "Nestjsx-CRUD": "Rest API",
+};
 
 type Props = {
   data: {
@@ -29,6 +34,7 @@ type Props = {
     title: string;
     description: string;
     images: string[];
+    imageAlt?: string;
     runOnYourLocalPath: string | null;
     edition: TemplateEdition;
     liveDemo: string;
@@ -42,10 +48,42 @@ type Props = {
 };
 
 export const TemplatesDetail: FC<Props> = ({ data }) => {
+  const categoryLabel = data.uiFramework;
+  const categorySlug = categoryLabel ? toSlug(categoryLabel) : null;
+  const backendLabel =
+    backendLabelMap[data.dataProvider] ||
+    (TEMPLATE_BACKENDS.includes(data.dataProvider) ? data.dataProvider : null);
+  const backendSlug = backendLabel ? toSlug(backendLabel) : null;
+
+  const breadcrumbItems = [
+    { label: "Home", href: "/core/" },
+    { label: "Templates", href: "/core/templates/" },
+    ...(categoryLabel
+      ? [
+          {
+            label: categoryLabel,
+            href: categorySlug ? `/core/templates/${categorySlug}/` : undefined,
+          },
+        ]
+      : []),
+    ...(backendLabel && backendSlug && categorySlug
+      ? [
+          {
+            label: backendLabel,
+            href: `/core/templates/${categorySlug}/${backendSlug}/`,
+          },
+        ]
+      : []),
+    { label: data.title, href: `/core/templates/${data.slug}` },
+  ];
+
   return (
-    <CommonLayout description="Build React-based internal tools, admin panels, dashboards & B2B apps with unmatched flexibility.">
+    <CommonLayout
+      className="!bg-zinc-900"
+      description="Build React-based internal tools, admin panels, dashboards & B2B apps with unmatched flexibility."
+    >
       <div>
-        <CommonHeader />
+        <CommonHeader showThemeToggle={false} />
         <div
           className={clsx(
             "w-full max-w-[592px] landing-sm:max-w-[656px] landing-md:max-w-[896px] landing-lg:max-w-[1200px]",
@@ -53,37 +91,23 @@ export const TemplatesDetail: FC<Props> = ({ data }) => {
             "mx-auto",
             "flex flex-col",
             "not-prose",
-            "mt-8 landing-lg:mt-20",
+            "mt-8 landing-lg:mt-10",
             "px-6 landing-sm:px-0",
             "pb-8 landing-sm:pb-12 landing-md:pb-16 landing-lg:pb-40",
+            "dark",
           )}
         >
           <div>
-            <Link
-              to="/templates"
-              className={clsx(
-                "text-base",
-                "font-semibold",
-                "dark:text-gray-400 text-gray-500",
-                "hover:dark:text-gray-400 hover:text-gray-500",
-                "hover:no-underline",
-                "flex",
-                "items-center",
-                "gap-2",
-                "px-0 py-0",
-                "landing-md:px-2 landing-md:py-3",
-              )}
-            >
-              <CommonCircleChevronLeft />
-              Back to templates
-            </Link>
+            <Breadcrumbs
+              items={breadcrumbItems}
+              className={clsx("px-0 landing-md:px-2", "mb-4")}
+            />
             <h1
               className={clsx(
-                "dark:text-gray-0 text-gray-900",
-                "text-4xl landing-sm:text-[56px] landing-sm:leading-[72px]",
-                "font-bold",
+                "text-gray-0",
+                "text-4xl landing-sm:text-[48px] landing-sm:leading-[64px]",
+                "font-semibold",
                 "px-0 landing-sm:px-8 landing-md:px-10",
-                "mt-6",
               )}
             >
               {data.title}
@@ -93,16 +117,22 @@ export const TemplatesDetail: FC<Props> = ({ data }) => {
             className={clsx(
               "relative",
               "flex",
-              "mt-8 landing-sm:mt-12 landing-md:mt-16",
+              "mt-6 landing-sm:mt-8 landing-md:mt-12",
               "-mx-4 landing-sm:-mx-0",
               "landing-sm:px-4",
               "aspect-[1168/736]",
             )}
           >
             <img
-              className={clsx("block", "aspect-[1168/736]")}
-              src={data.images[0]}
-              alt={data.title}
+              className={clsx(
+                "w-full h-auto",
+                "object-contain",
+                "object-center",
+                "block",
+                "aspect-[1168/736]",
+              )}
+              src={getImgixSrc(data.images[0])}
+              alt={data.imageAlt || data.title}
             />
             {data.edition === TemplateEdition.Enterprise && (
               <div
@@ -126,7 +156,7 @@ export const TemplatesDetail: FC<Props> = ({ data }) => {
               "flex",
               "items-start",
               "gap-6",
-              "mt-8 landing-sm:mt-12 landing-md:mt-16",
+              "mt-8 landing-sm:mt-12 landing-md:mt-10",
               "px-0 landing-sm:pl-10 landing-md:pl-14 landing-lg:pl-10",
               "px-0 landing-sm:pr-10 landing-md:pr-10 landing-lg:pr-10",
               "not-prose",
@@ -154,8 +184,8 @@ export const TemplatesDetail: FC<Props> = ({ data }) => {
                     <ShareIcon width={16} height={16} />
                     <span
                       className={clsx(
-                        "font-semibold",
-                        "text-xs landing-md:text-base",
+                        "font-normal",
+                        "text-xs landing-md:text-sm",
                       )}
                     >
                       Live demo
@@ -167,8 +197,8 @@ export const TemplatesDetail: FC<Props> = ({ data }) => {
                     <TutorialIcon width={16} height={16} />
                     <span
                       className={clsx(
-                        "font-semibold",
-                        "text-xs landing-md:text-base",
+                        "font-normal",
+                        "text-xs landing-md:text-sm",
                       )}
                     >
                       Tutorial
@@ -202,7 +232,7 @@ export const TemplatesDetail: FC<Props> = ({ data }) => {
                 )}
               >
                 {data.runOnYourLocalPath && (
-                  <div className={clsx("mb-2 landing-sm:mb-4")}>
+                  <div className={clsx("mb-2 landing-sm:mb-4", "dark")}>
                     <CommonRunLocalPrompt path={data.runOnYourLocalPath} />
                   </div>
                 )}
@@ -210,7 +240,7 @@ export const TemplatesDetail: FC<Props> = ({ data }) => {
                   <h2
                     className={clsx(
                       "text-xl landing-sm:text-2xl",
-                      "dark:text-gray-0 text-gray-900",
+                      "text-gray-0",
                       "font-semibold",
                     )}
                   >
@@ -219,10 +249,11 @@ export const TemplatesDetail: FC<Props> = ({ data }) => {
                 </div>
                 <ReactMarkdown
                   className={clsx(
+                    "text-sm",
                     "mt-4 landing-sm:gap-6",
                     "whitespace-pre-wrap",
                     "not-prose",
-                    "dark:!text-gray-200 !text-gray-900",
+                    "!text-zinc-300",
                     "template-detail-markdown",
                   )}
                   remarkPlugins={[remarkGfm, remarkRehype]}
@@ -236,7 +267,7 @@ export const TemplatesDetail: FC<Props> = ({ data }) => {
               className={clsx(
                 "hidden landing-md:grid",
                 "grid-cols-1 landing-lg:grid-cols-2",
-                "landing-md:gap-10",
+                "landing-md:gap-6",
                 "pl-0 landing-lg:pl-10",
                 "landing-md:ml-6 landing-lg:ml-0",
                 "flex-shrink-0",
@@ -263,7 +294,7 @@ const ProjectLink: FC<
     ? {
         to,
         target: "_blank",
-        rel: "noopener noreferrer",
+        rel: "noopener",
       }
     : {
         onClick,
@@ -279,16 +310,15 @@ const ProjectLink: FC<
         "w-max",
         "flex",
         "items-center",
+        "h-10",
         "gap-1 landing-md:gap-2",
         "pl-2 py-2 pr-3",
-        "landing-md:pl-3 landing-md:py-3 landing-md:pr-6",
-        "rounded-full",
-        to && "dark:bg-refine-cyan-alt/10 bg-refine-blue/10",
-        to && "dark:text-refine-cyan-alt text-refine-blue",
-        !to &&
-          "dark:text-refine-enterprise-purple-5 text-refine-enterprise-purple-2",
-        !to &&
-          "dark:bg-refine-enterprise-purple-5/10 bg-refine-enterprise-purple-2/10",
+        "landing-md:pl-3 landing-md:py-2 landing-md:pr-6",
+        "rounded-lg",
+        to && "bg-sky-600/20",
+        to && "text-sky-300",
+        !to && "text-rose-300",
+        !to && "bg-rose-600/20",
         "hover:no-underline",
         "overflow-hidden",
       )}
@@ -297,7 +327,7 @@ const ProjectLink: FC<
       <div
         className={clsx(
           "select-none",
-          "rounded-3xl",
+          "rounded-lg",
           "absolute",
           "left-0",
           "top-0",
@@ -312,10 +342,8 @@ const ProjectLink: FC<
           "group-hover/project-link-button:opacity-100",
           "group-hover/project-link-button:scale-100",
           "pointer-events-none",
-          to &&
-            "bg-landing-copy-command-hover-bg-light dark:bg-landing-copy-command-hover-bg-dark",
-          !to &&
-            "bg-enterprise-copy-command-hover-bg-light dark:bg-enterprise-copy-command-hover-bg-dark",
+          to && "bg-landing-copy-command-hover-bg-dark",
+          !to && "bg-enterprise-copy-command-hover-bg-dark",
         )}
       />
     </Component>
@@ -334,7 +362,7 @@ const Integrations = (props: {
     props;
 
   return (
-    <div className={clsx(className)}>
+    <div className={clsx(className, "dark")}>
       <IntegrationBadge
         svgId={`${props.svgId}-react`}
         label="React Platform"
@@ -368,27 +396,30 @@ const IntegrationBadge = (props: {
 
   return (
     <div className={clsx("flex", "flex-col", "gap-3", "not-prose")}>
-      <h6 className={clsx("text-xs", "dark:text-gray-400 text-gray-600")}>
+      <h6 className={clsx("text-sm font-medium", "text-zinc-400")}>
         {props.label}
       </h6>
       <div
         className={clsx(
           "flex",
           "items-center",
-          "h-8",
-          "pl-2 pr-4",
+          "h-10",
+          "pl-3 pr-4",
           "gap-2",
           "rounded-full",
-          "border dark:border-gray-700 border-gray-200",
-          "w-min",
+          "border border-zinc-700",
+          "w-full",
+          "md:min-w-[180px]",
+          "!text-white",
         )}
       >
-        <Icon id={props.svgId} width={16} height={16} />
+        <Icon id={props.svgId} width={16} height={16} className="!text-white" />
         <span
           className={clsx(
-            "text-sm",
+            "text-xs",
+            "font-medium",
             "whitespace-nowrap",
-            "dark:text-gray-400 text-gray-900",
+            "text-white",
           )}
         >
           {props.integration}
@@ -401,8 +432,8 @@ const IntegrationBadge = (props: {
 const SourceCode = (props: { url: string }) => {
   return (
     <ProjectLink to={props.url}>
-      <GithubIcon width={16} height={16} />
-      <span className={clsx("font-semibold", "text-xs landing-md:text-base")}>
+      <GithubIcon width={20} height={20} />
+      <span className={clsx("font-normal", "text-xs landing-md:text-sm")}>
         Source code
       </span>
     </ProjectLink>
@@ -415,18 +446,11 @@ const SourceCodeLocked = (props: { data: Props["data"] }) => {
   return (
     <>
       <ProjectLink onClick={() => setIsModalOpen(true)}>
-        <LockedIcon width={16} height={16} />
-        <span className={clsx("font-semibold", "text-xs landing-md:text-base")}>
+        <LockedIcon width={20} height={20} />
+        <span className={clsx("font-normal", "text-xs landing-md:text-sm")}>
           Source code
         </span>
       </ProjectLink>
-
-      <EnterpriseTemplateContactUsModal
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title={props.data.title}
-        utmMedium={props.data.slug}
-      />
     </>
   );
 };

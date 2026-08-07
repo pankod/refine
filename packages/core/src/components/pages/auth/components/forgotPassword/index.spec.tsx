@@ -1,8 +1,9 @@
 import React from "react";
+import { vi } from "vitest";
 
 import { fireEvent, render, waitFor } from "@testing-library/react";
 
-import { TestWrapper, mockLegacyRouterProvider } from "@test/index";
+import { TestWrapper } from "@test/index";
 
 import { ForgotPasswordPage } from ".";
 import type { AuthProvider } from "../../../../../contexts/auth/types";
@@ -120,7 +121,7 @@ describe("Auth Page Forgot Password", () => {
   });
 
   it("should run forgotPassword mutation when form is submitted", async () => {
-    const forgotPasswordMock = jest.fn();
+    const forgotPasswordMock = vi.fn();
     const { getByLabelText, getByDisplayValue } = render(
       <ForgotPasswordPage />,
       {
@@ -140,37 +141,16 @@ describe("Auth Page Forgot Password", () => {
     fireEvent.click(getByDisplayValue(/send reset/i));
 
     await waitFor(() => {
-      expect(forgotPasswordMock).toBeCalledTimes(1);
+      expect(forgotPasswordMock).toHaveBeenCalledTimes(1);
     });
 
-    expect(forgotPasswordMock).toBeCalledWith({
+    expect(forgotPasswordMock).toHaveBeenCalledWith({
       email: "demo@refine.dev",
     });
   });
 
-  it("should work with legacy router provider Link", async () => {
-    const LinkComponentMock = jest.fn();
-
-    render(<ForgotPasswordPage />, {
-      wrapper: TestWrapper({
-        legacyRouterProvider: {
-          ...mockLegacyRouterProvider(),
-          Link: LinkComponentMock,
-        },
-      }),
-    });
-
-    expect(LinkComponentMock).toBeCalledWith(
-      {
-        to: "/login",
-        children: "Sign in",
-      },
-      {},
-    );
-  });
-
   it("should should accept 'mutationVariables'", async () => {
-    const forgotPasswordMock = jest.fn().mockResolvedValue({ success: true });
+    const forgotPasswordMock = vi.fn().mockResolvedValue({ success: true });
 
     const { getByRole, getByLabelText } = render(
       <ForgotPasswordPage

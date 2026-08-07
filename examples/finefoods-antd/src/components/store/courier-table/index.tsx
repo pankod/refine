@@ -13,6 +13,7 @@ export const StoreCourierTable = (props: Props) => {
 
   const { tableProps } = useTable<ICourier>({
     resource: "couriers",
+
     filters: {
       permanent: [
         {
@@ -22,9 +23,11 @@ export const StoreCourierTable = (props: Props) => {
         },
       ],
     },
+
     pagination: {
       mode: "off",
     },
+
     queryOptions: {
       enabled: !!props.store?.id,
     },

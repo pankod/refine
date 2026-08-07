@@ -7,7 +7,7 @@ swizzle: true
 This field is used to display files and uses [`<Typography.Link>`](https://ant.design/components/typography) from Ant Design.
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Usage

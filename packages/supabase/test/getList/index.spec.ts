@@ -57,7 +57,7 @@ describe("getList", () => {
   });
 
   describe("Supabase order", () => {
-    const mockSupabaseOrder = jest.fn();
+    const mockSupabaseOrder = vi.fn();
     const mockSupabaseClient = {
       select: () => mockSupabaseClient,
       from: () => mockSupabaseClient,
@@ -424,6 +424,23 @@ describe("filtering", () => {
     expect(data).toHaveLength(2);
     expect(data[0].title).toBe("Black Psorotichia Lichen");
     expect(data[1].title).toBe("Dust Lichen");
+    expect(total).toBe(2);
+  });
+
+  it("in operator should work correctly with or", async () => {
+    const { data, total } = await dataProvider(supabaseClient).getList({
+      resource: "posts",
+      filters: [
+        {
+          operator: "or",
+          value: [{ field: "id", operator: "in", value: [1, 2] }],
+        },
+      ],
+    });
+
+    expect(data).toHaveLength(2);
+    expect(data[0].title).toBe("Black Psorotichia Lichen");
+    expect(data[1].title).toBe("Great Plains Flatsedge");
     expect(total).toBe(2);
   });
 

@@ -172,7 +172,7 @@ export const addReactRouterImports = (j: JSCodeshift, source: Collection) => {
   addOrUpdateImports(
     j,
     source,
-    "react-router-dom",
+    "react-router",
     ["BrowserRouter", "Routes", "Route"],
     (sourceDeclarations, targetDeclaration) => {
       sourceDeclarations.at(0).insertAfter(targetDeclaration);
@@ -182,7 +182,7 @@ export const addReactRouterImports = (j: JSCodeshift, source: Collection) => {
   addOrUpdateImports(
     j,
     source,
-    "@refinedev/react-router-v6",
+    "@refinedev/react-router",
     ["routerProvider"],
     (sourceDeclarations, targetDeclaration) => {
       sourceDeclarations.at(0).insertAfter(targetDeclaration);

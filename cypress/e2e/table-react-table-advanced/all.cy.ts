@@ -3,11 +3,6 @@
 
 describe("table-react-table-advanced", () => {
   beforeEach(() => {
-    cy.interceptGETPosts();
-    cy.interceptGETPost();
-    cy.interceptPATCHPost();
-    cy.interceptGETCategories();
-
     cy.visit("/");
   });
 

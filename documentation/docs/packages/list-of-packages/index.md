@@ -1,5 +1,8 @@
 ---
-title: List of Packages
+title: "List of Packages Integration Guide | Packages in Refine v5"
+display_title: "List of Packages"
+sidebar_label: "List of Packages"
+description: "Build List Of Packages in Refine v5. Learn the key steps. Explore connector and provider for real-world React admin panels. Built for production use."
 ---
 
 - `@refinedev/core` - Collection of `hooks`, `components` and `providers` for **authentication**, **access control**, **routing**, **networking**, **state management** and **i18n**. Your starting point for headless projects.
@@ -8,42 +11,42 @@ title: List of Packages
 
 ### UI Framework Packages:
 
-To learn more about UI Libraries and integrations, check out [UI Libraries](/docs/guides-concepts/ui-libraries) guide.
+To learn more about UI Libraries and integrations, check out [UI Libraries](/core/docs/guides-concepts/ui-libraries/) guide.
 
-- [`@refinedev/antd`](/docs/ui-integrations/ant-design/introduction) - [Ant Design](https://ant.design/) System UI Framework support. **20+** framework-specific `hooks` and  `components`  incl. Table, Form, Select, Menu, Layout, Notification and CRUD components.
-- [`@refinedev/mui`](/docs/ui-integrations/material-ui/introduction) - [Material UI](https://mui.com/material-ui/getting-started/overview/) Framework support. **20+** framework-specific `hooks` and  `components`  incl. DataGrid (+ Pro), AutoComplete, Menu, Layout, Notification and CRUD components.
-- [`@refinedev/mantine`](/docs/ui-integrations/mantine/introduction) - [Mantine](https://mantine.dev/) UI Framework support. **20+** framework-specific `hooks` and `components` incl. Table, Form, AutoComplete, Menu, Layout, Notification and CRUD components.
-- [`@refinedev/chakra-ui`](/docs/ui-integrations/chakra-ui/introduction) - [Chakra UI](https://chakra-ui.com/) UI Framework support. **20+** framework-specific `components` incl. Menu, Layout, Notification and CRUD components.
+- [`@refinedev/antd`](/core/docs/ui-integrations/ant-design/introduction/) - [Ant Design](https://ant.design/) System UI Framework support. **20+** framework-specific `hooks` and `components` incl. Table, Form, Select, Menu, Layout, Notification and CRUD components.
+- [`@refinedev/mui`](/core/docs/ui-integrations/material-ui/introduction/) - [Material UI](https://mui.com/material-ui/getting-started/overview/) Framework support. **20+** framework-specific `hooks` and `components` incl. DataGrid (+ Pro), AutoComplete, Menu, Layout, Notification and CRUD components.
+- [`@refinedev/mantine`](/core/docs/ui-integrations/mantine/introduction/) - [Mantine](https://mantine.dev/) UI Framework support. **20+** framework-specific `hooks` and `components` incl. Table, Form, AutoComplete, Menu, Layout, Notification and CRUD components.
+- [`@refinedev/chakra-ui`](/core/docs/ui-integrations/chakra-ui/introduction/) - [Chakra UI](https://chakra-ui.com/) UI Framework support. **20+** framework-specific `components` incl. Menu, Layout, Notification and CRUD components.
 - [`@ferdiunal/refine-shadcn`](https://github.com/ferdiunal/refine-shadcn) - ShadCN UI components with Refine.
 
 ### Data Provider Packages:
 
-To learn more about Data Providers, check out [Data Provider](/docs/data/data-provider/) docs.
+To learn more about Data Providers, check out [Data Provider](/core/docs/data/data-provider/) docs.
 
-- [`@refinedev/simple-rest`](/docs/data/packages/simple-rest) - Connect any custom **REST API** backend.
-- [`@refinedev/graphql`](/docs/data/packages/graphql) - Connect any custom **GraphQL** backend.
-- [`@refinedev/nestjsx-crud`](/docs/data/packages/nestjsx-crud) - Consume **REST API**'s built with **NestJs**.
-- [`@refinedev/nestjs-query`](/docs/data/packages/nestjs-query) - Consume **GraphQL API**'s built with **Nestjs-Query**.
-- [`@refinedev/strapi-v4`](/docs/data/packages/strapi-v4) - [Strapi](https://strapi.io/) connector for **v4 REST API.**
-- [`@refinedev/strapi`](/docs/data/packages/strapi-v4) - [Strapi](https://strapi.io/) connector for **legacy REST API.**
-- [`@refinedev/supabase`](/docs/data/packages/supabase) -[Supabase](https://supabase.com/) data provider. Supports **Supabase Realtime** for **live/realtime** projects.
-- [`@refinedev/hasura`](/docs/data/packages/hasura) - [Hasura GraphQL](https://hasura.io/) data provider. Supports **GraphQL Subscriptions** for **live/realtime** projects.
-- [`@refinedev/appwrite`](/docs/data/packages/appwrite) - [Appwrite](https://appwrite.io/) data provider. Supports **Appwrite Realtime** for **live/realtime** projects.
-- [`@refinedev/airtable`](/docs/data/packages/airtable) - Use [Airtable](https://airtable.com/) as backend service.
+- [`@refinedev/simple-rest`](/core/docs/data/packages/simple-rest/) - Connect any custom **REST API** backend.
+- [`@refinedev/graphql`](/core/docs/data/packages/graphql/) - Connect any custom **GraphQL** backend.
+- [`@refinedev/nestjsx-crud`](/core/docs/data/packages/nestjsx-crud/) - Consume **REST API**'s built with **NestJs**.
+- [`@refinedev/nestjs-query`](/core/docs/data/packages/nestjs-query/) - Consume **GraphQL API**'s built with **Nestjs-Query**.
+- [`@refinedev/strapi-v4`](/core/docs/data/packages/strapi-v4/) - [Strapi](https://strapi.io/) connector for **v4 REST API.**
+- [`@refinedev/strapi`](/core/docs/data/packages/strapi-v4/) - [Strapi](https://strapi.io/) connector for **legacy REST API.**
+- [`@refinedev/supabase`](/core/docs/data/packages/supabase/) -[Supabase](https://supabase.com/) data provider. Supports **Supabase Realtime** for **live/realtime** projects.
+- [`@refinedev/hasura`](/core/docs/data/packages/hasura/) - [Hasura GraphQL](https://hasura.io/) data provider. Supports **GraphQL Subscriptions** for **live/realtime** projects.
+- [`@refinedev/appwrite`](/core/docs/data/packages/appwrite/) - [Appwrite](https://appwrite.io/) data provider. Supports **Appwrite Realtime** for **live/realtime** projects.
+- [`@refinedev/airtable`](/core/docs/data/packages/airtable/) - Use [Airtable](https://airtable.com/) as backend service.
 - `@refinedev/medusa` - [Medusa](https://medusajs.com/) connector for your e-commerce projects.
 
 ### Router Provider Packages
 
-To learn more about Router Providers, check out [Routing](/docs/guides-concepts/routing) guide.
+To learn more about Router Providers, check out [Routing](/core/docs/guides-concepts/routing/) guide.
 
-- [`@refinedev/react-router-v6`](/docs/routing/integrations/react-router) - Router Provider for [React Router (v6)](https://reactrouter.com)
-- [`@refinedev/nextjs-router`](/docs/routing/integrations/next-js) - Router Provider for [Next.js](https://nextjs.org/docs/api-reference/next/router#userouter)
-- [`@refinedev/remix-router`](/docs/routing/integrations/remix) - Router Provider for [Remix](https://remix.run/)
+- [`@refinedev/react-router`](/core/docs/routing/integrations/react-router/) - Router Provider for [React Router](https://reactrouter.com)
+- [`@refinedev/nextjs-router`](/core/docs/routing/integrations/next-js/) - Router Provider for [Next.js](https://nextjs.org/docs/api-reference/next/router#userouter)
+- [`@refinedev/remix-router`](/core/docs/routing/integrations/remix/) - Router Provider for [Remix](https://remix.run/)
 - [`@refinenative/expo-router`](https://www.npmjs.com/package/@refinenative/expo-router) - Router Provider for [Expo](https://docs.expo.dev/)
 
 ### Live Provider Packages
 
-To learn more about Live Providers, check out [Realtime](/docs/guides-concepts/realtime) guide.
+To learn more about Live Providers, check out [Realtime](/core/docs/guides-concepts/realtime/) guide.
 
 - `@refinedev/ably` - [Ably](https://ably.com/) integration for realtime applications.
 - `@refinedev/graphql` - Realtime support through GraphQL Subscriptions.
@@ -54,9 +57,9 @@ To learn more about Live Providers, check out [Realtime](/docs/guides-concepts/r
 
 ### Integrations
 
-- [`@refinedev/kbar`](/docs/packages/command-palette) - [kbar](https://kbar.vercel.app/) integration. Add `command`/`crtrl`+`k` interfaces to your project.
-- [`@refinedev/react-table`](/docs/packages/tanstack-table/introduction) - [React Table](https://tanstack.com/table/v8) integration. Powerful tables & datagrids for your headless projects.
-- [`@refinedev/react-hook-form`](/docs/packages/react-hook-form/introduction) - [React Hook Form](https://react-hook-form.com/) integration. Extensible forms and validation for your projects.
+- [`@refinedev/kbar`](/core/docs/packages/command-palette/) - [kbar](https://kbar.vercel.app/) integration. Add `command`/`crtrl`+`k` interfaces to your project.
+- [`@refinedev/react-table`](/core/docs/packages/tanstack-table/introduction/) - [React Table](https://tanstack.com/table/v8) integration. Powerful tables & datagrids for your headless projects.
+- [`@refinedev/react-hook-form`](/core/docs/packages/react-hook-form/introduction/) - [React Hook Form](https://react-hook-form.com/) integration. Extensible forms and validation for your projects.
 
 ### React Frameworks
 
@@ -79,3 +82,4 @@ To learn more about Live Providers, check out [Realtime](/docs/guides-concepts/r
 - [`@refine-auth/kinde-react`](https://github.com/hirenf14/refine-auth-kinde-react) - Support for [Kinde](https://kinde.com) authentication.
 - [`refine-pocketbase`](https://github.com/kruschid/refine-pocketbase) - Connector for backends created with [PocketBase](https://pocketbase.io/). Also has auth provider and live provider supports.
 - [`refine-postgrest-ts`](https://github.com/ffimnsr/refine-postgrest-ts) - Connector for [PostgREST](https://postgrest.org) backends.
+- [`refine-chakra-ui-v3-ts`](https://github.com/ffimnsr/refine-chakra-ui-v3-ts) - Integration for [Chakra UI v3](https://www.chakra-ui.com).

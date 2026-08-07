@@ -5,10 +5,10 @@ swizzle: true
 ---
 
 `<DeleteButton>` uses Material UI [`<LoadingButton>`](https://mui.com/material-ui/api/loading-button/#main-content) and [`<Dialog>`](https://mui.com/material-ui/react-dialog/) components.
-When you try to delete something, a pop-up shows up and asks for confirmation. When confirmed it executes the [`useDelete`](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) method provided by your [`dataProvider`](/api-reference/core/providers/data-provider.md).
+When you try to delete something, a pop-up shows up and asks for confirmation. When confirmed it executes the [`useDelete`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) method provided by your [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider).
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Usage
@@ -131,7 +131,7 @@ render(
 );
 ```
 
-Clicking the button will trigger the [`useDelete`](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) method and then the record whose resource is `post` and whose id is `1` gets deleted.
+Clicking the button will trigger the [`useDelete`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) method and then the record whose resource is `post` and whose id is `1` gets deleted.
 
 :::note
 **`<DeleteButton>`** component reads the id information from the route by default.
@@ -238,7 +238,7 @@ render(
 
 Determines which mode mutation will have while executing `<DeleteButton>`.
 
-[Refer to the mutation mode docs for further information. &#8594](/advanced-tutorials/mutation-mode.md)
+[Refer to the mutation mode docs for further information. &#8594](/core/docs/3.xx.xx/advanced-tutorials/mutation-mode)
 
 ```tsx
 import { useTable } from "@pankod/refine-core";
@@ -346,7 +346,7 @@ render(
 
 ### `accessControl`
 
-This prop can be used to skip access control check with its `enabled` property or to hide the button when the user does not have the permission to access the resource with `hideIfUnauthorized` property. This is relevant only when an [`accessControlProvider`](/api-reference/core/providers/accessControl-provider.md) is provided to [`<Refine/>`](/api-reference/core/components/refine-config.md)
+This prop can be used to skip access control check with its `enabled` property or to hide the button when the user does not have the permission to access the resource with `hideIfUnauthorized` property. This is relevant only when an [`accessControlProvider`](/core/docs/3.xx.xx/api-reference/core/providers/accessControl-provider) is provided to [`<Refine/>`](/core/docs/3.xx.xx/api-reference/core/components/refine-config)
 
 ```tsx
 import { DeleteButton } from "@pankod/refine-mui";

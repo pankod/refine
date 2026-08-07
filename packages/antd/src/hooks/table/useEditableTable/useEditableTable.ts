@@ -117,11 +117,15 @@ export const useEditableTable = <
     formProps: {
       ...edit.formProps,
       onFinish: async (values) => {
-        const result = await edit.onFinish(values);
-        if (autoSubmitClose) {
-          setId(undefined);
+        try {
+          const result = await edit.onFinish(values);
+          if (autoSubmitClose) {
+            setId(undefined);
+          }
+          return result;
+        } catch (error) {
+          return error;
         }
-        return result;
       },
     },
     saveButtonProps,

@@ -1,5 +1,5 @@
 import { getDefaultFilter, useSubscription, useTable } from "@refinedev/core";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import {
   Table,
@@ -31,12 +31,13 @@ export const TableMembers = ({ selectedMember, setSelectedMember }: Props) => {
   const {
     tableQuery: membersQueryResult,
     pageCount,
-    current,
-    setCurrent,
+    currentPage: current,
+    setCurrentPage: setCurrent,
     filters,
     setFilters,
   } = useTable<ExtendedMember>({
     resource: "members",
+
     meta: {
       select: "*, rentals(*)",
     },

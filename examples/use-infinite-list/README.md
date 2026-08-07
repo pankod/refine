@@ -8,8 +8,8 @@
 <div align="center">
     <a href="https://refine.dev">Home Page</a> |
     <a href="https://discord.gg/refine">Discord</a> |
-    <a href="https://refine.dev/examples/">Examples</a> | 
-    <a href="https://refine.dev/blog/">Blog</a> | 
+    <a href="https://refine.dev/examples/">Examples</a> |
+    <a href="https://refine.dev/blog/">Blog</a> |
     <a href="https://refine.dev/docs/">Documentation</a>
 </div>
 </div>
@@ -38,4 +38,4 @@ npm create refine-app@latest -- --example use-infinite-list
 
 <br/>
 
-[![Open useInfiniteList hook example from refine](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/refinedev/refine/tree/master/examples/use-infinite-list?terminal=start&preset=node)
+[![Open useInfiniteList hook example from refine](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/refinedev/refine/tree/main/examples/use-infinite-list?terminal=start&preset=node)

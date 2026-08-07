@@ -32,7 +32,9 @@ export const PostEdit = () => {
 
   const [title, setTitle] = useState("");
 
-  const { refetch } = useCustom<
+  const {
+    query: { refetch },
+  } = useCustom<
     PostUniqueCheckResponse,
     HttpError,
     PostUniqueCheckRequestQuery

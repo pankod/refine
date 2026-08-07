@@ -82,7 +82,7 @@ const authProvider: AuthProvider = {
 
 Invoking the `useLogin` hook's mutation will call the `login` method, passing in the mutation's parameters as arguments. This means the parameters for the `useLogin` hook's mutation must match the parameters of the login method.
 
-[Refer to the `useLogin` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/hooks/auth/useLogin/)
+[Refer to the `useLogin` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/useLogin/)
 
 For example, if we call the `useLogin` hook's mutation like this:
 
@@ -221,7 +221,7 @@ const authProvider: AuthProvider = {
 
 Invoking the `useAuthenticated` hook will call the `checkAuth` method. If `checkAuth` method resolves a data, it will be available in the `useAuthenticated` hook's `data` property.
 
-[Refer to the `useAuthenticated` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/hooks/auth/useAuthenticated/)
+[Refer to the `useAuthenticated` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/useAuthenticated/)
 
 ```tsx
 import { useAuthenticated } from "@pankod/refine-core";
@@ -233,7 +233,7 @@ const { data, isSuccess, isLoading, isError, refetch } = useAuthenticated();
 
 The `<Authenticated>` component makes use of the `useAuthenticated` hook. It allows you to render components only if the user is authenticated.
 
-[Refer to the `<Authenticated>` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/components/auth/authenticated/)
+[Refer to the `<Authenticated>` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/components/auth/authenticated/)
 
 :::
 
@@ -285,7 +285,7 @@ const authProvider: AuthProvider = {
 
 Invoking the `useLogout` hook's mutation will call the `logout` method. If you need to pass any parameters to the `logout` method, you can use the `useLogout` hook's mutation.
 
-[Refer to the `useLogout` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/hooks/auth/useLogout/)
+[Refer to the `useLogout` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/useLogout/)
 
 For example, if we call the `useLogout` hook's mutation like this:
 
@@ -419,7 +419,7 @@ const authProvider: AuthProvider = {
 
 Invoking the `useCheckError` hook's mutation will call the `checkError` method, passing in the mutation's parameters as arguments.
 
-[Refer to the `useCheckError` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/hooks/auth/useCheckError/)
+[Refer to the `useCheckError` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/useCheckError/)
 
 For example, if you want to check the error of a fetch request, you can use the `useCheckError` hook's mutation like this:
 
@@ -499,7 +499,7 @@ const authProvider: AuthProvider = {
 
 Invoking the `usePermissions` hook will call the `getPermissions` method. If `getPermissions` method resolves a data, it will be available in the `usePermissions` hook's `data` property.
 
-[Refer to the `usePermissions` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/hooks/auth/usePermissions/)
+[Refer to the `usePermissions` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/usePermissions/)
 
 For example, if you want to check if the user has a specific permission, you can use the `usePermissions` hook like this:
 
@@ -518,7 +518,7 @@ if (data?.includes("admin")) {
 :::info
 `usePermissions` hook can be used for simply authorization purposes. If you need more complex authorization logic, we recommend using the access control provider to handle the authorization logic.
 
-[Refer to the `accessControlProvider` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/providers/accessControl-provider/)
+[Refer to the `accessControlProvider` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/providers/accessControl-provider/)
 :::
 
 ### getUserIdentity
@@ -560,7 +560,7 @@ const authProvider: AuthProvider = {
 
 Invoking the `useGetIdentity` hook will call the `getUserIdentity` method. If `getUserIdentity` method resolves a data, it will be available in the `useGetIdentity` hook's `data` property.
 
-[Refer to the `useGetIdentity` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/hooks/auth/useGetIdentity/)
+[Refer to the `useGetIdentity` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/useGetIdentity/)
 
 For example, if you want to get the user's email, you can use the `useGetIdentity` hook like this:
 
@@ -641,7 +641,7 @@ const authProvider: AuthProvider = {
 
 Invoking the `useRegister` hook's mutation will call the `register` method, passing in the mutation's parameters as arguments.
 
-[Refer to the `useRegister` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/hooks/auth/useRegister/)
+[Refer to the `useRegister` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/useRegister/)
 
 For example, if you want to register a new user, you can use the `useRegister` hook like this:
 
@@ -770,7 +770,7 @@ const authProvider: AuthProvider = {
 
 Invoking the `useForgotPassword` hook's mutation will call the `forgotPassword` method, passing in the mutation's parameters as arguments.
 
-[Refer to the `useForgotPassword` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/hooks/auth/useForgotPassword/)
+[Refer to the `useForgotPassword` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/useForgotPassword/)
 
 For example, if you want to send a password reset link to the user's email address, you can use the `useForgotPassword` hook like this:
 
@@ -882,7 +882,7 @@ const authProvider: AuthProvider = {
 
 Invoking the `useUpdatePassword` hook's mutation will call the `updatePassword` method, passing in the mutation's parameters as arguments. Additionally, the `updatePassword` method will take query parameters as arguments from the URL as well.
 
-[Refer to the `useUpdatePassword` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/hooks/auth/useUpdatePassword/)
+[Refer to the `useUpdatePassword` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/useUpdatePassword/)
 
 For example, if you want to update the user's password, you can use the `useUpdatePassword` hook like this:
 
@@ -1035,7 +1035,7 @@ const App = () => {
 ```
 
 :::note
-We recommend using **axios** as the **HTTP** client with the **@pankod/refine-simple-rest** [`dataProvider`](/api-reference/core/providers/data-provider.md). Other **HTTP** clients can also be preferred.
+We recommend using **axios** as the **HTTP** client with the **@pankod/refine-simple-rest** [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider). Other **HTTP** clients can also be preferred.
 :::
 
 <br />

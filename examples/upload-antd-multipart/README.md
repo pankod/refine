@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example upload-antd-multipart
 
 <br/>
 
-[![Open upload-antd-multipart example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/upload-antd-multipart?view=preview&theme=dark&codemirror=1)
+[![Open upload-antd-multipart example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/upload-antd-multipart?view=preview&theme=dark&codemirror=1)

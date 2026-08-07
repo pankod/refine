@@ -20,3 +20,21 @@ export const CalendarIcon = (props: SVGProps<SVGSVGElement>) => (
     </g>
   </svg>
 );
+
+export const CalendarArrowUpIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    {...props}
+  >
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M9.333 12 12 9.334m0 0L14.667 12M12 9.334v5.333M10.667 1.333V4M14 7.562V4a1.334 1.334 0 0 0-1.333-1.333H3.333A1.333 1.333 0 0 0 2 4v9.334a1.333 1.333 0 0 0 1.333 1.333h6M2 6.667h12M5.333 1.334V4"
+    />
+  </svg>
+);

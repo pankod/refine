@@ -1,0 +1,42 @@
+{
+  "name": "with-nextjs-headless",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "refine build",
+    "dev": "cross-env NODE_OPTIONS=--max_old_space_size=4096 refine dev",
+    "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
+    "start": "refine start"
+  },
+  "dependencies": {
+    "@refinedev/cli": "^2.16.39",
+    "@refinedev/core": "^4.56.0",
+    "@refinedev/devtools": "^1.2.9",
+    "@refinedev/kbar": "^1.3.12",
+    "@refinedev/nextjs-router": "^6.1.0",
+    "@refinedev/react-hook-form": "^4.9.1",
+    "@refinedev/react-table": "^5.6.13",
+    "@refinedev/simple-rest": "^5.0.8",
+    "@tanstack/react-table": "^8.2.6",
+    "cross-env": "^7.0.3",
+    "js-cookie": "^3.0.1",
+    "next": "^15.2.4",
+    "next-intl": "^3.25.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.57.0"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.2",
+    "@types/node": "^20",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.24.0",
+    "eslint-config-next": "15.0.3",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -3,9 +3,11 @@ title: Bun vs. Node.js
 description: We'll go over the new Bun runtime that has created a buzz in the tech space lately.
 slug: bun-js-vs-node
 authors: victor_uma
-tags: [javascript, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-04-bun-vs-node/social-3.png
+category: "Alternatives"
+tags: [javascript, comparison, backend]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-04-bun-vs-node/social-3.png
 hide_table_of_contents: false
+last_update: 2026-02-03
 ---
 
 **This article was last updated on August 12, 2024 to add sections for Cross-Platform Support and Comparison with Other Runtimes (e.g., Deno).**
@@ -28,16 +30,6 @@ You need the followings:
 ## Overview
 
 In this tutorial, we will go over the new Bun runtime that has created a buzz in the tech space lately. We will talk about what a runtime does and why some developers are switching over to using bun. We will also carry out some benchmark test to see if bun really has the fastest runtime as the Bun team says. Let's dive rignt in.
-
-Steps we'll cover:
-
-- [What is a runtime](#what-is-a-runtime)
-- [What is Bun](#what-is-bun)
-- [Why is Bun Fast](#why-is-bun-fast)
-- [Installing the Bun runtime](#installing-the-bun-runtime)
-- [How does Bun compare with Node](#how-does-bun-compare-with-node)
-- [Benchmarking Bun](#benchmarking-bun)
-- [Comparison of Bun with Other JavaScript Runtimes (e.g., Deno and Node.js)](#comparison-of-bun-with-other-javascript-runtimes-eg-deno-and-nodejs)
 
 ## What is a runtime
 
@@ -186,7 +178,7 @@ k6 run script.js
 Here is the result for our Node server:
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-04-bun-vs-node/node.png"  alt="bun vs node js" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-04-bun-vs-node/node.png"  alt="bun vs node js" />
 </div>
 
 <br/>
@@ -194,8 +186,7 @@ Here is the result for our Node server:
 Here is the result for our Bun server:
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-04-bun-vs-node/bun.png
-"  alt="bun vs node js" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-04-bun-vs-node/bun.png"  alt="bun vs node js" />
 </div>
 
 <br/>

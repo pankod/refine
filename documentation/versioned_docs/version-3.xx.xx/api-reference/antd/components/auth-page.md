@@ -9,10 +9,10 @@ source: packages/antd/src/components/pages/auth/index.tsx
 
 `<AuthPage>` component from **refine** for **Ant Design** contains authentication pages that can be used to login, register, forgot password, and update password.
 
-Before using `<AuthPage>` component you need to add [authProvider](/api-reference/core/providers/auth-provider.md) that will be used to handle authentication.
+Before using `<AuthPage>` component you need to add [authProvider](/core/docs/3.xx.xx/api-reference/core/providers/auth-provider) that will be used to handle authentication.
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ```tsx live  shared
@@ -867,11 +867,11 @@ render(<App />);
 
 ### Properties
 
-<PropsTable module="@pankod/refine-antd/AuthPage" 
+<PropsTable module="@pankod/refine-antd/AuthPage"
 formProps-type="[`FormProps`](https://ant.design/components/form/#API)"
 wrapperProps-type="[`WrapperProps`](https://ant.design/components/layout/#API)"
 contentProps-type="[`CardProps`](https://ant.design/components/card/#API)"
-rememberMe-default="[`<Checkbox>Remember me</Checkbox>`](/docs/3.xx.xx/api-reference/antd/components/antd-auth-page/#rememberme)"
+rememberMe-default="[`<Checkbox>Remember me</Checkbox>`](/core/docs/3.xx.xx/api-reference/antd/components/antd-auth-page/#rememberme)"
 />
 
 ### Interface
@@ -884,11 +884,11 @@ interface OAuthProvider {
 }
 ```
 
-[auth-provider]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/
-[login]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#login-
-[register]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#register
-[forgot-password]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#forgotpassword
-[update-password]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#updatepassword
-[get-permissions]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#getpermissions-
-[check-auth]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#checkauth-
-[logout]: /docs/3.xx.xx/api-reference/core/providers/auth-provider/#logout-
+[auth-provider]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/
+[login]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#login-
+[register]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#register
+[forgot-password]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#forgotpassword
+[update-password]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#updatepassword
+[get-permissions]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#getpermissions-
+[check-auth]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#checkauth-
+[logout]: /core/docs/3.xx.xx/api-reference/core/providers/auth-provider/#logout-

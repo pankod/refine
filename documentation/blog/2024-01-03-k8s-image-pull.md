@@ -3,8 +3,9 @@ title: Kubernetes Image Pull Policy - A Detailed Guide
 description: Image pull policy in Kubernetes is a strategic decision that impacts applications' efficiency, reliability, and security.
 slug: kubernetes-image-pull-policy
 authors: muhammad_khabbab
-tags: [kubernetes, docker]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-03-k8s-image-pull/social.png
+category: "Engineering"
+tags: [kubernetes]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-03-k8s-image-pull/social.png
 hide_table_of_contents: false
 ---
 
@@ -110,7 +111,7 @@ Kubernetes supports different image pull policies:
 On GCR, I executed the command, and you can see the results below. Note that the command to create the secret on GCR is slightly different than dockerhub as GCR requires a keyfile.json too. Read more about it in the expert tip below.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-03-k8s-image-pull/image1.PNG" alt="Getting list of pods" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-03-k8s-image-pull/image1.PNG" alt="Creating GCR image pull secret with kubectl create secret docker-registry" />
 </div>
 
 **Expert Tip:** Traditional docker registries (like dockerhub) rely on username and password for authentication. They are simpler and are typically used for individual or less complex enterprise setups. Whereas cloud-based registries (like GCR) use service accounts and JSON key files for authentication, offering more robust security features suitable for complex, automated, and scalable cloud environments.
@@ -119,7 +120,7 @@ On GCR, I executed the command, and you can see the results below. Note that the
 - **Inspect the Secret**: Use `kubectl describe secret <my-registry-key>` for a detailed view of the secret's configuration, verifying its correct setup.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-03-k8s-image-pull/image2.PNG" alt="Getting list of pods" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-03-k8s-image-pull/image2.PNG" alt="kubectl get secrets showing myregistrykey in the namespace" />
 </div>
 
 ### B. How to Attach These Secrets to a Service Account or a Specific Pod
@@ -145,7 +146,7 @@ So:
 `kubectl create serviceaccount myserviceaccount`
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-03-k8s-image-pull/image3.PNG" alt="Getting list of pods" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-03-k8s-image-pull/image3.PNG" alt="Creating service account for attaching image pull secrets" />
 </div>
 
 You might need to give necessary permissions/add role to this service account (e.g. if it needs to interact with Kubernetes API for example).
@@ -154,7 +155,7 @@ You might need to give necessary permissions/add role to this service account (e
   `kubectl patch serviceaccount myserviceaccount -p '{"imagePullSecrets": [{"name": "myregistrykey"}]}'`
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-03-k8s-image-pull/image4.PNG" alt="Getting list of pods" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-03-k8s-image-pull/image4.PNG" alt="Patching service account to include imagePullSecrets" />
 </div>
 
 **Attaching to a Specific Pod**:

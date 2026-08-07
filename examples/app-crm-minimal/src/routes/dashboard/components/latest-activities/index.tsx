@@ -20,10 +20,9 @@ type Props = { limit?: number };
 
 export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
   const {
-    data: audit,
-    isLoading: isLoadingAudit,
-    isError,
-    error,
+    result: audit,
+
+    query: { isLoading: isLoadingAudit, isError, error },
   } = useList<GetFieldsFromList<DashboardLatestActivitiesAuditsQuery>>({
     resource: "audits",
     pagination: {
@@ -54,9 +53,10 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
 
   const dealIds = audit?.data?.map((audit) => audit.targetId);
 
-  const { data: deals, isLoading: isLoadingDeals } = useList<
-    GetFieldsFromList<DashboardLatestActivitiesDealsQuery>
-  >({
+  const {
+    result: deals,
+    query: { isLoading: isLoadingDeals },
+  } = useList<GetFieldsFromList<DashboardLatestActivitiesDealsQuery>>({
     resource: "deals",
     queryOptions: { enabled: !!dealIds?.length },
     pagination: {

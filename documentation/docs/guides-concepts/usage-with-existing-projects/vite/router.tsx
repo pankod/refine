@@ -9,9 +9,8 @@ export function ViteRouter() {
       dependencies={{
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-router-v6": "latest",
-        "react-router-dom": "latest",
-        "react-router": "latest",
+        "@refinedev/react-router": "latest",
+        "react-router": "^7.0.2",
       }}
       startRoute="/"
       files={{
@@ -64,7 +63,7 @@ export const About = () => {
 
 const RefineContextTsxCode = /* tsx */ `
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
 export function RefineContext({ children }) {
@@ -87,10 +86,10 @@ export function RefineContext({ children }) {
 `;
 
 const AppTsxCode = /* tsx */ `
-import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router";
 
 import { ErrorComponent } from "@refinedev/core";
-import { NavigateToResource } from "@refinedev/react-router-v6";
+import { NavigateToResource } from "@refinedev/react-router";
 
 import { Home } from "./pages/home.tsx";
 import { About } from "./pages/about.tsx";
@@ -127,13 +126,14 @@ const ListTsxCode = `
 import { useList } from "@refinedev/core";
 
 export const ProductList = () => {
-  const { data: products } = useList();
+  const { result } = useList();
+  const products = result?.data;
 
   return (
     <div>
       <h1>Refine Products Page</h1>
       <ul>
-        {products?.data?.map((record) => (
+        {products?.map((record) => (
           <li key={record.id}>{record.name}</li>
         ))}
       </ul>

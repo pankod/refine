@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
 import { act, render, TestWrapper } from "@test";
 import { renderer, ShowInferencer } from "../show";
@@ -11,8 +11,8 @@ describe("MuiShowInferencer", () => {
       resources: [
         {
           name: "posts",
-          list: () => <div>list</div>,
-          show: ShowInferencer,
+          list: "/posts",
+          show: "/posts/show/:id",
         },
         {
           name: "categories",

@@ -96,7 +96,7 @@ export const TutorialFileExplorer = ({
       className={clsx(
         classNames("file-explorer", [stackClassName, className]),
         "!h-full",
-        "border-r border-r-gray-300 dark:border-r-gray-700",
+        "border-r border-r-zinc-300 dark:border-r-zinc-700",
         "flex-shrink-0",
         "!w-40",
         hasSolve && "pb-12",

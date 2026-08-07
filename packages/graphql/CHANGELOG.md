@@ -1,5 +1,75 @@
 # @refinedev/graphql
 
+## 8.0.1
+
+### Patch Changes
+
+- [#7086](https://github.com/refinedev/refine/pull/7086) [`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3) Thanks [@BatuhanW](https://github.com/BatuhanW)! - feat: disable minify
+
+  Resolves #6417
+
+## 8.0.0
+
+### Patch Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix(test): update Jest assertions and configuration for v30 compatibility
+
+  - Updated test infrastructure with modern Jest API usage and improved configuration.
+  - Internal development dependency updates and tooling modernization - no public API changes.
+
+- Updated dependencies [[`807099eecb4e8d41b1cf9ab557d71d34d12bec35`](https://github.com/refinedev/refine/commit/807099eecb4e8d41b1cf9ab557d71d34d12bec35), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/core@5.0.0
+
+## 7.1.3
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- fix: issue with custom mutation #6665
+
+  We missed passing param values for custom mutation
+
+  [Fixes #6665](https://github.com/refinedev/refine/issues/6665)
+
+## 7.1.2
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6678](https://github.com/refinedev/refine/pull/6678) [`989b438ae2e5441f20844fda42769378985d4284`](https://github.com/refinedev/refine/commit/989b438ae2e5441f20844fda42769378985d4284) Thanks [@shaun-ak](https://github.com/shaun-ak)! - fix: issue with custom mutation #6665
+
+  We missed passing param values for custom mutation
+
+  [Fixes #6665](https://github.com/refinedev/refine/issues/6665)
+
+## 7.1.1
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- Added error handler that will throw GraphQL errors via Tanstack query from urql
+
+📢 **Refine Community Release** 📢
+
+- chore: update package descriptions
+
+## 7.1.0
+
+### Minor Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6506](https://github.com/refinedev/refine/pull/6506) [`d8c1d385486481b1df5e7267d7624fa62df12253`](https://github.com/refinedev/refine/commit/d8c1d385486481b1df5e7267d7624fa62df12253) Thanks [@sudeepjd](https://github.com/sudeepjd)! - Added error handler that will throw GraphQL errors via Tanstack query from urql
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6554](https://github.com/refinedev/refine/pull/6554) [`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706) Thanks [@necatiozmen](https://github.com/necatiozmen)! - chore: update package descriptions
+
 ## 7.0.0
 
 ### Major Changes

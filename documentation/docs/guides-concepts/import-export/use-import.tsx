@@ -55,11 +55,11 @@ import React, { useState } from "react";
 import { useImport, useList } from "@refinedev/core";
 
 export const HomePage = () => {
-  const { data } = useList({
+  const { result } = useList({
       resource: "products",
       sorters: [{ field: "id", order: "desc" }],
   });
-  const products = data?.data;
+  const products = result?.data;
 
   const [importProgress, setImportProgress] = useState({
       processed: 0,

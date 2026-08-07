@@ -18,10 +18,6 @@ export enum DevtoolsEvent {
   DEVTOOLS_DISCONNECTED_APP = "devtools:disconnected-app",
   DEVTOOLS_HIGHLIGHT_IN_MONITOR = "devtools:highlight-in-monitor",
   DEVTOOLS_HIGHLIGHT_IN_MONITOR_ACTION = "devtools:highlight-in-monitor-action",
-  DEVTOOLS_LOGIN_SUCCESS = "devtools:login-success",
-  DEVTOOLS_DISPLAY_LOGIN_FAILURE = "devtools:display-login-failure",
-  DEVTOOLS_LOGIN_FAILURE = "devtools:login-failure",
-  DEVTOOLS_RELOAD_AFTER_LOGIN = "devtools:reload-after-login",
   DEVTOOLS_INVALIDATE_QUERY = "devtools:invalidate-query",
   DEVTOOLS_INVALIDATE_QUERY_ACTION = "devtools:invalidate-query-action",
 }
@@ -43,7 +39,6 @@ type ActivityPayload =
       hookName: string;
       resourcePath: string | null;
       resourceName?: string;
-      legacyKey: boolean;
     }
   | {
       type: "query";
@@ -55,7 +50,6 @@ type ActivityPayload =
       hookName: string;
       resourcePath: string | null;
       resourceName?: string;
-      legacyKey: boolean;
     };
 
 export type DevtoolsEventPayloads = {
@@ -70,16 +64,6 @@ export type DevtoolsEventPayloads = {
   [DevtoolsEvent.DEVTOOLS_DISCONNECTED_APP]: {};
   [DevtoolsEvent.DEVTOOLS_HIGHLIGHT_IN_MONITOR]: { name: string };
   [DevtoolsEvent.DEVTOOLS_HIGHLIGHT_IN_MONITOR_ACTION]: { name: string };
-  [DevtoolsEvent.DEVTOOLS_LOGIN_SUCCESS]: {};
-  [DevtoolsEvent.DEVTOOLS_LOGIN_FAILURE]: {
-    error: string | null;
-    code: string | null;
-  };
-  [DevtoolsEvent.DEVTOOLS_DISPLAY_LOGIN_FAILURE]: {
-    error: string | null;
-    code: string | null;
-  };
-  [DevtoolsEvent.DEVTOOLS_RELOAD_AFTER_LOGIN]: {};
   [DevtoolsEvent.DEVTOOLS_INVALIDATE_QUERY]: { queryKey: QueryKey };
   [DevtoolsEvent.DEVTOOLS_INVALIDATE_QUERY_ACTION]: { queryKey: QueryKey };
 };

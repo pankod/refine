@@ -1,5 +1,4 @@
 import { arrayReplace, arrayFindIndex, stripUndefined, keys } from ".";
-import { queryKeys } from "../queryKeys";
 
 describe("keys", () => {
   describe("keys()", () => {
@@ -8,9 +7,9 @@ describe("keys", () => {
       expect(keyBuilder.get()).toEqual([]);
     });
 
-    it("keys().get(true) === []", () => {
+    it("keys().get() === []", () => {
       const keyBuilder = keys();
-      expect(keyBuilder.legacy()).toEqual([]);
+      expect(keyBuilder.get()).toEqual([]);
     });
 
     it("keys().get() === []", () => {
@@ -25,9 +24,9 @@ describe("keys", () => {
       expect(keyBuilder.get()).toEqual(["auth"]);
     });
 
-    it("keys().auth().get(true) === [auth]", () => {
+    it("keys().auth().get() === [auth]", () => {
       const keyBuilder = keys().auth();
-      expect(keyBuilder.legacy()).toEqual(["auth"]);
+      expect(keyBuilder.get()).toEqual(["auth"]);
     });
 
     it("keys().auth().get() === [auth]", () => {
@@ -130,9 +129,9 @@ describe("keys", () => {
       expect(keyBuilder.get()).toEqual(["access"]);
     });
 
-    it("keys().access().get(true) === [access]", () => {
+    it("keys().access().get() === [access]", () => {
       const keyBuilder = keys().access();
-      expect(keyBuilder.get(true)).toEqual(["access"]);
+      expect(keyBuilder.get()).toEqual(["access"]);
     });
 
     it("keys().access().get() === [access]", () => {
@@ -171,9 +170,9 @@ describe("keys", () => {
       expect(keyBuilder.get()).toEqual(["audit"]);
     });
 
-    it("keys().audit().get(true) === [audit]", () => {
+    it("keys().audit().get() === [audit]", () => {
       const keyBuilder = keys().audit();
-      expect(keyBuilder.get(true)).toEqual(["audit"]);
+      expect(keyBuilder.get()).toEqual(["audit"]);
     });
 
     it("keys().audit().get() === [audit]", () => {
@@ -257,182 +256,5 @@ describe("array-find-index", () => {
 describe("strip-undefined", () => {
   it("stripUndefined([1, undefined, 2, undefined, 3]) === [1, 2, 3]", () => {
     expect(stripUndefined([1, undefined, 2, undefined, 3])).toEqual([1, 2, 3]);
-  });
-});
-
-describe("Legacy keys are identical with `queryKeys`", () => {
-  describe("queryKeys(posts, undefined, { foo: bar }) matches with all properties", () => {
-    const legacyQueryKeys = queryKeys("posts", undefined, { foo: "bar" });
-
-    it("all === keys().data()", () => {
-      expect(keys().data().get(true)).toEqual(legacyQueryKeys.all);
-    });
-
-    it("resourceAll === keys().data().resource(posts)", () => {
-      expect(keys().data().resource("posts").get(true)).toEqual(
-        legacyQueryKeys.resourceAll,
-      );
-    });
-
-    it("logList === keys().audit().resource(posts).action(list).params({ foo: bar })", () => {
-      expect(
-        keys()
-          .audit()
-          .resource("posts")
-          .action("list")
-          .params({ foo: "bar" })
-          .get(true),
-      ).toEqual(legacyQueryKeys.logList({ foo: "bar" }));
-    });
-
-    it("detail(1) === keys().data().resource(posts).action(one).id(1).params({ foo: bar })", () => {
-      expect(
-        keys()
-          .data()
-          .resource("posts")
-          .action("one")
-          .id(1)
-          .params({ foo: "bar" })
-          .get(true),
-      ).toEqual(legacyQueryKeys.detail(1));
-    });
-
-    it("many([1, 2, 3]) === keys().data().resource(posts).action(many).ids(1,2,3).params({ foo: bar })", () => {
-      expect(
-        keys()
-          .data()
-          .resource("posts")
-          .action("many")
-          .ids(1, 2, 3)
-          .params({ foo: "bar" })
-          .get(true),
-      ).toEqual(legacyQueryKeys.many([1, 2, 3]));
-    });
-
-    it("list({ pagination: { current: 1, pageSize: 5 }) === keys().data().resource(posts).action(list).params({ pagination: { current: 1, pageSize: 5 }, foo: bar })", () => {
-      expect(
-        keys()
-          .data()
-          .resource("posts")
-          .action("list")
-          .params({
-            pagination: { current: 1, pageSize: 5 },
-            foo: "bar",
-          })
-          .get(true),
-      ).toEqual(
-        legacyQueryKeys.list({
-          pagination: { current: 1, pageSize: 5 },
-        }),
-      );
-    });
-  });
-
-  it("logList matches the legacy", () => {
-    const metaData = {};
-    const meta = { foo: "bar" };
-    const resource = "posts";
-
-    const legacy = queryKeys(resource, undefined, metaData).logList(meta);
-
-    const newKey = keys()
-      .audit()
-      .resource(resource)
-      .action("list")
-      .params(meta);
-
-    expect(newKey.get(true)).toEqual(legacy);
-  });
-
-  it("useCustom matches the legacy key", () => {
-    const dataProviderName = "default";
-    const method = "GET";
-    const url = "/posts";
-    const preferredMeta = { foo: "bar" };
-    const config = { enabled: true };
-
-    const legacyKey = [
-      dataProviderName,
-      "custom",
-      method,
-      url,
-      { ...config, ...(preferredMeta || {}) },
-    ];
-
-    const newKey = keys()
-      .data(dataProviderName)
-      .mutation("custom")
-      .params({
-        method,
-        url,
-        ...config,
-        ...(preferredMeta || {}),
-      });
-
-    expect(newKey.get(true)).toEqual(legacyKey);
-  });
-});
-
-describe("Legacy keys are matching auth hooks", () => {
-  it("keys().auth().action(login).params({ username: 'test' }).get(true) === [useLogin]", () => {
-    expect(
-      keys().auth().action("login").params({ username: "test" }).get(true),
-    ).toEqual(["useLogin"]);
-  });
-  it("keys().auth().action(check).params({ foo: bar }) === [useAuthenticated, { foo: bar }]", () => {
-    expect(
-      keys().auth().action("check").params({ foo: "bar" }).get(true),
-    ).toEqual(["useAuthenticated", { foo: "bar" }]);
-  });
-});
-
-describe("Legacy keys are matching access hooks", () => {
-  it("keys().access().resource().action(list).params({ params: { foo: bar }, enabled: true }) === [useCan, { resource: undefined, action: list, params: { foo: bar }, enabled: true } }]", () => {
-    expect(
-      keys()
-        .access()
-        .resource()
-        .action("list")
-        .params({ params: { foo: "bar" }, enabled: true })
-        .get(true),
-    ).toEqual([
-      "useCan",
-      {
-        resource: undefined,
-        action: "list",
-        params: { foo: "bar" },
-        enabled: true,
-      },
-    ]);
-  });
-
-  it("generates the same key for legacy", () => {
-    const action = "list";
-    const resource = "posts";
-    const paramsRest = { foo: "bar" };
-    const queryOptions = { enabled: true };
-    const sanitizedResource = { name: "posts" };
-
-    const legacyKey = [
-      "useCan",
-      {
-        action,
-        resource,
-        params: { ...paramsRest, resource: sanitizedResource },
-        enabled: queryOptions?.enabled,
-      },
-    ];
-
-    const newKey = keys()
-      .access()
-      .resource(resource)
-      .action(action)
-      .params({
-        params: { ...paramsRest, resource: sanitizedResource },
-        enabled: queryOptions?.enabled,
-      })
-      .legacy();
-
-    expect(newKey).toEqual(legacyKey);
   });
 });

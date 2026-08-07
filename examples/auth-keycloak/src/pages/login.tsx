@@ -1,6 +1,6 @@
 import { Layout, Button, Space, Typography } from "antd";
 import { useLogin } from "@refinedev/core";
-import { ThemedTitle } from "@refinedev/antd";
+import { ThemedTitle as ThemedTitleV2 } from "@refinedev/antd";
 
 export const Login: React.FC = () => {
   const { mutate: login } = useLogin();
@@ -14,7 +14,7 @@ export const Login: React.FC = () => {
       }}
     >
       <Space direction="vertical" align="center" size="large">
-        <ThemedTitle
+        <ThemedTitleV2
           collapsed={false}
           wrapperStyles={{
             fontSize: "22px",

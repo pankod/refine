@@ -14,7 +14,7 @@ describe("useInfiniteList pagination helper", () => {
         data: [],
         total: 10,
         pagination: {
-          current: 2,
+          currentPage: 2,
           pageSize: 3,
         },
       });
@@ -37,7 +37,7 @@ describe("useInfiniteList pagination helper", () => {
         data: [],
         total: 10,
         pagination: {
-          current: 2,
+          currentPage: 2,
           pageSize: 3,
         },
       });

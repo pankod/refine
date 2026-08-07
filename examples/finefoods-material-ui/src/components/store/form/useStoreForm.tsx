@@ -37,7 +37,7 @@ export const useStoreForm = (props: Props) => {
       },
     },
   });
-  const store = form.refineCore.queryResult?.data?.data;
+  const store = form.refineCore.query?.data?.data;
 
   const [latLng, setLatLng] = useState<Partial<LatLng>>({
     lat: props.action === "create" ? 39.66853 : undefined,
@@ -97,7 +97,7 @@ export const useStoreForm = (props: Props) => {
   };
 
   const isLoading =
-    form.refineCore?.queryResult?.isFetching || form.refineCore.formLoading;
+    form.refineCore?.query?.isFetching || form.refineCore.formLoading;
 
   return {
     ...form,

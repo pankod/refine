@@ -78,7 +78,7 @@ const RefineLayoutTsxCode = /* tsx */ `
 import { Refine } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
 import routerProvider from "@refinedev/nextjs-router";
-import { RefineThemes, ThemedLayoutV2 } from "@refinedev/antd";
+import { RefineThemes, ThemedLayout } from "@refinedev/antd";
 
 import { App as AntdApp, ConfigProvider } from "antd";
 
@@ -99,7 +99,7 @@ export default function RefineLayout({ children }: { children: React.ReactNode }
           ]}
           options={{ syncWithLocation: true }}
         >
-          <ThemedLayoutV2>{children}</ThemedLayoutV2>
+          <ThemedLayout>{children}</ThemedLayout>
         </Refine>
       </AntdApp>
     </ConfigProvider>

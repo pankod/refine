@@ -1,32 +1,16 @@
 ---
-title: Url
+title: "Chakra UI Url Field Component | UI Component in Refine v5"
+display_title: "Url"
+sidebar_label: "Url"
+description: "Set up Url Field in Refine v5. Learn best practices. Explore customization options for reference and chakra for polished admin UIs."
 swizzle: true
 ---
-
-```tsx live shared
-const { default: routerProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: routerProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  Layout: RefineChakra.Layout,
-  Sider: () => null,
-});
-
-const Wrapper = ({ children }) => {
-  return (
-    <ChakraUI.ChakraProvider theme={RefineChakra.refineTheme}>
-      {children}
-    </ChakraUI.ChakraProvider>
-  );
-};
-```
 
 This field lets you embed a link. It uses Chakra UI's [`<Link>`](https://www.chakra-ui.com/docs/components/link#usage) component. You can pass a URL in its `value` prop and you can show a text in its place by passing any `children`.
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -34,9 +18,8 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 
 Let's see how we can use `<UrlField>` with an example:
 
-```tsx live url=http://localhost:3000 previewHeight=420px hideCode
+```tsx live url=http://localhost:3000/posts previewHeight=420px hideCode
 setInitialRoutes(["/posts"]);
-import { Refine } from "@refinedev/core";
 
 // visible-block-start
 import {
@@ -84,7 +67,9 @@ const PostList: React.FC = () => {
     [],
   );
 
-  const { getHeaderGroups, getRowModel } = useTable({
+  const {
+    reactTable: { getHeaderGroups, getRowModel },
+  } = useTable({
     columns,
   });
 
@@ -140,19 +125,30 @@ interface IPost {
 }
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
-      notificationProvider={RefineChakra.notificationProvider()}
-      resources={[{ name: "posts", list: PostList }]}
-    />
-  );
-};
-
 render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

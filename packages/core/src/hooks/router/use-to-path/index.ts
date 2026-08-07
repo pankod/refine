@@ -6,7 +6,6 @@ type UseToPathParams = {
   resource?: IResourceItem;
   action: Action;
   meta?: Record<string, unknown>;
-  legacy?: boolean;
 };
 
 /**
@@ -20,9 +19,8 @@ export const useToPath = ({
   resource,
   action,
   meta,
-  legacy,
 }: UseToPathParams): string | undefined => {
   const getToPath = useGetToPath();
 
-  return getToPath({ resource, action, meta, legacy });
+  return getToPath({ resource, action, meta });
 };

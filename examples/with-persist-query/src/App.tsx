@@ -4,8 +4,8 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route } from "react-router";
 import dataProvider from "@refinedev/simple-rest";
 import "./App.css";
 
@@ -17,7 +17,7 @@ import { PostList, PostCreate, PostEdit } from "./pages/posts";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+      gcTime: 1000 * 60 * 60 * 24, // 24 hours
     },
   },
 });
@@ -28,7 +28,7 @@ const localStoragePersister = createSyncStoragePersister({
 // const sessionStoragePersister = createSyncStoragePersister({ storage: window.sessionStorage })
 
 persistQueryClient({
-  queryClient,
+  queryClient: queryClient as any,
   persister: localStoragePersister,
 });
 

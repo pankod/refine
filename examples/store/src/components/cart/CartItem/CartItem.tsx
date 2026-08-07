@@ -24,8 +24,14 @@ export const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const [removing, setRemoving] = useState(false);
   const [quantity, setQuantity] = useState<number>(item.quantity);
 
-  const { mutateAsync: deleteMutate, isLoading: deleteIsLoading } = useDelete();
-  const { mutate: updateMutate, isLoading: updateIsLoading } = useUpdate({
+  const {
+    mutateAsync: deleteMutate,
+    mutation: { isLoading: deleteIsLoading },
+  } = useDelete();
+  const {
+    mutate: updateMutate,
+    mutation: { isLoading: updateIsLoading },
+  } = useUpdate({
     id: item.id,
     resource: `carts/${cart?.id}/line-items`,
     mutationOptions: {

@@ -74,7 +74,7 @@ render(
 ```
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Properties
@@ -122,7 +122,7 @@ render(
 
 The `<Show>` component reads the `resource` information from the route by default. This default behavior will not work on custom pages. If you want to use the `<Show>` component in a custom page, you can use the `resource` property.
 
-[Refer to the custom pages documentation for detailed usage. &#8594](/advanced-tutorials/custom-pages.md)
+[Refer to the custom pages documentation for detailed usage. &#8594](/core/docs/3.xx.xx/advanced-tutorials/custom-pages)
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/custom
 // handle initial routes in new way
@@ -176,9 +176,9 @@ render(
 
 `canDelete` and `canEdit` allows us to add the delete and edit buttons inside the `<Show>` component. If the resource has `canDelete` or `canEdit` property refine adds the buttons by default.
 
-When clicked on, delete button executes the [`useDelete`](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) method provided by the [`dataProvider`](/api-reference/core/providers/data-provider.md) and the edit button redirects the user to the record edit page.
+When clicked on, delete button executes the [`useDelete`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/) method provided by the [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider) and the edit button redirects the user to the record edit page.
 
-Refer to the [`<DeleteButton>`](/api-reference/mui/components/buttons/delete.md) and the [`<EditButton>`](/api-reference/mui/components/buttons/edit.md) documentation for detailed usage.
+Refer to the [`<DeleteButton>`](/core/docs/3.xx.xx/api-reference/mui/components/buttons/delete) and the [`<EditButton>`](/core/docs/3.xx.xx/api-reference/mui/components/buttons/edit) documentation for detailed usage.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
 const { default: simpleRest } = RefineSimpleRest;
@@ -247,7 +247,7 @@ render(
 );
 ```
 
-[Refer to the `usePermission` documentation for detailed usage. &#8594](/api-reference/core/hooks/auth/usePermissions.md)
+[Refer to the `usePermission` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/usePermissions)
 
 ### `recordItemId`
 
@@ -300,7 +300,7 @@ render(
 ```
 
 :::note
-`<Show>` component needs the `id` information for [`<RefreshButton>`](/api-reference/mui/components/buttons/refresh.md) to work properly.
+`<Show>` component needs the `id` information for [`<RefreshButton>`](/core/docs/3.xx.xx/api-reference/mui/components/buttons/refresh) to work properly.
 :::
 
 :::caution
@@ -430,10 +430,10 @@ render(
 
 To customize or disable the breadcrumb, you can use the `breadcrumb` property. By default it uses the `Breadcrumb` component from `@pankod/refine-mui` package.
 
-[Refer to the `Breadcrumb` documentation for detailed usage. &#8594](/api-reference/mui/components/breadcrumb.md)
+[Refer to the `Breadcrumb` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/mui/components/breadcrumb)
 
 :::tip
-This feature can be managed globally via the `<Refine>` component's [options](/docs/3.xx.xx/api-reference/core/components/refine-config/#breadcrumb)
+This feature can be managed globally via the `<Refine>` component's [options](/core/docs/3.xx.xx/api-reference/core/components/refine-config/#breadcrumb)
 :::
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/123
@@ -928,14 +928,14 @@ Use `headerButtonProps` and `footerButtonProps` instead.
 
 ### Properties
 
-<PropsTable module="@pankod/refine-mui/Show" 
+<PropsTable module="@pankod/refine-mui/Show"
 wrapperProps-type="[`CardProps`](https://mui.com/material-ui/api/card/#props)"
 contentProps-type="[`CardContentProps`](https://mui.com/material-ui/api/card-content/#props)"
 headerProps-type="[`CardHeaderProps`](https://mui.com/material-ui/api/card-header/#props)"
 headerButtonProps-type="[`BoxProps`](https://mui.com/material-ui/api/box/#props)"
-headerButtons-default="[`ListButton`](https://refine.dev/docs/api-reference/mui/components/buttons/list-button/), [`EditButton`](https://refine.dev/docs/api-reference/mui/components/buttons/edit-button/), [`DeleteButton`](https://refine.dev/docs/api-reference/mui/components/buttons/delete-button/), [`RefreshButton`](https://refine.dev/docs/api-reference/mui/components/buttons/refresh-button/)"
+headerButtons-default="[`ListButton`](https://refine.dev/core/docs/api-reference/mui/components/buttons/list-button/), [`EditButton`](https://refine.dev/core/docs/api-reference/mui/components/buttons/edit-button/), [`DeleteButton`](https://refine.dev/core/docs/api-reference/mui/components/buttons/delete-button/), [`RefreshButton`](https://refine.dev/core/docs/api-reference/mui/components/buttons/refresh-button/)"
 footerButtonProps-type="[`CardActionsProps`](https://mui.com/material-ui/api/card-actions/#props)"
-breadcrumb-default="[`<Breadcrumb/>`](/docs/3.xx.xx/api-reference/mui/components/mui-breadcrumb/)"
+breadcrumb-default="[`<Breadcrumb/>`](/core/docs/3.xx.xx/api-reference/mui/components/mui-breadcrumb/)"
 goBack-default="`<ArrowLeft />`"
 goBack-type="`ReactNode`"
 />

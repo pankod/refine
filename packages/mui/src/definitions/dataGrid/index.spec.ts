@@ -178,6 +178,7 @@ describe("transformMuiOperatorToCrudOperators", () => {
     expect(transformMuiOperatorToCrudOperator("=")).toEqual("eq");
     expect(transformMuiOperatorToCrudOperator("!=")).toEqual("ne");
     expect(transformMuiOperatorToCrudOperator("not")).toEqual("ne");
+    expect(transformMuiOperatorToCrudOperator("doesNotEqual")).toEqual("ne");
     expect(transformMuiOperatorToCrudOperator("isAnyOf")).toEqual("in");
     expect(transformMuiOperatorToCrudOperator("<")).toEqual("lt");
     expect(transformMuiOperatorToCrudOperator("before")).toEqual("lt");
@@ -194,6 +195,9 @@ describe("transformMuiOperatorToCrudOperators", () => {
     expect(transformMuiOperatorToCrudOperator("isEmpty")).toEqual("null");
     expect(transformMuiOperatorToCrudOperator("isNotEmpty")).toEqual("nnull");
     expect(transformMuiOperatorToCrudOperator("contains")).toEqual("contains");
+    expect(transformMuiOperatorToCrudOperator("doesNotContain")).toEqual(
+      "ncontains",
+    );
     expect(transformMuiOperatorToCrudOperator("something")).toEqual(
       "something",
     );
@@ -230,8 +234,14 @@ describe("transformCrudOperatorToMuiOperator", () => {
     expect(transformCrudOperatorToMuiOperator("contains", "string")).toEqual(
       "contains",
     );
+    expect(transformCrudOperatorToMuiOperator("ncontains", "string")).toEqual(
+      "doesNotContain",
+    );
     expect(transformCrudOperatorToMuiOperator("eq", "string")).toEqual(
       "equals",
+    );
+    expect(transformCrudOperatorToMuiOperator("ne", "string")).toEqual(
+      "doesNotEqual",
     );
 
     expect(transformCrudOperatorToMuiOperator("null", "string")).toEqual(
@@ -436,5 +446,51 @@ describe("transformCrudFiltersToFilterModel", () => {
       items: [],
       logicOperator: "and",
     });
+  });
+
+  it("Should have unique IDs for filters with the same field and operator", () => {
+    const crudFilters: CrudFilters = [
+      {
+        operator: "or",
+        value: [
+          {
+            field: "status",
+            operator: "eq",
+            value: "draft",
+          },
+          {
+            field: "status",
+            operator: "eq",
+            value: "published",
+          },
+        ],
+      },
+    ];
+
+    const columnsLookup = {
+      status: "string",
+    };
+
+    const filterModel: GridFilterModel = {
+      items: [
+        {
+          field: "status",
+          operator: "equals",
+          value: "draft",
+          id: "statuseq",
+        },
+        {
+          field: "status",
+          operator: "equals",
+          value: "published",
+          id: "statuseq2",
+        },
+      ],
+      logicOperator: GridLogicOperator.Or,
+    };
+
+    expect(
+      transformCrudFiltersToFilterModel(crudFilters, columnsLookup),
+    ).toEqual(filterModel);
   });
 });

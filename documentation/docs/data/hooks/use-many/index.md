@@ -1,14 +1,17 @@
 ---
-title: useMany
+title: "useMany Hook | Options, Patterns & Edge Cases in Refine v5"
+display_title: "useMany"
+sidebar_label: "useMany"
+description: "Explore how to use the useMany hook in Refine v5. Explore best practices to scale data and pass for custom APIs and scalable data flows."
 siderbar_label: useMany
-source: packages/core/src/hooks/data/useMany.ts
+source: packages/core/src/data/hooks/useMany.ts
 ---
 
 import BasicUsageLivePreview from "./\_basic-usage-live-preview.md";
 
-`useMany` is an extended version of TanStack Query's [`useQuery`](https://tanstack.com/query/v4/docs/react/reference/useQuery) that supports all of its features and adds some more.
+`useMany` is an extended version of TanStack Query's [`useQuery`](https://tanstack.com/query/v5/docs/react/reference/useQuery) that supports all of its features and adds some more.
 
-- It uses the `getMany` method as the **query function** from the [`dataProvider`](/docs/data/data-provider) which is passed to `<Refine>`.
+- It uses the `getMany` method as the **query function** from the [`dataProvider`](/core/docs/data/data-provider/) which is passed to `<Refine>`.
 
 - It uses a query key to cache the data. The **query key** is generated from the provided properties. You can see the query key by using the TanStack Query devtools.
 
@@ -26,7 +29,7 @@ When these properties are changed, the `useMany` hook will trigger a new request
 
 ## Realtime Updates
 
-> This feature is only available if you use a [Live Provider](/docs/realtime/live-provider).
+> This feature is only available if you use a [Live Provider](/core/docs/realtime/live-provider/).
 
 When the `useMany` hook is mounted, it will call the `subscribe` method from the `liveProvider` with some parameters such as `channel`, `resource` etc. It is useful when you want to subscribe to live updates.
 
@@ -42,11 +45,11 @@ useMany({
 });
 ```
 
-> For more information, refer to the [creating a data provider tutorial &#8594](/docs/data/data-provider)
+> For more information, refer to the [creating a data provider tutorial &#8594](/core/docs/data/data-provider/)
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### ids <PropTag required />
 
@@ -81,7 +84,7 @@ useMany({
 });
 ```
 
-> For more information, refer to the [`useQuery` documentation&#8594](https://tanstack.com/query/v4/docs/react/reference/useQuery)
+> For more information, refer to the [`useQuery` documentation&#8594](https://tanstack.com/query/v5/docs/react/reference/useQuery)
 
 ### meta
 
@@ -129,11 +132,11 @@ const myDataProvider = {
 };
 ```
 
-> For more information, refer to the [`meta` section of the General Concepts documentation&#8594](/docs/guides-concepts/general-concepts/#meta-concept)
+> For more information, refer to the [`meta` section of the General Concepts documentation&#8594](/core/docs/guides-concepts/general-concepts/#meta-concept)
 
 ### successNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 After data is fetched successfully, `useMany` can call `open` function from `NotificationProvider` to show a success notification. With this prop, you can customize the success notification.
 
@@ -151,7 +154,7 @@ useMany({
 
 ### errorNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 After data fetching is failed, `useMany` will call the `open` function from `NotificationProvider` to show an error notification. With this prop, you can customize the error notification.
 
@@ -169,7 +172,7 @@ useMany({
 
 ### liveMode
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
 Determines whether to update data automatically ("auto") or not ("manual") if a related live event is received. It can be used to update and show data in Realtime throughout your app.
 
@@ -181,7 +184,7 @@ useMany({
 
 ### onLiveEvent
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
 The callback function is executed when new events from a subscription have arrived.
 
@@ -195,9 +198,9 @@ useMany({
 
 ### liveParams
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
-Params to pass to liveProvider's [subscribe](/docs/realtime/live-provider#subscribe) method.
+Params to pass to liveProvider's [subscribe](/core/docs/realtime/live-provider#subscribe) method.
 
 ### overtimeOptions
 
@@ -229,7 +232,7 @@ console.log(overtime.elapsedTime); // undefined, 1000, 2000, 3000 4000, ...
 
 Returns an object with TanStack Query's `useQuery` return values.
 
-> For more information, refer to the [ `useQuery` documentation &#8594](https://tanstack.com/query/v4/docs/react/reference/useQuery)
+> For more information, refer to the [ `useQuery` documentation &#8594](https://tanstack.com/query/v5/docs/react/reference/useQuery)
 
 ### Additional Values
 
@@ -264,8 +267,8 @@ errorNotification-default='"Error (status code: `statusCode`)"'
 
 | Description                               | Type                                                                                                                   |
 | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Result of the TanStack Query's `useQuery` | [`QueryObserverResult<{ data: TData[]; error: TError }>`](https://tanstack.com/query/v4/docs/react/reference/useQuery) |
+| Result of the TanStack Query's `useQuery` | [`QueryObserverResult<{ data: TData[]; error: TError }>`](https://tanstack.com/query/v5/docs/react/reference/useQuery) |
 | overtime                                  | `{ elapsedTime?: number }`                                                                                             |
 
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror

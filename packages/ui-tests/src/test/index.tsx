@@ -1,63 +1,41 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 
 import { type AuthProvider, Refine } from "@refinedev/core";
 
-import { MockRouterProvider, MockJSONServer } from "@test";
+import { MockJSONServer } from "@test";
 import type {
   I18nProvider,
   AccessControlProvider,
-  LegacyAuthProvider,
   DataProvider,
   NotificationProvider,
   IResourceItem,
-  RouterBindings,
-  IRouterContext,
+  RouterProvider,
   IRefineOptions,
 } from "@refinedev/core";
+import { mockRouterProvider } from "./dataMocks";
 
-/* interface ITestWrapperProps {
-    authProvider?: IAuthContext;
-    dataProvider?: IDataContext;
-    i18nProvider?: I18nProvider;
-    accessControlProvider?: IAccessControlContext;
-    liveProvider?: ILiveContext;
-    resources?: IResourceItem[];
-    children?: React.ReactNode;
-    routerInitialEntries?: string[];
-    refineProvider?: IRefineContextProvider;
-} */
-
-const List = () => {
-  return <div>hede</div>;
-};
 export interface ITestWrapperProps {
   dataProvider?: DataProvider;
-  legacyAuthProvider?: LegacyAuthProvider;
   authProvider?: AuthProvider;
   resources?: IResourceItem[];
   notificationProvider?: NotificationProvider;
   accessControlProvider?: AccessControlProvider;
   i18nProvider?: I18nProvider;
-  legacyRouterProvider?: IRouterContext;
-  routerProvider?: RouterBindings;
+  routerProvider?: RouterProvider;
   routerInitialEntries?: string[];
-  DashboardPage?: React.FC;
   options?: IRefineOptions;
 }
 
 export const TestWrapper: (props: ITestWrapperProps) => React.FC = ({
   dataProvider,
-  legacyAuthProvider,
   authProvider,
   resources,
   notificationProvider,
   accessControlProvider,
   routerInitialEntries,
-  DashboardPage,
   i18nProvider,
   routerProvider,
-  legacyRouterProvider,
   options,
 }) => {
   // Previously, MemoryRouter was used in this wrapper. However, the
@@ -82,14 +60,11 @@ export const TestWrapper: (props: ITestWrapperProps) => React.FC = ({
           }}
           dataProvider={dataProvider ?? MockJSONServer}
           i18nProvider={i18nProvider}
-          routerProvider={routerProvider}
-          legacyRouterProvider={legacyRouterProvider ?? MockRouterProvider}
-          legacyAuthProvider={legacyAuthProvider}
+          routerProvider={routerProvider ?? mockRouterProvider()}
           authProvider={authProvider}
           notificationProvider={notificationProvider}
-          resources={resources ?? [{ name: "posts", list: List }]}
+          resources={resources ?? [{ name: "posts", list: "/list" }]}
           accessControlProvider={accessControlProvider}
-          DashboardPage={DashboardPage ?? undefined}
         >
           {children}
         </Refine>
@@ -99,13 +74,10 @@ export const TestWrapper: (props: ITestWrapperProps) => React.FC = ({
 };
 export {
   MockJSONServer,
-  MockRouterProvider,
   MockAccessControlProvider,
   MockLiveProvider,
-  mockRouterBindings,
+  mockRouterProvider,
   mockAuthProvider,
-  mockLegacyAuthProvider,
-  mockLegacyRouterProvider,
 } from "./dataMocks";
 
 // re-export everything

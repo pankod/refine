@@ -17,14 +17,17 @@ type ICategory = GetFieldsFromList<CategoriesListQuery>;
 
 export const CategoryList = () => {
   const { tableProps, sorters } = useTable<ICategory>({
-    initialSorter: [
-      {
-        field: "id",
-        order: "asc",
-      },
-    ],
-    metaData: {
+    meta: {
       gqlQuery: CATEGORIES_LIST_QUERY,
+    },
+
+    sorters: {
+      initial: [
+        {
+          field: "id",
+          order: "asc",
+        },
+      ],
     },
   });
 

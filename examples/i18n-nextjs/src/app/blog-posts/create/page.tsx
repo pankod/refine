@@ -1,20 +1,27 @@
 "use client";
 
 import { Create, useForm, useSelect } from "@refinedev/antd";
+import { useTranslation } from "@refinedev/core";
 import { Form, Input, Select } from "antd";
 
 export default function BlogPostCreate() {
-  const { formProps, saveButtonProps } = useForm({});
+  const { translate: t } = useTranslation();
+
+  const { formProps, saveButtonProps } = useForm();
 
   const { selectProps: categorySelectProps } = useSelect({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (
     <Create saveButtonProps={saveButtonProps}>
       <Form {...formProps} layout="vertical">
         <Form.Item
-          label={"Title"}
+          label={t("blog_posts.fields.title")}
           name={["title"]}
           rules={[
             {
@@ -25,7 +32,7 @@ export default function BlogPostCreate() {
           <Input />
         </Form.Item>
         <Form.Item
-          label={"Content"}
+          label={t("blog_posts.fields.content")}
           name="content"
           rules={[
             {
@@ -36,7 +43,7 @@ export default function BlogPostCreate() {
           <Input.TextArea rows={5} />
         </Form.Item>
         <Form.Item
-          label={"Category"}
+          label={t("blog_posts.fields.category")}
           name={["category", "id"]}
           rules={[
             {
@@ -44,10 +51,13 @@ export default function BlogPostCreate() {
             },
           ]}
         >
-          <Select {...categorySelectProps} />
+          <Select
+            {...categorySelectProps}
+            placeholder={t("blog_posts.form.select.category.placeholder")}
+          />
         </Form.Item>
         <Form.Item
-          label={"Status"}
+          label={t("blog_posts.fields.status.title")}
           name={["status"]}
           initialValue={"draft"}
           rules={[
@@ -59,9 +69,15 @@ export default function BlogPostCreate() {
           <Select
             defaultValue={"draft"}
             options={[
-              { value: "draft", label: "Draft" },
-              { value: "published", label: "Published" },
-              { value: "rejected", label: "Rejected" },
+              { value: "draft", label: t("blog_posts.fields.status.draft") },
+              {
+                value: "published",
+                label: t("blog_posts.fields.status.published"),
+              },
+              {
+                value: "rejected",
+                label: t("blog_posts.fields.status.rejected"),
+              },
             ]}
             style={{ width: 120 }}
           />

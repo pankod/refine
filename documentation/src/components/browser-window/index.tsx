@@ -26,21 +26,29 @@ export default function BrowserWindow({
   hasBottom = false,
 }: Props): JSX.Element {
   return (
-    <div className={clsx("flex", "flex-col", "h-full")}>
+    <div
+      className={clsx(
+        "refine-live-preview-browser-window",
+        "flex",
+        "flex-col",
+        "gap-1",
+        "h-full",
+        "rounded-t-lg",
+        "p-1",
+        "bg-zinc-200 dark:bg-zinc-800",
+      )}
+    >
       <div
         className={clsx(
           "flex-shrink-0",
-          "rounded-tl-lg",
-          "rounded-tr-lg",
-          "border",
-          "border-gray-300 dark:border-gray-700",
-          "px-4 py-3",
+          "p-2",
+          "rounded",
           "flex items-center justify-start",
           "gap-2",
-          "bg-gray-100 dark:bg-gray-700",
           "relative",
-          "text-gray-800 dark:text-gray-100",
-          "border-b-0",
+          "bg-zinc-50 dark:bg-zinc-950",
+          "tracking-[-0.004em]",
+          "text-zinc-900 dark:text-white",
         )}
       >
         <GlobeIcon className="w-4 h-4" />
@@ -52,15 +60,24 @@ export default function BrowserWindow({
         className={clsx(
           "flex-1",
           "overflow-hidden",
-          "bg-gray-100 dark:bg-gray-700",
-          "border border-gray-300 dark:border-gray-700",
+          "rounded",
+          "bg-zinc-50 dark:bg-zinc-950",
+          "p-0.5",
           !hasBottom && "rounded-bl-lg rounded-br-lg",
-          hasBottom && "border-b-gray-300 dark:border-b-gray-900",
-          hasBottom && "border-b",
         )}
-        style={{ minHeight }}
       >
-        {children}
+        <div
+          className={clsx(
+            "flex-1",
+            "overflow-hidden",
+            "rounded",
+            "bg-zinc-50 dark:bg-zinc-950",
+            !hasBottom && "rounded-bl-lg rounded-br-lg",
+          )}
+          style={{ minHeight }}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

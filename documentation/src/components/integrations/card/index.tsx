@@ -25,26 +25,19 @@ const Card: React.FC<LargeCardProps> = ({
         "flex gap-4 sm:gap-8",
         "no-underline",
         "p-4 sm:p-8",
-        "border border-gray-200 dark:border-gray-700",
+        "border border-zinc-700",
         "rounded-2xl",
       )}
-      rel="noreferrer"
+      rel="noopener"
     >
       <div className={clsx()}>
-        <Icon className={clsx("w-6 h-6 sm:w-12 sm:h-12")} />
+        <Icon className={clsx("w-6 h-6 sm:w-12 sm:h-12", "!text-white")} />
       </div>
 
       <div className={clsx("flex flex-col gap-2")}>
+        <div className={clsx("text-zinc-200", "font-semibold")}>{title}</div>
         <div
-          className={clsx("text-gray-700 dark:text-gray-200", "font-semibold")}
-        >
-          {title}
-        </div>
-        <div
-          className={clsx(
-            "text-gray-600 dark:text-gray-300",
-            "text-xs sm:text-sm",
-          )}
+          className={clsx("text-zinc-300", "text-xs sm:text-sm")}
           // biome-ignore lint/security/noDangerouslySetInnerHtml: explicitly disabled
           dangerouslySetInnerHTML={{ __html: description }}
         />
@@ -55,7 +48,7 @@ const Card: React.FC<LargeCardProps> = ({
                 <a
                   key={contributor.name}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener"
                   href={contributor.url}
                   className={clsx(
                     "no-underline flex items-center gap-1 text-xs mt-2 sm:mt-4",
@@ -75,8 +68,10 @@ const Card: React.FC<LargeCardProps> = ({
                       fill="#FF4C4D"
                     />
                   </svg>
-                  <span className={clsx("text-gray-500")}>by</span>
-                  <span className={clsx("underline")}>{contributor.name}</span>
+                  <span className={clsx("text-zinc-500")}>by</span>
+                  <span className={clsx("text-zinc-300", "underline")}>
+                    {contributor.name}
+                  </span>
                 </a>
               );
             })}

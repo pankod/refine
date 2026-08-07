@@ -1,17 +1,19 @@
 ---
-title: <AuthPage />
-description: <AuthPage> component from Refine is a authentication page that can be used to login, register, forgot password and update password.
+title: "Chakra UI Auth Page Component | UI Component in Refine v5"
+display_title: "<AuthPage />"
+sidebar_label: "<AuthPage />"
+description: "Explore how to integrate Auth Page in Refine v5. Learn integrate accessibility, components for polished admin UIs. Real-world snippets included."
 swizzle: true
 source: packages/chakra-ui/src/components/pages/auth/index.tsx
 ---
 
 `<AuthPage>` component from Refine for **Chakra UI** contains authentication pages that can be used to login, register, forgot password and update password.
 
-Before using the `<AuthPage>` component you need to add [authProvider](/docs/authentication/auth-provider) that will be used to handle authentication.
+Before using the `<AuthPage>` component you need to add [authProvider](/core/docs/authentication/auth-provider/) that will be used to handle authentication.
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -135,17 +137,17 @@ setInitialRoutes(["/login"]);
 setRefineProps({ Sider: () => null });
 
 // visible-block-start
-import { AuthPage, ThemedLayoutV2, RefineThemes } from "@refinedev/chakra-ui";
+import { AuthPage, ThemedLayout, RefineThemes } from "@refinedev/chakra-ui";
 import { Authenticated, Refine } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
 import { ChakraProvider } from "@chakra-ui/react";
 
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import { authProvider } from "./authProvider";
 import { DashboardPage } from "./pages/dashboard";
@@ -163,9 +165,9 @@ const App = () => {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -217,14 +219,14 @@ import { Authenticated, Refine } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { AuthPage, ThemedLayoutV2, RefineThemes } from "@refinedev/chakra-ui";
+import { AuthPage, ThemedLayout, RefineThemes } from "@refinedev/chakra-ui";
 
 import { ChakraProvider } from "@chakra-ui/react";
 
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -243,9 +245,9 @@ const App = () => {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -314,14 +316,14 @@ import { Authenticated, Refine } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { AuthPage, ThemedLayoutV2, RefineThemes } from "@refinedev/chakra-ui";
+import { AuthPage, ThemedLayout, RefineThemes } from "@refinedev/chakra-ui";
 
 import { ChakraProvider } from "@chakra-ui/react";
 
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -340,9 +342,9 @@ const App = () => {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -412,14 +414,14 @@ import { Authenticated, Refine } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { AuthPage, ThemedLayoutV2, RefineThemes } from "@refinedev/chakra-ui";
+import { AuthPage, ThemedLayout, RefineThemes } from "@refinedev/chakra-ui";
 
 import { ChakraProvider } from "@chakra-ui/react";
 
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -438,9 +440,9 @@ const App = () => {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -514,14 +516,14 @@ import { Authenticated, Refine } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { AuthPage, ThemedLayoutV2, RefineThemes } from "@refinedev/chakra-ui";
+import { AuthPage, ThemedLayout, RefineThemes } from "@refinedev/chakra-ui";
 
 import { ChakraProvider } from "@chakra-ui/react";
 
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -540,9 +542,9 @@ const App = () => {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -830,7 +832,7 @@ const MyLoginPage = () => {
     <AuthPage
       type="login"
       title={
-        <ThemedTitleV2
+        <ThemedTitle
           title="My Title"
           icon={<img src="https://refine.dev/img/logo.png" />}
         />
@@ -947,8 +949,8 @@ interface FormPropsType extends UseFormProps {
 }
 ```
 
-[auth-provider]: /docs/authentication/auth-provider
-[login]: /docs/authentication/auth-provider#login-
-[register]: /docs/authentication/auth-provider#register
-[forgot-password]: /docs/authentication/auth-provider#forgotpassword
-[update-password]: /docs/authentication/auth-provider#updatepassword
+[auth-provider]: /core/docs/authentication/auth-provider
+[login]: /core/docs/authentication/auth-provider#login-
+[register]: /core/docs/authentication/auth-provider#register
+[forgot-password]: /core/docs/authentication/auth-provider#forgotpassword
+[update-password]: /core/docs/authentication/auth-provider#updatepassword

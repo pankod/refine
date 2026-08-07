@@ -18,7 +18,6 @@ import type { EditButtonProps } from "../types";
  */
 export const EditButton: React.FC<EditButtonProps> = ({
   resource: resourceNameFromProps,
-  resourceNameOrRouteName: propResourceNameOrRouteName,
   recordItemId,
   hideText = false,
   accessControl,
@@ -28,20 +27,23 @@ export const EditButton: React.FC<EditButtonProps> = ({
   ...rest
 }) => {
   const { to, label, title, hidden, disabled, LinkComponent } = useEditButton({
-    resource: resourceNameFromProps ?? propResourceNameOrRouteName,
+    resource: resourceNameFromProps,
     id: recordItemId,
     meta,
     accessControl,
   });
 
-  if (hidden) return null;
+  const isDisabled = disabled || rest.disabled;
+  const isHidden = hidden || rest.hidden;
+
+  if (isHidden) return null;
 
   return (
     <LinkComponent
       to={to}
       replace={false}
       onClick={(e: React.PointerEvent<HTMLButtonElement>) => {
-        if (disabled) {
+        if (isDisabled) {
           e.preventDefault();
           return;
         }
@@ -53,7 +55,7 @@ export const EditButton: React.FC<EditButtonProps> = ({
     >
       <Button
         icon={<EditOutlined />}
-        disabled={disabled}
+        disabled={isDisabled}
         title={title}
         data-testid={RefineButtonTestIds.EditButton}
         className={RefineButtonClassNames.EditButton}

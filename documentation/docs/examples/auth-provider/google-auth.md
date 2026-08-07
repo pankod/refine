@@ -1,6 +1,9 @@
 ---
 id: google-auth
-title: Google Auth
+title: "Google Auth Example | Auth Provider in Refine v5"
+display_title: "Google Auth"
+sidebar_label: "Google Auth"
+description: "Explore how to build with the Google Auth example in Refine v5. Explore provider for real-world React admin panels. Explore with code snippets."
 example-tags: [auth-provider]
 ---
 

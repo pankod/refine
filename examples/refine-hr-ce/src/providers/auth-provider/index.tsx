@@ -1,19 +1,20 @@
 import type { AuthProvider } from "@refinedev/core";
-import { axiosInstance } from "@/utilities/axios";
 import { Role, type Employee, type ResponseLogin } from "@/types";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/utilities/constants";
+import { kyInstance } from "../data";
 
 export const authProvider: AuthProvider = {
   login: async ({ email, redirectTo }) => {
     try {
-      const response = await axiosInstance.post<ResponseLogin>("/login", {
-        email,
-      });
-      const data = response.data;
+      const { accessToken, refreshToken, user } =
+        await kyInstance<ResponseLogin>("login", {
+          method: "post",
+          body: JSON.stringify({ email }),
+        }).json();
 
-      localStorage.setItem(ACCESS_TOKEN_KEY, data.accessToken);
-      localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+      localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+      localStorage.setItem("user", JSON.stringify(user));
 
       return {
         success: true,
@@ -81,9 +82,8 @@ export const authProvider: AuthProvider = {
     };
   },
   getIdentity: async () => {
-    const response = await axiosInstance.get<Employee>("/me");
-    const data = response?.data;
+    const user = await kyInstance("me").json<Employee>();
 
-    return data;
+    return user;
   },
 };

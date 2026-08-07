@@ -28,6 +28,10 @@ export const PostCreate = () => {
 
   const { selectProps } = useSelect<ICategory>({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

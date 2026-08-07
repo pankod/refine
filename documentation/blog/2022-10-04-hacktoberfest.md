@@ -3,8 +3,9 @@ title: refine Joins the Hacktoberfest Fun
 description: Hactoberfest is back and we are excited to be a part of it. Join us in making open source contributions.
 slug: hacktoberfest-refine
 authors: necati
-tags: [community]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-04-hacktoberfest/social.png
+category: "Announcement"
+tags: []
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-04-hacktoberfest/social.png
 hide_table_of_contents: false
 ---
 
@@ -17,12 +18,12 @@ We've already labeled a bunch of **Refine** issues with `hacktoberfest` so you c
 [github.com/refinedev/refine/labels/hacktoberfest](https://github.com/refinedev/refine/labels/hacktoberfest)
 
 <div class="img-container" align-items="center" >
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-04-hacktoberfest/prize.png"  alt="prize" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-04-hacktoberfest/prize.png"  alt="Hacktoberfest prize graphic" />
 
 </div>
 
 <br/>
 
-Participating is not only fun, but you can also win prizes by taking part. If one of your PR's is merged to core framework, you'll be rewarded with a stylish [Refine t-shirt ](https://store.refine.dev/product/develop-tshirt). In case you've got 2+ PR's merged, we'll send you a complete Refine SWAG Kit, incl.[t-shirt, cap & bottle](https://store.refine.dev/)
+Participating is not only fun, but you can also win prizes by taking part. If one of your PR's is merged to core framework, you'll be rewarded with a stylish Refine t-shirt. In case you've got 2+ PR's merged, we'll send you a complete Refine SWAG Kit, incl. t-shirt, cap & bottle.
 
 Happy coding to everyone!

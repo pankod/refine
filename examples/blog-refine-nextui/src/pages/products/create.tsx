@@ -34,6 +34,10 @@ export const ProductCreate = () => {
 
   const { options: categoryOptions } = useSelect<IProductCategory>({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

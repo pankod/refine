@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example blog-refine-shadcn
 
 <br/>
 
-[![Open blog-refine-shadcn example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/blog-refine-shadcn?view=preview&theme=dark&codemirror=1)
+[![Open blog-refine-shadcn example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/blog-refine-shadcn?view=preview&theme=dark&codemirror=1)

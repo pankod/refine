@@ -8,8 +8,8 @@ import debounce from "lodash/debounce";
 import get from "lodash/get";
 import uniqBy from "lodash/uniqBy";
 
-import { pickNotDeprecated } from "@definitions/helpers";
 import { useList, useMany, useMeta } from "@hooks";
+import type { UseManyReturnType } from "../data/useMany";
 
 import type {
   BaseKey,
@@ -27,12 +27,13 @@ import type {
 import type { LiveModeProps } from "../../contexts/live/types";
 import type { SuccessErrorNotification } from "../../contexts/notification/types";
 import type { BaseListProps } from "../data/useList";
-import { useResource } from "../resource/useResource/index";
+import { useResourceParams } from "../use-resource-params";
 import {
   type UseLoadingOvertimeOptionsProps,
   type UseLoadingOvertimeReturnType,
   useLoadingOvertime,
 } from "../useLoadingOvertime";
+import type { MakeOptional } from "../../definitions/types";
 
 export type SelectedOptionsOrder = "in-place" | "selected-first";
 
@@ -71,11 +72,6 @@ export type UseSelectProps<TQueryFnData, TError, TData> = {
   searchField?: keyof TData extends string ? keyof TData : never;
   /**
    * Allow us to sort the options
-   * @deprecated Use `sorters` instead
-   */
-  sort?: CrudSort[];
-  /**
-   * Allow us to sort the options
    */
   sorters?: CrudSort[];
   /**
@@ -99,14 +95,17 @@ export type UseSelectProps<TQueryFnData, TError, TData> = {
   /**
    * react-query [useQuery](https://react-query.tanstack.com/reference/useQuery) options
    */
-  queryOptions?: UseQueryOptions<
-    GetListResponse<TQueryFnData>,
-    TError,
-    GetListResponse<TData>
+  queryOptions?: MakeOptional<
+    UseQueryOptions<
+      GetListResponse<TQueryFnData>,
+      TError,
+      GetListResponse<TData>
+    >,
+    "queryKey" | "queryFn"
   >;
   /**
    * Pagination option from [`useList()`](/docs/api-reference/core/hooks/data/useList/)
-   * @type {  current?: number; pageSize?: number;}
+   * @type {  currentPage?: number; pageSize?: number;}
    * @default `undefined`
    */
   pagination?: Prettify<
@@ -119,18 +118,15 @@ export type UseSelectProps<TQueryFnData, TError, TData> = {
     }
   >;
   /**
-   * Disabling pagination option from [`useList()`](/docs/api-reference/core/hooks/data/useList/)
-   * @type boolean
-   * @default `false`
-   * @deprecated `hasPagination` is deprecated, use `pagination.mode` instead.
-   */
-  hasPagination?: boolean;
-  /**
    * react-query [useQuery](https://react-query.tanstack.com/reference/useQuery) options
    */
-  defaultValueQueryOptions?: UseQueryOptions<
-    GetManyResponse<TQueryFnData>,
-    TError
+  defaultValueQueryOptions?: MakeOptional<
+    UseQueryOptions<
+      GetManyResponse<TQueryFnData>,
+      TError,
+      GetManyResponse<TData>
+    >,
+    "queryKey" | "queryFn"
   >;
   /**
    * If defined, this callback allows us to override all filters for every search request.
@@ -143,20 +139,11 @@ export type UseSelectProps<TQueryFnData, TError, TData> = {
   meta?: MetaQuery;
   /**
    * Additional meta data to pass to the `useMany` from the data provider
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
   /**
    * If there is more than one `dataProvider`, you should use the `dataProviderName` that you will use.
    * @default `default`
    */
   dataProviderName?: string;
-  /**
-   * Amount of records to fetch in select box list.
-   * @deprecated use [`pagination`](https://refine.dev/docs/api-reference/core/interfaceReferences/#pagination) instead
-   * @default `undefined`
-   */
-  fetchSize?: number;
 } & SuccessErrorNotification<
   GetListResponse<TData>,
   TError,
@@ -171,15 +158,7 @@ export type UseSelectReturnType<
   TOption extends BaseOption = BaseOption,
 > = {
   query: QueryObserverResult<GetListResponse<TData>, TError>;
-  defaultValueQuery: QueryObserverResult<GetManyResponse<TData>>;
-  /**
-   * @deprecated Use `query` instead
-   */
-  queryResult: QueryObserverResult<GetListResponse<TData>, TError>;
-  /**
-   * @deprecated Use `defaultValueQuery` instead
-   */
-  defaultValueQueryResult: QueryObserverResult<GetManyResponse<TData>>;
+  defaultValueQuery: UseManyReturnType<TData, TError>;
   onSearch: (value: string) => void;
   options: TOption[];
 } & UseLoadingOvertimeReturnType;
@@ -212,7 +191,6 @@ export const useSelect = <
 
   const {
     resource: resourceFromProps,
-    sort,
     sorters,
     filters = [],
     optionLabel = "title",
@@ -223,9 +201,7 @@ export const useSelect = <
     errorNotification,
     defaultValueQueryOptions: defaultValueQueryOptionsFromProps,
     queryOptions,
-    fetchSize,
     pagination,
-    hasPagination = false,
     liveMode,
     defaultValue = [],
     selectedOptionsOrder = "in-place",
@@ -233,7 +209,6 @@ export const useSelect = <
     onSearch: onSearchFromProp,
     liveParams,
     meta,
-    metaData,
     dataProviderName,
     overtimeOptions,
   } = props;
@@ -260,18 +235,23 @@ export const useSelect = <
     [optionValue],
   );
 
-  const { resource, identifier } = useResource(resourceFromProps);
+  const { resource, identifier } = useResourceParams({
+    resource: resourceFromProps,
+  });
 
   const getMeta = useMeta();
 
   const combinedMeta = getMeta({
     resource,
-    meta: pickNotDeprecated(meta, metaData),
+    meta: meta,
   });
 
   const defaultValues = Array.isArray(defaultValue)
     ? defaultValue
     : [defaultValue];
+
+  const defaultValueQueryOptions =
+    defaultValueQueryOptionsFromProps ?? (queryOptions as any);
 
   const defaultValueQueryOnSuccess = useCallback(
     (data: GetManyResponse<TData>) => {
@@ -288,27 +268,6 @@ export const useSelect = <
     [optionLabel, optionValue],
   );
 
-  const defaultValueQueryOptions =
-    defaultValueQueryOptionsFromProps ?? (queryOptions as any);
-
-  const defaultValueQueryResult = useMany<TQueryFnData, TError, TData>({
-    resource: identifier,
-    ids: defaultValues,
-    queryOptions: {
-      ...defaultValueQueryOptions,
-      enabled:
-        defaultValues.length > 0 && (defaultValueQueryOptions?.enabled ?? true),
-      onSuccess: (data) => {
-        defaultValueQueryOnSuccess(data);
-        defaultValueQueryOptions?.onSuccess?.(data);
-      },
-    },
-    meta: combinedMeta,
-    metaData: combinedMeta,
-    liveMode: "off",
-    dataProviderName,
-  });
-
   const defaultQueryOnSuccess = useCallback(
     (data: GetListResponse<TData>) => {
       setOptions(
@@ -324,27 +283,34 @@ export const useSelect = <
     [optionLabel, optionValue],
   );
 
+  const defaultValueQueryResult = useMany<TQueryFnData, TError, TData>({
+    resource: identifier ?? resource?.name ?? "",
+    ids: defaultValues,
+    queryOptions: {
+      ...defaultValueQueryOptions,
+      enabled:
+        defaultValues.length > 0 && (defaultValueQueryOptions?.enabled ?? true),
+    },
+    overtimeOptions: { enabled: false },
+    meta: combinedMeta,
+    liveMode: "off",
+    dataProviderName,
+  });
+
   const queryResult = useList<TQueryFnData, TError, TData>({
     resource: identifier,
-    sorters: pickNotDeprecated(sorters, sort),
+    sorters,
     filters: filters.concat(search),
     pagination: {
-      current: pagination?.current,
-      pageSize: pagination?.pageSize ?? fetchSize,
+      currentPage: pagination?.currentPage,
+      pageSize: pagination?.pageSize ?? 10,
       mode: pagination?.mode,
     },
-    hasPagination,
-    queryOptions: {
-      ...queryOptions,
-      onSuccess: (data) => {
-        defaultQueryOnSuccess(data);
-        queryOptions?.onSuccess?.(data);
-      },
-    },
+    queryOptions,
+    overtimeOptions: { enabled: false },
     successNotification,
     errorNotification,
     meta: combinedMeta,
-    metaData: combinedMeta,
     liveMode,
     liveParams,
     onLiveEvent,
@@ -352,9 +318,9 @@ export const useSelect = <
   });
 
   const { elapsedTime } = useLoadingOvertime({
-    isLoading: queryResult.isFetching || defaultValueQueryResult.isFetching,
-    interval: overtimeOptions?.interval,
-    onInterval: overtimeOptions?.onInterval,
+    ...overtimeOptions,
+    isLoading:
+      queryResult.query.isFetching || defaultValueQueryResult.query.isFetching,
   });
 
   const combinedOptions = useMemo(
@@ -400,10 +366,27 @@ export const useSelect = <
     onSearchFromPropRef.current = onSearchFromProp;
   }, [onSearchFromProp]);
 
+  // default value query onSuccess
+  useEffect(() => {
+    const data = defaultValueQueryResult.query.data;
+    if (data && defaultValueQueryResult.query.isSuccess) {
+      defaultValueQueryOnSuccess(data);
+    }
+  }, [
+    defaultValueQueryResult.query.data,
+    defaultValueQueryResult.query.isSuccess,
+  ]);
+
+  // query onSuccess
+  useEffect(() => {
+    const data = queryResult.query.data;
+    if (data && queryResult.query.isSuccess) {
+      defaultQueryOnSuccess(data);
+    }
+  }, [queryResult.result.data, queryResult.query.isSuccess]);
+
   return {
-    queryResult,
-    defaultValueQueryResult,
-    query: queryResult,
+    query: queryResult.query,
     defaultValueQuery: defaultValueQueryResult,
     options: combinedOptions,
     onSearch,

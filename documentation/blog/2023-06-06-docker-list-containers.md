@@ -3,8 +3,9 @@ title: A Complete Guide to Listing Docker Containers
 description: We'll discuss the importance of listing docker containers, how to list running and stopped containers, listing the latest containers, and how to disable truncation of container names.
 slug: docker-list-containers
 authors: muhammad_khabbab
-tags: [docker, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/social.png
+category: "Engineering"
+tags: [docker]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/social.png
 hide_table_of_contents: false
 ---
 
@@ -19,7 +20,7 @@ Listing containers is an essential task if you are working with containerized ap
 You might have created many containers. Some are running, but some are stopped. Now, you will execute the ‘**docker ps**’ command for listing docker containers, but executing this command will show you only running containers by default.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/image1.png"  alt="react tooltip" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/image1.png"  alt="docker ps output showing running containers" />
 </div>
 
 <br/>
@@ -43,7 +44,7 @@ Once you have executed the ‘**docker ps**’ command, you can see the followin
 7.  **Names:** Each running container has a unique name assigned to them.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/image2.png"  alt="react tooltip" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/image2.png"  alt="docker ps columns and container details" />
 </div>
 
 <br/>
@@ -55,7 +56,7 @@ Once you have executed the ‘**docker ps**’ command, you can see the followin
 If you want to see all containers, add a keyword with the ‘**docker ps**’ command, i.e., ‘-a’. This command will show you all containers, whether they are running, restarting, paused, or stopped.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/image3.png"  alt="react tooltip" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/image3.png"  alt="docker ps -a output listing all containers" />
 </div>
 
 <br/>
@@ -65,7 +66,7 @@ If you want to see all containers, add a keyword with the ‘**docker ps**’ co
 In the output of the ‘**docker ps -a**’ command, you can distinguish between running and stopped containers by looking at the ‘STATUS’ column. If the value is ‘up 3 hours’, the container has been running for the last 3 hours, and if the value is ‘Exited 4 hours go’, the container was stopped 4 hours ago.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/image4.png"  alt="react tooltip" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/image4.png"  alt="Container status values for running and exited" />
 </div>
 
 <br/>
@@ -77,7 +78,7 @@ In the output of the ‘**docker ps -a**’ command, you can distinguish between
 ‘**docker ps -l**’ is used to list the latest container created, but the ‘-l’ keyword is depreciated in recent versions of docker. Instead of ‘-l’, you can use ‘docker ps -n 1’ to see the latest one. Using ‘**docker ps -n 1**’, it is important to set the limit of showing the latest containers; you must add the number of limits after the ‘-n’ keyword. For Example, if you want to list the last 5 latest containers created, then you can execute ‘**docker ps -n 5**’.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/image5.png"  alt="react tooltip" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/image5.png"  alt="docker ps -n 1 output for latest container" />
 </div>
 
 <br/>
@@ -103,7 +104,7 @@ When you run the command ‘**docker ps**’ you will find out that in output, t
 Following is the example output after disabling docker default truncation by using the ‘**docker ps –no-trunc**’ command:
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/image6.png"  alt="react tooltip" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/image6.png"  alt="docker ps --no-trunc output with full values" />
 </div>
 
 <br/>
@@ -115,7 +116,7 @@ Following is the example output after disabling docker default truncation by usi
 Most of the time, in the ‘**docker ps**’ command output, the additional information except Container ids is not useful for you, and instead of showing images, ports, names, etc., against each container in the output, you only want to list the container ids, then for this purpose, there is a specific command, i.e., ‘**docker ps -q**’ that will customize your output to only display container ids.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/image7.PNG"  alt="react tooltip" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/image7.PNG"  alt="docker ps -q output of container IDs" />
 </div>
 
 <br/>
@@ -137,7 +138,7 @@ In a distributed architecture, we usually must establish a connection between co
 As we have discussed earlier in the ‘**Listing Latest Containers**’ scenarios section that, we might have limited resources, so to avoid unnecessary usage, we need to monitor the resource utilization by each container. This specific command will facilitate us by representing the disk space utilized by each container and allow us to quickly identify containers that consume large amounts of space on the disk to take the appropriate actions.
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/image8.PNG"  alt="react tooltip" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/image8.PNG"  alt="docker ps --size output with size column" />
 </div>
 
 <br/>
@@ -165,7 +166,7 @@ Double curly brackets {{}} are used to denote placeholders that relate to partic
 Let’s customize an output that only displays Container ID, Image, and Name:
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/image9.png"  alt="react tooltip" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/image9.png"  alt="docker ps --format output with selected columns" />
 </div>
 
 <br/>
@@ -173,7 +174,7 @@ Let’s customize an output that only displays Container ID, Image, and Name:
 > Let’s customize an output that displays the latest containers with Container ID, Status, and additional column SIZE:
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/image10.png"  alt="react tooltip" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/image10.png"  alt="Formatted output including container size" />
 </div>
 
 <br/>
@@ -189,7 +190,7 @@ Docker also provides advanced filtering options that will allow you to list the 
 **Filtering Based on Name:** Only show the container with the name ‘admiring_benz’(**Command**: ‘docker ps –filter “name=admiring_benz”’)
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/image11.png"  alt="react tooltip" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/image11.png"  alt="docker ps --filter name output" />
 </div>
 
 <br/>
@@ -199,7 +200,7 @@ Docker also provides advanced filtering options that will allow you to list the 
 **Commands**: docker ps –filter “status=running”, docker ps –filter “status=exited”, docker ps –filter “status=created”
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/image12.png"  alt="react tooltip" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/image12.png"  alt="docker ps --filter status output" />
 </div>
 
 <br/>
@@ -207,7 +208,7 @@ Docker also provides advanced filtering options that will allow you to list the 
 **Filtering Based on Label:** Filter output by using Filter keyword multiple times for status attribute and label conditioning.(**Command**: docker ps --filter "status=created" --filter "label=com.example.version=1.0")
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-06-06-docker-list-containers/image13.PNG"  alt="react tooltip" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-06-06-docker-list-containers/image13.PNG"  alt="docker ps --filter label output" />
 </div>
 
 <br/>

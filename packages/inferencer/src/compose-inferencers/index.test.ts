@@ -1,10 +1,11 @@
+import { vi } from "vitest";
 import { composeInferencers } from ".";
 
 describe("composeInferencers", () => {
   it("should compose multiple inferencers into one", () => {
-    const inferencer1 = jest.fn();
-    const inferencer2 = jest.fn();
-    const inferencer3 = jest.fn();
+    const inferencer1 = vi.fn();
+    const inferencer2 = vi.fn();
+    const inferencer3 = vi.fn();
 
     const composedInferencer = composeInferencers([
       inferencer1,

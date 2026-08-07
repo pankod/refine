@@ -3,8 +3,9 @@ title: Kubectl Restart Pod - Restarting Pods in Kubernetes
 description: We'll discuss the importance of restarting pods in Kubernetes, the different methods to do so, and the best practices to follow.
 slug: kubectl-restart-pod
 authors: muhammad_khabbab
-tags: [kubernetes, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-22-kubecti-restart-pod/social.png
+category: "Ecosystem / Integrations"
+tags: [kubernetes]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-22-kubecti-restart-pod/social.png
 hide_table_of_contents: false
 ---
 
@@ -76,7 +77,7 @@ The unknown pod status typically denotes an issue with the Pod's connection to t
 ## A diagram showcasing pod lifecycle
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-22-kubecti-restart-pod/diagram.png"  alt="kubectl restart pod" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-22-kubecti-restart-pod/diagram.png"  alt="Kubernetes pod lifecycle diagram showing pending, running, succeeded, failed, and unknown phases" />
 </div>
 
 <br/>
@@ -94,7 +95,7 @@ For Example, if we have a pod with the name '**my-demo-pod**', we can run the fo
 `kubectl delete pod my-demo-pod`
 
  <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-22-kubecti-restart-pod/delete-pod.png"  alt="kubectl restart pod" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-22-kubecti-restart-pod/delete-pod.png"  alt="Deleting my-demo-pod with kubectl delete pod command" />
 </div>
 
 <br/>
@@ -110,7 +111,7 @@ For Example, we have a deployment with the name '**my-demo-deployment**'. To app
 `kubectl rollout restart deployment/my-demo-deployment`
 
 <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-22-kubecti-restart-pod/restart-techniqu.png"  alt="kubectl restart pod" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-22-kubecti-restart-pod/restart-techniqu.png"  alt="Rolling restart of my-demo-deployment using kubectl rollout restart command" />
 </div>
 
 <br/>
@@ -150,7 +151,7 @@ The `kubectl logs` command allows you to find any runtime issues or exceptions t
 Let's take an example of '**my-demo-pod**', which enters into the '**CrashLoopBackOff**' state as shown below:
 
 <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-22-kubecti-restart-pod/error-message.png"  alt="kubectl restart pod" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-22-kubecti-restart-pod/error-message.png"  alt="Pod in CrashLoopBackOff state shown in kubectl get pods output" />
 </div>
 
 <br/>
@@ -162,7 +163,7 @@ In order to find out the reason behind the error above, we need to see the detai
 At the bottom of the output below, you'll see a section called '**Event**'. You're supposed to see messages about the container starting, then crashing, and the system trying to restart it in this section.
 
 <div className="centered-image">
-   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-22-kubecti-restart-pod/error2.png"  alt="kubectl restart pod" />
+   <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-22-kubecti-restart-pod/error2.png"  alt="Detailed pod description showing container crash events and restart attempts" />
 </div>
 
 <br/>

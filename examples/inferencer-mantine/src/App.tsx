@@ -5,7 +5,7 @@ import {
   ErrorComponent,
   useNotificationProvider,
   RefineThemes,
-  ThemedLayoutV2,
+  ThemedLayout,
 } from "@refinedev/mantine";
 
 import {
@@ -16,15 +16,15 @@ import {
 } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { NotificationsProvider } from "@mantine/notifications";
-import routerBindings, {
+import routerProvider, {
   CatchAllNavigate,
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { useTranslation } from "react-i18next";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import { authProvider } from "./authProvider";
 import { Header } from "./components/header";
 import {
@@ -82,7 +82,7 @@ function App() {
               <Refine
                 dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
                 notificationProvider={useNotificationProvider}
-                routerProvider={routerBindings}
+                routerProvider={routerProvider}
                 authProvider={authProvider}
                 i18nProvider={i18nProvider}
                 resources={[
@@ -119,9 +119,9 @@ function App() {
                         key="authenticated-routes"
                         fallback={<CatchAllNavigate to="/login" />}
                       >
-                        <ThemedLayoutV2 Header={() => <Header sticky />}>
+                        <ThemedLayout Header={() => <Header sticky />}>
                           <Outlet />
-                        </ThemedLayoutV2>
+                        </ThemedLayout>
                       </Authenticated>
                     }
                   >

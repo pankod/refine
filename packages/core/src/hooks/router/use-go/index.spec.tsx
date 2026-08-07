@@ -1,4 +1,5 @@
 import React from "react";
+import { vi } from "vitest";
 
 import { act, renderHook } from "@testing-library/react";
 
@@ -8,7 +9,7 @@ import { type Resource, handleResourceErrors, useGo } from "./";
 
 describe("useGo Hook", () => {
   it("should return routerProvider go function", () => {
-    const mockGo = jest.fn();
+    const mockGo = vi.fn();
 
     const { result } = renderHook(() => useGo(), {
       wrapper: TestWrapper({
@@ -35,7 +36,7 @@ describe("useGo Hook", () => {
       },
     });
 
-    expect(mockGo).toBeCalledWith({
+    expect(mockGo).toHaveBeenCalledWith({
       hash: "#test",
       options: { keepHash: true, keepQuery: false },
       query: { test: "test" },
@@ -63,7 +64,7 @@ describe("useGo Hook", () => {
   });
 
   it("if it is used outside of router provider, should return undefined", () => {
-    jest.spyOn(React, "useContext").mockReturnValueOnce(undefined);
+    vi.spyOn(React, "useContext").mockReturnValueOnce(undefined);
 
     const { result } = renderHook(() => useGo());
 
@@ -73,7 +74,7 @@ describe("useGo Hook", () => {
   });
 
   it("should return the correct URL for a resource", () => {
-    const mockGo = jest.fn();
+    const mockGo = vi.fn();
 
     const { result } = renderHook(() => useGo(), {
       wrapper: TestWrapper({
@@ -104,7 +105,7 @@ describe("useGo Hook", () => {
         action: "list",
       },
     });
-    expect(mockGo).toBeCalledWith({ to: "/posts" });
+    expect(mockGo).toHaveBeenCalledWith({ to: "/posts" });
 
     go({
       to: {
@@ -112,7 +113,7 @@ describe("useGo Hook", () => {
         action: "create",
       },
     });
-    expect(mockGo).toBeCalledWith({ to: "/posts/create" });
+    expect(mockGo).toHaveBeenCalledWith({ to: "/posts/create" });
 
     go({
       to: {
@@ -121,7 +122,7 @@ describe("useGo Hook", () => {
         id: 1,
       },
     });
-    expect(mockGo).toBeCalledWith({ to: "/posts/1/edit" });
+    expect(mockGo).toHaveBeenCalledWith({ to: "/posts/1/edit" });
 
     go({
       to: {
@@ -130,7 +131,7 @@ describe("useGo Hook", () => {
         id: 1,
       },
     });
-    expect(mockGo).toBeCalledWith({ to: "/posts/1" });
+    expect(mockGo).toHaveBeenCalledWith({ to: "/posts/1" });
 
     go({
       to: {
@@ -139,11 +140,11 @@ describe("useGo Hook", () => {
         id: 1,
       },
     });
-    expect(mockGo).toBeCalledWith({ to: "/posts/1/clone" });
+    expect(mockGo).toHaveBeenCalledWith({ to: "/posts/1/clone" });
   });
 
   it("should return the correct URL for a resource identifier", () => {
-    const mockGo = jest.fn();
+    const mockGo = vi.fn();
 
     const { result } = renderHook(() => useGo(), {
       wrapper: TestWrapper({
@@ -184,7 +185,7 @@ describe("useGo Hook", () => {
       },
     });
 
-    expect(mockGo).toBeCalledWith({ to: "/id-posts" });
+    expect(mockGo).toHaveBeenCalledWith({ to: "/id-posts" });
 
     go({
       to: {
@@ -193,7 +194,7 @@ describe("useGo Hook", () => {
       },
     });
 
-    expect(mockGo).toBeCalledWith({ to: "/id-posts/create" });
+    expect(mockGo).toHaveBeenCalledWith({ to: "/id-posts/create" });
 
     go({
       to: {
@@ -203,7 +204,7 @@ describe("useGo Hook", () => {
       },
     });
 
-    expect(mockGo).toBeCalledWith({ to: "/id-posts/1/edit" });
+    expect(mockGo).toHaveBeenCalledWith({ to: "/id-posts/1/edit" });
 
     go({
       to: {
@@ -213,7 +214,7 @@ describe("useGo Hook", () => {
       },
     });
 
-    expect(mockGo).toBeCalledWith({ to: "/id-posts/1" });
+    expect(mockGo).toHaveBeenCalledWith({ to: "/id-posts/1" });
 
     go({
       to: {
@@ -223,7 +224,7 @@ describe("useGo Hook", () => {
       },
     });
 
-    expect(mockGo).toBeCalledWith({ to: "/id-posts/1/clone" });
+    expect(mockGo).toHaveBeenCalledWith({ to: "/id-posts/1/clone" });
   });
 
   it("should throw an error if the resource is not defined", () => {
@@ -246,13 +247,11 @@ describe("useGo Hook", () => {
           action: "list",
         },
       }),
-    ).toThrowError(
-      "[useGo]: [action: list] is not defined for [resource: users]",
-    );
+    ).toThrow("[useGo]: [action: list] is not defined for [resource: users]");
   });
 
   it("should navigate with additional parameters if defined in resource.meta", async () => {
-    const mockGoFn = jest.fn();
+    const mockGoFn = vi.fn();
 
     const { result } = renderHook(() => useGo(), {
       wrapper: TestWrapper({
@@ -283,7 +282,7 @@ describe("useGo Hook", () => {
       });
     });
 
-    expect(mockGoFn).toBeCalledWith(
+    expect(mockGoFn).toHaveBeenCalledWith(
       expect.objectContaining({
         to: "/foo/posts/123/edit",
       }),
@@ -298,7 +297,7 @@ describe("useGo Hook", () => {
       });
     });
 
-    expect(mockGoFn).toBeCalledWith(
+    expect(mockGoFn).toHaveBeenCalledWith(
       expect.objectContaining({
         to: "/foo/posts",
       }),
@@ -306,7 +305,7 @@ describe("useGo Hook", () => {
   });
 
   it("should return with additional parameters if defined in route params", async () => {
-    const mockGoFn = jest.fn();
+    const mockGoFn = vi.fn();
 
     const { result } = renderHook(() => useGo(), {
       wrapper: TestWrapper({
@@ -341,7 +340,7 @@ describe("useGo Hook", () => {
       });
     });
 
-    expect(mockGoFn).toBeCalledWith(
+    expect(mockGoFn).toHaveBeenCalledWith(
       expect.objectContaining({
         to: "/foo/posts/123/edit",
       }),
@@ -356,7 +355,7 @@ describe("useGo Hook", () => {
       });
     });
 
-    expect(mockGoFn).toBeCalledWith(
+    expect(mockGoFn).toHaveBeenCalledWith(
       expect.objectContaining({
         to: "/foo/posts",
       }),
@@ -364,7 +363,7 @@ describe("useGo Hook", () => {
   });
 
   it("should return nested parameters if defined in to.meta", async () => {
-    const mockGoFn = jest.fn();
+    const mockGoFn = vi.fn();
 
     const { result } = renderHook(() => useGo(), {
       wrapper: TestWrapper({
@@ -397,7 +396,7 @@ describe("useGo Hook", () => {
       });
     });
 
-    expect(mockGoFn).toBeCalledWith(
+    expect(mockGoFn).toHaveBeenCalledWith(
       expect.objectContaining({
         to: "/foo/posts/123/edit",
       }),
@@ -415,7 +414,7 @@ describe("useGo Hook", () => {
       });
     });
 
-    expect(mockGoFn).toBeCalledWith(
+    expect(mockGoFn).toHaveBeenCalledWith(
       expect.objectContaining({
         to: "/foo/posts",
       }),
@@ -439,19 +438,19 @@ describe("handleResourceErrors", () => {
         { resource: "posts", action: "edit" } as unknown as Resource,
         resource,
       ),
-    ).toThrowError('[useGo]: [action: edit] requires an "id" for resource');
+    ).toThrow('[useGo]: [action: edit] requires an "id" for resource');
     expect(() =>
       handleResourceErrors(
         { resource: "posts", action: "show" } as unknown as Resource,
         resource,
       ),
-    ).toThrowError('[useGo]: [action: show] requires an "id" for resource');
+    ).toThrow('[useGo]: [action: show] requires an "id" for resource');
     expect(() =>
       handleResourceErrors(
         { resource: "posts", action: "clone" } as unknown as Resource,
         resource,
       ),
-    ).toThrowError('[useGo]: [action: clone] requires an "id" for resource');
+    ).toThrow('[useGo]: [action: clone] requires an "id" for resource');
   });
 
   it("should throw an error if the action URL is not defined for the given action", () => {
@@ -460,8 +459,6 @@ describe("handleResourceErrors", () => {
         { resource: "posts", action: "create" },
         { ...resource, create: undefined },
       ),
-    ).toThrowError(
-      "[useGo]: [action: create] is not defined for [resource: posts]",
-    );
+    ).toThrow("[useGo]: [action: create] is not defined for [resource: posts]");
   });
 });

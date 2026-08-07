@@ -24,6 +24,10 @@ export const PostCreate = () => {
   const { selectProps } = useSelect({
     resource: "categories",
     defaultValue: postData?.category.id,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { ...uploadProps } = useStrapiUpload({

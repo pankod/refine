@@ -1,5 +1,8 @@
 ---
-title: Command Palette
+title: "Command Palette Integration Guide | Packages in Refine v5"
+display_title: "Command Palette"
+sidebar_label: "Command Palette"
+description: "Explore how to implement Command Palette in Refine v5. Learn access and control for real-world React admin panels. Explore with code snippets."
 ---
 
 ```tsx live shared
@@ -31,7 +34,7 @@ import {
 } from "antd";
 
 const PostList: React.FC = () => {
-  const { tableProps, sorter } = RefineAntdUseTable<IPost>();
+  const { tableProps } = RefineAntdUseTable<IPost>();
 
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.categoryId) ?? [];
@@ -194,36 +197,36 @@ const PostEdit: React.FC = () => {
 };
 
 const PostShow: React.FC = () => {
-  const { queryResult } = RefineCoreUseShow<IPost>();
-  const { data, isLoading } = queryResult;
-  const record = data?.data;
+  const { query } = RefineCoreUseShow<IPost>();
+  const { isLoading } = query;
+  const post = query?.data?.data;
 
-  const { data: categoryData, isLoading: categoryIsLoading } =
+  const { data: category, isLoading: categoryIsLoading } =
     RefineCoreUseOne<ICategory>({
       resource: "categories",
-      id: record?.category?.id || "",
+      id: post?.category?.id || "",
       queryOptions: {
-        enabled: !!record,
+        enabled: !!post,
       },
     });
 
   return (
     <RefineAntdShow isLoading={isLoading}>
       <AntdTypography.Title level={5}>Id</AntdTypography.Title>
-      <AntdTypography.Text>{record?.id}</AntdTypography.Text>
+      <AntdTypography.Text>{post?.id}</AntdTypography.Text>
 
       <AntdTypography.Title level={5}>
         AntdTypography.Title
       </AntdTypography.Title>
-      <AntdTypography.Text>{record?.title}</AntdTypography.Text>
+      <AntdTypography.Text>{post?.title}</AntdTypography.Text>
 
       <AntdTypography.Title level={5}>Category</AntdTypography.Title>
       <AntdTypography.Text>
-        {categoryIsLoading ? "Loading..." : categoryData?.data.title}
+        {categoryIsLoading ? "Loading..." : category?.title}
       </AntdTypography.Text>
 
       <AntdTypography.Title level={5}>Content</AntdTypography.Title>
-      <AntdTypography.Text>{record?.content}</AntdTypography.Text>
+      <AntdTypography.Text>{post?.content}</AntdTypography.Text>
     </RefineAntdShow>
   );
 };
@@ -275,11 +278,11 @@ import { Refine, Authenticated } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import dataProvider from "@refinedev/simple-rest";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   useNotificationProvider,
   List,
@@ -324,9 +327,9 @@ const App: React.FC = () => {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 <Route index element={<NavigateToResource />} />
@@ -394,7 +397,7 @@ Since `refine-kbar` exports the [`kbar`](https://github.com/timc1/kbar), you use
 
 [kbar]: https://github.com/timc1/kbar
 [kbar-actions]: https://kbar.vercel.app/docs/concepts/actions
-[refine-kbar]: https://github.com/refinedev/refine/tree/master/packages/kbar
-[access-control]: /docs/authorization/access-control-provider
-[usecanwithoutcache]: https://github.com/refinedev/refine/blob/master/packages/core/src/hooks/accessControl/useCanWithoutCache.ts
-[refine-finefoods]: https://github.com/refinedev/refine/blob/master/examples/finefoods-material-ui/src/hooks/useOrderCustomKbarActions/index.tsx
+[refine-kbar]: https://github.com/refinedev/refine/tree/main/packages/kbar
+[access-control]: /core/docs/authorization/access-control-provider
+[usecanwithoutcache]: https://github.com/refinedev/refine/blob/main/packages/core/src/hooks/accessControl/useCanWithoutCache.ts
+[refine-finefoods]: https://github.com/refinedev/refine/blob/main/examples/finefoods-material-ui/src/hooks/useOrderCustomKbarActions/index.tsx

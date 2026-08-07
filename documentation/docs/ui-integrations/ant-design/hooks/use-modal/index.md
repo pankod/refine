@@ -1,5 +1,8 @@
 ---
-title: useModal
+title: "useModal Hook | Usage & Patterns in Refine v5"
+display_title: "useModal"
+sidebar_label: "useModal"
+description: "Implement Use Modal in Refine v5. Learn the key steps. Learn integrate enterprise UI, components for polished admin UIs. Hands-on examples included."
 ---
 
 The `useModal` hook helps you manage the [Ant Design Modal](https://ant.design/components/modal) component.

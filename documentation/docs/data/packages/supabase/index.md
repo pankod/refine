@@ -1,6 +1,9 @@
 ---
-title: Supabase
-source: https://github.com/refinedev/refine/tree/master/packages/supabase
+title: "Supabase Integration Guide | REST API Integration in Refine v5"
+display_title: "Supabase"
+sidebar_label: "Supabase"
+description: "Secure Supabase in Refine v5. Learn best practices. Learn patterns to scale REST, GraphQL for custom APIs and scalable data flows. Real-world snippets included."
+source: https://github.com/refinedev/refine/tree/main/packages/supabase
 swizzle: true
 ---
 
@@ -70,11 +73,11 @@ Refine offers built-in data provider support for Supabase and handles all requir
 
 We'll build a simple CRUD app with Refine and use Supabase as a data provider. We'll also see how to use Supabase's authentication features on Refine app.
 
-We are assuming that you have already know how Refine works. If not, please check out the [Tutorial](/tutorial) section first.
+We are assuming that you have already know how Refine works. If not, please check out the [Tutorial](/core/tutorial) section first.
 
-[Refer to docs for more information about data provider &#8594](/docs/data/data-provider)
+[Refer to docs for more information about data provider &#8594](/core/docs/data/data-provider/)
 
-[Discover the +15 most popular backend service data providers supported out-of-the-box by Refine &#8594](/integrations/)
+[Discover the +15 most popular backend service data providers supported out-of-the-box by Refine &#8594](/core/integrations/)
 
 ## Project Setup
 
@@ -196,7 +199,7 @@ Highlighted lines are the ones the CLI generator automatically added to register
 
 With this configuration, Refine can now communicate with Supabase API and perform all required data service CRUD methods using data hooks.
 
-[Refer to documentation to learn more about how to use data hooks &#8594](/docs/data/hooks/use-create)
+[Refer to documentation to learn more about how to use data hooks &#8594](/core/docs/data/hooks/use-create/)
 
 ## Understanding the Auth Provider
 
@@ -208,7 +211,7 @@ So basically, this is where we set complete authentication logic for the app.
 
 Since we preferred refine-supabase as the data provider during the CLI project initialization, all required Supabase authentication methods are already implemented for us. This shows us how easy it is to bootstrap a Refine app with CLI
 
-[Refer to docs for more information about Auth Provider methods and custom Auth Providers &#8594](/docs/authentication/auth-provider)
+[Refer to docs for more information about Auth Provider methods and custom Auth Providers &#8594](/core/docs/authentication/auth-provider/)
 
 <details><summary>Take a look the auto-generated <b>authProvider.ts</b> file </summary>
 <p>
@@ -465,7 +468,7 @@ export default authProvider;
 
 :::tip
 
-Auth provider functions are also consumed by [Refine authorization hooks](/docs/authentication/hooks/use-login). Since this is out of scope of this tutorial, we'll not cover them for now
+Auth provider functions are also consumed by [Refine authorization hooks](/core/docs/authentication/hooks/use-login/). Since this is out of scope of this tutorial, we'll not cover them for now
 
 :::
 
@@ -501,9 +504,9 @@ setInitialRoutes(["/"]);
 
 import { useNotificationProvider, WelcomePage } from "@refinedev/antd";
 import { Refine } from "@refinedev/core";
-import routerBindings from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router";
 
 import "@refinedev/antd/dist/reset.css";
 
@@ -511,7 +514,7 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Refine
-        routerProvider={routerBindings}
+        routerProvider={routerProvider}
         dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
         notificationProvider={useNotificationProvider}
       >
@@ -534,7 +537,7 @@ Before diving into Supabase features, we'll add simple CRUD pages to make the ap
 
 :::note
 
-Since this post focuses on Supabase implementation, we'll not discuss how to create CRUD pages and how it works. You can refer to [Tutorial](/tutorial) to learn more about creating CRUD pages.
+Since this post focuses on Supabase implementation, we'll not discuss how to create CRUD pages and how it works. You can refer to [Tutorial](/core/tutorial) to learn more about creating CRUD pages.
 
 :::
 
@@ -560,7 +563,7 @@ import { Table, Space, Select } from "antd";
 import { IPost, ICategory } from "interfaces";
 
 export const PostList: React.FC = () => {
-  const { tableProps, sorter } = useTable<IPost>({
+  const { tableProps, sorters } = useTable<IPost>({
     sorters: {
       initial: [
         {
@@ -586,14 +589,14 @@ export const PostList: React.FC = () => {
           dataIndex="id"
           title="ID"
           sorter
-          defaultSortOrder={getDefaultSortOrder("id", sorter)}
+          defaultSortOrder={getDefaultSortOrder("id", sorters)}
         />
         <Table.Column key="title" dataIndex="title" title="Title" sorter />
         <Table.Column
           key="categoryId"
           dataIndex={["categories", "title"]}
           title="Category"
-          defaultSortOrder={getDefaultSortOrder("categories.title", sorter)}
+          defaultSortOrder={getDefaultSortOrder("categories.title", sorters)}
           filterDropdown={(props) => (
             <FilterDropdown {...props}>
               <Select
@@ -975,7 +978,7 @@ One last thing we need to do is to add newly created CRUD pages to the `resource
 import { dataProvider } from '@refinedev/supabase';
 import { supabaseClient } from 'utility';
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 //highlight-next-line
 import { PostList, PostCreate, PostEdit } from 'pages/posts';
@@ -1022,7 +1025,7 @@ Refine automatically matches the Supabase API endpoint with CRUD pages for us. I
 
 - The `create` property registers `/posts/create` endpoint to the `PostCreate` component. Thereby, when you head over to `yourdomain.com/posts/create`, you will see the `PostCreate` page you just created.
 
-[Refer to resources docs for more information &#8594](/docs/core/refine-component#resources)
+[Refer to resources docs for more information &#8594](/core/docs/core/refine-component#resources)
 
 ## Understanding the Login screen
 
@@ -1034,9 +1037,9 @@ setInitialRoutes(["/login"]);
 // visible-block-start
 import { Refine } from "@refinedev/core";
 import { AuthPage, RefineThemes } from "@refinedev/antd";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import { ConfigProvider } from "antd";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router";
 
 import { authProvider } from "./authProvider";
 
@@ -1066,14 +1069,14 @@ Let's check out the `Authentication` property:
 ```tsx title="src/App.tsx"
 import { Refine, Authenticated } from "@refinedev/core";
 //highlight-start
-import { AuthPage, RefineThemes, ThemedLayoutV2 } from "@refinedev/antd";
+import { AuthPage, RefineThemes, ThemedLayout } from "@refinedev/antd";
 import routerProvider, {
   NavigateToResource,
   CatchAllNavigate,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 //highlight-end
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { ConfigProvider } from "antd";
 import authProvider from "./authProvider";
 
@@ -1091,9 +1094,9 @@ function App() {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -1137,7 +1140,7 @@ Remember the [Understanding the Auth Provider](#understanding-auth-provider) sec
 
 We'll show how to implement third party logins in the next sections.
 
-[Refer to AuthPage docs for more information &#8594](/docs/ui-integrations/ant-design/components/auth-page)
+[Refer to AuthPage docs for more information &#8594](/core/docs/ui-integrations/ant-design/components/auth-page/)
 
 Sign in the app with followings credentials:
 
@@ -1146,7 +1149,9 @@ Sign in the app with followings credentials:
 
 We have successfully logged in to the app. After then `ListPage` and `CreatePage` pages created. When the `Create` button is clicked, the `CreatePage` component will render.
 
-```tsx live previewOnly url=http://localhost:5173/posts
+```tsx live previewOnly url=http://localhost:5173/posts previewHeight=460px
+setInitialRoutes(["/posts/create"]);
+
 interface ICategory {
   id: number;
   title: string;
@@ -1243,7 +1248,10 @@ const PostList: React.FC = () => {
 
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-  const { data, isLoading } = useMany<ICategory>({
+  const {
+    result,
+    query: { isLoading },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -1266,7 +1274,7 @@ const PostList: React.FC = () => {
 
             return (
               <TextField
-                value={data?.data.find((item) => item.id === value)?.title}
+                value={result?.data.find((item) => item.id === value)?.title}
               />
             );
           }}
@@ -1282,16 +1290,22 @@ const PostList: React.FC = () => {
 };
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts"]}
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-        create: PostCreate,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<PostList />} />
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -1330,7 +1344,6 @@ const App: React.FC = () => {
                                                 lineHeight: 0,
                                             }}
                                         />
-                                    ),
                                 },
                             ]}
                             {/* highlight-end */}
@@ -1360,7 +1373,7 @@ You will find the Google Auth option in the Auth providers section; enable it an
 
 Here is the result:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/data-provider/supabase/social-login-min.gif" className="border border-gray-200 rounded" alt="socialLogin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/data-provider/supabase/social-login-min.avif" className="border border-zinc-200 rounded" alt="socialLogin" />
 
 ## Let's recap what we have done so far
 
@@ -1369,7 +1382,7 @@ So far, we have implemented the followings:
 - We have reviewed Supabase Client and data provider concepts. We've seen benefits of using Refine and how it can handle complex setups for us.
 - We have talked about the `authProvider` concept and how it works with Supabase Auth API. We also see the advantages of Refine's built-in authentication support.
 - We have added CRUD pages to make the app interact with Supabase API. We've seen how the `resources` property works and how it connects the pages with the API.
-- We have seen how the [`Authentication`](/docs/packages/list-of-packages#usage-with-authentication) component works and how it overrides the default login page with the `AuthPage` component. We've seen how `AuthPage` component uses `authProvider` methods internally.
+- We have seen how the [`Authentication`](/core/docs/packages/list-of-packages#usage-with-authentication) component works and how it overrides the default login page with the `AuthPage` component. We've seen how `AuthPage` component uses `authProvider` methods internally.
 - We have seen how authorization handling in Refine app by understanding the logic behind of `authProvider`, and `<AuthPage>` component.
 
 **Refine provides solutions for critical parts of the complete CRUD app requirements. It saves development time and effort by providing ready-to-use components and features.**
@@ -1377,9 +1390,9 @@ So far, we have implemented the followings:
 ## Supabase Realtime Support
 
 Refine has a built-in support for [Supabase Realtime](https://supabase.com/docs/guides/realtime). It means that when you create, update, or delete a record, the changes will be reflected in the app in real-time.
-Required Supabase Realtime setup is already done in the [`@refinedev/supabase`](https://github.com/refinedev/refine/tree/master/packages/supabase)` data provider.
+Required Supabase Realtime setup is already done in the [`@refinedev/supabase`](https://github.com/refinedev/refine/tree/main/packages/supabase)` data provider.
 
-[You can check the Supabase Realtime integration in the data provider source code &#8594](https://github.com/refinedev/refine/blob/master/packages/supabase/src/index.ts#L325)
+[You can check the Supabase Realtime integration in the data provider source code &#8594](https://github.com/refinedev/refine/blob/main/packages/supabase/src/index.ts#L325)
 
 We only need to register Refine's Supabase Live Provider to the `liveProvider` property to enable real-time support.
 
@@ -1409,30 +1422,30 @@ function App() {
 
 For live features to work automatically, we set `liveMode: "auto"` in the options prop.
 
-[Refer to Live Provider docs for more information &#8594](/docs/realtime/live-provider#livemode)
+[Refer to Live Provider docs for more information &#8594](/core/docs/realtime/live-provider#livemode)
 
 ### Let see how real-time feature works in the app
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/data-provider/supabase/real-time-min.gif" className="border border-gray-200 rounded" alt="realTime" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/data-provider/supabase/real-time-min.avif" className="border border-zinc-200 rounded" alt="realTime" />
 
 :::tip
 
 Refine offers out-of-the-box live provider support:
 
-- **Ably** &#8594 [Source Code](https://github.com/refinedev/refine/blob/master/packages/ably/src/index.ts) - [Demo](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/live-provider-ably/?view=preview&theme=dark&codemirror=1)
-- **Supabase** &#8594 [Source Code](https://github.com/refinedev/refine/blob/master/packages/supabase/src/index.ts#L187)
-- **Appwrite** &#8594 [Source Code](https://github.com/refinedev/refine/blob/master/packages/appwrite/src/index.ts#L252)
-- **Hasura** &#8594 [Source Code](https://github.com/refinedev/refine/blob/master/packages/hasura/src/liveProvider/index.ts#L16)
+- **Ably** &#8594 [Source Code](https://github.com/refinedev/refine/blob/main/packages/ably/src/index.ts) - [Demo](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/live-provider-ably/?view=preview&theme=dark&codemirror=1)
+- **Supabase** &#8594 [Source Code](https://github.com/refinedev/refine/blob/main/packages/supabase/src/index.ts#L187)
+- **Appwrite** &#8594 [Source Code](https://github.com/refinedev/refine/blob/main/packages/appwrite/src/index.ts#L252)
+- **Hasura** &#8594 [Source Code](https://github.com/refinedev/refine/blob/main/packages/hasura/src/liveProvider/index.ts#L16)
 
 :::
 
 ## Using `meta` to pass values to data provider
 
-The [`meta`](/docs/guides-concepts/general-concepts/#meta-concept) property is used to pass additional information that can be read by data provider methods.
+The [`meta`](/core/docs/guides-concepts/general-concepts/#meta-concept) property is used to pass additional information that can be read by data provider methods.
 
 We'll show an example of getting relational data from different tables on Supabase API using `meta` property.
 
-Take a look at the useTable hook in List page we created on the [previous sections](/docs/packages/list-of-packages#adding-a-list-page).
+Take a look at the useTable hook in List page we created on the [previous sections](/core/docs/packages/list-of-packages#adding-a-list-page).
 
 ### `select` - Getting selected fields
 
@@ -1472,14 +1485,14 @@ mutate({
 
 ### `select` - Handling one-to-many relationship
 
-We pass a `select` value in `meta` object to perform relational database operation in [Supabase data provider](https://github.com/refinedev/refine/blob/master/packages/supabase/src/index.ts). The data provider methods are using Supabase [`select`](https://supabase.io/docs/reference/javascript/select) property internally.
+We pass a `select` value in `meta` object to perform relational database operation in [Supabase data provider](https://github.com/refinedev/refine/blob/main/packages/supabase/src/index.ts). The data provider methods are using Supabase [`select`](https://supabase.io/docs/reference/javascript/select) property internally.
 
 In this way, we can get the `title` data from the `categories` table and display it on the List page.
 
 For example, for `posts -> categories` relationship, we can get the `title` data from the `categories` table and display it on the List page.
 
 ```tsx title="src/pages/posts/list.tsx"
-const { tableProps, sorter } = useTable<IPost>({
+const { tableProps } = useTable<IPost>({
   //highlight-start
   resource: "posts",
   meta: {
@@ -1496,7 +1509,7 @@ const { tableProps, sorter } = useTable<IPost>({
 For example, for `movies <-> categories_movies <-> categories` many-to-many relationship, we can get the `categories` data of a user using `meta` property.
 
 ```tsx title="src/pages/users/list.tsx"
-const { tableProps, sorter } = useTable<IUser>({
+const { tableProps } = useTable<IUser>({
   //highlight-start
   resource: "movies",
   meta: {
@@ -1510,7 +1523,7 @@ const { tableProps, sorter } = useTable<IUser>({
 
 `meta` `id` property is used to match the column name of the primary key(in case the column name is different than "id") in your Supabase data table to the column name you have assigned.
 
-Refine's [useMany](/docs/data/hooks/use-many) hook accepts `meta` property and uses `getMany` method of data provider.
+Refine's [useMany](/core/docs/data/hooks/use-many/) hook accepts `meta` property and uses `getMany` method of data provider.
 
 ```tsx
 useMany({
@@ -1561,7 +1574,7 @@ Deep filtering is filtering on a relation's fields.
 It gets the posts where the `title` of the `categories` is "Beginning". Also the inner fields of the categories can be reached with dot notation.
 
 ```tsx
-const { tableProps, sorter } = useTable({
+const { tableProps } = useTable({
   resource: "posts",
   //highlight-start
   filters: {
@@ -1605,7 +1618,7 @@ By default the `exact` count is used.
 
 ### How can I use Supabase Realtime with relational queries?
 
-We use `meta.select` property to fetch relational data from foreign tables in Supabase. However, Supabase client doesn't have [Supabase Realtime](#supabase-realtime-support) support for the relational data changes. To handle this, we need to [manually subscribe](https://refine.dev/docs/realtime/hooks/use-subscription) and refetch the data when a change occurs in the related table.
+We use `meta.select` property to fetch relational data from foreign tables in Supabase. However, Supabase client doesn't have [Supabase Realtime](#supabase-realtime-support) support for the relational data changes. To handle this, we need to [manually subscribe](https://refine.dev/core/docs/realtime/hooks/use-subscription) and refetch the data when a change occurs in the related table.
 
 ```tsx
 import { useTable, useSubscription } from "@refinedev/core";

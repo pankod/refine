@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ChakraCreateInferencer should match the snapshot 1`] = `
+exports[`ChakraCreateInferencer > should match the snapshot 1`] = `
 <DocumentFragment>
   <div>
     <div
@@ -12,6 +12,40 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
         <div
           class="css-gqssyb"
         >
+          <nav
+            aria-label="breadcrumb"
+            class="chakra-breadcrumb css-h82jag"
+          >
+            <ol
+              class="chakra-breadcrumb__list css-70qvj9"
+            >
+              <li
+                class="chakra-breadcrumb__list-item css-18biwo"
+              >
+                <a
+                  class="chakra-breadcrumb__link css-14gt3bc"
+                  href="/posts"
+                >
+                  Posts
+                </a>
+                <span
+                  class="css-t4q1nq"
+                  role="presentation"
+                >
+                  /
+                </span>
+              </li>
+              <li
+                class="chakra-breadcrumb__list-item css-18biwo"
+              >
+                <a
+                  class="chakra-breadcrumb__link css-14gt3bc"
+                >
+                  Create
+                </a>
+              </li>
+            </ol>
+          </nav>
           <div
             class="chakra-stack css-1igwmid"
           >
@@ -65,14 +99,14 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="chakra-form__label css-uvho5g"
-            for="field-:r0:"
-            id="field-:r0:-label"
+            for="field-«r0»"
+            id="field-«r0»-label"
           >
             Title
           </label>
           <input
             class="chakra-input css-0"
-            id="field-:r0:"
+            id="field-«r0»"
             name="title"
             type="text"
           />
@@ -83,14 +117,14 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="chakra-form__label css-uvho5g"
-            for="field-:r1:"
-            id="field-:r1:-label"
+            for="field-«r1»"
+            id="field-«r1»-label"
           >
             Slug
           </label>
           <input
             class="chakra-input css-0"
-            id="field-:r1:"
+            id="field-«r1»"
             name="slug"
             type="text"
           />
@@ -101,14 +135,14 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="chakra-form__label css-uvho5g"
-            for="field-:r2:"
-            id="field-:r2:-label"
+            for="field-«r2»"
+            id="field-«r2»-label"
           >
             Content
           </label>
           <input
             class="chakra-input css-0"
-            id="field-:r2:"
+            id="field-«r2»"
             name="content"
           />
         </div>
@@ -118,14 +152,14 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="chakra-form__label css-uvho5g"
-            for="field-:r3:"
-            id="field-:r3:-label"
+            for="field-«r3»"
+            id="field-«r3»-label"
           >
             Hit
           </label>
           <input
             class="chakra-input css-0"
-            id="field-:r3:"
+            id="field-«r3»"
             name="hit"
             type="number"
           />
@@ -136,8 +170,8 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="chakra-form__label css-uvho5g"
-            for="field-:r4:"
-            id="field-:r4:-label"
+            for="field-«r4»"
+            id="field-«r4»-label"
           >
             Category
           </label>
@@ -146,7 +180,7 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
           >
             <select
               class="chakra-select css-1ik61og"
-              id="field-:r4:"
+              id="field-«r4»"
               name="category.id"
             >
               <option
@@ -173,7 +207,7 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
                 class="chakra-select__icon"
                 focusable="false"
                 role="presentation"
-                style="width: 1em; height: 1em; color: currentColor;"
+                style="width: 1em; height: 1em; color: currentcolor;"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -190,8 +224,8 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="chakra-form__label css-uvho5g"
-            for="field-:r5:"
-            id="field-:r5:-label"
+            for="field-«r5»"
+            id="field-«r5»-label"
           >
             User
           </label>
@@ -200,7 +234,7 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
           >
             <select
               class="chakra-select css-1ik61og"
-              id="field-:r5:"
+              id="field-«r5»"
               name="user.id"
             >
               <option
@@ -227,7 +261,7 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
                 class="chakra-select__icon"
                 focusable="false"
                 role="presentation"
-                style="width: 1em; height: 1em; color: currentColor;"
+                style="width: 1em; height: 1em; color: currentcolor;"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -244,14 +278,14 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="chakra-form__label css-uvho5g"
-            for="field-:r6:"
-            id="field-:r6:-label"
+            for="field-«r6»"
+            id="field-«r6»-label"
           >
             Status
           </label>
           <input
             class="chakra-input css-0"
-            id="field-:r6:"
+            id="field-«r6»"
             name="status"
             type="text"
           />
@@ -262,14 +296,14 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="chakra-form__label css-uvho5g"
-            for="field-:r7:"
-            id="field-:r7:-label"
+            for="field-«r7»"
+            id="field-«r7»-label"
           >
             Status Color
           </label>
           <input
             class="chakra-input css-0"
-            id="field-:r7:"
+            id="field-«r7»"
             name="status_color"
             type="text"
           />
@@ -280,14 +314,14 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="chakra-form__label css-uvho5g"
-            for="field-:r8:"
-            id="field-:r8:-label"
+            for="field-«r8»"
+            id="field-«r8»-label"
           >
             Created At
           </label>
           <input
             class="chakra-input css-0"
-            id="field-:r8:"
+            id="field-«r8»"
             name="createdAt"
           />
         </div>
@@ -297,14 +331,14 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="chakra-form__label css-uvho5g"
-            for="field-:r9:"
-            id="field-:r9:-label"
+            for="field-«r9»"
+            id="field-«r9»-label"
           >
             Published At
           </label>
           <input
             class="chakra-input css-0"
-            id="field-:r9:"
+            id="field-«r9»"
             name="publishedAt"
           />
         </div>
@@ -314,8 +348,8 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="chakra-form__label css-uvho5g"
-            for="field-:ra:"
-            id="field-:ra:-label"
+            for="field-«ra»"
+            id="field-«ra»-label"
           >
             Tags
           </label>
@@ -324,7 +358,7 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
           >
             <select
               class="chakra-select css-1ik61og"
-              id="field-:ra:"
+              id="field-«ra»"
               name="tags"
             >
               <option
@@ -351,7 +385,7 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
                 class="chakra-select__icon"
                 focusable="false"
                 role="presentation"
-                style="width: 1em; height: 1em; color: currentColor;"
+                style="width: 1em; height: 1em; color: currentcolor;"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -368,14 +402,14 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="chakra-form__label css-uvho5g"
-            for="field-:rb:"
-            id="field-:rb:-label"
+            for="field-«rb»"
+            id="field-«rb»-label"
           >
             Language
           </label>
           <input
             class="chakra-input css-0"
-            id="field-:rb:"
+            id="field-«rb»"
             name="language"
             type="number"
           />
@@ -426,7 +460,7 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
     style="position: sticky; bottom: 24px; padding-top: 24px; left: 0px; right: 0px; width: 100%; z-index: 10; display: flex; justify-content: center; transition: all 0.2s ease; opacity: 1; transform: translateY(0);"
   >
     <div
-      style="max-width: 1080px; padding: 20px; background-color: rgb(26, 26, 26); box-shadow: 0px 4px 16px -4px rgba(0, 0, 0, 0.5), 0px 8px 32px -8px rgba(0, 0, 0, 0.35); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; flex-direction: row; gap: 12px;"
+      style="width: calc(100% - 128px); max-width: 1080px; padding: 20px; background-color: rgb(26, 26, 26); box-shadow: 0px 4px 16px -4px rgba(0, 0, 0, 0.5), 0px 8px 32px -8px rgba(0, 0, 0, 0.35); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; flex-direction: row; gap: 12px;"
     >
       <div
         style="display: flex; align-items: flex-start; gap: 8px;"
@@ -504,7 +538,7 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
     style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index: 9999; background-color: rgba(0, 0, 0, 0.5); transition: all 0.2s ease; opacity: 0; pointer-events: none; display: flex; justify-content: center; align-items: center;"
   >
     <div
-      style="transform: scale(0) translateY(-200px); transition: all 0.25s cubic-bezier(.35,1.29,.81,1.08); transition-delay: 0.25; background-color: rgb(255, 255, 255); max-width: 640px; max-height: 720px; border-radius: 8px; padding: 16px;"
+      style="transform: scale(0) translateY(-200px); transition: all 0.25s cubic-bezier(.35,1.29,.81,1.08); transition-delay: 0.25; width: calc(100% - 64px); height: calc(100% - 64px); background-color: rgb(255, 255, 255); max-width: 640px; max-height: 720px; border-radius: 8px; padding: 16px;"
     >
       <div
         style="display: flex; flex-direction: column; height: 100%; width: 100%; gap: 16px;"
@@ -536,7 +570,7 @@ exports[`ChakraCreateInferencer should match the snapshot 1`] = `
           </button>
         </div>
         <div
-          style="font-size: 13px; border-radius: 8px; flex: 1; overflow: scroll; background: rgb(30, 30, 30);"
+          style="font-size: 13px; border-radius: 8px; flex: 1 1 0%; overflow: scroll; background: rgb(30, 30, 30);"
         >
           <pre
             class="prism-code language-tsx"

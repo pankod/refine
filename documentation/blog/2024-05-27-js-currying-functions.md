@@ -3,9 +3,11 @@ title: Javascript Currying - Variadic Currying
 description: Deep dive into variadic currying in JavaScript with examples
 slug: javascript-variadic-currying
 authors: abdullah_numan
+category: "Tutorials"
 tags: [javascript]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-28-js-currying-functions/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-28-js-currying-functions/social-2.png
 hide_table_of_contents: false
+last_update: 2024-05-28
 ---
 
 **_This article was last updated on May 27, 2024 to add new sections on advanced usage, explanations and performance consideration on JavaScript Currying_**
@@ -15,17 +17,6 @@ hide_table_of_contents: false
 In this post, we first look at the confusion around currying in JavaScript, especially with respect to polyadic partial application. We find out that we're not really doing currying in the real sense that it is implemented in Haskell, rather in a much limited capacity.
 
 In the later part, we delve into variadic currying in a stricter sense with an example that returns unary accumulators.
-
-Steps we'll cover:
-
-- [What is JavaScript Currying?](#what-is-javascript-currying)
-- [What is Variadic Currying?](#what-is-variadic-currying)
-  - [Benefits of Variadic Currying](#benefits-of-variadic-currying)
-- [Variadic Partial Application](#variadic-partial-application)
-- [Using `Function.prototype` Methods](#using-functionprototype-methods)
-- [Variadic Currying with Termination](#variadic-currying-with-termination)
-- [Performance Consideration when Using Javascript Currying](#performance-consideration-when-using-javascript-currying)
-- [Bonus: Advanced JavaScript Currying Techniques](#bonus-advanced-javascript-currying-techniques)
 
 This post is about variadic currying in JavaScript. It is the fifth part of the series titled [Curry Functions in JavaScript](https://dev.to/anewman15/curry-functions-in-javascript-4jpa).
 

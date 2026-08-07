@@ -28,14 +28,12 @@ import {
   type HttpError,
   useLogin,
   useTranslate,
-  useRouterContext,
-  useRouterType,
   useLink,
 } from "@refinedev/core";
 import { layoutStyles, titleStyles } from "../styles";
 
 import type { FormPropsType } from "../../index";
-import { ThemedTitleV2 } from "@components";
+import { ThemedTitle } from "@components";
 
 type LoginProps = LoginPageProps<BoxProps, CardContentProps, FormPropsType>;
 
@@ -66,16 +64,9 @@ export const LoginPage: React.FC<LoginProps> = ({
     formState: { errors },
   } = methods;
 
-  const authProvider = useActiveAuthProvider();
-  const { mutate: login, isLoading } = useLogin<LoginFormTypes>({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate: login, isPending } = useLogin<LoginFormTypes>();
   const translate = useTranslate();
-  const routerType = useRouterType();
   const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
-
-  const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
 
   const PageTitle =
     title === false ? null : (
@@ -88,7 +79,7 @@ export const LoginPage: React.FC<LoginProps> = ({
         }}
       >
         {title ?? (
-          <ThemedTitleV2
+          <ThemedTitle
             collapsed={false}
             wrapperStyles={{
               gap: "8px",
@@ -241,7 +232,7 @@ export const LoginPage: React.FC<LoginProps> = ({
                   variant="body2"
                   color="primary"
                   fontSize="12px"
-                  component={ActiveLink}
+                  component={Link as any}
                   underline="none"
                   to="/forgot-password"
                 >
@@ -256,7 +247,7 @@ export const LoginPage: React.FC<LoginProps> = ({
               type="submit"
               fullWidth
               variant="contained"
-              disabled={isLoading}
+              disabled={isPending}
               sx={{ mt: "24px" }}
             >
               {translate("pages.login.signin", "Sign in")}
@@ -288,7 +279,7 @@ export const LoginPage: React.FC<LoginProps> = ({
               fontSize="12px"
               variant="body2"
               color="primary"
-              component={ActiveLink}
+              component={Link as any}
               underline="none"
               to="/register"
               fontWeight="bold"

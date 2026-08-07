@@ -28,7 +28,7 @@ describe("with-remix-headless", () => {
   });
 
   describe("login", () => {
-    it.skip("should login", () => {
+    it("should login", () => {
       login();
       cy.location("pathname").should("eq", "/posts");
       cy.getAllCookies().then((cookies) => {
@@ -36,7 +36,7 @@ describe("with-remix-headless", () => {
       });
     });
 
-    it.skip("should has 'to' param on URL after redirected to /login", () => {
+    it("should has 'to' param on URL after redirected to /login", () => {
       login();
       cy.location("pathname").should("eq", "/posts");
 
@@ -60,7 +60,7 @@ describe("with-remix-headless", () => {
   });
 
   describe("register", () => {
-    it.skip("should register", () => {
+    it("should register", () => {
       cy.get("a")
         .contains(/sign up/i)
         .click();
@@ -74,7 +74,7 @@ describe("with-remix-headless", () => {
   });
 
   describe("logout", () => {
-    it.skip("should logout", () => {
+    it("should logout", () => {
       login();
       cy.get("button")
         .contains(/logout/i)

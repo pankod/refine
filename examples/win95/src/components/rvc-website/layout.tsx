@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react";
 import styled from "styled-components";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink } from "react-router";
 import { getImagesUrl } from "@/utils/get-cdn-url";
 
 type Props = {

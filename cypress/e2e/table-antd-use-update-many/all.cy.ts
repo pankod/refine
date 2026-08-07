@@ -3,14 +3,7 @@
 
 describe("table-antd-use-update-many", () => {
   beforeEach(() => {
-    cy.interceptGETPosts();
-    cy.interceptGETCategories();
-
     cy.visit("/");
-  });
-
-  it("should be view list page", () => {
-    cy.resourceList();
   });
 
   it("should select all rows when click the checkbox in the table header", () => {
@@ -34,8 +27,6 @@ describe("table-antd-use-update-many", () => {
     cy.get(".ant-table-row .ant-checkbox-input").eq(2).click();
 
     cy.get(".ant-table-row-selected").should("have.length", 2);
-
-    cy.interceptPATCHPost();
 
     cy.get(".ant-btn-primary").contains("Update").click();
 

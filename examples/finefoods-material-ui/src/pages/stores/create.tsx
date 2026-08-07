@@ -2,7 +2,7 @@ import { useNavigation } from "@refinedev/core";
 import { ListButton } from "@refinedev/mui";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import Divider from "@mui/material/Divider";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import { StoreForm, StoreMap, useStoreForm } from "../../components";
 
 export const StoreCreate = () => {
@@ -27,7 +27,13 @@ export const StoreCreate = () => {
         }}
       />
       <Grid container spacing="24px">
-        <Grid item xs={12} md={6} lg={5}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+            lg: 5,
+          }}
+        >
           <StoreForm
             action="create"
             form={form}
@@ -36,7 +42,13 @@ export const StoreCreate = () => {
             }}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={7}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+            lg: 7,
+          }}
+        >
           <StoreMap
             lat={form.latLng.lat}
             lng={form.latLng.lng}

@@ -1,25 +1,20 @@
 import React from "react";
+import { vi } from "vitest";
 
-import { act } from "react-dom/test-utils";
+import { act } from "react";
 
-import {
-  mockLegacyRouterProvider,
-  mockRouterProvider,
-  render,
-  TestWrapper,
-  waitFor,
-} from "@test";
+import { mockRouterProvider, render, TestWrapper, waitFor } from "@test";
 
 import * as UseCanHook from "../../hooks/accessControl/useCan";
 import { CanAccess } from ".";
 
 describe("CanAccess Component", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("should render children", async () => {
-    const onUnauthorized = jest.fn();
+    const onUnauthorized = vi.fn();
 
     const { container, findByText } = render(
       <CanAccess
@@ -55,7 +50,7 @@ describe("CanAccess Component", () => {
   });
 
   it("should not render children and call onUnauthorized", async () => {
-    const onUnauthorized = jest.fn();
+    const onUnauthorized = vi.fn();
 
     const { container, queryByText } = render(
       <CanAccess
@@ -143,7 +138,7 @@ describe("CanAccess Component", () => {
 
   describe("when no prop is passed", () => {
     it("should work", async () => {
-      const useCanSpy = jest.spyOn(UseCanHook, "useCan");
+      const useCanSpy = vi.spyOn(UseCanHook, "useCan");
 
       const { container, queryByText, findByText } = render(
         <CanAccess fallback={<p>Access Denied</p>}>
@@ -210,7 +205,7 @@ describe("CanAccess Component", () => {
       describe("When new router", () => {
         describe("when resource is an object", () => {
           it("should deny access", async () => {
-            const useCanSpy = jest.spyOn(UseCanHook, "useCan");
+            const useCanSpy = vi.spyOn(UseCanHook, "useCan");
 
             const { container, queryByText, findByText } = render(
               <CanAccess fallback={<p>Access Denied</p>}>
@@ -258,7 +253,7 @@ describe("CanAccess Component", () => {
         describe("when resource is a string", () => {
           describe("when pick resource is object", () => {
             it("should deny access", async () => {
-              const useCanSpy = jest.spyOn(UseCanHook, "useCan");
+              const useCanSpy = vi.spyOn(UseCanHook, "useCan");
 
               const { container, queryByText, findByText } = render(
                 <CanAccess fallback={<p>Access Denied</p>}>
@@ -310,7 +305,7 @@ describe("CanAccess Component", () => {
 
           describe("when pick resource is undefined", () => {
             it("should work without resource", async () => {
-              const useCanSpy = jest.spyOn(UseCanHook, "useCan");
+              const useCanSpy = vi.spyOn(UseCanHook, "useCan");
 
               const { container, queryByText, findByText } = render(
                 <CanAccess fallback={<p>Access Denied</p>}>
@@ -351,65 +346,20 @@ describe("CanAccess Component", () => {
           });
         });
       });
-
-      describe("when legacy router", () => {
-        it("should deny access", async () => {
-          const useCanSpy = jest.spyOn(UseCanHook, "useCan");
-
-          const { container, queryByText, findByText } = render(
-            <CanAccess fallback={<p>Access Denied</p>}>
-              <p>Accessible</p>
-            </CanAccess>,
-            {
-              wrapper: TestWrapper({
-                legacyRouterProvider: {
-                  ...mockLegacyRouterProvider(),
-                  useParams: () =>
-                    ({
-                      resource: "posts",
-                      id: undefined,
-                      action: "list",
-                    }) as any,
-                },
-                accessControlProvider: {
-                  can: async () => {
-                    return { can: false };
-                  },
-                },
-              }),
-            },
-          );
-
-          expect(container).toBeTruthy();
-
-          expect(useCanSpy).toHaveBeenCalledWith({
-            resource: "posts",
-            action: "list",
-            params: expect.objectContaining({
-              id: undefined,
-              resource: expect.objectContaining({
-                name: "posts",
-              }),
-            }),
-            queryOptions: undefined,
-          });
-
-          expect(queryByText("Accessible")).not.toBeInTheDocument();
-
-          await findByText("Access Denied");
-        });
-      });
     });
   });
 
   it("should respect queryOptions from component prop", async () => {
-    const onUnauthorized = jest.fn();
+    const onUnauthorized = vi.fn();
+
+    // Set up spy before component renders so it can capture the hook calls
+    const useCanSpy = vi.spyOn(UseCanHook, "useCan");
 
     const { container, queryByText } = render(
       <CanAccess
         action="list"
         resource="posts"
-        queryOptions={{ cacheTime: 10000 }}
+        queryOptions={{ gcTime: 10000 }}
         onUnauthorized={(args) => onUnauthorized(args)}
       >
         Accessible
@@ -430,13 +380,11 @@ describe("CanAccess Component", () => {
       expect(queryByText("Accessible")).toBeInTheDocument();
     });
 
-    const useCanSpy = jest.spyOn(UseCanHook, "useCan");
-
     await waitFor(() => {
       expect(useCanSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           queryOptions: expect.objectContaining({
-            cacheTime: 10000,
+            gcTime: 10000,
           }),
         }),
       );

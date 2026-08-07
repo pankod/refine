@@ -3,17 +3,17 @@ import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import {
   useNotificationProvider,
   RefineThemes,
-  ThemedLayoutV2,
+  ThemedLayout,
   AuthPage,
 } from "@refinedev/mantine";
 import { DataProvider } from "@refinedev/strapi-v4";
-import routerBindings, {
+import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
   CatchAllNavigate,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router";
 import {
   MantineProvider,
   Global,
@@ -75,7 +75,7 @@ function App() {
                 authProvider={authProvider}
                 dataProvider={DataProvider(`${API_URL}/api`, axiosInstance)}
                 notificationProvider={useNotificationProvider}
-                routerProvider={routerBindings}
+                routerProvider={routerProvider}
                 resources={[
                   {
                     name: "posts",
@@ -110,9 +110,9 @@ function App() {
                         key="authenticated-routes"
                         fallback={<CatchAllNavigate to="/login" />}
                       >
-                        <ThemedLayoutV2 Header={() => <Header sticky />}>
+                        <ThemedLayout Header={() => <Header sticky />}>
                           <Outlet />
-                        </ThemedLayoutV2>
+                        </ThemedLayout>
                       </Authenticated>
                     }
                   >

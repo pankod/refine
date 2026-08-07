@@ -3,9 +3,11 @@ title: Getting Started with Terraform on AWS
 description: We'll walk through getting started with Terraform specifically for infrastructure provisioning on Amazon Web Services (AWS).
 slug: terraform-aws
 authors: shingai_zivuku
-tags: [dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-11-28-terraform-aws/social.png
+category: "Ecosystem / Integrations"
+tags: [dev-tools, backend]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-11-28-terraform-aws/social.png
 hide_table_of_contents: false
+last_update: 2024-09-12
 ---
 
 **This article was last updated on September 12, 2024, to add sections on State Management in Terraform, Using Terraform Modules, Managing Secrets and Sensitive Data, Workspaces for Multi-Environment Management, Security Best Practices, Automating Terraform with CI/CD, Handling Resource Dependencies, and Cost Estimation with Terraform.**
@@ -19,21 +21,6 @@ Infrastructure as code (IaC) tools like HashCorp's Terraform provides a compelli
 In this beginner's guide, I will walk through getting started with Terraform specifically for infrastructure provisioning on Amazon Web Services (AWS). I will cover the prerequisites, configuring access to AWS, writing a simple Terraform configuration, modifying your infrastructure, and then cleaning up.
 
 Whether you're already using AWS or looking to explore it with an IaC approach, this article will equip you with the fundamentals for provisioning just about any infrastructure you need.
-
-Steps we'll cover:
-
-- [Configuring AWS Credentials](#configuring-aws-credentials)
-- [Creating a Simple Configuration](#creating-a-simple-configuration)
-- [State Management in Terraform](#state-management-in-terraform)
-- [Terraform Workspaces for Multi-Environment Management](#terraform-workspaces-for-multi-environment-management)
-- [Security Best Practices](#security-best-practices)
-- [Automating Terraform with CI/CD Pipelines](#automating-terraform-with-cicd-pipelines)
-- [Handling Resource Dependencies](#handling-resource-dependencies)
-- [Modifying Infrastructure](#modifying-infrastructure)
-- [Cleaning Up](#cleaning-up)
-- [Cost Estimation with Terraform](#cost-estimation-with-terraform)
-- [Managing Secrets and Sensitive Data](#managing-secrets-and-sensitive-data)
-- [Using Terraform Modules](#using-terraform-modules)
 
 ## Prerequisites
 

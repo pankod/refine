@@ -58,7 +58,7 @@ describe("useTable Hook", () => {
       () =>
         useTable({
           pagination: {
-            current: customPagination.current,
+            currentPage: customPagination.current,
             pageSize: customPagination.pageSize,
           },
         }),
@@ -143,7 +143,7 @@ describe("useTable Hook", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.tableQueryResult.isSuccess).toBeTruthy();
+      expect(result.current.tableQuery.isSuccess).toBeTruthy();
     });
   });
 
@@ -185,7 +185,7 @@ describe("useTable Hook", () => {
     ];
 
     await waitFor(() => {
-      expect(result.current.tableQueryResult.isSuccess).toBeTruthy();
+      expect(result.current.tableQuery.isSuccess).toBeTruthy();
     });
 
     await act(async () => {
@@ -353,6 +353,6 @@ describe("useTable Hook", () => {
       expect(result.current.tableQuery.isSuccess).toBeTruthy();
     });
 
-    expect(result.current.tableQuery).toEqual(result.current.tableQueryResult);
+    expect(result.current.tableQuery).toEqual(result.current.tableQuery);
   });
 });

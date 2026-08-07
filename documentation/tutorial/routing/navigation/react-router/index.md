@@ -14,11 +14,11 @@ You can always use the preferred methods of your routing library to navigate bet
 
 :::
 
-We'll use the [`useNavigation`](/docs/routing/hooks/use-navigation) hook and create buttons to navigate to the create, edit and show pages of the products. Additionally we'll provide a link to the list page of the products in the `<Header />` component.
+We'll use the [`useNavigation`](/core/docs/routing/hooks/use-navigation) hook and create buttons to navigate to the create, edit and show pages of the products. Additionally we'll provide a link to the list page of the products in the `<Header />` component.
 
 ## Adding a Link to the List Page and to the Create Page
 
-We'll be using the `useNavigation` hook from `@refinedev/core` and the `<Link />` component of the `react-router-dom` library to create links to the list page and the create page of the products.
+We'll be using the `useNavigation` hook from `@refinedev/core` and the `<Link />` component of the `react-router` library to create links to the list page and the create page of the products.
 
 Let's update our `<Header />` component and add a link to the list page of the products:
 
@@ -28,10 +28,13 @@ import React from "react";
 import { useLogout, useGetIdentity, useNavigation } from "@refinedev/core";
 
 // highlight-next-line
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const Header = () => {
-  const { mutate, isLoading } = useLogout();
+  const {
+    mutate,
+    mutation: { isPending },
+  } = useLogout();
   const { data: identity } = useGetIdentity();
 
   // You can also use methods like list or create to trigger navigation.
@@ -49,7 +52,7 @@ export const Header = () => {
       <Link to={listUrl("protected-products")}>List Products</Link>
       <Link to={createUrl("protected-products")}>Create Product</Link>
       {/* highlight-end */}
-      <button type="button" disabled={isLoading} onClick={mutate}>
+      <button type="button" disabled={isPending} onClick={mutate}>
         Logout
       </button>
     </>
@@ -68,19 +71,20 @@ Similarly, we'll update the `<ListProducts />` component and add links for showi
 import { useTable, useMany, useNavigation } from "@refinedev/core";
 
 // highlight-next-line
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const ListProducts = () => {
   const {
-    tableQuery: { data, isLoading },
-    current,
-    setCurrent,
+    result,
+    tableQuery: { isLoading },
+    currentPage,
+    setCurrentPage,
     pageCount,
     sorters,
     setSorters,
   } = useTable({
     resource: "protected-products",
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
     sorters: { initial: [{ field: "id", order: "asc" }] },
   });
 
@@ -116,7 +120,7 @@ export const ListProducts = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.data?.map((product) => (
+          {result?.data?.map((product) => (
             <tr key={product.id}>
               <td>{product.id}</td>
               <td>{product.name}</td>

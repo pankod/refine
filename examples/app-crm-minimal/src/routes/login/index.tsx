@@ -1,4 +1,4 @@
-import { AuthPage, ThemedTitleV2 } from "@refinedev/antd";
+import { AuthPage, ThemedTitle as ThemedTitleV2 } from "@refinedev/antd";
 
 import { authCredentials } from "@/providers";
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, type LinkProps } from "react-router-dom";
+import { Link, type LinkProps } from "react-router";
 
 type Props = {} & LinkProps;
 

@@ -186,7 +186,7 @@ return (
 
 ### `mutationResult`
 
-Returns the result of the [`useCreate`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) or [`useCreateMany`](/docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/) hook.
+Returns the result of the [`useCreate`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) or [`useCreateMany`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreateMany/) hook.
 
 ## FAQ
 
@@ -259,13 +259,13 @@ With this code, the parsed data will be mapped to conform to the API requirement
 | TError     | Custom error object that extends [`HttpError`][httperror]                  | [`HttpError`][httperror]   |
 | TVariables | Values for mutation function                                               | `any`                      |
 
-[baserecord]: /api-reference/core/interfaces.md#baserecord
-[httperror]: /api-reference/core/interfaces.md#httperror
+[baserecord]: /core/docs/3.xx.xx/api-reference/core/interfaces#baserecord
+[httperror]: /core/docs/3.xx.xx/api-reference/core/interfaces#httperror
 [papaparse]: https://www.papaparse.com/
 [usemutation]: https://tanstack.com/query/latest/docs/react/reference/useMutation
 [number.max_safe_integer]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER
-[successerrornotification]: /api-reference/core/interfaces.md#successerrornotification
-[useimportinputpropstype]: /api-reference/core/interfaces.md#useimportinputpropstype
+[successerrornotification]: /core/docs/3.xx.xx/api-reference/core/interfaces#successerrornotification
+[useimportinputpropstype]: /core/docs/3.xx.xx/api-reference/core/interfaces#useimportinputpropstype
 
 ## Example
 

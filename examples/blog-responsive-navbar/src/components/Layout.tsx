@@ -1,5 +1,5 @@
 import { useMenu, type LayoutProps } from "@refinedev/core";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import React from "react";
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {

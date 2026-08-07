@@ -1,27 +1,11 @@
 import { renderHook, waitFor } from "@testing-library/react";
+import { vi } from "vitest";
 
-import {
-  TestWrapper,
-  act,
-  mockLegacyAuthProvider,
-  mockLegacyRouterProvider,
-  mockRouterProvider,
-  queryClient,
-} from "@test";
+import { TestWrapper, act, mockRouterProvider, queryClient } from "@test";
 
-import type { LegacyRouterProvider } from "../../../contexts/router/legacy/types";
 import { useUpdatePassword } from "./";
 
-const mockFn = jest.fn();
-
-const legacyRouterProvider: LegacyRouterProvider = {
-  ...mockLegacyRouterProvider(),
-  useHistory: () => ({
-    goBack: jest.fn(),
-    push: jest.fn(),
-    replace: mockFn,
-  }),
-};
+const mockFn = vi.fn();
 
 const mockAuthProvider = {
   login: () => Promise.resolve({ success: true }),
@@ -30,177 +14,10 @@ const mockAuthProvider = {
   logout: () => Promise.resolve({ success: true }),
 };
 
-// NOTE : Will be removed in v5
-describe("v3LegacyAuthProviderCompatible useUpdatePassword Hook", () => {
-  beforeEach(() => {
-    mockFn.mockReset();
-    jest.spyOn(console, "error").mockImplementation((message) => {
-      if (message?.message === "Missing fields") return;
-      if (typeof message === "undefined") return;
-      console.warn(message);
-    });
-  });
-
-  it("succeed update password", async () => {
-    const { result } = renderHook(
-      () => useUpdatePassword({ v3LegacyAuthProviderCompatible: true }),
-      {
-        wrapper: TestWrapper({
-          legacyAuthProvider: {
-            login: () => Promise.resolve(),
-            updatePassword: ({ password, confirmPassword }) => {
-              if (password && confirmPassword) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error("Missing fields"));
-            },
-            checkAuth: () => Promise.resolve(),
-            checkError: () => Promise.resolve(),
-            getPermissions: () => Promise.resolve(),
-            logout: () => Promise.resolve(),
-            getUserIdentity: () => Promise.resolve({ id: 1 }),
-          },
-          legacyRouterProvider,
-        }),
-      },
-    );
-
-    const { mutate: updatePassword } = result.current;
-
-    await act(async () => {
-      updatePassword({ password: "123", confirmPassword: "321" });
-    });
-
-    await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
-    });
-
-    expect(mockFn).not.toBeCalledWith();
-  });
-
-  it("fail update password", async () => {
-    const { result } = renderHook(
-      () => useUpdatePassword({ v3LegacyAuthProviderCompatible: true }),
-      {
-        wrapper: TestWrapper({
-          legacyAuthProvider: {
-            login: () => Promise.resolve(),
-            updatePassword: () => Promise.reject(new Error("Missing fields")),
-            checkAuth: () => Promise.resolve(),
-            checkError: () => Promise.resolve(),
-            getPermissions: () => Promise.resolve(),
-            logout: () => Promise.resolve(),
-            getUserIdentity: () => Promise.resolve({ id: 1 }),
-          },
-          legacyRouterProvider,
-        }),
-      },
-    );
-
-    const { mutate: updatePassword } = result.current;
-
-    await act(async () => {
-      updatePassword({ password: "123" });
-    });
-
-    await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-    });
-
-    const { error } = result.current ?? { error: undefined };
-
-    expect(error).toEqual(new Error("Missing fields"));
-  });
-
-  it("should open notification when has success is false, error is undefined", async () => {
-    const updatePasswordMock = jest.fn();
-    const openNotificationMock = jest.fn();
-    const closeNotificationMock = jest.fn();
-
-    const { result } = renderHook(
-      () => useUpdatePassword({ v3LegacyAuthProviderCompatible: true }),
-      {
-        wrapper: TestWrapper({
-          notificationProvider: {
-            open: openNotificationMock,
-            close: closeNotificationMock,
-          },
-          legacyAuthProvider: {
-            ...mockLegacyAuthProvider,
-            updatePassword: updatePasswordMock,
-          },
-          routerProvider: legacyRouterProvider,
-        }),
-      },
-    );
-
-    const { mutate: updatePassword } = result.current;
-
-    updatePasswordMock.mockRejectedValueOnce({});
-    await act(async () => {
-      updatePassword({});
-    });
-    await waitFor(() => {
-      expect(openNotificationMock).toBeCalledWith({
-        key: "update-password-error",
-        type: "error",
-        message: "Update Password Error",
-        description: "Error while updating password",
-      });
-    });
-
-    updatePasswordMock.mockResolvedValueOnce(false);
-    await act(async () => {
-      updatePassword({});
-    });
-    await waitFor(() => {
-      expect(closeNotificationMock).toBeCalledWith("update-password-error");
-    });
-  });
-
-  it("should open notification when throw error", async () => {
-    const openNotificationMock = jest.fn();
-
-    const { result } = renderHook(
-      () => useUpdatePassword({ v3LegacyAuthProviderCompatible: true }),
-      {
-        wrapper: TestWrapper({
-          notificationProvider: {
-            open: openNotificationMock,
-            close: jest.fn(),
-          },
-          routerProvider: legacyRouterProvider,
-          legacyAuthProvider: {
-            ...mockLegacyAuthProvider,
-            updatePassword: () => {
-              throw new Error("Unhandled error");
-            },
-          },
-        }),
-      },
-    );
-
-    const { mutate: updatePassword } = result.current;
-
-    await act(async () => {
-      updatePassword({});
-    });
-
-    await waitFor(() => {
-      expect(openNotificationMock).toBeCalledWith({
-        key: "update-password-error",
-        type: "error",
-        message: "Error",
-        description: "Unhandled error",
-      });
-    });
-  });
-});
-
 describe("useUpdatePassword Hook", () => {
   beforeEach(() => {
     mockFn.mockReset();
-    jest.spyOn(console, "error").mockImplementation((message) => {
+    vi.spyOn(console, "error").mockImplementation((message) => {
       if (message?.message === "Missing fields") return;
       if (typeof message === "undefined") return;
       console.warn(message);
@@ -222,7 +39,6 @@ describe("useUpdatePassword Hook", () => {
             });
           },
         },
-        legacyRouterProvider,
       }),
     });
 
@@ -237,11 +53,11 @@ describe("useUpdatePassword Hook", () => {
     });
 
     expect(result.current.data).toEqual({ success: true });
-    expect(mockFn).not.toBeCalledWith();
+    expect(mockFn).not.toHaveBeenCalledWith();
   });
 
   it("succeed update password", async () => {
-    const mockGo = jest.fn();
+    const mockGo = vi.fn();
 
     const { result } = renderHook(() => useUpdatePassword(), {
       wrapper: TestWrapper({
@@ -278,7 +94,7 @@ describe("useUpdatePassword Hook", () => {
       expect(result.current.isSuccess).toBeTruthy();
     });
 
-    expect(mockGo).toBeCalledWith({
+    expect(mockGo).toHaveBeenCalledWith({
       to: "redirectTo",
       type: "replace",
     });
@@ -299,7 +115,6 @@ describe("useUpdatePassword Hook", () => {
             });
           },
         },
-        legacyRouterProvider,
       }),
     });
 
@@ -317,15 +132,19 @@ describe("useUpdatePassword Hook", () => {
       success: false,
       error: new Error("Missing fields"),
     });
-    expect(mockFn).not.toBeCalledWith();
+    expect(mockFn).not.toHaveBeenCalledWith();
   });
 
   it("success and redirect", async () => {
+    const mockGo = vi.fn();
+
     const { result } = renderHook(() => useUpdatePassword(), {
       wrapper: TestWrapper({
         authProvider: {
-          ...mockAuthProvider,
-
+          login: () => Promise.resolve({ success: true }),
+          logout: () => Promise.resolve({ success: true }),
+          check: () => Promise.resolve({ authenticated: true }),
+          onError: () => Promise.resolve({}),
           updatePassword: ({ password, confirmPassword }: any) => {
             if (password && confirmPassword) {
               return Promise.resolve({
@@ -339,7 +158,11 @@ describe("useUpdatePassword Hook", () => {
             });
           },
         },
-        legacyRouterProvider,
+        routerProvider: mockRouterProvider({
+          fns: {
+            go: () => mockGo,
+          },
+        }),
       }),
     });
 
@@ -357,16 +180,22 @@ describe("useUpdatePassword Hook", () => {
       success: true,
       redirectTo: "/login",
     });
-    expect(mockFn).toBeCalledWith("/login");
+    expect(mockGo).toHaveBeenCalledWith({
+      to: "/login",
+      type: "replace",
+    });
   });
 
   it("fail and redirect", async () => {
-    mockFn;
+    const mockGo = vi.fn();
+
     const { result } = renderHook(() => useUpdatePassword(), {
       wrapper: TestWrapper({
         authProvider: {
-          ...mockAuthProvider,
-
+          login: () => Promise.resolve({ success: true }),
+          logout: () => Promise.resolve({ success: true }),
+          check: () => Promise.resolve({ authenticated: true }),
+          onError: () => Promise.resolve({}),
           updatePassword: ({ password, confirmPassword }: any) => {
             if (password && confirmPassword) {
               return Promise.resolve({
@@ -380,7 +209,11 @@ describe("useUpdatePassword Hook", () => {
             });
           },
         },
-        legacyRouterProvider,
+        routerProvider: mockRouterProvider({
+          fns: {
+            go: () => mockGo,
+          },
+        }),
       }),
     });
 
@@ -399,27 +232,32 @@ describe("useUpdatePassword Hook", () => {
       error: new Error("Missing fields"),
       redirectTo: "/register",
     });
-    expect(mockFn).toBeCalledWith("/register");
+    expect(mockGo).toHaveBeenCalledWith({
+      to: "/register",
+      type: "replace",
+    });
   });
 
   it("should open notification when has error is true", async () => {
-    const openNotificationMock = jest.fn();
+    const openNotificationMock = vi.fn();
 
     const { result } = renderHook(() => useUpdatePassword(), {
       wrapper: TestWrapper({
         notificationProvider: {
           open: openNotificationMock,
-          close: jest.fn(),
+          close: vi.fn(),
         },
         authProvider: {
-          ...mockAuthProvider,
+          login: () => Promise.resolve({ success: true }),
+          logout: () => Promise.resolve({ success: true }),
+          check: () => Promise.resolve({ authenticated: true }),
+          onError: () => Promise.resolve({}),
           updatePassword: () =>
             Promise.resolve({
               success: false,
               error: new Error("Error"),
             }),
         },
-        legacyRouterProvider,
       }),
     });
 
@@ -430,7 +268,7 @@ describe("useUpdatePassword Hook", () => {
     });
 
     await waitFor(() => {
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         key: "update-password-error",
         type: "error",
         message: "Error",
@@ -440,9 +278,9 @@ describe("useUpdatePassword Hook", () => {
   });
 
   it("should open notification when has success is false, error is undefined", async () => {
-    const updatePasswordMock = jest.fn();
-    const openNotificationMock = jest.fn();
-    const closeNotificationMock = jest.fn();
+    const updatePasswordMock = vi.fn();
+    const openNotificationMock = vi.fn();
+    const closeNotificationMock = vi.fn();
 
     const { result } = renderHook(() => useUpdatePassword(), {
       wrapper: TestWrapper({
@@ -451,10 +289,12 @@ describe("useUpdatePassword Hook", () => {
           close: closeNotificationMock,
         },
         authProvider: {
-          ...mockAuthProvider,
+          login: () => Promise.resolve({ success: true }),
+          logout: () => Promise.resolve({ success: true }),
+          check: () => Promise.resolve({ authenticated: true }),
+          onError: () => Promise.resolve({}),
           updatePassword: updatePasswordMock,
         },
-        routerProvider: legacyRouterProvider,
       }),
     });
 
@@ -468,7 +308,7 @@ describe("useUpdatePassword Hook", () => {
     });
 
     await waitFor(() => {
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         key: "update-password-error",
         type: "error",
         message: "Update Password Error",
@@ -483,21 +323,26 @@ describe("useUpdatePassword Hook", () => {
       updatePassword({});
     });
     await waitFor(() => {
-      expect(closeNotificationMock).toBeCalledWith("update-password-error");
+      expect(closeNotificationMock).toHaveBeenCalledWith(
+        "update-password-error",
+      );
     });
   });
 
   it("should open notification when throw error", async () => {
-    const openNotificationMock = jest.fn();
+    const openNotificationMock = vi.fn();
 
     const { result } = renderHook(() => useUpdatePassword(), {
       wrapper: TestWrapper({
         notificationProvider: {
           open: openNotificationMock,
-          close: jest.fn(),
+          close: vi.fn(),
         },
         authProvider: {
-          ...mockAuthProvider,
+          login: () => Promise.resolve({ success: true }),
+          logout: () => Promise.resolve({ success: true }),
+          check: () => Promise.resolve({ authenticated: true }),
+          onError: () => Promise.resolve({}),
           updatePassword: () => {
             throw new Error("Unhandled error");
           },
@@ -512,7 +357,7 @@ describe("useUpdatePassword Hook", () => {
     });
 
     await waitFor(() => {
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         key: "update-password-error",
         type: "error",
         message: "Error",
@@ -522,9 +367,9 @@ describe("useUpdatePassword Hook", () => {
   });
 
   it("should work notificationProvider", async () => {
-    const onErrorMock = jest.fn();
-    const onSuccessMock = jest.fn();
-    const updatePasswordMock = jest.fn();
+    const onErrorMock = vi.fn();
+    const onSuccessMock = vi.fn();
+    const updatePasswordMock = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -537,7 +382,10 @@ describe("useUpdatePassword Hook", () => {
       {
         wrapper: TestWrapper({
           authProvider: {
-            ...mockAuthProvider,
+            login: () => Promise.resolve({ success: true }),
+            logout: () => Promise.resolve({ success: true }),
+            check: () => Promise.resolve({ authenticated: true }),
+            onError: () => Promise.resolve({}),
             updatePassword: updatePasswordMock,
           },
         }),
@@ -551,7 +399,7 @@ describe("useUpdatePassword Hook", () => {
       updatePassword({});
     });
     await waitFor(() => {
-      expect(onErrorMock).toBeCalledTimes(1);
+      expect(onErrorMock).toHaveBeenCalledTimes(1);
     });
 
     updatePasswordMock.mockResolvedValueOnce({
@@ -561,7 +409,7 @@ describe("useUpdatePassword Hook", () => {
       updatePassword({});
     });
     await waitFor(() => {
-      expect(onSuccessMock).toBeCalledTimes(1);
+      expect(onSuccessMock).toHaveBeenCalledTimes(1);
     });
 
     updatePasswordMock.mockResolvedValueOnce({
@@ -571,13 +419,13 @@ describe("useUpdatePassword Hook", () => {
       updatePassword({});
     });
     await waitFor(() => {
-      expect(onSuccessMock).toBeCalledTimes(2);
+      expect(onSuccessMock).toHaveBeenCalledTimes(2);
     });
   });
 
   it("should override `mutationFn` with mutationOptions.mutationFn", async () => {
-    const updatePasswordMock = jest.fn().mockResolvedValue({ data: {} });
-    const mutationFnMock = jest.fn().mockResolvedValue({ data: {} });
+    const updatePasswordMock = vi.fn().mockResolvedValue({ data: {} });
+    const mutationFnMock = vi.fn().mockResolvedValue({ data: {} });
 
     const { result } = renderHook(
       () =>
@@ -591,7 +439,10 @@ describe("useUpdatePassword Hook", () => {
       {
         wrapper: TestWrapper({
           authProvider: {
-            ...mockAuthProvider,
+            login: () => Promise.resolve({ success: true }),
+            logout: () => Promise.resolve({ success: true }),
+            check: () => Promise.resolve({ authenticated: true }),
+            onError: () => Promise.resolve({}),
             updatePassword: updatePasswordMock,
           },
         }),
@@ -604,12 +455,12 @@ describe("useUpdatePassword Hook", () => {
       expect(result.current.isSuccess).toBeTruthy();
     });
 
-    expect(updatePasswordMock).not.toBeCalled();
-    expect(mutationFnMock).toBeCalled();
+    expect(updatePasswordMock).not.toHaveBeenCalled();
+    expect(mutationFnMock).toHaveBeenCalled();
   });
 
   it("should override `mutationKey` with `mutationOptions.mutationKey`", async () => {
-    const updatePasswordMock = jest.fn().mockResolvedValue({ data: {} });
+    const updatePasswordMock = vi.fn().mockResolvedValue({ data: {} });
 
     const { result } = renderHook(
       () =>
@@ -621,7 +472,10 @@ describe("useUpdatePassword Hook", () => {
       {
         wrapper: TestWrapper({
           authProvider: {
-            ...mockAuthProvider,
+            login: () => Promise.resolve({ success: true }),
+            logout: () => Promise.resolve({ success: true }),
+            check: () => Promise.resolve({ authenticated: true }),
+            onError: () => Promise.resolve({}),
             updatePassword: updatePasswordMock,
           },
         }),
@@ -642,7 +496,7 @@ describe("useUpdatePassword Hook", () => {
   });
 
   it("should open success notification when successNotification is passed", async () => {
-    const openNotificationMock = jest.fn();
+    const openNotificationMock = vi.fn();
 
     const successNotification = {
       message: "Success!",
@@ -653,7 +507,7 @@ describe("useUpdatePassword Hook", () => {
       wrapper: TestWrapper({
         notificationProvider: {
           open: openNotificationMock,
-          close: jest.fn(),
+          close: vi.fn(),
         },
         authProvider: {
           ...mockAuthProvider,
@@ -676,182 +530,5 @@ describe("useUpdatePassword Hook", () => {
       message: "Success!",
       description: "Operation completed successfully",
     });
-  });
-});
-
-// NOTE : Will be removed in v5
-describe("useUpdatePassword Hook authProvider selection", () => {
-  it("selects new authProvider", async () => {
-    const legacyUpdatePassword = jest.fn(() => Promise.resolve());
-    const updatePassword = jest.fn(() => Promise.resolve({ success: true }));
-
-    const { result } = renderHook(() => useUpdatePassword(), {
-      wrapper: TestWrapper({
-        legacyAuthProvider: {
-          login: () => Promise.resolve(),
-          checkAuth: () => Promise.resolve(),
-          checkError: () => Promise.resolve(),
-          logout: () => Promise.resolve(),
-          updatePassword: () => legacyUpdatePassword(),
-        },
-        authProvider: {
-          login: () => Promise.resolve({ success: true }),
-          check: () => Promise.resolve({ authenticated: true }),
-          onError: () => Promise.resolve({}),
-          logout: () => Promise.resolve({ success: true }),
-          updatePassword: () => updatePassword(),
-        },
-        legacyRouterProvider,
-      }),
-    });
-
-    const { mutate: login } = result.current;
-
-    await act(async () => {
-      login({});
-    });
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBeFalsy();
-    });
-
-    expect(legacyUpdatePassword).not.toHaveBeenCalled();
-    expect(updatePassword).toHaveBeenCalled();
-  });
-
-  it("selects v3LegacyAuthProviderCompatible authProvider", async () => {
-    const legacyUpdatePassword = jest.fn(() => Promise.resolve());
-    const updatePassword = jest.fn(() => Promise.resolve({ success: true }));
-
-    const { result } = renderHook(
-      () => useUpdatePassword({ v3LegacyAuthProviderCompatible: true }),
-      {
-        wrapper: TestWrapper({
-          legacyAuthProvider: {
-            login: () => Promise.resolve(),
-            checkAuth: () => Promise.resolve(),
-            checkError: () => Promise.resolve(),
-            logout: () => Promise.resolve(),
-            updatePassword: () => legacyUpdatePassword(),
-          },
-          authProvider: {
-            login: () => Promise.resolve({ success: true }),
-            check: () => Promise.resolve({ authenticated: true }),
-            onError: () => Promise.resolve({}),
-            logout: () => Promise.resolve({ success: true }),
-            updatePassword: () => updatePassword(),
-          },
-          legacyRouterProvider,
-        }),
-      },
-    );
-
-    const { mutate: login } = result.current;
-
-    await act(async () => {
-      login({});
-    });
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBeFalsy();
-    });
-
-    expect(legacyUpdatePassword).toHaveBeenCalled();
-    expect(updatePassword).not.toHaveBeenCalled();
-  });
-});
-
-describe("useUpdatePassword Hook with v3LegacyAuthProviderCompatible", () => {
-  it("should be redirect legacyRouterProvider", async () => {
-    const { result } = renderHook(
-      () =>
-        useUpdatePassword({
-          v3LegacyAuthProviderCompatible: true,
-        }),
-      {
-        wrapper: TestWrapper({
-          legacyAuthProvider: {
-            login: () => Promise.resolve(),
-            updatePassword: ({ password, confirmPassword }) => {
-              if (password && confirmPassword) {
-                return Promise.resolve("redirectTo");
-              }
-              return Promise.reject(new Error("Missing fields"));
-            },
-            checkAuth: () => Promise.resolve(),
-            checkError: () => Promise.resolve(),
-            getPermissions: () => Promise.resolve(),
-            logout: () => Promise.resolve(),
-            getUserIdentity: () => Promise.resolve({ id: 1 }),
-          },
-          legacyRouterProvider: {
-            ...mockLegacyRouterProvider(),
-            useHistory: () => ({
-              goBack: jest.fn(),
-              replace: mockFn,
-              push: jest.fn(),
-            }),
-          },
-        }),
-      },
-    );
-
-    const { mutate: updatePassword } = result.current;
-
-    await act(async () => {
-      updatePassword({ password: "123", confirmPassword: "321" });
-    });
-
-    await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
-    });
-
-    expect(mockFn).toBeCalledWith("redirectTo");
-  });
-
-  it("should be redirect routerProvider", async () => {
-    const { result } = renderHook(
-      () =>
-        useUpdatePassword({
-          v3LegacyAuthProviderCompatible: true,
-        }),
-      {
-        wrapper: TestWrapper({
-          legacyAuthProvider: {
-            login: () => Promise.resolve(),
-            updatePassword: ({ password, confirmPassword }) => {
-              if (password && confirmPassword) {
-                return Promise.resolve("redirectTo");
-              }
-              return Promise.reject(new Error("Missing fields"));
-            },
-            checkAuth: () => Promise.resolve(),
-            checkError: () => Promise.resolve(),
-            getPermissions: () => Promise.resolve(),
-            logout: () => Promise.resolve(),
-            getUserIdentity: () => Promise.resolve({ id: 1 }),
-          },
-          routerProvider: {
-            ...mockRouterProvider({
-              fns: {
-                go: () => mockFn,
-              },
-            }),
-          },
-        }),
-      },
-    );
-
-    const { mutate: updatePassword } = result.current;
-
-    await act(async () => {
-      updatePassword({ password: "123", confirmPassword: "321" });
-    });
-
-    await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
-    });
-
-    expect(mockFn).toBeCalledWith("redirectTo");
   });
 });

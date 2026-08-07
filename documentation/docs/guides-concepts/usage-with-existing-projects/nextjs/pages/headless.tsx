@@ -61,14 +61,14 @@ import Link from "next/link";
 import { useShow } from "@refinedev/core";
 
 export default function RefinePage() {
-  const { queryResult } = useShow({ resource: "products", id: 1 });
+  const { query } = useShow({ resource: "products", id: 1 });
 
   return (
     <div>
       Hello From My Refine Component!
       <hr />
-      <p>useShow hook queryResult:</p>
-      <code>{JSON.stringify(queryResult.data, null, 2)}</code>
+      <p>useShow hook query:</p>
+      <code>{JSON.stringify(query.data, null, 2)}</code>
       <hr />
       <Link href="/">Go to Home Page</Link>
     </div>

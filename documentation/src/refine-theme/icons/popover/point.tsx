@@ -16,7 +16,7 @@ export const PointIcon = ({
     {...props}
     className={clsx(
       variant === "landing" && "text-white dark:text-gray-900",
-      variant === "blog" && "text-white dark:text-refine-react-dark-code",
+      variant === "blog" && "text-white dark:text-zinc-900",
       props.className,
     )}
   >
@@ -36,7 +36,7 @@ export const PointIcon = ({
         gradientUnits="userSpaceOnUse"
         className={clsx(
           variant === "landing" && "text-gray-200 dark:text-gray-700",
-          variant === "blog" && "text-refine-react-3 dark:text-refine-react-6",
+          variant === "blog" && "text-zinc-200 dark:text-zinc-600",
         )}
       >
         <stop offset="0.590414" stopColor="currentColor" />

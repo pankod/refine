@@ -15,7 +15,7 @@ export const ProductShow = () => {
   const { query: queryResult } = useShow<IProduct>();
   const product = queryResult?.data?.data;
 
-  const { data: categoryData } = useOne<ICategory>({
+  const { result: categoryData } = useOne<ICategory>({
     resource: "categories",
     id: product?.category.id,
     queryOptions: {
@@ -57,7 +57,7 @@ export const ProductShow = () => {
             <h2 className="text-base font-medium mt-3">Price</h2>
             <p>{currencyFormatter.format(product?.price ?? 0)}</p>
             <h2 className="text-base font-medium mt-3">Category</h2>
-            <p>{categoryData?.data.title}</p>
+            <p>{categoryData?.title}</p>
             <h2 className="text-base font-medium mt-3">Description</h2>
             <p>{product?.description}</p>
           </CardBody>

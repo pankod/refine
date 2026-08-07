@@ -1,14 +1,17 @@
 ---
-title: Audit Logs
+title: "Audit Logs Guide | Best Practices in Refine v5"
+display_title: "Audit Logs"
+sidebar_label: "Audit Logs"
+description: "Build Audit Logs in Refine v5. Learn the key steps. Learn provider for compliance and traceability. Hands-on examples included."
 ---
 
 Audit logs are useful tool for web applications, providing a reliable record of user actions and system changes. Capturing and storing these logs ensures transparency and accountability which can be crucial for **security**, **compliance**, and debugging purposes.
 
 ## Audit Log Provider
 
-Refine offers [Audit Log Provider](/docs/audit-logs/audit-log-provider) to centralize retrieving audit logs easily across your application.
+Refine offers [Audit Log Provider](/core/docs/audit-logs/audit-log-provider/) to centralize retrieving audit logs easily across your application.
 
-CRUD operations are automatically logged when **Audit Log Provider** is provided, along with the current user information coming from [useGetIdentity](/docs/authentication/hooks/use-get-identity) hook.
+CRUD operations are automatically logged when **Audit Log Provider** is provided, along with the current user information coming from [useGetIdentity](/core/docs/authentication/hooks/use-get-identity/) hook.
 
 **Audit Log Provider** is an object that contains `get`, `create` and `update` methods.
 
@@ -17,7 +20,7 @@ import { AuditLogProvider } from "@refinedev/core";
 
 export const auditLogProvider: AuditLogProvider = {
   get: async (params) => {
-    const { resource, meta, action, author, metaData } = params;
+    const { resource, meta, action, author } = params;
 
     const response = await fetch(
       `https://example.com/api/audit-logs/${resource}/${meta.id}`,
@@ -82,13 +85,13 @@ export const App = () => {
 
 Refine's mutation hooks such as `useCreate`, `useCreateMany`, `useUpdate`, `useUpdateMany`, `useDelete`, `useDeleteMany` are already integrated with **Audit Log Provider**.
 
-See the [Supported Hooks](/docs/audit-logs/audit-log-provider#supported-hooks) section for more information.
+See the [Supported Hooks](/core/docs/audit-logs/audit-log-provider#supported-hooks) section for more information.
 
 ### Hooks
 
 #### useLogList
 
-You can use [useLogList](/docs/audit-logs/hooks/use-log) hook to retrieve audit logs. It uses **Audit Log Provider**'s `get` method under the hood.
+You can use [useLogList](/core/docs/audit-logs/hooks/use-log/) hook to retrieve audit logs. It uses **Audit Log Provider**'s `get` method under the hood.
 
 ```tsx
 import { useLogList } from "@refinedev/core";
@@ -100,7 +103,7 @@ const productsAuditLogResults = useLogList({
 
 #### useLog
 
-You can use [useLog](/docs/audit-logs/hooks/use-log) hook for your custom logging needs. It uses **Audit Log Provider**'s `create` method under the hood.
+You can use [useLog](/core/docs/audit-logs/hooks/use-log/) hook for your custom logging needs. It uses **Audit Log Provider**'s `create` method under the hood.
 
 ```tsx
 import { useLog } from "@refinedev/core";

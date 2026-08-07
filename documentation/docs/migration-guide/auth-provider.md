@@ -1,5 +1,7 @@
 ---
-title: Migrating Auth Provider from 3.x.x to 4.x.x
+title: "Auth Provider Migration Guide | Migration Guide in Refine v5"
+display_title: "Migrating Auth Provider from 3.x.x to 4.x.x"
+description: "Implement Auth Provider in Refine v5. Learn the key steps. Learn must for real-world React admin panels. Fast to follow."
 sidebar_label: Migrating Auth Provider
 ---
 
@@ -427,7 +429,7 @@ export const Authenticated: React.FC = ({ children }) => {
 
 Though auth hooks should be familiar, they need to updated according to the new system.
 
-[Please refer to the hooks documentation for more information.](/docs/authentication/auth-provider#hooks-and-components)
+[Please refer to the hooks documentation for more information.](/core/docs/authentication/auth-provider#hooks-and-components)
 
 ## Backward compatibility
 

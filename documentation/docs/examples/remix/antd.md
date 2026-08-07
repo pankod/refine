@@ -1,6 +1,8 @@
 ---
 id: remix-antd
-title: Remix with Ant Design
+title: "Remix Ant Design Example | SSR in Refine v5"
+display_title: "Remix with Ant Design"
+description: "Explore how to build with the Remix Ant Design example in Refine v5. Learn SSR, navigation for real-world React admin panels. Hands-on examples included."
 sidebar_label: Remix
 example-tags: [remix, antd]
 ---

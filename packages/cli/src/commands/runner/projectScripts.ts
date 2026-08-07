@@ -1,4 +1,35 @@
+import path from "path";
+import fs from "fs";
 import { ProjectTypes } from "@definitions/projectTypes";
+
+function resolveBin(name: string) {
+  // Walk up from the current working directory to find node_modules/.bin/${name}.
+  // This handles monorepo/workspace setups where packages may be hoisted to a
+  // parent directory's node_modules.
+  let dir = process.cwd();
+  while (true) {
+    if (process.platform === "win32") {
+      const exePath = path.join(dir, "node_modules", ".bin", `${name}.exe`);
+      if (fs.existsSync(exePath)) return exePath;
+      const cmdPath = path.join(dir, "node_modules", ".bin", `${name}.cmd`);
+      if (fs.existsSync(cmdPath)) return cmdPath;
+    } else {
+      const binPath = path.join(dir, "node_modules", ".bin", name);
+      if (fs.existsSync(binPath)) return binPath;
+    }
+    const parent = path.dirname(dir);
+    if (parent === dir) break; // reached filesystem root
+    dir = parent;
+  }
+
+  // Fall back to require.resolve for backward compatibility
+  if (process.platform === "win32") {
+    try {
+      return require.resolve(`.bin/${name}.exe`);
+    } catch {}
+  }
+  return require.resolve(`.bin/${name}`);
+}
 
 /**
  * Map `Refine` cli commands to project script
@@ -8,19 +39,19 @@ export const projectScripts = {
     getDev: (args: string[]) => ["start", ...args],
     getStart: (args: string[]) => ["start", ...args],
     getBuild: (args: string[]) => ["build", ...args],
-    getBin: () => require.resolve(".bin/react-scripts"),
+    getBin: () => resolveBin("react-scripts"),
   },
   [ProjectTypes.VITE]: {
     getDev: (args: string[]) => ["dev", ...args],
     getStart: (args: string[]) => ["preview", ...args],
     getBuild: (args: string[]) => ["build", ...args],
-    getBin: () => require.resolve(".bin/vite"),
+    getBin: () => resolveBin("vite"),
   },
   [ProjectTypes.NEXTJS]: {
     getDev: (args: string[]) => ["dev", ...args],
     getStart: (args: string[]) => ["start", ...args],
     getBuild: (args: string[]) => ["build", ...args],
-    getBin: () => require.resolve(".bin/next"),
+    getBin: () => resolveBin("next"),
   },
   [ProjectTypes.REMIX]: {
     getDev: (args: string[]) => ["dev", ...args],
@@ -46,8 +77,7 @@ export const projectScripts = {
     },
     getBuild: (args: string[]) => ["build", ...args],
     getBin: (type?: "dev" | "start" | "build") => {
-      const binName = type === "start" ? "remix-serve" : "remix";
-      return require.resolve(`.bin/${binName}`);
+      return resolveBin(type === "start" ? "remix-serve" : "remix");
     },
   },
   [ProjectTypes.REMIX_VITE]: {
@@ -74,8 +104,7 @@ export const projectScripts = {
     },
     getBuild: (args: string[]) => ["vite:build", ...args],
     getBin: (type?: "dev" | "start" | "build") => {
-      const binName = type === "start" ? "remix-serve" : "remix";
-      return require.resolve(`.bin/${binName}`);
+      return resolveBin(type === "start" ? "remix-serve" : "remix");
     },
   },
   [ProjectTypes.REMIX_SPA]: {
@@ -83,21 +112,20 @@ export const projectScripts = {
     getStart: (args: string[]) => ["preview", ...args],
     getBuild: (args: string[]) => ["vite:build", ...args],
     getBin: (type?: "dev" | "start" | "build") => {
-      const binName = type === "start" ? "vite" : "remix";
-      return require.resolve(`.bin/${binName}`);
+      return resolveBin(type === "start" ? "vite" : "remix");
     },
   },
   [ProjectTypes.CRACO]: {
     getDev: (args: string[]) => ["start", ...args],
     getStart: (args: string[]) => ["start", ...args],
     getBuild: (args: string[]) => ["build", ...args],
-    getBin: () => require.resolve(".bin/craco"),
+    getBin: () => resolveBin("craco"),
   },
   [ProjectTypes.PARCEL]: {
     getDev: (args: string[]) => ["start", ...args],
     getStart: (args: string[]) => ["start", ...args],
     getBuild: (args: string[]) => ["build", ...args],
-    getBin: () => require.resolve(".bin/parcel"),
+    getBin: () => resolveBin("parcel"),
   },
   [ProjectTypes.UNKNOWN]: {
     getDev: (args: string[]) => [...args],

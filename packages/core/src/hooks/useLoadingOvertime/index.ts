@@ -28,6 +28,13 @@ type UseLoadingOvertimeCoreReturnType = {
 
 export type UseLoadingOvertimeCoreProps = {
   /**
+   * If true, the elapsed time will be calculated. If set to false; the elapsed time will be `undefined`.
+   *
+   * @default: true
+   */
+  enabled?: boolean;
+
+  /**
    * The loading state. If true, the elapsed time will be calculated.
    */
   isLoading: boolean;
@@ -63,6 +70,7 @@ export type UseLoadingOvertimeCoreProps = {
  * });
  */
 export const useLoadingOvertime = ({
+  enabled: enabledProp,
   isLoading,
   interval: intervalProp,
   onInterval: onIntervalProp,
@@ -75,11 +83,17 @@ export const useLoadingOvertime = ({
   // pick props or refine context options
   const interval = intervalProp ?? overtime.interval;
   const onInterval = onIntervalProp ?? overtime?.onInterval;
+  const enabled =
+    typeof enabledProp !== "undefined"
+      ? enabledProp
+      : typeof overtime.enabled !== "undefined"
+        ? overtime.enabled
+        : true;
 
   useEffect(() => {
     let intervalFn: ReturnType<typeof setInterval>;
 
-    if (isLoading) {
+    if (enabled && isLoading) {
       intervalFn = setInterval(() => {
         // increase elapsed time
         setElapsedTime((prevElapsedTime) => {
@@ -93,11 +107,13 @@ export const useLoadingOvertime = ({
     }
 
     return () => {
-      clearInterval(intervalFn);
+      if (typeof intervalFn !== "undefined") {
+        clearInterval(intervalFn);
+      }
       // reset elapsed time
       setElapsedTime(undefined);
     };
-  }, [isLoading, interval]);
+  }, [isLoading, interval, enabled]);
 
   useEffect(() => {
     // call onInterval callback

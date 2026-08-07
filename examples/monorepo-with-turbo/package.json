@@ -6,9 +6,13 @@
     "dev": "turbo run dev"
   },
   "devDependencies": {
+    "@types/node": "^20",
     "eslint": "^7.32.0",
     "prettier": "^2.5.1",
     "turbo": "latest"
   },
-  "packageManager": "pnpm@7.15.0"
+  "packageManager": "pnpm@7.15.0",
+  "engines": {
+    "node": ">=20"
+  }
 }

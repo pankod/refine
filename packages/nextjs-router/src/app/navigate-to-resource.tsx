@@ -1,20 +1,22 @@
-import { useResource, useGetToPath } from "@refinedev/core";
+import { useResourceParams, useGetToPath } from "@refinedev/core";
 import React from "react";
 import { useRouter } from "next/navigation";
 
 type NavigateToResourceProps = {
   resource?: string;
+  fallbackTo?: string;
   meta?: Record<string, unknown>;
 };
 
 export const NavigateToResource = ({
   resource: resourceProp,
+  fallbackTo,
   meta,
 }: NavigateToResourceProps) => {
   const ran = React.useRef(false);
   const { replace } = useRouter();
   const getToPath = useGetToPath();
-  const { resource, resources } = useResource(resourceProp);
+  const { resource, resources } = useResourceParams({ resource: resourceProp });
 
   const toResource = React.useMemo(
     () => resource || resources.find((r) => r.list),
@@ -35,6 +37,10 @@ export const NavigateToResource = ({
         }
         ran.current = true;
       }
+    } else if (fallbackTo) {
+      console.warn(`No resource is found. navigation to ${fallbackTo}.`);
+      replace(fallbackTo);
+      ran.current = true;
     }
   }, [toResource, replace, meta, getToPath]);
 

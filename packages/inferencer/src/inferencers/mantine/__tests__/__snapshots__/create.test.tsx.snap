@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MantineCreateInferencer should match the snapshot 1`] = `
+exports[`MantineCreateInferencer > should match the snapshot 1`] = `
 <DocumentFragment>
   <div>
     <div
@@ -12,6 +12,35 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
         <div
           class="mantine-Stack-root mantine-zyu68o"
         >
+          <div
+            aria-label="breadcrumb"
+            class="mantine-Breadcrumbs-root mantine-16ttirm"
+          >
+            <div
+              class="mantine-Group-root mantine-Breadcrumbs-breadcrumb mantine-lqce4f"
+            >
+              <a
+                class="mantine-Text-root mantine-Anchor-root mantine-1xmguuo"
+                href="/posts"
+              >
+                Posts
+              </a>
+            </div>
+            <div
+              class="mantine-Text-root mantine-Breadcrumbs-separator mantine-33yi4r"
+            >
+              /
+            </div>
+            <div
+              class="mantine-Group-root mantine-Breadcrumbs-breadcrumb mantine-lqce4f"
+            >
+              <div
+                class="mantine-Text-root mantine-rwoji2"
+              >
+                Create
+              </div>
+            </div>
+          </div>
           <div
             class="mantine-Group-root mantine-1g4q40w"
           >
@@ -61,8 +90,8 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-            for="mantine-r0"
-            id="mantine-r0-label"
+            for="mantine-«r0»"
+            id="mantine-«r0»-label"
           >
             Title
           </label>
@@ -72,7 +101,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-              id="mantine-r0"
+              id="mantine-«r0»"
               type="text"
               value=""
             />
@@ -83,8 +112,8 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-            for="mantine-r1"
-            id="mantine-r1-label"
+            for="mantine-«r1»"
+            id="mantine-«r1»-label"
           >
             Slug
           </label>
@@ -94,7 +123,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-              id="mantine-r1"
+              id="mantine-«r1»"
               type="text"
               value=""
             />
@@ -105,8 +134,8 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-Textarea-label mantine-ittua2"
-            for="mantine-r2"
-            id="mantine-r2-label"
+            for="mantine-«r2»"
+            id="mantine-«r2»-label"
           >
             Content
           </label>
@@ -116,7 +145,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
             <textarea
               aria-invalid="false"
               class="mantine-Input-input mantine-Textarea-input mantine-1cp6ct5"
-              id="mantine-r2"
+              id="mantine-«r2»"
             />
           </div>
         </div>
@@ -125,8 +154,8 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-NumberInput-label mantine-ittua2"
-            for="mantine-r3"
-            id="mantine-r3-label"
+            for="mantine-«r3»"
+            id="mantine-«r3»-label"
           >
             Hit
           </label>
@@ -136,7 +165,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-NumberInput-input mantine-rum3t1"
-              id="mantine-r3"
+              id="mantine-«r3»"
               inputmode="numeric"
               step="1"
               type="text"
@@ -200,13 +229,13 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-Select-label mantine-ittua2"
-            for="mantine-r4"
-            id="mantine-r4-label"
+            for="mantine-«r4»"
+            id="mantine-«r4»-label"
           >
             Category
           </label>
           <div
-            aria-controls="mantine-r4"
+            aria-controls="mantine-«r4»"
             aria-expanded="false"
             aria-haspopup="listbox"
             class=""
@@ -226,7 +255,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
                 autocomplete="off"
                 class="mantine-Input-input mantine-Select-input mantine-149ccxv"
                 data-mantine-stop-propagation="false"
-                id="mantine-r4"
+                id="mantine-«r4»"
                 type="search"
                 value=""
               />
@@ -258,13 +287,13 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-Select-label mantine-ittua2"
-            for="mantine-r6"
-            id="mantine-r6-label"
+            for="mantine-«r6»"
+            id="mantine-«r6»-label"
           >
             User
           </label>
           <div
-            aria-controls="mantine-r6"
+            aria-controls="mantine-«r6»"
             aria-expanded="false"
             aria-haspopup="listbox"
             class=""
@@ -284,7 +313,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
                 autocomplete="off"
                 class="mantine-Input-input mantine-Select-input mantine-149ccxv"
                 data-mantine-stop-propagation="false"
-                id="mantine-r6"
+                id="mantine-«r6»"
                 type="search"
                 value=""
               />
@@ -316,8 +345,8 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-            for="mantine-r8"
-            id="mantine-r8-label"
+            for="mantine-«r8»"
+            id="mantine-«r8»-label"
           >
             Status
           </label>
@@ -327,7 +356,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-              id="mantine-r8"
+              id="mantine-«r8»"
               type="text"
               value=""
             />
@@ -338,8 +367,8 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-            for="mantine-r9"
-            id="mantine-r9-label"
+            for="mantine-«r9»"
+            id="mantine-«r9»-label"
           >
             Status Color
           </label>
@@ -349,7 +378,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-              id="mantine-r9"
+              id="mantine-«r9»"
               type="text"
               value=""
             />
@@ -360,8 +389,8 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-            for="mantine-ra"
-            id="mantine-ra-label"
+            for="mantine-«ra»"
+            id="mantine-«ra»-label"
           >
             Created At
           </label>
@@ -371,7 +400,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-              id="mantine-ra"
+              id="mantine-«ra»"
               type="text"
               value=""
             />
@@ -382,8 +411,8 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-            for="mantine-rb"
-            id="mantine-rb-label"
+            for="mantine-«rb»"
+            id="mantine-«rb»-label"
           >
             Published At
           </label>
@@ -393,7 +422,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-              id="mantine-rb"
+              id="mantine-«rb»"
               type="text"
               value=""
             />
@@ -404,13 +433,13 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-MultiSelect-label mantine-ittua2"
-            for="mantine-rc"
-            id="mantine-rc-label"
+            for="mantine-«rc»"
+            id="mantine-«rc»-label"
           >
             Tags
           </label>
           <div
-            aria-controls="mantine-rc"
+            aria-controls="mantine-«rc»"
             aria-expanded="false"
             aria-haspopup="listbox"
             class="mantine-qqmv3w mantine-MultiSelect-wrapper"
@@ -436,7 +465,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
                     autocomplete="off"
                     class="mantine-MultiSelect-searchInput mantine-MultiSelect-searchInputEmpty mantine-zmh4e"
                     data-mantine-stop-propagation="false"
-                    id="mantine-rc"
+                    id="mantine-«rc»"
                     type="search"
                     value=""
                   />
@@ -470,8 +499,8 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-NumberInput-label mantine-ittua2"
-            for="mantine-re"
-            id="mantine-re-label"
+            for="mantine-«re»"
+            id="mantine-«re»-label"
           >
             Language
           </label>
@@ -481,7 +510,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-NumberInput-input mantine-rum3t1"
-              id="mantine-re"
+              id="mantine-«re»"
               inputmode="numeric"
               step="1"
               type="text"
@@ -593,7 +622,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
     style="position: sticky; bottom: 24px; padding-top: 24px; left: 0px; right: 0px; width: 100%; z-index: 10; display: flex; justify-content: center; transition: all 0.2s ease; opacity: 1; transform: translateY(0);"
   >
     <div
-      style="max-width: 1080px; padding: 20px; background-color: rgb(26, 26, 26); box-shadow: 0px 4px 16px -4px rgba(0, 0, 0, 0.5), 0px 8px 32px -8px rgba(0, 0, 0, 0.35); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; flex-direction: row; gap: 12px;"
+      style="width: calc(100% - 128px); max-width: 1080px; padding: 20px; background-color: rgb(26, 26, 26); box-shadow: 0px 4px 16px -4px rgba(0, 0, 0, 0.5), 0px 8px 32px -8px rgba(0, 0, 0, 0.35); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; flex-direction: row; gap: 12px;"
     >
       <div
         style="display: flex; align-items: flex-start; gap: 8px;"
@@ -671,7 +700,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
     style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index: 9999; background-color: rgba(0, 0, 0, 0.5); transition: all 0.2s ease; opacity: 0; pointer-events: none; display: flex; justify-content: center; align-items: center;"
   >
     <div
-      style="transform: scale(0) translateY(-200px); transition: all 0.25s cubic-bezier(.35,1.29,.81,1.08); transition-delay: 0.25; background-color: rgb(255, 255, 255); max-width: 640px; max-height: 720px; border-radius: 8px; padding: 16px;"
+      style="transform: scale(0) translateY(-200px); transition: all 0.25s cubic-bezier(.35,1.29,.81,1.08); transition-delay: 0.25; width: calc(100% - 64px); height: calc(100% - 64px); background-color: rgb(255, 255, 255); max-width: 640px; max-height: 720px; border-radius: 8px; padding: 16px;"
     >
       <div
         style="display: flex; flex-direction: column; height: 100%; width: 100%; gap: 16px;"
@@ -703,7 +732,7 @@ exports[`MantineCreateInferencer should match the snapshot 1`] = `
           </button>
         </div>
         <div
-          style="font-size: 13px; border-radius: 8px; flex: 1; overflow: scroll; background: rgb(30, 30, 30);"
+          style="font-size: 13px; border-radius: 8px; flex: 1 1 0%; overflow: scroll; background: rgb(30, 30, 30);"
         >
           <pre
             class="prism-code language-tsx"

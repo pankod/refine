@@ -92,4 +92,67 @@ describe("with gql", () => {
       expect(response?.data.postsAggregate.aggregate.count).toBe(318);
     },
   );
+
+  it("correctly passes variables from meta.gqlVariables to the query", async () => {
+    const apiUrl = getApiUrl("hasura-default");
+
+    const response = await dataProvider(createClient("hasura-default"), {
+      namingConvention: "hasura-default",
+    }).custom?.({
+      url: apiUrl,
+      method: "get",
+      meta: {
+        gqlQuery: gql`
+          query GetPost(
+            $includeAvg: Boolean = false
+          ) {
+            posts_aggregate {
+              aggregate {
+                count
+                avg @include(if: $includeAvg) {
+                  id
+                }
+              }
+            }
+          }
+        `,
+        gqlVariables: {
+          includeAvg: true,
+        },
+      },
+    });
+
+    expect(response?.data.posts_aggregate.aggregate.count).toBe(318);
+    expect(response?.data.posts_aggregate.aggregate.avg.id).toBe(42);
+  });
+
+  it("correctly handles the query when gqlVariables aren't provided", async () => {
+    const apiUrl = getApiUrl("hasura-default");
+
+    const response = await dataProvider(createClient("hasura-default"), {
+      namingConvention: "hasura-default",
+    }).custom?.({
+      url: apiUrl,
+      method: "get",
+      meta: {
+        gqlQuery: gql`
+          query GetPost(
+            $includeAvg: Boolean = false
+          ) {
+            posts_aggregate {
+              aggregate {
+                count
+                avg @include(if: $includeAvg) {
+                  id
+                }
+              }
+            }
+          }
+        `,
+      },
+    });
+
+    expect(response?.data.posts_aggregate.aggregate.count).toBe(318);
+    expect(response?.data.posts_aggregate.aggregate.avg).toBeUndefined();
+  });
 });

@@ -58,7 +58,10 @@ export const renderer = ({
   isCustomPage,
   i18n,
 }: RendererContext) => {
-  const COMPONENT_NAME = componentName(resource.label ?? resource.name, "list");
+  const COMPONENT_NAME = componentName(
+    resource.meta?.label ?? resource.name,
+    "list",
+  );
   const recordName = "tableData?.data";
   const imports: Array<ImportElement> = [
     ["useTable", "@refinedev/react-table"],
@@ -114,7 +117,7 @@ export const renderer = ({
         }
 
         return `
-                const { data: ${getVariableName(field.key, "Data")} } =
+                const { result: ${getVariableName(field.key, "Data")} } =
                 useMany({
                     resource: "${field.resource.name}",
                     ids: ${idsString},
@@ -670,14 +673,11 @@ export const renderer = ({
     return undefined;
   };
 
-  const {
-    canEdit,
-    canShow,
-    canDelete: canDeleteProp,
-    meta: resourceMeta,
-  } = resource ?? {};
+  const { meta: resourceMeta, edit, show } = resource ?? {};
 
-  const canDelete = canDeleteProp || resourceMeta?.canDelete;
+  const canEdit = edit || resourceMeta?.canEdit;
+  const canShow = show || resourceMeta?.canShow;
+  const canDelete = resourceMeta?.canDelete;
 
   if (canEdit) {
     imports.push(["EditButton", "@refinedev/mantine"]);
@@ -773,14 +773,16 @@ export const renderer = ({
         ], [${i18n ? "translate" : ""}]);
 
         const {
-            getHeaderGroups,
-            getRowModel,
-            setOptions,
+            reactTable: {
+                getHeaderGroups,
+                getRowModel,
+                setOptions,
+            },
             refineCore: {
-                setCurrent,
+                setCurrentPage,
                 pageCount,
-                current,
-                tableQueryResult: { data: tableData },
+                currentPage,
+                tableQuery: { data: tableData },
             },
         } = useTable({
             columns,
@@ -864,8 +866,8 @@ export const renderer = ({
                 <Pagination
                     position="right"
                     total={pageCount}
-                    page={current}
-                    onChange={setCurrent}
+                    page={currentPage}
+                    onChange={setCurrentPage}
                 />
             </List>
         );

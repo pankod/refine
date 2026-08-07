@@ -43,8 +43,8 @@ export const TutorialCreateFileButton = ({ name, onClick }: Props) => {
       <CreateIcon
         className={clsx(
           "z-[1]",
-          "text-gray-800 dark:text-gray-0",
-          "group-hover:text-gray-0",
+          "text-zinc-800 dark:text-zinc-0",
+          "group-hover:text-zinc-0",
           "transition-colors duration-200 ease-in-out",
         )}
       />
@@ -53,8 +53,8 @@ export const TutorialCreateFileButton = ({ name, onClick }: Props) => {
           "z-[1]",
           "block",
           "text-xs",
-          "text-gray-800 dark:text-gray-0",
-          "group-hover:text-gray-0",
+          "text-zinc-800 dark:text-zinc-0",
+          "group-hover:text-zinc-0",
           "transition-colors duration-200 ease-in-out",
         )}
       >
@@ -66,7 +66,7 @@ export const TutorialCreateFileButton = ({ name, onClick }: Props) => {
           "block",
           "text-xs",
           "leading-6",
-          "text-gray-0",
+          "text-zinc-0",
           "px-2",
           "rounded-[24px]",
           "bg-refine-react-light-link",

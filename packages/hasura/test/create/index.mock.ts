@@ -783,3 +783,117 @@ nock("https://ruling-redbird-23.hasura.app:443", { encodedQueryParams: true })
       "84373e8abc566850-BUD",
     ],
   );
+
+nock("https://flowing-mammal-24.hasura.app:443", { encodedQueryParams: true })
+  .post("/v1/graphql", {
+    query:
+      "mutation CreatePost($object: posts_insert_input!, $includeCategory: Boolean = false) {\n  insert_posts_one(object: $object) {\n    id\n    title\n    content\n    category @include(if: $includeCategory) {\n      id\n    }\n  }\n}\n",
+    variables: {
+      object: {
+        content: "Lorem ipsum dolor sit amet.",
+        title: "Lorem ipsum dolore",
+        category_id: "ef49aebd-abcc-4bac-b064-a63b31f2e8ce",
+      },
+      includeCategory: true,
+    },
+    operationName: "CreatePost",
+  })
+  .reply(
+    200,
+    {
+      data: {
+        insert_posts_one: {
+          id: "d87e5a0f-1e31-4f90-8242-4a29a4ea6d9c",
+          title: "Lorem ipsum dolore",
+          content: "Lorem ipsum dolor sit amet.",
+          category: { id: "ef49aebd-abcc-4bac-b064-a63b31f2e8ce" },
+        },
+      },
+    },
+    [
+      "Date",
+      "Wed, 10 Jan 2024 19:14:42 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Content-Length",
+      "201",
+      "Connection",
+      "close",
+      "x-request-id",
+      "c4e58f92ba1d7aef3294c1d7a72e9f10",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Content-Security-Policy",
+      "upgrade-insecure-requests",
+      "Referrer-Policy",
+      "strict-origin-when-cross-origin",
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options",
+      "nosniff",
+      "X-Frame-Options",
+      "SAMEORIGIN",
+      "X-XSS-Protection",
+      "0",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "84373e8ffac14532-BUD",
+    ],
+  );
+
+nock("https://flowing-mammal-24.hasura.app:443", { encodedQueryParams: true })
+  .post("/v1/graphql", {
+    query:
+      "mutation CreatePost($object: posts_insert_input!, $includeCategory: Boolean = false) {\n  insert_posts_one(object: $object) {\n    id\n    title\n    content\n    category @include(if: $includeCategory) {\n      id\n    }\n  }\n}\n",
+    variables: {
+      object: {
+        content: "Lorem ipsum dolor sit amet.",
+        title: "Lorem ipsum dolore",
+        category_id: "ef49aebd-abcc-4bac-b064-a63b31f2e8ce",
+      },
+    },
+    operationName: "CreatePost",
+  })
+  .reply(
+    200,
+    {
+      data: {
+        insert_posts_one: {
+          id: "e98f2a1f-c42c-4b17-91d5-f853a4c7e3d1",
+          title: "Lorem ipsum dolore",
+          content: "Lorem ipsum dolor sit amet.",
+        },
+      },
+    },
+    [
+      "Date",
+      "Wed, 10 Jan 2024 19:14:43 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Content-Length",
+      "139",
+      "Connection",
+      "close",
+      "x-request-id",
+      "d3a75b91cba6e4d77c9e8f4a23b5f1a9",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Content-Security-Policy",
+      "upgrade-insecure-requests",
+      "Referrer-Policy",
+      "strict-origin-when-cross-origin",
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options",
+      "nosniff",
+      "X-Frame-Options",
+      "SAMEORIGIN",
+      "X-XSS-Protection",
+      "0",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "84373e95a9fb683c-BUD",
+    ],
+  );

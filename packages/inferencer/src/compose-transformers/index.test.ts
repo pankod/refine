@@ -1,12 +1,13 @@
+import { vi } from "vitest";
 import { composeTransformers } from ".";
 
 describe("composeTransformers", () => {
   it("should compose multiple transformers into one", () => {
-    const transformer1 = jest.fn();
-    const transformer2 = jest.fn();
-    const transformer3 = jest.fn();
+    const transformer1 = vi.fn();
+    const transformer2 = vi.fn();
+    const transformer3 = vi.fn();
 
-    const inferencer = jest.fn();
+    const inferencer = vi.fn();
 
     const composedTransformer = composeTransformers([
       transformer1,

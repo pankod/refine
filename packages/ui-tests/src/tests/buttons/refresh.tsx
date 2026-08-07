@@ -1,17 +1,24 @@
 import React from "react";
+import { vi } from "vitest";
 import {
   type RefineRefreshButtonProps,
   RefineButtonTestIds,
 } from "@refinedev/ui-types";
 
-import { act, fireEvent, render, TestWrapper, waitFor } from "@test";
-import { Route, Routes } from "react-router-dom";
+import {
+  act,
+  fireEvent,
+  render,
+  TestWrapper,
+  waitFor,
+  mockRouterProvider,
+} from "@test";
+import { Route, Routes } from "react-router";
 import "@refinedev/core";
 
-const invalidateMock = jest.fn();
-jest.mock("@refinedev/core", () => ({
-  __esModule: true,
-  ...jest.requireActual("@refinedev/core"),
+const invalidateMock = vi.fn();
+vi.mock("@refinedev/core", async () => ({
+  ...(await vi.importActual("@refinedev/core")),
   useInvalidate: () => {
     return invalidateMock;
   },
@@ -21,7 +28,7 @@ export const buttonRefreshTests = (
   RefreshButton: React.ComponentType<RefineRefreshButtonProps<any, any>>,
 ): void => {
   describe("[@refinedev/ui-tests] Common Tests / Refresh Button", () => {
-    const refresh = jest.fn();
+    const refresh = vi.fn();
 
     it("should render button successfuly", async () => {
       const { container } = render(<RefreshButton />, {
@@ -79,15 +86,15 @@ export const buttonRefreshTests = (
 
     /**
      * Previously `useInvalidate` was imported directly inside the UI packages,
-     * which then can be mocked and tested through jest.
+     * which then can be mocked and tested through vitest.
      * Now we've switched to `useRefreshButton` from `@refinedev/core`
      * which calls `useInvalidate` internally.
      * We can't test the internal function calls of `useInvalidate` anymore.
      * Extensive tests on the logic of the `useRefreshButton` which powers the `RefreshButton` are already covered in the core package.
      */
-    xit("should invalidates when button is clicked", async () => {
-      jest.resetAllMocks();
-      jest.restoreAllMocks();
+    it.skip("should invalidates when button is clicked", async () => {
+      vi.resetAllMocks();
+      vi.restoreAllMocks();
 
       const { getByText } = render(
         <Routes>
@@ -129,10 +136,10 @@ export const buttonRefreshTests = (
     });
 
     it("should when onClick is not passed, NOT invalidates when button is clicked", async () => {
-      jest.resetAllMocks();
-      jest.restoreAllMocks();
+      vi.resetAllMocks();
+      vi.restoreAllMocks();
 
-      const onClickMock = jest.fn();
+      const onClickMock = vi.fn();
 
       const { getByText } = render(
         <Routes>

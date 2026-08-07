@@ -1,5 +1,8 @@
 ---
-title: <CanAccess />
+title: "Can Access Component | RBAC & Security in Refine v5"
+display_title: "<CanAccess />"
+sidebar_label: "<CanAccess />"
+description: "Learn to implement Can Access in Refine v5. Explore secure patterns for RBAC, ABAC for secure enterprise React apps. Hands-on examples included."
 siderbar_label: <CanAccess />
 source: packages/core/src/components/canAccess/index.tsx
 ---
@@ -10,7 +13,7 @@ It internally uses [`useCan`][use-can]'s return values to provide its functional
 
 Passes the given properties to the `can` method from your access control provider. After, if it returns `true`, it renders the children, otherwise, if it returns `false`, it renders [`fallback`](#fallback) prop if provided. Otherwise, it renders `null`.
 
-To learn more about authorization, check out the [Authorization](/docs/guides-concepts/authorization) guide and [Access Control Provider](/docs/authorization/access-control-provider) documentation.
+To learn more about authorization, check out the [Authorization](/core/docs/guides-concepts/authorization/) guide and [Access Control Provider](/core/docs/authorization/access-control-provider/) documentation.
 
 ## Basic Usage
 
@@ -53,7 +56,7 @@ export const MyComponent = () => {
 
 ## Properties
 
-It also accepts all the properties of [`useCan`](/docs/authorization/hooks/use-can#properties).
+It also accepts all the properties of [`useCan`](/core/docs/authorization/hooks/use-can#properties).
 
 ### onUnauthorized
 
@@ -97,5 +100,5 @@ Accepts `UseQueryOptions<CanReturnType>` to customize the caching behavior of th
 
 <PropsTable module="@refinedev/core/CanAccess"/>
 
-[use-can]: /docs/authorization/hooks/use-can
-[access-control-provider]: /docs/authorization/access-control-provider
+[use-can]: /core/docs/authorization/hooks/use-can
+[access-control-provider]: /core/docs/authorization/access-control-provider

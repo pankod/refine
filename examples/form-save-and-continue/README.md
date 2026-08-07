@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example form-save-and-continue
 
 <br/>
 
-[![Open form-save-and-continue example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/form-save-and-continue?view=preview&theme=dark&codemirror=1)
+[![Open form-save-and-continue example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/form-save-and-continue?view=preview&theme=dark&codemirror=1)

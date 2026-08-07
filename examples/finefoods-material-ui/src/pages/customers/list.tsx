@@ -1,4 +1,4 @@
-import React, { type PropsWithChildren, useMemo } from "react";
+import { type PropsWithChildren, useMemo } from "react";
 import {
   type HttpError,
   useExport,
@@ -6,14 +6,13 @@ import {
   useNavigation,
   useTranslate,
 } from "@refinedev/core";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { DateField, ExportButton, useDataGrid } from "@refinedev/mui";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined";
 import IconButton from "@mui/material/IconButton";
-import Paper from "@mui/material/Paper";
 import type { IUser, IUserFilterVariables } from "../../interfaces";
 import { CustomTooltip, RefineListView } from "../../components";
 import { CustomerStatus } from "../../components/customer";
@@ -29,16 +28,20 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
     HttpError,
     IUserFilterVariables
   >({
-    initialPageSize: 10,
+    pagination: {
+      pageSize: 10,
+    },
   });
 
   const columns = useMemo<GridColDef<IUser>[]>(
     () => [
       {
-        field: "orderNumber",
+        field: "id",
         headerName: "ID #",
         description: "ID #",
         width: 52,
+        display: "flex",
+        type: "number",
         renderCell: function render({ row }) {
           return <Typography>#{row.id}</Typography>;
         },
@@ -46,6 +49,7 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
       {
         field: "avatar",
         headerName: t("users.fields.avatar.label"),
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <Avatar
@@ -78,6 +82,7 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
         headerName: t("users.addresses.address"),
         minWidth: 284,
         flex: 1,
+        display: "flex",
         renderCell: function render({ row }) {
           const text = row.addresses[0].text;
 
@@ -103,6 +108,7 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
         field: "createdAt",
         width: 220,
         headerName: t("users.fields.createdAt"),
+        display: "flex",
         renderCell: function render({ row }) {
           return <DateField value={row.createdAt} format="LL / hh:mm a" />;
         },
@@ -111,6 +117,8 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
         field: "isActive",
         headerName: t("users.fields.isActive.label"),
         width: 120,
+        display: "flex",
+        type: "boolean",
         renderCell: function render({ row }) {
           return <CustomerStatus value={row.isActive} />;
         },
@@ -121,6 +129,9 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
         width: 80,
         align: "center",
         headerAlign: "center",
+        display: "flex",
+        sortable: false,
+        filterable: false,
         renderCell: function render({ row }) {
           return (
             <IconButton
@@ -179,15 +190,11 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
           />
         }
       >
-        <Paper>
-          <DataGrid
-            {...dataGridProps}
-            sx={{}}
-            columns={columns}
-            autoHeight
-            pageSizeOptions={[10, 20, 50, 100]}
-          />
-        </Paper>
+        <DataGrid
+          {...dataGridProps}
+          columns={columns}
+          pageSizeOptions={[10, 20, 50, 100]}
+        />
       </RefineListView>
       {children}
     </>

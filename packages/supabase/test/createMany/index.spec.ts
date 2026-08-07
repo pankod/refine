@@ -64,16 +64,14 @@ describe("createMany", () => {
     expect(data[0]["title"]).toEqual("foo");
     expect(data[1]["title"]).toEqual("foo-2");
 
-    try {
-      await dataProvider(supabaseClient).createMany({
+    await expect(
+      dataProvider(supabaseClient).createMany({
         resource: "posts",
         variables: [],
         meta: {
           schema: "private",
         },
-      });
-    } catch (error: any) {
-      expect(error.code).toEqual("PGRST106");
-    }
+      }),
+    ).rejects.toMatchObject({ code: "PGRST106" });
   });
 });

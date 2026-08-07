@@ -205,10 +205,10 @@ export const dataProviderClient = dataProviderSimpleRest(API_URL);
 `;
 
 const AuthProviderServerTsxCode = /* tsx */ `
-import { AuthBindings } from "@refinedev/core";
+import { AuthProvider } from "@refinedev/core";
 import { cookies } from "next/headers";
 
-export const authProviderServer: Pick<AuthBindings, "check"> = {
+export const authProviderServer: Pick<AuthProvider, "check"> = {
     check: async () => {
         const cookieStore = cookies();
         const auth = cookieStore.get("auth");
@@ -232,7 +232,7 @@ export const authProviderServer: Pick<AuthBindings, "check"> = {
 const AuthProviderClientTsxCode = /* tsx */ `
 "use client";
 
-import { AuthBindings } from "@refinedev/core";
+import { AuthProvider } from "@refinedev/core";
 import Cookies from "js-cookie";
 
 const mockUsers = [
@@ -256,7 +256,7 @@ const mockUsers = [
     },
 ];
 
-export const authProviderClient: AuthBindings = {
+export const authProviderClient: AuthProvider = {
     login: async ({ email, username, password, remember }) => {
         // Suppose we actually send a request to the back end here.
         const user = mockUsers.find((item) => item.email === email);

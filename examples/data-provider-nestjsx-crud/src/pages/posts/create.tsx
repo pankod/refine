@@ -21,10 +21,18 @@ export const PostCreate = () => {
 
   const { selectProps: categorySelectProps } = useSelect<ICategory>({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { selectProps: tagsSelectProps } = useSelect<ITags>({
     resource: "tags",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { isLoading, onChange } = useFileUploadState();

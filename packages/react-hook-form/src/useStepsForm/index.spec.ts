@@ -81,10 +81,10 @@ describe("useStepsForm Hook", () => {
     async (scenario) => {
       const mockData = { field1: "field1", field2: "field2" };
       const mockDirtyFields = scenario.mockDirtyFields;
-      const setValue = jest.fn();
+      const setValue = vi.fn();
       const getValues = () => mockData;
 
-      (jest.spyOn(UseForm, "useForm") as jest.Mock).mockReturnValueOnce({
+      (vi.spyOn(UseForm, "useForm") as vi.Mock).mockReturnValueOnce({
         setValue,
         getValues,
         formState: { dirtyFields: mockDirtyFields },

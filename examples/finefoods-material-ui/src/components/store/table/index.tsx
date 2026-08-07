@@ -7,7 +7,6 @@ import {
   TextFieldComponent,
   useDataGrid,
 } from "@refinedev/mui";
-import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { IconButton } from "@mui/material";
 import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined";
@@ -19,7 +18,9 @@ export const StoreTable = () => {
   const { edit } = useNavigation();
 
   const { dataGridProps } = useDataGrid<IStore>({
-    initialPageSize: 10,
+    pagination: {
+      pageSize: 10,
+    },
   });
 
   const columns = useMemo<GridColDef<IStore>[]>(
@@ -28,6 +29,7 @@ export const StoreTable = () => {
         field: "id",
         headerName: "ID #",
         width: 72,
+        display: "flex",
         renderCell: function render({ row }) {
           return <Typography>#{row.id}</Typography>;
         },
@@ -43,6 +45,7 @@ export const StoreTable = () => {
         headerName: t("stores.fields.address"),
         flex: 2,
         width: 356,
+        display: "flex",
         renderCell: function render({ row }) {
           return <TextFieldComponent value={row.address?.text} />;
         },
@@ -61,6 +64,7 @@ export const StoreTable = () => {
         field: "isActive",
         headerName: t("stores.fields.isActive.label"),
         width: 110,
+        display: "flex",
         renderCell: function render({ row }) {
           return <StoreStatus value={row.isActive} />;
         },
@@ -71,6 +75,7 @@ export const StoreTable = () => {
         type: "actions",
         align: "center",
         headerAlign: "center",
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <IconButton
@@ -89,15 +94,12 @@ export const StoreTable = () => {
   );
 
   return (
-    <Paper>
-      <DataGrid
-        {...dataGridProps}
-        disableColumnSelector
-        sx={{}}
-        columns={columns}
-        autoHeight
-        pageSizeOptions={[10, 20, 50, 100]}
-      />
-    </Paper>
+    <DataGrid
+      {...dataGridProps}
+      disableColumnSelector
+      columns={columns}
+      pageSizeOptions={[10, 20, 50, 100]}
+      autosizeOnMount
+    />
   );
 };

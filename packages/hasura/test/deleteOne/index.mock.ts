@@ -448,3 +448,105 @@ nock("https://ruling-redbird-23.hasura.app:443", { encodedQueryParams: true })
       "8437587e1f6a733a-BUD",
     ],
   );
+
+nock("https://flowing-mammal-24.hasura.app:443", { encodedQueryParams: true })
+  .post("/v1/graphql", {
+    query:
+      "mutation DeletePost($id: uuid!, $includeTitle: Boolean = false) {\n  delete_posts_by_pk(id: $id) {\n    id\n    title @include(if: $includeTitle)\n  }\n}\n",
+    variables: {
+      id: "9a83b4c2-5d1e-47f6-b9c5-3a2d8e1f0c7b",
+      includeTitle: true,
+    },
+    operationName: "DeletePost",
+  })
+  .reply(
+    200,
+    {
+      data: {
+        delete_posts_by_pk: {
+          id: "9a83b4c2-5d1e-47f6-b9c5-3a2d8e1f0c7b",
+          title: "Aenean ultricies non libero sit amet pellentesque",
+        },
+      },
+    },
+    [
+      "Date",
+      "Wed, 10 Jan 2024 19:32:24 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Content-Length",
+      "137",
+      "Connection",
+      "close",
+      "x-request-id",
+      "7d98c24a10b32a6e7c1f5d9b8e4a2c1d",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Content-Security-Policy",
+      "upgrade-insecure-requests",
+      "Referrer-Policy",
+      "strict-origin-when-cross-origin",
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options",
+      "nosniff",
+      "X-Frame-Options",
+      "SAMEORIGIN",
+      "X-XSS-Protection",
+      "0",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "84375883ac84684c-BUD",
+    ],
+  );
+
+nock("https://flowing-mammal-24.hasura.app:443", { encodedQueryParams: true })
+  .post("/v1/graphql", {
+    query:
+      "mutation DeletePost($id: uuid!, $includeTitle: Boolean = false) {\n  delete_posts_by_pk(id: $id) {\n    id\n    title @include(if: $includeTitle)\n  }\n}\n",
+    variables: {
+      id: "7b5c8a2d-6e9f-4a1b-8c3d-2e0f5a9b4c7d",
+    },
+    operationName: "DeletePost",
+  })
+  .reply(
+    200,
+    {
+      data: {
+        delete_posts_by_pk: {
+          id: "7b5c8a2d-6e9f-4a1b-8c3d-2e0f5a9b4c7d",
+        },
+      },
+    },
+    [
+      "Date",
+      "Wed, 10 Jan 2024 19:32:25 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Content-Length",
+      "77",
+      "Connection",
+      "close",
+      "x-request-id",
+      "3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Content-Security-Policy",
+      "upgrade-insecure-requests",
+      "Referrer-Policy",
+      "strict-origin-when-cross-origin",
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options",
+      "nosniff",
+      "X-Frame-Options",
+      "SAMEORIGIN",
+      "X-XSS-Protection",
+      "0",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "8437588b1d56733a-BUD",
+    ],
+  );

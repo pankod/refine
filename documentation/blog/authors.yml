@@ -4,6 +4,31 @@ melih:
   url: https://github.com/mlhekinci
   image_url: https://github.com/mlhekinci.png
 
+arda:
+  name: Arda Yüceler
+  title: Product Manager
+  url: https://github.com/arda-refine
+  image_url: https://refine.ams3.cdn.digitaloceanspaces.com/refine-ai/about/arda.png
+
+ozgur:
+  name: Özgür Akça
+  title: Junior Developer Relations
+  url: https://github.com/doguhanozgurakca
+  image_url: https://github.com/doguhanozgurakca.png
+
+youwei:
+  name: Youwei Zhen
+  title: Junior Machine Learning Engineer
+  url: https://github.com/AntoDono
+  image_url: https://www.linkedin.com/in/youwei-zhen-a8b662213/
+
+civan:
+  name: Civan Ozseyhen
+  title: CEO
+  url: https://www.linkedin.com/in/civan-özseyhan-1ab48814/
+  image_url: https://media.licdn.com/dms/image/v2/C4D03AQE-_wQd8hyrZQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1655223925589?e=1754524800&v=beta&t=0YVbcPUo20AUfRxVD5F_sWw7GkOBH49kIjxaMoyfrmI
+  github: https://github.com/mlhekincifeat
+
 ege:
   name: Ege Aytın
   title: Software Developer
@@ -42,7 +67,6 @@ ozkalai:
 
 necati:
   name: Necati Özmen
-  title: Head of Growth at Refine
   url: https://github.com/necatiozmen
   image_url: https://github.com/necatiozmen.png
   description: Feeling Irie

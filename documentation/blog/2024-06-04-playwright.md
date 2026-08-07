@@ -3,8 +3,9 @@ title: Creating testable React applications with Playwright
 description: We'll take a look at how to create testable React applications with Playwright.
 slug: playwright-react
 authors: peter_osah
+category: "Ecosystem / Integrations"
 tags: [react, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-04-playwright/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-04-playwright/social.png
 hide_table_of_contents: false
 ---
 
@@ -117,7 +118,7 @@ npx playwright test
 This command will run your tests across all browsers, as specified in the playwright.config file. Tests are run in headless mode by default, which means no browser window is opened while the tests are running, and the results are displayed in the terminal.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-04-playwright/1.png" alt="playwright react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-04-playwright/1.png" alt="playwright react" />
 </div>
 
 To preview the test results, type the following command:
@@ -129,25 +130,25 @@ npx playwright show-report
 This will open a local server that displays the results of the test.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-04-playwright/2.png" alt="playwright react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-04-playwright/2.png" alt="playwright react" />
 </div>
 
 You may also preview any of the individual tests on the page and get more information on how the test ran.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-04-playwright/3.png" alt="playwright react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-04-playwright/3.png" alt="playwright react" />
 </div>
 
 If the test fails, it indicates that on the terminal.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-04-playwright/4.png" alt="playwright react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-04-playwright/4.png" alt="playwright react" />
 </div>
 
 it also automatically opens a dev server and displays the failed tests
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-04-playwright/5.png" alt="playwright react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-04-playwright/5.png" alt="playwright react" />
 </div>
 
 ### Running The Tests in UI Mode
@@ -163,7 +164,7 @@ npx playwright test --ui
 This will open up a headless browser and display your tests.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-04-playwright/6.png" alt="playwright react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-04-playwright/6.png" alt="playwright react" />
 </div>
 
 For more information on running tests in UI mode, visit the [docs](https://playwright.dev/docs/running-tests).
@@ -223,13 +224,13 @@ npx playwright test --trace on
 On doing that, it opens a dev server, that displays a Viewer icon on the ran tests.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-04-playwright/7.png" alt="playwright react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-04-playwright/7.png" alt="playwright react" />
 </div>
 
 On clicking the viewer icon beside the tests, you will be redirected to the Trace Viewer
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-04-playwright/8.png" alt="playwright react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-04-playwright/8.png" alt="playwright react" />
 </div>
 
 The trace viewer comes in handy on reviewing failed tests. You can locate the point where the test failed and make the necessary adjustments. To view more on trace recording, view [here](https://playwright.dev/docs/trace-viewer-intro)
@@ -245,7 +246,7 @@ npx playwright codegen demo.playwright.dev/todomvc
 On running the command, it opens the headless browser and generates tests in its inspector.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-06-04-playwright/9.png" alt="playwright react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-06-04-playwright/9.png" alt="playwright react" />
 </div>
 
 ## Migration from Testing Library

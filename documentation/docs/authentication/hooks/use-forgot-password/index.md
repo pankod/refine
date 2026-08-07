@@ -1,12 +1,14 @@
 ---
-title: useForgotPassword
-description: useForgotPassword data hook from Refine is a modified version of react-query's useMutation for registration.
+title: "useForgotPassword Hook | Options, Patterns & Edge Cases in Refine v5"
+display_title: "useForgotPassword"
+sidebar_label: "useForgotPassword"
+description: "Explore how to use the useForgotPassword hook in Refine v5. Learn how to secure OAuth, JWT for secure enterprise React apps. See practical code samples."
 source: /packages/core/src/hooks/auth/useForgotPassword/index.ts
 ---
 
-`useForgotPassword` calls the `forgotPassword` method from [`authProvider`](/docs/authentication/auth-provider) under the hood.
+`useForgotPassword` calls the `forgotPassword` method from [`authProvider`](/core/docs/authentication/auth-provider/) under the hood.
 
-It returns the result of `react-query`'s [useMutation](https://react-query.tanstack.com/reference/useMutation) which includes many properties, some of which being `isSuccess` and `isError`.
+It returns the result of `react-query`'s [useMutation](https://tanstack.com/query/v5/docs/react/reference/useMutation) which includes many properties, some of which being `isSuccess` and `isError`.
 
 Data that is resolved from `forgotPassword` will be returned as the `data` in the query result with the following type:
 

@@ -1,11 +1,14 @@
 import type { MetaQuery, BaseKey } from "@refinedev/core";
+import camelcase from "camelcase";
 import * as gql from "gql-query-builder";
 import { getOperationFields } from "./graphql";
+import type { NamingConvention } from "../types";
 
 type GenerateUseManySubscriptionParams = {
   resource: string;
   meta: MetaQuery;
   ids?: BaseKey[];
+  namingConvention?: NamingConvention;
 };
 
 type GenerateUseManySubscriptionReturnValues = {
@@ -18,14 +21,18 @@ export const generateUseManySubscription = ({
   resource,
   meta,
   ids,
+  namingConvention,
 }: GenerateUseManySubscriptionParams): GenerateUseManySubscriptionReturnValues => {
   if (!ids) {
     console.error(
       "[useSubscription]: `ids` is required in `params` for graphql subscriptions",
     );
   }
+  const defaultNamingConvention = namingConvention === "hasura-default";
 
-  const operation = meta.operation ?? resource;
+  const operation = defaultNamingConvention
+    ? meta.operation ?? resource
+    : camelcase(meta.operation ?? resource);
   const gqlOperation = meta?.gqlQuery ?? meta?.gqlMutation;
 
   const hasuraFiltersType = `${operation}_bool_exp`;

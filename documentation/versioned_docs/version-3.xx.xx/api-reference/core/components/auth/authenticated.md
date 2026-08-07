@@ -9,9 +9,9 @@ It internally uses [`useAuthenticated`][useauthenticated]'s return values (`isSu
 
 When:
 
--   `isSuccess` is `true`, it renders to children.
--   `isLoading` is `true`, it renders [`loading`](#loading) prop.
--   `isError` is `true`, it renders [`fallback`](#fallback) prop if provided. Otherwise, it redirects to `/login` page.
+- `isSuccess` is `true`, it renders to children.
+- `isLoading` is `true`, it renders [`loading`](#loading) prop.
+- `isError` is `true`, it renders [`fallback`](#fallback) prop if provided. Otherwise, it redirects to `/login` page.
 
 ## Basic Usage
 
@@ -19,9 +19,9 @@ When:
 import { Authenticated } from "@pankod/refine-core";
 
 const MyPage = () => (
-    <Authenticated>
-        <YourComponent />
-    </Authenticated>
+  <Authenticated>
+    <YourComponent />
+  </Authenticated>
 );
 ```
 
@@ -35,7 +35,7 @@ Component to render if the user is not logged in. If `undefined`, the page will 
 
 ```tsx
 <Authenticated fallback={<div>You cannot access this section</div>}>
-    <YourComponent />
+  <YourComponent />
 </Authenticated>
 ```
 
@@ -45,7 +45,7 @@ Component to render while checking whether the user is logged in.
 
 ```tsx
 <Authenticated loading={<div>loading...</div>}>
-    <YourComponent />
+  <YourComponent />
 </Authenticated>
 ```
 
@@ -60,6 +60,6 @@ Component to render while checking whether the user is logged in.
 | fallback | Component to render if the user is not logged in. If `undefined`, the page will be redirected to `/login` | `ReactNode` |         |
 | loading  | Component to render while checking whether user is logged in                                              | `ReactNode` |         |
 
-[useauthenticated]: /api-reference/core/hooks/auth/useAuthenticated.md
-[custom pages explanation]: /advanced-tutorials/custom-pages.md#authenticated-custom-pages
-[custom pages example]: /examples/custom-pages.md
+[useauthenticated]: /core/docs/3.xx.xx/api-reference/core/hooks/auth/useAuthenticated
+[custom pages explanation]: /core/docs/3.xx.xx/advanced-tutorials/custom-pages#authenticated-custom-pages
+[custom pages example]: /core/docs/examples/custom-pages

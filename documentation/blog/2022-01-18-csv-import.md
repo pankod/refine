@@ -3,7 +3,8 @@ title: How to Import CSV File with React
 description: In this guide, I will show you how to import CSV files using React and JavaScript.
 slug: how-to-import-csv
 authors: melih
-tags: [javascript, react]
+category: "Ecosystem / Integrations"
+tags: [dev-tools]
 image: https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/placeholder.png
 hide_table_of_contents: false
 ---
@@ -12,7 +13,7 @@ hide_table_of_contents: false
 
 This post was created using version 3.x.x of **Refine**. Although we plan to update it with the latest version of **Refine** as soon as possible, you can still benefit from the post in the meantime.
 
-You should know that **Refine** version 4.x.x is backward compatible with version 3.x.x, so there is no need to worry. If you want to see the differences between the two versions, check out the [migration guide](https://refine.dev/docs/migration-guide/).
+You should know that **Refine** version 4.x.x is backward compatible with version 3.x.x, so there is no need to worry. If you want to see the differences between the two versions, check out the [migration guide](https://refine.dev/core/docs/migration-guide/).
 
 Just be aware that the source code example in this post have been updated to version 4.x.x.
 
@@ -94,7 +95,7 @@ function App() {
 
 Here, once the user-selected file has been successfully uploaded, we can process and display the file. Now let's load a sample CSV file and see it output on our console.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-01-18-csv-import/console.gif" alt="console_csv_output" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-01-18-csv-import/console.avif" alt="CSV import console output" />
 <br />
 
 As you can see, we can now read a selected CSV file. We can convert this file, which we read as a plain text type, into an Array of Object with JavaScript and place it inside a Table element.
@@ -191,7 +192,7 @@ function App() {
 ....
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-01-18-csv-import/overview.gif" alt="overview_csv" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-01-18-csv-import/overview.avif" alt="CSV import overview screen" />
 <br />
 
 We formatted the CSV file that came in plain text format, using Javascript [slice](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice) and [split](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split) methods, and created two separate array. Then we converted Header and Rows arrays to Array of Object format as Key, Value.
@@ -209,16 +210,16 @@ We formatted the CSV file that came in plain text format, using Javascript [slic
 
 The CSV import with **Refine** is very simple and out-of-the-box feature. How to use it is explained step by step in the guide and example.
 
-[Refer to the **Refine** CSV import guide for more information. →](https://refine.dev/docs/guides-and-concepts/import-export/csv-import/)
+[Refer to the **Refine** CSV import guide for more information. →](https://refine.dev/core/docs/guides-and-concepts/import-export/csv-import/)
 
-[View Source](https://github.com/refinedev/refine/blob/master/examples/import-export-antd/src/pages/posts/list.tsx#L32)
+[View Source](https://github.com/refinedev/refine/blob/main/examples/import-export-antd/src/pages/posts/list.tsx#L32)
 
 ## Refine CSV Import Usage
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-01-18-csv-import/importing.gif" alt="importing_csv" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-01-18-csv-import/importing.avif" alt="CSV file import in progress" />
 <br />
 
-Importing CSV files is simple and fast using the [`useImport`](https://refine.dev/docs/core/hooks/import-export/useImport/) hook and [`ImportButton`](https://refine.dev/docs/ui-frameworks/antd/components/buttons/import-button/) provided by **Refine**.
+Importing CSV files is simple and fast using the [`useImport`](https://refine.dev/core/docs/core/hooks/import-export/useImport/) hook and [`ImportButton`](https://refine.dev/core/docs/ui-frameworks/antd/components/buttons/import-button/) provided by **Refine**.
 
 ```tsx
 import {
@@ -268,7 +269,7 @@ interface IPost {
 
 You can also divide the data into chunk with the `batchSize` option while performing the insertion process.
 
-[Refer to the **Refine** CSV Import API References for more information. →](https://refine.dev/docs/core/hooks/import-export/useImport/#api-reference)
+[Refer to the **Refine** CSV Import API References for more information. →](https://refine.dev/core/docs/core/hooks/import-export/useImport/#api-reference)
 
 ## Example
 

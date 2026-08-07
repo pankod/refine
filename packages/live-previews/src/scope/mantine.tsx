@@ -12,46 +12,7 @@ import axios from "axios";
 
 const SIMPLE_REST_API_URL = "https://api.fake-rest.refine.dev";
 
-const RefineMantineDemo: React.FC<
-  Partial<RefineProps> & {
-    initialRoutes?: string[];
-  }
-> = ({ initialRoutes, ...rest }) => {
-  if (initialRoutes) {
-    RefineCommonScope.setInitialRoutes(initialRoutes);
-  }
-
-  return (
-    <MantineCore.MantineProvider
-      theme={RefineMantine.LightTheme}
-      withNormalizeCSS
-      withGlobalStyles
-    >
-      <MantineCore.Global styles={{ body: { WebkitFontSmoothing: "auto" } }} />
-      <RefineCommonScope.RefineCore.Refine
-        legacyRouterProvider={
-          RefineCommonScope.LegacyRefineReactRouterV6.default
-        }
-        dataProvider={RefineCommonScope.RefineSimpleRest.default(
-          SIMPLE_REST_API_URL,
-        )}
-        notificationProvider={RefineMantine.notificationProvider}
-        Layout={RefineMantine.Layout}
-        Sider={() => null}
-        catchAll={<RefineMantine.ErrorComponent />}
-        options={{
-          disableTelemetry: true,
-          reactQuery: {
-            devtoolConfig: false,
-          },
-        }}
-        {...rest}
-      />
-    </MantineCore.MantineProvider>
-  );
-};
-
-const ThemedTitleV2 = ({
+const ThemedTitle = ({
   collapsed,
   wrapperStyles,
   text: textFromProps,
@@ -109,7 +70,7 @@ const ThemedTitleV2 = ({
   }, []);
 
   return (
-    <RefineMantine.ThemedTitleV2
+    <RefineMantine.ThemedTitle
       collapsed={collapsed}
       wrapperStyles={wrapperStyles}
       text={title || textFromProps}
@@ -153,6 +114,8 @@ const MantineProvider = ({
   return (
     <MantineCore.MantineProvider
       {...restProps}
+      withNormalizeCSS
+      withGlobalStyles
       theme={{
         ...(themeFromWindow && themeFromWindow in RefineMantine.RefineThemes
           ? RefineMantine.RefineThemes[
@@ -162,15 +125,46 @@ const MantineProvider = ({
         colorScheme: theme?.colorScheme as any,
       }}
     >
-      {children}
+      <div style={{ padding: "16px" }}>{children}</div>
     </MantineCore.MantineProvider>
+  );
+};
+
+const RefineMantineDemo: React.FC<
+  Partial<RefineProps> & {
+    initialRoutes?: string[];
+  }
+> = ({ initialRoutes, children, ...rest }) => {
+  if (initialRoutes) {
+    RefineCommonScope.setInitialRoutes(initialRoutes);
+  }
+
+  return (
+    <MantineProvider>
+      <MantineCore.Global styles={{ body: { WebkitFontSmoothing: "auto" } }} />
+      <MantineNotifications.NotificationsProvider position="top-right">
+        <RefineCommonScope.RefineCore.Refine
+          routerProvider={RefineCommonScope.RefineReactRouter.default}
+          dataProvider={RefineCommonScope.RefineSimpleRest.default(
+            SIMPLE_REST_API_URL,
+          )}
+          notificationProvider={RefineMantine.useNotificationProvider}
+          options={{
+            disableTelemetry: true,
+          }}
+          {...rest}
+        >
+          {children}
+        </RefineCommonScope.RefineCore.Refine>
+      </MantineNotifications.NotificationsProvider>
+    </MantineProvider>
   );
 };
 
 const MantineScope = {
   RefineMantine: {
     ...RefineMantine,
-    ThemedTitleV2,
+    ThemedTitle,
   },
   RefineMantineDemo,
   MantineCore: {

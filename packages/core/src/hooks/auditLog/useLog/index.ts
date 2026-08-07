@@ -10,8 +10,7 @@ import {
 
 import { AuditLogContext } from "@contexts/auditLog";
 import { ResourceContext } from "@contexts/resource";
-import { hasPermission, pickNotDeprecated } from "@definitions/helpers";
-import { useActiveAuthProvider } from "@definitions/helpers";
+import { hasPermission } from "@definitions/helpers";
 import { pickResource } from "@definitions/helpers/pick-resource";
 import { useGetIdentity } from "@hooks/auth";
 import { useKeys } from "@hooks/useKeys";
@@ -73,30 +72,24 @@ export const useLog = <
 > => {
   const queryClient = useQueryClient();
   const auditLogContext = useContext(AuditLogContext);
-  const { keys, preferLegacyKeys } = useKeys();
-
-  const authProvider = useActiveAuthProvider();
+  const { keys } = useKeys();
 
   const { resources } = useContext(ResourceContext);
+
   const {
     data: identityData,
     refetch,
     isLoading,
   } = useGetIdentity({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
     queryOptions: {
       enabled: !!auditLogContext?.create,
     },
   });
 
-  const log = useMutation<TLogData, Error, LogParams, unknown>(
-    async (params) => {
+  const log = useMutation<TLogData, Error, LogParams, unknown>({
+    mutationFn: async (params: LogParams) => {
       const resource = pickResource(params.resource, resources);
-      const logPermissions = pickNotDeprecated(
-        resource?.meta?.audit,
-        resource?.options?.audit,
-        resource?.options?.auditLog?.permissions,
-      );
+      const logPermissions = resource?.meta?.audit;
 
       if (logPermissions) {
         if (!hasPermission(logPermissions, params.action)) {
@@ -114,45 +107,41 @@ export const useLog = <
         author: identityData ?? authorData?.data,
       });
     },
-    {
-      mutationKey: keys().audit().action("log").get(),
-      ...logMutationOptions,
-      meta: {
-        ...logMutationOptions?.meta,
-        ...getXRay("useLog", preferLegacyKeys),
-      },
+    mutationKey: keys().audit().action("log").get(),
+    ...logMutationOptions,
+    meta: {
+      ...logMutationOptions?.meta,
+      ...getXRay("useLog"),
     },
-  );
+  });
 
   const rename = useMutation<
     TLogRenameData,
     Error,
     { id: BaseKey; name: string },
     unknown
-  >(
-    async (params) => {
+  >({
+    mutationFn: async (params: { id: BaseKey; name: string }) => {
       return await auditLogContext.update?.(params);
     },
-    {
-      onSuccess: (data) => {
-        if (data?.resource) {
-          queryClient.invalidateQueries(
-            keys()
-              .audit()
-              .resource(data?.resource ?? "")
-              .action("list")
-              .get(preferLegacyKeys),
-          );
-        }
-      },
-      mutationKey: keys().audit().action("rename").get(),
-      ...renameMutationOptions,
-      meta: {
-        ...renameMutationOptions?.meta,
-        ...getXRay("useLog", preferLegacyKeys),
-      },
+    onSuccess: (data: TLogRenameData) => {
+      if (data?.resource) {
+        queryClient.invalidateQueries({
+          queryKey: keys()
+            .audit()
+            .resource(data?.resource ?? "")
+            .action("list")
+            .get(),
+        });
+      }
     },
-  );
+    mutationKey: keys().audit().action("rename").get(),
+    ...renameMutationOptions,
+    meta: {
+      ...renameMutationOptions?.meta,
+      ...getXRay("useLog"),
+    },
+  });
 
   return { log, rename };
 };

@@ -1,5 +1,8 @@
 ---
-title: Inferencer
+title: "Mantine Inferencer Component | UI Component in Refine v5"
+display_title: "Inferencer"
+sidebar_label: "Inferencer"
+description: "Learn to integrate Inferencer in Refine v5. Learn integration patterns for React UI library, components for polished admin UIs. Hands-on examples included."
 ---
 
 You can automatically generate views for your resources using `@refinedev/inferencer`. Inferencer exports `MantineListInferencer`, `MantineShowInferencer`, `MantineEditInferencer`, `MantineCreateInferencer` components and finally the `MantineInferencer` component, which combines all in one place.
@@ -87,7 +90,7 @@ const SampleEdit = () => {
   </TabItem>
 </Tabs>
 
-To learn more about `@refinedev/inferencer` package, please check out its [Documentation](/docs/packages/list-of-packages)
+To learn more about `@refinedev/inferencer` package, please check out its [Documentation](/core/docs/packages/list-of-packages/)
 
 ## Views
 
@@ -100,12 +103,12 @@ setInitialRoutes(["/samples"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/mantine";
+import { ThemedLayout, RefineThemes } from "@refinedev/mantine";
 import { MantineProvider, Global } from "@mantine/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { MantineInferencer } from "@refinedev/inferencer/mantine";
@@ -134,9 +137,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               {/* highlight-next-line */}
@@ -163,12 +166,12 @@ setInitialRoutes(["/samples/show/123"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/mantine";
+import { ThemedLayout, RefineThemes } from "@refinedev/mantine";
 import { MantineProvider, Global } from "@mantine/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { MantineInferencer } from "@refinedev/inferencer/mantine";
@@ -197,9 +200,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               {/* highlight-next-line */}
@@ -226,12 +229,12 @@ setInitialRoutes(["/samples/create"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/mantine";
+import { ThemedLayout, RefineThemes } from "@refinedev/mantine";
 import { MantineProvider, Global } from "@mantine/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { MantineInferencer } from "@refinedev/inferencer/mantine";
@@ -260,9 +263,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               {/* highlight-next-line */}
@@ -289,12 +292,12 @@ setInitialRoutes(["/samples/edit/123"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import { RefineThemes, ThemedLayoutV2 } from "@refinedev/mantine";
+import { RefineThemes, ThemedLayout } from "@refinedev/mantine";
 import { MantineProvider, Global } from "@mantine/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 // highlight-next-line
 import { MantineInferencer } from "@refinedev/inferencer/mantine";
@@ -323,9 +326,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               {/* highlight-next-line */}

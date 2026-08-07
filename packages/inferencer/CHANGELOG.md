@@ -1,5 +1,205 @@
 # @refinedev/mantine
 
+## 7.0.0
+
+### Patch Changes
+
+- [#7208](https://github.com/refinedev/refine/pull/7208) [`367b4681ae7e336d9cc0397e95c9b9d36186a656`](https://github.com/refinedev/refine/commit/367b4681ae7e336d9cc0397e95c9b9d36186a656) Thanks [@JuicyBenjamin](https://github.com/JuicyBenjamin)! - feat: upgrade `@mui/x-data-grid` from v7 to v8
+
+  Updated the `@mui/x-data-grid` peer dependency from `^7.23.5` to `^8.24.0`.
+
+  This is a major version bump as MUI X v8 includes breaking changes that users should be aware of:
+
+  - Minimum TypeScript version is now v5
+  - Package structure updated to use Node.js `exports` field
+  - Some removed props: `rowPositionsDebounceMs`, `resetPageOnSortFilter`
+  - `showToolbar` prop is now required to display the toolbar
+
+  The `useDataGrid` hook and all DataGrid-related types remain fully compatible with v8.
+
+  Here is the updated version alignment:
+
+  | @refinedev/mui | @mui/x-data-grid | @mui/material |
+  | -------------- | ---------------- | ------------- |
+  | 6.x.x          | 7.x.x            | 6.x.x         |
+  | 7.x.x          | 7.x.x            | 6.x.x         |
+  | 8.x.x          | 8.x.x            | 6.x.x         |
+
+  For the full MUI X v8 migration guide, see: https://mui.com/x/migration/migration-data-grid-v7/
+
+- Updated dependencies [[`adc4c6431252c035caa62acbaf42f79854535548`](https://github.com/refinedev/refine/commit/adc4c6431252c035caa62acbaf42f79854535548), [`367b4681ae7e336d9cc0397e95c9b9d36186a656`](https://github.com/refinedev/refine/commit/367b4681ae7e336d9cc0397e95c9b9d36186a656)]:
+  - @refinedev/mui@8.0.0
+
+## 6.0.2
+
+### Patch Changes
+
+- [#7086](https://github.com/refinedev/refine/pull/7086) [`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3) Thanks [@BatuhanW](https://github.com/BatuhanW)! - feat: disable minify
+
+  Resolves #6417
+
+- Updated dependencies [[`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3)]:
+  - @refinedev/core@5.0.5
+
+## 6.0.1
+
+### Patch Changes
+
+- [#6974](https://github.com/refinedev/refine/pull/6974) [`3404d749d8b1c0dca66f5e1db8a209d8b67aaf7f`](https://github.com/refinedev/refine/commit/3404d749d8b1c0dca66f5e1db8a209d8b67aaf7f) Thanks [@aliemir](https://github.com/aliemir)! - chore: replace `@aliemir/react-live` with `react-live@4`
+
+  After Refine 5, outdated `react-live` package was unable to resolve components properly and caused rendering errors.
+
+  This update fixes the rendering errors.
+
+## 6.0.0
+
+### Major Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: upgrade Inferencer for Refine 5.0 compatibility
+
+  - Updated code generation patterns for Refine 5 API changes and removed deprecated resource options.
+  - Modernized resource label handling and improved test infrastructure for better reliability.
+
+  > 🚨 Breaking changes require migration - check our guide at https://refine.dev/docs/migration-guide/4x-to-5x/
+
+### Patch Changes
+
+- Updated dependencies [[`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98), [`807099eecb4e8d41b1cf9ab557d71d34d12bec35`](https://github.com/refinedev/refine/commit/807099eecb4e8d41b1cf9ab557d71d34d12bec35), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/chakra-ui@3.0.0
+  - @refinedev/react-hook-form@5.0.0
+  - @refinedev/core@5.0.0
+  - @refinedev/mui@7.0.0
+  - @refinedev/mantine@3.0.0
+  - @refinedev/react-table@6.0.0
+  - @refinedev/antd@6.0.0
+
+## 5.1.1
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- chore: update `react-hook-form` to `7.57.0` to support new features like [`subscribe`](https://react-hook-form.com/docs/useform/subscribe).
+  for more information, see [React Hook Form release notes](https://github.com/react-hook-form/react-hook-form/releases).
+
+## 5.1.0
+
+### Minor Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6824](https://github.com/refinedev/refine/pull/6824) [`a6ff3d3e888e3a0bd61c1ddda89d2715e493fa01`](https://github.com/refinedev/refine/commit/a6ff3d3e888e3a0bd61c1ddda89d2715e493fa01) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - chore: update `react-hook-form` to `7.57.0` to support new features like [`subscribe`](https://react-hook-form.com/docs/useform/subscribe).
+  for more information, see [React Hook Form release notes](https://github.com/react-hook-form/react-hook-form/releases).
+
+## 5.0.3
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- fix: `@refinedev/mui` package gives following error: `Cannot find module '@mui/x-internals/forwardRef' from '/node_modules/@mui/x-data-grid/components/GridPagination.js'` #6615
+
+  To fix that, `@mui/x-data-grid` version is updated to `7.23.5`.
+
+  [Resolves #6615](https://github.com/refinedev/refine/issues/6615)
+
+- Updated dependencies []:
+  - @refinedev/core@4.57.5
+
+## 5.0.2
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6616](https://github.com/refinedev/refine/pull/6616) [`51b647c5d35b943c3d154a1da128c327576b633d`](https://github.com/refinedev/refine/commit/51b647c5d35b943c3d154a1da128c327576b633d) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix: `@refinedev/mui` package gives following error: `Cannot find module '@mui/x-internals/forwardRef' from '/node_modules/@mui/x-data-grid/components/GridPagination.js'` #6615
+
+  To fix that, `@mui/x-data-grid` version is updated to `7.23.5`.
+
+  [Resolves #6615](https://github.com/refinedev/refine/issues/6615)
+
+- Updated dependencies [[`087039f0ccd13e9fe5bf4ef904e4f1c2df129d69`](https://github.com/refinedev/refine/commit/087039f0ccd13e9fe5bf4ef904e4f1c2df129d69), [`087039f0ccd13e9fe5bf4ef904e4f1c2df129d69`](https://github.com/refinedev/refine/commit/087039f0ccd13e9fe5bf4ef904e4f1c2df129d69)]:
+  - @refinedev/core@4.57.4
+
+## 5.0.1
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- feat: added support for Material UI v6 and X Data Grid v7
+
+  ```diff
+  - "@mui/icons-material": "^5.8.3",
+  + "@mui/icons-material": "^6.1.6",
+  - "@mui/lab": "^5.0.0-alpha.85",
+  + "@mui/lab": "^6.0.0-beta.14",
+  - "@mui/material": "^5.14.2",
+  + "@mui/material": "^6.1.7",
+
+  - "@mui/x-data-grid": "^6.6.0",
+  + "@mui/x-data-grid": "^7.22.2",
+  ```
+
+  Here is the updated version alignment:
+
+  | @refinedev/mui | @mui/x-data-grid | @mui/material | @mui/system | @mui/lab | @mui/icons-material | @refinedev/inferencer |
+  | -------------- | ---------------- | ------------- | ----------- | -------- | ------------------- | --------------------- |
+  | 5.x.x          | 6.x.x            | 5.x.x         | 5.x.x       | 5.x.x    | 5.x.x               | 4.x.x                 |
+  | 6.x.x          | 7.x.x            | 6.x.x         | 6.x.x       | 6.x.x    | 6.x.x               | 5.x.x                 |
+
+  Please refer to the [Migration Guide for Material UI v6 and X Data Grid v7](https://refine.dev/docs/ui-integrations/material-ui/migration-guide/material-ui-v5-to-v6) for more information.
+
+📢 **Refine Community Release** 📢
+
+- feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
+- Updated dependencies []:
+  - @refinedev/core@4.57.1
+
+## 5.0.0
+
+### Major Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6518](https://github.com/refinedev/refine/pull/6518) [`afb156d808ee07bfffed20f27b04c92d95cc01d4`](https://github.com/refinedev/refine/commit/afb156d808ee07bfffed20f27b04c92d95cc01d4) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: added support for Material UI v6 and X Data Grid v7
+
+  ```diff
+  - "@mui/icons-material": "^5.8.3",
+  + "@mui/icons-material": "^6.1.6",
+  - "@mui/lab": "^5.0.0-alpha.85",
+  + "@mui/lab": "^6.0.0-beta.14",
+  - "@mui/material": "^5.14.2",
+  + "@mui/material": "^6.1.7",
+
+  - "@mui/x-data-grid": "^6.6.0",
+  + "@mui/x-data-grid": "^7.22.2",
+  ```
+
+  Here is the updated version alignment:
+
+  | @refinedev/mui | @mui/x-data-grid | @mui/material | @mui/system | @mui/lab | @mui/icons-material | @refinedev/inferencer |
+  | -------------- | ---------------- | ------------- | ----------- | -------- | ------------------- | --------------------- |
+  | 5.x.x          | 6.x.x            | 5.x.x         | 5.x.x       | 5.x.x    | 5.x.x               | 4.x.x                 |
+  | 6.x.x          | 7.x.x            | 6.x.x         | 6.x.x       | 6.x.x    | 6.x.x               | 5.x.x                 |
+
+  Please refer to the [Migration Guide for Material UI v6 and X Data Grid v7](https://refine.dev/docs/ui-integrations/material-ui/migration-guide/material-ui-v5-to-v6) for more information.
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6556](https://github.com/refinedev/refine/pull/6556) [`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
+- Updated dependencies [[`42d730aa2908003cfb0dcf0c57e9b70793c88ddc`](https://github.com/refinedev/refine/commit/42d730aa2908003cfb0dcf0c57e9b70793c88ddc), [`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706), [`2312f4648cf8cae427884163cc025c3f925da988`](https://github.com/refinedev/refine/commit/2312f4648cf8cae427884163cc025c3f925da988), [`2312f4648cf8cae427884163cc025c3f925da988`](https://github.com/refinedev/refine/commit/2312f4648cf8cae427884163cc025c3f925da988), [`8309c5690e7c49529f07d288e79896636c6ce7c2`](https://github.com/refinedev/refine/commit/8309c5690e7c49529f07d288e79896636c6ce7c2), [`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53), [`afb156d808ee07bfffed20f27b04c92d95cc01d4`](https://github.com/refinedev/refine/commit/afb156d808ee07bfffed20f27b04c92d95cc01d4), [`d082ce09ff10fd8b3bf2070b163f1608c67d028b`](https://github.com/refinedev/refine/commit/d082ce09ff10fd8b3bf2070b163f1608c67d028b), [`29d00f8dc49485e0f5c42d208417e158118d11f2`](https://github.com/refinedev/refine/commit/29d00f8dc49485e0f5c42d208417e158118d11f2), [`1d2613381c50f438270d6a3e486595d54496ef92`](https://github.com/refinedev/refine/commit/1d2613381c50f438270d6a3e486595d54496ef92), [`f32af58283bdaf7712805520bd9feb8bfd27ba38`](https://github.com/refinedev/refine/commit/f32af58283bdaf7712805520bd9feb8bfd27ba38)]:
+  - @refinedev/core@4.57.0
+  - @refinedev/mui@6.0.0
+
 ## 4.7.1
 
 ### Patch Changes

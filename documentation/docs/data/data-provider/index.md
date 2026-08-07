@@ -1,5 +1,8 @@
 ---
-title: Data Provider
+title: "Data Provider Guide | Best Practices in Refine v5"
+display_title: "Data Provider"
+sidebar_label: "Data Provider"
+description: "Learn to implement Data Provider in Refine v5. Explore best practices to scale REST, GraphQL for custom APIs and scalable data flows."
 ---
 
 import SupportedDataProviders from "@site/src/partials/data-provider/supported-data-providers.md";
@@ -15,7 +18,7 @@ You don’t need to worry about creating data providers from scratch, as Refine 
 
 :::
 
-<Image src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/providers/data-provider/api-consuming-flow.png" />
+<Image src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/providers/data-provider/api-consuming-flow.webp" />
 
 ## Usage
 
@@ -50,10 +53,10 @@ setRefineProps({ Sider: () => null });
 
 // visible-block-start
 import { Refine, useList } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router";
 
 import { Collapse, Tag } from "antd";
 
@@ -111,7 +114,9 @@ const App = () => {
 };
 
 const PostList = () => {
-  const { data: posts } = useList<IPost>({
+  const {
+    result: { data: posts },
+  } = useList<IPost>({
     resource: "posts",
     // highlight-start
     // Data provider can be selected through props
@@ -120,7 +125,9 @@ const PostList = () => {
   });
   // highlight-start
   // We've defined the data provider for this resource as "fineFoods" in its config so we don't need to pass it here
-  const { data: products } = useList<IProduct>({ resource: "products" });
+  const {
+    result: { data: products },
+  } = useList<IProduct>({ resource: "products" });
   // highlight-end
 
   console.log({
@@ -131,7 +138,7 @@ const PostList = () => {
   return (
     <Collapse defaultActiveKey={["products"]}>
       <Collapse.Panel header="Posts" key="posts">
-        {posts?.data.map((post) => (
+        {posts?.map((post) => (
           <div
             key={post.title}
             style={{
@@ -147,7 +154,7 @@ const PostList = () => {
         ))}
       </Collapse.Panel>
       <Collapse.Panel header="Products" key="products">
-        {products?.data.map((product) => (
+        {products?.map((product) => (
           <div
             key={product.name}
             style={{
@@ -254,11 +261,11 @@ The method signature remains the same, and Refine expects a consistent format:
 
 ```ts
 getList: async ({ resource, pagination, sorters, filters, meta }) => {
-  const { current, pageSize } = pagination ?? {};
+  const { currentPage, pageSize } = pagination ?? {};
 
   // Adjust request parameters to meet the requirements of your API
   const response = await apiClient.get(`/${resource}`, {
-    params: { _page: current, _limit: pageSize },
+    params: { _page: currentPage, _limit: pageSize },
   });
 
   // The total row count could be sourced differently based on the provider
@@ -273,7 +280,7 @@ getList: async ({ resource, pagination, sorters, filters, meta }) => {
 
 :::tip
 
-`getList` can also support cursor-based pagination. Refer to [related section in the `useInfiniteList` documentation](/docs/data/hooks/use-infinite-list#how-to-use-cursor-based-pagination) for more information.
+`getList` can also support cursor-based pagination. Refer to [related section in the `useInfiniteList` documentation](/core/docs/data/hooks/use-infinite-list#how-to-use-cursor-based-pagination) for more information.
 
 :::
 
@@ -311,7 +318,7 @@ create: async ({ resource, variables, meta }) => {
 | variables | `TVariables`                 | `{}`    |
 | meta?     | [`MetaDataQuery`][meta-data] |
 
-> `TVariables` is a user defined type which can be passed to [`useCreate`](/docs/data/hooks/use-create#type-parameters) to type `variables`.
+> `TVariables` is a user defined type which can be passed to [`useCreate`](/core/docs/data/hooks/use-create#type-parameters) to type `variables`.
 
 ### update <PropTag required />
 
@@ -338,7 +345,7 @@ update: async ({ resource, id, variables, meta }) => {
 | variables | `TVariables`                 | `{}`    |
 | meta?     | [`MetaDataQuery`][meta-data] |
 
-> `TVariables` is a user defined type which can be passed to [`useUpdate`](/docs/data/hooks/use-update#type-parameters) to type `variables`.
+> `TVariables` is a user defined type which can be passed to [`useUpdate`](/core/docs/data/hooks/use-update#type-parameters) to type `variables`.
 
 ### deleteOne <PropTag required />
 
@@ -365,7 +372,7 @@ deleteOne: async ({ resource, id, variables, meta }) => {
 | variables | `TVariables[]`               | `{}`    |
 | meta?     | [`MetaDataQuery`][meta-data] |
 
-> `TVariables` is a user defined type which can be passed to [`useDelete`](/docs/data/hooks/use-delete) to type `variables`.
+> `TVariables` is a user defined type which can be passed to [`useDelete`](/core/docs/data/hooks/use-delete/) to type `variables`.
 
 ### getOne <PropTag required />
 
@@ -447,7 +454,7 @@ custom: async ({
 
 ## Bulk Actions
 
-Bulk actions are actions that can be performed on multiple items at once to improve speed and efficiency. They are commonly used in admin panels. They can be used for data [`import`](/docs/core/hooks/utilities/use-import) and [`export`](/docs/core/hooks/utilities/use-export), and are also atomic, meaning that they are treated as a single unit.
+Bulk actions are actions that can be performed on multiple items at once to improve speed and efficiency. They are commonly used in admin panels. They can be used for data [`import`](/core/docs/core/hooks/utilities/use-import/) and [`export`](/core/docs/core/hooks/utilities/use-export/), and are also atomic, meaning that they are treated as a single unit.
 
 If your API supports bulk actions, you can implement them in your data provider.
 
@@ -709,7 +716,7 @@ Refine will consume:
 
 In some cases, you may need to override the method of Refine data providers. The simplest way to do this is to use the [Spread syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 
-For example, Let's override the `update` function of the [`@refinedev/simple-rest`](https://github.com/refinedev/refine/tree/master/packages/simple-rest). `@refinedev/simple-rest` uses the `PATCH` HTTP method for `update`, let's change it to `PUT` without forking the whole data provider.
+For example, Let's override the `update` function of the [`@refinedev/simple-rest`](https://github.com/refinedev/refine/tree/main/packages/simple-rest). `@refinedev/simple-rest` uses the `PATCH` HTTP method for `update`, let's change it to `PUT` without forking the whole data provider.
 
 ```tsx
 import dataProvider from "@refinedev/simple-rest";
@@ -731,24 +738,24 @@ const myDataProvider = {
 <Refine dataProvider={myDataProvider}>{/* ... */}</Refine>;
 ```
 
-[basekey]: /docs/core/interface-references#basekey
-[create-a-data-provider]: https://refine.dev/tutorial/essentials/data-fetching/intro/#creating-a-data-provider
-[swizzle-a-data-provider]: /docs/packages/cli/#swizzle
-[data-provider-tutorial]: https://refine.dev/tutorial/essentials/data-fetching/intro/
-[use-api-url]: /docs/data/hooks/use-api-url
-[use-create]: /docs/data/hooks/use-create
-[use-create-many]: /docs/data/hooks/use-create
-[use-custom]: /docs/data/hooks/use-custom
-[use-delete]: /docs/data/hooks/use-delete
-[use-delete-many]: /docs/data/hooks/use-delete
-[use-list]: /docs/data/hooks/use-list
-[use-infinite-list]: /docs/data/hooks/use-infinite-list
-[use-many]: /docs/data/hooks/use-many
-[use-one]: /docs/data/hooks/use-one
-[use-update]: /docs/data/hooks/use-update
-[use-update-many]: /docs/data/hooks/use-update
-[crud-sorting]: /docs/core/interface-references#crudsorting
-[crud-filters]: /docs/core/interface-references#crudfilters
-[pagination]: /docs/core/interface-references#pagination
-[http-error]: /docs/core/interface-references#httperror
-[meta-data]: /docs/core/interface-references#metaquery
+[basekey]: /core/docs/core/interface-references#basekey
+[create-a-data-provider]: https://refine.dev/core/tutorial/essentials/data-fetching/intro/#creating-a-data-provider
+[swizzle-a-data-provider]: /core/docs/packages/cli/#swizzle
+[data-provider-tutorial]: https://refine.dev/core/tutorial/essentials/data-fetching/intro/
+[use-api-url]: /core/docs/data/hooks/use-api-url
+[use-create]: /core/docs/data/hooks/use-create
+[use-create-many]: /core/docs/data/hooks/use-create
+[use-custom]: /core/docs/data/hooks/use-custom
+[use-delete]: /core/docs/data/hooks/use-delete
+[use-delete-many]: /core/docs/data/hooks/use-delete
+[use-list]: /core/docs/data/hooks/use-list
+[use-infinite-list]: /core/docs/data/hooks/use-infinite-list
+[use-many]: /core/docs/data/hooks/use-many
+[use-one]: /core/docs/data/hooks/use-one
+[use-update]: /core/docs/data/hooks/use-update
+[use-update-many]: /core/docs/data/hooks/use-update
+[crud-sorting]: /core/docs/core/interface-references#crudsorting
+[crud-filters]: /core/docs/core/interface-references#crudfilters
+[pagination]: /core/docs/core/interface-references#pagination
+[http-error]: /core/docs/core/interface-references#httperror
+[meta-data]: /core/docs/core/interface-references#metaquery

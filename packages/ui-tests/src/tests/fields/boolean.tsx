@@ -7,7 +7,7 @@ export const fieldBooleanTests = (
   BooleanField: React.ComponentType<RefineFieldBooleanProps<unknown, any, any>>,
 ): void => {
   describe("[@refinedev/ui-tests] Common Tests / Boolean Field", () => {
-    xit("should use prop for custom text", async () => {
+    it.skip("should use prop for custom text", async () => {
       const baseDom = render(
         <BooleanField value={true} valueLabelTrue="test" />,
       );

@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react";
 import { useGo, useNavigation } from "@refinedev/core";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import styled from "styled-components";
 import { Button } from "react95";
 import { AppLayout } from "@/components/layout";

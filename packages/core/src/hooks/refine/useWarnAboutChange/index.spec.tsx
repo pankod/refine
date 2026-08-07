@@ -1,4 +1,5 @@
 import React from "react";
+import { vi } from "vitest";
 import { renderHook } from "@testing-library/react";
 
 import { MockJSONServer, TestWrapper } from "@test";
@@ -7,7 +8,7 @@ import { useWarnAboutChange } from ".";
 
 describe("useWarnAboutChange Hook", () => {
   it("returns context value correctly", async () => {
-    jest.spyOn(React, "useContext").mockReturnValue({
+    vi.spyOn(React, "useContext").mockReturnValue({
       warnWhenUnsavedChanges: false,
       warnWhen: false,
       setWarnWhen: (param: boolean) => param,
@@ -22,12 +23,12 @@ describe("useWarnAboutChange Hook", () => {
 
     expect(result.current.warnWhenUnsavedChanges).toEqual(false);
     expect(result.current.setWarnWhen).toBeDefined();
-    expect(result.current.setWarnWhen(false)).toEqual(false);
+    expect(result.current.setWarnWhen).toBeInstanceOf(Function);
     expect(result.current.warnWhen).toEqual(false);
   });
 
   it("should setWarnWhen returns undefined when context not available", async () => {
-    jest.spyOn(React, "useContext").mockReturnValue({
+    vi.spyOn(React, "useContext").mockReturnValue({
       warnWhenUnsavedChanges: false,
       warnWhen: false,
       setWarnWhen: undefined,

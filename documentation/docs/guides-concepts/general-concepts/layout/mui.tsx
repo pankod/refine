@@ -10,17 +10,17 @@ export function MaterialUILayout() {
         "@refinedev/antd": "latest",
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-router-v6": "latest",
+        "@refinedev/react-router": "latest",
         "@refinedev/inferencer": "latest",
-        "@refinedev/mui": "5.0.0",
-        "react-router-dom": "latest",
-        "react-router": "latest",
+        "@refinedev/mui": "latest",
+        "react-router": "^7.0.2",
         "@emotion/react": "^11.8.2",
         "@emotion/styled": "^11.8.1",
-        "@mui/lab": "^5.0.0-alpha.85",
-        "@mui/material": "^5.14.2",
-        "@mui/system": "latest",
-        "@mui/x-data-grid": "^6.6.0",
+        "@mui/lab": "^6.0.0-beta.14",
+        "@mui/material": "^6.1.7",
+        "@mui/system": "^6.4.11",
+        "@mui/utils": "^7.1.0",
+        "@mui/x-data-grid": "7.23.5",
       }}
       startRoute="/my-products"
       files={{
@@ -45,11 +45,11 @@ import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import { ThemeProvider } from "@mui/material/styles";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import { Refine } from "@refinedev/core";
-import { ErrorComponent, RefineThemes, ThemedLayoutV2 } from "@refinedev/mui";
-import routerProvider from "@refinedev/react-router-v6";
+import { ErrorComponent, RefineThemes, ThemedLayout } from "@refinedev/mui";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 
 import { ProductList } from "./pages/products/list.tsx";
@@ -84,9 +84,9 @@ export default function App() {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="/my-products" element={<ProductList />} />
@@ -133,6 +133,7 @@ export const ProductList = () => {
         field: "actions",
         headerName: "Actions",
         sortable: false,
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <>
@@ -150,7 +151,7 @@ export const ProductList = () => {
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 };

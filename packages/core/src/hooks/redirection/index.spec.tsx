@@ -1,171 +1,192 @@
+import { vi } from "vitest";
 import { renderHook } from "@testing-library/react";
 
-import { MockJSONServer, TestWrapper, mockLegacyRouterProvider } from "@test";
+import { MockJSONServer, TestWrapper, mockRouterProvider } from "@test";
 
-import type { LegacyRouterProvider } from "../../contexts/router/legacy/types";
 import { useRedirectionAfterSubmission } from "../redirection";
 
-const legacyPushMock = jest.fn();
-const legacyReplaceMock = jest.fn();
-
-const legacyRouterProvider: LegacyRouterProvider = {
-  ...mockLegacyRouterProvider(),
-  useHistory: () => {
-    return {
-      goBack: jest.fn(),
-      push: legacyPushMock,
-      replace: legacyReplaceMock,
-    };
-  },
-};
+const goMock = vi.fn();
 
 describe("redirectionAfterSubmission Hook", () => {
   beforeEach(() => {
-    legacyPushMock.mockReset();
-    legacyReplaceMock.mockReset();
+    goMock.mockReset();
   });
 
   const { result } = renderHook(() => useRedirectionAfterSubmission(), {
     wrapper: TestWrapper({
       dataProvider: MockJSONServer,
-      resources: [{ name: "posts", route: "posts" }],
-      legacyRouterProvider,
+      resources: [{ name: "posts", list: "/posts" }],
+      routerProvider: mockRouterProvider({
+        fns: {
+          go: () => goMock,
+        },
+      }),
     }),
   });
 
   it("redirect list", async () => {
     result.current({
       redirect: "list",
-      resource: { route: "posts", name: "posts", list: () => null },
+      resource: { name: "posts", list: "/posts" },
       id: "1",
     });
 
-    expect(legacyPushMock).toBeCalledWith("/posts");
+    expect(goMock).toHaveBeenCalledWith({
+      to: "/posts",
+      type: "path",
+      query: undefined,
+    });
   });
 
   it("redirect false", async () => {
     result.current({
       redirect: false,
-      resource: { route: "posts", name: "posts" },
+      resource: { name: "posts", list: "/posts" },
       id: "1",
     });
 
-    expect(legacyPushMock).not.toBeCalled();
+    expect(goMock).not.toHaveBeenCalled();
   });
 
   it("redirect show, canShow false", async () => {
     result.current({
       redirect: "show",
       resource: {
-        route: "posts",
         name: "posts",
-        list: () => null,
+        list: "/posts",
       },
       id: "1",
     });
 
-    expect(legacyPushMock).toBeCalledWith("/posts");
+    expect(goMock).toHaveBeenCalledWith({
+      to: "/posts",
+      type: "path",
+      query: undefined,
+    });
   });
 
   it("redirect show, canShow true", async () => {
     result.current({
       redirect: "show",
       resource: {
-        canShow: true,
-        route: "posts",
         name: "posts",
-        show: () => null,
+        list: "/posts",
+        show: "/posts/show/:id",
+        meta: { canShow: true },
       },
       id: "1",
     });
 
-    expect(legacyPushMock).toBeCalledWith("/posts/show/1");
+    expect(goMock).toHaveBeenCalledWith({
+      to: "/posts/show/1",
+      type: "path",
+      query: undefined,
+    });
   });
 
   it("redirect edit, canEdit true", async () => {
     result.current({
       redirect: "edit",
       resource: {
-        canEdit: true,
-        route: "posts",
         name: "posts",
-        edit: () => null,
+        edit: "/posts/edit/:id",
+        meta: { canEdit: true },
+        list: "/posts",
       },
       id: "1",
     });
 
-    expect(legacyPushMock).toBeCalledWith("/posts/edit/1");
+    expect(goMock).toHaveBeenCalledWith({
+      to: "/posts/edit/1",
+      type: "path",
+      query: undefined,
+    });
   });
 
   it("redirect edit, canEdit false", async () => {
     result.current({
       redirect: "edit",
       resource: {
-        canEdit: false,
-        route: "posts",
         name: "posts",
-        list: () => null,
+        list: "/posts",
+        meta: { canEdit: false },
       },
       id: "1",
     });
 
-    expect(legacyPushMock).toBeCalledWith("/posts");
+    expect(goMock).toHaveBeenCalledWith({
+      to: "/posts",
+      type: "path",
+      query: undefined,
+    });
   });
 
   it("redirect create, canCreate true", async () => {
     result.current({
       redirect: "create",
       resource: {
-        canCreate: true,
-        route: "posts",
         name: "posts",
-        create: () => null,
+        create: "/posts/create",
+        meta: { canCreate: true },
       },
     });
 
-    expect(legacyPushMock).toBeCalledWith("/posts/create");
+    expect(goMock).toHaveBeenCalledWith({
+      to: "/posts/create",
+      type: "path",
+      query: undefined,
+    });
   });
 
   it("redirect create, canCreate false", async () => {
     result.current({
       redirect: "create",
       resource: {
-        canCreate: false,
-        route: "posts",
         name: "posts",
-        list: () => null,
+        list: "/posts",
+        meta: { canCreate: false },
       },
     });
 
-    expect(legacyPushMock).toBeCalledWith("/posts");
+    expect(goMock).toHaveBeenCalledWith({
+      to: "/posts",
+      type: "path",
+      query: undefined,
+    });
   });
 
   it("redirect edit, canEdit true, id null", async () => {
     result.current({
       redirect: "edit",
       resource: {
-        canEdit: true,
-        route: "posts",
         name: "posts",
-        list: () => null,
+        list: "/posts",
+        meta: { canEdit: true },
       },
     });
 
-    expect(legacyPushMock).toBeCalledWith("/posts");
+    expect(goMock).toHaveBeenCalledWith({
+      to: "/posts",
+      type: "path",
+      query: undefined,
+    });
   });
 
   it("redirect show, canShow true, id null", async () => {
     result.current({
       redirect: "show",
       resource: {
-        canShow: true,
-        route: "posts",
         name: "posts",
-        show: () => null,
-        list: () => null,
+        show: "/posts/show/:id",
+        list: "/posts",
+        meta: { canShow: true },
       },
     });
 
-    expect(legacyPushMock).toBeCalledWith("/posts");
+    expect(goMock).toHaveBeenCalledWith({
+      to: "/posts",
+      type: "path",
+      query: undefined,
+    });
   });
 });

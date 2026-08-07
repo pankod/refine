@@ -7,7 +7,7 @@ import { prettifyChoice } from "../utils/prettify-choice";
 const id = "react-router";
 const name = "React Router";
 const incompatiblePackages = ["@remix-run/react", "next"];
-const requiredPackages = ["react-router-dom", "@refinedev/react-router-v6"];
+const requiredPackages = ["react-router", "@refinedev/react-router"];
 const transformerFileName = "react-router";
 
 export const ReactRouterIntegration: Integration = {

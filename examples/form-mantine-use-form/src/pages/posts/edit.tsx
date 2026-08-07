@@ -34,6 +34,10 @@ export const PostEdit: React.FC = () => {
   const { selectProps } = useSelect<ICategory>({
     resource: "categories",
     defaultValue: queryResult?.data?.data.category.id,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

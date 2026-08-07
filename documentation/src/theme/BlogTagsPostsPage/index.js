@@ -1,7 +1,6 @@
 import React from "react";
 import clsx from "clsx";
 import { translate } from "@docusaurus/Translate";
-import Link from "@docusaurus/Link";
 import {
   PageMetadata,
   HtmlClassNameProvider,
@@ -12,8 +11,7 @@ import BlogLayout from "@theme/BlogLayout";
 import BlogListPaginator from "@theme/BlogListPaginator";
 import SearchMetadata from "@theme/SearchMetadata";
 import BlogPostItems from "@theme/BlogPostItems";
-import TagsList from "@theme/TagsList";
-import { ChevronLeft } from "../../components/blog/icons";
+import { BreadcrumbJsonLd } from "@site/src/components/json-ld";
 
 // Very simple pluralization: probably good enough for now
 function useBlogPostsPlural() {
@@ -35,6 +33,18 @@ function useBlogPostsPlural() {
 
 function useBlogTagsPostsPageTitle(tag) {
   const blogPostsPlural = useBlogPostsPlural();
+
+  if (tag?.isAllTagsPage) {
+    return translate(
+      {
+        id: "theme.blog.allTagsTitle",
+        description: "The title of the page showing all tagged blog posts",
+        message: "{nPosts} across all tags",
+      },
+      { nPosts: blogPostsPlural(tag.count) },
+    );
+  }
+
   return translate(
     {
       id: "theme.blog.tagTitle",
@@ -55,56 +65,41 @@ function BlogTagsPostsPageMetadata({ tag }) {
   );
 }
 
+function useTagHeroTitle(tag) {
+  if (!tag?.label) return undefined;
+  const label = tag.label.charAt(0).toUpperCase() + tag.label.slice(1);
+  return `Refine ${label} Blogs`;
+}
+
 function BlogTagsPostsPageContent({ tags, tag, items, sidebar, listMetadata }) {
+  const isAllTagsPage = tag?.isAllTagsPage === true;
+  const heroTitle = useTagHeroTitle(isAllTagsPage ? undefined : tag);
+  const breadcrumbItems = [
+    { label: "Home", href: "/" },
+    { label: "Blog", href: "/blog" },
+    { label: "Tags", href: "/blog/tags" },
+  ];
+
+  if (!isAllTagsPage) {
+    breadcrumbItems.push({ label: tag.label, href: tag.permalink });
+  }
+
   return (
-    <BlogLayout showSidebarBanner={false} sidebar={sidebar}>
-      <div className={clsx("py-8", "blog-md:py-16", "w-full", "mx-auto")}>
-        <div
-          className={clsx(
-            "flex",
-            "px-4",
-            "gap-6",
-            "flex-row blog-lg:flex-col",
-            "justify-between",
-            "blog-sm:max-w-[592px]",
-            "blog-md:max-w-[656px]",
-            "blog-lg:max-w-[896px]",
-            "blog-max:max-w-[1200px]",
-            "w-full",
-          )}
-        >
-          <Link
-            to="/blog"
-            className={clsx(
-              "text-refine-react-5 dark:text-refine-react-4",
-              "text-sm no-underline",
-              "flex",
-              "items-center",
-              "gap-2",
-            )}
-          >
-            <ChevronLeft /> Back to blog
-          </Link>
-          <TagsList tags={tags} />
-        </div>
-        <div className={clsx("pt-8 blog-md:pt-16", "px-4")}>
-          <div className="text-gray-500 dark:text-gray-400">
-            Posts tagged with
-          </div>
-          <h1 className="!mb-0">{tag.label}</h1>
-        </div>
-        <BlogPostItems items={items} showTitle={false} isTagsPage={true} />
-        <div
-          className={clsx(
-            listMetadata.totalPages > 1 &&
-              "blog-md:border-t border-t-gray-200 dark:border-t-gray-700",
-          )}
-        >
-          <BlogListPaginator
-            metadata={listMetadata}
-            basePath={`/blog/tags/${tag.label}`}
-          />
-        </div>
+    <BlogLayout showHero heroTitle={heroTitle} sidebar={sidebar}>
+      <BreadcrumbJsonLd items={breadcrumbItems} />
+      <BlogPostItems items={items} tags={tags} isTagsPage={true} />
+      <div
+        className={clsx(
+          "w-full",
+          "mx-auto",
+          "blog-sm:max-w-[592px]",
+          "blog-md:max-w-[704px]",
+          "blog-lg:max-w-[896px]",
+          "blog-max:max-w-[1200px]",
+          "mb-12",
+        )}
+      >
+        <BlogListPaginator metadata={listMetadata} basePath={tag.permalink} />
       </div>
     </BlogLayout>
   );

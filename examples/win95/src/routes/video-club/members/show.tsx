@@ -1,5 +1,5 @@
 import { useNavigation, useOne, useSubscription } from "@refinedev/core";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import { Button, GroupBox } from "react95";
@@ -22,14 +22,17 @@ export const VideoClubMemberPageShow: React.FC = () => {
   const { id } = useParams();
   const { list } = useNavigation();
 
-  const { data, isLoading, refetch } = useOne<ExtendedMember>({
+  const {
+    result,
+    query: { isLoading, refetch },
+  } = useOne<ExtendedMember>({
     resource: "members",
     id,
     meta: {
       select: "*, rentals(*, titles(*))",
     },
   });
-  const member = data?.data;
+  const member = result;
 
   useSubscription({
     channel: "rentals",

@@ -75,25 +75,21 @@ const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    setOptions,
-    refineCore: {
-      tableQuery: { data: tableData },
-    },
+    reactTable: { getHeaderGroups, getRowModel, setOptions },
+    refineCore: { result },
   } = useTable<IPost, HttpError>({
     columns,
   });
 
   // highlight-start
   // Fetches the category of each post. It uses the useMany hook to fetch the category data from the API.
-  const { data: categoryData } = useMany<ICategory, HttpError>({
+  const { result: categoryData } = useMany<ICategory, HttpError>({
     resource: "categories",
     // Creates the array of ids. This will filter and fetch the category data for the relevant posts.
-    ids: tableData?.data?.map((item) => item?.category?.id) ?? [],
+    ids: result?.data?.map((item) => item?.category?.id) ?? [],
     queryOptions: {
       // Set to true only if the posts array is not empty.
-      enabled: !!tableData?.data,
+      enabled: !!result?.data,
     },
   });
   // highlight-end
@@ -147,14 +143,20 @@ const PostList: React.FC = () => {
 };
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
-
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<PostList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

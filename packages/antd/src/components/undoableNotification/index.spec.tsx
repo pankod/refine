@@ -1,10 +1,11 @@
 import React from "react";
+import { vi } from "vitest";
 
 import { fireEvent, render } from "@test";
 
 import { UndoableNotification, type UndoableNotificationProps } from ".";
 
-const cancelMutation = jest.fn();
+const cancelMutation = vi.fn();
 
 const mockNotification: UndoableNotificationProps = {
   notificationKey: "notificationKey",
@@ -31,7 +32,7 @@ describe("Cancel Notification", () => {
     expect(button).toBeDefined();
     if (button) {
       fireEvent.click(button);
-      expect(cancelMutation).toBeCalledTimes(1);
+      expect(cancelMutation).toHaveBeenCalledTimes(1);
     }
   });
 

@@ -17,7 +17,7 @@ export const CategoryCreate = () => {
     HttpError,
     GetVariables<CreateCategoryMutationVariables>
   >({
-    metaData: {
+    meta: {
       gqlMutation: CATEGORY_CREATE_MUTATION,
     },
   });

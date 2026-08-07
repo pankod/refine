@@ -1,6 +1,6 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
+import { vi } from "vitest";
 
-import * as queryKeys from "@definitions/helpers/queryKeys";
 import {
   MockJSONServer,
   TestWrapper,
@@ -38,10 +38,10 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    const { isSuccess } = result.current;
+    const { isSuccess } = result.current.mutation;
 
     expect(isSuccess).toBeTruthy();
   });
@@ -94,7 +94,7 @@ describe("useUpdate Hook [with params]", () => {
     await assertList(useManyResult, "title", updatedTitle);
 
     await waitFor(() => {
-      expect(result.current.isError).toEqual(true);
+      expect(result.current.mutation.isError).toEqual(true);
     });
 
     await assertOne(useOneResult, "title", initialTitle);
@@ -146,37 +146,8 @@ describe("useUpdate Hook [with params]", () => {
     await assertMutationSuccess(result);
   });
 
-  it("should exclude gqlQuery and qqlMutation from query keys", async () => {
-    const catchFn = jest.fn();
-
-    jest
-      .spyOn(queryKeys, "queryKeysReplacement")
-      .mockImplementationOnce(() => catchFn);
-
-    const { result } = renderHook(() => useUpdate(), {
-      wrapper: TestWrapper({}),
-    });
-
-    const resource = "posts";
-
-    result.current.mutate({
-      resource,
-      id: 1,
-      values: {},
-      meta: {
-        foo: "bar",
-        gqlQuery: "gqlQuery" as any,
-        gqlMutation: "gqlMutation" as any,
-      },
-    });
-
-    await waitFor(() => {
-      expect(catchFn).toBeCalledWith(resource, "default", { foo: "bar" });
-    });
-  });
-
   it("should only pass meta from the hook parameter and query parameters to the dataProvider", async () => {
-    const updateMock = jest.fn();
+    const updateMock = vi.fn();
 
     const { result } = renderHook(() => useUpdate(), {
       wrapper: TestWrapper({
@@ -205,10 +176,10 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(updateMock).toBeCalled();
+      expect(updateMock).toHaveBeenCalled();
     });
 
-    expect(updateMock).toBeCalledWith(
+    expect(updateMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -221,7 +192,7 @@ describe("useUpdate Hook [with params]", () => {
   });
 
   it("works correctly with `interval` and `onInterval` params", async () => {
-    const onInterval = jest.fn();
+    const onInterval = vi.fn();
     const { result } = renderHook(
       () =>
         useUpdate({
@@ -256,13 +227,13 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeTruthy();
+      expect(result.current.mutation.isPending).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBe(900);
-      expect(onInterval).toBeCalled();
+      expect(onInterval).toHaveBeenCalled();
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeFalsy();
+      expect(result.current.mutation.isPending).toBeFalsy();
       expect(result.current.overtime.elapsedTime).toBeUndefined();
     });
   });
@@ -271,15 +242,15 @@ describe("useUpdate Hook [with params]", () => {
     it.each(["default", "categories"])(
       "publish event on success [dataProviderName: %s]",
       async (dataProviderName) => {
-        const onPublishMock = jest.fn();
+        const onPublishMock = vi.fn();
 
         const { result } = renderHook(() => useUpdate(), {
           wrapper: TestWrapper({
             dataProvider: MockJSONServer,
             resources: [{ name: "posts" }],
             liveProvider: {
-              unsubscribe: jest.fn(),
-              subscribe: jest.fn(),
+              unsubscribe: vi.fn(),
+              subscribe: vi.fn(),
               publish: onPublishMock,
             },
           }),
@@ -295,10 +266,10 @@ describe("useUpdate Hook [with params]", () => {
         });
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.mutation.isSuccess).toBeTruthy();
         });
 
-        expect(onPublishMock).toBeCalled();
+        expect(onPublishMock).toHaveBeenCalled();
         expect(onPublishMock).toHaveBeenCalledWith({
           channel: "resources/posts",
           date: expect.any(Date),
@@ -314,20 +285,20 @@ describe("useUpdate Hook [with params]", () => {
     );
 
     it("publish live event without `ids` if no `id` is returned from the dataProvider", async () => {
-      const onPublishMock = jest.fn();
+      const onPublishMock = vi.fn();
 
       const { result } = renderHook(() => useUpdate(), {
         wrapper: TestWrapper({
           dataProvider: {
             default: {
               ...MockJSONServer.default,
-              update: jest.fn().mockResolvedValue({ data: {} }),
+              update: vi.fn().mockResolvedValue({ data: {} }),
             },
           },
           resources: [{ name: "posts" }],
           liveProvider: {
-            unsubscribe: jest.fn(),
-            subscribe: jest.fn(),
+            unsubscribe: vi.fn(),
+            subscribe: vi.fn(),
             publish: onPublishMock,
           },
         }),
@@ -340,7 +311,7 @@ describe("useUpdate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
       expect(onPublishMock).toHaveBeenCalledWith({
@@ -357,14 +328,14 @@ describe("useUpdate Hook [with params]", () => {
 
   describe("useNotification", () => {
     it("should call `open` from the notification provider on success", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useUpdate(), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -377,10 +348,10 @@ describe("useUpdate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Successful",
         key: "1-posts-notification",
         message: "Successfully updated post",
@@ -389,8 +360,8 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     it("should call `open` from the notification provider on error", async () => {
-      const updateMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const notificationMock = jest.fn();
+      const updateMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const notificationMock = vi.fn();
 
       const { result } = renderHook(() => useUpdate(), {
         wrapper: TestWrapper({
@@ -402,7 +373,7 @@ describe("useUpdate Hook [with params]", () => {
           },
           notificationProvider: {
             open: notificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -415,10 +386,10 @@ describe("useUpdate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(notificationMock).toBeCalledWith({
+      expect(notificationMock).toHaveBeenCalledWith({
         description: "Error",
         key: "1-posts-notification",
         message: "Error when updating post (status code: undefined)",
@@ -427,14 +398,14 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     it("should call `open` from notification provider on success with custom notification params", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useUpdate(), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -452,10 +423,10 @@ describe("useUpdate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Successfully created post",
         message: "Success",
         type: "success",
@@ -463,14 +434,14 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     it("should not call `open` from notification provider on return `false`", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useUpdate(), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -484,15 +455,15 @@ describe("useUpdate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledTimes(0);
+      expect(openNotificationMock).toHaveBeenCalledTimes(0);
     });
 
     it("should call `open` from notification provider on error with custom notification params", async () => {
-      const updateMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const openNotificationMock = jest.fn();
+      const updateMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useUpdate(), {
         wrapper: TestWrapper({
@@ -504,7 +475,7 @@ describe("useUpdate Hook [with params]", () => {
           },
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -522,10 +493,10 @@ describe("useUpdate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "There was an error creating post",
         message: "Error",
         type: "error",
@@ -535,8 +506,8 @@ describe("useUpdate Hook [with params]", () => {
 
   describe("useOnError", () => {
     it("should call `onError` from the auth provider on error", async () => {
-      const updateMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onErrorMock = jest.fn();
+      const updateMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const onErrorMock = vi.fn();
 
       const { result } = renderHook(() => useUpdate(), {
         wrapper: TestWrapper({
@@ -560,48 +531,16 @@ describe("useUpdate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(onErrorMock).toBeCalledWith(new Error("Error"));
-    });
-
-    it("should call `checkError` from the legacy auth provider on error", async () => {
-      const updateMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onErrorMock = jest.fn();
-
-      const { result } = renderHook(() => useUpdate(), {
-        wrapper: TestWrapper({
-          dataProvider: {
-            default: {
-              ...MockJSONServer.default,
-              update: updateMock,
-            },
-          },
-          legacyAuthProvider: {
-            checkError: onErrorMock,
-          },
-          resources: [{ name: "posts" }],
-        }),
-      });
-
-      result.current.mutate({
-        resource: "posts",
-        id: "1",
-        values: {},
-      });
-
-      await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
-      });
-
-      expect(onErrorMock).toBeCalledWith(new Error("Error"));
+      expect(onErrorMock).toHaveBeenCalledWith(new Error("Error"));
     });
   });
 
   it("should select correct dataProviderName", async () => {
-    const updateDefaultMock = jest.fn();
-    const updateFooMock = jest.fn();
+    const updateDefaultMock = vi.fn();
+    const updateFooMock = vi.fn();
 
     const { result } = renderHook(() => useUpdate(), {
       wrapper: TestWrapper({
@@ -638,19 +577,19 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(updateFooMock).toBeCalledWith(
+    expect(updateFooMock).toHaveBeenCalledWith(
       expect.objectContaining({
         resource: "posts",
       }),
     );
-    expect(updateDefaultMock).not.toBeCalled();
+    expect(updateDefaultMock).not.toHaveBeenCalled();
   });
 
   it("should get correct `meta` of related resource", async () => {
-    const updateMock = jest.fn();
+    const updateMock = vi.fn();
 
     const { result } = renderHook(() => useUpdate(), {
       wrapper: TestWrapper({
@@ -680,10 +619,10 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(updateMock).toBeCalledWith(
+    expect(updateMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -694,8 +633,8 @@ describe("useUpdate Hook [with params]", () => {
 
   describe("when passing `identifier` instead of `name`", () => {
     it("should select correct dataProviderName", async () => {
-      const updateDefaultMock = jest.fn();
-      const updateFooMock = jest.fn();
+      const updateDefaultMock = vi.fn();
+      const updateFooMock = vi.fn();
 
       const { result } = renderHook(() => useUpdate(), {
         wrapper: TestWrapper({
@@ -733,23 +672,21 @@ describe("useUpdate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(updateFooMock).toBeCalledWith(
+      expect(updateFooMock).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "posts",
         }),
       );
-      expect(updateDefaultMock).not.toBeCalled();
+      expect(updateDefaultMock).not.toHaveBeenCalled();
     });
 
     it("should invalidate query store with `identifier`", async () => {
-      const invalidateStore = jest.fn();
-      jest
-        .spyOn(UseInvalidate, "useInvalidate")
-        .mockReturnValue(invalidateStore);
-      const updateMock = jest.fn();
+      const invalidateStore = vi.fn();
+      vi.spyOn(UseInvalidate, "useInvalidate").mockReturnValue(invalidateStore);
+      const updateMock = vi.fn();
 
       const { result } = renderHook(() => useUpdate(), {
         wrapper: TestWrapper({
@@ -777,10 +714,10 @@ describe("useUpdate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(invalidateStore).toBeCalledWith(
+      expect(invalidateStore).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "featured-posts",
         }),
@@ -788,7 +725,7 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     it("should get correct `meta` of related resource", async () => {
-      const updateMock = jest.fn();
+      const updateMock = vi.fn();
 
       const { result } = renderHook(() => useUpdate(), {
         wrapper: TestWrapper({
@@ -826,10 +763,10 @@ describe("useUpdate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(updateMock).toBeCalledWith(
+      expect(updateMock).toHaveBeenCalledWith(
         expect.objectContaining({
           meta: expect.objectContaining({
             bar: "baz",
@@ -1018,8 +955,8 @@ describe("useUpdate Hook [with params]", () => {
   });
 
   it("should override `mutationFn` with mutationOptions.mutationFn", async () => {
-    const updateMock = jest.fn().mockResolvedValue({ data: {} });
-    const mutationFnMock = jest.fn().mockResolvedValue({ data: {} });
+    const updateMock = vi.fn().mockResolvedValue({ data: {} });
+    const mutationFnMock = vi.fn().mockResolvedValue({ data: {} });
 
     const { result } = renderHook(
       () =>
@@ -1050,11 +987,11 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(updateMock).not.toBeCalled();
-    expect(mutationFnMock).toBeCalled();
+    expect(updateMock).not.toHaveBeenCalled();
+    expect(mutationFnMock).toHaveBeenCalled();
   });
 
   it("should override `mutationKey` with `mutationOptions.mutationKey`", async () => {
@@ -1080,7 +1017,7 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
     expect(
@@ -1106,8 +1043,8 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error(
           "[useUpdate]: `resource` is not defined or not matched but is required",
         ),
@@ -1131,8 +1068,8 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error("[useUpdate]: `values` is not provided but is required"),
       );
     });
@@ -1154,11 +1091,42 @@ describe("useUpdate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error(
           "[useUpdate]: `id` is not defined but is required in edit and clone actions",
         ),
+      );
+    });
+  });
+
+  it("should not throw error when id=''", async () => {
+    const updateMock = vi.fn();
+
+    const { result } = renderHook(() => useUpdate(), {
+      wrapper: TestWrapper({
+        dataProvider: {
+          default: {
+            ...MockJSONServer.default,
+            update: updateMock,
+          },
+        },
+        resources: [{ name: "posts" }],
+      }),
+    });
+
+    act(() => {
+      result.current.mutate({
+        id: "",
+        resource: "posts",
+        values: {},
+      });
+    });
+
+    await waitFor(() => {
+      expect(result.current.mutation.isError).toBeFalsy();
+      expect(updateMock).toHaveBeenCalledWith(
+        expect.objectContaining({ id: "", resource: "posts", variables: {} }),
       );
     });
   });
@@ -1166,7 +1134,7 @@ describe("useUpdate Hook [with params]", () => {
 
 describe("useUpdate Hook [with props]", () => {
   it("should work with pessimistic update", async () => {
-    const updateMock = jest.fn();
+    const updateMock = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -1195,7 +1163,7 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
     expect(updateMock).toHaveBeenCalledWith(
@@ -1256,7 +1224,7 @@ describe("useUpdate Hook [with props]", () => {
     await assertList(useManyResult, "title", updatedTitle);
 
     await waitFor(() => {
-      expect(result.current.isError).toEqual(true);
+      expect(result.current.mutation.isError).toEqual(true);
     });
 
     await assertOne(useOneResult, "title", initialTitle);
@@ -1313,42 +1281,8 @@ describe("useUpdate Hook [with props]", () => {
     await assertMutationSuccess(result);
   });
 
-  it("should exclude gqlQuery and qqlMutation from query keys", async () => {
-    const catchFn = jest.fn();
-
-    jest
-      .spyOn(queryKeys, "queryKeysReplacement")
-      .mockImplementationOnce(() => catchFn);
-
-    const resource = "posts";
-
-    const { result } = renderHook(
-      () =>
-        useUpdate({
-          resource,
-          id: 1,
-          meta: {
-            foo: "bar",
-            gqlQuery: "gqlQuery" as any,
-            gqlMutation: "gqlMutation" as any,
-          },
-        }),
-      {
-        wrapper: TestWrapper({}),
-      },
-    );
-
-    result.current.mutate({
-      values: {},
-    });
-
-    await waitFor(() => {
-      expect(catchFn).toBeCalledWith(resource, "default", { foo: "bar" });
-    });
-  });
-
   it("should only pass meta from the hook parameter and query parameters to the dataProvider", async () => {
-    const updateMock = jest.fn();
+    const updateMock = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -1382,10 +1316,10 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(updateMock).toBeCalled();
+      expect(updateMock).toHaveBeenCalled();
     });
 
-    expect(updateMock).toBeCalledWith(
+    expect(updateMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -1398,7 +1332,7 @@ describe("useUpdate Hook [with props]", () => {
   });
 
   it("works correctly with `interval` and `onInterval` params", async () => {
-    const onInterval = jest.fn();
+    const onInterval = vi.fn();
     const { result } = renderHook(
       () =>
         useUpdate({
@@ -1433,13 +1367,13 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeTruthy();
+      expect(result.current.mutation.isPending).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBe(900);
-      expect(onInterval).toBeCalled();
+      expect(onInterval).toHaveBeenCalled();
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeFalsy();
+      expect(result.current.mutation.isPending).toBeFalsy();
       expect(result.current.overtime.elapsedTime).toBeUndefined();
     });
   });
@@ -1448,7 +1382,7 @@ describe("useUpdate Hook [with props]", () => {
     it.each(["default", "categories"])(
       "publish event on success [dataProviderName: %s]",
       async (dataProviderName) => {
-        const onPublishMock = jest.fn();
+        const onPublishMock = vi.fn();
 
         const { result } = renderHook(
           () =>
@@ -1464,8 +1398,8 @@ describe("useUpdate Hook [with props]", () => {
               dataProvider: MockJSONServer,
               resources: [{ name: "posts" }],
               liveProvider: {
-                unsubscribe: jest.fn(),
-                subscribe: jest.fn(),
+                unsubscribe: vi.fn(),
+                subscribe: vi.fn(),
                 publish: onPublishMock,
               },
             }),
@@ -1477,10 +1411,10 @@ describe("useUpdate Hook [with props]", () => {
         });
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.mutation.isSuccess).toBeTruthy();
         });
 
-        expect(onPublishMock).toBeCalled();
+        expect(onPublishMock).toHaveBeenCalled();
         expect(onPublishMock).toHaveBeenCalledWith({
           channel: "resources/posts",
           date: expect.any(Date),
@@ -1496,7 +1430,7 @@ describe("useUpdate Hook [with props]", () => {
     );
 
     it("publish live event without `ids` if no `id` is returned from the dataProvider", async () => {
-      const onPublishMock = jest.fn();
+      const onPublishMock = vi.fn();
 
       const { result } = renderHook(
         () => useUpdate({ resource: "posts", id: "1" }),
@@ -1505,13 +1439,13 @@ describe("useUpdate Hook [with props]", () => {
             dataProvider: {
               default: {
                 ...MockJSONServer.default,
-                update: jest.fn().mockResolvedValue({ data: {} }),
+                update: vi.fn().mockResolvedValue({ data: {} }),
               },
             },
             resources: [{ name: "posts" }],
             liveProvider: {
-              unsubscribe: jest.fn(),
-              subscribe: jest.fn(),
+              unsubscribe: vi.fn(),
+              subscribe: vi.fn(),
               publish: onPublishMock,
             },
           }),
@@ -1523,7 +1457,7 @@ describe("useUpdate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
       expect(onPublishMock).toHaveBeenCalledWith({
@@ -1540,7 +1474,7 @@ describe("useUpdate Hook [with props]", () => {
 
   describe("useNotification", () => {
     it("should call `open` from the notification provider on success", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () => useUpdate({ resource: "posts", id: "1" }),
@@ -1549,7 +1483,7 @@ describe("useUpdate Hook [with props]", () => {
             dataProvider: MockJSONServer,
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1561,10 +1495,10 @@ describe("useUpdate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Successful",
         key: "1-posts-notification",
         message: "Successfully updated post",
@@ -1573,8 +1507,8 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     it("should call `open` from the notification provider on error", async () => {
-      const updateMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const notificationMock = jest.fn();
+      const updateMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const notificationMock = vi.fn();
 
       const { result } = renderHook(
         () => useUpdate({ id: "1", resource: "posts" }),
@@ -1588,7 +1522,7 @@ describe("useUpdate Hook [with props]", () => {
             },
             notificationProvider: {
               open: notificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1600,10 +1534,10 @@ describe("useUpdate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(notificationMock).toBeCalledWith({
+      expect(notificationMock).toHaveBeenCalledWith({
         description: "Error",
         key: "1-posts-notification",
         message: "Error when updating post (status code: undefined)",
@@ -1612,7 +1546,7 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     it("should call `open` from notification provider on success with custom notification params", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1630,7 +1564,7 @@ describe("useUpdate Hook [with props]", () => {
             dataProvider: MockJSONServer,
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1642,10 +1576,10 @@ describe("useUpdate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Successfully created post",
         message: "Success",
         type: "success",
@@ -1653,7 +1587,7 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     it("should not call `open` from notification provider on return `false`", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1667,7 +1601,7 @@ describe("useUpdate Hook [with props]", () => {
             dataProvider: MockJSONServer,
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1679,15 +1613,15 @@ describe("useUpdate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledTimes(0);
+      expect(openNotificationMock).toHaveBeenCalledTimes(0);
     });
 
     it("should call `open` from notification provider on error with custom notification params", async () => {
-      const updateMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const openNotificationMock = jest.fn();
+      const updateMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1710,7 +1644,7 @@ describe("useUpdate Hook [with props]", () => {
             },
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1722,10 +1656,10 @@ describe("useUpdate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "There was an error creating post",
         message: "Error",
         type: "error",
@@ -1735,8 +1669,8 @@ describe("useUpdate Hook [with props]", () => {
 
   describe("useOnError", () => {
     it("should call `onError` from the auth provider on error", async () => {
-      const updateMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onErrorMock = jest.fn();
+      const updateMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const onErrorMock = vi.fn();
 
       const { result } = renderHook(
         () => useUpdate({ resource: "posts", id: "1" }),
@@ -1761,49 +1695,16 @@ describe("useUpdate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(onErrorMock).toBeCalledWith(new Error("Error"));
-    });
-
-    it("should call `checkError` from the legacy auth provider on error", async () => {
-      const updateMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onErrorMock = jest.fn();
-
-      const { result } = renderHook(
-        () => useUpdate({ resource: "posts", id: "1" }),
-        {
-          wrapper: TestWrapper({
-            dataProvider: {
-              default: {
-                ...MockJSONServer.default,
-                update: updateMock,
-              },
-            },
-            legacyAuthProvider: {
-              checkError: onErrorMock,
-            },
-            resources: [{ name: "posts" }],
-          }),
-        },
-      );
-
-      result.current.mutate({
-        values: {},
-      });
-
-      await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
-      });
-
-      expect(onErrorMock).toBeCalledWith(new Error("Error"));
+      expect(onErrorMock).toHaveBeenCalledWith(new Error("Error"));
     });
   });
 
   it("should select correct dataProviderName", async () => {
-    const updateDefaultMock = jest.fn();
-    const updateFooMock = jest.fn();
+    const updateDefaultMock = vi.fn();
+    const updateFooMock = vi.fn();
 
     const { result } = renderHook(
       () => useUpdate({ resource: "posts", id: "1" }),
@@ -1841,19 +1742,19 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(updateFooMock).toBeCalledWith(
+    expect(updateFooMock).toHaveBeenCalledWith(
       expect.objectContaining({
         resource: "posts",
       }),
     );
-    expect(updateDefaultMock).not.toBeCalled();
+    expect(updateDefaultMock).not.toHaveBeenCalled();
   });
 
   it("should get correct `meta` of related resource", async () => {
-    const updateMock = jest.fn();
+    const updateMock = vi.fn();
 
     const { result } = renderHook(
       () => useUpdate({ resource: "posts", id: "1" }),
@@ -1884,10 +1785,10 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(updateMock).toBeCalledWith(
+    expect(updateMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -1898,8 +1799,8 @@ describe("useUpdate Hook [with props]", () => {
 
   describe("when passing `identifier` instead of `name`", () => {
     it("should select correct dataProviderName", async () => {
-      const updateDefaultMock = jest.fn();
-      const updateFooMock = jest.fn();
+      const updateDefaultMock = vi.fn();
+      const updateFooMock = vi.fn();
 
       const { result } = renderHook(
         () => useUpdate({ resource: "featured-posts", id: "1" }),
@@ -1938,23 +1839,21 @@ describe("useUpdate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(updateFooMock).toBeCalledWith(
+      expect(updateFooMock).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "posts",
         }),
       );
-      expect(updateDefaultMock).not.toBeCalled();
+      expect(updateDefaultMock).not.toHaveBeenCalled();
     });
 
     it("should invalidate query store with `identifier`", async () => {
-      const invalidateStore = jest.fn();
-      jest
-        .spyOn(UseInvalidate, "useInvalidate")
-        .mockReturnValue(invalidateStore);
-      const updateMock = jest.fn();
+      const invalidateStore = vi.fn();
+      vi.spyOn(UseInvalidate, "useInvalidate").mockReturnValue(invalidateStore);
+      const updateMock = vi.fn();
 
       const { result } = renderHook(
         () => useUpdate({ resource: "featured-posts", id: "1" }),
@@ -1983,10 +1882,10 @@ describe("useUpdate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(invalidateStore).toBeCalledWith(
+      expect(invalidateStore).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "featured-posts",
         }),
@@ -1994,7 +1893,7 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     it("should get correct `meta` of related resource", async () => {
-      const updateMock = jest.fn();
+      const updateMock = vi.fn();
 
       const { result } = renderHook(
         () => useUpdate({ resource: "featured-posts", id: "1" }),
@@ -2033,10 +1932,10 @@ describe("useUpdate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(updateMock).toBeCalledWith(
+      expect(updateMock).toHaveBeenCalledWith(
         expect.objectContaining({
           meta: expect.objectContaining({
             bar: "baz",
@@ -2240,8 +2139,8 @@ describe("useUpdate Hook [with props]", () => {
   });
 
   it("should override `mutationFn` with mutationOptions.mutationFn", async () => {
-    const updateMock = jest.fn().mockResolvedValue({ data: {} });
-    const mutationFnMock = jest.fn().mockResolvedValue({ data: {} });
+    const updateMock = vi.fn().mockResolvedValue({ data: {} });
+    const mutationFnMock = vi.fn().mockResolvedValue({ data: {} });
 
     const { result } = renderHook(
       () =>
@@ -2272,11 +2171,11 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(updateMock).not.toBeCalled();
-    expect(mutationFnMock).toBeCalled();
+    expect(updateMock).not.toHaveBeenCalled();
+    expect(mutationFnMock).toHaveBeenCalled();
   });
 
   it("should override `mutationKey` with `mutationOptions.mutationKey`", async () => {
@@ -2302,7 +2201,7 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
     expect(
@@ -2332,8 +2231,8 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error(
           "[useUpdate]: `resource` is not defined or not matched but is required",
         ),
@@ -2361,8 +2260,8 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error("[useUpdate]: `values` is not provided but is required"),
       );
     });
@@ -2388,11 +2287,46 @@ describe("useUpdate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error(
           "[useUpdate]: `id` is not defined but is required in edit and clone actions",
         ),
+      );
+    });
+  });
+
+  it("should not throw error when id=''", async () => {
+    const updateMock = vi.fn();
+
+    const { result } = renderHook(
+      () =>
+        useUpdate({
+          id: "",
+          resource: "posts",
+          values: {},
+        }),
+      {
+        wrapper: TestWrapper({
+          dataProvider: {
+            default: {
+              ...MockJSONServer.default,
+              update: updateMock,
+            },
+          },
+          resources: [{ name: "posts" }],
+        }),
+      },
+    );
+
+    act(() => {
+      result.current.mutate();
+    });
+
+    await waitFor(() => {
+      expect(result.current.mutation.isError).toBeFalsy();
+      expect(updateMock).toHaveBeenCalledWith(
+        expect.objectContaining({ id: "", resource: "posts", variables: {} }),
       );
     });
   });
@@ -2430,14 +2364,14 @@ describe("useUpdate Hook should work with params and props", () => {
       },
     };
 
-    const updateMock = jest.fn();
-    const openNotificationMock = jest.fn();
+    const updateMock = vi.fn();
+    const openNotificationMock = vi.fn();
 
     const { result } = renderHook(() => useUpdate(options.props), {
       wrapper: TestWrapper({
         notificationProvider: {
           open: openNotificationMock,
-          close: jest.fn(),
+          close: vi.fn(),
         },
         dataProvider: {
           default: MockJSONServer.default,
@@ -2452,7 +2386,7 @@ describe("useUpdate Hook should work with params and props", () => {
     result.current.mutate(options.params);
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
     expect(updateMock).toHaveBeenCalledWith({
@@ -2460,7 +2394,6 @@ describe("useUpdate Hook should work with params and props", () => {
       resource: options.params.resource,
       variables: options.params.values,
       meta: options.params.meta,
-      metaData: options.params.meta,
     });
     expect(openNotificationMock).toHaveBeenCalledWith({
       description: "Successfully created post",
@@ -2470,10 +2403,10 @@ describe("useUpdate Hook should work with params and props", () => {
   });
 
   it("should life-cycle methods works", async () => {
-    const onSuccessProp = jest.fn();
-    const onSettledProp = jest.fn();
-    const onSuccessFn = jest.fn();
-    const onSettledFn = jest.fn();
+    const onSuccessProp = vi.fn();
+    const onSettledProp = vi.fn();
+    const onSuccessFn = vi.fn();
+    const onSettledFn = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -2512,8 +2445,8 @@ describe("useUpdate Hook should work with params and props", () => {
   });
 
   it("should onError methods works", async () => {
-    const onErrorProp = jest.fn();
-    const onErrorFn = jest.fn();
+    const onErrorProp = vi.fn();
+    const onErrorFn = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -2554,5 +2487,42 @@ describe("useUpdate Hook should work with params and props", () => {
       expect(onErrorProp).toHaveBeenCalledWith("onErrorProp");
       expect(onErrorFn).toHaveBeenCalledWith("onErrorProp");
     });
+  });
+
+  it("should not override audit meta.id with route params", async () => {
+    const auditCreateMock = vi.fn();
+
+    const { result } = renderHook(() => useUpdate(), {
+      wrapper: TestWrapper({
+        dataProvider: MockJSONServer,
+        resources: [{ name: "posts" }],
+        auditLogProvider: {
+          create: auditCreateMock,
+          get: vi.fn(),
+          update: vi.fn(),
+        },
+        routerProvider: mockRouterProvider({
+          params: { id: "6" },
+        }),
+      }),
+    });
+
+    act(() => {
+      result.current.mutate({
+        resource: "posts",
+        id: "1",
+        values: { title: "updated" },
+      });
+    });
+
+    await waitFor(() => expect(result.current.mutation.isSuccess).toBeTruthy());
+
+    expect(auditCreateMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        action: "update",
+        resource: "posts",
+        meta: expect.objectContaining({ id: "1" }),
+      }),
+    );
   });
 });

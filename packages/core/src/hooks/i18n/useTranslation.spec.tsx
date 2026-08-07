@@ -1,4 +1,5 @@
 import * as React from "react";
+import { vi } from "vitest";
 import { render, TestWrapper } from "@test";
 import { useTranslation } from "@hooks";
 
@@ -19,9 +20,9 @@ const TestComponent: React.FC = () => {
 
 describe("useTranslation", () => {
   it("should return translate, setLocale and getLocale", () => {
-    const translateMock = jest.fn();
-    const changeLocale = jest.fn();
-    const getLocaleMock = jest.fn();
+    const translateMock = vi.fn();
+    const changeLocale = vi.fn();
+    const getLocaleMock = vi.fn();
 
     render(<TestComponent />, {
       wrapper: TestWrapper({
@@ -34,10 +35,10 @@ describe("useTranslation", () => {
       }),
     });
 
-    expect(translateMock).toBeCalledTimes(1);
-    expect(translateMock).toBeCalledWith("key", undefined, undefined);
-    expect(getLocaleMock).toBeCalledTimes(1);
-    expect(changeLocale).toBeCalledTimes(1);
-    expect(changeLocale).toBeCalledWith("en");
+    expect(translateMock).toHaveBeenCalledTimes(1);
+    expect(translateMock).toHaveBeenCalledWith("key", undefined, undefined);
+    expect(getLocaleMock).toHaveBeenCalledTimes(1);
+    expect(changeLocale).toHaveBeenCalledTimes(1);
+    expect(changeLocale).toHaveBeenCalledWith("en");
   });
 });

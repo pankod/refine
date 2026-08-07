@@ -7,13 +7,13 @@ tutorial:
   next: false
 ---
 
-In the previous [Adding List Page](/docs/3.xx.xx/tutorial/adding-crud-pages/mantine/index) section, we have displayed blog posts data in a table. Now we will learn how to add sorting and filtering to the table to user can have more control over the data.
+In the previous [Adding List Page](/core/docs/3.xx.xx/tutorial/adding-crud-pages/mantine/index) section, we have displayed blog posts data in a table. Now we will learn how to add sorting and filtering to the table to user can have more control over the data.
 
 ## Sort and Filters
 
 The `@pankod/refine-react-table` package based on the [**Tanstack Table**](https://tanstack.com/table/v8) package. So, we can add sorting and filtering features to our table as suggested in the **Tanstack Table** documentation.
 
-[Refer to the **@pankod/refine-react-table** `useTable` documentation for more information &#8594](/docs/3.xx.xx/packages/documentation/react-table/)
+[Refer to the **@pankod/refine-react-table** `useTable` documentation for more information &#8594](/core/docs/3.xx.xx/packages/documentation/react-table/)
 
 **Tanstack Table** keeps the `sorting` and `filters` states in the `useTable` hook. When we change the these states, the `useTable` hook will automatically fetch the data and update the table with the new data.
 

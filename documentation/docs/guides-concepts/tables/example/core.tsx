@@ -44,18 +44,18 @@ export default function App() {
 
 export const ProductTableTsxCode = `
 import React from "react";
-import { useTable, pageCount, pageSize, current, setCurrent } from "@refinedev/core";
+import { useTable, pageCount, pageSize, currentPage, setCurrentPage } from "@refinedev/core";
 
 
 export const ProductTable: React.FC = () => {
-    const { tableQuery, pageCount, pageSize, current, setCurrent } = useTable<IProduct>({
+    const { result, tableQuery, pageCount, pageSize, currentPage, setCurrentPage } = useTable<IProduct>({
         resource: "products",
         pagination: {
-            current: 1, 
+            currentPage: 1,
             pageSize: 10,
         },
     });
-    const posts = tableQuery?.data?.data ?? [];
+    const posts = result.data
 
     if (tableQuery?.isLoading) {
         return <div>Loading...</div>;
@@ -83,21 +83,21 @@ export const ProductTable: React.FC = () => {
                 </tbody>
             </table>
             <hr />
-            <p>Current Page: {current}</p>
+            <p>Current Page: {currentPage}</p>
             <p>Page Size: {pageSize}</p>
             <button
               onClick={() => {
-                setCurrent(current - 1);
+                setCurrentPage(currentPage - 1);
               }}
-              disabled={current < 2}
+              disabled={currentPage < 2}
             >
               Previous Page
             </button>
             <button
               onClick={() => {
-                setCurrent(current + 1);
+                setCurrentPage(currentPage + 1);
               }}
-              disabled={current === pageCount}
+              disabled={currentPage === pageCount}
             >
               Next Page
             </button>

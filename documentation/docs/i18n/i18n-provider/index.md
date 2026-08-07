@@ -1,5 +1,8 @@
 ---
-title: i18n Provider
+title: "I18n Provider Guide | Best Practices in Refine v5"
+display_title: "i18n Provider"
+sidebar_label: "i18n Provider"
+description: "Explore how to implement i18n Provider in Refine v5. Learn best practices for translation and expects for real-world React admin panels."
 ---
 
 import Tabs from '@theme/Tabs';
@@ -171,7 +174,7 @@ You can use the following community example project as a starting point for inco
 
 <CodeSandboxExample path="i18n-react" />
 
-[i18nnextjs]: /examples/i18n/i18n-nextjs.md
+[i18nnextjs]: /core/docs/examples/i18n/i18n-nextjs
 [react-i18next]: https://react.i18next.com/
-[create-refine-app]: /docs/getting-started/quickstart.md
-[use-translation]: /docs/i18n/hooks/use-translation
+[create-refine-app]: /core/docs/getting-started/quickstart
+[use-translation]: /core/docs/i18n/hooks/use-translation

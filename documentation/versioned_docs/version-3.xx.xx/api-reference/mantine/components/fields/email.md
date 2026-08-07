@@ -36,7 +36,7 @@ const Wrapper = ({ children }) => {
 This field is used to display email values. It uses the [`<Anchor>`](https://mantine.dev/core/anchor) component of Mantine.
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Usage

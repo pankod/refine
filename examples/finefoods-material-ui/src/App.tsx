@@ -3,7 +3,7 @@ import { KBarProvider } from "@refinedev/kbar";
 import {
   ErrorComponent,
   useNotificationProvider,
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineSnackbarProvider,
 } from "@refinedev/mui";
 import GlobalStyles from "@mui/material/GlobalStyles";
@@ -14,8 +14,8 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { useTranslation } from "react-i18next";
 import MopedOutlined from "@mui/icons-material/MopedOutlined";
 import Dashboard from "@mui/icons-material/Dashboard";
@@ -58,6 +58,7 @@ const App: React.FC = () => {
 
   return (
     <BrowserRouter>
+      <GitHubBanner />
       <KBarProvider>
         <ColorModeContextProvider>
           <CssBaseline />
@@ -72,7 +73,6 @@ const App: React.FC = () => {
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: true,
                 breadcrumb: false,
-                useNewQueryKeys: true,
               }}
               notificationProvider={useNotificationProvider}
               resources={[
@@ -144,7 +144,7 @@ const App: React.FC = () => {
                       key="authenticated-routes"
                       fallback={<CatchAllNavigate to="/login" />}
                     >
-                      <ThemedLayoutV2 Header={Header} Title={Title}>
+                      <ThemedLayout Header={Header} Title={Title}>
                         <Box
                           sx={{
                             maxWidth: "1200px",
@@ -154,7 +154,7 @@ const App: React.FC = () => {
                         >
                           <Outlet />
                         </Box>
-                      </ThemedLayoutV2>
+                      </ThemedLayout>
                     </Authenticated>
                   }
                 >
@@ -268,9 +268,9 @@ const App: React.FC = () => {
                 <Route
                   element={
                     <Authenticated key="catch-all">
-                      <ThemedLayoutV2 Header={Header} Title={Title}>
+                      <ThemedLayout Header={Header} Title={Title}>
                         <Outlet />
-                      </ThemedLayoutV2>
+                      </ThemedLayout>
                     </Authenticated>
                   }
                 >

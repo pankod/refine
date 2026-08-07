@@ -7,9 +7,30 @@
 
 require("dotenv").config();
 
-const redirectJson = require("./redirects.json");
 const tutorialData = require("./tutorial-units");
 const thumbsUpDownFeedbackWidget = require("./plugins/thumbs-up-down-feedback-widget");
+const path = require("path");
+
+function singleReact() {
+  const reactDir = path.dirname(require.resolve("react/package.json"));
+  const reactDomDir = path.dirname(require.resolve("react-dom/package.json"));
+
+  return {
+    name: "single-react",
+    configureWebpack() {
+      return {
+        resolve: {
+          alias: {
+            react: reactDir,
+            "react-dom": reactDomDir,
+            "react/jsx-runtime": path.join(reactDir, "jsx-runtime.js"),
+            "react/jsx-dev-runtime": path.join(reactDir, "jsx-dev-runtime.js"),
+          },
+        },
+      };
+    },
+  };
+}
 
 /** @type {import('@docusaurus/types/src/index').DocusaurusConfig} */
 const siteConfig = {
@@ -20,32 +41,9 @@ const siteConfig = {
   projectName: "refine",
   organizationName: "refinedev",
   trailingSlash: true,
-  favicon: "img/favicon.ico",
-  scripts: [
-    "https://platform.twitter.com/widgets.js",
-    {
-      src: "https://widget.kapa.ai/kapa-widget.bundle.js",
-      "data-website-id": "fa91d75a-5c82-4272-a893-a21d92245578",
-      "data-project-name": "Refine",
-      "data-project-color": "#303450",
-      "data-modal-header-bg-color": "#303450",
-      "data-modal-title-color": "#ffffff",
-      "data-button-border-radius": "100%",
-      "data-button-text-font-size": "0px",
-      "data-button-text-color": "#303450",
-      "data-button-bg-color": "transparent",
-      "data-button-text": "",
-      "data-button-box-shadow": "none",
-      "data-button-image-height": "60px",
-      "data-button-image-width": "60px",
-      "data-modal-title": "",
-      "data-modal-image":
-        "https://refine.ams3.cdn.digitaloceanspaces.com/assets/refine-white-icon.png",
-      "data-project-logo":
-        "https://refine.ams3.cdn.digitaloceanspaces.com/assets/refine-ai-bot-logo.png",
-      async: true,
-    },
-  ],
+  favicon: "assets/favicon.svg",
+  onBrokenLinks: "warn",
+  scripts: ["https://platform.twitter.com/widgets.js"],
   presets: [
     [
       "@docusaurus/preset-classic",
@@ -54,15 +52,28 @@ const siteConfig = {
           ? false
           : {
               path: "./docs",
+              routeBasePath: "/core/docs",
               sidebarPath: require.resolve("./sidebars.js"),
               editUrl:
-                "https://github.com/refinedev/refine/tree/master/documentation",
+                "https://github.com/refinedev/refine/tree/main/documentation",
               showLastUpdateAuthor: true,
               showLastUpdateTime: true,
               disableVersioning: process.env.DISABLE_VERSIONING === "true",
               versions: {
+                ...(process.env.DISABLE_VERSIONING === "true"
+                  ? {}
+                  : {
+                      "4.xx.xx": {
+                        label: "4.xx.xx",
+                        noIndex: true,
+                      },
+                      "3.xx.xx": {
+                        label: "3.xx.xx",
+                        noIndex: true,
+                      },
+                    }),
                 current: {
-                  label: "4.xx.xx",
+                  label: "5.xx.xx",
                 },
               },
               lastVersion: "current",
@@ -91,12 +102,13 @@ const siteConfig = {
             require.resolve("./src/refine-theme/css/fonts.css"),
             require.resolve("./src/refine-theme/css/custom.css"),
             require.resolve("./src/css/custom.css"),
+            require.resolve("./src/refine-theme/css/blog.css"),
             require.resolve("./src/css/split-pane.css"),
             require.resolve("./src/css/demo-page.css"),
           ],
         },
-        gtag: {
-          trackingID: "G-27Z1WY952H",
+        googleTagManager: {
+          containerId: "GTM-TPCTPDFK",
         },
         sitemap: {
           ignorePatterns: ["**/_*.md"],
@@ -105,20 +117,6 @@ const siteConfig = {
     ],
   ],
   plugins: [
-    [
-      "@docusaurus/plugin-client-redirects",
-      {
-        redirects: redirectJson.redirects,
-        createRedirects(existingPath) {
-          if (existingPath.includes("/api-reference/core/")) {
-            return [
-              existingPath.replace("/api-reference/core/", "/api-references/"),
-            ];
-          }
-          return undefined; // Return a falsy value: no redirect created
-        },
-      },
-    ],
     [
       "docusaurus-plugin-copy",
       {
@@ -138,6 +136,7 @@ const siteConfig = {
         },
       };
     },
+    singleReact,
     "./plugins/docgen.js",
     ...(process.env.DISABLE_BLOG
       ? []
@@ -145,30 +144,44 @@ const siteConfig = {
           [
             "./plugins/blog-plugin.js",
             {
-              blogTitle: "Blog",
+              blogTitle: "Refine Blog: Tutorials, News, and Best Practices",
               blogDescription:
-                "A resource for Refine, front-end ecosystem, and web development",
+                "In-depth posts on React, admin panels, access control, and modern web development. Examples, trade-offs, and implementation patterns.",
               routeBasePath: "/blog",
               postsPerPage: 12,
               blogSidebarTitle: "All posts",
               blogSidebarCount: 0,
+              admonitions: {
+                tag: ":::",
+                keywords: [
+                  "additional",
+                  "note",
+                  "tip",
+                  "info-tip",
+                  "info",
+                  "caution",
+                  "danger",
+                  "sourcecode",
+                  "create-example",
+                  "simple",
+                ],
+              },
               feedOptions: {
                 type: "all",
-                copyright: `Copyright © ${new Date().getFullYear()} refine.`,
+                copyright: `Copyright © ${new Date().getFullYear()} Refine.`,
               },
             },
           ],
         ]),
     "./plugins/clarity.js",
     "./plugins/templates.js",
-    "./plugins/example-redirects.js",
     "./plugins/tutorial-navigation.js",
     [
       "@docusaurus/plugin-content-docs",
       {
         id: "tutorial",
-        path: "tutorial",
-        routeBasePath: "tutorial",
+        path: "./tutorial",
+        routeBasePath: "/core/tutorial",
         sidebarPath: false,
         docLayoutComponent: "@theme/TutorialPage",
         docItemComponent: "@theme/TutorialItem",
@@ -188,6 +201,52 @@ const siteConfig = {
             "simple",
           ],
         },
+      },
+    ],
+    [
+      "docusaurus-plugin-llms",
+      {
+        title: "Refine",
+        description:
+          "Refine is an open-source, headless React framework for building enterprise-grade internal tools, admin panels, dashboards, and B2B applications. It provides industry-standard solutions for critical concerns like authentication, access control, routing, networking, state management, and i18n.",
+        docsDir: "docs",
+        generateLLMsTxt: true,
+        generateLLMsFullTxt: true,
+        excludeImports: true,
+        removeDuplicateHeadings: true,
+        includeOrder: [
+          "getting-started/**/*",
+          "guides-concepts/**/*",
+          "data/**/*",
+          "authentication/**/*",
+          "authorization/**/*",
+          "routing/**/*",
+          "realtime/**/*",
+          "notification/**/*",
+          "audit-logs/**/*",
+          "core/**/*",
+          "ui-integrations/**/*",
+          "packages/**/*",
+          "advanced-tutorials/**/*",
+          "examples/**/*",
+          "further-readings/**/*",
+          "migration-guide/**/*",
+        ],
+        ignoreFiles: ["partials/**/*"],
+        rootContent: `Refine is a meta-framework for building enterprise-grade, production-ready internal tools, admin panels, dashboards, and B2B applications using React.
+
+Key features:
+- **Headless by design**: Works with any UI library (shadcn/ui, Ant Design, Material UI, Mantine, Chakra UI, or custom)
+- **Data provider agnostic**: Connects to any REST, GraphQL, or custom API backend
+- **Authentication & Authorization**: Built-in auth provider and access control (Casbin, Cerbos, Permify, etc.)
+- **Routing**: Supports React Router, Next.js, and Remix
+- **Realtime**: Live data updates with built-in support
+- **i18n**: Internationalization support out of the box
+- **Audit Logs**: Track data changes automatically
+
+Documentation: https://refine.dev/core/docs/
+GitHub: https://github.com/refinedev/refine
+License: MIT`,
       },
     ],
   ],
@@ -219,7 +278,7 @@ const siteConfig = {
         },
       ],
     },
-    image: "img/refine_social.png",
+    image: "img/refine-core-social.png",
     algolia: {
       appId: "KRR9VEUPCT",
       apiKey: "cd0188125dcd31fb4b011b5e536d963a",
@@ -242,7 +301,7 @@ const siteConfig = {
         src: "img/refine_logo.png",
       },
       items: [
-        { to: "blog", label: "Blog", position: "left" },
+        { to: "/blog/", label: "Blog", position: "left" },
         {
           type: "docsVersionDropdown",
           position: "right",
@@ -276,15 +335,15 @@ const siteConfig = {
           items: [
             {
               label: "Getting Started",
-              to: "docs",
+              to: "/core/docs/",
             },
             {
               label: "Tutorials",
-              to: "tutorial",
+              to: "/core/tutorial/",
             },
             {
               label: "Blog",
-              to: "blog",
+              to: "/blog/",
             },
           ],
         },
@@ -293,15 +352,11 @@ const siteConfig = {
           items: [
             {
               label: "Examples",
-              to: "examples",
+              to: "/core/docs/examples/",
             },
             {
               label: "Integrations",
-              to: "integrations",
-            },
-            {
-              label: "Become an Expert",
-              to: "become-a-refine-expert",
+              to: "/core/integrations/",
             },
           ],
         },
@@ -310,11 +365,7 @@ const siteConfig = {
           items: [
             {
               label: "About",
-              to: "about",
-            },
-            {
-              label: "Store 🎁",
-              to: "https://store.refine.dev",
+              to: "/about/",
             },
           ],
         },
@@ -323,20 +374,8 @@ const siteConfig = {
           items: [
             {
               label: "License",
-              to: "https://github.com/refinedev/refine/blob/master/LICENSE",
+              to: "https://github.com/refinedev/refine/blob/main/LICENSE",
             },
-            // {
-            //     label: "Terms",
-            //     to: "/enterprise",
-            // },
-            // {
-            //     label: "Privacy",
-            //     to: "/privacy-policy",
-            // },
-            // {
-            //     label: "info@refine.dev",
-            //     to: "mailto:info@refine.dev",
-            // },
           ],
         },
         {
@@ -382,7 +421,7 @@ const siteConfig = {
     contactTitle: "Contact",
     contactDescription: [
       "Refine Development Inc.",
-      "256 Chapman Road STE 105-4 Newark, DE 19702",
+      "447 Sutter St 405 San Francisco",
     ],
     contactEmail: "info@refine.dev",
     /** ---- */

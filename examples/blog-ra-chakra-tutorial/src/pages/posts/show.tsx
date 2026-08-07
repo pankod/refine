@@ -4,7 +4,7 @@ import { Heading } from "@chakra-ui/react";
 
 export const PostShow = () => {
   const { query: queryResult } = useShow({
-    metaData: {
+    meta: {
       populate: ["category"],
     },
   });
@@ -12,7 +12,10 @@ export const PostShow = () => {
 
   const record = data?.data;
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useOne({
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useOne({
     resource: "categories",
     id: record?.category?.id || "",
     queryOptions: {
@@ -26,33 +29,26 @@ export const PostShow = () => {
         Id
       </Heading>
       <NumberField value={record?.id ?? ""} />
-
       <Heading as="h5" size="sm" mt={4}>
         Title
       </Heading>
       <TextField value={record?.title} />
-
       <Heading as="h5" size="sm" mt={4}>
         Category
       </Heading>
-
-      {categoryIsLoading ? <>Loading...</> : <>{categoryData?.data?.title}</>}
-
+      {categoryIsLoading ? <>Loading...</> : <>{categoryData?.title}</>}
       <Heading as="h5" size="sm" mt={4}>
         Content
       </Heading>
       <TextField value={record?.content} />
-
       <Heading as="h5" size="sm" mt={4}>
         Created At
       </Heading>
       <DateField value={record?.createdAt} />
-
       <Heading as="h5" size="sm" mt={4}>
         Published At
       </Heading>
       <DateField value={record?.publishedAt} />
-
       <Heading as="h5" size="sm" mt={4}>
         Locale
       </Heading>

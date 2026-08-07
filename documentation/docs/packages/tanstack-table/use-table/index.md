@@ -1,5 +1,8 @@
 ---
-title: useTable
+title: "useTable Hook | Options, Patterns & Edge Cases in Refine v5: TanStack Table"
+display_title: "useTable"
+sidebar_label: "useTable"
+description: "Explore how to use the useTable hook in Refine v5. Explore best practices for pagination, sorting for real-world React admin panels. Hands-on examples included."
 source: /packages/react-table/src/useTable
 ---
 
@@ -10,11 +13,11 @@ import FilteringLivePreview from "../examples/\_partial-filtering-live-preview.m
 import RelationalLivePreview from "../examples/\_partial-relational-live-preview.md";
 import PropResource from "@site/src/partials/prop-resource";
 
-Refine offers a [TanStack Table][tanstack-table] adapter with [@refinedev/react-table][refine-react-table] that allows you to use the TanStack Table library with Refine. All features such as sorting, filtering, and pagination come out of the box. Under the hood it uses [`useList`](/docs/data/hooks/use-list) for the fetch. Since it is designed as headless, It expects you to handle the UI.
+Refine offers a [TanStack Table][tanstack-table] adapter with [@refinedev/react-table][refine-react-table] that allows you to use the TanStack Table library with Refine. All features such as sorting, filtering, and pagination come out of the box. Under the hood it uses [`useList`](/core/docs/data/hooks/use-list/) for the fetch. Since it is designed as headless, It expects you to handle the UI.
 
 All of [TanStack Table's][tanstack-table] features are supported and you can use all of the [TanStack Table's][tanstack-table] examples with no changes just copy and paste them into your project.
 
-`useTable` hook is extended from [`useTable`][use-table-core] hook from the [`@refinedev/core`](https://github.com/refinedev/refine/tree/master/packages/core) package. This means that you can use all the features of [`useTable`][use-table-core] hook.
+`useTable` hook is extended from [`useTable`][use-table-core] hook from the [`@refinedev/core`](https://github.com/refinedev/refine/tree/main/packages/core) package. This means that you can use all the features of [`useTable`][use-table-core] hook.
 
 ## Installation
 
@@ -52,9 +55,9 @@ It also syncs the sorting state with the URL if you enable the [`syncWithLocatio
 
 It also syncs the filtering state with the URL if you enable the [`syncWithLocation`](#syncwithlocation).
 
-By default, filter operators are set to "eq" for all fields. You can specify which field will be filtered with which filter operator with the `filterOperator` property in the `meta` object. Just be aware that the `filterOperator` must be a [`CrudOperators`](/docs/core/interface-references#crudoperators) type.
+By default, filter operators are set to "eq" for all fields. You can specify which field will be filtered with which filter operator with the `filterOperator` property in the `meta` object. Just be aware that the `filterOperator` must be a [`CrudOperators`](/core/docs/core/interface-references#crudoperators) type.
 
-If you're going to use [logical filters](/docs/core/interface-references#logicalfilter) (`and`, `or`), you can set `filterOperator` to `and` or `or` in the `meta` object. By design, logical filters do not have `field` property, instead they have `key` property to differentiate between filters if there are multiple filters with the same operator.
+If you're going to use [logical filters](/core/docs/core/interface-references#logicalfilter) (`and`, `or`), you can set `filterOperator` to `and` or `or` in the `meta` object. By design, logical filters do not have `field` property, instead they have `key` property to differentiate between filters if there are multiple filters with the same operator.
 
 By default, `id` field of the column is used as the `key` property. If you want to use a different field as the `key`, you can set the `filterKey` property in the `meta` object.
 
@@ -98,7 +101,7 @@ const MyComponent = () => {
 
 ## Realtime Updates
 
-> This feature is only available if you use a [Live Provider](/docs/realtime/live-provider).
+> This feature is only available if you use a [Live Provider](/core/docs/realtime/live-provider/).
 
 When the `useTable` hook is mounted, it will call the `subscribe` method from the `liveProvider` with some parameters such as `channel`, `resource` etc. It is useful when you want to subscribe to live updates.
 
@@ -132,7 +135,7 @@ useTable({
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### dataProviderName
 
@@ -146,7 +149,7 @@ useTable({
 });
 ```
 
-### pagination.current
+### pagination.currentPage
 
 Sets the initial value of the page index. Default value is `1`.
 
@@ -154,7 +157,7 @@ Sets the initial value of the page index. Default value is `1`.
 useTable({
   refineCoreProps: {
     pagination: {
-      current: 2,
+      currentPage: 2,
     },
   },
 });
@@ -180,7 +183,7 @@ It can be `"off"`, `"server"` or `"client"`. Default value is `"server"`.
 
 - **"off":** Pagination is disabled. All records will be fetched.
 - **"client":** Pagination is done on the client side. All records will be fetched and then the records will be paginated on the client side.
-- **"server":**: Pagination is done on the server side. Records will be fetched by using the `current` and `pageSize` values.
+- **"server":**: Pagination is done on the server side. Records will be fetched by using the `currentPage` and `pageSize` values.
 
 ```tsx
 useTable({
@@ -196,7 +199,7 @@ useTable({
 
 Sets the initial value of the sorter. The `initial` is not permanent. It will be cleared when the user changes the sorter. If you want to set a permanent value, use the `sorters.permanent` prop.
 
-[Refer to the `CrudSorting` interface for more information &#8594](/docs/core/interface-references#crudsorting)
+[Refer to the `CrudSorting` interface for more information &#8594](/core/docs/core/interface-references#crudsorting)
 
 ```tsx
 useTable({
@@ -217,7 +220,7 @@ useTable({
 
 Sets the permanent value of the sorter. The `permanent` is permanent and unchangeable. It will not be cleared when the user changes the sorter. If you want to set a temporary value, use the `sorters.initial` prop.
 
-[Refer to the `CrudSorting` interface for more information &#8594](/docs/core/interface-references#crudsorting)
+[Refer to the `CrudSorting` interface for more information &#8594](/core/docs/core/interface-references#crudsorting)
 
 ```tsx
 useTable({
@@ -255,7 +258,7 @@ useTable({
 
 Sets the initial value of the filter. The `initial` is not permanent. It will be cleared when the user changes the filter. If you want to set a permanent value, use the `filters.permanent` prop.
 
-[Refer to the `CrudFilters` interface for more information &#8594](/docs/core/interface-references#crudfilters)
+[Refer to the `CrudFilters` interface for more information &#8594](/core/docs/core/interface-references#crudfilters)
 
 ```tsx
 useTable({
@@ -277,7 +280,7 @@ useTable({
 
 Sets the permanent value of the filter. The `permanent` is permanent and unchangeable. It will not be cleared when the user changes the filter. If you want to set a temporary value, use the `filters.initial` prop.
 
-[Refer to the `CrudFilters` interface for more information &#8594](/docs/core/interface-references#crudfilters)
+[Refer to the `CrudFilters` interface for more information &#8594](/core/docs/core/interface-references#crudfilters)
 
 ```tsx
 useTable({
@@ -348,7 +351,7 @@ useTable({
 
 ### queryOptions
 
-`useTable` uses [`useList`](/docs/data/hooks/use-list) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery).
+`useTable` uses [`useList`](/core/docs/data/hooks/use-list/) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v5/docs/react/reference/useQuery).
 
 ```tsx
 useTable({
@@ -367,14 +370,14 @@ useTable({
 - Customizing the data provider methods for specific use cases.
 - Generating GraphQL queries using plain JavaScript Objects (JSON).
 
-[Refer to the `meta` section of the General Concepts documentation for more information &#8594](/docs/guides-concepts/general-concepts/#meta-concept)
+[Refer to the `meta` section of the General Concepts documentation for more information &#8594](/core/docs/guides-concepts/general-concepts/#meta-concept)
 
 In the following example, we pass the `headers` property in the `meta` object to the `create` method. With similar logic, you can pass any properties to specifically handle the data provider methods.
 
 ```tsx
 useTable({
   refineCoreProps: {
-    metaData: {
+    meta: {
       headers: { "x-meta-data": "true" },
     },
   },
@@ -388,10 +391,10 @@ const myDataProvider = {
     sorters,
     filters,
     // highlight-next-line
-    metaData,
+    meta,
   }) => {
     // highlight-next-line
-    const headers = metaData?.headers ?? {};
+    const headers = meta?.headers ?? {};
     const url = `${apiUrl}/${resource}`;
 
     //...
@@ -450,10 +453,10 @@ useTable({
 
 ### liveMode
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required.
 
 Determines whether to update data automatically ("auto") or not ("manual") if a related live event is received. It can be used to update and show data in Realtime throughout your app.
-For more information about live mode, please check [Live / Realtime](/docs/realtime/live-provider#livemode) page.
+For more information about live mode, please check [Live / Realtime](/core/docs/realtime/live-provider#livemode) page.
 
 ```tsx
 useTable({
@@ -465,7 +468,7 @@ useTable({
 
 ### onLiveEvent
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required.
 
 The callback function is executed when new events from a subscription have arrived.
 
@@ -481,41 +484,9 @@ useTable({
 
 ### liveParams
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required.
 
-Params to pass to liveProvider's [subscribe](/docs/realtime/live-provider#subscribe) method.
-
-### ~~initialCurrent~~ <PropTag deprecated />
-
-Use `pagination.current` instead.
-
-### ~~initialPageSize~~ <PropTag deprecated />
-
-Use `pagination.pageSize` instead.
-
-### ~~hasPagination~~ <PropTag deprecated />
-
-Use `pagination.mode` instead.
-
-### ~~initialSorter~~ <PropTag deprecated />
-
-Use `sorters.initial` instead.
-
-### ~~permanentSorter~~ <PropTag deprecated />
-
-Use `sorters.permanent` instead.
-
-### ~~initialFilter~~ <PropTag deprecated />
-
-Use `filters.initial` instead.
-
-### ~~permanentFilter~~ <PropTag deprecated />
-
-Use `filters.permanent` instead.
-
-### ~~defaultSetFilterBehavior~~ <PropTag deprecated />
-
-Use `filters.defaultBehavior` instead.
+Params to pass to liveProvider's [subscribe](/core/docs/realtime/live-provider#subscribe) method.
 
 ## Return Values
 
@@ -525,7 +496,7 @@ It also have all return values of [TanStack Table](https://tanstack.com/table/v8
 
 #### tableQuery
 
-Returned values from [`useList`](/docs/data/hooks/use-list) hook.
+Returned values from [`useList`](/core/docs/data/hooks/use-list/) hook.
 
 ### sorters
 
@@ -553,11 +524,11 @@ Current [filters state][crudfilters].
 
 A function to set current [filters state][crudfilters].
 
-#### current
+#### currentPage
 
 Current page index state. If pagination is disabled, it will be `undefined`.
 
-#### setCurrent
+#### setCurrentPage
 
 ```tsx
 React.Dispatch<React.SetStateAction<number>> | undefined;
@@ -589,21 +560,11 @@ Total page count state. If pagination is disabled, it will be `undefined`.
 
 A function creates accessible links for `syncWithLocation`. It takes [SyncWithLocationParams][syncwithlocationparams] as parameters.
 
-### ~~sorter~~ <PropTag deprecated />
-
-Use `sorters` instead.
-
-Current [sorters state][crudsorting].
-
-### ~~setSorter~~ <PropTag deprecated />
-
-Use `setSorters` instead.
-
 ## FAQ
 
 ### How can I handle relational data?
 
-You can use [`useMany`](/docs/data/hooks/use-many) hook to fetch relational data.
+You can use [`useMany`](/core/docs/data/hooks/use-many/) hook to fetch relational data.
 
 <RelationalLivePreview/>
 
@@ -651,9 +612,9 @@ useTable({
 
 ### Return values
 
-| Property                     | Description                                                                                     | Type                                                               |
-| ---------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| refineCore                   | The return values of the [`useTable`][use-table-core] in the core                               | [`UseTableReturnValues`](/docs/data/hooks/use-table#return-values) |
+| Property                     | Description                                                                                     | Type                                                                    |
+| ---------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| refineCore                   | The return values of the [`useTable`][use-table-core] in the core                               | [`UseTableReturnValues`](/core/docs/data/hooks/use-table#return-values) |
 | Tanstack Table Return Values | See [TanStack Table](https://tanstack.com/table/v8/docs/api/core/table#table-api) documentation |
 
 ## Example
@@ -661,12 +622,12 @@ useTable({
 <CodeSandboxExample path="table-react-table-basic" />
 
 [tanstack-table]: https://tanstack.com/table/v8
-[refine-react-table]: https://github.com/refinedev/refine/tree/master/packages/react-table
-[use-table-core]: /docs/data/hooks/use-table
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
-[syncwithlocationparams]: /docs/core/interface-references#syncwithlocationparams
-[notification-provider]: /docs/notification/notification-provider
-[crudsorting]: /docs/core/interface-references#crudsorting
-[crudfilters]: /docs/core/interface-references#crudfilters
-[Refine swl]: /docs/core/refine-component#syncwithlocation
+[refine-react-table]: https://github.com/refinedev/refine/tree/main/packages/react-table
+[use-table-core]: /core/docs/data/hooks/use-table
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror
+[syncwithlocationparams]: /core/docs/core/interface-references#syncwithlocationparams
+[notification-provider]: /core/docs/notification/notification-provider
+[crudsorting]: /core/docs/core/interface-references#crudsorting
+[crudfilters]: /core/docs/core/interface-references#crudfilters
+[Refine swl]: /core/docs/core/refine-component#syncwithlocation

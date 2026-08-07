@@ -15,36 +15,49 @@ import { Table, Radio, Select, Input } from "antd";
 import type { ICategory, IPost } from "../../interfaces";
 
 export const PostList = () => {
-  const { tableProps, sorter, filters } = useTable<IPost>({
-    initialSorter: [
-      {
-        field: "title",
-        order: "asc",
-      },
-    ],
-    initialFilter: [
-      {
-        field: "title",
-        operator: "contains",
-        value: "",
-      },
-      {
-        field: "status",
-        operator: "eq",
-        value: "draft",
-      },
-      {
-        field: "category.id",
-        operator: "in",
-        value: [1, 2],
-      },
-    ],
+  const {
+    tableProps,
+    sorters: sorter,
+    filters,
+  } = useTable<IPost>({
     syncWithLocation: true,
+
+    filters: {
+      initial: [
+        {
+          field: "title",
+          operator: "contains",
+          value: "",
+        },
+        {
+          field: "status",
+          operator: "eq",
+          value: "draft",
+        },
+        {
+          field: "category.id",
+          operator: "in",
+          value: [1, 2],
+        },
+      ],
+    },
+
+    sorters: {
+      initial: [
+        {
+          field: "title",
+          order: "asc",
+        },
+      ],
+    },
   });
 
   const categoryIds =
     tableProps.dataSource?.map((p) => p.category.id.toString()) || [];
-  const { data, isFetching } = useMany<ICategory>({
+  const {
+    result: data,
+    query: { isFetching },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -57,6 +70,10 @@ export const PostList = () => {
     optionLabel: "title",
     optionValue: "id",
     defaultValue: getDefaultFilter("category.id", filters, "in"),
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

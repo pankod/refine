@@ -52,40 +52,22 @@ export const LandingPackages: FC<Props> = ({ className }) => {
         <h2
           className={clsx(
             "text-2xl landing-sm:text-[32px]",
-            "tracking-tight",
+            "tracking-normal",
             "text-start",
             "p-0",
-            "dark:text-gray-0 text-gray-900",
+            "text-white",
           )}
         >
           Start{" "}
-          <span
-            className={clsx(
-              "font-semibold",
-              "dark:text-refine-green-alt dark:drop-shadow-[0_0_30px_rgba(71,235,235,0.3)]",
-              "text-refine-blue drop-shadow-[0_0_30px_rgba(0,128,255,0.3)]",
-            )}
-          >
+          <span className={clsx("font-semibold", "text-orange-400")}>
             faster
           </span>
           , maintain{" "}
-          <span
-            className={clsx(
-              "font-semibold",
-              "dark:text-refine-cyan-alt dark:drop-shadow-[0_0_30px_rgba(71,235,235,0.25)]",
-              "text-refine-indigo drop-shadow-[0_0_30px_rgba(51,51,255,0.3)]",
-            )}
-          >
+          <span className={clsx("font-semibold", "text-orange-400")}>
             easier
           </span>
           , manage{" "}
-          <span
-            className={clsx(
-              "font-semibold",
-              "dark:text-refine-red dark:drop-shadow-[0_0_30px_rgba(255,76,77,0.4)]",
-              "text-refine-purple drop-shadow-[0_0_30px_rgba(128,0,255,0.3)]",
-            )}
-          >
+          <span className={clsx("font-semibold", "text-orange-400")}>
             complexity
           </span>
           .
@@ -96,15 +78,15 @@ export const LandingPackages: FC<Props> = ({ className }) => {
         className={clsx(
           "w-full",
           "relative",
-          "mt-8 landing-sm:mt-12 landing-lg:mt-20",
+          "mt-6 landing-sm:mt-12",
           "pb-4 landing-md:pb-10",
-          "dark:bg-landing-packages-dark bg-landing-packages",
-          "dark:bg-gray-800 bg-gray-50",
-          "rounded-2xl landing-sm:rounded-3xl",
+          "bg-landing-packages-dark",
+          "bg-zinc-800",
+          "rounded-xl",
           "overflow-hidden",
         )}
       >
-        <div className={clsx("landing-packages-mask", "pt-4 landing-md:pt-10")}>
+        <div className={clsx("landing-packages-mask", "pt-4 landing-md:pt-6")}>
           <PackagesContainer animDirection="right">
             {[...listOne, ...listOne].map(
               ({ icon: Icon, label, tooltip }, index) => (
@@ -143,7 +125,7 @@ export const LandingPackages: FC<Props> = ({ className }) => {
               "p-0",
               "font-semibold",
               "text-base landing-sm:text-2xl",
-              "dark:text-gray-300 text-gray-900",
+              "text-white",
             )}
           >
             Seamless connectivity
@@ -163,13 +145,13 @@ export const LandingPackages: FC<Props> = ({ className }) => {
                 "p-0",
                 "mt-2 landing-sm:mt-4",
                 "text-base",
-                "dark:text-gray-400 text-gray-600",
+                "text-zinc-300",
               )}
             >
               Out-of-the box integrations for 15+ services including custom REST
-              and GraphQL API’s.
+              and GraphQL API's.
             </p>
-            <LandingSectionCtaButton to="/integrations">
+            <LandingSectionCtaButton to="/core/integrations">
               All integrations
             </LandingSectionCtaButton>
           </div>
@@ -246,7 +228,8 @@ const PackageItem = (props: {
         "justify-center",
         "gap-3",
         "pl-4 pt-4 pb-4 pr-6",
-        "dark:bg-gray-900 bg-gray-0",
+        "bg-zinc-900",
+        "backdrop-blur-[6px]",
         "rounded-full",
         "cursor-pointer",
       )}
@@ -256,9 +239,7 @@ const PackageItem = (props: {
         className={clsx(
           "text-sm",
           "font-medium",
-          "dark:bg-landing-packages-text-dark bg-landing-packages-text",
-          "bg-clip-text",
-          "text-transparent",
+          "text-white",
           "whitespace-nowrap",
         )}
       >
@@ -280,8 +261,8 @@ const PackageItem = (props: {
           className={clsx(
             "relative",
             "text-sm",
-            "dark:bg-gray-0 bg-gray-900",
-            "dark:text-gray-700 text-gray-300",
+            "bg-gray-900",
+            "text-gray-300",
             "rounded-full",
             "px-6",
             "py-3",
@@ -305,7 +286,7 @@ const PackageItem = (props: {
             "group-hover:scale-100",
             "transition-transform",
             "origin-bottom",
-            "dark:text-gray-0 text-gray-900",
+            "text-gray-900",
           )}
         >
           <path

@@ -1,5 +1,147 @@
 # @refinedev/hasura
 
+## 7.0.1
+
+### Patch Changes
+
+- [#7086](https://github.com/refinedev/refine/pull/7086) [`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3) Thanks [@BatuhanW](https://github.com/BatuhanW)! - feat: disable minify
+
+  Resolves #6417
+
+## 7.0.0
+
+### Patch Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix(test): update Jest assertions and configuration for v30 compatibility
+
+  - Updated test infrastructure with modern Jest API usage and improved configuration.
+  - Internal development dependency updates and tooling modernization - no public API changes.
+
+- Updated dependencies [[`807099eecb4e8d41b1cf9ab557d71d34d12bec35`](https://github.com/refinedev/refine/commit/807099eecb4e8d41b1cf9ab557d71d34d12bec35), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/core@5.0.0
+
+## 6.6.14
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- meta.gqlVariables now passed to createMany query for Hasura data provider
+
+📢 **Refine Community Release** 📢
+
+- meta.gqlVariables now passed to deleteOne query for Hasura data provider
+
+📢 **Refine Community Release** 📢
+
+- meta.gqlVariables now passed to update query for Hasura data provider
+
+📢 **Refine Community Release** 📢
+
+- Hasura live provider now uses hasura-default as default naming convention
+
+📢 **Refine Community Release** 📢
+
+- meta.gqlVariables now passed to create query for Hasura data provider
+
+📢 **Refine Community Release** 📢
+
+- meta.gqlVariables now passed to deleteMany query for Hasura data provider
+
+📢 **Refine Community Release** 📢
+
+- meta.gqlVariables now passed to updateMany query for Hasura data provider
+
+📢 **Refine Community Release** 📢
+
+- meta.gqlVariables now passed to custom query for Hasura data provider
+
+## 6.6.13
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6783](https://github.com/refinedev/refine/pull/6783) [`cce3f5b749a174155d48932d99aabf24eb1f7558`](https://github.com/refinedev/refine/commit/cce3f5b749a174155d48932d99aabf24eb1f7558) Thanks [@thanaParis](https://github.com/thanaParis)! - meta.gqlVariables now passed to createMany query for Hasura data provider
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6793](https://github.com/refinedev/refine/pull/6793) [`12977e97e68694b494112135df1234522056e1ef`](https://github.com/refinedev/refine/commit/12977e97e68694b494112135df1234522056e1ef) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - meta.gqlVariables now passed to deleteOne query for Hasura data provider
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6776](https://github.com/refinedev/refine/pull/6776) [`27f626c06d2c10c4f4d41c1917dce24535bbafe5`](https://github.com/refinedev/refine/commit/27f626c06d2c10c4f4d41c1917dce24535bbafe5) Thanks [@thanaParis](https://github.com/thanaParis)! - meta.gqlVariables now passed to update query for Hasura data provider
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6784](https://github.com/refinedev/refine/pull/6784) [`66ea5267d62674e35051d24dc7c6ab8f4e5f47ed`](https://github.com/refinedev/refine/commit/66ea5267d62674e35051d24dc7c6ab8f4e5f47ed) Thanks [@thanaParis](https://github.com/thanaParis)! - Hasura live provider now uses hasura-default as default naming convention
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6777](https://github.com/refinedev/refine/pull/6777) [`82ea31540ea8f89b104ec0c809fcb6370ccd6f9f`](https://github.com/refinedev/refine/commit/82ea31540ea8f89b104ec0c809fcb6370ccd6f9f) Thanks [@thanaParis](https://github.com/thanaParis)! - meta.gqlVariables now passed to create query for Hasura data provider
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6793](https://github.com/refinedev/refine/pull/6793) [`12977e97e68694b494112135df1234522056e1ef`](https://github.com/refinedev/refine/commit/12977e97e68694b494112135df1234522056e1ef) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - meta.gqlVariables now passed to deleteMany query for Hasura data provider
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6782](https://github.com/refinedev/refine/pull/6782) [`45e47b11bd062c1eafcfb6b156e9f9b1b35c25a6`](https://github.com/refinedev/refine/commit/45e47b11bd062c1eafcfb6b156e9f9b1b35c25a6) Thanks [@thanaParis](https://github.com/thanaParis)! - meta.gqlVariables now passed to updateMany query for Hasura data provider
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6779](https://github.com/refinedev/refine/pull/6779) [`272ac4f10972b29b67a9d48526f146d86ee23242`](https://github.com/refinedev/refine/commit/272ac4f10972b29b67a9d48526f146d86ee23242) Thanks [@thanaParis](https://github.com/thanaParis)! - meta.gqlVariables now passed to custom query for Hasura data provider
+
+## 6.6.12
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- refactored HasuraDataProviderOptions to extend HasuraProviderOptions in new src/types/ folder
+  added HasuraLiveProviderOptions which extends HasuraProviderOptions as argument to hasura's liveProvider
+
+📢 **Refine Community Release** 📢
+
+- added IDTag and NamingConvention to hasura's liveProvider subscription generators
+
+📢 **Refine Community Release** 📢
+
+- 'camelcase' utility imported twice from camelcase, with different capitalization. refactored to only import 'camelcase' since 'camelCase' is used by lodash, which is also in the dependency tree.
+
+## 6.6.11
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6736](https://github.com/refinedev/refine/pull/6736) [`d628a62bb61bbb21eb84040e926f37b8e7511ea2`](https://github.com/refinedev/refine/commit/d628a62bb61bbb21eb84040e926f37b8e7511ea2) Thanks [@thanaParis](https://github.com/thanaParis)! - refactored HasuraDataProviderOptions to extend HasuraProviderOptions in new src/types/ folder
+  added HasuraLiveProviderOptions which extends HasuraProviderOptions as argument to hasura's liveProvider
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6737](https://github.com/refinedev/refine/pull/6737) [`96693589a7a1a456a170345c246183a8f24f3281`](https://github.com/refinedev/refine/commit/96693589a7a1a456a170345c246183a8f24f3281) Thanks [@thanaParis](https://github.com/thanaParis)! - added IDTag and NamingConvention to hasura's liveProvider subscription generators
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6735](https://github.com/refinedev/refine/pull/6735) [`33c93b585186fd123f7c7d7e7349bf4eafe67899`](https://github.com/refinedev/refine/commit/33c93b585186fd123f7c7d7e7349bf4eafe67899) Thanks [@thanaParis](https://github.com/thanaParis)! - 'camelcase' utility imported twice from camelcase, with different capitalization. refactored to only import 'camelcase' since 'camelCase' is used by lodash, which is also in the dependency tree.
+
+## 6.6.10
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- chore: update package descriptions
+
+## 6.6.9
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6554](https://github.com/refinedev/refine/pull/6554) [`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706) Thanks [@necatiozmen](https://github.com/necatiozmen)! - chore: update package descriptions
+
 ## 6.6.8
 
 ### Patch Changes

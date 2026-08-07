@@ -122,9 +122,9 @@ console.log(canCreatePost); // { can: false, reason: "Unauthorized" }
 
 ### Type Parameters
 
-| Property                                                         | Desription                                                                          |
-| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| [CanReturnType](/api-reference/core/interfaces.md#canreturntype) | Result data of the query [`HttpError`](/api-reference/core/interfaces.md#httperror) |
+| Property                                                                        | Desription                                                                                         |
+| ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| [CanReturnType](/core/docs/3.xx.xx/api-reference/core/interfaces#canreturntype) | Result data of the query [`HttpError`](/core/docs/3.xx.xx/api-reference/core/interfaces#httperror) |
 
 ### Return values
 
@@ -132,8 +132,8 @@ console.log(canCreatePost); // { can: false, reason: "Unauthorized" }
 | ------------------------------------------------------------------------ | ---------------------------------------------------------------- |
 | Result of the [TanStack Query's][tanstack-query] [`useQuery`][use-query] | [`QueryObserverResult<{ data: CanReturnType; }>`][query-options] |
 
-[access-control-provider]: /docs/3.xx.xx/api-reference/core/providers/accessControl-provider/
+[access-control-provider]: /core/docs/3.xx.xx/api-reference/core/providers/accessControl-provider/
 [use-query]: https://tanstack.com/query/latest/docs/react/guides/queries
 [tanstack-query]: https://tanstack.com/query/latest
 [query-options]: https://tanstack.com/query/v4/docs/react/reference/useQuery
-[can-params]: /docs/3.xx.xx/api-reference/core/interfaceReferences/#canparams
+[can-params]: /core/docs/3.xx.xx/api-reference/core/interfaceReferences/#canparams

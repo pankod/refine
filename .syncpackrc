@@ -24,7 +24,41 @@
     {
       "dependencies": ["nock"],
       "dependencyTypes": ["dev"],
-      "packages": ["@refinedev/appwrite", "@refinedev/graphql"],
+      "packages": [
+        "@refinedev/appwrite",
+        "@refinedev/graphql",
+        "@refinedev/nestjsx-crud",
+        "@refinedev/rest",
+        "@refinedev/supabase"
+      ],
+      "isIgnored": true
+    },
+    {
+      "dependencies": [
+        "next",
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom"
+      ],
+      "packages": ["with-nextjs-headless"],
+      "isIgnored": true
+    },
+    {
+      "dependencies": [
+        "next",
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom",
+        "eslint",
+        "postcss",
+        "tailwindcss",
+        "recharts",
+        "clsx",
+        "@netlify/plugin-nextjs"
+      ],
+      "packages": ["@refinedev/refine-ui"],
       "isIgnored": true
     }
   ]

@@ -1,13 +1,9 @@
-import { mockLegacyRouterProvider, mockRouterProvider } from "@test/index";
+import { mockRouterProvider } from "@test/index";
 
 import { checkRouterPropMisuse } from ".";
 
 describe("checkRouterPropMisuse", () => {
-  it("should return false when pass routerBindings", () => {
+  it("should return false when pass routerProvider", () => {
     expect(checkRouterPropMisuse(mockRouterProvider())).toBeFalsy();
-  });
-
-  it("should return true when pass legacyRouterProvider", () => {
-    expect(checkRouterPropMisuse(mockLegacyRouterProvider())).toBeTruthy();
   });
 });

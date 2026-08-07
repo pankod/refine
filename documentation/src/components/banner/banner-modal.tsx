@@ -8,6 +8,7 @@ import { CloseIcon } from "@site/src/refine-theme/icons/close";
 import useScrollTracker from "@site/src/hooks/use-scroll-tracker";
 import useLocalStorage from "@site/src/hooks/use-localstorage";
 import { useLocation } from "@docusaurus/router";
+import { pushGtmEvent } from "@site/src/utils/gtm";
 
 const SCROLL_TRESHOLD = 79;
 const SCROLL_MAX = 100;
@@ -34,11 +35,11 @@ export const BannerModal: FC<Props> = ({
   image = {
     src: "https://refine.ams3.cdn.digitaloceanspaces.com/website/static/banners/playground.gif",
     alt: "refine App screenshot",
-    href: "https://s.refine.dev/banner-modal?ref=banner-modal",
+    href: "https://refine.dev/?ref=banner-modal",
   },
   button = {
     text: "Try online",
-    href: "https://s.refine.dev/banner-modal?ref=banner-modal",
+    href: "https://refine.dev/?ref=banner-modal",
     onClick: undefined,
   },
 }) => {
@@ -67,17 +68,13 @@ export const BannerModal: FC<Props> = ({
   }, [tracker.scrollY]);
 
   useEffect(() => {
-    if (
-      isOpen &&
-      typeof window !== "undefined" &&
-      typeof window.gtag !== "undefined"
-    ) {
-      window.gtag("event", "view_banner", {
-        banner_name: "banner-modal",
-        banner_text: title,
-        banner_image: image.src,
-      });
-    }
+    if (!isOpen || typeof window === "undefined") return;
+    pushGtmEvent({
+      event: "view_banner",
+      banner_name: "banner-modal",
+      banner_text: title,
+      banner_image: image.src,
+    });
   }, [isOpen]);
 
   return (
@@ -140,7 +137,7 @@ export const BannerModal: FC<Props> = ({
                     <Link
                       to={image?.href ?? button?.href}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener"
                       className={clsx(
                         "flex",
                         "h-auto xl:h-[192px]",
@@ -175,7 +172,7 @@ export const BannerModal: FC<Props> = ({
                       href={button.href}
                       onClick={button.onClick}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener"
                     >
                       <div
                         className={clsx(

@@ -3,8 +3,9 @@ title: Kubernetes Operators
 description: This article digs deep into the essence of Kubernetes operators, explaining their purpose, functionality, and how they are actually implemented.
 slug: kubernetes-operators
 authors: muhammad_khabbab
-tags: [kubernetes, docker]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-12-k8s-operators/social.png
+category: "Engineering"
+tags: [kubernetes]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-12-k8s-operators/social.png
 hide_table_of_contents: false
 ---
 
@@ -109,7 +110,7 @@ For Windows, the binary is not supported, you will need to use `WSL` on Windows.
 See the below screenshot of all these steps that I performed on my Ubuntu:
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-12-k8s-operators/image2.png" alt="installing operator sdk" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-12-k8s-operators/image2.webp" alt="Terminal commands installing Operator SDK on Ubuntu" />
 </div>
 
 ### **Creating a New Operator:**
@@ -127,7 +128,7 @@ Here are the details of these parameters:
 **`--repo`**: This is used for Go module naming. If you're not planning to push your operator code to a remote repository, you can set this to any valid URL format. It doesn't need to point to an existing repository.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-12-k8s-operators/image3.png" alt="creating operator project" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-12-k8s-operators/image3.png" alt="operator-sdk init output creating a new operator project" />
 </div>
 
 2- Create API and controller within the same directory:
@@ -136,7 +137,7 @@ Here are the details of these parameters:
 You will notice that folders of `api` and `controllers` are now created automatically.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-12-k8s-operators/image9.png" alt="controllers and api folders" /></div>
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-12-k8s-operators/image9.png" alt="Project tree showing api and controllers folders" /></div>
 
 ### Developing Your Operator
 
@@ -238,7 +239,7 @@ make manifests
 ```
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-12-k8s-operators/image4.png" alt="Generating CRD and RBAC Manifests" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-12-k8s-operators/image4.png" alt="make generate and make manifests output for CRD and RBAC files" />
 </div>
 
 ### Testing Your Operator
@@ -254,7 +255,7 @@ Before testing the operator, you need to ensure that your `kubectl` is configure
 See the below screenshot when I executed this command on my Ubuntu.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-12-k8s-operators/image5.png" alt="Running operator" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-12-k8s-operators/image5.png" alt="make run output starting the operator controller" />
 </div>
 
 3- The last step is to apply a custom resource (CR) YAML file to the cluster using `kubectl apply -f`, It creates an instance of a custom resource defined by your operator. In other words, you are telling Kubernetes to create a specific type of resource that your operator is designed to manage. This is how you request your operator to perform a certain task or provide a specific service.
@@ -273,13 +274,13 @@ spec:
 Just apply through `kubectl apply -f` Now you have the terminal window open where `make run` was executed, just check any new logs there. As you can see in below screenshot, the highlighted log shows the successful operator reconciliation.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-12-k8s-operators/image6.png" alt="Operator reconciling" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-12-k8s-operators/image6.png" alt="Operator logs showing successful reconciliation" />
 </div>
 
 You can check the status of your custom resource through the command `kubectl get appservices`. See the below screenshot showing this command output:
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-01-12-k8s-operators/image7.png" alt="checking operator status" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-01-12-k8s-operators/image7.png" alt="kubectl get appservices output showing custom resources" />
 </div>
 
 Congratulations!!! you have created and deployed your first Kubernetes operator. It was not that hard !!!! Here is a brief summary of the role of the major components we created today:

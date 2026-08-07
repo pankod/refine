@@ -3,9 +3,11 @@ title: Using Heroicons with TailwindCSS
 description: In this post, we see how to use Heroicons with TailwindCSS.
 slug: heroicons-with-tailwind
 authors: abdullah_numan
-tags: [tailwind, css]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-18-heroicons/social.png
+category: "Ecosystem / Integrations"
+tags: [tailwind]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-18-heroicons/social.png
 hide_table_of_contents: false
+last_update: 2024-08-20
 ---
 
 **This article was last updated on August 19, 2024, to add sections on Customizing Heroicons and Optimizing Icon Performance.**
@@ -24,15 +26,9 @@ In this post, we use Heroicons with both TailwindCSS and non-Tailwind classes. W
 
 The existing navbar is available in [this repository](https://github.com/anewman15/navbar-hero). As using Heroicons is pretty easy, to grasp how the examples work, it is enough just to follow the JSX. If you want to run the app and see what's going on in the browser when the style changes, please follow the steps below to clone the repo and run it locally.
 
-Steps we'll cover:
-
-- [A Navbar with Heroicons](#a-navbar-with-heroicons)
-- [Customizing Heroicons](#customizing-heroicons)
-- [Optimizing Icon Performance](#optimizing-icon-performance)
-
 ## Preparation
 
-Clone the repository [here](https://github.com/refinedev/refine/tree/master/examples/blog-heroicons-example).
+Clone the repository [here](https://github.com/refinedev/refine/tree/main/examples/blog-heroicons-example).
 
 Then open it in your code editor and run:
 
@@ -247,7 +243,7 @@ body {
 The navbar now looks like this:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-18-heroicons/navbar-initial2.gif"  alt="tailwind flex" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-18-heroicons/navbar-initial2.avif"  alt="Navbar layout before adding Heroicons" />
 </div>
 
 <br/>
@@ -406,7 +402,7 @@ For the `<UserIcon />`, we are applying a `glow` class that animates the icon wi
 With the above changes Heroicons and their styles, the navbar looks like this:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-18-heroicons/navbar-heroicons2.gif"  alt="tailwind flex" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-18-heroicons/navbar-heroicons2.avif"  alt="Navbar with Heroicons added" />
 </div>
 
 <br/>
@@ -426,7 +422,7 @@ Native `<svg>` properties passed to Heroicons also get relayed to the `<svg>` el
 Okay. Now, we'll consider the case for responsive use of Heroicons. We want each nav item to have its own icon left of its text. Like this:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-18-heroicons/icon-items.gif"  alt="tailwind flex" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-18-heroicons/icon-items.avif"  alt="List of navigation items with Heroicons" />
 </div>
 
 <br/>

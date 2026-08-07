@@ -1,10 +1,12 @@
 ---
-title: useIsAuthenticated
-description: useIsAuthenticated data hook from Refine is a modified version of react-query's useMutation for create mutations
+title: "useIsAuthenticated Hook | Authentication | Refine v5"
+display_title: "useIsAuthenticated"
+sidebar_label: "useIsAuthenticated"
+description: "Explore how to use the useIsAuthenticated hook in Refine v5. Learn how to secure OAuth, JWT for secure enterprise React apps. Learn with code examples."
 source: /packages/core/src/hooks/auth/useIsAuthenticated/index.ts
 ---
 
-`useIsAuthenticated` calls the `check` method from the [`authProvider`](/docs/authentication/auth-provider) under the hood.
+`useIsAuthenticated` calls the `check` method from the [`authProvider`](/core/docs/authentication/auth-provider/) under the hood.
 
 It returns the result of `react-query`'s `useQuery` which includes many properties, some of which being `isSuccess` and `isError`.
 
@@ -28,11 +30,11 @@ type CheckResponse = {
 
 `useIsAuthenticated` can be useful when you want to check for authentication and handle the result manually.
 
-We have used this hook in Refine's [`<Authenticated>`](/docs/authentication/components/authenticated) component, which allows only authenticated users to access the page or any part of the code.
+We have used this hook in Refine's [`<Authenticated>`](/core/docs/authentication/components/authenticated/) component, which allows only authenticated users to access the page or any part of the code.
 
 We will demonstrate a similar basic implementation below. Imagine that you have a public page, but you want to make some specific fields private.
 
-We have a logic in [`authProvider`](/docs/authentication/auth-provider)'s `check` method like below:
+We have a logic in [`authProvider`](/core/docs/authentication/auth-provider/) 's `check` method like below:
 
 ```tsx
 const authProvider: AuthProvider = {

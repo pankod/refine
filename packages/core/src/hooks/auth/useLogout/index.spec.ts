@@ -1,297 +1,17 @@
 import { renderHook, waitFor } from "@testing-library/react";
+import { vi } from "vitest";
 
 import { TestWrapper, act, mockRouterProvider, queryClient } from "@test";
 
-import { useCheckError, useOnError } from "../useOnError";
+import { useOnError } from "../useOnError";
 import { useLogout } from "./";
 
-const mockGo = jest.fn();
+const mockGo = vi.fn();
 
 const routerProvider = mockRouterProvider({
   fns: {
     go: () => mockGo,
   },
-});
-
-// NOTE : Will be removed in v5
-describe("v3LegacyAuthProviderCompatible useLogout Hook", () => {
-  beforeEach(() => {
-    mockGo.mockReset();
-
-    jest.spyOn(console, "error").mockImplementation((message) => {
-      if (
-        message?.message === "Logout rejected" ||
-        typeof message === "undefined"
-      )
-        return;
-
-      console.warn(message);
-    });
-  });
-
-  it("logout and redirect to login", async () => {
-    const { result } = renderHook(
-      () => useLogout({ v3LegacyAuthProviderCompatible: true }),
-      {
-        wrapper: TestWrapper({
-          legacyAuthProvider: {
-            isProvided: true,
-            login: () => Promise.resolve(),
-            checkAuth: () => Promise.resolve(),
-            checkError: () => Promise.resolve(),
-            getPermissions: () => Promise.resolve(),
-            logout: () => {
-              return Promise.resolve();
-            },
-            getUserIdentity: () => Promise.resolve(),
-          },
-          routerProvider,
-        }),
-      },
-    );
-
-    const { mutateAsync: logout } = result.current;
-
-    await act(async () => {
-      await logout();
-    });
-
-    await waitFor(() => {
-      return !result.current?.isLoading;
-    });
-
-    await act(async () => {
-      expect(mockGo).toBeCalledWith({ to: "/login" });
-    });
-  });
-
-  it("logout and not redirect", async () => {
-    const { result } = renderHook(
-      () => useLogout({ v3LegacyAuthProviderCompatible: true }),
-      {
-        wrapper: TestWrapper({
-          legacyAuthProvider: {
-            isProvided: true,
-            login: () => Promise.resolve(),
-            checkAuth: () => Promise.resolve(),
-            checkError: () => Promise.resolve(),
-            getPermissions: () => Promise.resolve(),
-            logout: () => {
-              return Promise.resolve(false);
-            },
-            getUserIdentity: () => Promise.resolve(),
-          },
-          routerProvider,
-        }),
-      },
-    );
-
-    const { mutateAsync: logout } = result.current;
-
-    await act(async () => {
-      await logout();
-    });
-
-    await waitFor(() => {
-      return !result.current?.isLoading;
-    });
-
-    await act(async () => {
-      expect(mockGo).not.toBeCalled();
-    });
-  });
-
-  it("logout and redirect to custom path", async () => {
-    const { result } = renderHook(
-      () =>
-        useLogout<{ redirectPath: string }>({
-          v3LegacyAuthProviderCompatible: true,
-        }),
-      {
-        wrapper: TestWrapper({
-          legacyAuthProvider: {
-            isProvided: true,
-            login: () => Promise.resolve(),
-            checkAuth: () => Promise.resolve(),
-            checkError: () => Promise.resolve(),
-            getPermissions: () => Promise.resolve(),
-            logout: ({ redirectPath }) => {
-              return Promise.resolve(redirectPath);
-            },
-            getUserIdentity: () => Promise.resolve(),
-          },
-          routerProvider,
-        }),
-      },
-    );
-
-    const { mutateAsync: logout } = result.current;
-
-    await act(async () => {
-      await logout({ redirectPath: "/custom-path" });
-    });
-
-    await waitFor(() => {
-      return result.current?.status === "success";
-    });
-
-    await act(async () => {
-      expect(mockGo).toBeCalledWith({ to: "/custom-path" });
-    });
-  });
-
-  it("logout rejected", async () => {
-    const { result } = renderHook(
-      () => useLogout({ v3LegacyAuthProviderCompatible: true }),
-      {
-        wrapper: TestWrapper({
-          legacyAuthProvider: {
-            isProvided: true,
-            login: () => Promise.resolve(),
-            checkAuth: () => Promise.resolve(),
-            checkError: () => Promise.resolve(),
-            getPermissions: () => Promise.resolve(),
-            logout: () => Promise.reject(new Error("Logout rejected")),
-            getUserIdentity: () => Promise.resolve(),
-          },
-        }),
-      },
-    );
-
-    const { mutateAsync: logout } = result.current;
-
-    await act(async () => {
-      try {
-        await logout();
-      } catch (error) {
-        expect(error).toEqual(new Error("Logout rejected"));
-      }
-    });
-  });
-
-  it("logout rejected with undefined error", async () => {
-    const { result } = renderHook(
-      () => useLogout({ v3LegacyAuthProviderCompatible: true }),
-      {
-        wrapper: TestWrapper({
-          legacyAuthProvider: {
-            isProvided: true,
-            login: () => Promise.resolve(),
-            checkAuth: () => Promise.resolve(),
-            checkError: () => Promise.resolve(),
-            getPermissions: () => Promise.resolve(),
-            logout: () => Promise.reject(),
-            getUserIdentity: () => Promise.resolve(),
-          },
-        }),
-      },
-    );
-
-    const { mutateAsync: logout } = result.current;
-
-    await act(async () => {
-      try {
-        await logout();
-      } catch (error) {
-        expect(error).not.toBeDefined();
-      }
-    });
-  });
-
-  it("logout and not redirect if check error rejected with false", async () => {
-    const { result } = renderHook(() => useCheckError(), {
-      wrapper: TestWrapper({
-        legacyAuthProvider: {
-          isProvided: true,
-          login: () => Promise.resolve(),
-          checkAuth: () => Promise.resolve(),
-          checkError: () => Promise.reject(false),
-          getPermissions: () => Promise.resolve(),
-          logout: () => Promise.resolve(),
-          getUserIdentity: () => Promise.resolve(),
-        },
-      }),
-    });
-
-    const { mutate: checkError } = result.current;
-
-    await act(async () => {
-      await checkError({});
-    });
-
-    await waitFor(() => {
-      expect(!result.current.isLoading).toBeTruthy();
-    });
-
-    await act(async () => {
-      expect(mockGo).toBeCalledTimes(0);
-    });
-  });
-
-  it("logout and not redirect if logout resolved false", async () => {
-    const { result } = renderHook(() => useCheckError(), {
-      wrapper: TestWrapper({
-        legacyAuthProvider: {
-          isProvided: true,
-          login: () => Promise.resolve(),
-          checkAuth: () => Promise.resolve(),
-          checkError: () => Promise.reject(),
-          getPermissions: () => Promise.resolve(),
-          logout: () => Promise.resolve(false),
-          getUserIdentity: () => Promise.resolve(),
-        },
-        routerProvider,
-      }),
-    });
-
-    const { mutate: checkError } = result.current;
-
-    await act(async () => {
-      await checkError({});
-    });
-
-    await waitFor(() => {
-      expect(!result.current.isLoading).toBeTruthy();
-    });
-
-    await act(async () => {
-      expect(mockGo).toBeCalledTimes(0);
-    });
-  });
-
-  it("logout and redirect to resolved custom path", async () => {
-    const { result } = renderHook(
-      () => useLogout({ v3LegacyAuthProviderCompatible: true }),
-      {
-        wrapper: TestWrapper({
-          legacyAuthProvider: {
-            isProvided: true,
-            login: () => Promise.resolve(),
-            checkAuth: () => Promise.resolve(),
-            checkError: () => Promise.reject(),
-            getPermissions: () => Promise.resolve(),
-            logout: () => Promise.resolve("/custom-path"),
-            getUserIdentity: () => Promise.resolve(),
-          },
-          routerProvider,
-        }),
-      },
-    );
-
-    const { mutate: logout } = result.current;
-
-    await act(async () => {
-      await logout();
-    });
-
-    await waitFor(() => {
-      return result.current?.status === "success";
-    });
-
-    await act(async () => {
-      expect(mockGo).toBeCalledWith({ to: "/custom-path" });
-    });
-  });
 });
 
 describe("useLogout Hook", () => {
@@ -303,7 +23,7 @@ describe("useLogout Hook", () => {
 
   beforeEach(() => {
     mockGo.mockReset();
-    jest.spyOn(console, "error").mockImplementation((message) => {
+    vi.spyOn(console, "error").mockImplementation((message) => {
       if (
         message?.message === "Logout rejected" ||
         typeof message === "undefined"
@@ -337,11 +57,11 @@ describe("useLogout Hook", () => {
     });
 
     await waitFor(() => {
-      return !result.current?.isLoading;
+      return !result.current?.isPending;
     });
 
     await act(async () => {
-      expect(mockGo).toBeCalledWith({ to: "/login" });
+      expect(mockGo).toHaveBeenCalledWith({ to: "/login" });
     });
   });
 
@@ -366,11 +86,11 @@ describe("useLogout Hook", () => {
     });
 
     await waitFor(() => {
-      return !result.current?.isLoading;
+      return !result.current?.isPending;
     });
 
     await act(async () => {
-      expect(mockGo).not.toBeCalled();
+      expect(mockGo).not.toHaveBeenCalled();
     });
   });
 
@@ -396,7 +116,7 @@ describe("useLogout Hook", () => {
     });
 
     await act(async () => {
-      expect(mockGo).toBeCalledWith(
+      expect(mockGo).toHaveBeenCalledWith(
         expect.objectContaining({ to: "/custom-path" }),
       );
     });
@@ -425,7 +145,7 @@ describe("useLogout Hook", () => {
     });
 
     await act(async () => {
-      expect(mockGo).toBeCalledWith({ to: "/custom-path" });
+      expect(mockGo).toHaveBeenCalledWith({ to: "/custom-path" });
     });
   });
 
@@ -509,22 +229,22 @@ describe("useLogout Hook", () => {
     });
 
     await waitFor(() => {
-      expect(!result.current.isLoading).toBeTruthy();
+      expect(!result.current.isPending).toBeTruthy();
     });
 
     await act(async () => {
-      expect(mockGo).toBeCalledTimes(0);
+      expect(mockGo).toHaveBeenCalledTimes(0);
     });
   });
 
   it("should open notification when has error is true", async () => {
-    const openNotificationMock = jest.fn();
+    const openNotificationMock = vi.fn();
 
     const { result } = renderHook(() => useLogout(), {
       wrapper: TestWrapper({
         notificationProvider: {
           open: openNotificationMock,
-          close: jest.fn(),
+          close: vi.fn(),
         },
         authProvider: {
           ...mockAuthProvider,
@@ -544,7 +264,7 @@ describe("useLogout Hook", () => {
     });
 
     await waitFor(() => {
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         key: "useLogout-error",
         type: "error",
         message: "Error",
@@ -554,13 +274,13 @@ describe("useLogout Hook", () => {
   });
 
   it("should open notification when has success is false, error is undefined", async () => {
-    const openNotificationMock = jest.fn();
+    const openNotificationMock = vi.fn();
 
     const { result } = renderHook(() => useLogout(), {
       wrapper: TestWrapper({
         notificationProvider: {
           open: openNotificationMock,
-          close: jest.fn(),
+          close: vi.fn(),
         },
         authProvider: {
           ...mockAuthProvider,
@@ -576,7 +296,7 @@ describe("useLogout Hook", () => {
     });
 
     await waitFor(() => {
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         key: "useLogout-error",
         type: "error",
         message: "Logout Error",
@@ -586,13 +306,17 @@ describe("useLogout Hook", () => {
   });
 
   it("should open notification when throw error", async () => {
-    const openNotificationMock = jest.fn();
+    const openNotificationMock = vi.fn();
+
+    vi.spyOn(console, "warn").mockImplementation((message) => {
+      return message;
+    });
 
     const { result } = renderHook(() => useLogout(), {
       wrapper: TestWrapper({
         notificationProvider: {
           open: openNotificationMock,
-          close: jest.fn(),
+          close: vi.fn(),
         },
         authProvider: {
           ...mockAuthProvider,
@@ -610,7 +334,7 @@ describe("useLogout Hook", () => {
     });
 
     await waitFor(() => {
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         key: "useLogout-error",
         type: "error",
         message: "Error",
@@ -620,8 +344,8 @@ describe("useLogout Hook", () => {
   });
 
   it("should override `mutationFn` with mutationOptions.mutationFn", async () => {
-    const logoutMock = jest.fn().mockResolvedValue({ data: {} });
-    const mutationFnMock = jest.fn().mockResolvedValue({ data: {} });
+    const logoutMock = vi.fn().mockResolvedValue({ data: {} });
+    const mutationFnMock = vi.fn().mockResolvedValue({ data: {} });
 
     const { result } = renderHook(
       () =>
@@ -648,12 +372,12 @@ describe("useLogout Hook", () => {
       expect(result.current.isSuccess).toBeTruthy();
     });
 
-    expect(logoutMock).not.toBeCalled();
-    expect(mutationFnMock).toBeCalled();
+    expect(logoutMock).not.toHaveBeenCalled();
+    expect(mutationFnMock).toHaveBeenCalled();
   });
 
   it("should override `mutationKey` with `mutationOptions.mutationKey`", async () => {
-    const logoutMock = jest.fn().mockResolvedValue({ data: {} });
+    const logoutMock = vi.fn().mockResolvedValue({ data: {} });
 
     const { result } = renderHook(
       () =>
@@ -686,7 +410,7 @@ describe("useLogout Hook", () => {
   });
 
   it("should open success notification when successNotification is passed", async () => {
-    const openNotificationMock = jest.fn();
+    const openNotificationMock = vi.fn();
 
     const successNotification = {
       message: "Logged out successfully!",
@@ -697,7 +421,7 @@ describe("useLogout Hook", () => {
       wrapper: TestWrapper({
         notificationProvider: {
           open: openNotificationMock,
-          close: jest.fn(),
+          close: vi.fn(),
         },
         authProvider: {
           ...mockAuthProvider,
@@ -720,85 +444,5 @@ describe("useLogout Hook", () => {
       message: "Logged out successfully!",
       description: "Operation completed successfully",
     });
-  });
-});
-
-// NOTE : Will be removed in v5
-describe("useLogout Hook authProvider selection", () => {
-  it("selects new authProvider", async () => {
-    const legacyLogoutMock = jest.fn(() => Promise.resolve());
-    const logoutMock = jest.fn(() =>
-      Promise.resolve({
-        success: true,
-      }),
-    );
-
-    const { result } = renderHook(() => useLogout(), {
-      wrapper: TestWrapper({
-        legacyAuthProvider: {
-          login: () => Promise.resolve(),
-          checkAuth: () => Promise.resolve(),
-          checkError: () => Promise.resolve(),
-          logout: () => legacyLogoutMock(),
-        },
-        authProvider: {
-          login: () => Promise.resolve({ success: true }),
-          check: () => Promise.resolve({ authenticated: true }),
-          onError: () => Promise.resolve({}),
-          logout: () => logoutMock(),
-        },
-      }),
-    });
-
-    const { mutate: login } = result.current;
-
-    await act(async () => {
-      login({});
-    });
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBeFalsy();
-    });
-
-    expect(legacyLogoutMock).not.toHaveBeenCalled();
-    expect(logoutMock).toHaveBeenCalled();
-  });
-
-  it("selects v3LegacyAuthProviderCompatible authProvider", async () => {
-    const legacyLogoutMock = jest.fn(() => Promise.resolve());
-    const logoutMock = jest.fn(() => Promise.resolve({ success: true }));
-
-    const { result } = renderHook(
-      () => useLogout({ v3LegacyAuthProviderCompatible: true }),
-      {
-        wrapper: TestWrapper({
-          legacyAuthProvider: {
-            login: () => Promise.resolve(),
-            checkAuth: () => Promise.resolve(),
-            checkError: () => Promise.resolve(),
-            logout: () => legacyLogoutMock(),
-          },
-          authProvider: {
-            login: () => Promise.resolve({ success: true }),
-            check: () => Promise.resolve({ authenticated: true }),
-            onError: () => Promise.resolve({}),
-            logout: () => logoutMock(),
-          },
-        }),
-      },
-    );
-
-    const { mutate: login } = result.current;
-
-    await act(async () => {
-      login({});
-    });
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBeFalsy();
-    });
-
-    expect(legacyLogoutMock).toHaveBeenCalled();
-    expect(logoutMock).not.toHaveBeenCalled();
   });
 });

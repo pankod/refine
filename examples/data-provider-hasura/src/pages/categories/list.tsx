@@ -16,14 +16,17 @@ export const CategoryList = () => {
   const { tableProps, sorters } = useTable<
     GetFieldsFromList<GetCategoriesQuery>
   >({
-    initialSorter: [
-      {
-        field: "id",
-        order: "asc",
-      },
-    ],
-    metaData: {
+    meta: {
       gqlQuery: CATEGORIES_QUERY,
+    },
+
+    sorters: {
+      initial: [
+        {
+          field: "id",
+          order: "asc",
+        },
+      ],
     },
   });
 

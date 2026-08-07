@@ -16,13 +16,19 @@ import { Table, Select, Space } from "antd";
 import type { IPost } from "../../interfaces";
 
 export const PostList = () => {
-  const { tableProps, sorter, filters } = useTable<IPost>({
-    initialSorter: [
-      {
-        field: "id",
-        order: "desc",
-      },
-    ],
+  const {
+    tableProps,
+    sorters: sorter,
+    filters,
+  } = useTable<IPost>({
+    sorters: {
+      initial: [
+        {
+          field: "id",
+          order: "desc",
+        },
+      ],
+    },
   });
 
   const { selectProps } = useSelect({
@@ -30,6 +36,10 @@ export const PostList = () => {
     optionLabel: "title",
     optionValue: "id",
     defaultValue: getDefaultFilter("category.id", filters),
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

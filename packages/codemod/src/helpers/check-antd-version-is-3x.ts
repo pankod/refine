@@ -3,13 +3,16 @@ import path from "path";
 import semver from "semver";
 
 export const getAntdVersion = async () => {
-  const rootDir = path.join(process.cwd());
+  try {
+    const rootDir = path.join(process.cwd());
 
-  const pkgJson = await PackageJson.load(rootDir);
-  const dependencies = pkgJson.content.dependencies ?? {};
-  const antd = dependencies["@pankod/refine-antd"];
-
-  return antd;
+    const pkgJson = await PackageJson.load(rootDir);
+    const dependencies = pkgJson.content.dependencies ?? {};
+    const antd = dependencies["@pankod/refine-antd"];
+    return antd;
+  } catch {
+    return undefined;
+  }
 };
 
 export const checkAntdVersionIs3x = async () => {

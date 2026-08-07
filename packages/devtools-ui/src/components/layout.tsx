@@ -2,7 +2,6 @@ import clsx from "clsx";
 import React from "react";
 
 import { Header } from "./header";
-import { ProjectIdFixBanner } from "./project-id-fix-banner";
 import { Sidebar } from "./sidebar";
 
 type Props = React.PropsWithChildren<{}>;
@@ -39,8 +38,6 @@ export const Layout = ({ children }: Props) => {
             "re-pb-0",
           )}
         >
-          <ProjectIdFixBanner />
-
           {children}
         </div>
       </div>

@@ -11,7 +11,6 @@ describe("i18n-react", () => {
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    cy.interceptGETPosts();
     cy.visit("/");
   });
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function FourOhFour(): JSX.Element {
+export default function FourOhFour(): React.JSX.Element {
   return (
     <div className="page__wrapper">
       <div className="page__content">

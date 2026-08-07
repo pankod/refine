@@ -1,5 +1,8 @@
 ---
-title: useCheckboxGroup
+title: "useCheckboxGroup Hook | Best Practices for Usage & Patterns | Refine v5"
+display_title: "useCheckboxGroup"
+sidebar_label: "useCheckboxGroup"
+description: "Set up Use Checkbox Group in Refine v5. Learn best practices. Explore customization options for data and allows for polished admin UIs."
 ---
 
 `useCheckboxGroup` hook allows you to manage an Ant Design [Checkbox.Group](https://ant.design/components/checkbox/#components-checkbox-demo-group) component when records in a resource needs to be used as checkbox options.
@@ -61,7 +64,7 @@ All we have to do is pass the `checkboxGroupProps` it returns to the `<Checkbox.
 
 <Image src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/hooks/useCheckboxGroup/basic.png" alt="Tags" />
 
-> For more information, refer to the [`useList` documentation &#8594](/docs/data/hooks/use-list)
+> For more information, refer to the [`useList` documentation &#8594](/core/docs/data/hooks/use-list/)
 
 ## Options
 
@@ -73,11 +76,11 @@ const { checkboxGroupProps } = useCheckboxGroup({
 });
 ```
 
-`resource` property determines which API resource endpoint to fetch records from [`dataProvider`](/docs/data/data-provider). It returns properly configured `options` values for checkboxes.
+`resource` property determines which API resource endpoint to fetch records from [`dataProvider`](/core/docs/data/data-provider/). It returns properly configured `options` values for checkboxes.
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 > For more information, refer to the [Ant Design's Checkbox.Group component documentation &#8594](https://ant.design/components/checkbox)
 
@@ -247,15 +250,11 @@ For example, lets say that we have 1000 post records:
 const { selectProps } = useCheckboxGroup({
   resource: "categories",
   // highlight-next-line
-  pagination: { current: 3, pageSize: 8 },
+  pagination: { currentPage: 3, pageSize: 8 },
 });
 ```
 
 The listing will start from page 3, showing 8 records per page.
-
-### ~~sort~~ <PropTag deprecated />
-
-Use `sorters` instead.
 
 ## API Reference
 
@@ -275,8 +274,8 @@ Use `sorters` instead.
 
 <CodeSandboxExample path="field-antd-use-checkbox-group" />
 
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror
 
 ```
 

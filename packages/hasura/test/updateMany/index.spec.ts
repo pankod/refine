@@ -193,4 +193,113 @@ describe("with gqlFields", () => {
     expect(data[1]["title"]).toEqual(posts[1]["title"]);
     expect(data[1]["content"]).toEqual("Updated Content");
   });
+
+  it("correctly passes variables from meta.gqlVariables to the query", async () => {
+    const posts = [
+      {
+        id: "85e2f56d-53e9-4d43-8099-4c7622c8e8e1",
+        title: "Aenean ultricies non libero sit amet pellentesque",
+      },
+      {
+        id: "881a45fd-a5da-46f4-a045-58eeb647862f",
+        title: "Etiam tincidunt ex ut auctor faucibus",
+      },
+    ];
+
+    const client = createClient("hasura-default");
+    const { data } = await dataProvider(client, {
+      namingConvention: "hasura-default",
+    }).updateMany!({
+      resource: "posts",
+      ids: posts.map((post) => post.id),
+      variables: {
+        content: "Updated Content",
+      },
+      meta: {
+        gqlMutation: gql`
+          mutation UpdateManyPosts(
+            $ids: [uuid!]!,
+            $_set: posts_set_input!,
+            $includeTitle: Boolean = false
+          ) {
+            update_posts(
+              where: { id: { _in: $ids } },
+              _set: $_set
+            ) {
+              returning {
+                id
+                content
+                title @include(if: $includeTitle)
+              }
+            }
+          }
+        `,
+        gqlVariables: {
+          includeTitle: true,
+        },
+      },
+    });
+
+    expect(data[0]["id"]).toEqual(posts[0]["id"]);
+    expect(data[0]["title"]).toEqual(posts[0]["title"]);
+    expect(data[0]["content"]).toEqual("Updated Content");
+
+    expect(data[1]["id"]).toEqual(posts[1]["id"]);
+    expect(data[1]["title"]).toEqual(posts[1]["title"]);
+    expect(data[1]["content"]).toEqual("Updated Content");
+  });
+
+  it("doesn't pass extra variables to the query without meta.gqlVariables", async () => {
+    const posts = [
+      {
+        id: "85e2f56d-53e9-4d43-8099-4c7622c8e8e1",
+        title: "Aenean ultricies non libero sit amet pellentesque",
+      },
+      {
+        id: "881a45fd-a5da-46f4-a045-58eeb647862f",
+        title: "Etiam tincidunt ex ut auctor faucibus",
+      },
+    ];
+
+    const client = createClient("hasura-default");
+    const { data } = await dataProvider(client, {
+      namingConvention: "hasura-default",
+    }).updateMany!({
+      resource: "posts",
+      ids: posts.map((post) => post.id),
+      variables: {
+        content: "Updated Content",
+      },
+      meta: {
+        gqlMutation: gql`
+          mutation UpdateManyPosts(
+            $ids: [uuid!]!,
+            $_set: posts_set_input!,
+            $includeTitle: Boolean = false
+          ) {
+            update_posts(
+              where: { id: { _in: $ids } },
+              _set: $_set
+            ) {
+              returning {
+                id
+                content
+                title @include(if: $includeTitle)
+              }
+            }
+          }
+        `,
+      },
+    });
+
+    expect(data[0]["id"]).toEqual(posts[0]["id"]);
+    expect(data[0]["content"]).toEqual("Updated Content");
+    // Title should not be included in the response
+    expect(data[0]["title"]).toBeUndefined();
+
+    expect(data[1]["id"]).toEqual(posts[1]["id"]);
+    expect(data[1]["content"]).toEqual("Updated Content");
+    // Title should not be included in the response
+    expect(data[1]["title"]).toBeUndefined();
+  });
 });

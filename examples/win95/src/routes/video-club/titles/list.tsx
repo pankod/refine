@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import {
   getDefaultFilter,
   useSubscription,
@@ -29,12 +29,13 @@ export const VideoClubPageBrowseTitles = () => {
   const {
     tableQuery: titlesQueryResult,
     pageCount,
-    current,
-    setCurrent,
+    currentPage: current,
+    setCurrentPage: setCurrent,
     filters,
     setFilters,
   } = useTable<ExtendedVideoTitle>({
     resource: "titles",
+
     meta: {
       select: "*, tapes(*), rentals(*)",
     },

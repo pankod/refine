@@ -4,20 +4,16 @@ setInitialRoutes(["/posts"]);
 // visible-block-start
 import React from "react";
 // highlight-next-line
-import { Option, useSelect } from "@refinedev/core";
+import { useSelect } from "@refinedev/core";
 import { useDataGrid, List } from "@refinedev/mui";
-import {
-  DataGrid,
-  GridColDef,
-  GridValueFormatterParams,
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 import { ICategory, IPost } from "interfaces";
 
 const PostsList: React.FC = () => {
   const { dataGridProps } = useDataGrid<IPost>({
     pagination: {
-      current: 2,
+      currentPage: 2,
       pageSize: 10,
     },
     sorters: {
@@ -43,10 +39,12 @@ const PostsList: React.FC = () => {
   // highlight-start
   const {
     options,
-    queryResult: { isLoading },
+    query: { isLoading },
   } = useSelect<ICategory>({
     resource: "categories",
-    hasPagination: false,
+    pagination: {
+      mode: "off",
+    },
   });
   // highlight-end
 
@@ -69,9 +67,7 @@ const PostsList: React.FC = () => {
         minWidth: 250,
         flex: 0.5,
         valueOptions: options,
-        valueFormatter: (params: GridValueFormatterParams<Option>) => {
-          return params.value;
-        },
+        display: "flex",
         renderCell: function render({ row }) {
           if (isLoading) {
             return "Loading...";
@@ -101,7 +97,6 @@ const PostsList: React.FC = () => {
       <DataGrid
         {...dataGridProps}
         columns={columns}
-        autoHeight
         rowsPerPageOptions={[10, 20, 30, 50, 100]}
       />
     </List>
@@ -110,14 +105,29 @@ const PostsList: React.FC = () => {
 
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostsList,
-    },
-  ],
-});
-
-render(<RefineMuiDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostsList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

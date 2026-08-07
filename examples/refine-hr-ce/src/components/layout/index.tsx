@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from "react";
-import { ThemedLayoutV2 } from "@refinedev/mui";
+import { ThemedLayout } from "@refinedev/mui";
 import { Box } from "@mui/material";
 import { Header } from "./header";
 import { Sider } from "./sider";
@@ -8,7 +8,7 @@ type Props = PropsWithChildren<{}>;
 
 export const Layout = ({ children }: Props) => {
   return (
-    <ThemedLayoutV2 Header={() => <Header />} Sider={() => <Sider />}>
+    <ThemedLayout Header={() => <Header />} Sider={() => <Sider />}>
       <Box
         sx={(theme) => ({
           position: "relative",
@@ -35,6 +35,6 @@ export const Layout = ({ children }: Props) => {
           <Box sx={{ flex: 1, minWidth: "100%" }}>{children}</Box>
         </Box>
       </Box>
-    </ThemedLayoutV2>
+    </ThemedLayout>
   );
 };

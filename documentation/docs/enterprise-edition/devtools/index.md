@@ -1,12 +1,15 @@
 ---
-title: Devtools
+title: "Devtools Guide | Enterprise Edition in Refine v5"
+display_title: "Devtools"
+sidebar_label: "Devtools"
+description: "Set up Devtools in Refine v5. Learn best practices. Learn custom and environment for real-world React admin panels. Hands-on examples included."
 ---
 
 import DockerUsage from "./docker.tsx";
 
 # Refine Devtools
 
-In addition to the features provided by the [Refine Devtools](/docs/guides-concepts/development/#using-devtools), Enterprise Edition allows you to change the port of the devtools server or use a custom domain for the devtools server. This is useful if you're dockerizing your app and devtools server separately or using multiple Refine apps and want to use Refine Devtools for multiple apps.
+In addition to the features provided by the [Refine Devtools](/core/docs/guides-concepts/development/#using-devtools), Enterprise Edition allows you to change the port of the devtools server or use a custom domain for the devtools server. This is useful if you're dockerizing your app and devtools server separately or using multiple Refine apps and want to use Refine Devtools for multiple apps.
 
 ## Specifying the Port
 

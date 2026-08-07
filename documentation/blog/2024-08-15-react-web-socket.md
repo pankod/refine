@@ -3,9 +3,10 @@ title: How to set up a WebSocket connection with Node.js and React.js?
 description: Understanding Real-time communication with React and WebSocket
 slug: react-websocket-tutorial-nodejs
 authors: frank_joseph
-tags: [react]
+category: "Tutorials"
+tags: [react, backend, javascript]
 hide_table_of_contents: false
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-16-react-web-socket/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-16-react-web-socket/social-2.png
 ---
 
 **This article was last updated on August 15, 2024, to add sections for WebSocket Protocols and Subprotocols, Security Considerations with WebSockets, and Error Handling and Reconnection Strategies.**
@@ -15,16 +16,6 @@ image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-16-react-web-
 With the advent of Social Media and other internet-enabled communication tools, delivering real-time communication has become increasingly important. Hypertext Transfer Protocol (HTTP) is a communication protocol like WebSocket that follows the Request-Response, one-way communication pattern. It has been used by most developers to implement real-time communication but it falls short when the use case involves instant updates and building a full-duplex bidirectional communication tool. Although HTTP through its various methods such as HTTP Polling, Streaming, and server-sent events (SSE) helped developers implement data transfer, there are restrictions and disadvantages that have paved the way for WebSocket. WebSocket helps developers implement a full-duplex bidirectional communication mechanism and helps developers build a real-time communication system.
 
 In this article, we’ll discuss the shortcomings of the HTTP protocol, and explore the concept of real-time communication and how to implement it with the WebSocket protocol while building a basic client communication application.
-
-Steps we'll cover:
-
-- [Why WebSocket?](#why-websocket)
-- [Unleashing the Power of WebSockets using Node.js and React](#unleashing-the-power-of-websockets-using-nodejs-and-react)
-- [Accessing the Code](#accessing-the-code)
-- [Run the application after Setting up the Environment](#run-the-application-after-setting-up-the-environment)
-- [Understanding the Code\*\*](#understanding-the-code)
-- [Security Considerations with WebSockets](#security-considerations-with-websockets)
-- [Bonus: WebSocket Protocols and Subprotocols](#bonus-websocket-protocols-and-subprotocols)
 
 ## Why WebSocket?
 
@@ -167,13 +158,13 @@ function processReceivedMessage(message, userId) {
 As you can see, the new connection is successfully received.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-16-react-web-socket/enter-name.png"  alt="react-websocket-nodejs" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-16-react-web-socket/enter-name.png"  alt="Name entry screen for collaborative editor" />
 </div>
 
 When User enter their name and click on Join Document the message is broadcasted to all connected clients that user have joined to collaborate. Please see the below screenshots of application:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-16-react-web-socket/enter-name-2.png"  alt="react-websocket-nodejs" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-16-react-web-socket/enter-name-2.png"  alt="User joined message in collaborative editor" />
 </div>
 
 ### Establishing the Handshake at the Client Level
@@ -221,7 +212,7 @@ function App() {
 Now, when user joins, the web socket connection is established at client level. The above screenshot shows the “WebSocket connection established” in console logs when the connection is opened for client.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-16-react-web-socket/handshake.png"  alt="react-websocket-nodejs" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-16-react-web-socket/handshake.png"  alt="Console log showing WebSocket connection established" />
 </div>
 
 ### Real-time Message Transmission
@@ -303,7 +294,7 @@ function Document() {
 The below screenshot shows that when the client connection is established then users can collaborate and edit text in real-time, each action will be transmitted to every connection client.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-16-react-web-socket/real-time-transmitting.png"  alt="react-websocket-nodejs" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-16-react-web-socket/real-time-transmitting.png"  alt="Real-time collaborative editor with shared updates" />
 </div>
 
 ### Handling Disconnections
@@ -327,7 +318,7 @@ function handleClientDisconnection(userId) {
 When user closes the browser window or refreshes the page, application will disconnect client and notify every connected user by broadcasting the message that that user left the editor.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-08-16-react-web-socket/handling-disconnections.png"  alt="react-websocket-nodejs" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-08-16-react-web-socket/handling-disconnections.png"  alt="Disconnection notification in collaborative editor" />
 </div>
 
 ## Security Considerations with WebSockets

@@ -1,5 +1,8 @@
 ---
-title: Routing
+title: "Routing Guide | SSR in Refine v5"
+display_title: "Routing"
+sidebar_label: "Routing"
+description: "Implement Routing in Refine v5. Learn the key steps. Learn best practices for router and directory for real-world React admin panels. Learn with code examples."
 ---
 
 Routing is essential for any CRUD application. Refine's headless architecture allows you to use any router solution, without being locked into a specific router/framework.
@@ -23,12 +26,12 @@ If you are using **Remix**, you'll be defining your routes in the `app/routes` d
 To integrate a router provider with Refine, all you need to do is to import the router integration of your choice and pass it to the `<Refine />`'s `routerProvider` prop.
 
 <Tabs>
-<TabItem value="react-router-v6" label="React Router v6" default>
+<TabItem value="react-router-v6" label="React Router" default>
 
 ```tsx title="App.tsx"
-import { BrowserRouter, Routes } from "react-router-dom";
+import { BrowserRouter, Routes } from "react-router";
 // highlight-next-line
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 
 const App = () => (
   <BrowserRouter>
@@ -40,7 +43,7 @@ const App = () => (
 );
 ```
 
-[Check out React Router documentation for detailed information](/docs/packages/list-of-packages)
+[Check out React Router documentation for detailed information](/core/docs/packages/list-of-packages/)
 
 </TabItem>
 <TabItem value="nextjs-app" label="Next.js App">
@@ -93,7 +96,7 @@ export function MyApp({ Component, pageProps }) {
 
 > While using this integration, you won't be missing out Next.js features such as **SSR** and **ISR**.
 
-[Check out Next.js Router documentation for detailed information](/docs/packages/list-of-packages)
+[Check out Next.js Router documentation for detailed information](/core/docs/packages/list-of-packages/)
 
 </TabItem>
 <TabItem value="remix" label="Remix">
@@ -120,7 +123,7 @@ export default function App() {
 
 > While using this integration, you won't be missing out Remix features such as **SSR** and **ISR**.
 
-[Check out Remix Router documentation for detailed information](/docs/packages/list-of-packages)
+[Check out Remix Router documentation for detailed information](/core/docs/packages/list-of-packages/)
 
 </TabItem>
 <TabItem value="expo-router" label="Expo Router (React Native)">
@@ -188,7 +191,7 @@ import { NextJSResourceAndRoutesUsage } from "./nextjs/resource-and-routes-usage
 
 :::info Usage with App Router
 
-You can see the example here: https://github.com/refinedev/refine/tree/master/examples/with-nextjs
+You can see the example here: https://github.com/refinedev/refine/tree/main/examples/with-nextjs
 
 :::
 
@@ -212,15 +215,15 @@ import { ReactRouterUseFormUsage } from "./react-router/use-form-usage";
 Additionally, router integrations exposes an `<UnsavedChangesNotifier />` component which can be used to notify the user about unsaved changes before navigating away from the current page. This component provides this feature which can be enabled by setting `warnWhenUnsavedChanges` to `true` in `useForm` hooks.
 
 <Tabs wrapContent={false}>
-<TabItem value="react-router" label="React Router v6">
+<TabItem value="react-router" label="React Router">
 
 ```tsx title="app.tsx"
 import { Refine } from "@refinedev/core";
 import {
   routerProvider,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes } from "react-router";
 
 const App = () => (
   <BrowserRouter>
@@ -242,7 +245,7 @@ const App = () => (
 );
 ```
 
-Check out the [`UnsavedChangesNotifier` section of the React Router integration documentation](/docs/packages/list-of-packages#unsavedchangesnotifier) for more information.
+Check out the [`UnsavedChangesNotifier` section of the React Router integration documentation](/core/docs/packages/list-of-packages#unsavedchangesnotifier) for more information.
 
 </TabItem>
 <TabItem value="next-js" label="Next.js">
@@ -275,7 +278,7 @@ export default function App({ Component, pageProps }) {
 }
 ```
 
-Check out the [`UnsavedChangesNotifier` section of the React Router integration documentation](/docs/packages/list-of-packages#unsavedchangesnotifier) for more information.
+Check out the [`UnsavedChangesNotifier` section of the React Router integration documentation](/core/docs/packages/list-of-packages#unsavedchangesnotifier) for more information.
 
 </TabItem>
 <TabItem value="remix" label="Remix">
@@ -328,7 +331,7 @@ export default function App() {
 }
 ```
 
-Check out the [`UnsavedChangesNotifier` section of the React Router integration documentation](/docs/packages/list-of-packages#unsavedchangesnotifier) for more information.
+Check out the [`UnsavedChangesNotifier` section of the React Router integration documentation](/core/docs/packages/list-of-packages#unsavedchangesnotifier) for more information.
 
 </TabItem>
 </Tabs>
@@ -362,7 +365,7 @@ We can pass these parameters to `useTable` hook as follows:
 ```ts
 const { ... } = useTable(
     {
-        current: 1,
+        currentPage: 1,
         pageSize: 2,
         filters: { initial: [{ field: "category.id", operator: "eq", value: 1 }]},
         sorters: { initial: [{ field: "id", direction: "asc" }] }
@@ -377,17 +380,17 @@ const { ... } = useTable(
 /my-products
 
 // added-line
-/my-products?current=1&pageSize=2&sorters[0][field]=id&sorters[0][order]=asc&filters[0][field]=category.id&filters[0][operator]=eq&filters[0][value]=1
+/my-products?currentPage=1&pageSize=2&sorters[0][field]=id&sorters[0][order]=asc&filters[0][field]=category.id&filters[0][operator]=eq&filters[0][value]=1
 ```
 
 And you will see a list of products, already **filtered**, **sorted** and **paginated** automatically based on the query parameters of the **current route**.
 
 ```ts
-const { tableQuery, current, pageSize, filters, sorters } = useTable();
+const { result, currentPage, pageSize, filters, sorters } = useTable();
 
-console.log(tableQuery.data.data); // [{...}, {...}]
-console.log(tableQuery.data.total); // 32 - total number of unpaginated records
-console.log(current); // 1 - current page
+console.log(result.data); // [{...}, {...}]
+console.log(result.total); // 32 - total number of unpaginated records
+console.log(currentPage); // 1 - current page
 console.log(pageSize); // 2 - page size
 console.log(filters); // [{ field: "category.id", operator: "eq", value: "1" }]
 console.log(sorters); // [{ field: "id", order: "asc" }]
@@ -449,14 +452,14 @@ import { ReactRouterUseModalFormUsage } from "./react-router/use-modal-form-usag
 import { useOne } from "@refinedev/core";
 
 // removed-line
-const { data: productResponse } = useOne({ resource: "products", id: "1" });
+const { result } = useOne({ resource: "products", id: "1" });
 
-console.log(productResponse.data); // { id: "1", title: "Product 1", ... }
+console.log(result); // { id: "1", title: "Product 1", ... }
 
 // added-line
-const { data: productResponse } = useOne();
+const { result } = useOne();
 
-console.log(productResponse.data); // { id: "1", title: "Product 1", ... }
+console.log(result); // { id: "1", title: "Product 1", ... }
 ```
 
 ### useShow
@@ -466,19 +469,19 @@ console.log(productResponse.data); // { id: "1", title: "Product 1", ... }
 ```tsx title=components/products/show.tsx
 import { useShow } from "@refinedev/core";
 
-const { queryResult: showResponse } = useShow({
+const { result } = useShow({
   // removed-start
   resource: "products",
   id: "1",
   // removed-end
 });
 
-console.log(showResponse.data.data); // { id: "1", title: "Product 1", ... }
+console.log(result); // { id: "1", title: "Product 1", ... }
 
 // added-line
-const { queryResult: showResponse } = useShow();
+const { result } = useShow();
 
-console.log(showResponse.data.data); // { id: "1", title: "Product 1", ... }
+console.log(result); // { id: "1", title: "Product 1", ... }
 ```
 
 ### useList
@@ -489,16 +492,16 @@ console.log(showResponse.data.data); // { id: "1", title: "Product 1", ... }
 import { useList } from "@refinedev/core";
 
 // removed-line
-const { data: listResponse } = useList({ resource: "products" });
+const { result } = useList({ resource: "products" });
 
-console.log(listResponse.data); // [{ id: "1", title: "Product 1", ... }, { id: "2", title: "Product 2", ... }]
-console.log(listResponse.total); // 32 - total number of unpaginated records
+console.log(result.data); // [{ id: "1", title: "Product 1", ... }, { id: "2", title: "Product 2", ... }]
+console.log(result.total); // 32 - total number of unpaginated records
 
 // added-line
-const { data: listResponse } = useList();
+const { result } = useList();
 
-console.log(listResponse.data); // [{ id: "1", title: "Product 1", ... }, { id: "2", title: "Product 2", ... }]
-console.log(listResponse.total); // 32 - total number of unpaginated records
+console.log(result.data); // [{ id: "1", title: "Product 1", ... }, { id: "2", title: "Product 2", ... }]
+console.log(result.total); // 32 - total number of unpaginated records
 ```
 
 :::caution
@@ -525,4 +528,4 @@ These implementations will be provided via `routerProvider` which expects an obj
 
 While all these methods are optional, if you're working on creating a custom router integration, you'll be able to incrementally add more features and adopt more of Refine's features by implementing more of these methods.
 
-To learn more about the `routerProvider` interface, check out the [`Router Provider` section of the Core API Reference](/docs/routing/router-provider).
+To learn more about the `routerProvider` interface, check out the [`Router Provider` section of the Core API Reference](/core/docs/routing/router-provider/).

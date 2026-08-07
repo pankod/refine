@@ -1,5 +1,77 @@
 # @refinedev/supabase
 
+## 6.0.2
+
+### Patch Changes
+
+- [#7281](https://github.com/refinedev/refine/pull/7281) [`e22740f7a90901bdf0089c41e7ae51678e4793a5`](https://github.com/refinedev/refine/commit/e22740f7a90901bdf0089c41e7ae51678e4793a5) Thanks [@jwild2027](https://github.com/jwild2027)! - fix(supabase): handle realtime subscriptions with multiple filters #6360
+
+  Supabase Realtime `postgres_changes` subscriptions support a single `filter` string.
+  When multiple filters are provided, `liveProvider` now uses only the first valid filter
+  and logs a warning instead of generating an invalid subscription payload.
+
+  Resolves #6360
+
+## 6.0.1
+
+### Patch Changes
+
+- [#7086](https://github.com/refinedev/refine/pull/7086) [`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3) Thanks [@BatuhanW](https://github.com/BatuhanW)! - feat: disable minify
+
+  Resolves #6417
+
+## 6.0.0
+
+### Patch Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix(test): update Jest assertions and configuration for v30 compatibility
+
+  - Updated test infrastructure with modern Jest API usage and improved configuration.
+  - Internal development dependency updates and tooling modernization - no public API changes.
+
+- Updated dependencies [[`807099eecb4e8d41b1cf9ab557d71d34d12bec35`](https://github.com/refinedev/refine/commit/807099eecb4e8d41b1cf9ab557d71d34d12bec35), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/core@5.0.0
+
+## 5.9.8
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- fix: fixed 'in'-filter when used inside 'or' not generating correct supabase syntax
+
+  When using the 'in'-filter inside a Conditional 'or' Filter the syntax being pushed to supabase would be incorrect.
+
+  This resolves #6651
+
+## 5.9.7
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6652](https://github.com/refinedev/refine/pull/6652) [`47807b7937cf0a9e93c9ad6bac570b644f9be2e0`](https://github.com/refinedev/refine/commit/47807b7937cf0a9e93c9ad6bac570b644f9be2e0) Thanks [@jkronlachner](https://github.com/jkronlachner)! - fix: fixed 'in'-filter when used inside 'or' not generating correct supabase syntax
+
+  When using the 'in'-filter inside a Conditional 'or' Filter the syntax being pushed to supabase would be incorrect.
+
+  This resolves #6651
+
+## 5.9.6
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- chore: update package descriptions
+
+## 5.9.5
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6554](https://github.com/refinedev/refine/pull/6554) [`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706) Thanks [@necatiozmen](https://github.com/necatiozmen)! - chore: update package descriptions
+
 ## 5.9.4
 
 ### Patch Changes

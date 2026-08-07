@@ -3,8 +3,9 @@ title: How to Create a GraphQL API with Python and Django
 description: We will discuss how to create a GraphQL API with Python.
 slug: graphql-with-python
 authors: muhammad_khabbab
-tags: [dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-05-07-graphql-with-django/social.png
+category: "Ecosystem / Integrations"
+tags: [backend]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-05-07-graphql-with-django/social.png
 hide_table_of_contents: false
 ---
 
@@ -52,7 +53,7 @@ Once the above installations are completed, using the Django commands below we w
 Now, we need to add `graphene-django` and `school` to `INSTALLED_APPS` located in `school_management/settings.py`
 
 <div className="centered-image">
-  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-05-07-graphql-with-django/graphql_1.png" alt="Snapshot of django installed apps" />
+  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-05-07-graphql-with-django/graphql_1.png" alt="Snapshot of django installed apps" />
 </div>
  
 *At this stage, our Development environment is set and we are ready to create GraphQL API.*
@@ -66,7 +67,7 @@ Now, we need to add `graphene-django` and `school` to `INSTALLED_APPS` located i
 In the `school_management/settings.py` file, you can add the configurations for the database. We are using SQLite database configurations that come by default with Django.
 
 <div className="centered-image">
-  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-05-07-graphql-with-django/graphql_2.png" alt="Snapshot of default sqlite configuration in django" />
+  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-05-07-graphql-with-django/graphql_2.png" alt="Snapshot of default sqlite configuration in django" />
 </div>
  
 #### Define Models for Students, Teachers, and Courses in Django.
@@ -109,7 +110,7 @@ class Course(models.Model):
 **The overall schema will look like this:**
 
 <div className="centered-image">
-  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-05-07-graphql-with-django/sms_school_schema.png" alt="Schema Diagram for scenario" />
+  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-05-07-graphql-with-django/sms_school_schema.png" alt="Schema Diagram for scenario" />
 </div>
  
 #### Brief explanation of inserting sample data. 
@@ -148,7 +149,7 @@ admin.site.register(Course)
 **6. Add the data from the admin interface:**
 
  <div className="centered-image">
-  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-05-07-graphql-with-django/graphql_3.png" alt="Snapshot of django admin interface for adding data" />
+  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-05-07-graphql-with-django/graphql_3.png" alt="Snapshot of django admin interface for adding data" />
 </div>
  
 ## Step-by-Step implementation of GraphQL API
@@ -161,7 +162,7 @@ To create a schema of GeaphQL API, we will create a schema.py file in the `schoo
 After adding the `schema.py` file, the directory structure of our project will look like this:
 
 <div className="centered-image">
-  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-05-07-graphql-with-django/graphql_4.png" alt="Snapshot of directory structure after adding files for graphql schema" />
+  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-05-07-graphql-with-django/graphql_4.png" alt="Snapshot of directory structure after adding files for graphql schema" />
 </div>
  
 ### Define GraphQL types for Students, Teachers, and Courses using Graphene-Django.
@@ -263,13 +264,13 @@ urlpatterns = [
 In `graphql_view` above, we passed a parameter `graphiql=True` that allows us to use the graphqli interface to test our APIs. This can be accessed by navigating to [http://127.0.0.1:8000/graphql/](https://http://127.0.0.1:8000/graphql/)
 
 <div className="centered-image">
-  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-05-07-graphql-with-django/graphql_5.png" alt="Snapshot of graphqli interface" />
+  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-05-07-graphql-with-django/graphql_5.png" alt="Snapshot of graphqli interface" />
 </div>
 
 **The below snapshot of graphqli UI shows our query and its response that fetches the information of courses and their associated teacher and students:**
 
 <div className="centered-image">
-  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-05-07-graphql-with-django/graphql_6.png" alt="Snapshot of making an API call from graphqli interface" />
+  <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-05-07-graphql-with-django/graphql_6.png" alt="Snapshot of making an API call from graphqli interface" />
 </div>
 
 ## Conclusion

@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example loading-overtime
 
 <br/>
 
-[![Open base-antd example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/loading-overtime?view=preview&theme=dark&codemirror=1)
+[![Open base-antd example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/loading-overtime?view=preview&theme=dark&codemirror=1)

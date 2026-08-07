@@ -1,4 +1,5 @@
 import React from "react";
+import { vi } from "vitest";
 
 import {
   MockJSONServer,
@@ -10,8 +11,8 @@ import {
 import { useLink } from "./";
 import "../../../components/link";
 
-jest.mock("../../../components/link", () => ({
-  Link: jest.fn().mockReturnValue(<div data-testid="mocked-link" />),
+vi.mock("../../../components/link", () => ({
+  Link: vi.fn().mockReturnValue(<div data-testid="mocked-link" />),
 }));
 
 describe("useLink Hook", () => {

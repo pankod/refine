@@ -11,7 +11,7 @@ export const ProductHuntLogo = ({ className }: ProductHuntLogoProps) => {
       <a
         href="https://www.producthunt.com/posts/refine-3?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-refine&#0045;3"
         target="_blank"
-        rel="noreferrer"
+        rel="noopener"
       >
         <img
           src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=362220&theme=dark&period=daily"

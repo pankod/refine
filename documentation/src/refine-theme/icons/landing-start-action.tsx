@@ -4,18 +4,31 @@ export const LandingStartActionIcon = (
   props: React.SVGProps<SVGSVGElement>,
 ) => (
   <svg
-    width={25}
-    height={24}
-    viewBox="0 0 25 24"
-    fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    width={24}
+    height={24}
+    fill="none"
     {...props}
   >
     <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M6.63817 4.33485C7.45968 3.87698 8.46639 3.88939 9.2762 4.36769L18.4191 9.76769C19.21 10.2348 19.7 11.0807 19.7 12C19.7 12.9193 19.21 13.7652 18.4191 14.2323L9.2762 19.6323C8.46639 20.1106 7.45968 20.123 6.63817 19.6652C5.81527 19.2065 5.3 18.343 5.3 17.4V6.6C5.3 5.65703 5.81527 4.79348 6.63817 4.33485ZM8.46252 5.74534C8.14253 5.55634 7.74213 5.55128 7.4171 5.73244C7.09346 5.91282 6.9 6.24599 6.9 6.6V17.4C6.9 17.754 7.09346 18.0872 7.4171 18.2676C7.74213 18.4487 8.14253 18.4437 8.46252 18.2547L17.6054 12.8547C17.916 12.6712 18.1 12.3452 18.1 12C18.1 11.6548 17.916 11.3288 17.6054 11.1453L8.46252 5.74534Z"
-      fill="currentColor"
+      stroke="url(#start-action-a)"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="m6 3 14 9-14 9V3Z"
     />
+    <defs>
+      <linearGradient
+        id="start-action-a"
+        x1={13}
+        x2={13}
+        y1={3}
+        y2={21}
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stopColor="#fff" />
+        <stop offset={1} stopColor="#DBEAFE" />
+      </linearGradient>
+    </defs>
   </svg>
 );

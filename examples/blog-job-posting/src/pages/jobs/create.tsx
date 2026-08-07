@@ -12,6 +12,10 @@ export const JobCreate = () => {
   const { selectProps: companySelectProps } = useSelect<ICompany>({
     resource: "companies",
     optionLabel: "name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

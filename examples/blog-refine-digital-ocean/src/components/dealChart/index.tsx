@@ -6,7 +6,7 @@ import { DollarOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 
 export const DealChart: React.FC<{}> = () => {
-  const { data } = useList({
+  const { result: data } = useList({
     resource: "dealStages",
     filters: [{ field: "title", operator: "in", value: ["WON", "LOST"] }],
     meta: {

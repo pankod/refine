@@ -25,10 +25,12 @@ export const CategoryCreate = () => {
           helperText={(errors as any)?.title?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
           type="text"
           label={"Title"}
           name="title"
+          slotProps={{
+            inputLabel: { shrink: true },
+          }}
         />
       </Box>
     </Create>

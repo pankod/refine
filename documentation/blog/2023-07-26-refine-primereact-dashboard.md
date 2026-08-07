@@ -1,12 +1,13 @@
 ---
-title: Building a React Admin Panel with PrimeReact and Refine
-description: We'll build a simple React admin Panel using Refine and PrimeReact.
+title: How to build a React Admin Panel with PrimeReact and Refine
+description: Discover how to combine PrimeReact's rich UI components with Refine to create enterprise-grade React admin panels quickly.
 slug: building-react-admin-panel-with-primereact-and-refine
 authors: salih
-tags: [Refine, tutorial, react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/cover.jpg
+category: "How To Build"
+tags: [react, admin-panel]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/cover.jpg
 hide_table_of_contents: false
-is_featured: true
+last_update: 2026-02-06
 ---
 
 import Tabs from '@theme/Tabs';
@@ -32,9 +33,9 @@ Let's get started and explore the power of **Refine** and PrimeReact together!
 
 Instead of building everything from scratch, **Refine** comes with ready-made features like data handling, authentication, access control, and more. You can also customize these features to suit your needs. This way, you can focus on building your app's core functionality instead of worrying about the infrastructure.
 
-Moreover, **Refine** is designed to be "headless" which gives you the freedom to style it exactly as you want. So, you can use any UI library like PrimeReact to build your app's user interface. Additionally, it supports out-of-the-box [UI libraries](https://refine.dev/integrations/).
+Moreover, **Refine** is designed to be "headless" which gives you the freedom to style it exactly as you want. So, you can use any UI library like PrimeReact to build your app's user interface. Additionally, it supports out-of-the-box [UI libraries](/core/integrations/).
 
-You can learn more about **Refine** from the [documentation](https://refine.dev/docs/).
+You can learn more about **Refine** from the [documentation](https://refine.dev/core/docs/).
 
 ## Create a new Refine app
 
@@ -49,13 +50,13 @@ You can choose the libraries and frameworks you want to work with, and the tool 
 
 For this tutorial, we'll be select the following options:
 
-**React Platform**: Vite  
-**UI Framework**: Headless  
-**Backend**: REST API  
+**React Platform**: Vite
+**UI Framework**: Headless
+**Backend**: REST API
 **Authentication Provider**: No Auth
 
 <div className="flex justify-center">
-    <img alt="React admin panel" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/create-refine-project.gif" className="border border-gray-200 rounded" />
+    <img alt="Create Refine project prompt" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/create-refine-project.avif" className="border border-gray-200 rounded" />
 </div>
 
 Once you've completed the steps, you'll have the ability to download your project. From there, proceed to the project directory and run your app with:
@@ -95,14 +96,14 @@ npm run dev
   </TabItem>
 </Tabs>
 
-Your project created according to the options we selected. It includes CRUD pages for the `products` and `categories` resources with a simple layout. The CRUD pages are generated using [inferencer](https://refine.dev/docs/packages/documentation/inferencer/#how-the-fields-are-inferred), which is a powerful tool that allows you to create CRUD pages automatically based on your API. Most of time, it's great point to start building your admin panel.
+Your project created according to the options we selected. It includes CRUD pages for the `products` and `categories` resources with a simple layout. The CRUD pages are generated using [inferencer](https://refine.dev/core/docs/packages/documentation/inferencer/#how-the-fields-are-inferred), which is a powerful tool that allows you to create CRUD pages automatically based on your API. Most of time, it's great point to start building your admin panel.
 
 In this blog, we won't be using the generated pages. Instead, we'll build our admin panel pages from scratch to show you everything from the ground up. However, you can play around with the generated pages to get a feel for how inferencer works.
 
 Once your project is successfully run, you will see the following page:
 
 <div className="flex justify-center">
-    <img alt="React admin panel" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/fresh-project.jpg" className="border border-gray-200 rounded" />
+    <img alt="Fresh Refine project structure" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/fresh-project.webp" className="border border-gray-200 rounded" />
 </div>
 
 ## What is PrimeReact?
@@ -122,7 +123,7 @@ Now that we've covered the basics of **Refine** and PrimeReact, let's build a Re
 At the end of this tutorial, we'll have a project structure like below:
 
 <div className="flex justify-center">
-    <img alt="React admin panel" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/project-structure.jpeg" className="border border-gray-200 rounded" />
+    <img alt="Project folder structure" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/project-structure.jpeg" className="border border-gray-200 rounded" />
 </div>
 
 We'll use the [fake restaurant API](https://api.finefoods.refine.dev) for our data. It's a REST API that provides data for products, categories, orders, and specific endpoints for the dashboard.
@@ -152,10 +153,10 @@ Previously, we mentioned that the scaffolded project includes auto-generated CRU
     ```tsx title="src/App.tsx"
     import { ErrorComponent, Refine } from "@refinedev/core";
     import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-    import routerBindings, {
+    import routerProvider, {
       DocumentTitleHandler,
       UnsavedChangesNotifier,
-    } from "@refinedev/react-router-v6";
+    } from "@refinedev/react-router";
     import dataProvider from "@refinedev/simple-rest";
     import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -167,7 +168,7 @@ Previously, we mentioned that the scaffolded project includes auto-generated CRU
           <RefineKbarProvider>
             <Refine
               dataProvider={dataProvider("https://api.finefoods.refine.dev")}
-              routerProvider={routerBindings}
+              routerProvider={routerProvider}
               options={{
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: true,
@@ -190,7 +191,7 @@ Previously, we mentioned that the scaffolded project includes auto-generated CRU
 
 After these changes, we ready to start building our admin panel step-by-step. In the next sections, we'll update the `src/App.tsx` file to add the necessary components and pages.
 
-If you don't have any experience with **Refine**, we recommend you to check out the [tutorial](https://refine.dev/tutorial) to learn more about the framework.
+If you don't have any experience with **Refine**, we recommend you to check out the [tutorial](https://refine.dev/core/tutorial) to learn more about the framework.
 
 ## Install PrimeReact
 
@@ -238,10 +239,10 @@ Now that we have the `<Dashboard />` component, let's import it in `src/App.tsx`
 ```tsx title="src/App.tsx"
 import { ErrorComponent, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-import routerBindings, {
+import routerProvider, {
     DocumentTitleHandler,
     UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -263,7 +264,7 @@ function App() {
                     dataProvider={dataProvider(
                         "https://api.finefoods.refine.dev",
                     )}
-                    routerProvider={routerBindings}
+                    routerProvider={routerProvider}
                     {/*highlight-start*/}
                     resources={[
                         {
@@ -300,7 +301,7 @@ export default App;
 
 </details>
 
-> You can find more information about [resources](https://refine.dev/docs/api-reference/core/components/refine-config/#resources) and adding routes in the [React Router v6](https://refine.dev/docs/packages/documentation/routers/react-router-v6).
+> You can find more information about [resources](https://refine.dev/core/docs/api-reference/core/components/refine-config/#resources) and adding routes in the [React Router v6](https://refine.dev/core/docs/packages/documentation/routers/react-router-v6).
 
 Now, if you navigate to the "/" path, you should see the created `<Dashboard />` component.
 
@@ -385,7 +386,7 @@ This component is built using PrimeReact and PrimeFlex libraries. If you want to
 
 In the code above, we created a `<KpiCard />` component that renders a card with the given props. It displays the title, total, trend, and icon. The `formatTotal` prop allows you to format the total value as you wish.
 
-Let's import the `<KpiCard />` component in `src/pages/dashboard/index.tsx` and pass the necessary props to render the cards. Before that, we need to fetch the data from the API. For this, we'll use the [`useCustom`](https://refine.dev/docs/api-reference/core/hooks/data/useCustom/) hook from **Refine** and `dayjs` to arrange query parameters.
+Let's import the `<KpiCard />` component in `src/pages/dashboard/index.tsx` and pass the necessary props to render the cards. Before that, we need to fetch the data from the API. For this, we'll use the [`useCustom`](https://refine.dev/core/docs/data/hooks/use-custom/) hook from **Refine** and `dayjs` to arrange query parameters.
 
 `useCustom` allows us to make specific requests to the API. It should be used on non-resource endpoints which means that it doesn't have a CRUD operation. In our case, we'll use it to fetch the data for the KPI cards and charts.
 
@@ -552,7 +553,7 @@ We used the `useCustom` hook to fetch the data for the KPI cards. It makes a req
 After fetching the data, we passed the necessary props to the `<KpiCard />` component to render the cards. After these changes, our dashboard looks like below:
 
 <div className="flex justify-center">
-    <img alt="React admin panel" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/kpi-cards.jpeg" className="border border-gray-200 rounded" />
+    <img alt="KPI cards grid" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/kpi-cards.jpeg" className="border border-gray-200 rounded" />
 </div>
 
 ### Create `ChartView` component
@@ -770,7 +771,7 @@ export const Dashboard: React.FC = () => {
 After these changes, our dashboard looks like below:
 
 <div className="flex justify-center">
-    <img alt="React admin panel" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/charts.gif" className="border border-gray-200 rounded" />
+    <img alt="Sales charts section" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/charts.avif" className="border border-gray-200 rounded" />
 </div>
 
 ### Create `RecentSales` component
@@ -799,11 +800,11 @@ export const RecentSales = () => {
   const {
     tableQuery,
     pageCount,
-    current,
+    currentPage,
     pageSize,
     sorters,
     filters,
-    setCurrent,
+    setCurrentPage,
     setPageSize,
     setSorters,
     setFilters,
@@ -874,7 +875,7 @@ export const RecentSales = () => {
         label="Clear"
         outlined
         onClick={() => {
-          setCurrent(1);
+          setCurrentPage(1);
           setFilters([], "replace");
         }}
       />
@@ -883,7 +884,7 @@ export const RecentSales = () => {
         <InputText
           value={getDefaultFilter("q", filters)}
           onChange={(e) => {
-            setCurrent(1);
+            setCurrentPage(1);
             setFilters([
               {
                 field: "q",
@@ -907,10 +908,10 @@ export const RecentSales = () => {
         paginator
         rows={pageSize}
         rowsPerPageOptions={[5, 10, 25, 50]}
-        first={current * pageSize - pageSize}
+        first={currentPage * pageSize - pageSize}
         totalRecords={pageCount * pageSize}
         onPage={(event) => {
-          setCurrent((event.page ?? 0) + 1);
+          setCurrentPage((event.page ?? 0) + 1);
           setPageSize(event.rows);
         }}
         onSort={(event) => {
@@ -975,7 +976,7 @@ export const RecentSales = () => {
 
 </details>
 
-In the code above, we used the [`<DataTable />`](https://primereact.org/datatable/) component from PrimeReact for UI and the [`useTable`](https://refine.dev/docs/api-reference/core/hooks/useTable/) hook from **Refine** for data fetching, pagination, sorting, and filtering.
+In the code above, we used the [`<DataTable />`](https://primereact.org/datatable/) component from PrimeReact for UI and the [`useTable`](https://refine.dev/core/docs/api-reference/core/hooks/useTable/) hook from **Refine** for data fetching, pagination, sorting, and filtering.
 
 Let's import the `<RecentSales />` component in `src/pages/dashboard/index.tsx` and render it below the charts.
 
@@ -1005,7 +1006,7 @@ export const Dashboard: React.FC = () => {
 After these changes, the final version of the dashboard looks like below:
 
 <div className="flex justify-center">
-    <img alt="React admin panel" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/recent-sales.jpeg" className="border border-gray-200 rounded" />
+    <img alt="Recent sales table" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/recent-sales.jpeg" className="border border-gray-200 rounded" />
 </div>
 
 ## Create Product CRUD Pages
@@ -1019,10 +1020,10 @@ Now that we have the dashboard, let's create the product CRUD pages. Before that
 ```tsx title="src/App.tsx"
 import { ErrorComponent, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -1041,7 +1042,7 @@ function App() {
       <RefineKbarProvider>
         <Refine
           dataProvider={dataProvider("https://api.finefoods.refine.dev")}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           resources={[
             {
               name: "dashboard",
@@ -1083,15 +1084,15 @@ export default App;
 
 </details>
 
-The resource definition above don't create any CRUD pages. It just defines the routes for the CRUD pages. The routes are used by **Refine** hooks and components. For example, the [`useNavigation`](https://refine.dev/docs/api-reference/core/hooks/navigation/useNavigation/) hook uses the `list`, `create`, `edit`, and `show` routes to navigate between the pages. Also, data hooks like [`useTable`](https://refine.dev/docs/api-reference/core/hooks/useTable/) use the resource name when you don't pass the `resource` prop.
+The resource definition above don't create any CRUD pages. It just defines the routes for the CRUD pages. The routes are used by **Refine** hooks and components. For example, the [`useNavigation`](https://refine.dev/core/docs/api-reference/core/hooks/navigation/useNavigation/) hook uses the `list`, `create`, `edit`, and `show` routes to navigate between the pages. Also, data hooks like [`useTable`](https://refine.dev/core/docs/api-reference/core/hooks/useTable/) use the resource name when you don't pass the `resource` prop.
 
-You can find more information about [resources](https://refine.dev/docs/api-reference/core/components/refine-config/#resources) on the **Refine** documentation.
+You can find more information about [resources](https://refine.dev/core/docs/api-reference/core/components/refine-config/#resources) on the **Refine** documentation.
 
 Let's create the product CRUD pages step by step and add routes for rendering them.
 
 ### List Page
 
-The product list page will display the products in a table. It will allow users to filter, sort, and paginate the products. For this, we'll use the [`useTable`](https://refine.dev/docs/api-reference/core/hooks/useTable/) hook from **Refine** and the [`<DataTable />`](https://primereact.org/datatable/) component from PrimeReact.
+The product list page will display the products in a table. It will allow users to filter, sort, and paginate the products. For this, we'll use the [`useTable`](https://refine.dev/core/docs/api-reference/core/hooks/useTable/) hook from **Refine** and the [`<DataTable />`](https://primereact.org/datatable/) component from PrimeReact.
 
 Let's create a `<ProductList />` component in `src/pages/products/list.tsx` directory with the following code:
 
@@ -1126,13 +1127,13 @@ const formatCurrency = (value: number) => {
 
 export const ProductList = () => {
   const {
-    tableQuery,
+    result,
     pageCount,
-    current,
+    currentPage,
     pageSize,
     sorters,
     filters,
-    setCurrent,
+    setCurrentPage,
     setPageSize,
     setSorters,
     setFilters,
@@ -1140,9 +1141,9 @@ export const ProductList = () => {
   const { edit, show, create } = useNavigation();
   const { mutate: deleteProduct } = useDelete();
 
-  const products = tableQuery?.data?.data;
+  const products = result?.data;
 
-  const { data: categoryData } = useMany<ICategory>({
+  const { result: categoryData } = useMany<ICategory>({
     resource: "categories",
     ids: products?.map((item) => item?.category?.id) ?? [],
     queryOptions: {
@@ -1213,7 +1214,7 @@ export const ProductList = () => {
         label="Clear"
         outlined
         onClick={() => {
-          setCurrent(1);
+          setCurrentPage(1);
           setFilters([], "replace");
         }}
       />
@@ -1222,7 +1223,7 @@ export const ProductList = () => {
         <InputText
           value={getDefaultFilter("q", filters)}
           onChange={(e) => {
-            setCurrent(1);
+            setCurrentPage(1);
             setFilters([
               {
                 field: "q",
@@ -1259,10 +1260,10 @@ export const ProductList = () => {
         paginator
         rows={pageSize}
         rowsPerPageOptions={[5, 10, 25, 50]}
-        first={current * pageSize - pageSize}
+        first={currentPage * pageSize - pageSize}
         totalRecords={pageCount * pageSize}
         onPage={(event) => {
-          setCurrent((event.page ?? 0) + 1);
+          setCurrentPage((event.page ?? 0) + 1);
           setPageSize(event.rows);
         }}
         onSort={(event) => {
@@ -1315,7 +1316,7 @@ We used the `useTable` hook to fetch the data for the table. It makes a request 
 
 After fetching the data, we passed the necessary props to the `<DataTable />` component to render the table.
 
-Additionally, we used the [`useDelete`](https://refine.dev/docs/api-reference/core/hooks/data/useDelete/) hook and [`confirmDialog`](https://primereact.org/confirmdialog/) method from PrimeReact to delete the products. To open the delete confirmation dialog, we should to render [`<ConfirmDialog />`](https://primereact.org/confirmdialog/) component in the root of the application. So we'll also add it in `src/App.tsx`.
+Additionally, we used the [`useDelete`](https://refine.dev/core/docs/data/hooks/use-delete/) hook and [`confirmDialog`](https://primereact.org/confirmdialog/) method from PrimeReact to delete the products. To open the delete confirmation dialog, we should to render [`<ConfirmDialog />`](https://primereact.org/confirmdialog/) component in the root of the application. So we'll also add it in `src/App.tsx`.
 
 To export the product CRUD pages, let's create an `index.ts` file in `src/pages/products` directory with the following code:
 
@@ -1332,10 +1333,10 @@ Next, import the `<ProductList />` component in `src/App.tsx` and add a route fo
 ```tsx title="src/App.tsx"
 import { ErrorComponent, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 //highlight-next-line
@@ -1358,7 +1359,7 @@ function App() {
       <RefineKbarProvider>
         <Refine
           dataProvider={dataProvider("https://api.finefoods.refine.dev")}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           resources={[
             {
               name: "dashboard",
@@ -1409,12 +1410,12 @@ export default App;
 After these changes, when you navigate to the `/products` path, you should see the product list page as below:
 
 <div className="flex justify-center">
-    <img alt="React admin panel" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/product-list.jpeg" className="border border-gray-200 rounded" />
+    <img alt="Products list page" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/product-list.jpeg" className="border border-gray-200 rounded" />
 </div>
 
 ### Create Page
 
-The product create page will display a form to create a new product. It will allow users to create a new product by filling the form. For this, we'll use the [`useForm`](https://refine.dev/docs/packages/documentation/react-hook-form/useForm/) hook from `@refinedev/react-hook-form` and the input components from PrimeReact.
+The product create page will display a form to create a new product. It will allow users to create a new product by filling the form. For this, we'll use the [`useForm`](https://refine.dev/core/docs/packages/documentation/react-hook-form/useForm/) hook from `@refinedev/react-hook-form` and the input components from PrimeReact.
 
 Before continuing, let's install `react-hook-form` to use unexported components from `@refinedev/react-hook-form`.
 
@@ -1592,9 +1593,9 @@ export const ProductCreate = () => {
 
 </details>
 
-In the code above, we used the [`useForm`](https://refine.dev/docs/packages/documentation/react-hook-form/useForm/) hook to manage the form state. It also makes a request to the `/products` endpoint with the `POST` method when the form is submitted.
+In the code above, we used the [`useForm`](https://refine.dev/core/docs/packages/documentation/react-hook-form/useForm/) hook to manage the form state. It also makes a request to the `/products` endpoint with the `POST` method when the form is submitted.
 
-Additionally, we used the [`useSelect`](https://refine.dev/docs/api-reference/core/hooks/useSelect/) hook to fetch the categories for the dropdown. It makes a request to the `/categories` endpoint with the `GET` method to fetch the categories.
+Additionally, we used the [`useSelect`](https://refine.dev/core/docs/api-reference/core/hooks/useSelect/) hook to fetch the categories for the dropdown. It makes a request to the `/categories` endpoint with the `GET` method to fetch the categories.
 
 To render the form, we used the PrimeReact input components and we used the React Hook Form as recommended by the PrimeReact documentation.
 
@@ -1654,12 +1655,12 @@ export default App;
 After these changes, when we navigate to the `/products/create` path, you should see the product create page as below:
 
 <div>
-    <img alt="React admin panel" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/product-create.jpeg" className="border border-gray-200 rounded" />
+    <img alt="Create product form" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/product-create.jpeg" className="border border-gray-200 rounded" />
 </div>
 
 ### Edit Page
 
-The product edit page will display a form to edit an existing product. It will allow users to edit an existing product by filling the form. For this, we'll use again the [`useForm`](https://refine.dev/docs/packages/documentation/react-hook-form/useForm/) hook from `@refinedev/react-hook-form` and the input components from PrimeReact.
+The product edit page will display a form to edit an existing product. It will allow users to edit an existing product by filling the form. For this, we'll use again the [`useForm`](https://refine.dev/core/docs/packages/documentation/react-hook-form/useForm/) hook from `@refinedev/react-hook-form` and the input components from PrimeReact.
 
 Let's create a `<ProductEdit />` component in `src/pages/products/edit.tsx` directory with the following code:
 
@@ -1686,7 +1687,7 @@ export const ProductEdit = () => {
   const goBack = useBack();
 
   const {
-    refineCore: { onFinish, formLoading, queryResult },
+    refineCore: { onFinish, formLoading, query },
     handleSubmit,
     control,
     formState: { errors },
@@ -1728,7 +1729,7 @@ export const ProductEdit = () => {
             label="Refresh"
             icon="pi pi-refresh"
             outlined
-            onClick={() => queryResult?.refetch()}
+            onClick={() => query?.refetch()}
           />
         </div>
       }
@@ -1839,7 +1840,7 @@ export const ProductEdit = () => {
 
 </details>
 
-In the code above, we used the [`useForm`](https://refine.dev/docs/packages/documentation/react-hook-form/useForm/) hook to manage the form state. It also makes a request to the `/products/:id` endpoint with the `GET` method when the hook is mounted. It fetches the product with the given `id` and fills the form with the fetched data. When the form is submitted, it makes a request to the `/products/:id` endpoint with the `PATCH` method.
+In the code above, we used the [`useForm`](https://refine.dev/core/docs/packages/documentation/react-hook-form/useForm/) hook to manage the form state. It also makes a request to the `/products/:id` endpoint with the `GET` method when the hook is mounted. It fetches the product with the given `id` and fills the form with the fetched data. When the form is submitted, it makes a request to the `/products/:id` endpoint with the `PATCH` method.
 
 `useForm` hook can distinguish between the create and edit operations by checking the resource definition. If the resource definition has an `edit` path, it assumes that the form is used for editing an existing record. Otherwise, it assumes that the form is used for creating a new record.
 
@@ -1902,12 +1903,12 @@ export default App;
 After these changes, when we navigate to the `/products/edit/:id` path, you should see the product edit page as below:
 
 <div>
-    <img alt="React admin panel" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/product-edit.jpeg" className="border border-gray-200 rounded" />
+    <img alt="Edit product form" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/product-edit.jpeg" className="border border-gray-200 rounded" />
 </div>
 
 ### Show Page
 
-The product show page will display the details of an existing product. It will allow users to see the details of an existing product. For this, we'll use the [`useShow`](https://refine.dev/docs/api-reference/core/hooks/show/useShow/) hook from **Refine**.
+The product show page will display the details of an existing product. It will allow users to see the details of an existing product. For this, we'll use the [`useShow`](https://refine.dev/core/docs/api-reference/core/hooks/show/useShow/) hook from **Refine**.
 
 Let's create a `<ProductShow />` component in `src/pages/products/show.tsx` directory with the following code:
 
@@ -1926,10 +1927,9 @@ import { ICategory, IProduct } from "../../interfaces";
 export const ProductShow = () => {
   const goBack = useBack();
 
-  const { queryResult } = useShow<IProduct>();
-  const product = queryResult?.data?.data;
+  const { result: product } = useShow<IProduct>();
 
-  const { data: categoryData } = useOne<ICategory>({
+  const { result: categoryData } = useOne<ICategory>({
     resource: "categories",
     id: product?.category.id,
     queryOptions: {
@@ -1968,7 +1968,7 @@ export const ProductShow = () => {
 
 </details>
 
-In the code above, we used the [`useShow`](https://refine.dev/docs/api-reference/core/hooks/show/useShow/) hook to fetch the product details. It makes a request to the `/products/:id` endpoint to fetch the product details. After fetching the data, we used the [`useOne`](https://refine.dev/docs/api-reference/core/hooks/data/useOne/) hook to fetch the category details related to the product.
+In the code above, we used the [`useShow`](https://refine.dev/core/docs/api-reference/core/hooks/show/useShow/) hook to fetch the product details. It makes a request to the `/products/:id` endpoint to fetch the product details. After fetching the data, we used the [`useOne`](https://refine.dev/core/docs/data/hooks/use-one/) hook to fetch the category details related to the product.
 
 First, let's export the product show page on `src/pages/products/index.tsx` file as follows:
 
@@ -2035,7 +2035,7 @@ export default App;
 After these changes, when we navigate to the `/products/show/:id` path, you should see the product show page as below:
 
 <div className="flex justify-center">
-    <img alt="React admin panel" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/product-show.jpeg" className="border border-gray-200 rounded" />
+    <img alt="Product details page" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/product-show.jpeg" className="border border-gray-200 rounded" />
 </div>
 
 ## Create Category CRUD Pages
@@ -2051,10 +2051,10 @@ Let's start by defining the "category" resource in `src/App.tsx` file as follows
 ```tsx title="src/App.tsx"
 import { ErrorComponent, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ConfirmDialog } from "primereact/confirmdialog";
@@ -2080,7 +2080,7 @@ function App() {
       <RefineKbarProvider>
         <Refine
           dataProvider={dataProvider("https://api.finefoods.refine.dev")}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           resources={[
             {
               name: "dashboard",
@@ -2166,11 +2166,11 @@ export const CategoryList = () => {
   const {
     tableQuery,
     pageCount,
-    current,
+    currentPage,
     pageSize,
     sorters,
     filters,
-    setCurrent,
+    setCurrentPage,
     setPageSize,
     setSorters,
     setFilters,
@@ -2235,7 +2235,7 @@ export const CategoryList = () => {
         label="Clear"
         outlined
         onClick={() => {
-          setCurrent(1);
+          setCurrentPage(1);
           setFilters([], "replace");
         }}
       />
@@ -2244,7 +2244,7 @@ export const CategoryList = () => {
         <InputText
           value={getDefaultFilter("q", filters)}
           onChange={(e) => {
-            setCurrent(1);
+            setCurrentPage(1);
             setFilters([
               {
                 field: "q",
@@ -2281,10 +2281,10 @@ export const CategoryList = () => {
         paginator
         rows={pageSize}
         rowsPerPageOptions={[5, 10, 25, 50]}
-        first={current * pageSize - pageSize}
+        first={currentPage * pageSize - pageSize}
         totalRecords={pageCount * pageSize}
         onPage={(event) => {
-          setCurrent((event.page ?? 0) + 1);
+          setCurrentPage((event.page ?? 0) + 1);
           setPageSize(event.rows);
         }}
         onSort={(event) => {
@@ -2437,7 +2437,7 @@ export const CategoryEdit = () => {
   const goBack = useBack();
 
   const {
-    refineCore: { onFinish, formLoading, queryResult },
+    refineCore: { onFinish, formLoading, query },
     handleSubmit,
     control,
     formState: { errors },
@@ -2474,7 +2474,7 @@ export const CategoryEdit = () => {
             label="Refresh"
             icon="pi pi-refresh"
             outlined
-            onClick={() => queryResult?.refetch()}
+            onClick={() => query?.refetch()}
           />
         </div>
       }
@@ -2529,8 +2529,7 @@ import { ICategory } from "../../interfaces";
 export const CategoryShow = () => {
   const goBack = useBack();
 
-  const { queryResult } = useShow<ICategory>();
-  const category = queryResult?.data?.data;
+  const { result: category } = useShow<ICategory>();
 
   return (
     <Card
@@ -2577,10 +2576,10 @@ Next, import the category CRUD pages in `src/App.tsx` and add routes for renderi
 ```tsx title="src/App.tsx"
 import { ErrorComponent, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ConfirmDialog } from "primereact/confirmdialog";
@@ -2614,7 +2613,7 @@ function App() {
       <RefineKbarProvider>
         <Refine
           dataProvider={dataProvider("https://api.finefoods.refine.dev")}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           resources={[
             {
               name: "dashboard",
@@ -2681,7 +2680,7 @@ export default App;
 After these changes, you should be able to navigate to the category CRUD pages as the below:
 
 <div className="flex justify-center">
-    <img alt="React admin panel" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/category-pages.gif" className="border border-gray-200 rounded" />
+    <img alt="Category pages preview" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/category-pages.avif" className="border border-gray-200 rounded" />
 </div>
 
 ## Update the Layout
@@ -2701,10 +2700,10 @@ Additionally, we'll add `meta` property to the resources to render icons in the 
 ```tsx title="src/App.tsx"
 import { ErrorComponent, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 //highlight-next-line
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
@@ -2740,7 +2739,7 @@ function App() {
       <RefineKbarProvider>
         <Refine
           dataProvider={dataProvider("https://api.finefoods.refine.dev")}
-          routerProvider={routerBindings}
+          routerProvider={routerProvider}
           resources={[
             {
               name: "dashboard",
@@ -2889,7 +2888,7 @@ export const Menu = () => {
 };
 ```
 
-[`useMenu`](https://refine.dev/docs/api-reference/core/hooks/ui/useMenu/) hook returns the menu items according to the resources defined in the `<Refine />` component.
+[`useMenu`](https://refine.dev/core/docs/api-reference/core/hooks/ui/useMenu/) hook returns the menu items according to the resources defined in the `<Refine />` component.
 
 ### Update the Breadcrumb
 
@@ -2938,14 +2937,14 @@ export const Breadcrumb = () => {
 };
 ```
 
-[`useBreadcrumb`](https://refine.dev/docs/api-reference/core/hooks/useBreadcrumb/) hook returns the breadcrumb items according to the resources defined in the `<Refine />` component. If there is only one breadcrumb item, we won't render the `<Breadcrumb />` component. Because there is no need to display the breadcrumb if there is only one item.
+[`useBreadcrumb`](https://refine.dev/core/docs/api-reference/core/hooks/useBreadcrumb/) hook returns the breadcrumb items according to the resources defined in the `<Refine />` component. If there is only one breadcrumb item, we won't render the `<Breadcrumb />` component. Because there is no need to display the breadcrumb if there is only one item.
 
 <br />
 
 After these changes, you can see the final result as below. Also, you can interact with the admin panel on [CodeSandbox](#live-codesandbox-example).
 
 <div className="flex justify-center">
-    <img alt="React admin panel" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/final-result.jpeg" className="border border-gray-200 rounded" />
+    <img alt="Final dashboard overview" src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-25-refine-primereact/final-result.jpeg" className="border border-gray-200 rounded" />
 </div>
 
 ## Conclusion

@@ -1,32 +1,30 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 
 import {
+  type AccessControlProvider,
+  type AuthProvider,
+  type NotificationProvider,
   Refine,
   type I18nProvider,
-  type AccessControlProvider,
   type DataProvider,
-  type NotificationProvider,
   type IResourceItem,
-  type AuthProvider,
-  type LegacyAuthProvider,
+  type RouterProvider,
+  type IRefineOptions,
 } from "@refinedev/core";
 
 import { MockRouterProvider, MockJSONServer } from "@test";
 
-const List = () => {
-  return <div>hede</div>;
-};
 export interface ITestWrapperProps {
   dataProvider?: DataProvider;
+  routerProvider?: RouterProvider;
   authProvider?: AuthProvider;
-  legacyAuthProvider?: LegacyAuthProvider;
   resources?: IResourceItem[];
   notificationProvider?: NotificationProvider;
   accessControlProvider?: AccessControlProvider;
   i18nProvider?: I18nProvider;
   routerInitialEntries?: string[];
-  DashboardPage?: React.FC;
+  options?: IRefineOptions;
 }
 
 export const TestWrapper: (
@@ -34,13 +32,13 @@ export const TestWrapper: (
 ) => React.FC<{ children?: React.ReactNode }> = ({
   dataProvider,
   authProvider,
-  legacyAuthProvider,
+  routerProvider,
   resources,
   notificationProvider,
   accessControlProvider,
   routerInitialEntries,
-  DashboardPage,
   i18nProvider,
+  options,
 }) => {
   // Previously, MemoryRouter was used in this wrapper. However, the
   // recommendation by react-router developers (see
@@ -60,20 +58,19 @@ export const TestWrapper: (
         <Refine
           dataProvider={dataProvider ?? MockJSONServer}
           i18nProvider={i18nProvider}
-          legacyRouterProvider={MockRouterProvider}
+          routerProvider={routerProvider ?? MockRouterProvider()}
           authProvider={authProvider}
-          legacyAuthProvider={legacyAuthProvider}
           notificationProvider={notificationProvider}
-          resources={resources ?? [{ name: "posts", list: List }]}
+          resources={resources ?? [{ name: "posts", list: "/posts" }]}
           accessControlProvider={accessControlProvider}
-          DashboardPage={DashboardPage ?? undefined}
           options={{
+            ...options,
             disableTelemetry: true,
             reactQuery: {
               clientConfig: {
                 defaultOptions: {
                   queries: {
-                    cacheTime: 0,
+                    gcTime: 0,
                     staleTime: 0,
                     networkMode: "always",
                   },
@@ -94,7 +91,10 @@ export {
   MockAccessControlProvider,
   MockLiveProvider,
   MockAuthProvider,
+  MockDataProvider,
 } from "./dataMocks";
 
 // re-export everything
 export * from "@testing-library/react";
+
+export { act } from "react";

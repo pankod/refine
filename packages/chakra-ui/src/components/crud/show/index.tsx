@@ -4,9 +4,8 @@ import {
   useTranslate,
   useUserFriendlyName,
   useRefineContext,
-  useResource,
+  useResourceParams,
   useToPath,
-  useRouterType,
   useBack,
   useGo,
 } from "@refinedev/core";
@@ -35,6 +34,7 @@ export const Show: React.FC<ShowProps> = (props) => {
     resource: resourceFromProps,
     recordItemId,
     canDelete,
+    deleteButtonProps: deleteButtonPropsFromProps,
     canEdit,
     dataProviderName,
     isLoading,
@@ -54,18 +54,17 @@ export const Show: React.FC<ShowProps> = (props) => {
     options: { breadcrumb: globalBreadcrumb } = {},
   } = useRefineContext();
 
-  const routerType = useRouterType();
   const back = useBack();
   const go = useGo();
-  const { goBack, list: legacyGoList } = useNavigation();
   const getUserFriendlyName = useUserFriendlyName();
-
   const {
     resource,
+    identifier,
     action,
     id: idFromParams,
-    identifier,
-  } = useResource(resourceFromProps);
+  } = useResourceParams({
+    resource: resourceFromProps,
+  });
 
   const goListPath = useToPath({
     resource,
@@ -80,42 +79,43 @@ export const Show: React.FC<ShowProps> = (props) => {
       : breadcrumbFromProps;
 
   const hasList = resource?.list && !recordItemId;
-  const isDeleteButtonVisible =
-    canDelete ?? resource?.meta?.canDelete ?? resource?.canDelete;
-  const isEditButtonVisible = canEdit ?? resource?.canEdit ?? !!resource?.edit;
+  const hasDelete =
+    canDelete ?? (resource?.meta?.canDelete || deleteButtonPropsFromProps);
+
+  const isDeleteButtonVisible = hasDelete && typeof id !== "undefined";
+
+  const isEditButtonVisible =
+    canEdit ?? resource?.meta?.canEdit ?? !!resource?.edit;
 
   const listButtonProps: ListButtonProps | undefined = hasList
     ? {
         ...(isLoading ? { disabled: true } : {}),
-        resource: routerType === "legacy" ? resource?.route : identifier,
+        resource: identifier,
       }
     : undefined;
   const editButtonProps: EditButtonProps | undefined = isEditButtonVisible
     ? {
         colorScheme: "brand",
         ...(isLoading ? { disabled: true } : {}),
-        resource: routerType === "legacy" ? resource?.route : identifier,
+        resource: identifier,
         recordItemId: id,
       }
     : undefined;
   const deleteButtonProps: DeleteButtonProps | undefined = isDeleteButtonVisible
     ? {
         ...(isLoading ? { disabled: true } : {}),
-        resource: routerType === "legacy" ? resource?.route : identifier,
+        resource: identifier,
         recordItemId: id,
         onSuccess: () => {
-          if (routerType === "legacy") {
-            legacyGoList(resource?.route ?? resource?.name ?? "");
-          } else {
-            go({ to: goListPath });
-          }
+          go({ to: goListPath });
         },
         dataProviderName,
+        ...deleteButtonPropsFromProps,
       }
     : undefined;
   const refreshButtonProps: RefreshButtonProps = {
     ...(isLoading ? { disabled: true } : {}),
-    resource: routerType === "legacy" ? resource?.route : identifier,
+    resource: identifier,
     recordItemId: id,
     dataProviderName,
   };
@@ -138,11 +138,7 @@ export const Show: React.FC<ShowProps> = (props) => {
         variant="ghost"
         size="sm"
         onClick={
-          action !== "list" && typeof action !== "undefined"
-            ? routerType === "legacy"
-              ? goBack
-              : back
-            : undefined
+          action !== "list" && typeof action !== "undefined" ? back : undefined
         }
       >
         {typeof goBackFromProps !== "undefined" ? (
@@ -195,10 +191,7 @@ export const Show: React.FC<ShowProps> = (props) => {
         {translate(
           `${identifier}.titles.show`,
           `Show ${getUserFriendlyName(
-            resource?.meta?.label ??
-              resource?.options?.label ??
-              resource?.label ??
-              identifier,
+            resource?.meta?.label ?? identifier,
             "singular",
           )}`,
         )}
@@ -234,7 +227,7 @@ export const Show: React.FC<ShowProps> = (props) => {
       >
         <Box minW={200}>
           {typeof breadcrumb !== "undefined" ? (
-            <>{breadcrumb}</> ?? undefined
+            <>{breadcrumb}</>
           ) : (
             <Breadcrumb />
           )}

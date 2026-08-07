@@ -253,7 +253,14 @@ const PropsTable: React.FC<React.PropsWithChildren<Props>> = ({
               return null;
             }
             return (
-              <tr key={prop.name}>
+              <tr
+                key={prop.name}
+                {...(prop.tags?.deprecated
+                  ? {
+                      "data-is-deprecated": "true",
+                    }
+                  : {})}
+              >
                 <RowName prop={prop} overrides={overrides} />
                 <RowType prop={prop} overrides={overrides} />
                 <RowDescription prop={prop} overrides={overrides} />

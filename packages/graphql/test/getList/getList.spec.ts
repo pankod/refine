@@ -1,6 +1,6 @@
 import dataProvider from "../../src/index";
 import client from "../gqlClient";
-import { gql } from "@urql/core";
+import gql from "graphql-tag";
 import "./getList.mock";
 
 const gqlQuery = gql`
@@ -8,6 +8,19 @@ const gqlQuery = gql`
     blogPosts(paging: $paging, filter: $filter, sorting: $sorting) {
       nodes {
         id
+        title
+        status
+      }
+      totalCount
+    }
+  }
+`;
+
+const gqlQueryError = gql`
+  query BlogPosts($paging: OffsetPaging!, $filter: BlogPostFilter!, $sorting: [BlogPostSort!]!) {
+    blogPosts(paging: $paging, filter: $filter, sorting: $sorting) {
+      nodes {
+        id1
         title
         status
       }
@@ -25,9 +38,9 @@ describe("getList", () => {
       },
     });
 
-    expect(data[0].id).toBe("1");
+    expect(data[0].id).toBe("3");
     expect(data.length).toBe(10);
-    expect(total).toBe(507);
+    expect(total).toBe(503);
   });
 
   describe("pagination", () => {
@@ -38,11 +51,11 @@ describe("getList", () => {
           gqlQuery: gqlQuery,
         },
         pagination: {
-          current: 2,
+          currentPage: 2,
         },
       });
 
-      expect(data[0].id).toBe("11");
+      expect(data[0].id).toBe("14");
     });
 
     it("pageSize", async () => {
@@ -71,7 +84,7 @@ describe("getList", () => {
           },
         });
 
-        expect(data.length).toBe(507);
+        expect(data.length).toBe(503);
       });
 
       it("server", async () => {
@@ -112,7 +125,7 @@ describe("getList", () => {
         filters: [{ field: "status", operator: "eq", value: "DRAFT" }],
       });
 
-      data.map((d) => expect(d.status).toBe("DRAFT"));
+      data.forEach((d) => expect(d.status).toBe("DRAFT"));
     });
 
     it("and", async () => {
@@ -132,7 +145,7 @@ describe("getList", () => {
         ],
       });
 
-      expect(data.length).toBe(4);
+      expect(data.length).toBe(1);
       expect(data[0].status).toBe("DRAFT");
     });
 
@@ -153,7 +166,34 @@ describe("getList", () => {
         ],
       });
 
-      data.map((d) => expect(d.status).not.toBe("REJECTED"));
+      data.forEach((d) => expect(d.status).not.toBe("REJECTED"));
+    });
+  });
+
+  describe("without operation", () => {
+    it("throws code error", async () => {
+      await expect(
+        dataProvider(client).getList({
+          resource: "blogPosts",
+        }),
+      ).rejects.toEqual(new Error("[Code] Operation is required."));
+    });
+  });
+
+  describe("incorrect item", () => {
+    it("throws graphql error", async () => {
+      await expect(
+        dataProvider(client).getList({
+          resource: "blogPosts",
+          meta: {
+            gqlQuery: gqlQueryError,
+          },
+        }),
+      ).rejects.toEqual(
+        new Error(
+          '[GraphQL] Cannot query field "id1" on type "BlogPost". Did you mean "id"?',
+        ),
+      );
     });
   });
 });

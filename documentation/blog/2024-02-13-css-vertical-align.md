@@ -3,8 +3,9 @@ title: 10 Methods for Vertical Alignment Using CSS
 description: We'll look at different techniques to vertically align HTML content using CSS.
 slug: css-vertical-align
 authors: peter_osah
+category: "Tutorials"
 tags: [css]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-13-css-vertical-align/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-13-css-vertical-align/social.png
 hide_table_of_contents: false
 ---
 
@@ -67,7 +68,7 @@ A sample of this can be displayed below:
 ```
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-13-css-vertical-align/1.png" alt="css vertical alignment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-13-css-vertical-align/1.png" alt="Centered child element using margin auto in a fixed-height container" />
 </div>
 
 ## Vertical alignment with Flexbox
@@ -106,7 +107,7 @@ With the CSS properties `display: flex`, `align-items: center` and `justify-cont
 ```
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-13-css-vertical-align/2.png" style={{ width:"450px"}} alt="css vertical alignment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-13-css-vertical-align/2.png" style={{ width:"450px"}} alt="Centered text inside a dark navigation bar example" />
 </div>
 
 ### Example 2:
@@ -166,7 +167,7 @@ With the CSS properties `display: grid`, `align-items: center` and `justify-cont
 ```
 
  <div className="centered-image" >
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-13-css-vertical-align/3.png"  style={{ width:"450px"}} alt="css vertical alignment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-13-css-vertical-align/3.png"  style={{ width:"450px"}} alt="Grid container centering an item with align-items and justify-content" />
 </div>
 
 ### Example 2:
@@ -212,7 +213,7 @@ We will update the `CSS` code of the first example to show this:
 ```
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-13-css-vertical-align/4.png" style={{ width:"450px"}} alt="css vertical alignment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-13-css-vertical-align/4.png" style={{ width:"450px"}} alt="Grid item vertically centered using align-self" />
 </div>
 
 ## Vertical alignment using table display (display: table)
@@ -262,7 +263,7 @@ A sample of this can be displayed below:
 ```
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-13-css-vertical-align/5.png" style={{ width:"450px"}} alt="css vertical alignment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-13-css-vertical-align/5.png" style={{ width:"450px"}} alt="Table-cell layout with vertical-align middle centering text" />
 </div>
 
 ## Vertical alignment using absolute positioning (position: absolute)
@@ -316,7 +317,7 @@ Using the `CSS` properties `position: relative` and `position; absolute` and `ma
 ```
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-13-css-vertical-align/6.png" style={{ width:"450px"}} alt="css vertical alignment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-13-css-vertical-align/6.png" style={{ width:"450px"}} alt="Absolute positioning with top and bottom set to center text" />
 </div>
 
 ## Vertical alignment using css transforms
@@ -365,7 +366,7 @@ Using the `CSS` properties `position: relative` and `position; absolute` and `tr
 ```
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-13-css-vertical-align/7.png" style={{ width:"450px"}} alt="css vertical alignment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-13-css-vertical-align/7.png" style={{ width:"450px"}} alt="Centering with transform translate(-50%, -50%)" />
 </div>
 
 ### Example 2
@@ -391,7 +392,7 @@ We will update the `CSS` code of the first example to show this:
 ```
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-13-css-vertical-align/8.png" alt="css vertical alignment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-13-css-vertical-align/8.png" alt="Vertical centering using translateY(-50%)" />
 </div>
 
 ## Vertical alignment using line-height
@@ -438,7 +439,7 @@ Using the `CSS` properties `line-height: [lineheight value]` and `height: [heigh
 ```
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-13-css-vertical-align/2.png" style={{ width:"450px"}} alt="css vertical alignment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-13-css-vertical-align/2.png" style={{ width:"450px"}} alt="Centered text inside a dark navigation bar example" />
 </div>
 
 ## Vertical alignment using inline display (display: inline) and vertical-align: middle
@@ -488,7 +489,7 @@ a {
 ```
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-13-css-vertical-align/9.png"  style={{ width:"450px"}} alt="css vertical alignment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-13-css-vertical-align/9.png"  style={{ width:"450px"}} alt="Inline link and text vertically aligned in a tall line box" />
 </div>
 
 ## Vertical alignment using inline-block display (display: inline-block) and vertical-align: middle
@@ -529,7 +530,7 @@ In this example, with the `inline-block` display and the `vertical-align` proper
 ```
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-13-css-vertical-align/10.png" style={{ width:"450px"}} alt="css vertical alignment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-13-css-vertical-align/10.png" style={{ width:"450px"}} alt="Inline-block circle vertically aligned with text" />
 </div>
 
 ## Vertical Alignment using “before” pseudo-element and vertical-align: middle
@@ -583,7 +584,7 @@ This type of alignment is usually called the **ghost element** alignment. This a
 ```
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-13-css-vertical-align/11.png" style={{ width:"450px"}} alt="css vertical alignment" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-13-css-vertical-align/11.png" style={{ width:"450px"}} alt="Ghost pseudo-element alignment centering a paragraph vertically" />
 </div>
 
 ## Conclusion

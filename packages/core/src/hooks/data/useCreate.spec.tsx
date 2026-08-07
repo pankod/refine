@@ -1,8 +1,10 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
+import { vi } from "vitest";
 
 import {
   MockJSONServer,
   TestWrapper,
+  mockAuthProvider,
   mockRouterProvider,
   queryClient,
 } from "@test";
@@ -22,17 +24,17 @@ describe("useCreate Hook [with params]", () => {
     result.current.mutate({ resource: "posts", values: { id: 1 } });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    const { status, data } = result.current;
+    const { status, data } = result.current.mutation;
 
     expect(status).toBe("success");
     expect(data?.data.slug).toBe("ut-ad-et");
   });
 
   it("should only pass meta from the hook parameter and query parameters to the dataProvider", async () => {
-    const createMock = jest.fn();
+    const createMock = vi.fn();
 
     const { result } = renderHook(() => useCreate(), {
       wrapper: TestWrapper({
@@ -56,10 +58,10 @@ describe("useCreate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(createMock).toBeCalled();
+      expect(createMock).toHaveBeenCalled();
     });
 
-    expect(createMock).toBeCalledWith(
+    expect(createMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -70,7 +72,7 @@ describe("useCreate Hook [with params]", () => {
   });
 
   it("works correctly with `interval` and `onInterval` params", async () => {
-    const onInterval = jest.fn();
+    const onInterval = vi.fn();
     const { result } = renderHook(
       () =>
         useCreate({
@@ -103,13 +105,13 @@ describe("useCreate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeTruthy();
+      expect(result.current.mutation.isPending).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBe(900);
-      expect(onInterval).toBeCalled();
+      expect(onInterval).toHaveBeenCalled();
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeFalsy();
+      expect(result.current.mutation.isPending).toBeFalsy();
       expect(result.current.overtime.elapsedTime).toBeUndefined();
     });
   });
@@ -118,15 +120,15 @@ describe("useCreate Hook [with params]", () => {
     it.each(["default", "categories"])(
       "publish event on success [dataProviderName: %s]",
       async (dataProviderName) => {
-        const onPublishMock = jest.fn();
+        const onPublishMock = vi.fn();
 
         const { result } = renderHook(() => useCreate(), {
           wrapper: TestWrapper({
             dataProvider: MockJSONServer,
             resources: [{ name: "posts" }],
             liveProvider: {
-              unsubscribe: jest.fn(),
-              subscribe: jest.fn(),
+              unsubscribe: vi.fn(),
+              subscribe: vi.fn(),
               publish: onPublishMock,
             },
           }),
@@ -139,10 +141,10 @@ describe("useCreate Hook [with params]", () => {
         });
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.mutation.isSuccess).toBeTruthy();
         });
 
-        expect(onPublishMock).toBeCalled();
+        expect(onPublishMock).toHaveBeenCalled();
         expect(onPublishMock).toHaveBeenCalledWith({
           channel: "resources/posts",
           date: expect.any(Date),
@@ -158,20 +160,20 @@ describe("useCreate Hook [with params]", () => {
     );
 
     it("publish live event without `ids` if no `id` is returned from the dataProvider", async () => {
-      const onPublishMock = jest.fn();
+      const onPublishMock = vi.fn();
 
       const { result } = renderHook(() => useCreate(), {
         wrapper: TestWrapper({
           dataProvider: {
             default: {
               ...MockJSONServer.default,
-              create: jest.fn(),
+              create: vi.fn(),
             },
           },
           resources: [{ name: "posts" }],
           liveProvider: {
-            unsubscribe: jest.fn(),
-            subscribe: jest.fn(),
+            unsubscribe: vi.fn(),
+            subscribe: vi.fn(),
             publish: onPublishMock,
           },
         }),
@@ -183,7 +185,7 @@ describe("useCreate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
       expect(onPublishMock).toHaveBeenCalledWith({
@@ -199,16 +201,24 @@ describe("useCreate Hook [with params]", () => {
   });
   describe("useLog", () => {
     it("publish log on success", async () => {
-      const createMock = jest.fn();
+      const createMock = vi.fn();
 
       const { result } = renderHook(() => useCreate(), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
+          authProvider: {
+            ...mockAuthProvider,
+            getIdentity: () =>
+              Promise.resolve({
+                name: "John Doe",
+                id: "1",
+              }),
+          },
           resources: [{ name: "posts" }],
           auditLogProvider: {
             create: createMock,
-            get: jest.fn(),
-            update: jest.fn(),
+            get: vi.fn(),
+            update: vi.fn(),
           },
         }),
       });
@@ -216,19 +226,23 @@ describe("useCreate Hook [with params]", () => {
       result.current.mutate({ resource: "posts", values: { id: 1 } });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(createMock).toBeCalled();
+      expect(createMock).toHaveBeenCalled();
       expect(createMock).toHaveBeenCalledWith({
         action: "create",
-        author: {},
         data: {
           id: 1,
+        },
+        author: {
+          id: "1",
+          name: "John Doe",
         },
         meta: {
           dataProviderName: "default",
           id: "1",
+          route: undefined,
         },
         resource: "posts",
       });
@@ -237,14 +251,14 @@ describe("useCreate Hook [with params]", () => {
 
   describe("useNotification", () => {
     it("should call `open` from the notification provider on success", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCreate(), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -259,10 +273,10 @@ describe("useCreate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Success",
         key: "create-posts-notification",
         message: "Successfully created post",
@@ -271,8 +285,8 @@ describe("useCreate Hook [with params]", () => {
     });
 
     it("should call `open` from the notification provider on error", async () => {
-      const createMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const openNotificationMock = jest.fn();
+      const createMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCreate(), {
         wrapper: TestWrapper({
@@ -284,7 +298,7 @@ describe("useCreate Hook [with params]", () => {
           },
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -299,10 +313,10 @@ describe("useCreate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Error",
         key: "create-posts-notification",
         message: "There was an error creating post (status code: undefined)",
@@ -311,14 +325,14 @@ describe("useCreate Hook [with params]", () => {
     });
 
     it("should call `open` from notification provider on success with custom notification params", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCreate(), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -338,10 +352,10 @@ describe("useCreate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Successfully created post",
         message: "Success",
         type: "success",
@@ -349,14 +363,14 @@ describe("useCreate Hook [with params]", () => {
     });
 
     it("should not call `open` from notification provider on return `false`", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCreate(), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -372,15 +386,15 @@ describe("useCreate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledTimes(0);
+      expect(openNotificationMock).toHaveBeenCalledTimes(0);
     });
 
     it("should call `open` from notification provider on error with custom notification params", async () => {
-      const createMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const openNotificationMock = jest.fn();
+      const createMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCreate(), {
         wrapper: TestWrapper({
@@ -392,7 +406,7 @@ describe("useCreate Hook [with params]", () => {
           },
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -412,10 +426,10 @@ describe("useCreate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "There was an error creating post",
         message: "Error",
         type: "error",
@@ -425,8 +439,8 @@ describe("useCreate Hook [with params]", () => {
 
   describe("useOnError", () => {
     it("should call `onError` from the auth provider on error", async () => {
-      const createMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onErrorMock = jest.fn();
+      const createMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const onErrorMock = vi.fn();
 
       const { result } = renderHook(() => useCreate(), {
         wrapper: TestWrapper({
@@ -452,15 +466,15 @@ describe("useCreate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(onErrorMock).toBeCalledWith(new Error("Error"));
+      expect(onErrorMock).toHaveBeenCalledWith(new Error("Error"));
     });
 
-    it("should call `checkError` from the legacy auth provider on error", async () => {
-      const createMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onErrorMock = jest.fn();
+    it("should call `onError` from the auth provider on error", async () => {
+      const createMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const onErrorMock = vi.fn();
 
       const { result } = renderHook(() => useCreate(), {
         wrapper: TestWrapper({
@@ -470,8 +484,11 @@ describe("useCreate Hook [with params]", () => {
               create: createMock,
             },
           },
-          legacyAuthProvider: {
-            checkError: onErrorMock,
+          authProvider: {
+            login: () => Promise.resolve({ success: true }),
+            logout: () => Promise.resolve({ success: true }),
+            check: () => Promise.resolve({ authenticated: true }),
+            onError: onErrorMock,
           },
           resources: [{ name: "posts" }],
         }),
@@ -486,16 +503,16 @@ describe("useCreate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(onErrorMock).toBeCalledWith(new Error("Error"));
+      expect(onErrorMock).toHaveBeenCalledWith(new Error("Error"));
     });
   });
 
   it("should select correct dataProviderName", async () => {
-    const createDefaultMock = jest.fn();
-    const createFooMock = jest.fn();
+    const createDefaultMock = vi.fn();
+    const createFooMock = vi.fn();
 
     const { result } = renderHook(() => useCreate(), {
       wrapper: TestWrapper({
@@ -531,19 +548,19 @@ describe("useCreate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(createFooMock).toBeCalledWith(
+    expect(createFooMock).toHaveBeenCalledWith(
       expect.objectContaining({
         resource: "posts",
       }),
     );
-    expect(createDefaultMock).not.toBeCalled();
+    expect(createDefaultMock).not.toHaveBeenCalled();
   });
 
   it("should get correct `meta` of related resource", async () => {
-    const createMock = jest.fn();
+    const createMock = vi.fn();
 
     const { result } = renderHook(() => useCreate(), {
       wrapper: TestWrapper({
@@ -572,10 +589,10 @@ describe("useCreate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(createMock).toBeCalledWith(
+    expect(createMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -586,8 +603,8 @@ describe("useCreate Hook [with params]", () => {
 
   describe("when passing `identifier` instead of `name`", () => {
     it("should select correct dataProviderName", async () => {
-      const createDefaultMock = jest.fn();
-      const createFooMock = jest.fn();
+      const createDefaultMock = vi.fn();
+      const createFooMock = vi.fn();
 
       const { result } = renderHook(() => useCreate(), {
         wrapper: TestWrapper({
@@ -624,23 +641,21 @@ describe("useCreate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(createFooMock).toBeCalledWith(
+      expect(createFooMock).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "posts",
         }),
       );
-      expect(createDefaultMock).not.toBeCalled();
+      expect(createDefaultMock).not.toHaveBeenCalled();
     });
 
     it("should invalidate query store with `identifier`", async () => {
-      const invalidateStore = jest.fn();
-      jest
-        .spyOn(UseInvalidate, "useInvalidate")
-        .mockReturnValue(invalidateStore);
-      const createMock = jest.fn();
+      const invalidateStore = vi.fn();
+      vi.spyOn(UseInvalidate, "useInvalidate").mockReturnValue(invalidateStore);
+      const createMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -672,10 +687,10 @@ describe("useCreate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(invalidateStore).toBeCalledWith(
+      expect(invalidateStore).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "featured-posts",
         }),
@@ -683,7 +698,7 @@ describe("useCreate Hook [with params]", () => {
     });
 
     it("should get correct `meta` of related resource", async () => {
-      const createMock = jest.fn();
+      const createMock = vi.fn();
 
       const { result } = renderHook(() => useCreate(), {
         wrapper: TestWrapper({
@@ -720,10 +735,10 @@ describe("useCreate Hook [with params]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(createMock).toBeCalledWith(
+      expect(createMock).toHaveBeenCalledWith(
         expect.objectContaining({
           meta: expect.objectContaining({
             bar: "baz",
@@ -734,8 +749,8 @@ describe("useCreate Hook [with params]", () => {
   });
 
   it("should override `mutationFn` with mutationOptions.mutationFn", async () => {
-    const createMock = jest.fn().mockResolvedValue({ data: {} });
-    const mutationFnMock = jest.fn().mockResolvedValue({ data: {} });
+    const createMock = vi.fn().mockResolvedValue({ data: {} });
+    const mutationFnMock = vi.fn().mockResolvedValue({ data: {} });
 
     const { result } = renderHook(
       () =>
@@ -765,11 +780,11 @@ describe("useCreate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(createMock).not.toBeCalled();
-    expect(mutationFnMock).toBeCalled();
+    expect(createMock).not.toHaveBeenCalled();
+    expect(mutationFnMock).toHaveBeenCalled();
   });
 
   it("should override `mutationKey` with `mutationOptions.mutationKey`", async () => {
@@ -794,7 +809,7 @@ describe("useCreate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
     expect(
@@ -819,8 +834,8 @@ describe("useCreate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error(
           "[useCreate]: `resource` is not defined or not matched but is required",
         ),
@@ -843,8 +858,8 @@ describe("useCreate Hook [with params]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error("[useCreate]: `values` is not provided but is required"),
       );
     });
@@ -866,17 +881,17 @@ describe("useCreate Hook [with props]", () => {
     result.current.mutate();
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    const { status, data } = result.current;
+    const { status, data } = result.current.mutation;
 
     expect(status).toBe("success");
     expect(data?.data.slug).toBe("ut-ad-et");
   });
 
   it("should only pass meta from the hook parameter and query parameters to the dataProvider", async () => {
-    const createMock = jest.fn();
+    const createMock = vi.fn();
 
     const { result } = renderHook(
       () => useCreate({ resource: "posts", meta: { foo: "bar" }, values: {} }),
@@ -899,10 +914,10 @@ describe("useCreate Hook [with props]", () => {
     result.current.mutate();
 
     await waitFor(() => {
-      expect(createMock).toBeCalled();
+      expect(createMock).toHaveBeenCalled();
     });
 
-    expect(createMock).toBeCalledWith(
+    expect(createMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -913,7 +928,7 @@ describe("useCreate Hook [with props]", () => {
   });
 
   it("works correctly with `interval` and `onInterval` params", async () => {
-    const onInterval = jest.fn();
+    const onInterval = vi.fn();
     const { result } = renderHook(
       () =>
         useCreate({
@@ -946,13 +961,13 @@ describe("useCreate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeTruthy();
+      expect(result.current.mutation.isPending).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBe(900);
-      expect(onInterval).toBeCalled();
+      expect(onInterval).toHaveBeenCalled();
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeFalsy();
+      expect(result.current.mutation.isPending).toBeFalsy();
       expect(result.current.overtime.elapsedTime).toBeUndefined();
     });
   });
@@ -961,7 +976,7 @@ describe("useCreate Hook [with props]", () => {
     it.each(["default", "categories"])(
       "publish event on success [dataProviderName: %s]",
       async (dataProviderName) => {
-        const onPublishMock = jest.fn();
+        const onPublishMock = vi.fn();
 
         const { result } = renderHook(
           () => useCreate({ resource: "posts", dataProviderName }),
@@ -970,8 +985,8 @@ describe("useCreate Hook [with props]", () => {
               dataProvider: MockJSONServer,
               resources: [{ name: "posts" }],
               liveProvider: {
-                unsubscribe: jest.fn(),
-                subscribe: jest.fn(),
+                unsubscribe: vi.fn(),
+                subscribe: vi.fn(),
                 publish: onPublishMock,
               },
             }),
@@ -983,10 +998,10 @@ describe("useCreate Hook [with props]", () => {
         });
 
         await waitFor(() => {
-          expect(result.current.isSuccess).toBeTruthy();
+          expect(result.current.mutation.isSuccess).toBeTruthy();
         });
 
-        expect(onPublishMock).toBeCalled();
+        expect(onPublishMock).toHaveBeenCalled();
         expect(onPublishMock).toHaveBeenCalledWith({
           channel: "resources/posts",
           date: expect.any(Date),
@@ -1002,7 +1017,7 @@ describe("useCreate Hook [with props]", () => {
     );
 
     it("publish live event without `ids` if no `id` is returned from the dataProvider", async () => {
-      const onPublishMock = jest.fn();
+      const onPublishMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1014,13 +1029,13 @@ describe("useCreate Hook [with props]", () => {
             dataProvider: {
               default: {
                 ...MockJSONServer.default,
-                create: jest.fn(),
+                create: vi.fn(),
               },
             },
             resources: [{ name: "posts" }],
             liveProvider: {
-              unsubscribe: jest.fn(),
-              subscribe: jest.fn(),
+              unsubscribe: vi.fn(),
+              subscribe: vi.fn(),
               publish: onPublishMock,
             },
           }),
@@ -1032,7 +1047,7 @@ describe("useCreate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
       expect(onPublishMock).toHaveBeenCalledWith({
@@ -1048,16 +1063,25 @@ describe("useCreate Hook [with props]", () => {
   });
   describe("useLog", () => {
     it("publish log on success", async () => {
-      const createMock = jest.fn();
+      const createMock = vi.fn();
 
       const { result } = renderHook(() => useCreate({ resource: "posts" }), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
           resources: [{ name: "posts" }],
+          authProvider: {
+            ...mockAuthProvider,
+            getIdentity: () =>
+              Promise.resolve({
+                id: "1",
+                name: "John Doe",
+              }),
+          },
+
           auditLogProvider: {
             create: createMock,
-            get: jest.fn(),
-            update: jest.fn(),
+            get: vi.fn(),
+            update: vi.fn(),
           },
         }),
       });
@@ -1065,19 +1089,23 @@ describe("useCreate Hook [with props]", () => {
       result.current.mutate({ values: { id: 1 } });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(createMock).toBeCalled();
+      expect(createMock).toHaveBeenCalled();
       expect(createMock).toHaveBeenCalledWith({
         action: "create",
-        author: {},
         data: {
           id: 1,
+        },
+        author: {
+          id: "1",
+          name: "John Doe",
         },
         meta: {
           dataProviderName: "default",
           id: "1",
+          route: undefined,
         },
         resource: "posts",
       });
@@ -1086,7 +1114,7 @@ describe("useCreate Hook [with props]", () => {
 
   describe("useNotification", () => {
     it("should call `open` from the notification provider on success", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1098,7 +1126,7 @@ describe("useCreate Hook [with props]", () => {
             dataProvider: MockJSONServer,
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1113,10 +1141,10 @@ describe("useCreate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Success",
         key: "create-posts-notification",
         message: "Successfully created post",
@@ -1125,8 +1153,8 @@ describe("useCreate Hook [with props]", () => {
     });
 
     it("should call `open` from the notification provider on error", async () => {
-      const createMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const openNotificationMock = jest.fn();
+      const createMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCreate({ resource: "posts" }), {
         wrapper: TestWrapper({
@@ -1138,7 +1166,7 @@ describe("useCreate Hook [with props]", () => {
           },
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
@@ -1152,10 +1180,10 @@ describe("useCreate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Error",
         key: "create-posts-notification",
         message: "There was an error creating post (status code: undefined)",
@@ -1164,7 +1192,7 @@ describe("useCreate Hook [with props]", () => {
     });
 
     it("should call `open` from notification provider on success with custom notification params", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1181,7 +1209,7 @@ describe("useCreate Hook [with props]", () => {
             dataProvider: MockJSONServer,
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1196,10 +1224,10 @@ describe("useCreate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Successfully created post",
         message: "Success",
         type: "success",
@@ -1207,7 +1235,7 @@ describe("useCreate Hook [with props]", () => {
     });
 
     it("should not call `open` from notification provider on return `false`", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1217,7 +1245,7 @@ describe("useCreate Hook [with props]", () => {
             dataProvider: MockJSONServer,
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1232,15 +1260,15 @@ describe("useCreate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledTimes(0);
+      expect(openNotificationMock).toHaveBeenCalledTimes(0);
     });
 
     it("should call `open` from notification provider on error with custom notification params", async () => {
-      const createMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const openNotificationMock = jest.fn();
+      const createMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1265,7 +1293,7 @@ describe("useCreate Hook [with props]", () => {
             },
             notificationProvider: {
               open: openNotificationMock,
-              close: jest.fn(),
+              close: vi.fn(),
             },
             resources: [{ name: "posts" }],
           }),
@@ -1277,10 +1305,10 @@ describe("useCreate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "There was an error creating post",
         message: "Error",
         type: "error",
@@ -1290,8 +1318,8 @@ describe("useCreate Hook [with props]", () => {
 
   describe("useOnError", () => {
     it("should call `onError` from the auth provider on error", async () => {
-      const createMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onErrorMock = jest.fn();
+      const createMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const onErrorMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1322,15 +1350,15 @@ describe("useCreate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(onErrorMock).toBeCalledWith(new Error("Error"));
+      expect(onErrorMock).toHaveBeenCalledWith(new Error("Error"));
     });
 
     it("should call `checkError` from the legacy auth provider on error", async () => {
-      const createMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onErrorMock = jest.fn();
+      const createMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const onErrorMock = vi.fn();
 
       const { result } = renderHook(() => useCreate({ resource: "posts" }), {
         wrapper: TestWrapper({
@@ -1340,8 +1368,11 @@ describe("useCreate Hook [with props]", () => {
               create: createMock,
             },
           },
-          legacyAuthProvider: {
-            checkError: onErrorMock,
+          authProvider: {
+            login: () => Promise.resolve({ success: true }),
+            logout: () => Promise.resolve({ success: true }),
+            check: () => Promise.resolve({ authenticated: true }),
+            onError: onErrorMock,
           },
           resources: [{ name: "posts" }],
         }),
@@ -1355,16 +1386,16 @@ describe("useCreate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(onErrorMock).toBeCalledWith(new Error("Error"));
+      expect(onErrorMock).toHaveBeenCalledWith(new Error("Error"));
     });
   });
 
   it("should select correct dataProviderName", async () => {
-    const createDefaultMock = jest.fn();
-    const createFooMock = jest.fn();
+    const createDefaultMock = vi.fn();
+    const createFooMock = vi.fn();
 
     const { result } = renderHook(() => useCreate({ resource: "posts" }), {
       wrapper: TestWrapper({
@@ -1399,19 +1430,19 @@ describe("useCreate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(createFooMock).toBeCalledWith(
+    expect(createFooMock).toHaveBeenCalledWith(
       expect.objectContaining({
         resource: "posts",
       }),
     );
-    expect(createDefaultMock).not.toBeCalled();
+    expect(createDefaultMock).not.toHaveBeenCalled();
   });
 
   it("should get correct `meta` of related resource", async () => {
-    const createMock = jest.fn();
+    const createMock = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -1445,10 +1476,10 @@ describe("useCreate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(createMock).toBeCalledWith(
+    expect(createMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -1459,8 +1490,8 @@ describe("useCreate Hook [with props]", () => {
 
   describe("when passing `identifier` instead of `name`", () => {
     it("should select correct dataProviderName", async () => {
-      const createDefaultMock = jest.fn();
-      const createFooMock = jest.fn();
+      const createDefaultMock = vi.fn();
+      const createFooMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1502,23 +1533,21 @@ describe("useCreate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(createFooMock).toBeCalledWith(
+      expect(createFooMock).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "posts",
         }),
       );
-      expect(createDefaultMock).not.toBeCalled();
+      expect(createDefaultMock).not.toHaveBeenCalled();
     });
 
     it("should invalidate query store with `identifier`", async () => {
-      const invalidateStore = jest.fn();
-      jest
-        .spyOn(UseInvalidate, "useInvalidate")
-        .mockReturnValue(invalidateStore);
-      const createMock = jest.fn();
+      const invalidateStore = vi.fn();
+      vi.spyOn(UseInvalidate, "useInvalidate").mockReturnValue(invalidateStore);
+      const createMock = vi.fn();
 
       const { result } = renderHook(() => useCreate(), {
         wrapper: TestWrapper({
@@ -1545,10 +1574,10 @@ describe("useCreate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(invalidateStore).toBeCalledWith(
+      expect(invalidateStore).toHaveBeenCalledWith(
         expect.objectContaining({
           resource: "featured-posts",
         }),
@@ -1556,7 +1585,7 @@ describe("useCreate Hook [with props]", () => {
     });
 
     it("should get correct `meta` of related resource", async () => {
-      const createMock = jest.fn();
+      const createMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -1598,10 +1627,10 @@ describe("useCreate Hook [with props]", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(createMock).toBeCalledWith(
+      expect(createMock).toHaveBeenCalledWith(
         expect.objectContaining({
           meta: expect.objectContaining({
             bar: "baz",
@@ -1612,8 +1641,8 @@ describe("useCreate Hook [with props]", () => {
   });
 
   it("should override `mutationFn` with mutationOptions.mutationFn", async () => {
-    const createMock = jest.fn().mockResolvedValue({ data: {} });
-    const mutationFnMock = jest.fn().mockResolvedValue({ data: {} });
+    const createMock = vi.fn().mockResolvedValue({ data: {} });
+    const mutationFnMock = vi.fn().mockResolvedValue({ data: {} });
 
     const { result } = renderHook(
       () =>
@@ -1643,11 +1672,11 @@ describe("useCreate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(createMock).not.toBeCalled();
-    expect(mutationFnMock).toBeCalled();
+    expect(createMock).not.toHaveBeenCalled();
+    expect(mutationFnMock).toHaveBeenCalled();
   });
 
   it("should override `mutationKey` with `mutationOptions.mutationKey`", async () => {
@@ -1672,7 +1701,7 @@ describe("useCreate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
     expect(
@@ -1701,8 +1730,8 @@ describe("useCreate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error(
           "[useCreate]: `resource` is not defined or not matched but is required",
         ),
@@ -1729,8 +1758,8 @@ describe("useCreate Hook [with props]", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
-      expect(result.current.error).toEqual(
+      expect(result.current.mutation.isError).toBeTruthy();
+      expect(result.current.mutation.error).toEqual(
         new Error("[useCreate]: `values` is not provided but is required"),
       );
     });
@@ -1767,14 +1796,14 @@ describe("useCreate Hook should work with params and props", () => {
       },
     };
 
-    const createMock = jest.fn();
-    const openNotificationMock = jest.fn();
+    const createMock = vi.fn();
+    const openNotificationMock = vi.fn();
 
     const { result } = renderHook(() => useCreate(options.props), {
       wrapper: TestWrapper({
         notificationProvider: {
           open: openNotificationMock,
-          close: jest.fn(),
+          close: vi.fn(),
         },
         dataProvider: {
           default: MockJSONServer.default,
@@ -1789,14 +1818,13 @@ describe("useCreate Hook should work with params and props", () => {
     result.current.mutate(options.params);
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
     expect(createMock).toHaveBeenCalledWith({
       resource: options.params.resource,
       variables: options.params.values,
       meta: options.params.meta,
-      metaData: options.params.meta,
     });
     expect(openNotificationMock).toHaveBeenCalledWith({
       description: "Successfully created post",
@@ -1806,10 +1834,10 @@ describe("useCreate Hook should work with params and props", () => {
   });
 
   it("should life-cycle methods works", async () => {
-    const onSuccessProp = jest.fn();
-    const onSettledProp = jest.fn();
-    const onSuccessFn = jest.fn();
-    const onSettledFn = jest.fn();
+    const onSuccessProp = vi.fn();
+    const onSettledProp = vi.fn();
+    const onSuccessFn = vi.fn();
+    const onSettledFn = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -1847,8 +1875,8 @@ describe("useCreate Hook should work with params and props", () => {
   });
 
   it("should onError methods works", async () => {
-    const onErrorProp = jest.fn();
-    const onErrorFn = jest.fn();
+    const onErrorProp = vi.fn();
+    const onErrorFn = vi.fn();
 
     const { result } = renderHook(
       () =>
@@ -1888,5 +1916,44 @@ describe("useCreate Hook should work with params and props", () => {
       expect(onErrorProp).toHaveBeenCalledWith("onErrorProp");
       expect(onErrorFn).toHaveBeenCalledWith("onErrorProp");
     });
+  });
+
+  it("should not override audit meta.id with route params", async () => {
+    const auditCreateMock = vi.fn();
+    const createMock = vi.fn().mockResolvedValue({ data: { id: "123" } });
+
+    const { result } = renderHook(() => useCreate(), {
+      wrapper: TestWrapper({
+        dataProvider: {
+          default: { ...MockJSONServer.default, create: createMock },
+        },
+        resources: [{ name: "posts" }],
+        auditLogProvider: {
+          create: auditCreateMock,
+          get: vi.fn(),
+          update: vi.fn(),
+        },
+        routerProvider: mockRouterProvider({
+          params: { id: "6" },
+        }),
+      }),
+    });
+
+    act(() => {
+      result.current.mutate({
+        resource: "posts",
+        values: { title: "new post" },
+      });
+    });
+
+    await waitFor(() => expect(result.current.mutation.isSuccess).toBeTruthy());
+
+    expect(auditCreateMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        action: "create",
+        resource: "posts",
+        meta: expect.objectContaining({ id: "123" }),
+      }),
+    );
   });
 });

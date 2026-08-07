@@ -15,7 +15,7 @@ export const EditPostDrawer: React.FC<
   UseModalFormReturnType<IPost, HttpError, Nullable<IPost>>
 > = ({
   saveButtonProps,
-  refineCore: { queryResult },
+  refineCore: { query },
   modal: { visible, close },
   register,
   control,
@@ -23,7 +23,7 @@ export const EditPostDrawer: React.FC<
 }) => {
   const { autocompleteProps } = useAutocomplete({
     resource: "categories",
-    defaultValue: queryResult?.data?.data.category.id,
+    defaultValue: query?.data?.data.category.id,
   });
 
   return (

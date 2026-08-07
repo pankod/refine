@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 import { useNavigation } from "@hooks";
 
-import type { BaseKey, MetaDataQuery } from "../../contexts/data/types";
+import type { BaseKey, MetaQuery } from "../../contexts/data/types";
 import type { IResourceItem } from "../../contexts/resource/types";
 import type { RedirectAction } from "../form/types";
 
@@ -10,7 +10,7 @@ export type UseRedirectionAfterSubmissionType = () => (options: {
   redirect: RedirectAction;
   resource?: IResourceItem;
   id?: BaseKey;
-  meta?: MetaDataQuery;
+  meta?: MetaQuery;
 }) => void;
 
 export const useRedirectionAfterSubmission: UseRedirectionAfterSubmissionType =
@@ -27,7 +27,7 @@ export const useRedirectionAfterSubmission: UseRedirectionAfterSubmissionType =
         redirect: RedirectAction;
         resource?: IResourceItem;
         id?: BaseKey;
-        meta?: MetaDataQuery;
+        meta?: MetaQuery;
       }) => {
         if (redirect && resource) {
           if (!!resource.show && redirect === "show" && id) {

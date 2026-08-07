@@ -1,28 +1,35 @@
 import React from "react";
-import { useGetIdentity, useActiveAuthProvider } from "@refinedev/core";
+import { useGetIdentity } from "@refinedev/core";
 import {
   Avatar,
-  Group,
+  Flex,
   Header as MantineHeader,
+  type Sx,
   Title,
   useMantineTheme,
 } from "@mantine/core";
 
 import type { RefineThemedLayoutHeaderProps } from "../types";
+import { HamburgerMenu } from "../hamburgerMenu";
 
-/**
- * @deprecated It is recommended to use the improved `ThemedLayoutV2`. Review migration guidelines. https://refine.dev/docs/api-reference/mantine/components/mantine-themed-layout/#migrate-themedlayout-to-themedlayoutv2
- */
-export const ThemedHeader: React.FC<RefineThemedLayoutHeaderProps> = () => {
+export const ThemedHeader: React.FC<RefineThemedLayoutHeaderProps> = ({
+  sticky,
+}) => {
   const theme = useMantineTheme();
 
-  const authProvider = useActiveAuthProvider();
-  const { data: user } = useGetIdentity({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { data: user } = useGetIdentity();
 
   const borderColor =
     theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[2];
+
+  let stickyStyles: Sx = {};
+  if (sticky) {
+    stickyStyles = {
+      position: "sticky",
+      top: 0,
+      zIndex: 1,
+    };
+  }
 
   return (
     <MantineHeader
@@ -32,25 +39,28 @@ export const ThemedHeader: React.FC<RefineThemedLayoutHeaderProps> = () => {
       px="sm"
       sx={{
         borderBottom: `1px solid ${borderColor}`,
+        ...stickyStyles,
       }}
     >
-      <Group
-        position="right"
+      <Flex
         align="center"
+        justify="space-between"
         sx={{
           height: "100%",
         }}
       >
-        <Title
-          order={6}
-          sx={{
-            cursor: "pointer",
-          }}
-        >
-          {user?.name}
-        </Title>
-        <Avatar src={user?.avatar} alt={user?.name} radius="xl" />
-      </Group>
+        <HamburgerMenu />
+        <Flex align="center" gap="sm">
+          {user?.name && (
+            <Title order={6} data-testid="header-user-name">
+              {user?.name}
+            </Title>
+          )}
+          {user?.avatar && (
+            <Avatar src={user?.avatar} alt={user?.name} radius="xl" />
+          )}
+        </Flex>
+      </Flex>
     </MantineHeader>
   );
 };

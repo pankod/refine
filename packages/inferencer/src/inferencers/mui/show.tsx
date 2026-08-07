@@ -50,7 +50,10 @@ export const renderer = ({
   id,
   i18n,
 }: RendererContext) => {
-  const COMPONENT_NAME = componentName(resource.label ?? resource.name, "show");
+  const COMPONENT_NAME = componentName(
+    resource.meta?.label ?? resource.name,
+    "show",
+  );
   const recordName = "record";
   const imports: Array<ImportElement> = [
     ["useShow", "@refinedev/core"],
@@ -94,10 +97,10 @@ export const renderer = ({
           }
 
           return `
-                const { data: ${getVariableName(
-                  field.key,
-                  "Data",
-                )}, isLoading: ${getVariableName(field.key, "IsLoading")} } =
+                const {
+                  result: ${getVariableName(field.key, "Data")},
+                  query: { isLoading: ${getVariableName(field.key, "IsLoading")} },
+                } =
                 useMany({
                     resource: "${field.resource.name}",
                     ids: ${ids} || [],
@@ -116,10 +119,13 @@ export const renderer = ({
         imports.push(["useOne", "@refinedev/core"]);
 
         return `
-                const { data: ${getVariableName(
+                const { result: ${getVariableName(
                   field.key,
                   "Data",
-                )}, isLoading: ${getVariableName(field.key, "IsLoading")} } =
+                )}, query: {isLoading: ${getVariableName(
+                  field.key,
+                  "IsLoading",
+                )} }}  =
                 useOne({
                     resource: "${field.resource.name}",
                     id: ${accessor(
@@ -254,13 +260,13 @@ export const renderer = ({
                         if (field.relationInfer?.accessor) {
                           if (Array.isArray(field.relationInfer.accessor)) {
                             return `{${accessor(
-                              `${variableName}?.data`,
+                              `${variableName}`,
                               undefined,
                               field.relationInfer.accessor,
                               ' + " " + ',
                             )}}`;
                           }
-                          return `{${variableName}?.data?.${field.relationInfer.accessor}}`;
+                          return `{${variableName}?.${field.relationInfer.accessor}}`;
                         }
                         const cannotRender =
                           field?.relationInfer?.type === "object" &&
@@ -278,9 +284,9 @@ export const renderer = ({
 
                         return cannotRender
                           ? `<span title="Inferencer failed to render this field. (Cannot find key)">Cannot Render</span>`
-                          : `{${variableName}?.data}`;
+                          : `{${variableName}}`;
                       }
-                      return `{${variableName}?.data?.id}`;
+                      return `{${variableName}?.id}`;
                     })()}
                     </>
                 )}
@@ -660,9 +666,10 @@ export const renderer = ({
 
     export const ${COMPONENT_NAME} = () => {
         ${useTranslateHook}
-        const { query } = useShow(${
-          isCustomPage
-            ? `{ 
+        const {     result: ${recordName},
+    query: { isLoading }, } = useShow(${
+      isCustomPage
+        ? `{ 
                     resource: "${resource.name}", 
                     id: ${idQuoteWrapper(id)},
                     ${getMetaProps(
@@ -671,19 +678,12 @@ export const renderer = ({
                       ["getOne"],
                     )}
                 }`
-            : getMetaProps(resource?.identifier ?? resource?.name, meta, [
-                  "getOne",
-                ])
-              ? `{ ${getMetaProps(
-                  resource?.identifier ?? resource?.name,
-                  meta,
-                  ["getOne"],
-                )} }`
-              : ""
-        });
-        const { data, isLoading } = query;
-    
-        const ${recordName} = data?.data;
+        : getMetaProps(resource?.identifier ?? resource?.name, meta, ["getOne"])
+          ? `{ ${getMetaProps(resource?.identifier ?? resource?.name, meta, [
+              "getOne",
+            ])} }`
+          : ""
+    });
     
         ${relationHooksCode}
 

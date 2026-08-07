@@ -1,19 +1,17 @@
-import { useRouterType } from "@contexts/router/picker";
 import { pickResource } from "@definitions/helpers/pick-resource";
 import { getActionRoutesFromResource } from "@definitions/helpers/router";
 import { composeRoute } from "@definitions/helpers/router/compose-route";
-import { useResource, useRouterContext } from "@hooks";
-import { useBack } from "@hooks/router/use-back";
+import { useResourceParams } from "@hooks";
 import { useGo } from "@hooks/router/use-go";
 import { useParsed } from "@hooks/router/use-parsed";
 
-import type { BaseKey, MetaDataQuery } from "../../contexts/data/types";
+import type { BaseKey, MetaQuery } from "../../contexts/data/types";
 import type { IResourceItem } from "../../contexts/resource/types";
 
 export type HistoryType = "push" | "replace";
 
 /**
- * `refine` uses {@link https://reactrouter.com/en/main/hooks/use-navigate#usenavigate `React Router`} and comes with all redirects out of the box.
+ * `refine` uses {@link https://reactrouter.com/api/hooks/useNavigate `React Router`} and comes with all redirects out of the box.
  * It allows you to manage your routing operations in refine.
  * Using this hook, you can manage all the routing operations of your application very easily.
  *
@@ -22,52 +20,18 @@ export type HistoryType = "push" | "replace";
  * @see {@link https://refine.dev/docs/api-reference/core/hooks/navigation/useNavigation} for more details.
  */
 export const useNavigation = () => {
-  const { resources } = useResource();
-  const routerType = useRouterType();
-  const { useHistory } = useRouterContext();
-  const history = useHistory();
+  const { resources } = useResourceParams();
   const parsed = useParsed();
   const go = useGo();
-  const back = useBack();
 
   const handleUrl = (url: string, type: HistoryType = "push") => {
-    if (routerType === "legacy") {
-      history[type](url);
-    } else {
-      go({ to: url, type });
-    }
+    go({ to: url, type });
   };
 
   const createUrl = (
     resource: string | IResourceItem,
-    meta: MetaDataQuery = {},
+    meta: MetaQuery = {},
   ) => {
-    if (routerType === "legacy") {
-      const resourceItem =
-        typeof resource === "string"
-          ? pickResource(resource, resources, true) ?? {
-              name: resource,
-              route: resource,
-            }
-          : resource;
-
-      const createActionRoute = getActionRoutesFromResource(
-        resourceItem,
-        resources,
-        true,
-      ).find((r) => r.action === "create");
-
-      if (!createActionRoute) {
-        return "";
-      }
-
-      return composeRoute(
-        createActionRoute.route,
-        resourceItem?.meta,
-        parsed,
-        meta,
-      );
-    }
     const resourceItem =
       typeof resource === "string"
         ? pickResource(resource, resources) ?? { name: resource }
@@ -85,39 +49,16 @@ export const useNavigation = () => {
     return go({
       to: composeRoute(createActionRoute, resourceItem?.meta, parsed, meta),
       type: "path",
+      query: meta.query,
     }) as string;
   };
 
   const editUrl = (
     resource: string | IResourceItem,
     id: BaseKey,
-    meta: MetaDataQuery = {},
+    meta: MetaQuery = {},
   ) => {
     const encodedId = encodeURIComponent(id);
-    if (routerType === "legacy") {
-      const resourceItem =
-        typeof resource === "string"
-          ? pickResource(resource, resources, true) ?? {
-              name: resource,
-              route: resource,
-            }
-          : resource;
-
-      const editActionRoute = getActionRoutesFromResource(
-        resourceItem,
-        resources,
-        true,
-      ).find((r) => r.action === "edit");
-
-      if (!editActionRoute) {
-        return "";
-      }
-
-      return composeRoute(editActionRoute.route, resourceItem?.meta, parsed, {
-        ...meta,
-        id: encodedId,
-      });
-    }
     const resourceItem =
       typeof resource === "string"
         ? pickResource(resource, resources) ?? { name: resource }
@@ -138,40 +79,16 @@ export const useNavigation = () => {
         id: encodedId,
       }),
       type: "path",
+      query: meta.query,
     }) as string;
   };
 
   const cloneUrl = (
     resource: string | IResourceItem,
     id: BaseKey,
-    meta: MetaDataQuery = {},
+    meta: MetaQuery = {},
   ) => {
     const encodedId = encodeURIComponent(id);
-
-    if (routerType === "legacy") {
-      const resourceItem =
-        typeof resource === "string"
-          ? pickResource(resource, resources, true) ?? {
-              name: resource,
-              route: resource,
-            }
-          : resource;
-
-      const cloneActionRoute = getActionRoutesFromResource(
-        resourceItem,
-        resources,
-        true,
-      ).find((r) => r.action === "clone");
-
-      if (!cloneActionRoute) {
-        return "";
-      }
-
-      return composeRoute(cloneActionRoute.route, resourceItem?.meta, parsed, {
-        ...meta,
-        id: encodedId,
-      });
-    }
     const resourceItem =
       typeof resource === "string"
         ? pickResource(resource, resources) ?? { name: resource }
@@ -192,39 +109,16 @@ export const useNavigation = () => {
         id: encodedId,
       }),
       type: "path",
+      query: meta.query,
     }) as string;
   };
 
   const showUrl = (
     resource: string | IResourceItem,
     id: BaseKey,
-    meta: MetaDataQuery = {},
+    meta: MetaQuery = {},
   ) => {
     const encodedId = encodeURIComponent(id);
-    if (routerType === "legacy") {
-      const resourceItem =
-        typeof resource === "string"
-          ? pickResource(resource, resources, true) ?? {
-              name: resource,
-              route: resource,
-            }
-          : resource;
-
-      const showActionRoute = getActionRoutesFromResource(
-        resourceItem,
-        resources,
-        true,
-      ).find((r) => r.action === "show");
-
-      if (!showActionRoute) {
-        return "";
-      }
-
-      return composeRoute(showActionRoute.route, resourceItem?.meta, parsed, {
-        ...meta,
-        id: encodedId,
-      });
-    }
     const resourceItem =
       typeof resource === "string"
         ? pickResource(resource, resources) ?? { name: resource }
@@ -245,39 +139,11 @@ export const useNavigation = () => {
         id: encodedId,
       }),
       type: "path",
+      query: meta.query,
     }) as string;
   };
 
-  const listUrl = (
-    resource: string | IResourceItem,
-    meta: MetaDataQuery = {},
-  ) => {
-    if (routerType === "legacy") {
-      const resourceItem =
-        typeof resource === "string"
-          ? pickResource(resource, resources, true) ?? {
-              name: resource,
-              route: resource,
-            }
-          : resource;
-
-      const listActionRoute = getActionRoutesFromResource(
-        resourceItem,
-        resources,
-        true,
-      ).find((r) => r.action === "list");
-
-      if (!listActionRoute) {
-        return "";
-      }
-
-      return composeRoute(
-        listActionRoute.route,
-        resourceItem?.meta,
-        parsed,
-        meta,
-      );
-    }
+  const listUrl = (resource: string | IResourceItem, meta: MetaQuery = {}) => {
     const resourceItem =
       typeof resource === "string"
         ? pickResource(resource, resources) ?? { name: resource }
@@ -295,13 +161,14 @@ export const useNavigation = () => {
     return go({
       to: composeRoute(listActionRoute, resourceItem?.meta, parsed, meta),
       type: "path",
+      query: meta.query,
     }) as string;
   };
 
   const create = (
     resource: string | IResourceItem,
     type: HistoryType = "push",
-    meta: MetaDataQuery = {},
+    meta: MetaQuery = {},
   ) => {
     handleUrl(createUrl(resource, meta), type);
   };
@@ -310,7 +177,7 @@ export const useNavigation = () => {
     resource: string | IResourceItem,
     id: BaseKey,
     type: HistoryType = "push",
-    meta: MetaDataQuery = {},
+    meta: MetaQuery = {},
   ) => {
     handleUrl(editUrl(resource, id, meta), type);
   };
@@ -319,7 +186,7 @@ export const useNavigation = () => {
     resource: string | IResourceItem,
     id: BaseKey,
     type: HistoryType = "push",
-    meta: MetaDataQuery = {},
+    meta: MetaQuery = {},
   ) => {
     handleUrl(cloneUrl(resource, id, meta), type);
   };
@@ -328,7 +195,7 @@ export const useNavigation = () => {
     resource: string | IResourceItem,
     id: BaseKey,
     type: HistoryType = "push",
-    meta: MetaDataQuery = {},
+    meta: MetaQuery = {},
   ) => {
     handleUrl(showUrl(resource, id, meta), type);
   };
@@ -336,42 +203,9 @@ export const useNavigation = () => {
   const list = (
     resource: string | IResourceItem,
     type: HistoryType = "push",
-    meta: MetaDataQuery = {},
+    meta: MetaQuery = {},
   ) => {
     handleUrl(listUrl(resource, meta), type);
-  };
-
-  /**
-   * @deprecated Please use `useGo` hook instead.
-   */
-  const push = (path: string, ...rest: unknown[]) => {
-    if (routerType === "legacy") {
-      history.push(path, ...rest);
-    } else {
-      go({ to: path, type: "push" });
-    }
-  };
-
-  /**
-   * @deprecated Please use `useGo` hook instead.
-   */
-  const replace = (path: string, ...rest: unknown[]) => {
-    if (routerType === "legacy") {
-      history.replace(path, ...rest);
-    } else {
-      go({ to: path, type: "replace" });
-    }
-  };
-
-  /**
-   * @deprecated Please use `useBack` hook instead.
-   */
-  const goBack = () => {
-    if (routerType === "legacy") {
-      history.goBack();
-    } else {
-      back();
-    }
   };
 
   return {
@@ -385,8 +219,5 @@ export const useNavigation = () => {
     showUrl,
     list,
     listUrl,
-    push,
-    replace,
-    goBack,
   };
 };

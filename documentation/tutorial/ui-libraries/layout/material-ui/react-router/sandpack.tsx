@@ -27,11 +27,11 @@ export const Sandpack = ({ children }: { children: React.ReactNode }) => {
 
 const LayoutWithCustomTitle = /* tsx */ `
 import { Refine, Authenticated } from "@refinedev/core";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
-import { RefineThemes, ThemedLayoutV2, ThemedTitleV2 } from "@refinedev/mui";
+import { RefineThemes, ThemedLayout, ThemedTitle } from "@refinedev/mui";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
@@ -75,13 +75,13 @@ export default function App(): JSX.Element {
                   key="authenticated-routes"
                   redirectOnFail="/login"
                 >
-                  <ThemedLayoutV2
+                  <ThemedLayout
                     Title={(props) => (
-                      <ThemedTitleV2 {...props} text="Awesome Project" />
+                      <ThemedTitle {...props} text="Awesome Project" />
                     )}
                   >
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >

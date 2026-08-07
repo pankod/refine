@@ -25,6 +25,7 @@ export const CommonCopyButton = ({ code, className }) => {
       aria-label={isCopied ? "Copied!" : "Copy code to clipboard"}
       title={"Copy code to clipboard"}
       className={clsx(
+        "refine-code-block-copy-button",
         "w-6 h-6",
         "flex justify-center items-center",
         "bg-gray-200",
@@ -37,15 +38,26 @@ export const CommonCopyButton = ({ code, className }) => {
       )}
       onClick={handleCopyCode}
     >
-      <SubtractIcon
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={16}
+        height={16}
+        viewBox="0 0 16 16"
         className={clsx(
-          "w-3 h-3",
           "text-gray-500",
           "dark:text-gray-400",
           isCopied && "rotate-[360deg]",
           "transition-all duration-200 ease-in-out",
         )}
-      />
+        fill="none"
+      >
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M2.667 10.667c-.734 0-1.334-.6-1.334-1.333V2.667c0-.733.6-1.333 1.334-1.333h6.666c.734 0 1.334.6 1.334 1.333m-4 2.667h6.666c.737 0 1.334.596 1.334 1.333v6.667c0 .736-.597 1.333-1.334 1.333H6.667a1.333 1.333 0 0 1-1.334-1.333V6.667c0-.737.597-1.333 1.334-1.333Z"
+        />
+      </svg>
     </button>
   );
 };

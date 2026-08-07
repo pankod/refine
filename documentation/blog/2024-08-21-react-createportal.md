@@ -3,9 +3,11 @@ title: A complete guide to the React createPortal API
 description: We'll explore the React createPortal API, its advantages, disadvantages, and possible use cases.
 slug: react-createportal
 authors: joseph_mawa
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-12-react-createportal/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-12-react-createportal/social-2.png
 hide_table_of_contents: false
+last_update: 2024-09-05
 ---
 
 **This article was last updated on August 21, 2024, to add sections on Best Practices for Using Portals and Testing Portals.**
@@ -15,15 +17,6 @@ hide_table_of_contents: false
 The `createPortal` API is part of the React DOM. You can use it to flexibly render the children of a React component in another location in the DOM. Though you can render a portal in another location, it still behaves like any other React child component.
 
 This behavior of the `createPortal` API makes it easy to create UIs such as tooltips, toasts, modals, and popups. This article will take a deep dive into the `createPortal` API. We will explore its advantages, disadvantages, and possible use cases.
-
-Steps we'll cover:
-
-- [Complete guide to the `createPortal` API](#complete-guide-to-the-createportal-api)
-- [Pros of the `createPortal` API](#pros-of-the-createportal-api)
-- [Best Practices for Using Portals in React](#best-practices-for-using-portals-in-react)
-- [Cons of the `createPortal` API](#cons-of-the-createportal-api)
-- [Use cases of the `createPortal` API](#use-cases-of-the-createportal-api)
-- [Testing Portals in React Applications](#testing-portals-in-react-applications)
 
 ## Complete guide to the `createPortal` API
 

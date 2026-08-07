@@ -1,4 +1,4 @@
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import { RefineThemes, useNotificationProvider } from "@refinedev/antd";
 import { Authenticated, ErrorComponent, Refine } from "@refinedev/core";
@@ -8,7 +8,7 @@ import routerProvider, {
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 
 import { App as AntdApp, ConfigProvider } from "antd";
 
@@ -26,6 +26,7 @@ import {
   TasksListPage,
 } from "@/routes";
 
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
 const App = () => {
@@ -45,7 +46,6 @@ const App = () => {
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: true,
                 liveMode: "auto",
-                useNewQueryKeys: true,
               }}
             >
               <Routes>

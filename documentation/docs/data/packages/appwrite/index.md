@@ -1,6 +1,9 @@
 ---
-title: Appwrite
-source: https://github.com/refinedev/refine/tree/master/packages/appwrite
+title: "Appwrite Integration Guide | Best Practices in Refine v5"
+display_title: "Appwrite"
+sidebar_label: "Appwrite"
+description: "Set up Appwrite in Refine v5. Learn best practices. Learn scale REST, GraphQL for custom APIs and scalable data flows. Explore with code snippets."
+source: https://github.com/refinedev/refine/tree/main/packages/appwrite
 swizzle: true
 ---
 
@@ -84,7 +87,7 @@ import {
 } from "antd";
 
 const PostList: React.FC = () => {
-  const { tableProps, sorter } = RefineAntdUseTable<IPost>({
+  const { result, tableProps, sorters } = RefineAntdUseTable<IPost>({
     sorters: {
       initial: [
         {
@@ -95,9 +98,11 @@ const PostList: React.FC = () => {
     },
   });
 
-  const categoryIds =
-    tableProps?.dataSource?.map((item) => item.categoryId) ?? [];
-  const { data, isLoading } = CoreUseMany<ICategory>({
+  const categoryIds = result?.data?.map((item) => item.categoryId) ?? [];
+  const {
+    result: categoriesData,
+    query: { isLoading },
+  } = CoreUseMany<ICategory>({
     resource: "61c43adc284ac",
     ids: categoryIds,
     queryOptions: {
@@ -112,7 +117,7 @@ const PostList: React.FC = () => {
           dataIndex="id"
           title="ID"
           sorter
-          defaultSortOrder={RefineAntdGetDefaultSortOrder("id", sorter)}
+          defaultSortOrder={RefineAntdGetDefaultSortOrder("id", sorters)}
         />
         <AntdTable.Column dataIndex="title" title="Title" sorter />
         <AntdTable.Column
@@ -125,7 +130,9 @@ const PostList: React.FC = () => {
 
             return (
               <RefineAntdTextField
-                value={data?.data.find((item) => item.id === value)?.title}
+                value={
+                  categoriesData?.data.find((item) => item.id === value)?.title
+                }
               />
             );
           }}
@@ -256,36 +263,37 @@ const PostEdit: React.FC = () => {
 };
 
 const PostShow: React.FC = () => {
-  const { queryResult } = RefineCoreUseShow<IPost>();
-  const { data, isLoading } = queryResult;
-  const record = data?.data;
+  const { query, result: post } = RefineCoreUseShow<IPost>();
+  const { isLoading } = query;
 
-  const { data: categoryData, isLoading: categoryIsLoading } =
-    RefineCoreUseOne<ICategory>({
-      resource: "categories",
-      id: record?.category?.id || "",
-      queryOptions: {
-        enabled: !!record,
-      },
-    });
+  const {
+    result: category,
+    query: { isLoading: categoryIsLoading },
+  } = RefineCoreUseOne<ICategory>({
+    resource: "categories",
+    id: post?.category?.id || "",
+    queryOptions: {
+      enabled: !!post,
+    },
+  });
 
   return (
     <RefineAntdShow isLoading={isLoading}>
       <AntdTypography.Title level={5}>Id</AntdTypography.Title>
-      <AntdTypography.Text>{record?.id}</AntdTypography.Text>
+      <AntdTypography.Text>{post?.id}</AntdTypography.Text>
 
       <AntdTypography.Title level={5}>
         AntdTypography.Title
       </AntdTypography.Title>
-      <AntdTypography.Text>{record?.title}</AntdTypography.Text>
+      <AntdTypography.Text>{post?.title}</AntdTypography.Text>
 
       <AntdTypography.Title level={5}>Category</AntdTypography.Title>
       <AntdTypography.Text>
-        {categoryIsLoading ? "Loading..." : categoryData?.data.title}
+        {categoryIsLoading ? "Loading..." : category?.title}
       </AntdTypography.Text>
 
       <AntdTypography.Title level={5}>Content</AntdTypography.Title>
-      <AntdTypography.Text>{record?.content}</AntdTypography.Text>
+      <AntdTypography.Text>{post?.content}</AntdTypography.Text>
     </RefineAntdShow>
   );
 };
@@ -296,8 +304,8 @@ Refine provides a data provider for [Appwrite](https://appwrite.io/), a backend 
 :::simple Good to know
 
 - `@refinedev/appwrite` requires Appwrite version >= 1.0
-- To learn more about data fetching in Refine, check out the [Data Fetching](/docs/guides-concepts/data-fetching) guide.
-- To learn more about realtime features of Refine, check out the [Realtime](/docs/guides-concepts/realtime) guide.
+- To learn more about data fetching in Refine, check out the [Data Fetching](/core/docs/guides-concepts/data-fetching/) guide.
+- To learn more about realtime features of Refine, check out the [Realtime](/core/docs/guides-concepts/realtime/) guide.
 - Example below uses `@refinedev/antd` as the UI library but Refine is UI agnostic and you can use any UI library you want.
 
 :::
@@ -373,7 +381,7 @@ We indicate that the read and write permission is open to everyone by giving the
 
 ## Login page​
 
-Before creating CRUD pages, let's create a login page. For this we use the [`AuthPage`](/docs/ui-integrations/ant-design/components/auth-page) component. This component returns ready-to-use authentication pages for `login`, `register`, `forgot password` and `update password` actions.
+Before creating CRUD pages, let's create a login page. For this we use the [`AuthPage`](/core/docs/ui-integrations/ant-design/components/auth-page/) component. This component returns ready-to-use authentication pages for `login`, `register`, `forgot password` and `update password` actions.
 
 Below we see its implementation in the `App.tsx` file:
 
@@ -386,11 +394,11 @@ import { Refine, Authenticated } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { dataProvider, liveProvider } from "@refinedev/appwrite";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   useNotificationProvider,
   List,
@@ -438,9 +446,9 @@ const App: React.FC = () => {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -484,9 +492,9 @@ const App: React.FC = () => {
             <Route
               element={
                 <Authenticated>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -554,7 +562,7 @@ import { Table, Space } from "antd";
 import { IPost, ICategory } from "interfaces";
 
 export const PostsList: React.FC = () => {
-  const { tableProps, sorter } = useTable<IPost>({
+  const { result, sorters, tableProps } = useTable<IPost>({
     sorters: {
       initial: [
         {
@@ -565,9 +573,11 @@ export const PostsList: React.FC = () => {
     },
   });
 
-  const categoryIds =
-    tableProps?.dataSource?.map((item) => item.categoryId) ?? [];
-  const { data, isLoading } = useMany<ICategory>({
+  const categoryIds = result?.data?.map((item) => item.categoryId) ?? [];
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useMany<ICategory>({
     resource: "61bc4afa9ee2c",
     ids: categoryIds,
     queryOptions: {
@@ -582,7 +592,7 @@ export const PostsList: React.FC = () => {
           dataIndex="id"
           title="ID"
           sorter
-          defaultSortOrder={getDefaultSortOrder("id", sorter)}
+          defaultSortOrder={getDefaultSortOrder("id", sorters)}
         />
         <Table.Column dataIndex="title" title="Title" sorter />
         <Table.Column
@@ -626,11 +636,11 @@ import { Refine, Authenticated } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { dataProvider, liveProvider } from "@refinedev/appwrite";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   useNotificationProvider,
   List,
@@ -683,9 +693,9 @@ const App: React.FC = () => {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -728,9 +738,9 @@ const App: React.FC = () => {
             <Route
               element={
                 <Authenticated>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -861,11 +871,11 @@ import { Refine, Authenticated } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { dataProvider, liveProvider } from "@refinedev/appwrite";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   useNotificationProvider,
   List,
@@ -918,9 +928,9 @@ const App: React.FC = () => {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -963,9 +973,9 @@ const App: React.FC = () => {
             <Route
               element={
                 <Authenticated>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -1017,9 +1027,9 @@ import { IPost, ICategory } from "interfaces";
 import { storage, normalizeFile } from "utility";
 
 export const PostsEdit: React.FC = () => {
-  const { formProps, saveButtonProps, queryResult } = useForm<IPost>();
+  const { formProps, saveButtonProps, query } = useForm<IPost>();
 
-  const postData = queryResult?.data?.data;
+  const postData = query?.data?.data;
   const { selectProps: categorySelectProps } = useSelect<ICategory>({
     resource: "61bc4afa9ee2c",
     defaultValue: postData?.categoryId,
@@ -1114,11 +1124,11 @@ import { Refine, Authenticated } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { dataProvider, liveProvider } from "@refinedev/appwrite";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   useNotificationProvider,
   List,
@@ -1171,9 +1181,9 @@ const App: React.FC = () => {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -1216,9 +1226,9 @@ const App: React.FC = () => {
             <Route
               element={
                 <Authenticated>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >

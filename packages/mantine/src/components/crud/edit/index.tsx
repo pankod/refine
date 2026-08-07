@@ -12,13 +12,11 @@ import {
   useBack,
   useGo,
   useMutationMode,
-  useNavigation,
   useRefineContext,
-  useResource,
   useUserFriendlyName,
-  useRouterType,
   useToPath,
   useTranslate,
+  useResourceParams,
 } from "@refinedev/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import {
@@ -66,18 +64,17 @@ export const Edit: React.FC<EditProps> = (props) => {
   const { mutationMode: mutationModeContext } = useMutationMode();
   const mutationMode = mutationModeFromProps ?? mutationModeContext;
 
-  const routerType = useRouterType();
   const back = useBack();
   const go = useGo();
-  const { goBack, list: legacyGoList } = useNavigation();
   const getUserFriendlyName = useUserFriendlyName();
 
   const {
     resource,
-    action,
-    id: idFromParams,
     identifier,
-  } = useResource(resourceFromProps);
+    id: idFromParams,
+  } = useResourceParams({
+    resource: resourceFromProps,
+  });
 
   const goListPath = useToPath({
     resource,
@@ -94,16 +91,10 @@ export const Edit: React.FC<EditProps> = (props) => {
   const hasList = resource?.list && !recordItemId;
 
   const isDeleteButtonVisible =
-    canDelete ??
-    ((resource?.meta?.canDelete ?? resource?.canDelete) ||
-      deleteButtonPropsFromProps);
+    canDelete ?? (resource?.meta?.canDelete || deleteButtonPropsFromProps);
 
   const breadcrumbComponent =
-    typeof breadcrumb !== "undefined" ? (
-      <>{breadcrumb}</> ?? undefined
-    ) : (
-      <Breadcrumb />
-    );
+    typeof breadcrumb !== "undefined" ? <>{breadcrumb}</> : <Breadcrumb />;
 
   const loadingOverlayVisible =
     isLoading ?? saveButtonPropsFromProps?.disabled ?? false;
@@ -111,13 +102,13 @@ export const Edit: React.FC<EditProps> = (props) => {
   const listButtonProps: ListButtonProps | undefined = hasList
     ? {
         ...(isLoading ? { disabled: true } : {}),
-        resource: routerType === "legacy" ? resource?.route : identifier,
+        resource: identifier,
       }
     : undefined;
 
   const refreshButtonProps: RefreshButtonProps = {
     ...(isLoading ? { disabled: true } : {}),
-    resource: routerType === "legacy" ? resource?.route : identifier,
+    resource: identifier,
     recordItemId: id,
     dataProviderName,
   };
@@ -125,14 +116,10 @@ export const Edit: React.FC<EditProps> = (props) => {
   const deleteButtonProps: DeleteButtonProps | undefined = isDeleteButtonVisible
     ? ({
         ...(isLoading ? { disabled: true } : {}),
-        resource: routerType === "legacy" ? resource?.route : identifier,
+        resource: identifier,
         mutationMode,
         onSuccess: () => {
-          if (routerType === "legacy") {
-            legacyGoList(resource?.route ?? resource?.name ?? "");
-          } else {
-            go({ to: goListPath });
-          }
+          go({ to: goListPath });
         },
         recordItemId: id,
         dataProviderName,
@@ -162,15 +149,7 @@ export const Edit: React.FC<EditProps> = (props) => {
 
   const buttonBack =
     goBackFromProps === (false || null) ? null : (
-      <ActionIcon
-        onClick={
-          action !== "list" && typeof action !== "undefined"
-            ? routerType === "legacy"
-              ? goBack
-              : back
-            : undefined
-        }
-      >
+      <ActionIcon onClick={back}>
         {typeof goBackFromProps !== "undefined" ? (
           goBackFromProps
         ) : (
@@ -216,10 +195,7 @@ export const Edit: React.FC<EditProps> = (props) => {
                 {translate(
                   `${identifier}.titles.edit`,
                   `Edit ${getUserFriendlyName(
-                    resource?.meta?.label ??
-                      resource?.options?.label ??
-                      resource?.label ??
-                      identifier,
+                    resource?.meta?.label ?? identifier,
                     "singular",
                   )}`,
                 )}

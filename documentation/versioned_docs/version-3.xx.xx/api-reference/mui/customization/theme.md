@@ -777,7 +777,7 @@ render(<App />);
 If you want to use notistack snackbars with the default style, simply wrap Refine in `<SnackbarProvider>`.
 :::
 
-[create-refine-app]: /docs/3.xx.xx/getting-started/quickstart/
+[create-refine-app]: /core/docs/3.xx.xx/getting-started/quickstart/
 
 ```tsx live shared
 import React, {

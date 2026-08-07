@@ -1,50 +1,12 @@
-import React, { type ReactNode } from "react";
-import { Route, Routes } from "react-router-dom";
-
-import { render, TestWrapper, type ITestWrapperProps, act } from "@test";
-import { Breadcrumb } from "./";
+import { vi } from "vitest";
 import { breadcrumbTests } from "@refinedev/ui-tests";
 
-const renderBreadcrumb = (
-  children: ReactNode,
-  wrapperProps: ITestWrapperProps = {},
-) => {
-  return render(
-    <Routes>
-      <Route path="/:resource/:action" element={children} />
-    </Routes>,
-    {
-      wrapper: TestWrapper(wrapperProps),
-    },
-  );
-};
-
-const DummyDashboard = () => <div>Dashboard</div>;
+import { Breadcrumb } from "./";
 
 describe("Breadcrumb", () => {
   beforeAll(() => {
-    jest.spyOn(console, "warn").mockImplementation(jest.fn());
+    vi.spyOn(console, "warn").mockImplementation(vi.fn());
   });
 
   breadcrumbTests.bind(this)(Breadcrumb);
-
-  it("should render home icon", async () => {
-    const { container } = renderBreadcrumb(<Breadcrumb />, {
-      resources: [{ name: "posts" }],
-      routerInitialEntries: ["/posts/create"],
-      DashboardPage: DummyDashboard,
-    });
-
-    expect(container.querySelector("svg")).toBeTruthy();
-  });
-
-  it("should not render home icon with 'showhHome' props", async () => {
-    const { container } = renderBreadcrumb(<Breadcrumb showHome={false} />, {
-      resources: [{ name: "posts" }],
-      routerInitialEntries: ["/posts/create"],
-      DashboardPage: DummyDashboard,
-    });
-
-    expect(container.querySelector("svg")).toBeFalsy();
-  });
 });

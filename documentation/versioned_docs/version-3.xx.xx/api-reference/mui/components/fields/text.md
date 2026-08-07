@@ -7,7 +7,7 @@ swizzle: true
 This field lets you show basic text. It uses Material UI [`<Typography>`](https://mui.com/material-ui/react-typography/#main-content) component.
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Usage

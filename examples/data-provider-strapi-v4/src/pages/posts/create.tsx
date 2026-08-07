@@ -14,7 +14,11 @@ export const PostCreate: React.FC = () => {
 
   const { selectProps } = useSelect({
     resource: "categories",
-    metaData: { locale },
+    meta: { locale },
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

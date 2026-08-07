@@ -36,7 +36,10 @@ export const ListProducts = () => {
   });
   // highlight-end
 
-  const { data: categories, isLoading } = useMany({
+  const {
+    result: categories,
+    query: { isLoading },
+  } = useMany({
     resource: "categories",
     ids: tableProps?.dataSource?.map((product) => product.category?.id) ?? [],
   });
@@ -87,16 +90,16 @@ Button components provided by Refine uses the styling from Ant Design and provid
 
 List of available button components:
 
-- [`<CreateButton />`](/docs/ui-integrations/ant-design/components/buttons/create-button), renders a button to navigate to the create route.
-- [`<EditButton />`](/docs/ui-integrations/ant-design/components/buttons/edit-button), renders a button to navigate to the edit route.
-- [`<ListButton />`](/docs/ui-integrations/ant-design/components/buttons/list-button), renders a button to navigate to the list route.
-- [`<ShowButton />`](/docs/ui-integrations/ant-design/components/buttons/show-button), renders a button to navigate to the show route.
-- [`<CloneButton />`](/docs/ui-integrations/ant-design/components/buttons/clone-button), renders a button to navigate to the clone route.
-- [`<DeleteButton />`](/docs/ui-integrations/ant-design/components/buttons/delete-button), renders a button to delete a record.
-- [`<SaveButton />`](/docs/ui-integrations/ant-design/components/buttons/save-button), renders a button to trigger the form submission.
-- [`<RefreshButton />`](/docs/ui-integrations/ant-design/components/buttons/refresh-button), renders a button to refresh/refetch the data.
-- [`<ImportButton />`](/docs/ui-integrations/ant-design/components/buttons/import-button), renders a button to trigger import bulk data with CSV/Excel files.
-- [`<ExportButton />`](/docs/ui-integrations/ant-design/components/buttons/export-button), renders a button to trigger export bulk data with CSV format.
+- [`<CreateButton />`](/core/docs/ui-integrations/ant-design/components/buttons/create-button), renders a button to navigate to the create route.
+- [`<EditButton />`](/core/docs/ui-integrations/ant-design/components/buttons/edit-button), renders a button to navigate to the edit route.
+- [`<ListButton />`](/core/docs/ui-integrations/ant-design/components/buttons/list-button), renders a button to navigate to the list route.
+- [`<ShowButton />`](/core/docs/ui-integrations/ant-design/components/buttons/show-button), renders a button to navigate to the show route.
+- [`<CloneButton />`](/core/docs/ui-integrations/ant-design/components/buttons/clone-button), renders a button to navigate to the clone route.
+- [`<DeleteButton />`](/core/docs/ui-integrations/ant-design/components/buttons/delete-button), renders a button to delete a record.
+- [`<SaveButton />`](/core/docs/ui-integrations/ant-design/components/buttons/save-button), renders a button to trigger the form submission.
+- [`<RefreshButton />`](/core/docs/ui-integrations/ant-design/components/buttons/refresh-button), renders a button to refresh/refetch the data.
+- [`<ImportButton />`](/core/docs/ui-integrations/ant-design/components/buttons/import-button), renders a button to trigger import bulk data with CSV/Excel files.
+- [`<ExportButton />`](/core/docs/ui-integrations/ant-design/components/buttons/export-button), renders a button to trigger export bulk data with CSV format.
 
 ### Adding Sorters
 
@@ -125,7 +128,10 @@ export const ListProducts = () => {
     syncWithLocation: true,
   });
 
-  const { data: categories, isLoading } = useMany({
+  const {
+    result: categories,
+    query: { isLoading },
+  } = useMany({
     resource: "categories",
     ids: tableProps?.dataSource?.map((product) => product.category?.id) ?? [],
   });
@@ -185,7 +191,7 @@ Now we've enabled sorters with no additional logic. The `getDefaultSortOrder` fu
 
 ### Adding Filters
 
-Let's integrate the Refine's filters with the Ant Design's `<Table />` component. While `tableProps` will be transforming the filters to the Ant Design's format, all we need to do is to provide the elements for the filter dropdowns. We'll use the [`<FilterDropdown />`](/docs/ui-integrations/ant-design/components/filter-dropdown) to bind the inputs to the filters.
+Let's integrate the Refine's filters with the Ant Design's `<Table />` component. While `tableProps` will be transforming the filters to the Ant Design's format, all we need to do is to provide the elements for the filter dropdowns. We'll use the [`<FilterDropdown />`](/core/docs/ui-integrations/ant-design/components/filter-dropdown) to bind the inputs to the filters.
 
 We'll be using the `<Input />` component to create a text filter for the `Name` column and the `<Select />` component with `useSelect` to create a select filter for the `Category` column.
 
@@ -210,7 +216,7 @@ import { Table, Space, Input, Select } from "antd";
 
 export const ListProducts = () => {
   // highlight-next-line
-  const { tableProps, sorters, filters } = useTable({
+  const { result, tableProps, sorters, filters } = useTable({
     sorters: { initial: [{ field: "id", order: "asc" }] },
     // highlight-start
     // We're adding default values for our filters
@@ -221,9 +227,12 @@ export const ListProducts = () => {
     syncWithLocation: true,
   });
 
-  const { data: categories, isLoading } = useMany({
+  const {
+    result: categories,
+    query: { isLoading },
+  } = useMany({
     resource: "categories",
-    ids: tableProps?.dataSource?.map((product) => product.category?.id) ?? [],
+    ids: result?.data?.map((product) => product.category?.id) ?? [],
   });
 
   // highlight-start
@@ -326,15 +335,13 @@ import { Form, Input, Select, InputNumber } from "antd";
 export const EditProduct = () => {
   // highlight-start
   const { formProps, saveButtonProps, query } = useForm({
-    refineCoreProps: {
-      redirect: "show",
-    },
+    redirect: "show",
   });
   // highlight-end
 
   const { selectProps } = useSelect({
     resource: "categories",
-    defaultValue: query?.data?.data?.category?.id,
+    defaultValue: query?.product.category?.id,
   });
 
   return (
@@ -381,9 +388,7 @@ import { Form, Input, Select, InputNumber } from "antd";
 export const CreateProduct = () => {
   // highlight-start
   const { formProps, saveButtonProps } = useForm({
-    refineCoreProps: {
-      redirect: "edit",
-    },
+    redirect: "edit",
   });
   // highlight-end
 
@@ -424,16 +429,16 @@ Now that we've refactored our list, edit and create components, let's refactor o
 
 List of available field components:
 
-- [`<BooleanField />`](/docs/ui-integrations/ant-design/components/fields/boolean-field), displays a checkbox element for boolean values.
-- [`<DateField />`](/docs/ui-integrations/ant-design/components/fields/date-field), displays a date with customizable formatting.
-- [`<EmailField />`](/docs/ui-integrations/ant-design/components/fields/email-field), displays an email with a mailto anchor.
-- [`<FileField />`](/docs/ui-integrations/ant-design/components/fields/file-field), displays a download anchor for file.
-- [`<ImageField />`](/docs/ui-integrations/ant-design/components/fields/image-field), displays an image with Ant Design's `<Image />` component.
-- [`<MarkdownField />`](/docs/ui-integrations/ant-design/components/fields/markdown-field), displays a GitHub flavored markdown with `react-makrdown` library.
-- [`<NumberField />`](/docs/ui-integrations/ant-design/components/fields/number-field), displays a number with localized and customizable formatting.
-- [`<TagField />`](/docs/ui-integrations/ant-design/components/fields/tag-field), displays the value with Ant Design's `<Tag />` component.
-- [`<TextField />`](/docs/ui-integrations/ant-design/components/fields/text-field), displays the value with Ant Design's `<Typography.Text />` component.
-- [`<UrlField />`](/docs/ui-integrations/ant-design/components/fields/url-field), displays the value with a link anchor.
+- [`<BooleanField />`](/core/docs/ui-integrations/ant-design/components/fields/boolean-field), displays a checkbox element for boolean values.
+- [`<DateField />`](/core/docs/ui-integrations/ant-design/components/fields/date-field), displays a date with customizable formatting.
+- [`<EmailField />`](/core/docs/ui-integrations/ant-design/components/fields/email-field), displays an email with a mailto anchor.
+- [`<FileField />`](/core/docs/ui-integrations/ant-design/components/fields/file-field), displays a download anchor for file.
+- [`<ImageField />`](/core/docs/ui-integrations/ant-design/components/fields/image-field), displays an image with Ant Design's `<Image />` component.
+- [`<MarkdownField />`](/core/docs/ui-integrations/ant-design/components/fields/markdown-field), displays a GitHub flavored markdown with `react-makrdown` library.
+- [`<NumberField />`](/core/docs/ui-integrations/ant-design/components/fields/number-field), displays a number with localized and customizable formatting.
+- [`<TagField />`](/core/docs/ui-integrations/ant-design/components/fields/tag-field), displays the value with Ant Design's `<Tag />` component.
+- [`<TextField />`](/core/docs/ui-integrations/ant-design/components/fields/text-field), displays the value with Ant Design's `<Typography.Text />` component.
+- [`<UrlField />`](/core/docs/ui-integrations/ant-design/components/fields/url-field), displays the value with a link anchor.
 
 We'll be using the `<TextField />`, `<NumberField />` and `<MarkdownField />` components to represent the fields of the products properly.
 
@@ -448,18 +453,22 @@ import { Typography } from "antd";
 
 export const ShowProduct = () => {
   const {
-    query: { data, isLoading },
+    result: product,
+    query: { isLoading },
   } = useShow();
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useOne({
+  const {
+    data: category,
+    query: { isLoading: categoryIsLoading },
+  } = useOne({
     resource: "categories",
-    id: data?.data?.category.id || "",
+    id: product?.category.id || "",
     queryOptions: {
-      enabled: !!data?.data,
+      enabled: !!product,
     },
   });
 
-  if (isLoading) {
+  if (isLoading || !product) {
     return <div>Loading...</div>;
   }
 
@@ -467,34 +476,34 @@ export const ShowProduct = () => {
     <div>
       {/* highlight-start */}
       <Typography.Title level={5}>Id</Typography.Title>
-      <TextField value={data?.data?.id} />
+      <TextField value={product.id} />
       {/* highlight-end */}
 
       {/* highlight-start */}
       <Typography.Title level={5}>Name</Typography.Title>
-      <TextField value={data?.data?.name} />
+      <TextField value={product.name} />
       {/* highlight-end */}
 
       {/* highlight-start */}
       <Typography.Title level={5}>Description</Typography.Title>
-      <MarkdownField value={data?.data?.description} />
+      <MarkdownField value={product.description} />
       {/* highlight-end */}
 
       {/* highlight-start */}
       <Typography.Title level={5}>Material</Typography.Title>
-      <TextField value={data?.data?.material} />
+      <TextField value={product.material} />
       {/* highlight-end */}
 
       {/* highlight-start */}
       <Typography.Title level={5}>Category</Typography.Title>
       <TextField
-        value={categoryIsLoading ? "Loading..." : categoryData?.data?.title}
+        value={categoryIsLoading ? "Loading..." : categoryproduct.title}
       />
       {/* highlight-end */}
 
       {/* highlight-start */}
       <Typography.Title level={5}>Price</Typography.Title>
-      <NumberField value={data?.data?.price} />
+      <NumberField value={product.price} />
       {/* highlight-end */}
     </div>
   );

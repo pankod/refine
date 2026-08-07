@@ -27,7 +27,7 @@ import {
 
 import { layoutStyles, titleStyles } from "../styles";
 import type { FormPropsType } from "../../index";
-import { ThemedTitleV2 } from "@components";
+import { ThemedTitle } from "@components";
 
 type UpdatePasswordProps = UpdatePasswordPageProps<
   BoxProps,
@@ -57,11 +57,8 @@ export const UpdatePasswordPage: React.FC<UpdatePasswordProps> = ({
     ...useFormProps,
   });
 
-  const authProvider = useActiveAuthProvider();
-  const { mutate: update, isLoading } =
-    useUpdatePassword<UpdatePasswordFormTypes>({
-      v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-    });
+  const { mutate: update, isPending } =
+    useUpdatePassword<UpdatePasswordFormTypes>();
 
   const translate = useTranslate();
 
@@ -76,7 +73,7 @@ export const UpdatePasswordPage: React.FC<UpdatePasswordProps> = ({
         }}
       >
         {title ?? (
-          <ThemedTitleV2
+          <ThemedTitle
             collapsed={false}
             wrapperStyles={{
               gap: "8px",
@@ -175,7 +172,7 @@ export const UpdatePasswordPage: React.FC<UpdatePasswordProps> = ({
             sx={{
               mt: "24px",
             }}
-            disabled={isLoading}
+            disabled={isPending}
           >
             {translate("pages.updatePassword.buttons.submit", "Update")}
           </Button>

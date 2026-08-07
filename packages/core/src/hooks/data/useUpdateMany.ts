@@ -6,13 +6,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-import {
-  handleMultiple,
-  pickDataProvider,
-  pickNotDeprecated,
-  queryKeysReplacement,
-  useActiveAuthProvider,
-} from "@definitions/helpers";
+import { handleMultiple, pickDataProvider } from "@definitions/helpers";
 import {
   useCancelNotification,
   useDataProvider,
@@ -25,7 +19,7 @@ import {
   useOnError,
   usePublish,
   useRefineContext,
-  useResource,
+  useResourceParams,
   useTranslate,
 } from "@hooks";
 
@@ -87,7 +81,7 @@ export type UpdateManyParams<TData, TError, TVariables> = {
    */
   resource?: string;
   /**
-   * [Determines when mutations are executed](/advanced-tutorials/mutation-mode.md)
+   * [Determines when mutations are executed](/docs/advanced-tutorials/mutation-mode/)
    */
   mutationMode?: MutationMode;
   /**
@@ -108,9 +102,6 @@ export type UpdateManyParams<TData, TError, TVariables> = {
   meta?: MetaQuery;
   /**
    * meta data for `dataProvider`
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
   /**
    * If there is more than one `dataProvider`, you should use the `dataProviderName` that you will use.
    * @default "default"
@@ -165,7 +156,7 @@ export type UseUpdateManyProps<
   UpdateManyParams<TData, TError, TVariables>;
 
 /**
- * `useUpdateMany` is a modified version of `react-query`'s {@link https://react-query.tanstack.com/reference/useMutation `useMutation`} for multiple update mutations.
+ * `useUpdateMany` is a modified version of `react-query`'s {@link https://tanstack.com/query/v5/docs/framework/react/reference/useMutation `useMutation`} for multiple update mutations.
  *
  * It uses `updateMany` method as mutation function from the `dataProvider` which is passed to `<Refine>`.
  *
@@ -188,7 +179,6 @@ export const useUpdateMany = <
   successNotification: successNotificationFromProps,
   errorNotification: errorNotificationFromProps,
   meta: metaFromProps,
-  metaData: metaDataFromProps,
   mutationMode: mutationModeFromProps,
   undoableTimeout: undoableTimeoutFromProps,
   onCancel: onCancelFromProps,
@@ -201,7 +191,7 @@ export const useUpdateMany = <
   TError,
   TVariables
 > => {
-  const { resources, select } = useResource();
+  const { resources, select } = useResourceParams();
   const queryClient = useQueryClient();
   const dataProvider = useDataProvider();
   const translate = useTranslate();
@@ -209,10 +199,7 @@ export const useUpdateMany = <
     mutationMode: mutationModeContext,
     undoableTimeout: undoableTimeoutContext,
   } = useMutationMode();
-  const authProvider = useActiveAuthProvider();
-  const { mutate: checkError } = useOnError({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate: checkError } = useOnError();
   const { notificationDispatch } = useCancelNotification();
   const publish = usePublish();
   const handleNotification = useHandleNotification();
@@ -222,7 +209,7 @@ export const useUpdateMany = <
   const {
     options: { textTransformers },
   } = useRefineContext();
-  const { keys, preferLegacyKeys } = useKeys();
+  const { keys } = useKeys();
 
   const mutationResult = useMutation<
     UpdateManyResponse<TData>,
@@ -238,7 +225,6 @@ export const useUpdateMany = <
       mutationMode = mutationModeFromProps,
       undoableTimeout = undoableTimeoutFromProps,
       meta = metaFromProps,
-      metaData = metaDataFromProps,
       dataProviderName = dataProviderNameFromProps,
     }: UpdateManyParams<TData, TError, TVariables>) => {
       if (!ids) throw missingIdError;
@@ -249,7 +235,7 @@ export const useUpdateMany = <
 
       const combinedMeta = getMeta({
         resource,
-        meta: pickNotDeprecated(meta, metaData),
+        meta: meta,
       });
 
       const mutationModePropOrContext = mutationMode ?? mutationModeContext;
@@ -268,7 +254,6 @@ export const useUpdateMany = <
             ids,
             variables: values,
             meta: combinedMeta,
-            metaData: combinedMeta,
           });
         }
         return handleMultiple(
@@ -278,7 +263,6 @@ export const useUpdateMany = <
               id,
               variables: values,
               meta: combinedMeta,
-              metaData: combinedMeta,
             }),
           ),
         );
@@ -326,7 +310,6 @@ export const useUpdateMany = <
       mutationMode = mutationModeFromProps,
       dataProviderName = dataProviderNameFromProps,
       meta = metaFromProps,
-      metaData = metaDataFromProps,
       optimisticUpdateMap = optimisticUpdateMapFromProps ?? {
         list: true,
         many: true,
@@ -338,17 +321,11 @@ export const useUpdateMany = <
       if (!resourceName) throw missingResourceError;
 
       const { identifier } = select(resourceName);
-      const {
-        gqlMutation: _,
-        gqlQuery: __,
-        ...preferredMeta
-      } = pickNotDeprecated(meta, metaData) ?? {};
+      const { gqlMutation: _, gqlQuery: __, ...preferredMeta } = meta ?? {};
 
-      const queryKey = queryKeysReplacement(preferLegacyKeys)(
-        identifier,
-        pickDataProvider(identifier, dataProviderName, resources),
-        preferredMeta,
-      );
+      const queryKey = keys()
+        .data(pickDataProvider(identifier, dataProviderName, resources))
+        .resource(identifier);
 
       const resourceKeys = keys()
         .data(pickDataProvider(identifier, dataProviderName, resources))
@@ -356,26 +333,24 @@ export const useUpdateMany = <
 
       const mutationModePropOrContext = mutationMode ?? mutationModeContext;
 
-      await queryClient.cancelQueries(
-        resourceKeys.get(preferLegacyKeys),
-        undefined,
-        {
-          silent: true,
-        },
-      );
+      await queryClient.cancelQueries({
+        queryKey: resourceKeys.get(),
+      });
 
-      const previousQueries = queryClient.getQueriesData<QueryResponse<TData>>(
-        resourceKeys.get(preferLegacyKeys),
-      );
+      const previousQueries = queryClient.getQueriesData<QueryResponse<TData>>({
+        queryKey: resourceKeys.get(),
+      });
 
       if (mutationModePropOrContext !== "pessimistic") {
         if (optimisticUpdateMap.list) {
           // Set the previous queries to the new ones:
           queryClient.setQueriesData(
-            resourceKeys
-              .action("list")
-              .params(preferredMeta ?? {})
-              .get(preferLegacyKeys),
+            {
+              queryKey: resourceKeys
+                .action("list")
+                .params(preferredMeta ?? {})
+                .get(),
+            },
             (previous?: GetListResponse<TData> | null) => {
               if (typeof optimisticUpdateMap.list === "function") {
                 return optimisticUpdateMap.list(previous, values, ids);
@@ -412,7 +387,9 @@ export const useUpdateMany = <
 
         if (optimisticUpdateMap.many) {
           queryClient.setQueriesData(
-            resourceKeys.action("many").get(preferLegacyKeys),
+            {
+              queryKey: resourceKeys.action("many").get(),
+            },
             (previous?: GetManyResponse<TData> | null) => {
               if (typeof optimisticUpdateMap.many === "function") {
                 return optimisticUpdateMap.many(previous, values, ids);
@@ -448,11 +425,13 @@ export const useUpdateMany = <
         if (optimisticUpdateMap.detail) {
           for (const id of ids) {
             queryClient.setQueriesData(
-              resourceKeys
-                .action("one")
-                .id(id)
-                .params(preferredMeta ?? {})
-                .get(preferLegacyKeys),
+              {
+                queryKey: resourceKeys
+                  .action("one")
+                  .id(id)
+                  .params(preferredMeta ?? {})
+                  .get(),
+              },
               (previous?: GetOneResponse<TData> | null) => {
                 if (typeof optimisticUpdateMap.detail === "function") {
                   return optimisticUpdateMap.detail(previous, values, id);
@@ -478,7 +457,6 @@ export const useUpdateMany = <
 
       return {
         previousQueries,
-        queryKey,
       };
     },
     onSettled: (data, error, variables, context) => {
@@ -530,7 +508,6 @@ export const useUpdateMany = <
         resource: resourceName = resourceFromProps,
         values = valuesFromProps,
         meta = metaFromProps,
-        metaData = metaDataFromProps,
         dataProviderName: dataProviderNameFromProp = dataProviderNameFromProps,
         successNotification = successNotificationFromProps,
       } = variables;
@@ -549,7 +526,7 @@ export const useUpdateMany = <
 
       const combinedMeta = getMeta({
         resource,
-        meta: pickNotDeprecated(meta, metaData),
+        meta: meta,
       });
 
       const notificationConfig =
@@ -585,9 +562,13 @@ export const useUpdateMany = <
 
       const previousData: any[] = [];
       if (context) {
+        const resourceKeys = keys()
+          .data(pickDataProvider(identifier, dataProviderName, resources))
+          .resource(identifier);
+
         ids.forEach((id) => {
           const queryData = queryClient.getQueryData<UpdateManyResponse<TData>>(
-            context.queryKey.detail(id),
+            resourceKeys.action("one").id(id).get(),
           );
 
           previousData.push(
@@ -611,9 +592,9 @@ export const useUpdateMany = <
         data: values,
         previousData,
         meta: {
-          ids,
-          dataProviderName,
           ...rest,
+          dataProviderName,
+          ids,
         },
       });
 
@@ -640,7 +621,7 @@ export const useUpdateMany = <
       }
 
       if (err.message !== "mutationCancelled") {
-        checkError?.(err);
+        checkError(err);
 
         const resourceSingular = textTransformers.singular(identifier);
 
@@ -666,19 +647,18 @@ export const useUpdateMany = <
 
       mutationOptions?.onError?.(err, variables, context);
     },
-    mutationKey: keys().data().mutation("updateMany").get(preferLegacyKeys),
+    mutationKey: keys().data().mutation("updateMany").get(),
     ...mutationOptions,
     meta: {
       ...mutationOptions?.meta,
-      ...getXRay("useUpdateMany", preferLegacyKeys),
+      ...getXRay("useUpdateMany"),
     },
   });
   const { mutate, mutateAsync, ...mutation } = mutationResult;
 
   const { elapsedTime } = useLoadingOvertime({
-    isLoading: mutation.isLoading,
-    interval: overtimeOptions?.interval,
-    onInterval: overtimeOptions?.onInterval,
+    ...overtimeOptions,
+    isLoading: mutation.isPending,
   });
 
   // this function is used to make the `variables` parameter optional
@@ -708,7 +688,7 @@ export const useUpdateMany = <
   };
 
   return {
-    ...mutation,
+    mutation: mutationResult,
     mutate: handleMutation,
     mutateAsync: handleMutateAsync,
     overtime: { elapsedTime },

@@ -1,5 +1,8 @@
 ---
-title: Auth Provider
+title: "Auth Provider Guide | Best Practices in Refine v5"
+display_title: "Auth Provider"
+sidebar_label: "Auth Provider"
+description: "Secure Auth Provider in Refine v5. Learn best practices. Learn how to secure OAuth, JWT for secure enterprise React apps. See practical code samples."
 ---
 
 import AuthProviderExamplesLinks from "@site/src/partials/auth-provider/auth-provider-examples-links.md";
@@ -51,6 +54,7 @@ const authProvider: AuthProvider = {
     register: async (params: any): AuthActionResponse,
     forgotPassword: async (params: any): AuthActionResponse,
     updatePassword: async (params: any): AuthActionResponse,
+    updateIdentity: async (params: any): AuthActionResponse,
     getPermissions: async (params: any): unknown,
     getIdentity: async (params: any): unknown,
 };
@@ -618,7 +622,7 @@ if (data?.includes("admin")) {
 
 Though `usePermissions` hook can be used for simple authorization purposes, if you need more complex authorization logic, we recommend using the access control provider.
 
-For more information, refer to the [`accessControlProvider` documentation&#8594](/docs/authorization/access-control-provider)
+For more information, refer to the [`accessControlProvider` documentation&#8594](/core/docs/authorization/access-control-provider/)
 
 :::
 
@@ -1154,13 +1158,70 @@ const authProvider: AuthProvider = {
 
 </details>
 
+### updateIdentity
+
+`updateIdentity` method is used to update the current user's identity (e.g. username and/or email). It expects to return a resolved promise with the following type:
+
+```ts
+type AuthActionResponse = {
+  success: boolean;
+  redirectTo?: string;
+  error?: Error;
+  [key: string]: unknown;
+};
+```
+
+- `success`: Determines whether the operation is successful or not.
+- `redirectTo`: The path of the page that the user will be redirected to after the operation is completed.
+- `error`: An object containing details about any errors encountered during the operation.
+- `[key: string]`: Any additional data you wish to include in the response, keyed by a string identifier.
+
+<br />
+
+To update the user's identity and resolve the promise:
+
+```tsx title="src/authProvider.ts"
+import { AuthProvider } from "@refinedev/core";
+
+const authProvider: AuthProvider = {
+  // ---
+  updateIdentity: async ({ name, email }) => {
+    // update the user's identity here
+
+    // if request is successful
+    return {
+      success: true,
+    };
+
+    // if request is not successful
+    return {
+      success: false,
+      error: {
+        name: "Update Identity Error",
+        message: "Update identity failed",
+      },
+    };
+  },
+};
+```
+
+[`useUpdateIdentity`][use-update-identity] hook is used to call the `updateIdentity` method from the `authProvider`.
+
+```tsx
+import { useUpdateIdentity } from "@refinedev/core";
+
+const { mutate: updateIdentity } = useUpdateIdentity();
+
+updateIdentity({ name: "New Name", email: "new@email.com" });
+```
+
 ## Legacy Auth Provider
 
 Refine's v4 release is backward compatible and supports legacy auth provider implementations until v5.
 
 If you want to use a legacy auth provider, you can pass them to the `<Refine />` component using the `legacyAuthProvider` prop.
 
-[Refer to the Migration Guide for more information. &#8594](/docs/migration-guide/auth-provider/)
+[Refer to the Migration Guide for more information. &#8594](/core/docs/migration-guide/auth-provider/)
 
 ```tsx
 import { LegacyAuthProvider, Refine } from "@refinedev/core";
@@ -1189,19 +1250,20 @@ const App = () => {
 
 ### How can I set authorization credentials?
 
-[Refer to the "Setting Authorization Credentials" section in the tutorial for more information &#8594](/docs/guides-concepts/authentication)
+[Refer to the "Setting Authorization Credentials" section in the tutorial for more information &#8594](/core/docs/guides-concepts/authentication/)
 
 ### How can I implement refresh token mechanism?
 
-[Refer to the "Implementing Refresh Token Mechanism" section in the tutorial for more information &#8594](/docs/guides-concepts/authentication)
+[Refer to the "Implementing Refresh Token Mechanism" section in the tutorial for more information &#8594](/core/docs/guides-concepts/authentication/)
 
-[use-login]: /docs/authentication/hooks/use-login
-[use-logout]: /docs/authentication/hooks/use-logout
-[use-is-authenticated]: /docs/authentication/hooks/use-is-authenticated
-[use-on-error]: /docs/authentication/hooks/use-on-error
-[use-get-identity]: /docs/authentication/hooks/use-get-identity
-[use-permissions]: /docs/authentication/hooks/use-permissions
-[use-register]: /docs/authentication/hooks/use-register
-[use-forgot-password]: /docs/authentication/hooks/use-forgot-password
-[use-update-password]: /docs/authentication/hooks/use-update-password
-[create-auth-provider-tutorial]: /docs/guides-concepts/authentication
+[use-login]: /core/docs/authentication/hooks/use-login
+[use-logout]: /core/docs/authentication/hooks/use-logout
+[use-is-authenticated]: /core/docs/authentication/hooks/use-is-authenticated
+[use-on-error]: /core/docs/authentication/hooks/use-on-error
+[use-get-identity]: /core/docs/authentication/hooks/use-get-identity
+[use-permissions]: /core/docs/authentication/hooks/use-permissions
+[use-register]: /core/docs/authentication/hooks/use-register
+[use-forgot-password]: /core/docs/authentication/hooks/use-forgot-password
+[use-update-password]: /core/docs/authentication/hooks/use-update-password
+[use-update-identity]: /core/docs/authentication/hooks/use-update-identity
+[create-auth-provider-tutorial]: /core/docs/guides-concepts/authentication

@@ -9,23 +9,31 @@ export default function Tag({
   size = "small",
   variant = "default",
 }) {
+  const shouldUppercase = label.length <= 3;
+  const isRefineTag =
+    label.toLowerCase() === "refine" ||
+    label.toLowerCase() === "refine core" ||
+    label.toLowerCase() === "refine-core";
+
   return (
     <Link
       href={permalink}
       className={clsx(
+        shouldUppercase && "uppercase",
+        isRefineTag && "capitalize",
         "no-underline hover:no-underline",
-        "rounded-full",
+        "rounded-sm",
+        "font-medium",
+        "tracking-[-0.006em]",
         size === "small" && "text-xs",
         size === "small" && "py-1",
-        size === "small" && "px-3",
+        size === "small" && "px-1.5",
         size === "medium" && "text-sm",
         size === "medium" && "py-2",
         size === "medium" && "px-4",
-        !isActive && "bg-gray-100 dark:bg-gray-700",
-        !isActive && "text-gray-600 dark:text-gray-400",
-        "text-refine-react-8 dark:text-refine-react-3",
-        variant === "default" && "bg-refine-react-3 dark:bg-refine-react-7",
-        variant === "inverted" && "bg-refine-react-3 dark:bg-refine-react-8",
+        "text-zinc-900 dark:text-white",
+        variant === "default" && "bg-zinc-200 dark:bg-zinc-700",
+        variant === "inverted" && "bg-zinc-200 dark:bg-zinc-700",
       )}
     >
       {label}

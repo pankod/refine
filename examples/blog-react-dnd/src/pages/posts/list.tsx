@@ -17,18 +17,23 @@ import { Form, Input, Select, Table, Space } from "antd";
 import type { IPost, ICategory } from "interfaces";
 
 export const PostList = () => {
-  const { tableProps, sorter } = useTable<IPost>({
-    initialSorter: [
-      {
-        field: "id",
-        order: "desc",
-      },
-    ],
+  const { tableProps, sorters: sorter } = useTable<IPost>({
+    sorters: {
+      initial: [
+        {
+          field: "id",
+          order: "desc",
+        },
+      ],
+    },
   });
 
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-  const { data: categoriesData, isLoading } = useMany<ICategory>({
+  const {
+    result: categoriesData,
+    query: { isLoading },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -38,6 +43,10 @@ export const PostList = () => {
 
   const { selectProps: categorySelectProps } = useSelect<ICategory>({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

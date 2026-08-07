@@ -9,19 +9,18 @@ export default function Usage() {
       height={320}
       showOpenInCodeSandbox={false}
       dependencies={{
-        "@refinedev/chakra-ui": "^2.26.17",
+        "@refinedev/chakra-ui": "latest",
         "@tabler/icons-react": "^3.1.0",
-        "@refinedev/core": "^4.45.1",
-        "@refinedev/react-router-v6": "^4.5.4",
-        "@refinedev/simple-rest": "^4.5.4",
-        "@refinedev/react-table": "^5.6.4",
+        "@refinedev/core": "latest",
+        "@refinedev/react-router": "latest",
+        "@refinedev/simple-rest": "latest",
+        "@refinedev/react-table": "latest",
         "@tanstack/react-table": "^8.2.6",
-        "@refinedev/react-hook-form": "^4.8.12",
+        "@refinedev/react-hook-form": "latest",
         "@chakra-ui/react": "^2.5.1",
         "react-dom": "^18.0.0",
-        "react-router": "latest",
-        "react-router-dom": "^6.8.1",
-        "react-hook-form": "^7.43.5",
+        "react-router": "^7.0.2",
+        "react-hook-form": "^7.57.0",
       }}
       startRoute="/products"
       files={{
@@ -107,18 +106,18 @@ import { usePagination } from "@refinedev/chakra-ui";
 import { IconButton } from "@chakra-ui/react";
 
 type PaginationProps = {
-    current: number;
+    currentPage: number;
     pageCount: number;
-    setCurrent: (page: number) => void;
+    setCurrentPage: (page: number) => void;
 };
 
 export const Pagination: React.FC<PaginationProps> = ({
-    current,
+    currentPage,
     pageCount,
-    setCurrent,
+    setCurrentPage,
 }) => {
     const pagination = usePagination({
-        current,
+        currentPage,
         pageCount,
     });
 
@@ -128,7 +127,7 @@ export const Pagination: React.FC<PaginationProps> = ({
                 {pagination?.prev && (
                     <IconButton
                         aria-label="previous page"
-                        onClick={() => setCurrent(current - 1)}
+                        onClick={() => setCurrentPage(currentPage - 1)}
                         disabled={!pagination?.prev}
                         variant="outline"
                     >
@@ -143,8 +142,8 @@ export const Pagination: React.FC<PaginationProps> = ({
                     return (
                         <Button
                             key={page}
-                            onClick={() => setCurrent(page)}
-                            variant={page === current ? "solid" : "outline"}
+                            onClick={() => setCurrentPage(page)}
+                            variant={page === currentPage ? "solid" : "outline"}
                         >
                             {page}
                         </Button>
@@ -153,7 +152,7 @@ export const Pagination: React.FC<PaginationProps> = ({
                 {pagination?.next && (
                     <IconButton
                         aria-label="next page"
-                        onClick={() => setCurrent(current + 1)}
+                        onClick={() => setCurrentPage(currentPage + 1)}
                         variant="outline"
                     >
                         <IconChevronRight size="18" />
@@ -188,11 +187,11 @@ export const ThemeProvider = ({ children }) => (
 const AppTsxCode = /* jsx */ `
 import { Refine, Authenticated } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
-import { BrowserRouter, Route, Routes, Outlet, Navigate } from "react-router-dom";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
+import { BrowserRouter, Route, Routes, Outlet, Navigate } from "react-router";
 
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   notificationProvider,
   AuthPage,
@@ -234,9 +233,9 @@ export default function App() {
                   <Route element={<Authenticated fallback={<Navigate to="/login" />}><Outlet /></Authenticated>}>
                     <Route
                         element={
-                            <ThemedLayoutV2>
+                            <ThemedLayout>
                                 <Outlet />
-                            </ThemedLayoutV2>
+                            </ThemedLayout>
                         }
                     >
                         <Route index element={<NavigateToResource resource="products" />} />
@@ -358,24 +357,24 @@ export const ProductList = () => {
     );
 
     const {
-        getHeaderGroups,
-        getRowModel,
-        setOptions,
+        reactTable: { getHeaderGroups, getRowModel, setOptions },
         refineCore: {
-            setCurrent,
+            setCurrentPage,
             pageCount,
-            current,
+            currentPage,
             tableQuery: { data: tableData },
         },
     } = useTable({
         columns,
         refineCoreProps: {
-            initialSorter: [
-                {
-                    field: "id",
-                    order: "desc",
-                },
-            ],
+            sorters: {
+              initial: [
+                  {
+                      field: "id",
+                      order: "desc",
+                  },
+              ],
+            },
         },
     });
 
@@ -417,9 +416,9 @@ export const ProductList = () => {
                 </Table>
             </TableContainer>
             <Pagination
-                current={current}
+                currentPage={currentPage}
                 pageCount={pageCount}
-                setCurrent={setCurrent}
+                setCurrentPage={setCurrentPage}
             />
         </List>
     );
@@ -433,8 +432,8 @@ import { Show, TextField, NumberField, MarkdownField } from "@refinedev/chakra-u
 import { Heading } from "@chakra-ui/react";
 
 export const ProductShow = () => {
-    const { queryResult } = useShow();
-    const { data, isLoading } = queryResult;
+    const { query } = useShow();
+    const { data, isLoading } = query;
     const record = data?.data;
 
     return (
@@ -481,7 +480,7 @@ import { useForm } from "@refinedev/react-hook-form";
 
 export const ProductEdit = () => {
     const {
-        refineCore: { formLoading, queryResult, autoSaveProps },
+        refineCore: { formLoading, query, autoSaveProps },
         saveButtonProps,
         register,
         formState: { errors },

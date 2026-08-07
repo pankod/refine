@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "rootDir": ".",
-    "types": ["jest"],
+    "types": ["vitest/globals"],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   }

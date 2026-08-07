@@ -10,12 +10,12 @@
 | [useForgotPassword][use-forgot-password]   | `forgotPassword` | Initiate a password reset process.  |
 | [usePermissions][use-permissions]          | `getPermissions` | Get the permissions of the user.    |
 
-[use-login]: /docs/authentication/hooks/use-login/
-[use-logout]: /docs/authentication/hooks/use-logout/
-[use-is-authenticated]: /docs/authentication/hooks/use-is-authenticated/
-[use-on-error]: /docs/authentication/hooks/use-on-error/
-[use-get-identity]: /docs/authentication/hooks/use-get-identity/
-[use-permissions]: /docs/authentication/hooks/use-permissions/
-[use-register]: /docs/authentication/hooks/use-register/
-[use-forgot-password]: /docs/authentication/hooks/use-forgot-password/
-[use-update-password]: /docs/authentication/hooks/use-update-password/
+[use-login]: /core/docs/authentication/hooks/use-login/
+[use-logout]: /core/docs/authentication/hooks/use-logout/
+[use-is-authenticated]: /core/docs/authentication/hooks/use-is-authenticated/
+[use-on-error]: /core/docs/authentication/hooks/use-on-error/
+[use-get-identity]: /core/docs/authentication/hooks/use-get-identity/
+[use-permissions]: /core/docs/authentication/hooks/use-permissions/
+[use-register]: /core/docs/authentication/hooks/use-register/
+[use-forgot-password]: /core/docs/authentication/hooks/use-forgot-password/
+[use-update-password]: /core/docs/authentication/hooks/use-update-password/

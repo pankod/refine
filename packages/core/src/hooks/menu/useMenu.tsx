@@ -1,10 +1,9 @@
 import React from "react";
 
-import { pickNotDeprecated, useUserFriendlyName } from "@definitions";
+import { useUserFriendlyName } from "@definitions";
 import { getParentResource } from "@definitions/helpers/router";
 
-import { useParsed, useResource, useRouterContext, useTranslate } from "..";
-import { useRouterType } from "../../contexts/router/picker";
+import { useParsed, useResourceParams, useTranslate } from "..";
 import { createResourceKey } from "../../definitions/helpers/menu/create-resource-key";
 import {
   type FlatTreeItem,
@@ -23,14 +22,15 @@ export type UseMenuProps = {
   hideOnMissingParameter?: boolean;
 };
 
-export type TreeMenuItem =
-  // Omitted because `label` and `route` are deprecated in `resource` but not in `menuItems`. These are populated in `prepareItem` for ease of use.
-  Omit<FlatTreeItem, "label" | "route" | "children"> & {
-    route?: string;
-    icon?: React.ReactNode;
-    label?: string;
-    children: TreeMenuItem[];
-  };
+export type TreeMenuItem = Omit<
+  FlatTreeItem,
+  "label" | "route" | "children"
+> & {
+  route?: string;
+  icon?: React.ReactNode;
+  label?: string;
+  children: TreeMenuItem[];
+};
 
 const getCleanPath = (pathname: string) => {
   return pathname
@@ -55,24 +55,16 @@ export const useMenu = (
   const translate = useTranslate();
 
   const getToPath = useGetToPath();
-  const routerType = useRouterType();
-  const { resource, resources } = useResource();
+  const { resource, resources } = useResourceParams();
   const { pathname } = useParsed();
-  const { useLocation } = useRouterContext();
-  const { pathname: legacyPath } = useLocation();
   const getFriendlyName = useUserFriendlyName();
 
-  const cleanPathname =
-    routerType === "legacy"
-      ? getCleanPath(legacyPath)
-      : pathname
-        ? getCleanPath(pathname)
-        : undefined;
+  const cleanPathname = pathname ? getCleanPath(pathname) : undefined;
 
   const cleanRoute = `/${(cleanPathname ?? "").replace(/^\//, "")}`;
 
   const selectedKey = resource
-    ? createResourceKey(resource, resources, routerType === "legacy")
+    ? createResourceKey(resource, resources)
     : cleanRoute ?? "";
 
   const defaultOpenKeys = React.useMemo(() => {
@@ -88,7 +80,7 @@ export const useMenu = (
 
   const prepareItem = React.useCallback(
     (item: FlatTreeItem): TreeMenuItem | undefined => {
-      if (pickNotDeprecated(item?.meta?.hide, item?.options?.hide)) {
+      if (item?.meta?.hide) {
         return undefined;
       }
       if (!item?.list && item.children.length === 0) return undefined;
@@ -97,7 +89,6 @@ export const useMenu = (
         ? getToPath({
             resource: item,
             action: "list",
-            legacy: routerType === "legacy",
             meta,
           })
         : undefined;
@@ -112,20 +103,20 @@ export const useMenu = (
       return {
         ...item,
         route: composed,
-        icon: pickNotDeprecated(item.meta?.icon, item.options?.icon, item.icon),
+        icon: item.meta?.icon,
         label:
-          pickNotDeprecated(item?.meta?.label, item?.options?.label) ??
+          item?.meta?.label ??
           translate(
             `${item.name}.${item.name}`,
             getFriendlyName(item.name, "plural"),
           ),
       };
     },
-    [routerType, meta, getToPath, translate, hideOnMissingParameter],
+    [meta, getToPath, translate, hideOnMissingParameter],
   );
 
   const treeItems = React.useMemo(() => {
-    const treeMenuItems = createTree(resources, routerType === "legacy");
+    const treeMenuItems = createTree(resources);
 
     // add paths to items and their nodes recursively
     const prepare = (items: TreeMenuItem[]): TreeMenuItem[] => {
@@ -143,7 +134,7 @@ export const useMenu = (
     };
 
     return prepare(treeMenuItems);
-  }, [resources, routerType, prepareItem]);
+  }, [resources, prepareItem]);
 
   return {
     defaultOpenKeys,

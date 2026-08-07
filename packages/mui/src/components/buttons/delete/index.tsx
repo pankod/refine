@@ -17,14 +17,13 @@ import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import type { DeleteButtonProps } from "../types";
 
 /**
- * `<DeleteButton>` uses Material UI {@link https://mui.com/material-ui/api/loading-button/#main-content `<LoadingButton>`} and {@link https://mui.com/material-ui/react-dialog/#main-content `<Dialog>`} components.
+ * `<DeleteButton>` uses Material UI {@link https://mui.com/material-ui/react-button `<Button>`} and {@link https://mui.com/material-ui/react-dialog/#main-content `<Dialog>`} components.
  * When you try to delete something, a dialog modal shows up and asks for confirmation. When confirmed it executes the `useDelete` method provided by your `dataProvider`.
  *
  * @see {@link https://refine.dev/docs/api-reference/mui/components/buttons/delete-button} for more details.
  */
 export const DeleteButton: React.FC<DeleteButtonProps> = ({
   resource: resourceNameFromProps,
-  resourceNameOrRouteName,
   recordItemId,
   onSuccess,
   mutationMode,
@@ -34,7 +33,6 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({
   hideText = false,
   accessControl,
   meta,
-  metaData,
   dataProviderName,
   confirmTitle,
   confirmOkText,
@@ -54,7 +52,7 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({
     confirmOkLabel,
     cancelLabel,
   } = useDeleteButton({
-    resource: resourceNameFromProps ?? resourceNameOrRouteName,
+    resource: resourceNameFromProps,
     id: recordItemId,
     dataProviderName,
     mutationMode,
@@ -68,18 +66,42 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({
 
   const [open, setOpen] = React.useState(false);
 
-  const { sx, ...restProps } = rest;
+  // `startIcon` is extracted from rest props so it doesn't get passed to the
+  // underlying MUI Button via `{...restProps}` (which would cause a double icon).
+  const { sx, startIcon, ...restProps } = rest;
 
-  if (hidden) return null;
+  const isDisabled = disabled || rest.disabled;
+  const isHidden = hidden || rest.hidden;
+
+  if (isHidden) return null;
+
+  const defaultIcon = <DeleteOutline fontSize="small" {...svgIconProps} />;
+
+  // When `hideText` is true, the button renders only an icon (no startIcon prop).
+  // When `hideText` is false, the icon goes into the `startIcon` slot and text goes as children.
+  // In both modes, a user-provided `startIcon` takes priority over the default icon.
+  //
+  // | hideText | startIcon    | Button startIcon prop | Button children  |
+  // |----------|--------------|-----------------------|------------------|
+  // | false    | undefined    | <DeleteOutline>       | "Delete"         |
+  // | false    | <CustomIcon> | <CustomIcon>          | "Delete"         |
+  // | true     | undefined    | undefined             | <DeleteOutline>  |
+  // | true     | <CustomIcon> | undefined             | <CustomIcon>     |
+  const buttonStartIcon = hideText
+    ? undefined
+    : startIcon ?? <DeleteOutline {...svgIconProps} />;
+  const buttonChildren = hideText
+    ? startIcon ?? defaultIcon
+    : children ?? label;
 
   return (
     <div>
       <LoadingButton
         color="error"
         onClick={() => setOpen(true)}
-        disabled={disabled}
+        disabled={isDisabled}
         loading={loading}
-        startIcon={!hideText && <DeleteOutline {...svgIconProps} />}
+        startIcon={buttonStartIcon}
         title={title}
         sx={{ minWidth: 0, ...sx }}
         loadingPosition={hideText ? "center" : "start"}
@@ -87,11 +109,7 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({
         className={RefineButtonClassNames.DeleteButton}
         {...restProps}
       >
-        {hideText ? (
-          <DeleteOutline fontSize="small" {...svgIconProps} />
-        ) : (
-          children ?? label
-        )}
+        {buttonChildren}
       </LoadingButton>
       <Dialog
         open={open}

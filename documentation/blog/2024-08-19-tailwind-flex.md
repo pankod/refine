@@ -3,9 +3,11 @@ title: Tailwind Flex for Responsive React Components
 description: This post is about how to use TailwindCSS Flex classes effectively to implement responsive components in React.
 slug: tailwind-flex
 authors: abdullah_numan
+category: "Ecosystem / Integrations"
 tags: [tailwind, css]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-11-tailwind-flex/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-11-tailwind-flex/social-2.png
 hide_table_of_contents: false
+last_update: 2024-08-20
 ---
 
 **This article was last updated on August 19, 2024, to add sections on Flexbox Accessibility Considerations and Best Practices for Performance Optimization.**
@@ -23,18 +25,6 @@ We'll employ a mobile-first approach, so we'll be starting with using `flex-dire
 We'll start with a collapsible React navbar that already comes in a collapsed state with the necessary spacing and sizing implemented so that we can focus on the use of Tailwind Flex classes in this article.
 
 Before starting, though, let's talk about the prerequisites that need to be managed for getting hands-on with Tailwind Flex.
-
-Steps we'll cover:
-
-- [Starter Files](#starter-files)
-- [Styling a Navbar with TailwindCSS classes](#styling-a-navbar-with-tailwindcss-classes)
-- [Flexbox Accessibility Considerations](#flexbox-accessibility-considerations)
-- [Best Practices for Performance Optimization](#best-practices-for-performance-optimization)
-- [Avoid Layout Shifts](#avoid-layout-shifts)
-- [Use Tailwind's JIT (Just-In-Time) Mode](#use-tailwinds-jit-just-in-time-mode)
-- [Optimize for Critical Rendering Path](#optimize-for-critical-rendering-path)
-- [Lazy Load Non-essential Content](#lazy-load-non-essential-content)
-- [PurgeCSS with Tailwind](#purgecss-with-tailwind)
 
 ## Prerequisites
 
@@ -147,7 +137,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div id="brand-wrapper" className="nav-wrapper">
         <a className="brand" href="/">
-          <img src={TailzupLogo} width={180} height={62} alt="tailzup-logo" />
+          <img src={TailzupLogo} width={180} height={62} alt="Tailzup logo" />
         </a>
       </div>
       <div
@@ -214,7 +204,7 @@ import TailzupLogo from "../images/tailzup-logo.png";
 You can download it from [here](https://imgbox.com/eCnG8yLw) and add it to the specified directory.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-11-tailwind-flex/images.png"  alt="tailwind flex" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-11-tailwind-flex/images.png"  alt="Tailzup logo asset used in the navbar" />
 </div>
 
 <br/>
@@ -395,7 +385,7 @@ npm run start
 You can see a vertical menu and a toggle button at a screen size less than `md`. And the toggle button is functioning properly:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-11-tailwind-flex/icons-min.gif"  alt="tailwind flex" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-11-tailwind-flex/icons-min.avif"  alt="Navbar icons with responsive toggle button" />
 </div>
 
 <br/>
@@ -526,7 +516,7 @@ Notice we are applying flex order again with Tailwind Flex `order` classes. With
 So, with these changes, we have been able to achieve a good shape for the vertical navbar. The navbar looks almost complete, and it can now strongly flex its muscles back and forth in the horizontal position:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-11-tailwind-flex/vertical-menu-min.gif"  alt="tailwind flex" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-11-tailwind-flex/vertical-menu-min.avif"  alt="Vertical mobile menu layout" />
 </div>
 
 <br/>
@@ -545,7 +535,7 @@ Before we work on the parent `<nav>`, let's make sure all elements inside the `i
   //highlight-end
 >
   <a className="brand" href="/">
-    <img src={TailzupLogo} width={180} height={62} alt="tailzup-logo" />
+    <img src={TailzupLogo} width={180} height={62} alt="Tailzup logo" />
   </a>
 </div>
 ```
@@ -566,7 +556,7 @@ And now, in the parent `nav` element, for screens larger than `md`, let's make t
 >
   <div className="nav-wrapper flex flex-1 items-center justify-start self-start">
     <a className="brand" href="/">
-      <img src={TailzupLogo} width={180} height={62} alt="tailzup-logo" />
+      <img src={TailzupLogo} width={180} height={62} alt="Tailzup logo" />
     </a>
   </div>
   <div
@@ -627,7 +617,7 @@ With `flex flex-col justify-start md:flex-row md:justify-between md:items-start`
 So, with this Tailwind Flex power, we have a pretty neat React responsive navbar we can use on any webpage:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-09-11-tailwind-flex/ezgif.com-optimize-min.gif"  alt="tailwind flex" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-09-11-tailwind-flex/ezgif.com-optimize-min.avif"  alt="Responsive navbar layout on desktop and mobile" />
 </div>
 
 <br/>
@@ -655,7 +645,7 @@ const Navbar = () => {
 "
       >
         <a className="brand" href="/">
-          <img src={TailzupLogo} width={180} height={62} alt="tailzup-logo" />
+          <img src={TailzupLogo} width={180} height={62} alt="Tailzup logo" />
         </a>
       </div>
       <div
@@ -833,7 +823,7 @@ By doing so, the browser ensures that critical content gets loaded first, hence 
 Use lazy loading for images and any non-essential content so that they load only once in view. This reduces the initial load time and saves bandwidth. Here is how we can do it:
 
 ```html
-<img src="image.jpg" loading="lazy" alt="Description" />
+<img src="image.jpg" loading="lazy" alt="Lazy-loaded image placeholder" />
 ```
 
 This attribute ensures that the image is loaded only when it is about to become visible.

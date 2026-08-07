@@ -8,7 +8,7 @@ import { useOnClickOutside } from "@/hooks/useOnClickOutside";
 import type { Order } from "@/types";
 
 export const OrdersModal: React.FC = () => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const go = useGo();
   const { setOrdersModalVisible } = useOrdesModalContext();
   const { orders, totalPrice, products, dispatch } = useBasketContext();

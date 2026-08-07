@@ -1,5 +1,8 @@
 ---
-title: Data Fetching
+title: "Data Fetching Guide | Best Practices in Refine v5"
+display_title: "Data Fetching"
+sidebar_label: "Data Fetching"
+description: "Learn to implement Data Fetching in Refine v5. Explore best practices for open and provider for real-world React admin panels. Real-world snippets included."
 ---
 
 import UseOne from "./use-one";
@@ -17,7 +20,7 @@ import DataProviderInterface from "./data-provider-interface.md";
 
 Data is essential for any UI Application and these applications are a bridge between users and the underlying data source(s), making it possible for users to interact with data in a meaningful way.
 
-To manage data, Refine needs a `data provider`, which is a function that implements the [`DataProvider`](/docs/core/interface-references#dataprovider) interface. It is responsible for communicating with your API and making data available to Refine applications. While you can use one of our built-in data providers, you can also easily create your own data provider matching your API.
+To manage data, Refine needs a `data provider`, which is a function that implements the [`DataProvider`](/core/docs/core/interface-references#dataprovider) interface. It is responsible for communicating with your API and making data available to Refine applications. While you can use one of our built-in data providers, you can also easily create your own data provider matching your API.
 
 Refine passes relevant parameters like `resource` name, or the `id` of the record to your data provider, so data provider can make API calls to appropriate endpoints.
 
@@ -25,7 +28,7 @@ Once you provide `data provider` to Refine, you can utilize our data hooks (`use
 
 Moreover, Refine offers support for multiple data providers, allowing you to use different data providers for different resources. For instance, you can use **REST** for the `posts` endpoint and **GraphQL** for the `users` query.
 
-<Image src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/providers/data-provider/api-consuming-flow.png" />
+<Image src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/providers/data-provider/api-consuming-flow.webp" />
 
 ## Fetching Data
 
@@ -170,7 +173,7 @@ mutate({
 
 **Nest.js Query** data provider implements full support for `gqlQuery` and `gqlMutation` fields.
 
-See [Nest.js Query Docs](/docs/data/packages/nestjs-query) for more information.
+See [Nest.js Query Docs](/core/docs/data/packages/nestjs-query/) for more information.
 
 :::
 
@@ -197,12 +200,12 @@ As you can see the example below:
 
 ## Handling errors
 
-Refine expects errors to be extended from [HttpError](/docs/core/interface-references#httperror). We believe that having consistent error interface makes it easier to handle errors coming from your API.
+Refine expects errors to be extended from [HttpError](/core/docs/core/interface-references#httperror). We believe that having consistent error interface makes it easier to handle errors coming from your API.
 
 When implemented correctly, Refine offers several advantages in error handling:
 
-- **Notification**: If you have [`notificationProvider` ](/docs/notification/notification-provider), Refine will automatically show a notification when an error occurs.
-- **Server-Side Validation**: Shows [errors coming from the API](/docs/advanced-tutorials/forms/server-side-form-validation/) on the corresponding form fields.
+- **Notification**: If you have [`notificationProvider` ](/core/docs/notification/notification-provider/), Refine will automatically show a notification when an error occurs.
+- **Server-Side Validation**: Shows [errors coming from the API](/core/docs/advanced-tutorials/forms/server-side-form-validation/) on the corresponding form fields.
 - **Optimistic Updates**: Instantly update UI when you send a mutation and automatically revert the changes if an error occurs during the mutation.
 
 <ErrorHandling />
@@ -247,7 +250,7 @@ import { DataProvider, useList } from "@refinedev/core";
 useList({
   resource: "products",
   pagination: {
-    current: 1,
+    currentPage: 1,
     pageSize: 10,
   },
   filters: [
@@ -351,11 +354,15 @@ In this case, we can use the `useMany` hook to fetch the categories of a product
 ```tsx
 import { DataProvider, useMany } from "@refinedev/core";
 
-const { data: productCategories } = useList({
+const {
+  result: { data: productCategories },
+} = useList({
   resource: "productCategories",
 });
 
-const { data: products } = useMany({
+const {
+  result: { data: products },
+} = useMany({
   resource: "products",
   ids: productCategories.map((productCategory) => productCategory.productId),
   queryOptions: {
@@ -363,7 +370,9 @@ const { data: products } = useMany({
   },
 });
 
-const { data: categories } = useMany({
+const {
+  result: { data: categories },
+} = useMany({
   resource: "categories",
   ids: productCategories.map((productCategory) => productCategory.categoryId),
   queryOptions: {
@@ -376,7 +385,7 @@ const { data: categories } = useMany({
 
 Imagine you want to fetch a data from a protected API. To do this, you will first need to obtain your authentication token and you will need to send this token with every request.
 
-In Refine we handle [authentication](/docs/guides-concepts/authentication/) with [Auth Provider](/docs/authentication/auth-provider/). To get token from the API, we will use the `authProvider.login` method. Then, we will use [`<Authenticated />`](/docs/authentication/components/authenticated) component to to render the appropriate components.
+In Refine we handle [authentication](/core/docs/guides-concepts/authentication/) with [Auth Provider](/core/docs/authentication/auth-provider/). To get token from the API, we will use the `authProvider.login` method. Then, we will use [`<Authenticated />`](/core/docs/authentication/components/authenticated/) component to to render the appropriate components.
 
 After obtaining the token, we'll use Axios interceptors to include the token in the headers of all requests.
 
@@ -384,7 +393,7 @@ After obtaining the token, we'll use Axios interceptors to include the token in 
 
 ## TanStack Query `QueryClient`
 
-To modify the [`QueryClient`](https://tanstack.com/query/v4/docs/reference/QueryClient) instance, you can use the `reactQuery` prop of the [`<Refine />`](/docs/core/refine-component) component.
+To modify the [`QueryClient`](https://tanstack.com/query/v5/docs/react/reference/QueryClient) instance, you can use the `reactQuery` prop of the [`<Refine />`](/core/docs/core/refine-component/) component.
 
 ## `dataProvider` interface
 
@@ -394,7 +403,7 @@ To better understand the data provider interface, we have created an example tha
 
 <DataProviderInterface />
 
-[To learn more about the `dataProvider` interface, check out the reference page.](/docs/data/data-provider)
+[To learn more about the `dataProvider` interface, check out the reference page.](/core/docs/data/data-provider/)
 
 ## Supported data providers
 
@@ -404,27 +413,27 @@ To better understand the data provider interface, we have created an example tha
 
 <DataHooks />
 
-[basekey]: /docs/core/interface-references#basekey
-[create-a-data-provider]: /docs/data/data-provider
-[swizzle-a-data-provider]: /docs/packages/cli#swizzle
-[data-provider-tutorial]: /docs/data/data-provider
-[use-api-url]: /docs/data/hooks/use-api-url
-[use-create]: /docs/data/hooks/use-create
-[use-create-many]: /docs/data/hooks/use-create
-[use-custom]: /docs/data/hooks/use-custom
-[use-delete]: /docs/data/hooks/use-delete
-[use-delete-many]: /docs/data/hooks/use-delete
-[use-list]: /docs/data/hooks/use-list
-[use-infinite-list]: /docs/data/hooks/use-infinite-list
-[use-many]: /docs/data/hooks/use-many
-[use-one]: /docs/data/hooks/use-one
-[use-update]: /docs/data/hooks/use-update
-[use-update-many]: /docs/data/hooks/use-update
-[crud-sorting]: /docs/core/interface-references#crudsorting
-[crud-filters]: /docs/core/interface-references#crudfilters
-[pagination]: /docs/core/interface-references#pagination
-[http-error]: /docs/core/interface-references#httperror
-[meta-data]: /docs/core/interface-references#metaquery
-[meta]: /docs/core/interface-references#metaquery
-[use-login]: /docs/authentication/hooks/use-login
-[use-register]: /docs/authentication/hooks/use-register
+[basekey]: /core/docs/core/interface-references#basekey
+[create-a-data-provider]: /core/docs/data/data-provider
+[swizzle-a-data-provider]: /core/docs/packages/cli#swizzle
+[data-provider-tutorial]: /core/docs/data/data-provider
+[use-api-url]: /core/docs/data/hooks/use-api-url
+[use-create]: /core/docs/data/hooks/use-create
+[use-create-many]: /core/docs/data/hooks/use-create
+[use-custom]: /core/docs/data/hooks/use-custom
+[use-delete]: /core/docs/data/hooks/use-delete
+[use-delete-many]: /core/docs/data/hooks/use-delete
+[use-list]: /core/docs/data/hooks/use-list
+[use-infinite-list]: /core/docs/data/hooks/use-infinite-list
+[use-many]: /core/docs/data/hooks/use-many
+[use-one]: /core/docs/data/hooks/use-one
+[use-update]: /core/docs/data/hooks/use-update
+[use-update-many]: /core/docs/data/hooks/use-update
+[crud-sorting]: /core/docs/core/interface-references#crudsorting
+[crud-filters]: /core/docs/core/interface-references#crudfilters
+[pagination]: /core/docs/core/interface-references#pagination
+[http-error]: /core/docs/core/interface-references#httperror
+[meta-data]: /core/docs/core/interface-references#metaquery
+[meta]: /core/docs/core/interface-references#metaquery
+[use-login]: /core/docs/authentication/hooks/use-login
+[use-register]: /core/docs/authentication/hooks/use-register

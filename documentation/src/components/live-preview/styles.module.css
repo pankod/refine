@@ -21,7 +21,7 @@
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
-  letter-spacing: 0.08rem;
+  letter-spacing: 0.008rem;
   cursor: pointer;
 }
 
@@ -37,7 +37,6 @@
   overflow-y: scroll;
   background-color: var(--ifm-pre-background);
 }
-
 
 [data-theme="dark"] .playgroundPreview {
   background-color: #fff;

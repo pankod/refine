@@ -3,17 +3,18 @@ import React from "react";
 export const InfoIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={24}
-    viewBox="0 0 24 24"
+    width={20}
+    height={20}
     fill="none"
+    viewBox="0 0 20 20"
     {...props}
   >
     <path
-      fill="currentColor"
-      fillRule="evenodd"
-      d="M12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm0-12a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm0 8a1 1 0 0 0 1-1v-3a1 1 0 1 0-2 0v3a1 1 0 0 0 1 1Z"
-      clipRule="evenodd"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.25}
+      d="M10 13.333V10m0-3.333h.008M18.333 10a8.333 8.333 0 1 1-16.667 0 8.333 8.333 0 0 1 16.667 0Z"
     />
   </svg>
 );

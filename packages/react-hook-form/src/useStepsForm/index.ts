@@ -119,12 +119,6 @@ export const useStepsForm = <
 
     const registeredFields = Object.keys(getValues());
 
-    console.log({
-      dirtyFields,
-      registeredFields,
-      data,
-    });
-
     Object.entries(data).forEach(([key, value]) => {
       const name = key as Path<TVariables>;
 

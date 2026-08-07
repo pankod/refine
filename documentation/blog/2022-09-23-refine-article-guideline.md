@@ -3,8 +3,9 @@ title: An article guideline for Refine blog posts
 description: A guideline for writing articles
 slug: article-guideline
 authors: necati
-tags: [community]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-23-refine-article-guideline/social.png
+category: "Announcement"
+tags: []
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-23-refine-article-guideline/social.png
 hide_table_of_contents: false
 ---
 
@@ -47,18 +48,10 @@ Imagine you have 3 headings in your article.
 You need to add the following code with proper heading link to the top of the article.
 
 ```markdown
-Steps we'll cover:
-
 -[What is Refine?](#what-is-refine) -[How to use Refine?](#how-to-use-refine) -[How to customize Refine?](#how-to-customize-refine)
 ```
 
 The result will be like this when the post is published.
-
-Steps we'll cover:
-
-- [What is Refine?](#what-is-refine)
-- [How to use Refine?](#how-to-use-refine)
-- [How to customize Refine?](#how-to-customize-refine)
 
 ## Code blocks
 

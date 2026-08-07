@@ -22,9 +22,6 @@ describe("inferencer-material-ui", () => {
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    cy.interceptGETCategory();
-    cy.interceptGETCategories();
-    cy.interceptGETBlogPosts();
     cy.visit("/");
 
     login();
@@ -41,8 +38,6 @@ describe("inferencer-material-ui", () => {
   });
 
   it("should show resource", () => {
-    cy.interceptGETBlogPost();
-
     cy.wait("@getBlogPosts");
     cy.wait("@getCategories");
     cy.getMaterialUILoadingCircular().should("not.exist");
@@ -78,9 +73,6 @@ describe("inferencer-material-ui", () => {
   });
 
   it("should delete resource", () => {
-    cy.interceptGETBlogPost();
-    cy.interceptDELETEBlogPost();
-
     cy.wait("@getBlogPosts");
     cy.wait("@getCategories");
     cy.getMaterialUILoadingCircular().should("not.exist");
@@ -106,8 +98,6 @@ describe("inferencer-material-ui", () => {
   });
 
   it("should create resource", () => {
-    cy.interceptPOSTBlogPost();
-
     cy.wait("@getBlogPosts");
     cy.wait("@getCategories");
     cy.getMaterialUILoadingCircular().should("not.exist");
@@ -156,9 +146,6 @@ describe("inferencer-material-ui", () => {
   });
 
   it("should edit resource", () => {
-    cy.interceptPATCHBlogPost();
-    cy.interceptGETBlogPost();
-
     cy.wait("@getBlogPosts");
     cy.wait("@getCategories");
     cy.getMaterialUILoadingCircular().should("not.exist");
@@ -325,12 +312,12 @@ describe("inferencer-material-ui", () => {
     ).as("getSecondPagePosts");
 
     cy.get("[title='Go to next page']").click();
-    cy.url().should("include", "current=2");
+    cy.url().should("include", "currentPage=2");
     cy.wait("@getSecondPagePosts");
 
     cy.get("[title='Go to previous page']").click();
 
-    cy.url().should("include", "current=1");
+    cy.url().should("include", "currentPage=1");
 
     cy.wait("@getFirstPagePosts");
   });

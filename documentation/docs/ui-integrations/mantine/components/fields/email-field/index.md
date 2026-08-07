@@ -1,40 +1,16 @@
 ---
-title: Email
+title: "Mantine Email Field Component | UI Component in Refine v5"
+display_title: "Email"
+sidebar_label: "Email"
+description: "Set up Email Field in Refine v5. Learn best practices. Learn integrate React UI library, components for polished admin UIs. See practical code samples."
 swizzle: true
 ---
-
-```tsx live shared
-const { default: routerProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: routerProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  notificationProvider: RefineMantine.useNotificationProvider,
-  Layout: RefineMantine.Layout,
-  Sider: () => null,
-});
-
-const Wrapper = ({ children }) => {
-  return (
-    <MantineCore.MantineProvider
-      theme={RefineMantine.LightTheme}
-      withNormalizeCSS
-      withGlobalStyles
-    >
-      <MantineCore.Global styles={{ body: { WebkitFontSmoothing: "auto" } }} />
-      <MantineNotifications.NotificationsProvider position="top-right">
-        {children}
-      </MantineNotifications.NotificationsProvider>
-    </MantineCore.MantineProvider>
-  );
-};
-```
 
 This field is used to display email values. It uses the [`<Anchor>`](https://mantine.dev/core/anchor) component of Mantine.
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -44,7 +20,6 @@ Let's see how we can use `<EmailField>` with the example in the user list.
 
 ```tsx live url=http://localhost:3000/users previewHeight=420px hideCode
 setInitialRoutes(["/users"]);
-import { Refine } from "@refinedev/core";
 
 // visible-block-start
 import { List, EmailField } from "@refinedev/mantine";
@@ -86,9 +61,8 @@ const UserList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    refineCore: { setCurrent, pageCount, current },
+    reactTable: { getHeaderGroups, getRowModel },
+    refineCore: { setCurrentPage, pageCount, currentPage },
   } = useTable({
     columns,
   });
@@ -128,8 +102,8 @@ const UserList: React.FC = () => {
       <Pagination
         position="right"
         total={pageCount}
-        page={current}
-        onChange={setCurrent}
+        page={currentPage}
+        onChange={setCurrentPage}
       />
     </List>
   );
@@ -143,14 +117,30 @@ interface IUser {
 }
 // visible-block-end
 
-const App = () => {
-  return <Refine resources={[{ name: "users", list: UserList }]} />;
-};
-
 render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
+      resources={[
+        {
+          name: "users",
+          list: "/users",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/users"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<UserList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

@@ -10,7 +10,7 @@ In this step, we'll be implementing a basic `authProvider` with `check` method t
 
 Refine can work with any authentication solution with its easy to implement `authProvider` interface. We'll set up an implementation for our fake REST API, which also provides a simple authentication endpoints.
 
-To learn more about the supported auth providers, refer to the [Supported Authentication Providers](/docs/guides-concepts/authentication/#supported-auth-providers) section in the Authentication guide.
+To learn more about the supported auth providers, refer to the [Supported Authentication Providers](/core/docs/guides-concepts/authentication/#supported-auth-providers) section in the Authentication guide.
 
 ## Creating an Auth Provider
 
@@ -141,7 +141,7 @@ Now you should be able to see the `<Authenticated />` component in action. Our c
 
 :::tip
 
-You can also use the `useIsAuthenticated` hook instead, which the `<Authenticated />` component uses under the hood. You can learn more about it in the [useIsAuthenticated](/docs/authentication/hooks/use-is-authenticated/) hook documentation.
+You can also use the `useIsAuthenticated` hook instead, which the `<Authenticated />` component uses under the hood. You can learn more about it in the [useIsAuthenticated](/core/docs/authentication/hooks/use-is-authenticated/) hook documentation.
 
 :::
 

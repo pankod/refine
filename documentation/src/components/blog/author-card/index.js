@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Link from "@docusaurus/Link";
 import { useBlogPost } from "@docusaurus/theme-common/internal";
 
-import { Github, Twitter, Linkedin } from "../icons";
+import { Github, TwitterIcon, LinkedinIcon } from "../icons";
 
 export const AuthorCardWithProps = ({ author, className }) => {
   return <AuthorCard author={author} className={className} />;
@@ -81,12 +81,12 @@ const AuthorCard = ({ author }) => {
               )}
               {author?.twitter && (
                 <Link to={author?.twitter}>
-                  <Twitter className="h-6 w-6" />
+                  <TwitterIcon className="h-6 w-6" />
                 </Link>
               )}
               {author?.linkedin && (
                 <Link to={author?.linkedin}>
-                  <Linkedin className="h-6 w-6" />
+                  <LinkedinIcon className="h-6 w-6" />
                 </Link>
               )}
             </div>

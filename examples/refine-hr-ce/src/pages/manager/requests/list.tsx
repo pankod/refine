@@ -26,10 +26,9 @@ const TimeOffsList = () => {
   const go = useGo();
 
   const {
-    data: timeOffsData,
-    isLoading: timeOffsLoading,
-    fetchNextPage: timeOffsFetchNextPage,
-    hasNextPage: timeOffsHasNextPage,
+    query: { isLoading: timeOffsLoading, fetchNextPage: timeOffsFetchNextPage },
+
+    result: { data: timeOffsData, hasNextPage: timeOffsHasNextPage },
   } = useInfiniteList<
     TimeOff & {
       employee: Employee;

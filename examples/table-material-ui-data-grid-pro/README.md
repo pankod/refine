@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example table-material-ui-data-grid-pro
 
 <br/>
 
-[![Open table-material-ui-data-grid-pro example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/table-material-ui-data-grid-pro?view=preview&theme=dark&codemirror=1)
+[![Open table-material-ui-data-grid-pro example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/table-material-ui-data-grid-pro?view=preview&theme=dark&codemirror=1)

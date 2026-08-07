@@ -22,7 +22,8 @@ type AuthActionType =
   | "check"
   | "onError"
   | "permissions"
-  | "updatePassword";
+  | "updatePassword"
+  | "updateIdentity";
 
 type AuditActionType = "list" | "log" | "rename";
 
@@ -62,92 +63,6 @@ export function stripUndefined(segments: KeySegment[]) {
   return segments.filter((segment) => segment !== undefined);
 }
 
-function convertToLegacy(segments: KeySegment[]) {
-  // for `list`, `many` and `one`
-  if (segments[0] === "data") {
-    // [data, dpName, resource, action, ...];
-    const newSegments = segments.slice(1);
-
-    if (newSegments[2] === "many") {
-      newSegments[2] = "getMany";
-    } else if (newSegments[2] === "infinite") {
-      newSegments[2] = "list";
-    } else if (newSegments[2] === "one") {
-      newSegments[2] = "detail";
-    } else if (newSegments[1] === "custom") {
-      const newParams = {
-        ...newSegments[2],
-      };
-      delete newParams.method;
-      delete newParams.url;
-
-      return [
-        newSegments[0],
-        newSegments[1],
-        newSegments[2].method,
-        newSegments[2].url,
-        newParams,
-      ];
-    }
-
-    return newSegments;
-  }
-  // for `audit` -> `logList`
-  if (segments[0] === "audit") {
-    // [audit, resource, action, params] (for log and list)
-    // or
-    // [audit, action, params] (for rename)
-    if (segments[2] === "list") {
-      return ["logList", segments[1], segments[3]];
-    }
-  }
-  // for `access` -> `useCan`
-  if (segments[0] === "access") {
-    // [access, resource, action, params]
-    if (segments.length === 4) {
-      return [
-        "useCan",
-        {
-          resource: segments[1],
-          action: segments[2],
-          ...segments[3], // params: { params, enabled }
-        },
-      ];
-    }
-  }
-  // for `auth`
-  if (segments[0] === "auth") {
-    if (arrayFindIndex(segments, ["auth", "login"]) !== -1) {
-      return ["useLogin"];
-    }
-    if (arrayFindIndex(segments, ["auth", "logout"]) !== -1) {
-      return ["useLogout"];
-    }
-    if (arrayFindIndex(segments, ["auth", "identity"]) !== -1) {
-      return ["getUserIdentity"];
-    }
-    if (arrayFindIndex(segments, ["auth", "register"]) !== -1) {
-      return ["useRegister"];
-    }
-    if (arrayFindIndex(segments, ["auth", "forgotPassword"]) !== -1) {
-      return ["useForgotPassword"];
-    }
-    if (arrayFindIndex(segments, ["auth", "check"]) !== -1) {
-      return ["useAuthenticated", segments[2]]; // [auth, check, params]
-    }
-    if (arrayFindIndex(segments, ["auth", "onError"]) !== -1) {
-      return ["useCheckError"];
-    }
-    if (arrayFindIndex(segments, ["auth", "permissions"]) !== -1) {
-      return ["usePermissions"];
-    }
-    if (arrayFindIndex(segments, ["auth", "updatePassword"]) !== -1) {
-      return ["useUpdatePassword"];
-    }
-  }
-  return segments;
-}
-
 class BaseKeyBuilder {
   segments: KeySegment[] = [];
 
@@ -159,12 +74,8 @@ class BaseKeyBuilder {
     return this.segments;
   }
 
-  legacy() {
-    return convertToLegacy(this.segments);
-  }
-
-  get(legacy?: boolean) {
-    return legacy ? this.legacy() : this.segments;
+  get() {
+    return this.segments;
   }
 }
 

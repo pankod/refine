@@ -37,7 +37,7 @@ describe("getParentResource", () => {
     const result = getParentResource(
       {
         name: "users",
-        options: {
+        meta: {
           parent: "orgs",
         },
       },

@@ -23,8 +23,8 @@ export const DocTOCMobile = () => {
           <div
             className={clsx(
               "rounded-lg",
-              "border gray-300 dark:border-gray-700",
-              "bg-gray-100 dark:bg-gray-700",
+              "border border-zinc-200 dark:border-zinc-700",
+              "bg-zinc-50 dark:bg-zinc-950",
             )}
           >
             <Disclosure.Button
@@ -33,7 +33,7 @@ export const DocTOCMobile = () => {
               <TriangleDownIcon
                 className={clsx(
                   "h-5 w-5",
-                  "text-gray-500",
+                  "text-zinc-500",
                   "transition-transform duration-200 ease-in-out",
                   {
                     "transform -rotate-90": !open,
@@ -41,10 +41,7 @@ export const DocTOCMobile = () => {
                 )}
               />
               <span
-                className={clsx(
-                  "text-base",
-                  "text-gray-800 dark:text-gray-100",
-                )}
+                className={clsx("text-base", "text-zinc-900 dark:text-white")}
               >
                 On this page
               </span>
@@ -58,7 +55,7 @@ export const DocTOCMobile = () => {
               leaveFrom="transform opacity-100 scale-y-100"
               leaveTo="transform opacity-0 scale-y-95"
             >
-              <Disclosure.Panel className="h-[328px] rounded-bl-lg rounded-br-lg overflow-auto bg-gray-0 dark:bg-gray-800">
+              <Disclosure.Panel className="h-[328px] rounded-bl-lg rounded-br-lg overflow-auto bg-white dark:bg-zinc-800">
                 <ul className="p-4">
                   {toc.map(({ id, value, level }) => {
                     const isActive = activeId === id;
@@ -73,23 +70,16 @@ export const DocTOCMobile = () => {
                           level === 3 && "pl-6",
                           level === 4 && "pl-8",
                           "py-2 pr-4",
-                          "rounded-[18px]",
-                          "transition-colors duration-200 ease-in-out",
+                          isActive && "bg-zinc-200 dark:bg-zinc-700",
+                          isActive && "text-zinc-900 dark:text-white",
+                          !isActive && "text-zinc-700 dark:text-zinc-300",
+                          !isActive &&
+                            "hover:bg-zinc-100 dark:hover:bg-[#303035]",
+                          "rounded-md",
                           "block",
                           "text-sm",
-                          "leading-5",
                           "no-underline hover:no-underline",
-                          {
-                            "text-gray-800 dark:text-gray-300": !isActive,
-                            "text-refine-react-light-link dark:text-refine-react-dark-link":
-                              isActive,
-                            "bg-refine-blue-2-light dark:bg-refine-blue dark:bg-opacity-10":
-                              isActive,
-                            "hover:bg-gray-100 dark:hover:bg-gray-700":
-                              !isActive,
-                            "hover:text-gray-800 dark:hover:text-gray-300":
-                              !isActive,
-                          },
+                          "transition-colors duration-200 ease-in-out",
                         )}
                         // biome-ignore lint/security/noDangerouslySetInnerHtml: explicitly disabled
                         dangerouslySetInnerHTML={{

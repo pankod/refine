@@ -3,8 +3,9 @@ title: Build Access Control Mechanism using Permify
 description: In this article, I will explain how to build an Access Control n Refine using Permify; an authorization API that helps you to create any kind of authorization system easily with its panel.
 slug: build-access-control-permify
 authors: ege
-tags: [access-control]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-05-21-build-access-control-permify/social.jpg
+category: "Ecosystem / Integrations"
+tags: [admin-panel, tech-industry]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-05-21-build-access-control-permify/social.jpg
 hide_table_of_contents: false
 ---
 
@@ -24,7 +25,7 @@ As an overview, we will:
 
 ### Step 1: Setup the Permify in Refine application
 
-First let's create a demo react application using refine. You can follow the [tutorial to create a simple](https://refine.dev/tutorial) admin panel for a CMS-like application.
+First let's create a demo react application using refine. You can follow the [tutorial to create a simple](https://refine.dev/core/tutorial) admin panel for a CMS-like application.
 
 If you're application is ready, lets create a free instant account at Permify from [here](https://panel.permify.co/auth/registration).
 
@@ -54,7 +55,7 @@ Check out the example demo environment for the data folder and full UI layer.
 
 ### Step 2: Create a access control mechanism in Refine Access Control Provider
 
-Refine provides an agnostic API via the [accessControlProvider](https://refine.dev/docs/core/providers/accessControl-provider/) to manage access control throughout your app.
+Refine provides an agnostic API via the [accessControlProvider](https://refine.dev/core/docs/core/providers/accessControl-provider/) to manage access control throughout your app.
 
 Lets create a mechanism in our Access Control Provider using Permify client’s **isAuthorized** function.
 
@@ -96,7 +97,7 @@ To create resources use [createResource](https://docs.permify.co/docs/api-refere
 
 For testing purposes, let’s create resource from Panel with entering Refine **params.id** as **resource.id** and **type** as **_resource name_** as shown below
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-05-21-build-access-control-permify/create_resource.png" alt="create_resource" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-05-21-build-access-control-permify/create_resource.png" alt="Permify create resource form" />
 
 ### Step 4: Define access control rules & options on Permify
 
@@ -109,7 +110,7 @@ Let's say we have **“admin”** and **“editor”** role and the basic access
 
 Let’s create rules for these comparisons. Open [Rules Section](https://panel.permify.co/access-control/rules) and click **Create Rule** button
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-05-21-build-access-control-permify/create_rule.png" alt="create_rule" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-05-21-build-access-control-permify/create_rule.png" alt="Permify create rule dialog" />
 
 We can create an **is-editor** rule to check the editor role as same as checking admin.
 
@@ -123,17 +124,17 @@ Alternatively you can create rules using or modifying **rule templates**. For ou
 
 Click use a template button and choose **is Owner** rule template for checking whether user is owner of the resource.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-05-21-build-access-control-permify/rule_template.png" alt="rule_template" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-05-21-build-access-control-permify/rule_template.png" alt="Permify rule template selection" />
 
 Then let's attach these rules to our policies in order to meet with our access conditions defined above. After editing **policies** your table should look like this
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-05-21-build-access-control-permify/policy_table.png" alt="policy_table" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-05-21-build-access-control-permify/policy_table.png" alt="Permify policies table" />
 
 Before testing these policies, let's set the owner of the test resource (params.id === 1000) as our editor rule user.
 
 Open up [Resources Section](https://panel.permify.co/customers/resources) and change the attributes object of **post item 1000** as follows:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-05-21-build-access-control-permify/edit_owner_id_attribute.png" alt="edit_owner_id_attribute" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-05-21-build-access-control-permify/edit_owner_id_attribute.png" alt="Permify resource attributes editor" />
 
 Now let's run the application again to see results for both roles.
 
@@ -153,11 +154,11 @@ Basically if the user is in working hours approximately (8:00 am to 6.00 pm) use
 
 Firstly we need to create a rule to check whether user perform access checks in working hours or not. Create this rule like below:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-05-21-build-access-control-permify/create_rule_working_hours.png" alt="create_rule_working_hours" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-05-21-build-access-control-permify/create_rule_working_hours.png" alt="Permify working hours rule" />
 
 Also we need to check that the user should have an editor role to access content. There is the point where rule sets(options) come up. Lets create an option from option section as follows:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-05-21-build-access-control-permify/create_option.png" alt="create_option" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-05-21-build-access-control-permify/create_option.png" alt="Permify create option form" />
 
 Now add this rule to our edit policy and test the results with running our app.
 

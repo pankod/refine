@@ -10,23 +10,23 @@ import { IconSocialLinkedin } from "@components/icons/icon-social-linkedin";
 const nav = [
   {
     children: "Home",
-    href: "https://refine.dev",
+    href: "https://refine.dev/",
   },
   {
     children: "Documentation",
-    href: "https://refine.dev/docs",
+    href: "https://refine.dev/docs/",
   },
   {
     children: "Tutorial",
-    href: "https://refine.dev/tutorial",
+    href: "https://refine.dev/tutorial/",
   },
   {
     children: "Templates",
-    href: "https://refine.dev/templates",
+    href: "https://refine.dev/templates/",
   },
   {
     children: "Blog",
-    href: "https://refine.dev/blog",
+    href: "https://refine.dev/blog/",
   },
 ];
 

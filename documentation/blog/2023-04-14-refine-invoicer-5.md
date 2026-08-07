@@ -3,14 +3,15 @@ title: Adding PDF Renderer
 description: We are going to add PDF renderer to our PDF Invoice Generator app that we have been building last few days. This is also where we summarize our accomplishments and wrap up the series.
 slug: refine-react-invoice-generator-5
 authors: abdullah_numan
-tags: [refine-week, Refine, strapi, ant-design]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-14-refine-invoicer-5/social.png
+category: "How To Build"
+tags: [react, refine-week]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-14-refine-invoicer-5/social.png
 hide_table_of_contents: false
 ---
 
 In this post, we add pdf renderer to **PDF Invoice Generator** app that we have been building last few days. This is also where we summarize our accomplishments and wrap up the series.
 
-This is Day 5, the final day of the running [**#RefineWeek**](https://refine.dev/week-of-refine-strapi/) series and this [**#RefineWeek**](https://refine.dev/week-of-refine-strapi/) is a five-part tutorial that aims to help developers learn the ins-and-outs of **Refine**'s powerful capabilities and get going with [**Strapi**](https://strapi.io/) within a week.
+This is Day 5, the final day of the running [**#RefineWeek**](https://refine.dev/core/week-of-refine-strapi/) series and this [**#RefineWeek**](https://refine.dev/core/week-of-refine-strapi/) is a five-part tutorial that aims to help developers learn the ins-and-outs of **Refine**'s powerful capabilities and get going with [**Strapi**](https://strapi.io/) within a week.
 
 ### RefineWeek ft. Strapi series
 
@@ -21,7 +22,7 @@ This is Day 5, the final day of the running [**#RefineWeek**](https://refine.dev
 
 [👉 The live version of the app is be available here.](https://invoice-generator.refine.dev/)
 
-[👉 The final apps source code is available on GitHub.](https://github.com/refinedev/refine/tree/master/examples/refine-week-invoice-generator)
+[👉 The final apps source code is available on GitHub.](https://github.com/refinedev/refine/tree/main/examples/refine-week-invoice-generator)
 
 ## Overview
 
@@ -463,7 +464,7 @@ Do take note of the `meta.populate` property of the `useTable()` hook's argument
 
 OK. With this done, we can now go ahead and test our app and should be able to view the pdf document by clicking on the pdf document icon.
 
-<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-04-14-refine-invoicer-5/pdf.gif" alt="react invoice generator" />
+<img style={{alignSelf:"center"}} src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-04-14-refine-invoicer-5/pdf.avif" alt="Generated PDF invoice preview" />
 
 <br />
 

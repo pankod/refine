@@ -5,7 +5,7 @@ import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import type { ICategory, IProduct } from "../../../interfaces";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import IconButton from "@mui/material/IconButton";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { ProductStatus } from "../status";
@@ -27,6 +27,7 @@ export const ProductListTable = (props: Props) => {
         headerName: "ID #",
         description: "ID #",
         width: 52,
+        display: "flex",
         renderCell: function render({ row }) {
           return <Typography>#{row.id}</Typography>;
         },
@@ -34,6 +35,7 @@ export const ProductListTable = (props: Props) => {
       {
         field: "avatar",
         headerName: t("products.fields.images.label"),
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <Avatar
@@ -67,11 +69,13 @@ export const ProductListTable = (props: Props) => {
       },
       {
         field: "price",
+        type: "number",
         headerName: t("products.fields.price"),
         width: 120,
         sortable: false,
         align: "right",
         headerAlign: "right",
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <NumberField
@@ -90,6 +94,7 @@ export const ProductListTable = (props: Props) => {
         minWidth: 160,
         sortable: false,
         filterable: false,
+        display: "flex",
         renderCell: function render({ row }) {
           const category = props.categories.find(
             (category) => category.id === row.category.id,
@@ -102,6 +107,7 @@ export const ProductListTable = (props: Props) => {
         field: "isActive",
         headerName: t("products.fields.isActive.label"),
         minWidth: 136,
+        display: "flex",
         renderCell: function render({ row }) {
           return <ProductStatus value={row.isActive} />;
         },
@@ -112,6 +118,7 @@ export const ProductListTable = (props: Props) => {
         width: 80,
         align: "center",
         headerAlign: "center",
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <IconButton
@@ -143,9 +150,7 @@ export const ProductListTable = (props: Props) => {
   return (
     <DataGrid
       {...props.dataGridProps}
-      sx={{}}
       columns={columns}
-      autoHeight
       pageSizeOptions={[12, 24, 48, 96]}
     />
   );

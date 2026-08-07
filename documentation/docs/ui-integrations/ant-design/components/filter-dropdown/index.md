@@ -1,5 +1,8 @@
 ---
-title: <FilterDropdown />
+title: "Ant Design Filter Dropdown Component | UI Component in Refine v5"
+display_title: "<FilterDropdown />"
+sidebar_label: "<FilterDropdown />"
+description: "Set up Filter Dropdown in Refine v5. Learn best practices. Learn integrate enterprise UI, components for polished admin UIs. Real-world snippets included."
 ---
 
 ## Usage
@@ -63,7 +66,7 @@ Selecting categories from dropdown will send the id's of categories as filtering
 
 <Image src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/category_filter-dropdown.png" alt="Show record action" />
 
-We added category options for `<Select>` manually for the sake of simplicity but the [useSelect](/docs/ui-integrations/ant-design/hooks/use-select) hook can be used to populate the props of `<Select>`
+We added category options for `<Select>` manually for the sake of simplicity but the [useSelect](/core/docs/ui-integrations/ant-design/hooks/use-select/) hook can be used to populate the props of `<Select>`
 
 ```tsx
 const { selectProps: categorySelectProps } = useSelect<ICategory>({
@@ -94,10 +97,10 @@ function mapValue(selectedKeys: React.Key[], event: "onChange" | "value"): any;
   - `onChange`: The event that is triggered when the value of the dropdown changes. It is used to map the value to the format that the Refine expects(data provider, syncWithLocation etc.).
   - `value`: When the value needs to be mapped for the child component.
 
-For example when using [`useSelect`](/docs/ui-integrations/ant-design/hooks/use-select/) for [`<Select />`](https://ant.design/components/select/) component, in which case, the values must be mapped to `number`s using `mapValue`.
+For example when using [`useSelect`](/core/docs/ui-integrations/ant-design/hooks/use-select/) for [`<Select />`](https://ant.design/components/select/) component, in which case, the values must be mapped to `number`s using `mapValue`.
 
 ```tsx
-import { getDefaultFilter } from "@refinedev/core";
+import { getDefaultFilter } from "@refinedev/antd";
 import { useTable, FilterDropdown, useSelect } from "@refinedev/antd";
 import { Table, Select } from "antd";
 
@@ -150,10 +153,10 @@ const { selectProps: categorySelectProps } = useSelect<ICategory>({
 
 A more complex example is using a filter dropdown with a date picker.
 
-Imagine you need to filter data based on a date range where Refine's data provider expects dates in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format, but Ant Design's [`<DatePicker.RangePicker />`](https://ant.design/components/date-picker) uses Dayjs objects. To solve this, use the `mapValue` and [`rangePickerFilterMapper`](https://github.com/refinedev/refine/blob/master/packages/antd/src/definitions/filter-mappers/index.ts) utility function to convert `selectedKeys` to satisfy both the data provider and `<DatePicker.RangePicker />`.
+Imagine you need to filter data based on a date range where Refine's data provider expects dates in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format, but Ant Design's [`<DatePicker.RangePicker />`](https://ant.design/components/date-picker) uses Dayjs objects. To solve this, use the `mapValue` and [`rangePickerFilterMapper`](https://github.com/refinedev/refine/blob/main/packages/antd/src/definitions/filter-mappers/index.ts) utility function to convert `selectedKeys` to satisfy both the data provider and `<DatePicker.RangePicker />`.
 
 ```tsx
-import { getDefaultFilter } from "@refinedev/core";
+import { getDefaultFilter } from "@refinedev/antd";
 import {
   DateField,
   FilterDropdown,
@@ -203,7 +206,7 @@ export const Posts = () => {
 };
 ```
 
-Let's closer look at the [`rangePickerFilterMapper`](https://github.com/refinedev/refine/blob/master/packages/antd/src/definitions/filter-mappers/index.ts) function source code to understand how it works.
+Let's closer look at the [`rangePickerFilterMapper`](https://github.com/refinedev/refine/blob/main/packages/antd/src/definitions/filter-mappers/index.ts) function source code to understand how it works.
 
 when the `event` is:
 
@@ -247,7 +250,7 @@ export const rangePickerFilterMapper = (
 
 :::simple Good to know
 
-If [syncWithLocation](/docs/core/refine-component#syncwithlocation) is enabled, on page refresh, the filter values will be type of `string` since they will be parsed from URL. This might produce some incompatibility if data for filter input comes from an API and it's not type of `string`.
+If [syncWithLocation](/core/docs/core/refine-component#syncwithlocation) is enabled, on page refresh, the filter values will be type of `string` since they will be parsed from URL. This might produce some incompatibility if data for filter input comes from an API and it's not type of `string`.
 
 `getDefaultFilter` finds filter values for a given column from the given filters. In the example, `filters` passed to `getDefaultFilter` includes filter values from the URL since it comes from `useTable`.
 

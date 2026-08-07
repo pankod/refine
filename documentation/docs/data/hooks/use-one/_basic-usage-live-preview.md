@@ -20,12 +20,13 @@ interface IProduct {
 const ProductList: React.FC = () => {
   const [id, setId] = useState(1);
 
-  const { data, isLoading, isError } = useOne<IProduct, HttpError>({
+  const {
+    result: product,
+    query: { isLoading, isError },
+  } = useOne<IProduct, HttpError>({
     resource: "products",
     id,
   });
-
-  const product = data?.data;
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -59,9 +60,17 @@ setRefineProps({
   resources: [
     {
       name: "products",
-      list: ProductList,
+      list: "/products",
     },
   ],
 });
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo>
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/products" element={<ProductList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

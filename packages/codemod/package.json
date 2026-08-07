@@ -1,8 +1,8 @@
 {
   "name": "@refinedev/codemod",
-  "version": "4.2.0",
+  "version": "4.4.3",
   "private": false,
-  "description": "refine Codemod CLI. refine is a React-based framework for building internal tools, rapidly. It ships with Ant Design System, an enterprise-level UI toolkit.",
+  "description": "Codemod scripts for Refine, automating code transformations and migrations.",
   "repository": {
     "type": "git",
     "url": "https://github.com/refinedev/refine.git",
@@ -21,7 +21,8 @@
     "build": "tsc -d -p tsconfig.json",
     "dev": "tsc -w -d -p tsconfig.json",
     "jscodeshift": "jscodeshift -d --transform=src/transformations/refine1-to-refine2.ts",
-    "prepare": "pnpm build"
+    "prepare": "pnpm build",
+    "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
     "@npmcli/package-json": "^5.2.0",
@@ -31,23 +32,23 @@
     "globby": "^11.1.0",
     "inquirer": "^8.2.5",
     "is-git-clean": "1.1.0",
-    "jscodeshift": "0.15.2",
+    "jscodeshift": "^17.3.0",
     "meow": "7.0.1",
     "semver": "7.5.2"
   },
   "devDependencies": {
+    "@esbuild-plugins/node-resolve": "^0.1.4",
     "@types/eslint": "^7.28.2",
     "@types/inquirer": "^8.2.5",
-    "@types/jest": "^29.2.4",
-    "@types/jscodeshift": "^0.11.11",
+    "@types/jscodeshift": "^17.3.0",
+    "@types/node": "^20",
     "@types/npmcli__package-json": "^4.0.4",
-    "jest": "^29.3.1",
-    "ts-jest": "^29.1.2",
     "tslib": "^2.6.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=20"
   },
   "publishConfig": {
     "access": "public"

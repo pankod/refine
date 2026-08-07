@@ -1,32 +1,16 @@
 ---
-title: Text
+title: "Chakra UI Text Field Component | UI Component in Refine v5"
+display_title: "Text"
+sidebar_label: "Text"
+description: "Learn to integrate Text Field in Refine v5. Learn integration patterns for accessibility, components for polished admin UIs. Real-world snippets included."
 swizzle: true
 ---
-
-```tsx live shared
-const { default: routerProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: routerProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  Layout: RefineChakra.Layout,
-  Sider: () => null,
-});
-
-const Wrapper = ({ children }) => {
-  return (
-    <ChakraUI.ChakraProvider theme={RefineChakra.refineTheme}>
-      {children}
-    </ChakraUI.ChakraProvider>
-  );
-};
-```
 
 This field lets you show basic text. It uses Chakra UI's [`<Text>`](https://www.chakra-ui.com/docs/components/text#usage) component.
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -35,9 +19,7 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 Let's see how to use it in a basic show page:
 
 ```tsx live url=http://localhost:3000/posts/show/123 previewHeight=420px hideCode
-setInitialRoutes(["/posts/show/123"]);
-import { Refine } from "@refinedev/core";
-import { ShowButton } from "@refinedev/chakra-ui";
+setInitialRoutes(["/posts", "/posts/show/123"]);
 
 // visible-block-start
 import { useShow } from "@refinedev/core";
@@ -49,8 +31,8 @@ import {
 import { Heading } from "@chakra-ui/react";
 
 const PostShow: React.FC = () => {
-  const { queryResult } = useShow<IPost>();
-  const { data, isLoading } = queryResult;
+  const { query } = useShow<IPost>();
+  const { data, isLoading } = query;
   const record = data?.data;
 
   return (
@@ -58,12 +40,12 @@ const PostShow: React.FC = () => {
       <Heading as="h5" size="sm">
         Id
       </Heading>
-      // highlight-next-line
+      {/* highlight-next-line */}
       <TextField value={record?.id} />
       <Heading as="h5" size="sm">
         Title
       </Heading>
-      // highlight-next-line
+      {/* highlight-next-line */}
       <TextField value={record?.title} />
     </Show>
   );
@@ -75,31 +57,42 @@ interface IPost {
 }
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
-      notificationProvider={RefineChakra.notificationProvider()}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          show: PostShow,
-          list: () => (
-            <RefineChakra.VStack alignItems="flex-start">
-              <RefineChakra.Text>This page is empty.</RefineChakra.Text>
-              <ShowButton colorScheme="black" recordItemId="123">
-                Show Item 123
-              </ShowButton>
-            </RefineChakra.VStack>
-          ),
+          show: "/posts/show/:id",
+          list: "/posts",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route path="show/:id" element={<PostShow />} />
+          <ReactRouter.Route
+            index
+            element={
+              <RefineChakra.VStack alignItems="flex-start">
+                <RefineChakra.Text>This page is empty.</RefineChakra.Text>
+                <RefineChakra.ShowButton colorScheme="black" recordItemId="123">
+                  Show Item 123
+                </RefineChakra.ShowButton>
+              </RefineChakra.VStack>
+            }
+          />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

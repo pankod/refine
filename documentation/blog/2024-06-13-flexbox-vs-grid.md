@@ -3,9 +3,11 @@ title: CSS Grid vs Flexbox - A brief guide
 description: In this brief guide, we compare some concepts of the two most popular CSS layout methods - Grid and Flexbox.
 slug: css-grid-vs-flexbox
 authors: muhammed_arslan
-tags: [css]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-30-flex-vs-grid/social-2.png
+category: "Alternatives"
+tags: [css, comparison]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-30-flex-vs-grid/social-2.png
 hide_table_of_contents: false
+last_update: 2024-06-14
 ---
 
 **This article was last updated on Jun 13, 2024, to add new examples and use cases for CSS Grid and Flexbox**
@@ -80,7 +82,7 @@ If you set `display: flex`, it creates a flex layout. You'll notice that you don
 }
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-30-flex-vs-grid/pic-1.png" alt="Control of Child Elements" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-30-flex-vs-grid/pic-1.png" alt="Control of Child Elements" />
 
 <br/>
 
@@ -90,7 +92,7 @@ Basically, child elements have control because the parent element delegates it t
 
 So, we need to be careful while using Flexbox.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-30-flex-vs-grid/pic-2.png" alt="Control of Child Elements" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-30-flex-vs-grid/pic-2.png" alt="Control of Child Elements" />
 
 <br/>
 <br/>
@@ -108,7 +110,7 @@ So, we need to be careful while using Flexbox.
 }
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-30-flex-vs-grid/pic-3.png" alt="Control of Child Elements" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-30-flex-vs-grid/pic-3.png" alt="Control of Child Elements" />
 
 <br/>
 
@@ -116,7 +118,7 @@ Nothing will happen if we change `display: flex` to `display: grid` You have to 
 
 So, add this line `grid-template-columns: 1fr 1fr 1fr` in the parent element. Then, the content will fit into those columns that are created. When you create a grid, children of the grid fit into those cells.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-30-flex-vs-grid/pic-4.png" alt="Control of Child Elements" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-30-flex-vs-grid/pic-4.png" alt="Control of Child Elements" />
 
 <br/>
 
@@ -139,7 +141,10 @@ In extrinsic sizing, you declare a specific width. Flexbox relies heavily on the
 
 ```html
 <div class="product">
-  <img src="https://assets.codepen.io/308367/betteroutreach-logo.avif" />
+  <img
+    src="https://assets.codepen.io/308367/betteroutreach-logo.avif"
+    alt="BetterOutreach logo"
+  />
   <div class="product__info">
     <h2>Product One</h2>
     <p>A collection of the best cold email templates ever sent</p>
@@ -151,7 +156,10 @@ In extrinsic sizing, you declare a specific width. Flexbox relies heavily on the
 </div>
 
 <div class="product">
-  <img src="https://assets.codepen.io/308367/sliderule-logo.avif" />
+  <img
+    src="https://assets.codepen.io/308367/sliderule-logo.avif"
+    alt="Sliderule logo"
+  />
   <div class="product__info">
     <h2>Product two</h2>
     <p>The no-code rules engine for risk & fraud</p>
@@ -163,7 +171,10 @@ In extrinsic sizing, you declare a specific width. Flexbox relies heavily on the
 </div>
 
 <div class="product">
-  <img src="https://assets.codepen.io/308367/warmy-logo.avif" />
+  <img
+    src="https://assets.codepen.io/308367/warmy-logo.avif"
+    alt="Warmy logo"
+  />
   <div class="product__info">
     <h2>Product three</h2>
     <p>Auto all-in-one tool to make your email channel reliable</p>
@@ -211,7 +222,7 @@ Flexbox figures out content size in the first place. When you do `display: flex`
 
 If you display flex in the product meta, two columns will take width according to the content size. It will help in creating the desired layout. So, dynamic columns can fit into this layout.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-30-flex-vs-grid/pic-5.png" alt="Control of Child Elements" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-30-flex-vs-grid/pic-5.png" alt="Control of Child Elements" />
 
 <br/>
 <br />
@@ -228,7 +239,7 @@ Unlike grid, where each column will take full width, or you need to specify the 
 }
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-30-flex-vs-grid/pic-6.png" alt="Control of Child Elements" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-30-flex-vs-grid/pic-6.png" alt="Control of Child Elements" />
 
 <br/>
 
@@ -426,10 +437,10 @@ Manage to wrap with `flex-wrap`.
 
 ## Browser Support
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-30-flex-vs-grid/grid.png" alt="grid" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-30-flex-vs-grid/grid.png" alt="CSS grid layout example" />
 
 <br/>
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-08-30-flex-vs-grid/flex.png" alt="flex" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-08-30-flex-vs-grid/flex.png" alt="Flexbox layout example" />
 
 <br/>
 

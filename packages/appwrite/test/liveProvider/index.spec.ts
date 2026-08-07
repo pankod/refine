@@ -2,7 +2,7 @@ import type { Client as Appwrite } from "appwrite";
 import { liveProvider } from "../../src";
 
 const mockClient: Appwrite = {
-  subscribe: jest.fn(() => jest.fn()),
+  subscribe: vi.fn(() => vi.fn()),
 } as unknown as Appwrite;
 
 const testDate = new Date().getTime();
@@ -47,10 +47,10 @@ describe("liveProvider", () => {
   });
 
   it("calls appwriteClient.subscribe with correct channel when specific ids given", () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const mockClientWithEvent: Appwrite = {
-      subscribe: jest.fn((channel, cb) => {
+      subscribe: vi.fn((channel, cb) => {
         setImmediate(() => {
           cb({
             events: ["database.documents.create"],
@@ -62,7 +62,7 @@ describe("liveProvider", () => {
     } as unknown as Appwrite;
 
     const provider = liveProvider(mockClientWithEvent);
-    const dummyCallback = jest.fn();
+    const dummyCallback = vi.fn();
 
     provider?.subscribe({
       channel: "resources/blog_posts",
@@ -73,7 +73,7 @@ describe("liveProvider", () => {
       },
     });
 
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     expect(dummyCallback).toHaveBeenCalledWith({
       type: "created",
@@ -82,15 +82,15 @@ describe("liveProvider", () => {
       payload: "test",
     });
 
-    jest.clearAllTimers();
-    jest.useRealTimers();
+    vi.clearAllTimers();
+    vi.useRealTimers();
   });
 
   it("runs given function to unsubscribe", () => {
     const provider = liveProvider(mockClient);
-    const dummyCallback = jest.fn();
+    const dummyCallback = vi.fn();
 
-    const unsubscribeFunction = jest.fn();
+    const unsubscribeFunction = vi.fn();
 
     provider?.subscribe({
       channel: "resources/blog_posts",

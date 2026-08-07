@@ -1,12 +1,13 @@
 import React from "react";
 import {
+  useGo,
   useIsAuthenticated,
   useLogout,
   useMenu,
   useNavigation,
   useParsed,
 } from "@refinedev/core";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useModalForm } from "@refinedev/antd";
 
 import {
@@ -22,7 +23,7 @@ import type { Canvas } from "../../../types";
 export const Header: React.FC = () => {
   const { data } = useIsAuthenticated();
   const { mutate: mutateLogout } = useLogout();
-  const { push } = useNavigation();
+  const go = useGo();
   const { selectedKey } = useMenu();
   const { pathname } = useParsed();
 
@@ -36,14 +37,14 @@ export const Header: React.FC = () => {
 
   const handleRedirect = () => {
     if (!pathname) {
-      return push("/login");
+      return go({ to: "/login" });
     }
 
     if (pathname === "/") {
-      return push("/login");
+      return go({ to: "/login" });
     }
 
-    push(`/login?to=${encodeURIComponent(pathname)}`);
+    go({ to: `/login?to=${encodeURIComponent(pathname)}` });
   };
 
   return (

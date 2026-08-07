@@ -3,8 +3,9 @@ title: Creating a Responsive React Navbar with Tailwind CSS
 description: In this brief guide, we'll create a responsive navbar with Tailwind CSS and Bootstrap in React.
 slug: react-navbar-responsive-tailwind
 authors: muhammed_arslan
-tags: [tailwind, css, react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-07-responsive-navbar/social.png
+category: "Ecosystem / Integrations"
+tags: [react, tailwind, css]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-07-responsive-navbar/social.png
 hide_table_of_contents: false
 ---
 
@@ -12,7 +13,7 @@ hide_table_of_contents: false
 
 This post was created using version 3.x.x of **Refine**. Although we plan to update it with the latest version of **Refine** as soon as possible, you can still benefit from the post in the meantime.
 
-You should know that **Refine** version 4.x.x is backward compatible with version 3.x.x, so there is no need to worry. If you want to see the differences between the two versions, check out the [migration guide](https://refine.dev/docs/migration-guide/).
+You should know that **Refine** version 4.x.x is backward compatible with version 3.x.x, so there is no need to worry. If you want to see the differences between the two versions, check out the [migration guide](https://refine.dev/core/docs/migration-guide/).
 
 Just be aware that the source code example in this post have been updated to version 4.x.x.
 
@@ -27,14 +28,6 @@ In this article, you'll see how to create responsive navbars in **Refine** apps 
 
 Refine is a React-based framework for building internal tools using helper hooks, components, and providers. It provides amazing functionality for rapid development while ensuring extreme customizability. Everything is separate from your UI components and business logic in refine-based Apps. So, you can create UI components or code your flow. You can build admin panels, B2B applications, and dashboards using refine. But it's not limited to only these three scenarios.
 
-Steps we'll cover:
-
-- [Setting Up a Refine App](#setting-up-a-refine-app)
-- [Responsive Navbar with Tailwind](#responsive-navbar-with-tailwind)
-- [Add navigation functionality to the navbar](#add-navigation-functionality-to-the-navbar)
-- [Responsive Navbar with Bootstrap](#responsive-navbar-with-bootstrap)
-- [Add React Router to Bootstrap Navbar](#add-react-router-to-bootstrap-navbar)
-
 ## Setting Up a Refine App
 
 We'll use [superplate](https://github.com/pankod/superplate) tool to create an empty React-based **Refine** application.
@@ -45,7 +38,7 @@ npm create refine-app@latest refine-navbar -- -o refine-headless -b v3
 
 Navigate to the `refine-navbar` folder and run `npm run dev` command.
 
-<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-07-responsive-navbar/pic-1.png" alt="app welcome page" />
+<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-07-responsive-navbar/pic-1.png" alt="Refine starter app welcome page" />
 
 <br/>
 
@@ -139,7 +132,7 @@ and import it inside `App.tsx`:
 import "App.css";
 ```
 
-<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-07-responsive-navbar/pic-2.png" alt="post page" />
+<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-07-responsive-navbar/pic-2.png" alt="Posts page layout before adding the navbar" />
 
 <br/>
 
@@ -218,7 +211,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             <img
               className="w-32 ml-2"
               src="https://refine.dev/img/refine_logo.png"
-              alt="Logo"
+              alt="Refine logo"
             />
             <ul className="hidden md:flex">
               {menuItems.map(({ name, route }) => (
@@ -257,7 +250,7 @@ const App: React.FC = () => {
 
 The output of the above code is as follows:
 
-<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-07-responsive-navbar/pic-3.png" alt="post page" />
+<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-07-responsive-navbar/pic-3.png" alt="Tailwind navbar on the posts page" />
 
 <br/>
 
@@ -276,7 +269,7 @@ Let's make it mobile responsive by adding the mobile menu:
 ...
 ```
 
-<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-07-responsive-navbar/pic-4.png" alt="post page" />
+<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-07-responsive-navbar/pic-4.png" alt="Mobile menu view of the navbar" />
 
 <br/>
 
@@ -302,7 +295,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             <img
               className="w-32 ml-2"
               src="https://refine.dev/img/refine_logo.png"
-              alt="Logo"
+              alt="Refine logo"
             />
             <ul className="hidden md:flex">
               {menuItems.map(({ name, route }) => (
@@ -384,7 +377,7 @@ Add following CSS classes to `App.css` file:
 }
 ```
 
-<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-07-responsive-navbar/pic-5.png" alt="post page" />
+<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-07-responsive-navbar/pic-5.png" alt="Bootstrap navbar with brand image" />
 
 <br/>
 
@@ -407,6 +400,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           src="https://refine.ams3.cdn.digitaloceanspaces.comundefined"
           width="100px"
           height="100px"
+          alt="Refine logo"
         />
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -423,14 +417,14 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 };
 ```
 
-<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-07-responsive-navbar/pic-6.png" alt="post page" />
+<img  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-07-responsive-navbar/pic-6.png" alt="Bootstrap responsive navbar on posts page" />
 
 <br/>
 
 <br/>
 <div>
 <a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="discord banner" />
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="Join Refine on Discord banner" />
 </a>
 </div>
 
@@ -461,6 +455,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           src="https://refine.ams3.cdn.digitaloceanspaces.comundefined"
           width="100px"
           height="100px"
+          alt="Refine logo"
         />
         <Navbar.Toggle />
         <Navbar.Collapse>

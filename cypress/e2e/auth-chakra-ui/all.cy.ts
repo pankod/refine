@@ -40,7 +40,7 @@ describe("auth-chakra-ui", () => {
       cy.location("pathname").should("eq", "/login");
     });
 
-    it.skip("should has 'to' param on URL after redirected to /login", () => {
+    it("should has 'to' param on URL after redirected to /login", () => {
       login();
       cy.location("pathname").should("eq", "/posts");
 

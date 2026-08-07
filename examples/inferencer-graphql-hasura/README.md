@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example inferencer-graphql-hasura
 
 <br/>
 
-[![Open inferencer-graphql-hasura example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/inferencer-graphql-hasura?view=preview&theme=dark&codemirror=1)
+[![Open inferencer-graphql-hasura example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/inferencer-graphql-hasura?view=preview&theme=dark&codemirror=1)

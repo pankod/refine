@@ -18,7 +18,10 @@ export const ProductShow = () => {
 
   const record = data?.data;
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useOne({
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useOne({
     resource: "categories",
     id: record?.category?.id || "",
     queryOptions: {
@@ -57,7 +60,7 @@ export const ProductShow = () => {
           {translate("Category")}
         </Typography>
 
-        {categoryIsLoading ? <>Loading...</> : <>{categoryData?.data?.title}</>}
+        {categoryIsLoading ? <>Loading...</> : <>{categoryData?.title}</>}
       </Stack>
     </Show>
   );

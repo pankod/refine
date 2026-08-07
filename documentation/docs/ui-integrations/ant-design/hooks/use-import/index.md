@@ -1,5 +1,8 @@
 ---
-title: useImport
+title: "useImport Hook | Options, Patterns & Edge Cases in Refine v5"
+display_title: "useImport"
+sidebar_label: "useImport"
+description: "Integrate Use Import in Refine v5. Learn best practices. Learn integrate enterprise UI, components for polished admin UIs. Explore with code snippets."
 ---
 
 The `useImport` hook allows you to import data from a `CSV` file. For each row in the file, it calls the `create` or `createMany` method of your data provider according to your configuration.
@@ -8,7 +11,7 @@ Internally, it uses [Papa Parse][papaparse] to parse the file contents.
 
 It will return properties that are compatible with Ant Design's [`<Upload>`](https://ant.design/components/upload/) and [`<Button>`](https://ant.design/components/button/) components.
 
-The `useImport` hook is extended from [`useImport`][use-import-core] hook from the [`@refinedev/core`](https://github.com/refinedev/refine/tree/master/packages/core) package. This means that you can use all the features of [`useImport`][use-import-core] hook.
+The `useImport` hook is extended from [`useImport`][use-import-core] hook from the [`@refinedev/core`](https://github.com/refinedev/refine/tree/main/packages/core) package. This means that you can use all the features of [`useImport`][use-import-core] hook.
 
 ## Usage
 
@@ -24,7 +27,7 @@ export const PostList: React.FC = () => {
 };
 ```
 
-> For more information, refer to the [`<ImportButton>` interface &#8594](/docs/ui-integrations/ant-design/components/buttons/import-button)
+> For more information, refer to the [`<ImportButton>` interface &#8594](/core/docs/ui-integrations/ant-design/components/buttons/import-button/)
 
 Also, you can use the `inputProps` and `uploadProps` properties without the `<ImportButton>` component for more customization:
 
@@ -57,7 +60,7 @@ useImport({
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation #8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation #8594](/core/docs/core/refine-component/#identifier)
 
 ### mapData
 
@@ -153,10 +156,6 @@ useImport({
 });
 ```
 
-### ~~resourceName~~ <PropTag deprecated />
-
-Use `resource` instead.
-
 ## Return Values
 
 ### buttonProps
@@ -217,9 +216,9 @@ By default, `".csv"` is set to accept only CSV files.
 
 It is a boolean value that indicates whether the import is in progress.
 
-### mutationResult
+### mutation
 
-Result of the [`useCreate`](/docs/data/hooks/use-create) or [`useCreateMany`](/docs/data/hooks/use-create) method of your data provider.
+Result of the [`useCreate`](/core/docs/data/hooks/use-create/) or [`useCreateMany`](/core/docs/data/hooks/use-create-many/) method of your data provider.
 
 ## FAQ
 
@@ -276,12 +275,12 @@ With this code, the parsed data will be mapped to conform to the API requirement
 
 ### Return Values
 
-| Property       | Description                                                            | Type                                                                                                                                                                                                                                    |
-| -------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| buttonProps    | Properties that are compatible with Ant Design `<Button>` component    | [`ButtonProps`](#buttonprops)                                                                                                                                                                                                           |
-| uploadProps    | Properties that are compatible with Ant Design `<Upload>` component    | [`UploadProps`](#uploadprops)                                                                                                                                                                                                           |
-| isLoading      | It can be used to handle the `loading` status for the Import operation | `boolean`                                                                                                                                                                                                                               |
-| mutationResult | Result of the mutation/mutations of creating imported resources        | [`UseMutationResult<{ data: TData }, TError, { resource: string; values: TVariables; }, unknown>`][usemutation]) \| [`UseMutationResult<{ data: TData[]}, TError, { resource: string; values: TVariables[]; }, unknown>`][usemutation]) |
+| Property    | Description                                                            | Type                                                                                                                                                                                                                                    |
+| ----------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| buttonProps | Properties that are compatible with Ant Design `<Button>` component    | [`ButtonProps`](#buttonprops)                                                                                                                                                                                                           |
+| uploadProps | Properties that are compatible with Ant Design `<Upload>` component    | [`UploadProps`](#uploadprops)                                                                                                                                                                                                           |
+| isLoading   | It can be used to handle the `loading` status for the Import operation | `boolean`                                                                                                                                                                                                                               |
+| mutation    | Result of the mutation/mutations of creating imported resources        | [`UseMutationResult<{ data: TData }, TError, { resource: string; values: TVariables; }, unknown>`][usemutation]) \| [`UseMutationResult<{ data: TData[]}, TError, { resource: string; values: TVariables[]; }, unknown>`][usemutation]) |
 
 ### Type Parameters
 
@@ -292,9 +291,9 @@ With this code, the parsed data will be mapped to conform to the API requirement
 | TError     | Custom error object that extends [`HttpError`][httperror]                  | [`HttpError`][httperror]   |
 | TVariables | Values for mutation function                                               | `any`                      |
 
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror
 [papaparse]: https://www.papaparse.com/docs
-[usemutation]: https://react-query.tanstack.com/reference/useMutation
+[usemutation]: https://tanstack.com/query/v5/docs/react/reference/useMutation
 [number.max_safe_integer]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER
-[use-import-core]: /docs/core/hooks/utilities/use-import
+[use-import-core]: /core/docs/core/hooks/utilities/use-import

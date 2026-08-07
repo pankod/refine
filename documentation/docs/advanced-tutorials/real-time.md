@@ -1,12 +1,14 @@
 ---
 id: real-time
-title: Live / Realtime
+title: "Real Time Tutorial | Best Practices in Refine v5"
+display_title: "Live / Realtime"
+description: "Integrate Real Time in Refine v5. Learn best practices. Learn advanced patterns for subscriptions, live updates for production-ready workflows."
 sidebar_label: Live / Realtime
 ---
 
-**Refine** lets you add Realtime support to your app via the `liveProvider` prop for [`<Refine />`](/docs/core/refine-component). It can be used to update and show data in Realtime throughout your app. **Refine** remains agnostic in its API to allow different solutions([Ably](https://ably.com), [Socket.IO](https://socket.io/), [Mercure](https://mercure.rocks/), [supabase](https://supabase.com), etc.) to be integrated.
+**Refine** lets you add Realtime support to your app via the `liveProvider` prop for [`<Refine />`](/core/docs/core/refine-component/). It can be used to update and show data in Realtime throughout your app. **Refine** remains agnostic in its API to allow different solutions([Ably](https://ably.com), [Socket.IO](https://socket.io/), [Mercure](https://mercure.rocks/), [supabase](https://supabase.com), etc.) to be integrated.
 
-[Refer to the Live Provider documentation for detailed information. &#8594](/docs/realtime/live-provider)
+[Refer to the Live Provider documentation for detailed information. &#8594](/core/docs/realtime/live-provider/)
 
 We will be using [Ably](https://ably.com) in this guide to provide Realtime features.
 
@@ -18,7 +20,7 @@ We need to install the Ably live provider package from **Refine**.
 
 :::caution
 
-To make this example more visual, we used the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/master/packages/antd) package. If you are using Refine headless, you need to provide the components, hooks, or helpers imported from the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/master/packages/antd) package.
+To make this example more visual, we used the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/main/packages/antd) package. If you are using Refine headless, you need to provide the components, hooks, or helpers imported from the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/main/packages/antd) package.
 
 :::
 
@@ -26,13 +28,13 @@ To make this example more visual, we used the [`@refinedev/antd`](https://github
 
 Since we will need `apiKey` from Ably, you must first register and get the key from [Ably](https://ably.com).
 
-The app will have one resource: **posts** with CRUD pages(list, create, edit, and show) similar to [base example](https://github.com/refinedev/refine/tree/master/examples/base-antd/src/pages/posts).
+The app will have one resource: **posts** with CRUD pages(list, create, edit, and show) similar to [base example](https://github.com/refinedev/refine/tree/main/examples/base-antd/src/pages/posts).
 
 [You can also refer to CodeSandbox to see the final state of the app &#8594](#example)
 
 ## Adding `liveProvider`
 
-Firstly we create a Ably client for [`@refinedev/ably`](https://github.com/refinedev/refine/tree/master/packages/ably) live provider.
+Firstly we create a Ably client for [`@refinedev/ably`](https://github.com/refinedev/refine/tree/main/packages/ably) live provider.
 
 ```ts title="src/utility/ablyClient.ts"
 import { Ably } from "@refinedev/ably";
@@ -40,19 +42,19 @@ import { Ably } from "@refinedev/ably";
 export const ablyClient = new Ably.Realtime("your-api-key");
 ```
 
-Then pass `liveProvider` from [`@refinedev/ably`](https://github.com/refinedev/refine/tree/master/packages/ably) to `<Refine>`.
+Then pass `liveProvider` from [`@refinedev/ably`](https://github.com/refinedev/refine/tree/main/packages/ably) to `<Refine>`.
 
 ```tsx title="src/App.tsx"
 import { Refine } from "@refinedev/core";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   useNotificationProvider,
   ErrorComponent,
 } from "@refinedev/antd";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { ConfigProvider } from "antd";
 import "@refinedev/antd/dist/reset.css";
@@ -93,9 +95,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route index element={<NavigateToResource />} />
@@ -119,7 +121,7 @@ export default App;
 
 For live features to work automatically we added `liveMode: "auto"` in the `options` prop.
 
-[Refer to the Live Provider documentation for detailed information. &#8594](/docs/realtime/live-provider#livemode)
+[Refer to the Live Provider documentation for detailed information. &#8594](/core/docs/realtime/live-provider#livemode)
 
 :::
 
@@ -201,7 +203,7 @@ We can also implement a similar thing on the show page.
 :::
 
 <br/>
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/real-time/manual-mode.gif" alt="Manual Mode Demo" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/real-time/manual-mode.avif" alt="Manual Mode Demo" />
 
 ## Custom Subscriptions
 
@@ -209,7 +211,7 @@ You can subscribe to events emitted within **Refine** in any place in your app w
 
 For example, we can subscribe to **_create_** event for **_posts_** resource and we can show a badge for the number of events in the sider menu.
 
-Firstly, let's implement a custom sider like in [this example](https://github.com/refinedev/refine/tree/master/examples/customization-sider).
+Firstly, let's implement a custom sider like in [this example](https://github.com/refinedev/refine/tree/main/examples/customization-sider).
 
 <details>
 <summary>Custom Sider Menu</summary>
@@ -219,7 +221,7 @@ Firstly, let's implement a custom sider like in [this example](https://github.co
 ```tsx title="src/components/sider.tsx"
 import React, { useState } from "react";
 import {
-  ITreeMenu,
+  TreeMenuItem,
   CanAccess,
   useIsExistAuthentication,
   useTranslate,
@@ -227,8 +229,8 @@ import {
   useMenu,
   useWarnAboutChange,
 } from "@refinedev/core";
-import { Link } from "react-router-dom";
-import { Sider, ThemedTitleV2 } from "@refinedev/antd";
+import { Link } from "react-router";
+import { Sider, ThemedTitle } from "@refinedev/antd";
 import { Layout as AntdLayout, Menu, Grid, theme, Button } from "antd";
 import {
   LogoutOutlined,
@@ -255,24 +257,19 @@ export const CustomSider: typeof Sider = ({ render }) => {
   const isMobile =
     typeof breakpoint.lg === "undefined" ? false : !breakpoint.lg;
 
-  const renderTreeView = (tree: ITreeMenu[], selectedKey: string) => {
-    return tree.map((item: ITreeMenu) => {
-      const { name, children, meta, key, list } = item;
+  const renderTreeView = (tree: TreeMenuItem[], selectedKey: string) => {
+    return tree.map((item: TreeMenuItem) => {
+      const { name, children, meta, key, route } = item;
 
       const icon = meta?.icon;
       const label = meta?.label ?? name;
       const parent = meta?.parent;
-      const route =
-        typeof list === "string"
-          ? list
-          : typeof list !== "function"
-          ? list?.path
-          : key;
+      const resolvedRoute = route ?? key;
 
       if (children.length > 0) {
         return (
           <SubMenu
-            key={route}
+            key={resolvedRoute}
             icon={icon ?? <UnorderedListOutlined />}
             title={label}
           >
@@ -280,23 +277,27 @@ export const CustomSider: typeof Sider = ({ render }) => {
           </SubMenu>
         );
       }
-      const isSelected = route === selectedKey;
+      const isSelected = resolvedRoute === selectedKey;
       const isRoute = !(parent !== undefined && children.length === 0);
       return (
         <CanAccess
-          key={route}
+          key={resolvedRoute}
           resource={name}
           action="list"
           params={{ resource: item }}
         >
           <Menu.Item
-            key={route}
+            key={resolvedRoute}
             style={{
               textTransform: "capitalize",
             }}
             icon={icon ?? (isRoute && <UnorderedListOutlined />)}
           >
-            {route ? <Link to={route || "/"}>{label}</Link> : label}
+            {resolvedRoute ? (
+              <Link to={resolvedRoute || "/"}>{label}</Link>
+            ) : (
+              label
+            )}
             {!collapsed && isSelected && (
               <div className="ant-menu-tree-arrow" />
             )}
@@ -403,7 +404,7 @@ export const CustomSider: typeof Sider = ({ render }) => {
           fontSize: "14px",
         }}
       >
-        <ThemedTitleV2 collapsed={collapsed} />
+        <ThemedTitle collapsed={collapsed} />
       </div>
       <Menu
         defaultOpenKeys={defaultOpenKeys}
@@ -439,7 +440,7 @@ Now, let's add a badge for the number of create and update events for **_posts_*
 ```tsx
 import React, { useState } from "react";
 import {
-  ITreeMenu,
+  TreeMenuItem,
   CanAccess,
   useIsExistAuthentication,
   useTranslate,
@@ -448,8 +449,8 @@ import {
   useWarnAboutChange,
   useSubscription,
 } from "@refinedev/core";
-import { Link } from "react-router-dom";
-import { Sider, ThemedTitleV2 } from "@refinedev/antd";
+import { Link } from "react-router";
+import { Sider, ThemedTitle } from "@refinedev/antd";
 import { Layout as AntdLayout, Menu, Grid, theme, Button, Badge } from "antd";
 import {
   LogoutOutlined,
@@ -484,24 +485,19 @@ export const CustomSider: typeof Sider = ({ render }) => {
     onLiveEvent: () => setSubscriptionCount((prev) => prev + 1),
   });
 
-  const renderTreeView = (tree: ITreeMenu[], selectedKey?: string) => {
-    return tree.map((item: ITreeMenu) => {
-      const { name, children, meta, key, list } = item;
+  const renderTreeView = (tree: TreeMenuItem[], selectedKey?: string) => {
+    return tree.map((item: TreeMenuItem) => {
+      const { name, children, meta, key, route } = item;
 
       const icon = meta?.icon;
       const label = meta?.label ?? name;
       const parent = meta?.parent;
-      const route =
-        typeof list === "string"
-          ? list
-          : typeof list !== "function"
-          ? list?.path
-          : key;
+      const resolvedRoute = route ?? key;
 
       if (children.length > 0) {
         return (
           <SubMenu
-            key={key}
+            key={resolvedRoute}
             icon={icon ?? <UnorderedListOutlined />}
             title={label}
           >
@@ -509,24 +505,28 @@ export const CustomSider: typeof Sider = ({ render }) => {
           </SubMenu>
         );
       }
-      const isSelected = route === selectedKey;
+      const isSelected = resolvedRoute === selectedKey;
       const isRoute = !(parent !== undefined && children.length === 0);
       return (
         <CanAccess
-          key={key}
+          key={resolvedRoute}
           resource={name}
           action="list"
           params={{ resource: item }}
         >
           <Menu.Item
-            key={route}
+            key={resolvedRoute}
             style={{
               textTransform: "capitalize",
             }}
             icon={icon ?? (isRoute && <UnorderedListOutlined />)}
           >
-            {route ? <Link to={route || "/"}>{label}</Link> : label}
-            {route && (
+            {resolvedRoute ? (
+              <Link to={resolvedRoute || "/"}>{label}</Link>
+            ) : (
+              label
+            )}
+            {resolvedRoute && (
               <>
                 {label.toLowerCase() === "posts" && (
                   <Badge
@@ -643,7 +643,7 @@ export const CustomSider: typeof Sider = ({ render }) => {
           fontSize: "14px",
         }}
       >
-        <ThemedTitleV2 collapsed={collapsed} />
+        <ThemedTitle collapsed={collapsed} />
       </div>
       <Menu
         defaultOpenKeys={defaultOpenKeys}

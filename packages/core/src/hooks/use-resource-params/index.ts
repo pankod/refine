@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 
+import { ResourceContext } from "@contexts/resource";
 import { useId } from "./use-id";
 import { useAction } from "./use-action";
-import { useResource } from "../resource";
 import type { BaseKey } from "../../contexts/data/types";
 import type { IResourceItem } from "../../contexts/resource/types";
 import type { Action } from "../../contexts/router/types";
 import type { FormAction } from "../form/types";
+import { type SelectReturnType, useResource } from "./use-resource";
 
 type Props = {
   id?: BaseKey;
@@ -18,9 +19,14 @@ type ResourceParams = {
   id?: BaseKey;
   setId: React.Dispatch<React.SetStateAction<BaseKey | undefined>>;
   resource?: IResourceItem;
+  resources: IResourceItem[];
   action?: Action;
   identifier?: string;
   formAction: FormAction;
+  select: <T extends boolean = true>(
+    resourceName: string,
+    force?: T,
+  ) => SelectReturnType<T>;
 };
 
 /**
@@ -46,7 +52,13 @@ type ResourceParams = {
  * - Same as `id`, if passed resource is different from inferred resource, `formAction` will fallback to "create" and ignore the action from the route.
  */
 export function useResourceParams(props?: Props): ResourceParams {
-  const { select, identifier: inferredIdentifier } = useResource();
+  const { resources } = useContext(ResourceContext);
+
+  const {
+    select,
+    identifier: inferredIdentifier,
+    resource: inferredResource,
+  } = useResource();
   const resourceToCheck = props?.resource ?? inferredIdentifier;
   const { identifier = undefined, resource = undefined } = resourceToCheck
     ? select(resourceToCheck, true)
@@ -81,9 +93,11 @@ export function useResourceParams(props?: Props): ResourceParams {
   return {
     id,
     setId,
-    resource,
+    resource: resource || inferredResource,
+    resources,
     action,
     identifier,
     formAction,
+    select,
   };
 }

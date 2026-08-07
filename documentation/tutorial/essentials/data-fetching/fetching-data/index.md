@@ -10,7 +10,7 @@ In this step, we'll be learning about the Refine's `useOne` hook to fetch a sing
 
 ## Implementing the `getOne` Method
 
-To fetch a record using Refine's hooks, first we need to implement the [`getOne`](/docs/data/data-provider/#getone-) method in our data provider. This method will be called when we use the [`useOne`](/docs/data/hooks/use-one) hook or its extensions in our components.
+To fetch a record using Refine's hooks, first we need to implement the [`getOne`](/core/docs/data/data-provider/#getone-) method in our data provider. This method will be called when we use the [`useOne`](/core/docs/data/hooks/use-one) hook or its extensions in our components.
 
 The `getOne` method accepts `resource`, `id` and `meta` properties.
 
@@ -67,13 +67,16 @@ import { useOne } from "@refinedev/core";
 
 export const ShowProduct = () => {
   // highlight-next-line
-  const { data, isLoading } = useOne({ resource: "products", id: 123 });
+  const {
+    result,
+    query: { isLoading },
+  } = useOne({ resource: "products", id: 123 });
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  return <div>Product name: {data?.data.name}</div>;
+  return <div>Product name: {result?.name}</div>;
 };
 ```
 

@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example table-material-ui-advanced
 
 <br/>
 
-[![Open table-material-ui-advanced example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/table-material-ui-advanced?view=preview&theme=dark&codemirror=1)
+[![Open table-material-ui-advanced example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/table-material-ui-advanced?view=preview&theme=dark&codemirror=1)

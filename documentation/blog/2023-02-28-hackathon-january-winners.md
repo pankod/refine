@@ -3,9 +3,10 @@ title: refine Hackaton Winners
 description: The winners of the Refine Open Source Hackathon are announced!
 slug: refine-hackathon-winners
 authors: necati
-tags: [community]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-01-06-hackaton-january/social.png
-social_image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-01-06-hackaton-january/social_prizes.png
+category: "Announcement"
+tags: []
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-01-06-hackaton-january/social.png
+social_image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-01-06-hackaton-january/social_prizes.png
 hide_table_of_contents: false
 ---
 
@@ -20,7 +21,7 @@ We would like to thank all the participants who took part in this hackathon. Aft
 ## Best Overall Project
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-28-hackathon-january-winners%2FGroup%20767.png"  alt="react hackathon" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-28-hackathon-january-winners%2FGroup%20767.png"  alt="Refine XR project screenshot" />
 </div>
 
 <br/>
@@ -38,7 +39,7 @@ Prize: $1500 + Refine, Strapi, Appwrite, MeiliSearch, and Medusa Swag kits!
 ## Most Technically Impressive
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-28-hackathon-january-winners%2FGroup%20769.png"  alt="react hackathon" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-28-hackathon-january-winners%2FGroup%20769.png"  alt="JourneyLog project screenshot" />
 </div>
 
 <br/>
@@ -56,7 +57,7 @@ Prize: $300 + Refine, Strapi, Appwrite, MeiliSearch, and Medusa Swag kits!
 ## Most Visually Pleasing
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-28-hackathon-january-winners%2FGroup%20768.png"  alt="react hackathon" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-02-28-hackathon-january-winners%2FGroup%20768.png"  alt="MealMind project screenshot" />
 </div>
 
 <br/>

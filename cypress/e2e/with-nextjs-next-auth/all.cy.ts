@@ -65,10 +65,10 @@ describe("with-nextjs-next-auth", () => {
 
   describe("logout", () => {
     it("should logout", () => {
-      login();
       cy.intercept("GET", "http://localhost:3000/api/auth/session").as(
         "session",
       );
+      login();
       cy.wait("@session");
       cy.reload();
       cy.location("pathname").should("eq", "/blog-posts");
@@ -81,10 +81,10 @@ describe("with-nextjs-next-auth", () => {
 
   describe("get identity", () => {
     it("should render getIdentity response on header", () => {
-      login();
       cy.intercept("GET", "http://localhost:3000/api/auth/session").as(
         "session",
       );
+      login();
       cy.wait("@session");
       cy.reload();
       cy.location("pathname").should("eq", "/blog-posts");

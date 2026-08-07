@@ -2,7 +2,7 @@ import { useState } from "react";
 import { GitHubBanner, Refine } from "@refinedev/core";
 import {
   useNotificationProvider,
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   RefineThemes,
 } from "@refinedev/antd";
@@ -12,11 +12,12 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { PostList, PostCreate, PostEdit, PostShow } from "./pages/posts";
 
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
 import Header from "./components/Header";
@@ -70,13 +71,13 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2
+                <ThemedLayout
                   Header={() => (
                     <Header theme={currentTheme} setTheme={setCurrentTheme} />
                   )}
                 >
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route index element={<NavigateToResource resource="posts" />} />

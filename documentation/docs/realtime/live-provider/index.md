@@ -1,5 +1,8 @@
 ---
-title: Live Provider
+title: "Live Provider Guide | Best Practices in Refine v5"
+display_title: "Live Provider"
+sidebar_label: "Live Provider"
+description: "Implement Live Provider in Refine v5. Learn the key steps. Explore best practices for events for real-world React admin panels. Learn with code examples."
 ---
 
 **Live Provider** is Refine's built-in provider that enables real-time updates and interactions between the server and the client. Refine being agnostic as always allows you to integrate any solution of your choice
@@ -20,10 +23,10 @@ We have the following built-in integrations which you can use out-of-the-box.
 
 Refine includes some out-of-the-box live providers to use in your projects such as:
 
-- **Ably** &#8594 [Source Code](https://github.com/refinedev/refine/blob/master/packages/ably/src/index.ts) - [Demo](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/live-provider-ably/?view=preview&theme=dark&codemirror=1)
-- **Supabase** &#8594 [Source Code](https://github.com/refinedev/refine/blob/master/packages/supabase/src/index.ts#L187)
-- **Appwrite** &#8594 [Source Code](https://github.com/refinedev/refine/blob/master/packages/appwrite/src/index.ts#L252)
-- **Hasura** &#8594 [Source Code](https://github.com/refinedev/refine/blob/master/packages/hasura/src/liveProvider/index.ts#L16)
+- **Ably** &#8594 [Source Code](https://github.com/refinedev/refine/blob/main/packages/ably/src/index.ts) - [Demo](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/live-provider-ably/?view=preview&theme=dark&codemirror=1)
+- **Supabase** &#8594 [Source Code](https://github.com/refinedev/refine/blob/main/packages/supabase/src/index.ts#L187)
+- **Appwrite** &#8594 [Source Code](https://github.com/refinedev/refine/blob/main/packages/appwrite/src/index.ts#L252)
+- **Hasura** &#8594 [Source Code](https://github.com/refinedev/refine/blob/main/packages/hasura/src/liveProvider/index.ts#L16)
 
 ## Live Mode Options
 
@@ -58,7 +61,7 @@ Queries of related resources **will be invalidated** and **re-fetched** as new e
 For example, `posts` data of `useList` hook will be re-fetched when a new event is published for `posts` resource.
 
 ```tsx
-const { data } = useList({ resource: "posts", liveMode: "auto" });
+const { result } = useList({ resource: "posts", liveMode: "auto" });
 ```
 
 ### manual
@@ -68,7 +71,7 @@ In `manual` mode, queries of the related resources **won't be invalidated**. Ins
 `manual` mode can be used to prevent those
 
 ```tsx
-const { data } = useList({
+const { result } = useList({
   liveMode: "manual",
   onLiveEvent: (event) => {
     console.log(event); // { channel: "resources/posts", type: "created", payload: { ids: ["1"] }, date: new Date() }
@@ -85,7 +88,7 @@ Disables live mode entirely.
 `onLiveEvent` is called when the new event(s) are published from the subscriptions.
 
 ```tsx
-const { data } = useList({
+const { result } = useList({
   resource: "products",
   liveMode: "manual",
   // Called when new event(s) are published for `products` resource.
@@ -135,13 +138,13 @@ useList({ resource: "posts" });
 
 Since the following hooks are derivative of `useList` hook, they will subscribe to the same events.
 
-| Package                | Hooks                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| @refinedev/core        | [useTable](/docs/data/hooks/use-table), [useSelect](/docs/data/hooks/use-select)                                                                                                                                                                                                                                                                                                                                                             |
-| @refinedev/antd        | [useTable](/docs/ui-integrations/ant-design/hooks/use-table), [useEditableTable](/docs/ui-integrations/ant-design/hooks/use-editable-table), [useSelect](/docs/ui-integrations/ant-design/hooks/use-select), [useSimpleList](/docs/ui-integrations/ant-design/hooks/use-simple-list), [useCheckboxGroup](/docs/ui-integrations/ant-design/hooks/use-checkbox-group), [useRadioGroup](/docs/ui-integrations/ant-design/hooks/use-radio-group) |
-| @refinedev/react-table | [useTable](/docs/packages/list-of-packages)                                                                                                                                                                                                                                                                                                                                                                                                  |
-| @refinedev/mui         | [useDataGrid](/docs/ui-integrations/material-ui/hooks/use-data-grid), [useAutoComplete](/docs/ui-integrations/material-ui/hooks/use-auto-complete)                                                                                                                                                                                                                                                                                           |
-| @refinedev/mantine     | [useSelect](/docs/ui-integrations/mantine/hooks/use-select)                                                                                                                                                                                                                                                                                                                                                                                  |
+| Package                | Hooks                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| @refinedev/core        | [useTable](/core/docs/data/hooks/use-table/), [useSelect](/core/docs/data/hooks/use-select/)                                                                                                                                                                                                                                                                                                                                                                                     |
+| @refinedev/antd        | [useTable](/core/docs/ui-integrations/ant-design/hooks/use-table/), [useEditableTable](/core/docs/ui-integrations/ant-design/hooks/use-editable-table/), [useSelect](/core/docs/ui-integrations/ant-design/hooks/use-select/), [useSimpleList](/core/docs/ui-integrations/ant-design/hooks/use-simple-list/), [useCheckboxGroup](/core/docs/ui-integrations/ant-design/hooks/use-checkbox-group/), [useRadioGroup](/core/docs/ui-integrations/ant-design/hooks/use-radio-group/) |
+| @refinedev/react-table | [useTable](/core/docs/packages/list-of-packages/)                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| @refinedev/mui         | [useDataGrid](/core/docs/ui-integrations/material-ui/hooks/use-data-grid/), [useAutoComplete](/core/docs/ui-integrations/material-ui/hooks/use-auto-complete/)                                                                                                                                                                                                                                                                                                                   |
+| @refinedev/mantine     | [useSelect](/core/docs/ui-integrations/mantine/hooks/use-select/)                                                                                                                                                                                                                                                                                                                                                                                                                |
 
 ### useOne
 
@@ -159,11 +162,11 @@ useOne({ resource: "posts", id: "1" });
 
 Since the following hooks are derivative of `useOne` hook, they will subscribe to the same events.
 
-| Package            | Hooks                                                                                                                                                                                                                                                                             |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| @refinedev/core    | [useShow](/docs/data/hooks/use-show), [useForm](/docs/data/hooks/use-form/)                                                                                                                                                                                                       |
-| @refinedev/antd    | [useForm](/docs/ui-integrations/ant-design/hooks/use-form), [useModalForm](/docs/ui-integrations/ant-design/hooks/use-modal-form), [useDrawerForm](/docs/ui-integrations/ant-design/hooks/use-drawer-form), [useStepsForm](/docs/ui-integrations/ant-design/hooks/use-steps-form) |
-| @refinedev/mantine | [useForm](/docs/ui-integrations/mantine/hooks/use-form), [useDrawerForm](/docs/ui-integrations/mantine/hooks/use-drawer-form), [useModalForm](/docs/ui-integrations/mantine/hooks/use-modal-form), [useStepsForm](/docs/ui-integrations/mantine/hooks/use-steps-form)             |
+| Package            | Hooks                                                                                                                                                                                                                                                                                                     |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| @refinedev/core    | [useShow](/core/docs/data/hooks/use-show/), [useForm](/core/docs/data/hooks/use-form/)                                                                                                                                                                                                                    |
+| @refinedev/antd    | [useForm](/core/docs/ui-integrations/ant-design/hooks/use-form/), [useModalForm](/core/docs/ui-integrations/ant-design/hooks/use-modal-form/), [useDrawerForm](/core/docs/ui-integrations/ant-design/hooks/use-drawer-form/), [useStepsForm](/core/docs/ui-integrations/ant-design/hooks/use-steps-form/) |
+| @refinedev/mantine | [useForm](/core/docs/ui-integrations/mantine/hooks/use-form/), [useDrawerForm](/core/docs/ui-integrations/mantine/hooks/use-drawer-form/), [useModalForm](/core/docs/ui-integrations/mantine/hooks/use-modal-form/), [useStepsForm](/core/docs/ui-integrations/mantine/hooks/use-steps-form/)             |
 
 ### useMany
 
@@ -180,9 +183,9 @@ useMany({ resource: "posts", ids: ["1", "2"] });
 
 Since the following hooks are using `useMany` hook, they will subscribe to the same events.
 
-| Package         | Hooks                                    |
-| --------------- | ---------------------------------------- |
-| @refinedev/core | [useSelect](/docs/data/hooks/use-select) |
+| Package         | Hooks                                          |
+| --------------- | ---------------------------------------------- |
+| @refinedev/core | [useSelect](/core/docs/data/hooks/use-select/) |
 
 ## Publish Events from Hooks
 

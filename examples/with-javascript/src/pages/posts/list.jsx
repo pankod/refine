@@ -15,7 +15,10 @@ export const PostList = () => {
 
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-  const { data, isLoading } = useMany({
+  const {
+    result: data,
+    query: { isLoading },
+  } = useMany({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {

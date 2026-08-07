@@ -55,8 +55,8 @@ import React from "react";
 import { useExport, useList } from "@refinedev/core";
 
 export const HomePage = () => {
-  const { data } = useList({ resource: "products" });
-  const products = data?.data;
+  const { result } = useList({ resource: "products" });
+  const products = result?.data;
 
   const { triggerExport, isLoading } = useExport<IProduct>({
       resource: "products",

@@ -9,15 +9,15 @@ import {
   type BaseRecord,
   type FormWithSyncWithLocationParams,
   type BaseKey,
-  useResource,
+  useResourceParams,
   useParsed,
   useGo,
-  useModal,
   useInvalidate,
 } from "@refinedev/core";
 
 import { useForm, type UseFormProps, type UseFormReturnType } from "../useForm";
 import type { DeleteButtonProps } from "../../../components";
+import { useDrawer } from "@hooks/drawer";
 
 export interface UseDrawerFormConfig {
   action: "show" | "edit" | "create" | "clone";
@@ -106,6 +106,7 @@ export const useDrawerForm = <
   autoResetForm = true,
   autoSave,
   invalidates,
+
   ...rest
 }: UseDrawerFormProps<
   TQueryFnData,
@@ -125,19 +126,23 @@ export const useDrawerForm = <
   const invalidate = useInvalidate();
   const [initiallySynced, setInitiallySynced] = React.useState(false);
 
-  const { visible, show, close } = useModal({
-    defaultVisible,
+  const { show, close, drawerProps } = useDrawer({
+    drawerProps: {
+      open: defaultVisible,
+    },
   });
+  const visible = drawerProps.open || false;
 
   const {
     resource,
     action: actionFromParams,
     identifier,
-  } = useResource(rest.resource);
+  } = useResourceParams({
+    resource: rest.resource,
+  });
 
   const parsed = useParsed();
   const go = useGo();
-
   const action = rest.action ?? actionFromParams ?? "";
 
   const syncingId = !(
@@ -312,6 +317,7 @@ export const useDrawerForm = <
       },
     },
     drawerProps: {
+      ...drawerProps,
       width: "500px",
       onClose: handleClose,
       open: visible,

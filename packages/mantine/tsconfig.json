@@ -1,8 +1,8 @@
 {
-  "include": ["src"],
+  "include": ["src", "test/vitest.setup.ts"],
   "extends": "../../tsconfig.build.json",
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": ".",
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "paths": {

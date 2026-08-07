@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useGo, useResource, useRouterType } from "@refinedev/core";
+import { useGo, useResourceParams } from "@refinedev/core";
 import type { RefineErrorPageProps } from "@refinedev/ui-types";
 import { Button, Result, Typography, Space, Tooltip } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { useNavigation, useTranslate } from "@refinedev/core";
+import { useTranslate } from "@refinedev/core";
 
 /**
  * When the app is navigated to a non-existent route, refine shows a default error page.
@@ -14,11 +14,9 @@ import { useNavigation, useTranslate } from "@refinedev/core";
 export const ErrorComponent: React.FC<RefineErrorPageProps> = () => {
   const [errorMessage, setErrorMessage] = useState<string>();
   const translate = useTranslate();
-  const { push } = useNavigation();
   const go = useGo();
-  const routerType = useRouterType();
 
-  const { resource, action } = useResource();
+  const { resource, action } = useResourceParams();
 
   useEffect(() => {
     if (resource) {
@@ -56,16 +54,7 @@ export const ErrorComponent: React.FC<RefineErrorPageProps> = () => {
               </Tooltip>
             )}
           </Space>
-          <Button
-            type="primary"
-            onClick={() => {
-              if (routerType === "legacy") {
-                push("/");
-              } else {
-                go({ to: "/" });
-              }
-            }}
-          >
+          <Button type="primary" onClick={() => go({ to: "/" })}>
             {translate("pages.error.backHome", "Back Home")}
           </Button>
         </Space>

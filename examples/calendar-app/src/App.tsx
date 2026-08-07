@@ -1,12 +1,13 @@
 import { GitHubBanner, Refine } from "@refinedev/core";
-import { ErrorComponent, ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { ErrorComponent, ThemedLayout, RefineThemes } from "@refinedev/antd";
 import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 import { ConfigProvider } from "antd";
 import { CalendarPage } from "./pages/calendar";
@@ -35,9 +36,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route index element={<NavigateToResource resource="events" />} />

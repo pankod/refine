@@ -3,9 +3,11 @@ title: React useEffect Cleanup Function
 description: Understanding the cleanup function of the useEffect hook in React. Learn how to clean up side effects in React components to prevent memory leaks and improve performance.
 slug: useeffect-cleanup
 authors: peter_osah
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-22-useeffect-cleanup/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-22-useeffect-cleanup/social.png
 hide_table_of_contents: false
+last_update: 2024-09-30
 ---
 
 ## Introduction

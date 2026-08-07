@@ -6,13 +6,11 @@ import {
   type ButtonProps,
 } from "antd";
 import { useForm as useFormSF, type UseFormConfig } from "sunflower-antd";
+
 import {
   type AutoSaveProps,
   flattenObjectKeys,
   propertyPathToArray,
-} from "@refinedev/core";
-
-import {
   type HttpError,
   type BaseRecord,
   useForm as useFormCore,
@@ -21,7 +19,6 @@ import {
   type UseFormProps as UseFormPropsCore,
   type CreateResponse,
   type UpdateResponse,
-  pickNotDeprecated,
   useTranslate,
   useRefineContext,
 } from "@refinedev/core";
@@ -116,7 +113,6 @@ export const useForm = <
   successNotification,
   errorNotification,
   meta,
-  metaData,
   queryMeta,
   mutationMeta,
   liveMode,
@@ -241,8 +237,7 @@ export const useForm = <
     resource,
     successNotification,
     errorNotification,
-    meta: pickNotDeprecated(meta, metaData),
-    metaData: pickNotDeprecated(meta, metaData),
+    meta,
     queryMeta,
     mutationMeta,
     liveMode,

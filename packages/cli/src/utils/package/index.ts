@@ -4,7 +4,7 @@ import { existsSync, pathExists, readFileSync, readJSON } from "fs-extra";
 import globby from "globby";
 import path from "path";
 import preferredPM from "preferred-pm";
-import type { PackageJson } from "@definitions/package";
+import type { PackageJson } from "../../definitions/package";
 
 export const getPackageJson = (): PackageJson => {
   if (!existsSync("package.json")) {

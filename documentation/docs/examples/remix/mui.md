@@ -1,6 +1,8 @@
 ---
 id: remix-material-ui
-title: Remix with Material UI
+title: "Remix Material UI Example | SSR in Refine v5"
+display_title: "Remix with Material UI"
+description: "Learn to build with the Remix Material UI example in Refine v5. Learn provider for real-world React admin panels. Real-world snippets included."
 sidebar_label: Remix
 example-tags: [remix, mui]
 ---

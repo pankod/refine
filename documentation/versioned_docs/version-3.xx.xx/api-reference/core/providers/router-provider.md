@@ -28,17 +28,17 @@ const routerProvider = {
 };
 ```
 
-> `*`: Too see &#8594 [`<PromptProps>`](/api-reference/core/interfaces.md#promptprops)
+> `*`: Too see &#8594 [`<PromptProps>`](/core/docs/3.xx.xx/api-reference/core/interfaces#promptprops)
 
 :::info
 
 **refine** includes many out-of-the-box router providers to use in your projects like
 
--   [React Router V6][react-router-v6]
--   [React Router V5][react-router-v5]
--   [React Location][react-location]
--   [Next.js Router][nextjs-router]
--   [Remix Router][remix-router]
+- [React Router V6][react-router-v6]
+- [React Router V5][react-router-v5]
+- [React Location][react-location]
+- [Next.js Router][nextjs-router]
+- [Remix Router][remix-router]
 
 :::
 
@@ -68,7 +68,7 @@ import { Refine } from "@pankod/refine-core";
 import routerProvider from "@pankod/refine-react-router-v6";
 
 const App: React.FC = () => {
-    return <Refine routerProvider={routerProvider} />;
+  return <Refine routerProvider={routerProvider} />;
 };
 ```
 
@@ -80,7 +80,7 @@ import { Refine } from "@pankod/refine-core";
 import routerProvider from "@pankod/refine-react-router-v5";
 
 const App: React.FC = () => {
-    return <Refine routerProvider={routerProvider} />;
+  return <Refine routerProvider={routerProvider} />;
 };
 ```
 
@@ -92,7 +92,7 @@ import { Refine } from "@pankod/refine-core";
 import routerProvider from "@pankod/refine-react-location";
 
 const App: React.FC = () => {
-    return <Refine routerProvider={routerProvider} />;
+  return <Refine routerProvider={routerProvider} />;
 };
 ```
 
@@ -105,11 +105,11 @@ import routerProvider from "@pankod/refine-nextjs-router";
 import { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-    return (
-        <Refine routerProvider={routerProvider}>
-            <Component {...pageProps} />
-        </Refine>
-    );
+  return (
+    <Refine routerProvider={routerProvider}>
+      <Component {...pageProps} />
+    </Refine>
+  );
 }
 ```
 
@@ -119,39 +119,39 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
 ```tsx title="app/root.tsx"
 import type { MetaFunction } from "@remix-run/node";
 import {
-    Links,
-    LiveReload,
-    Meta,
-    Outlet,
-    Scripts,
-    ScrollRestoration,
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
 } from "@remix-run/react";
 import { Refine } from "@pankod/refine-core";
 import routerProvider from "@pankod/refine-remix-router";
 
 export const meta: MetaFunction = () => ({
-    charset: "utf-8",
-    title: "New Remix + Refine App",
-    viewport: "width=device-width,initial-scale=1",
+  charset: "utf-8",
+  title: "New Remix + Refine App",
+  viewport: "width=device-width,initial-scale=1",
 });
 
 export default function App() {
-    return (
-        <html lang="en">
-            <head>
-                <Meta />
-                <Links />
-            </head>
-            <body>
-                <Refine routerProvider={routerProvider}>
-                    <Outlet />
-                </Refine>
-                <ScrollRestoration />
-                <Scripts />
-                <LiveReload />
-            </body>
-        </html>
-    );
+  return (
+    <html lang="en">
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <Refine routerProvider={routerProvider}>
+          <Outlet />
+        </Refine>
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
+    </html>
+  );
 }
 ```
 
@@ -549,7 +549,7 @@ const routerProvider: IRouterProvider = {
 
 ### `Prompt`
 
-**refine** uses `<Prompt>` to display the alert when [warnWhenUnsavedChanges](/api-reference/core/components/refine-config.md#warnwhenunsavedchanges) is `true`.
+**refine** uses `<Prompt>` to display the alert when [warnWhenUnsavedChanges](/core/docs/3.xx.xx/api-reference/core/components/refine-config#warnwhenunsavedchanges) is `true`.
 
 <Tabs
 defaultValue="react--router-v6-prompt"
@@ -572,28 +572,28 @@ import type { History } from "history";
 import type { PromptProps } from "@pankod/refine-core";
 
 export const Prompt: React.FC<PromptProps> = ({
-    message,
-    when,
-    setWarnWhen,
+  message,
+  when,
+  setWarnWhen,
 }) => {
-    const navigator = useContext(NavigationContext).navigator as History;
+  const navigator = useContext(NavigationContext).navigator as History;
 
-    useEffect(() => {
-        if (!when) return;
+  useEffect(() => {
+    if (!when) return;
 
-        const unblock = navigator.block((transition: any) => {
-            if (window.confirm(message)) {
-                setWarnWhen?.(false);
-                unblock();
-                transition.retry();
-            } else {
-                navigator.location.pathname = window.location.pathname;
-            }
-        });
-        return unblock;
-    }, [when, location, message]);
+    const unblock = navigator.block((transition: any) => {
+      if (window.confirm(message)) {
+        setWarnWhen?.(false);
+        unblock();
+        transition.retry();
+      } else {
+        navigator.location.pathname = window.location.pathname;
+      }
+    });
+    return unblock;
+  }, [when, location, message]);
 
-    return null;
+  return null;
 };
 ```
 
@@ -638,28 +638,28 @@ import { useLocation } from "react-location";
 import type { PromptProps } from "@pankod/refine-core";
 
 export const Prompt: React.FC<PromptProps> = ({
-    message,
-    when,
-    setWarnWhen,
+  message,
+  when,
+  setWarnWhen,
 }) => {
-    const location = useLocation();
+  const location = useLocation();
 
-    useEffect(() => {
-        if (!when) return;
+  useEffect(() => {
+    if (!when) return;
 
-        const unblock = location.history.block((transition) => {
-            if (window.confirm(message)) {
-                setWarnWhen?.(false);
-                unblock();
-                transition.retry();
-            } else {
-                location.current.pathname = window.location.pathname;
-            }
-        });
-        return unblock;
-    }, [when, location, message]);
+    const unblock = location.history.block((transition) => {
+      if (window.confirm(message)) {
+        setWarnWhen?.(false);
+        unblock();
+        transition.retry();
+      } else {
+        location.current.pathname = window.location.pathname;
+      }
+    });
+    return unblock;
+  }, [when, location, message]);
 
-    return null;
+  return null;
 };
 ```
 
@@ -687,29 +687,29 @@ import { useEffect } from "react";
 import type { PromptProps } from "@pankod/refine-core";
 
 export const Prompt: React.FC<PromptProps> = ({
-    message,
-    when,
-    setWarnWhen,
+  message,
+  when,
+  setWarnWhen,
 }) => {
-    const router = useRouter();
+  const router = useRouter();
 
-    useEffect(() => {
-        const routeChangeStart = () => {
-            if (when) {
-                const allowTransition = window.confirm(message);
-                if (allowTransition) {
-                    setWarnWhen?.(false);
-                } else {
-                    router.events.emit("routeChangeError");
-                    throw "Abort route change due to unsaved changes prompt. Ignore this error.";
-                }
-            }
-        };
-        router.events.on("routeChangeStart", routeChangeStart);
+  useEffect(() => {
+    const routeChangeStart = () => {
+      if (when) {
+        const allowTransition = window.confirm(message);
+        if (allowTransition) {
+          setWarnWhen?.(false);
+        } else {
+          router.events.emit("routeChangeError");
+          throw "Abort route change due to unsaved changes prompt. Ignore this error.";
+        }
+      }
+    };
+    router.events.on("routeChangeStart", routeChangeStart);
 
-        return () => router.events.off("routeChangeStart", routeChangeStart);
-    }, [when]);
-    return null;
+    return () => router.events.off("routeChangeStart", routeChangeStart);
+  }, [when]);
+  return null;
 };
 ```
 
@@ -738,28 +738,28 @@ import type { History } from "history";
 import type { PromptProps } from "@pankod/refine-core";
 
 export const Prompt: React.FC<PromptProps> = ({
-    message,
-    when,
-    setWarnWhen,
+  message,
+  when,
+  setWarnWhen,
 }) => {
-    const navigator = useContext(NavigationContext).navigator as History;
+  const navigator = useContext(NavigationContext).navigator as History;
 
-    useEffect(() => {
-        if (!when) return;
+  useEffect(() => {
+    if (!when) return;
 
-        const unblock = navigator.block((transition: any) => {
-            if (window.confirm(message)) {
-                setWarnWhen?.(false);
-                unblock();
-                transition.retry();
-            } else {
-                navigator.location.pathname = window.location.pathname;
-            }
-        });
-        return unblock;
-    }, [when, message]);
+    const unblock = navigator.block((transition: any) => {
+      if (window.confirm(message)) {
+        setWarnWhen?.(false);
+        unblock();
+        transition.retry();
+      } else {
+        navigator.location.pathname = window.location.pathname;
+      }
+    });
+    return unblock;
+  }, [when, message]);
 
-    return null;
+  return null;
 };
 ```
 
@@ -848,25 +848,25 @@ import React from "react";
 import Link, { LinkProps } from "next/link";
 
 type MakeOptional<Type, Key extends keyof Type> = Omit<Type, Key> &
-    Partial<Pick<Type, Key>>;
+  Partial<Pick<Type, Key>>;
 
 type RefineLinkProps =
-    | (MakeOptional<LinkProps, "href"> & {
-          to: LinkProps["href"];
-      })
-    | LinkProps;
+  | (MakeOptional<LinkProps, "href"> & {
+      to: LinkProps["href"];
+    })
+  | LinkProps;
 
 export const RefineLink: React.FC<RefineLinkProps> = ({
-    children,
-    ...props
+  children,
+  ...props
 }) => (
-    <Link
-        href={"to" in props ? props.to : props.href}
-        legacyBehavior={false}
-        {...props}
-    >
-        {children}
-    </Link>
+  <Link
+    href={"to" in props ? props.to : props.href}
+    legacyBehavior={false}
+    {...props}
+  >
+    {children}
+  </Link>
 );
 ```
 
@@ -918,7 +918,7 @@ const routerProvider: IRouterProvider = {
 
 `routes` allow us to create custom pages in your **react** apps that have different paths than those defined by `resources`.
 
-[Refer to the Custom Pages documentation for detailed information. &#8594](/advanced-tutorials/custom-pages.md)
+[Refer to the Custom Pages documentation for detailed information. &#8594](/core/docs/3.xx.xx/advanced-tutorials/custom-pages)
 
 :::info
 
@@ -932,9 +932,9 @@ It creates the navigation routes of the **refine** app and determines how the co
 
 In general, we can list what it does as follows:
 
--   It creates create, edit, list, show pages with paths according to the resources' own name.
--   Allows rendering of custom [`routes`](#routes) passed to `routerProviders` as properties.
--   Different routes render when the user is authenticated and not.
+- It creates create, edit, list, show pages with paths according to the resources' own name.
+- Allows rendering of custom [`routes`](#routes) passed to `routerProviders` as properties.
+- Different routes render when the user is authenticated and not.
 
 :::info
 `RouterComponent` is required for **refine** React apps but not required for Next.js and Remix apps.
@@ -985,26 +985,26 @@ const { RouterComponent } = routerProvider;
 const CustomRouterComponent = () => <RouterComponent basename="/admin" />;
 
 const App: React.FC = () => {
-    return (
-        <Refine
-            // highlight-start
-            routerProvider={{
-                ...routerProvider,
-                RouterComponent: CustomRouterComponent,
-            }}
-            // highlight-end
-            dataProvider={dataProvider(API_URL)}
-            resources={[
-                {
-                    name: "posts",
-                    list: PostList,
-                    create: PostCreate,
-                    edit: PostEdit,
-                    show: PostShow,
-                },
-            ]}
-        />
-    );
+  return (
+    <Refine
+      // highlight-start
+      routerProvider={{
+        ...routerProvider,
+        RouterComponent: CustomRouterComponent,
+      }}
+      // highlight-end
+      dataProvider={dataProvider(API_URL)}
+      resources={[
+        {
+          name: "posts",
+          list: PostList,
+          create: PostCreate,
+          edit: PostEdit,
+          show: PostShow,
+        },
+      ]}
+    />
+  );
 };
 
 export default App;
@@ -1038,26 +1038,26 @@ const { RouterComponent } = routerProvider;
 const CustomRouterComponent = () => <RouterComponent basename="/admin" />;
 
 const App: React.FC = () => {
-    return (
-        <Refine
-            // highlight-start
-            routerProvider={{
-                ...routerProvider,
-                RouterComponent: CustomRouterComponent,
-            }}
-            // highlight-end
-            dataProvider={dataProvider(API_URL)}
-            resources={[
-                {
-                    name: "posts",
-                    list: PostList,
-                    create: PostCreate,
-                    edit: PostEdit,
-                    show: PostShow,
-                },
-            ]}
-        />
-    );
+  return (
+    <Refine
+      // highlight-start
+      routerProvider={{
+        ...routerProvider,
+        RouterComponent: CustomRouterComponent,
+      }}
+      // highlight-end
+      dataProvider={dataProvider(API_URL)}
+      resources={[
+        {
+          name: "posts",
+          list: PostList,
+          create: PostCreate,
+          edit: PostEdit,
+          show: PostShow,
+        },
+      ]}
+    />
+  );
 };
 
 export default App;
@@ -1093,31 +1093,31 @@ const { RouterComponent, location } = routerProvider;
 
 // highlight-start
 const CustomRouterComponent = () => (
-    <RouterComponent location={location} basepath="/admin" />
+  <RouterComponent location={location} basepath="/admin" />
 );
 // highlight-end
 
 const App: React.FC = () => {
-    return (
-        <Refine
-            // highlight-start
-            routerProvider={{
-                ...routerProvider,
-                RouterComponent: CustomRouterComponent,
-            }}
-            // highlight-end
-            dataProvider={dataProvider(API_URL)}
-            resources={[
-                {
-                    name: "posts",
-                    list: PostList,
-                    create: PostCreate,
-                    edit: PostEdit,
-                    show: PostShow,
-                },
-            ]}
-        />
-    );
+  return (
+    <Refine
+      // highlight-start
+      routerProvider={{
+        ...routerProvider,
+        RouterComponent: CustomRouterComponent,
+      }}
+      // highlight-end
+      dataProvider={dataProvider(API_URL)}
+      resources={[
+        {
+          name: "posts",
+          list: PostList,
+          create: PostCreate,
+          edit: PostEdit,
+          show: PostShow,
+        },
+      ]}
+    />
+  );
 };
 
 export default App;
@@ -1132,7 +1132,7 @@ To serve your application from a subdirectory in your **refine** Nextjs applicat
 
 ```ts
 module.exports = {
-    basePath: "/admin",
+  basePath: "/admin",
 };
 ```
 
@@ -1165,7 +1165,7 @@ In the example below, `BrowserRouterComponent` is used and the initial route is 
 import { Refine } from "@pankod/refine-core";
 // highlight-start
 import routerProvider, {
-    BrowserRouterComponent,
+  BrowserRouterComponent,
 } from "@pankod/refine-react-router-v6";
 // highlight-end
 import dataProvider from "@pankod/refine-simple-rest";
@@ -1177,33 +1177,33 @@ import { UserList, UserShow } from "pages/users";
 const API_URL = "https://api.fake-rest.refine.dev";
 
 const App: React.FC = () => {
-    return (
-        <Refine
-            routerProvider={{
-                ...routerProvider,
-                // highlight-start
-                RouterComponent: BrowserRouterComponent.bind({
-                    initialRoute: "/users",
-                }),
-                // highlight-end
-            }}
-            dataProvider={dataProvider(API_URL)}
-            resources={[
-                {
-                    name: "posts",
-                    list: PostList,
-                    create: PostCreate,
-                    edit: PostEdit,
-                    show: PostShow,
-                },
-                {
-                    name: "users",
-                    list: UserList,
-                    show: UserShow,
-                },
-            ]}
-        />
-    );
+  return (
+    <Refine
+      routerProvider={{
+        ...routerProvider,
+        // highlight-start
+        RouterComponent: BrowserRouterComponent.bind({
+          initialRoute: "/users",
+        }),
+        // highlight-end
+      }}
+      dataProvider={dataProvider(API_URL)}
+      resources={[
+        {
+          name: "posts",
+          list: PostList,
+          create: PostCreate,
+          edit: PostEdit,
+          show: PostShow,
+        },
+        {
+          name: "users",
+          list: UserList,
+          show: UserShow,
+        },
+      ]}
+    />
+  );
 };
 
 export default App;
@@ -1229,33 +1229,33 @@ import { UserList, UserShow } from "pages/users";
 const API_URL = "https://api.fake-rest.refine.dev";
 
 const App: React.FC = () => {
-    return (
-        <Refine
-            routerProvider={{
-                ...routerProvider,
-                // highlight-start
-                RouterComponent: routerProvider.RouterComponent.bind({
-                    initialRoute: "/users",
-                }),
-                // highlight-end
-            }}
-            dataProvider={dataProvider(API_URL)}
-            resources={[
-                {
-                    name: "posts",
-                    list: PostList,
-                    create: PostCreate,
-                    edit: PostEdit,
-                    show: PostShow,
-                },
-                {
-                    name: "users",
-                    list: UserList,
-                    show: UserShow,
-                },
-            ]}
-        />
-    );
+  return (
+    <Refine
+      routerProvider={{
+        ...routerProvider,
+        // highlight-start
+        RouterComponent: routerProvider.RouterComponent.bind({
+          initialRoute: "/users",
+        }),
+        // highlight-end
+      }}
+      dataProvider={dataProvider(API_URL)}
+      resources={[
+        {
+          name: "posts",
+          list: PostList,
+          create: PostCreate,
+          edit: PostEdit,
+          show: PostShow,
+        },
+        {
+          name: "users",
+          list: UserList,
+          show: UserShow,
+        },
+      ]}
+    />
+  );
 };
 
 export default App;

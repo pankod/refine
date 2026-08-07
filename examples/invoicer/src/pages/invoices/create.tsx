@@ -44,12 +44,20 @@ export const InvoicesPageCreate = () => {
     resource: "accounts",
     optionLabel: "company_name",
     optionValue: "id",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { selectProps: selectPropsClients } = useSelect({
     resource: "clients",
     optionLabel: "name",
     optionValue: "id",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const handleServiceNumbersChange = (

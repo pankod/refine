@@ -8,7 +8,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BasicUsageLivePreview from "./basic-usage-live-preview.md";
 
-It can be used to `open` or `close` notification at any time. It returns the `open` and `close` method from [`notificationProvider`](/docs/3.xx.xx/api-reference/core/providers/notification-provider/) under the hood.
+It can be used to `open` or `close` notification at any time. It returns the `open` and `close` method from [`notificationProvider`](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/) under the hood.
 
 ## Basic Usage
 
@@ -44,7 +44,7 @@ open?.({
 });
 ```
 
-> [Refer to the `Open Notification Params` interface for more information →](/docs/3.xx.xx/api-reference/core/interfaceReferences/#open-notification-params)
+> [Refer to the `Open Notification Params` interface for more information →](/core/docs/3.xx.xx/api-reference/core/interfaceReferences/#open-notification-params)
 
 ### `close`
 
@@ -56,7 +56,7 @@ const { close } = useNotification();
 close?.("notification-key");
 ```
 
-> [Refer to the `Close Notification Params` interface for more information →](/docs/3.xx.xx/api-reference/core/interfaceReferences/#close-notification-params)
+> [Refer to the `Close Notification Params` interface for more information →](/core/docs/3.xx.xx/api-reference/core/interfaceReferences/#close-notification-params)
 
 :::info
 You must pass a `key` to the `open` method. This key is used to close the notification.
@@ -85,7 +85,7 @@ open?.({
 
 ### Return Values
 
-| Property | Description               | Type                                                                                                           |
-| -------- | ------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| open     | Open Notification Params  | [`Open Notification Params`](/docs/3.xx.xx/api-reference/core/interfaceReferences/#open-notification-params)   |
-| close    | Close Notification Params | [`Close Notification Params`](/docs/3.xx.xx/api-reference/core/interfaceReferences/#close-notification-params) |
+| Property | Description               | Type                                                                                                                |
+| -------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| open     | Open Notification Params  | [`Open Notification Params`](/core/docs/3.xx.xx/api-reference/core/interfaceReferences/#open-notification-params)   |
+| close    | Close Notification Params | [`Close Notification Params`](/core/docs/3.xx.xx/api-reference/core/interfaceReferences/#close-notification-params) |

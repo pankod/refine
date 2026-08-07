@@ -1,5 +1,5 @@
 import React, { type ReactNode } from "react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import {
   Refine,
   type DataProvider,
@@ -8,8 +8,8 @@ import {
   type IRefineOptions,
 } from "@refinedev/core";
 
-import { MockJSONServer, mockRouterBindings } from "./dataMocks";
-import "@testing-library/jest-dom/extend-expect";
+import { MockJSONServer, mockRouterProvider } from "./dataMocks";
+import "@testing-library/react";
 
 interface ITestWrapperProps {
   dataProvider?: DataProvider;
@@ -34,7 +34,7 @@ export const TestWrapper: (
         <Refine
           i18nProvider={i18nProvider}
           dataProvider={dataProvider ?? MockJSONServer}
-          routerProvider={mockRouterBindings()}
+          routerProvider={mockRouterProvider()}
           resources={resources ?? [{ name: "posts" }]}
           options={{
             ...options,

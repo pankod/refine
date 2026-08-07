@@ -34,6 +34,10 @@ export const PostCreate = () => {
 
   const { options } = useSelect({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const imageInput = watch("images");

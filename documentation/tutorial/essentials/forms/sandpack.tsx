@@ -89,8 +89,8 @@ export const dataProvider: DataProvider = {
     const params = new URLSearchParams();
 
     if (pagination) {
-      params.append("_start", (pagination.current - 1) * pagination.pageSize);
-      params.append("_end", pagination.current * pagination.pageSize);
+      params.append("_start", (pagination.currentPage - 1) * pagination.pageSize);
+      params.append("_end", pagination.currentPage * pagination.pageSize);
     }
 
     if (sorters && sorters.length > 0) {

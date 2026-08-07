@@ -6,7 +6,7 @@ export type DocSearchButtonProps = React.ComponentProps<"button"> & {
   iconOnly?: boolean;
   iconClassName?: string;
   placeholder?: string;
-  isPermanentDark?: boolean;
+  shortcutClassName?: string;
   variant?: "landing" | "doc";
 };
 
@@ -15,16 +15,18 @@ export const DocSearchButton = React.forwardRef<
   DocSearchButtonProps
 >(function DocSearchButtonComponent(
   {
-    variant = "doc",
     iconOnly = false,
     iconClassName,
     className,
     placeholder,
-    isPermanentDark,
+    shortcutClassName,
+    variant = "doc",
     ...props
   },
   ref,
 ) {
+  const isLanding = variant === "landing";
+
   return (
     <button
       ref={ref}
@@ -37,56 +39,48 @@ export const DocSearchButton = React.forwardRef<
         "transition-[filter]",
         "duration-200",
         "ease-in-out",
+        "rounded-lg",
+        isLanding && "bg-zinc-800",
+        isLanding && "text-zinc-300",
+        !isLanding && "bg-transparent",
+        !isLanding && "text-zinc-500 dark:text-zinc-300",
+        !isLanding && "border border-zinc-200 dark:border-zinc-700",
         {
-          "bg-gray-200 dark:bg-gray-700": variant === "doc",
-          "rounded-full border border-solid border-gray-300 dark:border-gray-700":
-            variant === "landing",
-        },
-        {
-          "py-2.5 pr-2.5 pl-3": !iconOnly,
-          "py-2.5 px-2.5": iconOnly,
-          "text-gray-500 dark:text-gray-400": iconOnly,
           "justify-center": iconOnly,
           "hover:brightness-110": iconOnly,
-          "dark:text-gray-0 text-gray-500": !iconOnly,
+          "w-10 h-10": iconOnly,
+          "py-3 px-2.5": !iconOnly,
           "justify-between": !iconOnly,
-          "rounded-full": iconOnly,
-          "rounded-[32px]": !iconOnly,
+          "w-[152px] h-10": !iconOnly,
         },
         className,
       )}
     >
-      <MagnifierIcon
-        className={clsx(
-          "text-gray-500 dark:text-gray-400",
-          "w-3 h-3 landing-md:w-4 landing-md:h-4",
-          iconClassName,
-        )}
-      />
+      <MagnifierIcon className={clsx("w-5 h-5", iconClassName)} />
       {!iconOnly && (
         <>
           <span
-            className={clsx("text-gray-500 dark:text-gray-400 text-left", {
-              "w-[66px]": variant === "doc",
-              "pr-2.5 landing-lg:pr-0": variant === "landing",
-            })}
+            className={clsx(
+              "text-left flex-1",
+              "text-sm",
+              "font-medium",
+              "tracking-[-0.007em]",
+            )}
           >
             {placeholder ?? "Search"}
           </span>
           <div
             className={clsx(
-              {
-                "hidden landing-lg:block": variant === "landing",
-                "bg-gray-100 dark:bg-gray-700": variant === "landing",
-                "text-gray-500 dark:text-gray-300": variant === "landing",
-              },
-              {
-                "bg-gray-0 dark:bg-gray-800": variant === "doc",
-                "text-gray-500 dark:text-gray-400": variant === "doc",
-              },
+              isLanding && "bg-zinc-900",
+              isLanding && "text-zinc-400",
+              !isLanding && "bg-zinc-200 dark:bg-zinc-900",
+              !isLanding && "text-zinc-500 dark:text-zinc-400",
               "py-0.5 px-1.5",
-              "rounded-2xl",
+              "rounded",
               "text-xs",
+              "font-normal",
+              "tracking-[-0.006em]",
+              shortcutClassName,
             )}
           >
             ⌘K

@@ -47,7 +47,10 @@ export const renderer = ({
   isCustomPage,
   i18n,
 }: RendererContext) => {
-  const COMPONENT_NAME = componentName(resource.label ?? resource.name, "list");
+  const COMPONENT_NAME = componentName(
+    resource.meta?.label ?? resource.name,
+    "list",
+  );
   const recordName = "tableData?.data";
   const imports: Array<ImportElement> = [
     ["React", "react", true],
@@ -97,7 +100,7 @@ export const renderer = ({
         }
 
         return `
-                const { data: ${getVariableName(field.key, "Data")} } =
+                const { result: ${getVariableName(field.key, "Data")} } =
                 useMany({
                     resource: "${field.resource.name}",
                     ids: ${idsString},
@@ -625,7 +628,9 @@ export const renderer = ({
     return undefined;
   };
 
-  const { canEdit, canShow, canCreate } = resource ?? {};
+  const canEdit = resource?.edit || resource?.meta?.canEdit;
+  const canShow = resource?.show || resource?.meta?.canShow;
+  const canCreate = resource?.create || resource?.meta?.canCreate;
 
   const actionColumnTitle = i18n ? `translate("table.actions")` : `"Actions"`;
 
@@ -734,21 +739,23 @@ export const renderer = ({
         }
 
         const {
-            getHeaderGroups,
-            getRowModel,
-            setOptions,
-            refineCore: {
-                tableQueryResult: { data: tableData },
+            reactTable: {
+                getHeaderGroups,
+                getRowModel,
+                setOptions,
+                getState,
+                setPageIndex,
+                getCanPreviousPage,
+                getPageCount,
+                getCanNextPage,
+                nextPage,
+                previousPage,
+                setPageSize,
+                getColumn,
             },
-            getState,
-            setPageIndex,
-            getCanPreviousPage,
-            getPageCount,
-            getCanNextPage,
-            nextPage,
-            previousPage,
-            setPageSize,
-            getColumn,
+            refineCore: {
+                tableQuery: { data: tableData },
+            },
         } = useTable({
             columns,
             ${

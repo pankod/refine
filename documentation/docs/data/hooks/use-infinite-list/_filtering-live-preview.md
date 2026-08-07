@@ -20,15 +20,11 @@ interface IProduct {
 
 const ProductList: React.FC = () => {
   //highlight-next-line
-  const [value, setValue] = useState("Cotton");
+  const [value, setValue] = useState("Plastic");
 
   const {
-    data,
-    isLoading,
-    isError,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
+    result: { data, hasNextPage, hasPreviousPage },
+    query: { isError, isLoading, fetchNextPage, isFetchingNextPage },
   } = useInfiniteList<IProduct, HttpError>({
     resource: "products",
     //highlight-start
@@ -57,7 +53,7 @@ const ProductList: React.FC = () => {
       {/* highlight-start */}
       <span> material: </span>
       <select value={value} onChange={(e) => setValue(e.target.value)}>
-        {["Cotton", "Bronze", "Plastic"].map((material) => (
+        {["Plastic", "Cotton", "Bronze"].map((material) => (
           <option key={material} value={material}>
             {material}
           </option>
@@ -88,10 +84,18 @@ setRefineProps({
   resources: [
     {
       name: "products",
-      list: ProductList,
+      list: "/products",
     },
   ],
 });
 
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo>
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/products" element={<ProductList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

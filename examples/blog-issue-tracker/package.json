@@ -2,11 +2,12 @@
   "name": "blog-issue-tracker",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "build": "cross-env DISABLE_ESLINT_PLUGIN=true refine build",
-    "eject": "react-scripts eject",
+    "build": "tsc && refine build",
+    "dev": "refine dev",
     "refine": "refine",
-    "start": "cross-env DISABLE_ESLINT_PLUGIN=true refine start"
+    "start": "refine start"
   },
   "browserslist": {
     "production": [
@@ -21,29 +22,31 @@
     ]
   },
   "dependencies": {
-    "@ant-design/charts": "^1.2.0",
+    "@ant-design/charts": "^2.6.7",
     "@ant-design/icons": "^5.5.1",
-    "@craco/craco": "^7.1.0",
-    "@refinedev/antd": "^5.44.0",
-    "@refinedev/cli": "^2.16.39",
-    "@refinedev/core": "^4.56.0",
-    "@refinedev/react-router-v6": "^4.6.0",
-    "@refinedev/supabase": "^5.9.4",
-    "antd": "^5.17.0",
-    "cross-env": "^7.0.3",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^6.8.1",
-    "react-scripts": "^5.0.0"
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@refinedev/antd": "^6.0.3",
+    "@refinedev/cli": "^2.16.52",
+    "@refinedev/core": "^5.0.11",
+    "@refinedev/devtools": "^2.0.5",
+    "@refinedev/kbar": "^2.0.1",
+    "@refinedev/react-router": "^2.0.4",
+    "@refinedev/supabase": "^6.0.2",
+    "@uiw/react-md-editor": "^4.0.8",
+    "antd": "^5.23.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router": "^7.0.2"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^14.1.1",
-    "@types/jest": "^29.2.4",
-    "@types/node": "^18.16.2",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "typescript": "^5.4.2"
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.15"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

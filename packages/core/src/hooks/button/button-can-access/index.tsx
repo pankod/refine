@@ -17,6 +17,7 @@ type ButtonCanAccessProps = {
     enabled?: boolean;
     hideIfUnauthorized?: boolean;
   };
+  meta?: Record<string, unknown>;
 };
 
 type ButtonCanAccessValues = {
@@ -43,7 +44,7 @@ export const useButtonCanAccess = (
   const { data: canAccess } = useCan({
     resource: props.resource?.name,
     action: props.action === "clone" ? "create" : props.action,
-    params: { id: props.id, resource: props.resource },
+    params: { meta: props.meta, id: props.id, resource: props.resource },
     queryOptions: {
       enabled: accessControlEnabled,
     },

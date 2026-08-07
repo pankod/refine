@@ -11,6 +11,10 @@ export default function BlogPostEdit() {
   const { selectProps: categorySelectProps } = useSelect({
     resource: "categories",
     defaultValue: blogPostsData?.category?.id,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

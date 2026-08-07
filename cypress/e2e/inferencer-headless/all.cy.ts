@@ -26,17 +26,12 @@ describe("inferencer-headless", () => {
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    cy.interceptGETCategory();
-    cy.interceptGETCategories();
-    cy.interceptGETBlogPosts();
     cy.visit("/");
 
     login();
   });
 
   it("should list resource", () => {
-    cy.interceptGETBlogPost();
-
     cy.wait("@getBlogPosts");
     waitForLoading();
 
@@ -46,7 +41,6 @@ describe("inferencer-headless", () => {
   });
 
   it("should show resource", () => {
-    cy.interceptGETBlogPost();
     waitForLoading();
 
     cy.get("td > div > button").contains("Show").first().click();
@@ -73,8 +67,6 @@ describe("inferencer-headless", () => {
   });
 
   it("should create resource", () => {
-    cy.interceptPOSTBlogPost();
-
     cy.wait("@getBlogPosts");
     cy.wait("@getCategories");
     waitForLoading();
@@ -113,9 +105,6 @@ describe("inferencer-headless", () => {
   });
 
   it("should edit resource", () => {
-    cy.interceptPATCHBlogPost();
-    cy.interceptGETBlogPost();
-
     cy.wait("@getBlogPosts");
     waitForLoading();
     cy.wait("@getCategories");
@@ -181,7 +170,7 @@ describe("inferencer-headless", () => {
 
     cy.get("button").contains(">").click();
 
-    cy.url().should("include", "current=2");
+    cy.url().should("include", "currentPage=2");
 
     cy.wait("@getSecondPagePosts");
 
@@ -200,7 +189,7 @@ describe("inferencer-headless", () => {
 
     cy.get("button").contains("<").click();
 
-    cy.url().should("include", "current=1");
+    cy.url().should("include", "currentPage=1");
 
     cy.wait("@getFirstPagePosts");
   });

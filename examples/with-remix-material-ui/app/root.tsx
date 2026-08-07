@@ -97,34 +97,32 @@ export default function App() {
       <GitHubBanner />
       <RefineKbarProvider>
         <RefineSnackbarProvider>
-          <RefineKbarProvider>
-            <Refine
-              routerProvider={routerProvider}
-              dataProvider={dataProvider(API_URL)}
-              notificationProvider={useNotificationProvider}
-              authProvider={authProvider}
-              resources={[
-                {
-                  name: "blog_posts",
-                  list: "/blog-posts",
-                  create: "/blog-posts/create",
-                  edit: "/blog-posts/edit/:id",
-                  show: "/blog-posts/show/:id",
-                  meta: {
-                    canDelete: true,
-                  },
+          <Refine
+            routerProvider={routerProvider}
+            dataProvider={dataProvider(API_URL)}
+            notificationProvider={useNotificationProvider}
+            authProvider={authProvider}
+            resources={[
+              {
+                name: "blog_posts",
+                list: "/blog-posts",
+                create: "/blog-posts/create",
+                edit: "/blog-posts/edit/:id",
+                show: "/blog-posts/show/:id",
+                meta: {
+                  canDelete: true,
                 },
-              ]}
-              options={{
-                syncWithLocation: true,
-                warnWhenUnsavedChanges: true,
-              }}
-            >
-              <Outlet />
-              <UnsavedChangesNotifier />
-              <RefineKbar />
-            </Refine>
-          </RefineKbarProvider>
+              },
+            ]}
+            options={{
+              syncWithLocation: true,
+              warnWhenUnsavedChanges: true,
+            }}
+          >
+            <Outlet />
+            <UnsavedChangesNotifier />
+            <RefineKbar />
+          </Refine>
         </RefineSnackbarProvider>
       </RefineKbarProvider>
     </Document>

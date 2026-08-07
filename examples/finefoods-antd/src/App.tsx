@@ -3,7 +3,7 @@ import { Authenticated, Refine } from "@refinedev/core";
 import { RefineKbarProvider, RefineKbar } from "@refinedev/kbar";
 import {
   useNotificationProvider,
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
 } from "@refinedev/antd";
 import routerProvider, {
@@ -11,8 +11,8 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import {
   ShoppingOutlined,
   ShopOutlined,
@@ -45,6 +45,7 @@ import { BikeWhiteIcon } from "./components/icons";
 import { ConfigProvider } from "./context";
 import { useAutoLoginForDemo } from "./hooks";
 
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
 const App: React.FC = () => {
@@ -151,7 +152,7 @@ const App: React.FC = () => {
                     key="authenticated-routes"
                     fallback={<CatchAllNavigate to="/login" />}
                   >
-                    <ThemedLayoutV2 Header={Header} Title={Title}>
+                    <ThemedLayout Header={Header} Title={Title}>
                       <div
                         style={{
                           maxWidth: "1200px",
@@ -161,7 +162,7 @@ const App: React.FC = () => {
                       >
                         <Outlet />
                       </div>
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >
@@ -268,9 +269,9 @@ const App: React.FC = () => {
               <Route
                 element={
                   <Authenticated key="catch-all">
-                    <ThemedLayoutV2 Header={Header} Title={Title}>
+                    <ThemedLayout Header={Header} Title={Title}>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >

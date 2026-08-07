@@ -1,5 +1,8 @@
 ---
-title: File
+title: "MUI File Field Component | UI Component in Refine v5"
+display_title: "File"
+sidebar_label: "File"
+description: "Explore how to integrate File Field in Refine v5. Explore customization options for Material Design, components for polished admin UIs."
 swizzle: true
 ---
 
@@ -7,7 +10,7 @@ This field is used to display files and it uses the [`<Link>`](https://mui.com/m
 
 :::simple Good to know
 
-You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-packages) to customize it.
+You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 
 :::
 
@@ -16,6 +19,8 @@ You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-
 Let's see how we can use `<FileField>` with the example in the edit page:
 
 ```tsx live url=http://localhost:3000/posts previewHeight=340px
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import {
   useDataGrid,
@@ -31,6 +36,7 @@ const columns: GridColDef[] = [
   {
     field: "image",
     headerName: "Image",
+    display: "flex",
     renderCell: function render({ row }) {
       // highlight-start
       return (
@@ -48,7 +54,7 @@ const PostsList: React.FC = () => {
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 };
@@ -65,14 +71,29 @@ interface IPost {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    resources={[
-      {
-        name: "posts",
-        list: PostsList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostsList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

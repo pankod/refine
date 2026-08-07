@@ -4,5 +4,4 @@ export {
   UseDataGridReturnType,
   useDataGrid,
 } from "./useDataGrid";
-export { useSiderVisible } from "./useSiderVisible";
 export * from "./useThemedLayoutContext";

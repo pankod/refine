@@ -35,8 +35,8 @@ const TutorialPaginatorBase = (props) => {
             "flex-1",
             "p-4",
             "rounded-lg",
-            "border border-gray-300 dark:border-gray-600",
-            "hover:bg-gray-100 hover:dark:bg-gray-700",
+            "border border-zinc-300 dark:border-zinc-600",
+            "hover:bg-zinc-100 hover:dark:bg-zinc-700",
             "hover:no-underline",
           )}
         >
@@ -45,13 +45,13 @@ const TutorialPaginatorBase = (props) => {
               className={clsx(
                 "flex items-center gap-2",
                 "text-base",
-                "text-gray-800 dark:text-gray-100",
+                "text-zinc-800 dark:text-zinc-100",
               )}
             >
               <span
                 className={clsx("flex items-center justify-center", "w-6 h-6")}
               >
-                <ArrowLeftIcon className="text-gray-400 dark:text-gray-500" />
+                <ArrowLeftIcon className="text-zinc-400 dark:text-zinc-500" />
               </span>
               Previous
             </div>
@@ -75,8 +75,8 @@ const TutorialPaginatorBase = (props) => {
             "flex-1",
             "p-4",
             "rounded-lg",
-            "border border-gray-300 dark:border-gray-600",
-            "hover:bg-gray-100 hover:dark:bg-gray-700",
+            "border border-zinc-300 dark:border-zinc-600",
+            "hover:bg-zinc-100 hover:dark:bg-zinc-700",
             "hover:no-underline",
             !previous && "tutorial-sm:col-start-2",
           )}
@@ -86,14 +86,14 @@ const TutorialPaginatorBase = (props) => {
               className={clsx(
                 "flex items-center gap-2",
                 "text-base",
-                "text-gray-800 dark:text-gray-100",
+                "text-zinc-800 dark:text-zinc-100",
               )}
             >
               Next
               <span
                 className={clsx("flex items-center justify-center", "w-6 h-6")}
               >
-                <ArrowRightIcon className="text-gray-400 dark:text-gray-500" />
+                <ArrowRightIcon className="text-zinc-400 dark:text-zinc-500" />
               </span>
             </div>
 

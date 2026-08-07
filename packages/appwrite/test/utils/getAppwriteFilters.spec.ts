@@ -1,13 +1,13 @@
 import type { CrudFilter } from "@refinedev/core";
 import { generateFilter, getAppwriteFilters } from "../../src/utils";
 
-jest.mock("../../src/utils/generateFilter", () => ({
-  generateFilter: jest.fn(),
+vi.mock("../../src/utils/generateFilter", () => ({
+  generateFilter: vi.fn(),
 }));
 
 describe("getAppwriteFilters", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("should generate Appwrite filters based on the input filters", () => {

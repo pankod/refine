@@ -1,4 +1,4 @@
-import SearchBar from "@theme/SearchBar";
+import SearchBar from "../theme/SearchBar";
 import clsx from "clsx";
 import React, { useState } from "react";
 import { CommonGithubStarButton } from "./common-github-star-button";
@@ -12,10 +12,32 @@ import { DocRefineLogo } from "./doc-refine-logo";
 
 export const HEADER_HEIGHT = 65;
 
+export const DocHeader = () => {
+  return (
+    <>
+      <TopAnnouncement />
+      <div
+        className={clsx(
+          "flex items-center",
+          "h-16",
+          "z-10",
+          "sticky",
+          "top-0",
+          "py-4 sm:py-3 px-4 sm:px-6",
+          "bg-zinc-50 dark:bg-[#202023]",
+        )}
+      >
+        <Desktop />
+        <Mobile />
+      </div>
+    </>
+  );
+};
+
 const Desktop = () => {
   return (
     <div className={clsx("w-full", "hidden lg:flex items-center", "mx-auto")}>
-      <DocRefineLogo className={clsx("lg:min-w-[256px]")} />
+      <DocRefineLogo />
       <div
         className={clsx(
           "flex-1",
@@ -26,7 +48,14 @@ const Desktop = () => {
         )}
       >
         <div className={clsx("hidden lg:flex items-center justify-start")}>
-          <SearchBar />
+          <SearchBar
+            CustomButton={React.forwardRef<
+              HTMLButtonElement,
+              React.PropsWithChildren<{}>
+            >(function CustomButton(props, ref) {
+              return <DocSearchButton ref={ref} {...props} variant="doc" />;
+            })}
+          />
         </div>
 
         <div className={clsx("lg:hidden flex")}>
@@ -35,7 +64,9 @@ const Desktop = () => {
               HTMLButtonElement,
               React.PropsWithChildren<{}>
             >(function CustomButton(props, ref) {
-              return <DocSearchButton ref={ref} {...props} iconOnly />;
+              return (
+                <DocSearchButton ref={ref} {...props} iconOnly variant="doc" />
+              );
             })}
           />
         </div>
@@ -77,28 +108,5 @@ export const Mobile = () => {
         onClose={() => setIsSidebarOpen(false)}
       />
     </div>
-  );
-};
-
-export const DocHeader = () => {
-  return (
-    <>
-      <TopAnnouncement />
-      <div
-        className={clsx(
-          "flex items-center",
-          "h-16",
-          "z-10",
-          "sticky",
-          "top-0",
-          "py-4 sm:py-3 px-4 sm:px-6",
-          "bg-gray-0 dark:bg-gray-800",
-          "border-b border-gray-300 dark:border-gray-700",
-        )}
-      >
-        <Desktop />
-        <Mobile />
-      </div>
-    </>
   );
 };

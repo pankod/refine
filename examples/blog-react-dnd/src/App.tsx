@@ -1,19 +1,20 @@
 import { GitHubBanner, Refine } from "@refinedev/core";
 import {
   useNotificationProvider,
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   RefineThemes,
 } from "@refinedev/antd";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { ConfigProvider, App as AntdApp } from "antd";
 import { PostList, PostCreate, PostEdit, PostShow } from "./pages/posts";
 import DashboardPage from "./pages/dashBoardPage";
@@ -46,9 +47,9 @@ function App() {
               <Routes>
                 <Route
                   element={
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   }
                 >
                   <Route index element={<DashboardPage />} />

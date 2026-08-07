@@ -16,6 +16,10 @@ export const PostEdit: React.FC = () => {
     defaultValue: queryResult?.data?.data?.category?.id,
     optionLabel: "name",
     optionValue: "id",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   useEffect(() => {

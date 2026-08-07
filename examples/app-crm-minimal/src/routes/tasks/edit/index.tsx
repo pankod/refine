@@ -27,7 +27,11 @@ export const TasksEditPage = () => {
   const [activeKey, setActiveKey] = useState<string | undefined>();
 
   const { list } = useNavigation();
-  const { modalProps, close, queryResult } = useModalForm<Task>({
+  const {
+    modalProps,
+    close,
+    query: queryResult,
+  } = useModalForm<Task>({
     action: "edit",
     defaultVisible: true,
     meta: {

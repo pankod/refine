@@ -3,15 +3,17 @@ import { useGetIdentity, useOne } from "@refinedev/core";
 import { Profile } from "components";
 
 const MyProfile = () => {
-  const { data: user } = useGetIdentity({
-    v3LegacyAuthProviderCompatible: true,
-  });
-  const { data, isLoading, isError } = useOne({
+  const { data: user } = useGetIdentity();
+  const {
+    result,
+    isError,
+    query: { isLoading },
+  } = useOne({
     resource: "users",
     id: user?.userid,
   });
 
-  const myProfile = data?.data ?? {};
+  const myProfile = result ?? {};
 
   if (isLoading) return <div>loading...</div>;
   if (isError) return <div>error...</div>;

@@ -9,7 +9,7 @@ swizzle: true
 [Refer to the for more detailed information about `useExport`. &#8594][useexport]
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Usage
@@ -113,4 +113,4 @@ It also accepts all props of Ant Design [Button](https://ant.design/components/b
 :::
 
 [button]: https://ant.design/components/button/
-[useexport]: /api-reference/core/hooks/import-export/useExport.md
+[useexport]: /core/docs/3.xx.xx/api-reference/core/hooks/import-export/useExport

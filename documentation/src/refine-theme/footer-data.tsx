@@ -11,20 +11,16 @@ export const menuItems = [
     label: "Resources",
     items: [
       {
-        label: "Getting Started",
-        href: "/docs/getting-started/quickstart",
+        label: "Documentation",
+        href: "/core/docs/getting-started/quickstart/",
       },
       {
         label: "Tutorials",
-        href: "/tutorial/essentials/intro",
+        href: "/core/tutorial/essentials/intro/",
       },
       {
         label: "Blog",
-        href: "/blog",
-      },
-      {
-        label: "React Admin Panel",
-        href: "https://reactadminpanel.com",
+        href: "/blog/",
       },
     ],
   },
@@ -32,38 +28,24 @@ export const menuItems = [
     label: "Product",
     items: [
       {
-        label: "Enterprise",
-        icon: <NewBadgeIcon />,
-        href: "/enterprise",
-      },
-      {
         label: "Templates",
-        href: "/templates",
+        href: "/core/templates/",
+        icon: null,
       },
       {
         label: "Integrations",
-        href: "/integrations",
+        href: "/core/integrations/",
+        icon: null,
       },
-      // {
-      //     label: "Become an Expert",
-      //     href: "/become-an-expert",
-      // },
-      // {
-      //     label: "Cloud",
-      //     href: "/cloud",
-      // },
     ],
   },
+
   {
     label: "Company",
     items: [
       {
         label: "About",
-        href: "/about",
-      },
-      {
-        label: "Store",
-        href: "https://store.refine.dev",
+        href: "/about/",
       },
       {
         label: "Contact Us",
@@ -74,17 +56,17 @@ export const menuItems = [
 ];
 
 export const secondaryMenuItems = [
-  // {
-  //     label: "Terms & Conditions",
-  //     href: "#",
-  // },
+  {
+    label: "Terms & Conditions",
+    href: "/terms-and-conditions/",
+  },
   {
     label: "Privacy Policy",
-    href: "/privacy-policy",
+    href: "/privacy-policy/",
   },
   {
     label: "License",
-    href: "https://github.com/refinedev/refine/blob/master/LICENSE",
+    href: "https://github.com/refinedev/refine/blob/main/LICENSE",
   },
 ];
 

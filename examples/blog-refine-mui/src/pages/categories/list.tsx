@@ -30,6 +30,7 @@ export const CategoryList = () => {
         field: "actions",
         headerName: translate("table.actions"),
         sortable: false,
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <>
@@ -49,7 +50,7 @@ export const CategoryList = () => {
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 };

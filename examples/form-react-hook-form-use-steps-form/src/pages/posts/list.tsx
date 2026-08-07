@@ -4,18 +4,23 @@ import type { ICategory, IPost } from "../../interfaces";
 
 export const PostList: React.FC = () => {
   const { tableQuery: tableQueryResult } = useTable<IPost>({
-    initialSorter: [
-      {
-        field: "id",
-        order: "asc",
-      },
-    ],
+    sorters: {
+      initial: [
+        {
+          field: "id",
+          order: "asc",
+        },
+      ],
+    },
   });
   const { edit, create } = useNavigation();
 
   const categoryIds =
     tableQueryResult?.data?.data.map((item) => item.category.id) ?? [];
-  const { data, isLoading } = useMany<ICategory>({
+  const {
+    result: data,
+    query: { isLoading },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {

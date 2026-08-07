@@ -5,7 +5,10 @@ import type { IResourceItem } from "../../../contexts/resource/types";
  */
 export const sanitizeResource = (
   resource?: Partial<IResourceItem> &
-    Required<Pick<IResourceItem, "name">> & { children?: unknown },
+    Required<Pick<IResourceItem, "name">> & { children?: unknown } & Record<
+      string,
+      any
+    >,
 ):
   | (Partial<IResourceItem> & Required<Pick<IResourceItem, "name">>)
   | undefined => {
@@ -14,7 +17,6 @@ export const sanitizeResource = (
   }
 
   const {
-    icon,
     list,
     edit,
     create,
@@ -22,16 +24,14 @@ export const sanitizeResource = (
     clone,
     children,
     meta,
-    options,
+    icon,
     ...restResource
   } = resource;
 
   const { icon: _metaIcon, ...restMeta } = meta ?? {};
-  const { icon: _optionsIcon, ...restOptions } = options ?? {};
 
   return {
     ...restResource,
     ...(meta ? { meta: restMeta } : {}),
-    ...(options ? { options: restOptions } : {}),
   };
 };

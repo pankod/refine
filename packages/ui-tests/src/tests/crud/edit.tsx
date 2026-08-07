@@ -1,12 +1,18 @@
+import { vi } from "vitest";
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import {
   type RefineCrudEditProps,
   RefineButtonTestIds,
 } from "@refinedev/ui-types";
 import type { AccessControlProvider } from "@refinedev/core";
 
-import { type ITestWrapperProps, render, TestWrapper } from "@test";
+import {
+  type ITestWrapperProps,
+  mockRouterProvider,
+  render,
+  TestWrapper,
+} from "@test";
 
 const renderEdit = (
   edit: React.ReactNode,
@@ -18,14 +24,28 @@ const renderEdit = (
       <Route path="/:resource/edit/:id" element={edit} />
     </Routes>,
     {
-      wrapper: TestWrapper(
-        wrapperProps
-          ? wrapperProps
-          : {
-              routerInitialEntries: ["/posts/edit/1"],
-              accessControlProvider,
+      wrapper: TestWrapper({
+        routerInitialEntries: ["/posts/edit/1"],
+        accessControlProvider,
+        routerProvider: {
+          ...mockRouterProvider(),
+          parse: () => () => ({
+            params: { id: "1" },
+            action: "edit",
+            resource: {
+              name: "posts",
+              list: "/posts",
+              create: "/posts/create",
+              clone: "/posts/clone/1",
+              show: "/posts/show/1",
+              edit: "/posts/edit/1",
+              meta: { canDelete: true },
             },
-      ),
+            pathname: "/posts/edit/1",
+          }),
+        },
+        ...wrapperProps,
+      }),
     },
   );
 };
@@ -37,7 +57,7 @@ export const crudEditTests = (
 ): void => {
   describe("[@refinedev/ui-tests] Common Tests / CRUD Edit", () => {
     beforeAll(() => {
-      jest.spyOn(console, "warn").mockImplementation(jest.fn());
+      vi.spyOn(console, "warn").mockImplementation(vi.fn());
     });
 
     it("should render children", async () => {
@@ -54,6 +74,28 @@ export const crudEditTests = (
             return <>{defaultButtons}</>;
           }}
         />,
+        undefined,
+        {
+          resources: [
+            {
+              name: "posts",
+              list: "/posts",
+            },
+          ],
+          routerInitialEntries: ["/posts/edit/1"],
+          routerProvider: {
+            ...mockRouterProvider(),
+            parse() {
+              return () => ({
+                params: { id: "1" },
+                pathname: "/posts/edit/1",
+                resource: { name: "posts", list: "/posts" },
+                action: "edit",
+                id: "1",
+              });
+            },
+          },
+        },
       );
 
       expect(queryByTestId(RefineButtonTestIds.ListButton)).not.toBeNull();
@@ -131,7 +173,7 @@ export const crudEditTests = (
         />,
         undefined,
         {
-          resources: [{ name: "posts", canDelete: true }],
+          resources: [{ name: "posts", meta: { canDelete: true } }],
           routerInitialEntries: ["/posts/edit/1"],
         },
       );

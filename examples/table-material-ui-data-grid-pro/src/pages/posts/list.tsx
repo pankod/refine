@@ -1,40 +1,17 @@
-import type { GridValueFormatterParams } from "@mui/x-data-grid";
-import { DataGridPro, type GridColDef } from "@mui/x-data-grid-pro";
-import { type Option, useSelect } from "@refinedev/core";
-import { List, useDataGrid } from "@refinedev/mui";
 import React from "react";
+import { useSelect } from "@refinedev/core";
+import { List, useDataGrid } from "@refinedev/mui";
+import { Box } from "@mui/material";
+import { DataGridPro, type GridColDef } from "@mui/x-data-grid-pro";
 
 import type { ICategory, IPost } from "../../interfaces";
 
 export const PostList: React.FC = () => {
   const { dataGridProps } = useDataGrid<IPost>({
-    initialCurrent: 2,
-    initialPageSize: 10,
-    initialSorter: [
-      {
-        field: "title",
-        order: "asc",
-      },
-      {
-        field: "id",
-        order: "asc",
-      },
-    ],
-    initialFilter: [
-      {
-        field: "status",
-        operator: "eq",
-        value: "draft",
-      },
-      {
-        field: "title",
-        operator: "contains",
-        value: "A",
-      },
-    ],
     syncWithLocation: true,
+
     pagination: {
-      mode: "client",
+      mode: "off",
     },
   });
 
@@ -43,7 +20,10 @@ export const PostList: React.FC = () => {
     query: { isLoading },
   } = useSelect<ICategory>({
     resource: "categories",
-    hasPagination: false,
+
+    pagination: {
+      mode: "off",
+    },
   });
 
   const columns = React.useMemo<GridColDef<IPost>[]>(
@@ -63,9 +43,7 @@ export const PostList: React.FC = () => {
         minWidth: 250,
         flex: 0.5,
         valueOptions: options,
-        valueFormatter: (params: GridValueFormatterParams<Option>) => {
-          return params.value;
-        },
+        display: "flex",
         renderCell: function render({ row }: any) {
           if (isLoading) {
             return "Loading...";
@@ -92,12 +70,13 @@ export const PostList: React.FC = () => {
 
   return (
     <List>
-      <DataGridPro
-        {...dataGridProps}
-        columns={columns}
-        autoHeight
-        pageSizeOptions={[10, 20, 30, 50, 100]}
-      />
+      <Box sx={{ height: 520, width: "100%" }}>
+        <DataGridPro
+          {...dataGridProps}
+          columns={columns}
+          pageSizeOptions={[10, 20, 30, 50, 100]}
+        />
+      </Box>
     </List>
   );
 };

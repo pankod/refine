@@ -13,26 +13,25 @@ export const PostShow = () => {
   const { data, isLoading } = queryResult;
   const record = data?.data;
 
-  const { data: languageData, isLoading: languageIsLoading } =
-    useOne<ILanguage>({
-      resource: "languages",
-      id: record?.language || "",
-      queryOptions: {
-        enabled: !!record,
-      },
-    });
+  const {
+    result: languageData,
+    query: { isLoading: languageIsLoading },
+  } = useOne<ILanguage>({
+    resource: "languages",
+    id: record?.language || "",
+    queryOptions: {
+      enabled: !!record,
+    },
+  });
 
   return (
     <Show isLoading={isLoading && languageIsLoading}>
       <Title level={5}>Id</Title>
       <Text>{record?.id}</Text>
-
       <Title level={5}>Title</Title>
       <Text>{record?.title}</Text>
-
       <Title level={5}>Language</Title>
-      <Text>{languageData?.data.title}</Text>
-
+      <Text>{languageData?.title}</Text>
       <Title level={5}>Content</Title>
       <MarkdownField value={record?.content} />
     </Show>

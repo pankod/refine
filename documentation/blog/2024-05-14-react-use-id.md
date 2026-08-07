@@ -3,8 +3,9 @@ title: Beginner's Guide to React useId Hook
 description: We'll explore the React useId hook, its use cases, and how it can improve our development process.
 slug: react-useid
 authors: necati
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-05-14-react-use-id/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-05-14-react-use-id/social.png
 hide_table_of_contents: false
 ---
 

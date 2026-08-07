@@ -3,31 +3,15 @@ title: How to Change Node Version
 description: A comprehensive guide on how to change the node version.
 slug: change-node-version
 authors: muhammad_khabbab
-tags: [dev-tools, git]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-27-change-node-version/social.png
+category: "Engineering"
+tags: [dev-tools, javascript]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-27-change-node-version/social.png
 hide_table_of_contents: false
 ---
 
 ## Introduction
 
 Changing Node.js versions was always difficult for developers. Due to version compatibility, changing Node.js versions for the current session was common but tedious. The end of 2023 release of Node version manager solves this problem. This article shows how to use NVM to check and modify Node.js version. We'll explain how to install and use NVM to swap Node.js versions. Let's understand what is an NVM and how it boosts developer productivity.
-
-Steps we'll cover:
-
-- [What is Node Version Manager (NVM)?](#what-is-node-version-manager-nvm)
-- [Why Developers Need NVM](#why-developers-need-nvm)
-- [Preparing for NVM Installation](#preparing-for-nvm-installation)
-  - [Prerequisites for Installing NVM](#prerequisites-for-installing-nvm)
-  - [Compatibility of NVM with Different Operating Systems](#compatibility-of-nvm-with-different-operating-systems)
-- [Installing NVM](#installing-nvm)
-- [Possible Errors and Edge Cases](#possible-errors-and-edge-cases)
-- [Installing and Managing Node.js Versions with NVM](#installing-and-managing-nodejs-versions-with-nvm)
-  - [Installing Latest Version](#installing-latest-version)
-  - [Installing a Specific Node.js Version](#installing-a-specific-nodejs-version)
-- [Listing All Available Node.js Versions](#listing-all-available-nodejs-versions)
-- [How do I change Node.js Versions](#how-do-i-change-nodejs-versions)
-  - [How do I revert to an older version of node?](#how-do-i-revert-to-an-older-version-of-node)
-  - [Verify the current version](#verify-the-current-version)
 
 ## What is Node Version Manager (NVM)?
 
@@ -82,7 +66,7 @@ If you do not wish to use either `wget` or `curl`, you can also download the scr
 Here is what you will see if you execute the above `curl` command:
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-27-change-node-version/image1.png" alt="installation of nvm" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-27-change-node-version/image1.png" alt="installation of nvm" />
 </div>
 
 1.  **Run the NVM Installation Script**: The `wget` or `curl` command downloads the script and runs it in one go. The script clones the NVM repository to `~/.nvm`, and adds the source lines to your profile (`~/.bash_profile`, `~/.zshrc`, `~/.profile`, or `~/.bashrc`).
@@ -95,14 +79,14 @@ command -v nvm
 This command should output `nvm`, indicating that NVM is installed and accessible. You can also run the command nvm to see the version of nvm and its usage details.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-27-change-node-version/image3.png" alt="verify installation of nvm" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-27-change-node-version/image3.png" alt="verify installation of nvm" />
 </div>
 
 ## Possible Errors and Edge Cases
 
 - **Command Not Found**: If the terminal says `command not found` after running `command -v nvm`, this means that the terminal can’t find the `nvm` command. You may need to close and reopen your terminal or restart your computer. Below screenshot confirms this scenario. Closing and re-launching the terminal solves this issue though.
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-27-change-node-version/image2.png" alt="nvm installed but terminal not recognizing it" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-27-change-node-version/image2.png" alt="nvm installed but terminal not recognizing it" />
 </div>
 
 - **No Curl or Wget**: If your machine doesn’t have `curl` or `wget`, you’ll need to install one of them to download the NVM installation script.
@@ -119,7 +103,7 @@ nvm install node
 ```
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-27-change-node-version/image4.png" alt="nvm install latest node version" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-27-change-node-version/image4.png" alt="nvm install latest node version" />
 </div>
 
 The `nvm install node` command will fetch the latest version of Node.js and install it. For example, the latest version is `21.7.1`. After the installation, the latest version will automatically become the active version in your current terminal session, this is evident from the last line in above screenshot where nvm is setting the installed Node.js version as default Node.js version.
@@ -145,7 +129,7 @@ nvm ls
 After installing the latest version of Node.js (which is `21.7.1` as of writing this), this is what the above command shows:
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-27-change-node-version/image5.png" alt="nvm show installed Node.js versions" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-27-change-node-version/image5.png" alt="nvm show installed Node.js versions" />
 </div>
 
 Looking at the above screenshot, the terms “stable”, “default”, and “current” have specific meanings:
@@ -157,7 +141,7 @@ Looking at the above screenshot, the terms “stable”, “default”, and “c
 In above screenshot, the version `21.7.1` is the current version as well as default and stable version. After installing `14.15.1`, it will become the current version instead of `21.7.1`, however `21.7.1` will remain as default. See below screenshot after running the `nvm ls` command after installing version `14.15.1` on top of `21.7.1`.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-27-change-node-version/image6.png" alt="nvm show installed Node.js versions" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-27-change-node-version/image6.png" alt="nvm show installed Node.js versions" />
 </div>
 
 In above screenshot, `14.15.1` is current version, but stable and default versions are still `21.7.1`. If another stable version `21.7.2` is released tomorrow, then `21.7.2` will be shown as stable version and `21.7.1` will be shown as default version.
@@ -179,7 +163,7 @@ nvm use 21.7.1
 ```
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-03-27-change-node-version/image7.png" alt="nvm show installed Node.js versions" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-03-27-change-node-version/image7.png" alt="nvm show installed Node.js versions" />
 </div>
 
 This command makes the specified version the active Node.js version in your current terminal session. If you close the terminal, the effect of above command will be nullified and default version of Node.js will become active.

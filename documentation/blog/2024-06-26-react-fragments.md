@@ -3,9 +3,11 @@ title: How to use React Fragments?
 description: We'll cover what React Fragments are, differences between React Fragments and Div elements.
 slug: how-react-fragments-is-works
 authors: clara_ekekenta
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-02-react-fragments/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-02-react-fragments/social-2.png
 hide_table_of_contents: false
+last_update: 2024-06-27
 ---
 
 **This article was last updated on Jun 26, 2024, to add new advantages, use cases and common problems sections for React Fragments**
@@ -16,19 +18,6 @@ Returning multiple elements from a component has always been problematic for Rea
 This is because React depends on creating a tree-like structure that is used for reconciliation. Therefore, when multiple elements are returned in the render method, the algorithm used for reconciliation will not function as expected, and the presumption that the tree will have one root node for a component will no longer be valid.
 
 React Fragment fixed this problem in version 16.2 of the library.
-
-Steps we'll cover:
-
-- [What is React Fragment?](#what-is-react-fragment)
-- [React Fragment vs Div Element](#react-fragment-vs-div-element)
-- [Problem with using div](#problem-with-using-div)
-- [Advantages of Fragment](#advantages-of-fragment)
-  - [Limitations of React Fragments](#limitations-of-react-fragments)
-- [Using the key prop with React fragments](#using-the-key-prop-with-react-fragments)
-- [Using shortcut version](#using-shortcut-version)
-- [Fragment in Action](#fragment-in-action)
-  - [Other Use Cases for a React Fragment](#other-use-cases-for-a-react-fragment)
-  - [Common Problems and Solutions](#common-problems-and-solutions)
 
 ## What is React Fragment?
 

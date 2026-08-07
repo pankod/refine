@@ -1,13 +1,11 @@
 import React from "react";
 import { Card, Space, Spin } from "antd";
 import {
-  useNavigation,
   useTranslate,
   useUserFriendlyName,
   useRefineContext,
-  useResource,
+  useResourceParams,
   useToPath,
-  useRouterType,
   useBack,
   useGo,
 } from "@refinedev/core";
@@ -36,6 +34,7 @@ export const Show: React.FC<ShowProps> = ({
   title,
   canEdit,
   canDelete,
+  deleteButtonProps: deleteButtonPropsFromProps,
   isLoading = false,
   children,
   resource: resourceFromProps,
@@ -56,10 +55,8 @@ export const Show: React.FC<ShowProps> = ({
     options: { breadcrumb: globalBreadcrumb } = {},
   } = useRefineContext();
 
-  const routerType = useRouterType();
   const back = useBack();
   const go = useGo();
-  const { goBack, list: legacyGoList } = useNavigation();
   const getUserFriendlyName = useUserFriendlyName();
 
   const {
@@ -67,7 +64,9 @@ export const Show: React.FC<ShowProps> = ({
     action,
     id: idFromParams,
     identifier,
-  } = useResource(resourceFromProps);
+  } = useResourceParams({
+    resource: resourceFromProps,
+  });
 
   const goListPath = useToPath({
     resource,
@@ -83,40 +82,38 @@ export const Show: React.FC<ShowProps> = ({
 
   const hasList = resource?.list && !recordItemId;
   const isDeleteButtonVisible =
-    canDelete ?? resource?.meta?.canDelete ?? resource?.canDelete;
-  const isEditButtonVisible = canEdit ?? resource?.canEdit ?? !!resource?.edit;
+    canDelete ?? (resource?.meta?.canDelete || deleteButtonPropsFromProps);
+
+  const isEditButtonVisible = canEdit ?? !!resource?.edit;
 
   const listButtonProps: ListButtonProps | undefined = hasList
     ? {
-        resource: routerType === "legacy" ? resource?.route : identifier,
+        resource: identifier,
       }
     : undefined;
   const editButtonProps: EditButtonProps | undefined = isEditButtonVisible
     ? {
         ...(isLoading ? { disabled: true } : {}),
         type: "primary",
-        resource: routerType === "legacy" ? resource?.route : identifier,
+        resource: identifier,
         recordItemId: id,
       }
     : undefined;
   const deleteButtonProps: DeleteButtonProps | undefined = isDeleteButtonVisible
     ? {
         ...(isLoading ? { disabled: true } : {}),
-        resource: routerType === "legacy" ? resource?.route : identifier,
+        resource: identifier,
         recordItemId: id,
         onSuccess: () => {
-          if (routerType === "legacy") {
-            legacyGoList(resource?.route ?? resource?.name ?? "");
-          } else {
-            go({ to: goListPath });
-          }
+          go({ to: goListPath });
         },
         dataProviderName,
+        ...deleteButtonPropsFromProps,
       }
     : undefined;
   const refreshButtonProps: RefreshButtonProps = {
     ...(isLoading ? { disabled: true } : {}),
-    resource: routerType === "legacy" ? resource?.route : identifier,
+    resource: identifier,
     recordItemId: id,
     dataProviderName,
   };
@@ -135,21 +132,14 @@ export const Show: React.FC<ShowProps> = ({
       <PageHeader
         backIcon={goBackFromProps}
         onBack={
-          action !== "list" && typeof action !== "undefined"
-            ? routerType === "legacy"
-              ? goBack
-              : back
-            : undefined
+          action !== "list" && typeof action !== "undefined" ? back : undefined
         }
         title={
           title ??
           translate(
             `${identifier}.titles.show`,
             `Show ${getUserFriendlyName(
-              resource?.meta?.label ??
-                resource?.options?.label ??
-                resource?.label ??
-                identifier,
+              resource?.meta?.label ?? identifier,
               "singular",
             )}`,
           )
@@ -170,17 +160,13 @@ export const Show: React.FC<ShowProps> = ({
           </Space>
         }
         breadcrumb={
-          typeof breadcrumb !== "undefined" ? (
-            <>{breadcrumb}</> ?? undefined
-          ) : (
-            <Breadcrumb />
-          )
+          typeof breadcrumb !== "undefined" ? <>{breadcrumb}</> : <Breadcrumb />
         }
         {...(headerProps ?? {})}
       >
         <Spin spinning={isLoading}>
           <Card
-            bordered={false}
+            variant="borderless"
             actions={
               footerButtons
                 ? [

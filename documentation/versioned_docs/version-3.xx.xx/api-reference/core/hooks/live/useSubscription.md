@@ -59,6 +59,6 @@ Hooks that use `useSubscription` internally, send the query's parameters(paginat
 
 <PropsTable module="@pankod/refine-core/useSubscription"  />
 
-[live-provider]: /docs/3.xx.xx/api-reference/core/providers/live-provider
-[live-provider-subscribe]: /docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe
-[supported-hooks-subscription]: /docs/3.xx.xx/api-reference/core/providers/live-provider/#supported-hooks-subscription
+[live-provider]: /core/docs/3.xx.xx/api-reference/core/providers/live-provider
+[live-provider-subscribe]: /core/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe
+[supported-hooks-subscription]: /core/docs/3.xx.xx/api-reference/core/providers/live-provider/#supported-hooks-subscription

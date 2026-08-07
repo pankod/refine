@@ -1,5 +1,42 @@
 # create-refine-app
 
+## 1.12.11
+
+### Patch Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix(test): update Jest assertions and configuration for v30 compatibility
+
+  - Updated test infrastructure with modern Jest API usage and improved configuration.
+  - Internal development dependency updates and tooling modernization - no public API changes.
+
+## 1.12.10
+
+### Patch Changes
+
+- [#6956](https://github.com/refinedev/refine/pull/6956) [`09c165410d1d5d4e04c110be364f0f3468f1e614`](https://github.com/refinedev/refine/commit/09c165410d1d5d4e04c110be364f0f3468f1e614) Thanks [@BatuhanW](https://github.com/BatuhanW)! - chore: upgrade superplate-cli to 1.20.1
+
+## 1.12.9
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- chore: update package descriptions
+
+## 1.12.8
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6554](https://github.com/refinedev/refine/pull/6554) [`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706) Thanks [@necatiozmen](https://github.com/necatiozmen)! - chore: update package descriptions
+
+## 1.12.7
+
+### Patch Changes
+
+- [`6f2c1c22112a19ba89a9298469158d4da6096aa8`](https://github.com/refinedev/refine/commit/6f2c1c22112a19ba89a9298469158d4da6096aa8) Thanks [@BatuhanW](https://github.com/BatuhanW)! - chore: update master references to main
+
 ## 1.12.6
 
 ### Patch Changes

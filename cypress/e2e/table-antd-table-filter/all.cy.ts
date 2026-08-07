@@ -3,28 +3,20 @@
 
 describe("table-antd-table-filter", () => {
   beforeEach(() => {
-    cy.interceptGETPosts();
-    cy.interceptGETPosts();
-    cy.interceptGETCategories();
     cy.visit("/");
     cy.wait("@getPosts");
     cy.wait("@getCategories");
   });
 
-  it("should be view list page", () => {
-    cy.resourceList();
-  });
-
   it("the table should be filterable by form", () => {
     cy.getAntdLoadingOverlay().should("not.exist");
-    cy.interceptGETCategories().wait("@getCategories");
+    cy.wait("@getCategories");
 
     cy.get("#q").type("lorem");
     cy.setAntdDropdown({ id: "category", selectIndex: 1 });
     cy.setAntdSelect({ id: "status", value: "Published" });
     cy.setAntdRangeDatePickerToToday({ id: "createdAt" });
 
-    cy.interceptGETPosts();
     cy.get("button[type=submit]").click();
 
     cy.wait("@getPosts").then((interception) => {

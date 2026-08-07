@@ -29,7 +29,9 @@ export const PostCreate = () => {
 
   const [title, setTitle] = useState("");
 
-  const { refetch } = useCustom<
+  const {
+    query: { refetch },
+  } = useCustom<
     PostUniqueCheckResponse,
     HttpError,
     PostUniqueCheckRequestQuery

@@ -664,7 +664,7 @@
     },
     {
       "type": "jsx",
-      "value": "<Image src=\"https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/providers/data-provider/api-consuming-flow.png\" />",
+      "value": "<Image src=\"https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/providers/data-provider/api-consuming-flow.webp\" />",
       "position": {
         "start": {
           "line": 24,
@@ -7177,7 +7177,7 @@
       "type": "code",
       "lang": "tsx",
       "meta": null,
-      "value": "import { DataProvider, useList } from \"@refinedev/core\";\n\nuseList({\n  resource: \"products\",\n  pagination: {\n    current: 1,\n    pageSize: 10,\n  },\n  filters: [\n    {\n      operator: \"and\",\n      value: [\n        { field: \"material\", operator: \"eq\", value: \"wooden\" },\n        { field: \"category.id\", operator: \"eq\", value: 45 },\n      ],\n    },\n    {\n      operator: \"or\",\n      value: [\n        { field: \"price\", operator: \"gte\", value: 1000 },\n        { field: \"price\", operator: \"lte\", value: 2000 },\n      ],\n    },\n  ],\n});",
+      "value": "import { DataProvider, useList } from \"@refinedev/core\";\n\nuseList({\n  resource: \"products\",\n  pagination: {\n    currentPage: 1,\n    pageSize: 10,\n  },\n  filters: [\n    {\n      operator: \"and\",\n      value: [\n        { field: \"material\", operator: \"eq\", value: \"wooden\" },\n        { field: \"category.id\", operator: \"eq\", value: 45 },\n      ],\n    },\n    {\n      operator: \"or\",\n      value: [\n        { field: \"price\", operator: \"gte\", value: 1000 },\n        { field: \"price\", operator: \"lte\", value: 2000 },\n      ],\n    },\n  ],\n});",
       "position": {
         "start": {
           "line": 240,

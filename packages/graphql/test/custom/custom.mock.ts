@@ -76,24 +76,27 @@ nock("https://api.crm.refine.dev:443", { encodedQueryParams: true })
     variables: {},
   })
   .reply(
-    400,
+    200,
     {
-      errors: [
-        {
-          message: 'Cannot query field "blogPost" on type "Query".',
-          locations: [{ line: 3, column: 5 }],
-          extensions: { code: "GRAPHQL_VALIDATION_FAILED" },
+      data: {
+        blogPost: {
+          id: "113",
+          title: "Updated Title 3",
+          content:
+            "Pariatur est corporis necessitatibus quos consequuntur nostrum. Libero nesciunt delectus sunt eligendi ullam doloribus ratione. Rem dolore odio.\nLaudantium ea quis ut fuga minus molestias facilis laudantium. Hic ut nisi possimus natus asperiores aspernatur. Vel alias placeat ipsum.\nSuscipit quis blanditiis tempora consequatur veniam nam voluptatibus accusamus. Eum dolores sunt eius aperiam perferendis autem eligendi optio perspiciatis. Culpa corrupti nobis incidunt non.",
+          status: "REJECTED",
+          category: { id: "23" },
         },
-      ],
+      },
     },
     {
       "access-control-allow-origin": "*",
       "cache-control": "no-store",
       connection: "keep-alive",
-      "content-length": "164",
+      "content-length": "593",
       "content-type": "application/graphql-response+json; charset=utf-8",
-      date: "Wed, 09 Oct 2024 11:55:39 GMT",
-      etag: 'W/"a4-vSpSYZ0XC1WfMxDhM5qamiBEZ6g"',
+      date: "Wed, 09 Oct 2024 11:37:18 GMT",
+      etag: 'W/"251-G8+P5DwQ2zKsMvBGJrZiDiszAEk"',
       "strict-transport-security": "max-age=15724800; includeSubDomains",
       "x-powered-by": "Express",
     },

@@ -8,7 +8,7 @@ export const useNotificationProvider = (): NotificationProvider => {
   return {
     open: ({ key, type, message, description }) => {
       toast(
-        ({ id, duration }) => {
+        ({ id, duration }: { id: string; duration: number }) => {
           return (
             <CustomToast
               id={key ?? id}

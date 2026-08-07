@@ -1,7 +1,7 @@
 import { GitHubBanner, Refine } from "@refinedev/core";
 import {
   ErrorComponent,
-  ThemedLayoutV2,
+  ThemedLayout,
   useNotificationProvider,
   RefineThemes,
 } from "@refinedev/chakra-ui";
@@ -11,8 +11,8 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { PostList, PostCreate, PostEdit, PostShow } from "./pages";
 import { Header } from "./components/header";
@@ -43,9 +43,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2 Header={Header}>
+                <ThemedLayout Header={Header}>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route index element={<NavigateToResource resource="posts" />} />

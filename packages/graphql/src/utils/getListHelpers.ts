@@ -17,11 +17,11 @@ export const buildSorters = (sorters: CrudSort[] = []) => {
 export const buildPagination = (pagination: Pagination = {}) => {
   if (pagination.mode === "off") return { limit: 2147483647 };
 
-  const { pageSize = 10, current = 1 } = pagination;
+  const { pageSize = 10, currentPage = 1 } = pagination;
 
   return {
     limit: pageSize,
-    offset: (current - 1) * pageSize,
+    offset: (currentPage - 1) * pageSize,
   };
 };
 

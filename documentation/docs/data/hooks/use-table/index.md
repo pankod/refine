@@ -1,5 +1,8 @@
 ---
-title: useTable
+title: "useTable Hook | Options, Patterns & Edge Cases in Refine v5"
+display_title: "useTable"
+sidebar_label: "useTable"
+description: "Secure Use Table in Refine v5. Learn best practices. Explore best practices to scale pagination and value for custom APIs and scalable data flows."
 source: packages/core/src/hooks/useTable
 ---
 
@@ -10,15 +13,15 @@ import FilteringLivePreview from "./\_partial-filtering-live-preview.md";
 import RelationalDataLivePreview from "./\_partial-relational-data-live-preview.md";
 import PropResource from "@site/src/partials/prop-resource";
 
-`useTable` allows us to fetch data according to the sorter, filter, and pagination states. Under the hood, it uses [`useList`](/docs/data/hooks/use-list) for the fetch. Since it is designed to be headless, it expects you to handle the UI.
+`useTable` allows us to fetch data according to the sorter, filter, and pagination states. Under the hood, it uses [`useList`](/core/docs/data/hooks/use-list/) for the fetch. Since it is designed to be headless, it expects you to handle the UI.
 
 :::simple Extended Versions
 
 If you're looking for a complete table library, Refine supports two table libraries out of the box.
 
-- [React Table](https://react-table.tanstack.com/) (for Headless, Chakra UI, Mantine) - [Documentation](/docs/packages/list-of-packages) - [Example](/docs/examples/table/tanstack-table/basic-tanstack-table/)
-- [Ant Design Table](https://ant.design/components/table/#header) - [Documentation](/docs/ui-integrations/ant-design/hooks/use-table) - [Example](/examples/table/antd/useTable.md)
-- [Material UI Table](https://mui.com/x/react-data-grid/) - [Documentation](/docs/ui-integrations/material-ui/hooks/use-data-grid) - [Example](/examples/table/mui/useDataGrid.md)
+- [React Table](https://react-table.tanstack.com/) (for Headless, Chakra UI, Mantine) - [Documentation](/core/docs/packages/list-of-packages/) - [Example](/core/docs/examples/table/tanstack-table/basic-tanstack-table/)
+- [Ant Design Table](https://ant.design/components/table/#header) - [Documentation](/core/docs/ui-integrations/ant-design/hooks/use-table/) - [Example](/core/docs/examples/table/antd/useTable/)
+- [Material UI Table](https://mui.com/x/react-data-grid/) - [Documentation](/core/docs/ui-integrations/material-ui/hooks/use-data-grid/) - [Example](/core/docs/examples/table/mui/useDataGrid/)
 
 :::
 
@@ -30,13 +33,13 @@ In basic usage, `useTable` returns the data as it comes from the endpoint. By de
 
 ## Pagination
 
-`useTable` has a pagination feature. The pagination is done by passing the `current` and `pageSize` keys to `pagination` object. The `current` is the current page, and the `pageSize` is the number of records per page.
+`useTable` has a pagination feature. The pagination is done by passing the `currentPage` and `pageSize` keys to `pagination` object. The `currentPage` is the current page, and the `pageSize` is the number of records per page.
 
 It also syncs the pagination state with the URL if you enable the [`syncWithLocation`](#syncwithlocation).
 
-By default, the `current` is 1 and the `pageSize` is 10. You can change default values by passing the `pagination.current` and `pagination.pageSize` props to the `useTable` hook.
+By default, the `currentPage` is 1 and the `pageSize` is 10. You can change default values by passing the `pagination.currentPage` and `pagination.pageSize` props to the `useTable` hook.
 
-You can also change the `current` and `pageSize` values by using the `setCurrent` and `setPageSize` functions that are returned by the `useTable` hook. Every change will trigger a new fetch.
+You can also change the `currentPage` and `pageSize` values by using the `setCurrentPage` and `setPageSize` functions that are returned by the `useTable` hook. Every change will trigger a new fetch.
 
 By default, pagination happens on the server side. If you want to do pagination handling on the client side, you can pass the pagination.mode property and set it to "client". Also, you can disable the pagination by setting it to "off".
 
@@ -103,7 +106,7 @@ const MyComponent = () => {
 
 ## Realtime Updates
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
 When the `useTable` hook is mounted, it will call the `subscribe` method from the `liveProvider` with some parameters such as `channel`, `resource` etc. It is useful when you want to subscribe to live updates.
 
@@ -134,7 +137,7 @@ useTable({
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### dataProviderName
 
@@ -147,7 +150,7 @@ useTable({
 });
 ```
 
-### pagination.current
+### pagination.currentPage
 
 Sets the initial value of the page index. Defaults to `1`.
 
@@ -155,7 +158,7 @@ Sets the initial value of the page index. Defaults to `1`.
 import { useTable } from "@refinedev/core";
 useTable({
   pagination: {
-    current: 2,
+    currentPage: 2,
   },
 });
 ```
@@ -179,7 +182,7 @@ It can be `"off"`, `"server"` or `"client"`. Defaults to `"server"`.
 
 - **"off":** Pagination is disabled. All records will be fetched.
 - **"client":** Pagination is done on the client side. All records will be fetched and then the records will be paginated on the client side.
-- **"server":**: Pagination is done on the server side. Records will be fetched by using the `current` and `pageSize` values.
+- **"server":**: Pagination is done on the server side. Records will be fetched by using the `currentPage` and `pageSize` values.
 
 ```tsx
 import { useTable } from "@refinedev/core";
@@ -224,7 +227,7 @@ useTable({
 });
 ```
 
-> For more information, refer to the [`CrudSorting` interface&#8594](/docs/core/interface-references#crudsorting)
+> For more information, refer to the [`CrudSorting` interface&#8594](/core/docs/core/interface-references#crudsorting)
 
 ### sorters.permanent
 
@@ -244,7 +247,7 @@ useTable({
 });
 ```
 
-> For more information, refer to the [`CrudSorting` interface &#8594](/docs/core/interface-references#crudsorting)
+> For more information, refer to the [`CrudSorting` interface &#8594](/core/docs/core/interface-references#crudsorting)
 
 ### filters.mode
 
@@ -281,7 +284,7 @@ useTable({
 });
 ```
 
-> For more information, refer to the [`CrudFilters` interface &#8594](/docs/core/interface-references#crudfilters)
+> For more information, refer to the [`CrudFilters` interface &#8594](/core/docs/core/interface-references#crudfilters)
 
 ### filters.permanent
 
@@ -302,7 +305,7 @@ useTable({
 });
 ```
 
-> For more information, refer to the [`CrudFilters` interface &#8594](/docs/core/interface-references#crudfilters)
+> For more information, refer to the [`CrudFilters` interface &#8594](/core/docs/core/interface-references#crudfilters)
 
 ### filters.defaultBehavior
 
@@ -336,7 +339,7 @@ useTable({
 
 ### queryOptions
 
-`useTable` uses [`useList`](/docs/data/hooks/use-list) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery).
+`useTable` uses [`useList`](/core/docs/data/hooks/use-list/) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v5/docs/react/reference/useQuery).
 
 ```tsx
 import { useTable } from "@refinedev/core";
@@ -394,11 +397,11 @@ const myDataProvider = {
 };
 ```
 
-> For more information, refer to the [`meta` section of the General Concepts documentation&#8594](/docs/guides-concepts/general-concepts/#meta-concept)
+> For more information, refer to the [`meta` section of the General Concepts documentation&#8594](/core/docs/guides-concepts/general-concepts/#meta-concept)
 
 ### successNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 After data is fetched successfully, `useTable` can call `open` function from [`NotificationProvider`][notification-provider] to show a success notification. With this prop, you can customize the success notification.
 
@@ -417,7 +420,7 @@ useTable({
 
 ### errorNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 After data fetching is failed, `useTable` will call `open` function from [`NotificationProvider`][notification-provider] to show an error notification. With this prop, you can customize the error notification.
 
@@ -436,7 +439,7 @@ useTable({
 
 ### liveMode
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
 Determines whether to update data automatically ("auto") or not ("manual") if a related live event is received. It can be used to update and show data in Realtime throughout your app.
 
@@ -449,7 +452,7 @@ useTable({
 
 ### onLiveEvent
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
 The callback function is executed when new events from a subscription have arrived.
 
@@ -464,9 +467,9 @@ useTable({
 
 ### liveParams
 
-> [`LiveProvider`](/docs/realtime/live-provider) is required for this prop to work.
+> [`LiveProvider`](/core/docs/realtime/live-provider/) is required for this prop to work.
 
-Params to pass to liveProvider's [subscribe](/docs/realtime/live-provider#subscribe) method.
+Params to pass to liveProvider's [subscribe](/core/docs/realtime/live-provider#subscribe) method.
 
 ### overtimeOptions
 
@@ -495,43 +498,11 @@ console.log(overtime.elapsedTime); // undefined, 1000, 2000, 3000 4000, ...
 }
 ```
 
-### ~~initialCurrent~~ <PropTag deprecated />
-
-Use `pagination.current` instead.
-
-### ~~initialPageSize~~ <PropTag deprecated />
-
-Use `pagination.pageSize` instead.
-
-### ~~hasPagination~~ <PropTag deprecated />
-
-Use `pagination.mode` instead.
-
-### ~~initialSorter~~ <PropTag deprecated />
-
-Use `sorters.initial` instead.
-
-### ~~permanentSorter~~ <PropTag deprecated />
-
-Use `sorters.permanent` instead.
-
-### ~~initialFilter~~ <PropTag deprecated />
-
-Use `filters.initial` instead.
-
-### ~~permanentFilter~~ <PropTag deprecated />
-
-Use `filters.permanent` instead.
-
-### ~~defaultSetFilterBehavior~~ <PropTag deprecated />
-
-Use `filters.defaultBehavior` instead.
-
 ## Return Values
 
 ### tableQuery
 
-Returned values from [`useList`](/docs/data/hooks/use-list) hook.
+Returned values from [`useList`](/core/docs/data/hooks/use-list/) hook.
 
 ### sorters
 
@@ -557,11 +528,11 @@ Current [filters state][crudfilters].
 
 A function to set current [filters state][crudfilters].
 
-### current
+### currentPage
 
 Current page index state. If pagination is disabled, it will be `undefined`.
 
-### setCurrent
+### setCurrentPage
 
 ```tsx
 React.Dispatch<React.SetStateAction<number>> | undefined;
@@ -604,23 +575,11 @@ const { overtime } = useTable();
 console.log(overtime.elapsedTime); // undefined, 1000, 2000, 3000 4000, ...
 ```
 
-### ~~sorter~~ <PropTag deprecated />
-
-Use `sorters` instead.
-
-### ~~setSorter~~ <PropTag deprecated />
-
-Use `setSorters` instead.
-
-### ~~tableQueryResult~~ <PropTag deprecated />
-
-Use [`tableQuery`](#tablequery) instead.
-
 ## FAQ
 
 ### How can I handle relational data?
 
-You can use [`useMany`](/docs/data/hooks/use-many) hook to fetch relational data.
+You can use [`useMany`](/core/docs/data/hooks/use-many/) hook to fetch relational data.
 
 <RelationalDataLivePreview/>
 
@@ -630,7 +589,7 @@ First, you need to set `filters.mode: "off"`
 
 ```tsx
 import { useTable } from "@refinedev/core";
-const { tableQuery, filters, setFilters } = useTable({
+const { result, tableQuery, filters, setFilters } = useTable({
   filters: {
     mode: "off",
   },
@@ -643,13 +602,13 @@ Then, you can use the `filters` state to filter your data.
 // ...
 
 const List = () => {
-  const { tableQuery, filters } = useTable();
+  const { result, tableQuery, filters } = useTable();
 
   // ...
 
   const filteredData = useMemo(() => {
     if (filters.length === 0) {
-      return tableQuery.data;
+      return result;
     }
 
     // Filters can be a LogicalFilter or a ConditionalFilter. ConditionalFilter not have field property. So we need to filter them.
@@ -665,7 +624,7 @@ const List = () => {
         }
       });
     });
-  }, [tableQuery.data, filters]);
+  }, [result, filters]);
 };
 
 return (
@@ -688,7 +647,7 @@ First, you need to set `sorters.mode: "off"`
 
 ```tsx
 import { useTable } from "@refinedev/core";
-const { tableQuery, sorters, setSorters } = useTable({
+const { result, tableQuery, sorters, setSorters } = useTable({
   sorters: {
     mode: "off",
   },
@@ -701,16 +660,16 @@ Then, you can use the `sorters` state to sort your data.
 // ...
 import { useTable } from "@refinedev/core";
 const List = () => {
-  const { tableQuery, sorters } = useTable();
+  const { result, tableQuery, sorters } = useTable();
 
   // ...
 
   const sortedData = useMemo(() => {
     if (sorters.length === 0) {
-      return tableQuery.data;
+      return result;
     }
 
-    return tableQuery.data.sort((a, b) => {
+    return result.sort((a, b) => {
       const sorter = sorters[0];
 
       if (sorter.order === "asc") {
@@ -719,7 +678,7 @@ const List = () => {
         return a[sorter.field] < b[sorter.field] ? 1 : -1;
       }
     });
-  }, [tableQuery.data, sorters]);
+  }, [result, sorters]);
 
   return (
     <div>
@@ -755,28 +714,28 @@ errorNotification-default='"There was an error creating resource (status code: `
 
 ### Return values
 
-| Property                      | Description                                                                           | Type                                                                                                                                              |
-| ----------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| tableQuery                    | Result of the `react-query`'s `useQuery`                                              | [` QueryObserverResult<{`` data: TData[];`` total: number; },`` TError> `][usequery]                                                              |
-| current                       | Current page index state (returns `undefined` if pagination is disabled)              | `number` \| `undefined`                                                                                                                           |
-| pageCount                     | Total page count (returns `undefined` if pagination is disabled)                      | `number` \| `undefined`                                                                                                                           |
-| setCurrent                    | A function that changes the current (returns `undefined` if pagination is disabled)   | `React.Dispatch<React.SetStateAction<number>>` \| `undefined`                                                                                     |
-| pageSize                      | Current pageSize state (returns `undefined` if pagination is disabled)                | `number` \| `undefined`                                                                                                                           |
-| setPageSize                   | A function that changes the pageSize. (returns `undefined` if pagination is disabled) | `React.Dispatch<React.SetStateAction<number>>` \| `undefined`                                                                                     |
-| sorters                       | Current sorting states                                                                | [`CrudSorting`][crudsorting]                                                                                                                      |
-| setSorters                    | A function that accepts a new sorters state.                                          | `(sorters: CrudSorting) => void`                                                                                                                  |
-| ~~sorter~~                    | Current sorting states                                                                | [`CrudSorting`][crudsorting]                                                                                                                      |
-| ~~setSorter~~                 | A function that accepts a new sorters state.                                          | `(sorters: CrudSorting) => void`                                                                                                                  |
-| filters                       | Current filters state                                                                 | [`CrudFilters`][crudfilters]                                                                                                                      |
-| setFilters                    | A function that accepts a new filter state                                            | - `(filters: CrudFilters, behavior?: "merge" \| "replace" = "merge") => void` - `(setter: (previousFilters: CrudFilters) => CrudFilters) => void` |
-| createLinkForSyncWithLocation | A function create accessible links for syncWithLocation                               | `(params: `[SyncWithLocationParams][syncwithlocationparams]`) => string;`                                                                         |
-| overtime                      | Overtime loading props                                                                | `{ elapsedTime?: number }`                                                                                                                        |
+| Property                      | Description                                                                              | Type                                                                                                                                              |
+| ----------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| tableQuery                    | Result of the `react-query`'s `useQuery`                                                 | [` QueryObserverResult<{`` data: TData[];`` total: number; },`` TError> `][usequery]                                                              |
+| currentPage                   | Current page index state (returns `undefined` if pagination is disabled)                 | `number` \| `undefined`                                                                                                                           |
+| pageCount                     | Total page count (returns `undefined` if pagination is disabled)                         | `number` \| `undefined`                                                                                                                           |
+| setCurrentPage                | A function that changes the current page (returns `undefined` if pagination is disabled) | `React.Dispatch<React.SetStateAction<number>>` \| `undefined`                                                                                     |
+| pageSize                      | Current pageSize state (returns `undefined` if pagination is disabled)                   | `number` \| `undefined`                                                                                                                           |
+| setPageSize                   | A function that changes the pageSize. (returns `undefined` if pagination is disabled)    | `React.Dispatch<React.SetStateAction<number>>` \| `undefined`                                                                                     |
+| sorters                       | Current sorting states                                                                   | [`CrudSorting`][crudsorting]                                                                                                                      |
+| setSorters                    | A function that accepts a new sorters state.                                             | `(sorters: CrudSorting) => void`                                                                                                                  |
+| ~~sorter~~                    | Current sorting states                                                                   | [`CrudSorting`][crudsorting]                                                                                                                      |
+| ~~setSorter~~                 | A function that accepts a new sorters state.                                             | `(sorters: CrudSorting) => void`                                                                                                                  |
+| filters                       | Current filters state                                                                    | [`CrudFilters`][crudfilters]                                                                                                                      |
+| setFilters                    | A function that accepts a new filter state                                               | - `(filters: CrudFilters, behavior?: "merge" \| "replace" = "merge") => void` - `(setter: (previousFilters: CrudFilters) => CrudFilters) => void` |
+| createLinkForSyncWithLocation | A function create accessible links for syncWithLocation                                  | `(params: `[SyncWithLocationParams][syncwithlocationparams]`) => string;`                                                                         |
+| overtime                      | Overtime loading props                                                                   | `{ elapsedTime?: number }`                                                                                                                        |
 
 [usequery]: https://react-query.tanstack.com/reference/useQuery
-[baserecord]: /docs/core/interface-references#baserecord
-[crudsorting]: /docs/core/interface-references#crudsorting
-[crudfilters]: /docs/core/interface-references#crudfilters
-[httperror]: /docs/core/interface-references#httperror
-[Refine swl]: /docs/core/refine-component#syncwithlocation
-[syncwithlocationparams]: /docs/core/interface-references#syncwithlocationparams
-[notification-provider]: /docs/notification/notification-provider
+[baserecord]: /core/docs/core/interface-references#baserecord
+[crudsorting]: /core/docs/core/interface-references#crudsorting
+[crudfilters]: /core/docs/core/interface-references#crudfilters
+[httperror]: /core/docs/core/interface-references#httperror
+[Refine swl]: /core/docs/core/refine-component#syncwithlocation
+[syncwithlocationparams]: /core/docs/core/interface-references#syncwithlocationparams
+[notification-provider]: /core/docs/notification/notification-provider

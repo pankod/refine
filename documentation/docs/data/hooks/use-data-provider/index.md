@@ -1,6 +1,9 @@
 ---
-title: useDataProvider
-source: packages/core/src/hooks/data/useDataProvider.tsx
+title: "useDataProvider Hook | Usage & Patterns | Refine v5"
+display_title: "useDataProvider"
+sidebar_label: "useDataProvider"
+description: "Build Use Data Provider in Refine v5. Learn the key steps. Learn scale REST, GraphQL for custom APIs and scalable data flows. Hands-on examples included."
+source: packages/core/src/data/hooks/useDataProvider.tsx
 ---
 
 `useDataProvider` is a React hook that returns the `dataProvider` which is passed to [`<Refine>`][Refine] component.
@@ -48,9 +51,9 @@ const secondDataProvider = dataProvider("second"); // return second data provide
 
 ### Return value
 
-| Description   | Type                                        |
-| ------------- | ------------------------------------------- |
-| Data Provider | [`Data Provider`](/docs/data/data-provider) |
+| Description   | Type                                              |
+| ------------- | ------------------------------------------------- |
+| Data Provider | [`Data Provider`](/core/docs/data/data-provider/) |
 
-[Refine]: /docs/core/refine-component
-[data provider]: /docs/data/data-provider
+[Refine]: /core/docs/core/refine-component
+[data provider]: /core/docs/data/data-provider

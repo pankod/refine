@@ -1,6 +1,6 @@
 module.exports = {
   tutorial: {
-    path_prefix: "/docs/tutorial/",
+    path_prefix: "/core/tutorial/",
     units: {
       introduction: {
         no: 1,

@@ -1,18 +1,12 @@
 ---
-title: Email
+title: "Chakra UI Email Field Component | UI Component in Refine v5"
+display_title: "Email"
+sidebar_label: "Email"
+description: "Implement Email Field in Refine v5. Learn the key steps. Explore customization options for properties and chakra for polished admin UIs."
 swizzle: true
 ---
 
 ```tsx live shared
-const { default: routerProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: routerProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  Layout: RefineChakra.Layout,
-  Sider: () => null,
-});
-
 const Wrapper = ({ children }) => {
   return (
     <ChakraUI.ChakraProvider theme={RefineChakra.refineTheme}>
@@ -26,7 +20,7 @@ This field is used to display email values. It uses the [`<Link>`](https://www.c
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -36,7 +30,6 @@ Let's see how we can use `<EmailField>` with the example in the user list.
 
 ```tsx live url=http://localhost:3000/users previewHeight=420px hideCode
 setInitialRoutes(["/users"]);
-import { Refine } from "@refinedev/core";
 
 // visible-block-start
 import {
@@ -89,7 +82,9 @@ const UserList: React.FC = () => {
     [],
   );
 
-  const { getHeaderGroups, getRowModel } = useTable({
+  const {
+    reactTable: { getHeaderGroups, getRowModel },
+  } = useTable({
     columns,
   });
 
@@ -146,18 +141,31 @@ interface IUser {
 }
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
-      notificationProvider={RefineChakra.notificationProvider()}
-      resources={[{ name: "users", list: UserList }]}
-    />
-  );
-};
-
 render(
   <Wrapper>
-    <App />
+    <ReactRouter.BrowserRouter>
+      <RefineChakraDemo
+        resources={[
+          {
+            name: "users",
+            list: "/users",
+          },
+        ]}
+      >
+        <ReactRouter.Routes>
+          <ReactRouter.Route
+            path="/users"
+            element={
+              <div style={{ padding: 16 }}>
+                <ReactRouter.Outlet />
+              </div>
+            }
+          >
+            <ReactRouter.Route index element={<UserList />} />
+          </ReactRouter.Route>
+        </ReactRouter.Routes>
+      </RefineChakraDemo>
+    </ReactRouter.BrowserRouter>
   </Wrapper>,
 );
 ```

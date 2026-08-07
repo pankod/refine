@@ -3,9 +3,11 @@ title: How to use React Strict Mode in React 18
 description: What is Strict Mode in React 18 and how to use it to find and fix bugs in your React application.
 slug: react-strict-mode-in-react-18
 authors: deborah_emeni
+category: "Engineering"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-24-react-strict-mode/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-24-react-strict-mode/social-2.png
 hide_table_of_contents: false
+last_update: 2024-07-11
 ---
 
 **This article was last updated on July 10, 2024, to add sections for React Strict Mode post.**
@@ -17,15 +19,6 @@ In recent years, React.js has undergone significant development by adding and im
 Among all of the new features, the React Strict Mode feature stood out for its extensive improvements and functions in areas such as identifying coding patterns for bugs, providing feedback to developers with no impact on the production build, and much more.
 
 In this article, we'll see the **React Strict Mode**, how it relates to the JavaScript `“use strict”` expression, its importance, benefits, features, and significant improvements.
-
-Steps we'll cover:
-
-- [What is React Strict Mode?](#what-is-react-strict-mode)
-- [Comparison between React Strict Mode and Use Strict](#comparison-between-react-strict-mode-and-use-strict)
-- [What’s new in React v18.0?](#whats-new-in-react-v180)
-- [Benefits of React Strict Mode](#benefits-of-react-strict-mode)
-- [Features of React Strict Mode](#features-of-react-strict-mode)
-  - [Cool Features of React Strict Mode You Should Know About](#cool-features-of-react-strict-mode-you-should-know-about)
 
 ## What is React Strict Mode?
 
@@ -149,7 +142,7 @@ FindDOMNode was a React feature designed to search the DOM node tree for a speci
 <br/>
 <div>
 <a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="discord banner" />
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="Join Refine on Discord banner" />
 </a>
 </div>
 

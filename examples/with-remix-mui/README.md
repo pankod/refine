@@ -28,6 +28,8 @@
 
 <a href="https://www.producthunt.com/posts/refine-3?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-refine&#0045;3" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=362220&theme=light&period=daily" alt="refine - 100&#0037;&#0032;open&#0032;source&#0032;React&#0032;framework&#0032;to&#0032;build&#0032;web&#0032;apps&#0032;3x&#0032;faster | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
-### This example has been moved to [here.](https://github.com/refinedev/refine/tree/master/examples/with-remix-material-ui)
+### This example has been moved to [here.](https://github.com/refinedev/refine/tree/main/examples/with-remix-material-ui)
+
+> ⚠️ **Known Incompatibility:** Remix + MUI examples are currently incompatible with MUI X v8. Remix without Vite runs on Node.js, which cannot parse CSS imports from npm packages. Consider migrating to [Remix + Vite](https://remix.run/docs/en/main/guides/vite) for full MUI X v8 support.
 
 </div>

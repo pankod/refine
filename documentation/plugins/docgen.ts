@@ -82,12 +82,14 @@ const replacementProps: Record<string, string> = {
   "{ [key: string]: any; ids?: BaseKey[]; }":
     "{ [key]: any; ids?: BaseKey[]; }",
   "BaseKey | BaseKey[]":
-    "[BaseKey](/docs/core/interface-references/#basekey) | [BaseKey[]](/docs/core/interface-references/#basekey)",
-  BaseKey: "[BaseKey](/docs/core/interface-references/#basekey)",
+    "[BaseKey](/core/docs/core/interface-references/#basekey) | [BaseKey[]](/core/docs/core/interface-references/#basekey)",
+  BaseKey: "[BaseKey](/core/docs/core/interface-references/#basekey)",
   MetaDataQuery:
-    "[MetaDataQuery](/docs/core/interface-references/#metadataquery)",
-  CrudFilters: "[CrudFilters](/docs/core/interface-references/#crudfilters)",
-  CrudSorting: "[CrudSorting](/docs/core/interface-references/#crudsorting)",
+    "[MetaDataQuery](/core/docs/core/interface-references/#metadataquery)",
+  CrudFilters:
+    "[CrudFilters](/core/docs/core/interface-references/#crudfilters)",
+  CrudSorting:
+    "[CrudSorting](/core/docs/core/interface-references/#crudsorting)",
 };
 
 const spinner = ora("Generating Refine declarations...");
@@ -107,8 +109,9 @@ const getPackageNamePathMap = async (directory: string) => {
         const packageJson = await fs.readJSON(packagePath);
 
         if (
-          includedPackages.length == 0 ||
-          includedPackages.some((p) => packageName.includes(p))
+          (includedPackages.length == 0 ||
+            includedPackages.some((p) => packageName.includes(p))) &&
+          packageJson.name !== "@refinedev/refine-ui"
         ) {
           packageNamePathMap[packageJson.name] = path.join(packagePath, "..");
         }
@@ -274,7 +277,9 @@ const generateDeclarations = async (packagePaths: [string, string][]) => {
       const sourcePath = path.join(packagePath, sourceDir);
 
       if (!(await fs.pathExists(sourcePath))) {
-        spinner.fail("Component path does not exist", sourcePath);
+        spinner.fail(
+          `Component path does not exist for package ${packageName}: ${sourcePath}`,
+        );
         process.exit(1);
       }
 
@@ -327,7 +332,7 @@ export default function plugin(): Plugin<DocgenContent> {
 
       return {};
     },
-    configureWebpack(config) {
+    configureWebpack(config: any) {
       return {
         resolve: {
           alias: {
@@ -340,7 +345,7 @@ export default function plugin(): Plugin<DocgenContent> {
         },
       };
     },
-    async contentLoaded({ content, actions }): Promise<void> {
+    async contentLoaded({ content, actions }: any): Promise<void> {
       if (!process.env.DISABLE_DOCGEN) {
         ora("Creating Refine declaration files...").succeed();
 
@@ -349,7 +354,7 @@ export default function plugin(): Plugin<DocgenContent> {
         const data: Promise<string>[] = [];
 
         Object.entries(content).forEach(
-          ([packageName, packageDeclarations]) => {
+          ([packageName, packageDeclarations]: any) => {
             Object.entries(packageDeclarations).forEach(
               ([componentName, declaration]) => {
                 data.push(

@@ -63,7 +63,7 @@ const IconCheck = (
 This field is used to display boolean values. It uses the [`<Tooltip>`](https://chakra-ui.com/docs/components/tooltip/usage) values from Chakra UI.
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Usage

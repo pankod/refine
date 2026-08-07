@@ -71,14 +71,14 @@ In this example, we hide the left sider only for this page. The rest should look
 
 <PropsTable
     module="@pankod/refine-core/LayoutWrapper"
-    Sider-description="[Custom sider to use](/docs/3.xx.xx/api-reference/core/components/refine-config#sider)"
-    Header-description="[Custom header to use](/docs/3.xx.xx/api-reference/core/components/refine-config#header)"
-    Title-description="[Custom title to use](/docs/3.xx.xx/api-reference/core/components/refine-config#title)"
-    Footer-description="[Custom footer to use](/docs/3.xx.xx/api-reference/core/components/refine-config#footer)"
-    OffLayoutArea-description="[Custom off layout area to use](/docs/3.xx.xx/api-reference/core/components/refine-config#offlayoutarea)"
+    Sider-description="[Custom sider to use](/core/docs/3.xx.xx/api-reference/core/components/refine-config#sider)"
+    Header-description="[Custom header to use](/core/docs/3.xx.xx/api-reference/core/components/refine-config#header)"
+    Title-description="[Custom title to use](/core/docs/3.xx.xx/api-reference/core/components/refine-config#title)"
+    Footer-description="[Custom footer to use](/core/docs/3.xx.xx/api-reference/core/components/refine-config#footer)"
+    OffLayoutArea-description="[Custom off layout area to use](/core/docs/3.xx.xx/api-reference/core/components/refine-config#offlayoutarea)"
 />
 
 > `*`: These props have default values in `RefineContext` and can also be set on **<[Refine][refine]>** component.
 
-[refine]: ./refine-config.md
-[custom pages]: /advanced-tutorials/custom-pages.md
+[refine]: ./refine-config
+[custom pages]: /core/docs/3.xx.xx/advanced-tutorials/custom-pages

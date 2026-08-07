@@ -13,7 +13,7 @@ export const Sandpack = ({ children }: { children: React.ReactNode }) => {
   React.useEffect(() => {
     setShowFireworks(true);
 
-    const fireworks = new Fireworks(ref.current, {
+    const fireworks = new Fireworks(ref.currentPage, {
       intensity: 38,
       explosion: 8,
     });

@@ -12,7 +12,8 @@ export const PostCreate = () => {
   const { checkboxGroupProps: tagsCheckboxGroupProps } = useCheckboxGroup<ITag>(
     {
       resource: "tags",
-      sort: [
+
+      sorters: [
         {
           field: "title",
           order: "asc",

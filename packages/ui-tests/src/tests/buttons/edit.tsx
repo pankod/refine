@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import React from "react";
 import {
   type RefineEditButtonProps,
@@ -5,16 +6,16 @@ import {
 } from "@refinedev/ui-types";
 
 import { act, fireEvent, render, TestWrapper, waitFor } from "@test";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
 export const buttonEditTests = (
   EditButton: React.ComponentType<RefineEditButtonProps<any, any>>,
 ): void => {
   describe("[@refinedev/ui-tests] Common Tests / Edit Button", () => {
-    const edit = jest.fn();
+    const edit = vi.fn();
 
     beforeAll(() => {
-      jest.spyOn(console, "warn").mockImplementation(jest.fn());
+      vi.spyOn(console, "warn").mockImplementation(vi.fn());
     });
 
     it("should render button successfuly", async () => {
@@ -24,7 +25,31 @@ export const buttonEditTests = (
 
       expect(container).toBeTruthy();
 
-      expect(getByText("Edit").closest("button")).not.toBeDisabled();
+      expect(getByText("Edit").closest("button, a")).not.toBeDisabled();
+    });
+
+    it("should be disabled by prop", async () => {
+      const mockOnClick = vi.fn();
+
+      const { getByText } = render(
+        <EditButton disabled onClick={mockOnClick} />,
+        {
+          wrapper: TestWrapper({}),
+        },
+      );
+
+      expect(getByText("Edit").closest("button, a")).toBeDisabled();
+
+      fireEvent.click(getByText("Edit").closest("button, a") as Element);
+      expect(mockOnClick).not.toHaveBeenCalled();
+    });
+
+    it("should be hidden by prop", async () => {
+      const { queryByText } = render(<EditButton disabled hidden />, {
+        wrapper: TestWrapper({}),
+      });
+
+      expect(queryByText("Edit")).not.toBeInTheDocument();
     });
 
     it("should have the correct test-id", async () => {
@@ -84,12 +109,12 @@ export const buttonEditTests = (
               expect(container).toBeTruthy();
 
               await waitFor(() =>
-                expect(getByText("Edit").closest("button")).toBeDisabled(),
+                expect(getByText("Edit").closest("button, a")).toBeDisabled(),
               );
 
               waitFor(() =>
                 expect(
-                  getByText("Edit").closest("button")?.getAttribute("title"),
+                  getByText("Edit").closest("button, a")?.getAttribute("title"),
                 ).toBe("Access Denied"),
               );
             });
@@ -120,8 +145,26 @@ export const buttonEditTests = (
               expect(container).toBeTruthy();
 
               await waitFor(() =>
-                expect(getByText("Edit").closest("button")).not.toBeDisabled(),
+                expect(
+                  getByText("Edit").closest("button, a"),
+                ).not.toBeDisabled(),
               );
+            });
+
+            it("should respect the disabled prop even with access control enabled", async () => {
+              const { getByText } = render(
+                <EditButton disabled>Edit</EditButton>,
+                {
+                  wrapper: TestWrapper({
+                    accessControlProvider: {
+                      can: async () => ({ can: true }),
+                    },
+                  }),
+                },
+              );
+
+              const button = getByText("Edit").closest("button, a");
+              expect(button).toBeDisabled();
             });
           });
         });
@@ -171,7 +214,7 @@ export const buttonEditTests = (
 
             expect(container).toBeTruthy();
 
-            expect(getByText("Edit").closest("button")).not.toBeDisabled();
+            expect(getByText("Edit").closest("button, a")).not.toBeDisabled();
           });
         });
       });
@@ -206,7 +249,9 @@ export const buttonEditTests = (
               expect(container).toBeTruthy();
 
               await waitFor(() =>
-                expect(getByText("Edit").closest("button")).not.toBeDisabled(),
+                expect(
+                  getByText("Edit").closest("button, a"),
+                ).not.toBeDisabled(),
               );
             });
           });
@@ -268,12 +313,12 @@ export const buttonEditTests = (
               expect(container).toBeTruthy();
 
               await waitFor(() =>
-                expect(getByText("Edit").closest("button")).toBeDisabled(),
+                expect(getByText("Edit").closest("button, a")).toBeDisabled(),
               );
 
               waitFor(() =>
                 expect(
-                  getByText("Edit").closest("button")?.getAttribute("title"),
+                  getByText("Edit").closest("button, a")?.getAttribute("title"),
                 ).toBe("Access Denied"),
               );
             });
@@ -333,50 +378,14 @@ export const buttonEditTests = (
         <Routes>
           <Route
             path="/:resource"
-            element={
-              <EditButton
-                resourceNameOrRouteName="categories"
-                recordItemId="1"
-              />
-            }
-          />
-        </Routes>,
-        {
-          wrapper: TestWrapper({
-            resources: [{ name: "posts" }, { name: "categories" }],
-            routerInitialEntries: ["/posts"],
-          }),
-        },
-      );
-
-      await act(async () => {
-        fireEvent.click(getByText("Edit"));
-      });
-
-      expect(window.location.pathname).toBe("/categories/edit/1");
-    });
-
-    it("should redirect with custom route called function successfully if click the button", async () => {
-      const { getByText } = render(
-        <Routes>
-          <Route
-            path="/:resource"
-            element={
-              <EditButton
-                resourceNameOrRouteName="custom-route-posts"
-                recordItemId={1}
-              />
-            }
+            element={<EditButton resource="categories" recordItemId="1" />}
           />
         </Routes>,
         {
           wrapper: TestWrapper({
             resources: [
-              {
-                name: "posts",
-                meta: { route: "custom-route-posts" },
-              },
-              { name: "posts" },
+              { name: "posts", edit: "/posts/edit/:id" },
+              { name: "categories", edit: "/categories/edit/:id" },
             ],
             routerInitialEntries: ["/posts"],
           }),
@@ -387,7 +396,9 @@ export const buttonEditTests = (
         fireEvent.click(getByText("Edit"));
       });
 
-      expect(window.location.pathname).toBe("/custom-route-posts/edit/1");
+      const editLink = getByText("Edit").closest("a");
+      expect(editLink).toBeTruthy();
+      expect(editLink?.getAttribute("href")).toBe("/categories/edit/1");
     });
   });
 };

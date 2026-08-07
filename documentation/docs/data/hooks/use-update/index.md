@@ -1,21 +1,24 @@
 ---
-title: useUpdate
+title: "useUpdate Hook | Options, Patterns & Edge Cases in Refine v5"
+display_title: "useUpdate"
+sidebar_label: "useUpdate"
+description: "Build Use Update in Refine v5. Learn the key steps. Explore best practices to scale REST, GraphQL for custom APIs and scalable data flows."
 siderbar_label: useUpdate
-source: packages/core/src/hooks/data/useUpdate.ts
+source: packages/core/src/data/hooks/useUpdate.ts
 ---
 
-`useUpdate` is used when you want to update a record. It is an extended version of TanStack Query's [`useMutation`](https://tanstack.com/query/v4/docs/react/reference/useMutation) that supports all of its features and adds some more.
+`useUpdate` is used when you want to update a record. It is an extended version of TanStack Query's [`useMutation`](https://tanstack.com/query/v5/docs/react/reference/useMutation) that supports all of its features and adds some more.
 
-It uses the `update` method as the **mutation function** from the [`dataProvider`](/docs/data/data-provider) which is passed to `<Refine>`.
+It uses the `update` method as the **mutation function** from the [`dataProvider`](/core/docs/data/data-provider/) which is passed to `<Refine>`.
 
 ## Usage
 
-The `useUpdate` hook returns many useful properties and methods. One of them is the `mutate` method which is used to trigger a mutation with the given [parameters](#mutation-parameters).
+The `useUpdate` hook returns many useful properties and methods. One of them is the `mutate` method which is used to trigger a mutation with the given [parameters](#mutation-parameters). Additionally, the `mutation` object contains all the TanStack Query's `useMutation` return values.
 
 ```tsx
 import { useUpdate } from "@refinedev/core";
 
-const { mutate } = useUpdate({
+const { mutate, mutation } = useUpdate({
   resource: "products",
 });
 
@@ -26,11 +29,16 @@ mutate({
     material: "Wood",
   },
 });
+
+// You can access mutation state through the mutation object:
+console.log(mutation.isPending); // mutation loading state
+console.log(mutation.data); // mutation response data
+console.log(mutation.error); // mutation error
 ```
 
 ## Realtime Updates
 
-> This feature is only available if you use a [Live Provider](/docs/realtime/live-provider).
+> This feature is only available if you use a [Live Provider](/core/docs/realtime/live-provider/).
 
 When the `useUpdate` mutation runs successfully, it will call the `publish` method from `liveProvider` with some parameters such as `channel`, `type` etc. It is useful when you want to publish the changes to the subscribers on the client side.
 
@@ -38,11 +46,11 @@ When the `useUpdate` mutation runs successfully, it will call the `publish` meth
 
 When the `useUpdate` mutation runs successfully, it will invalidate the following queries from the current `resource`: `"list"`, `"many"`, and `"detail"` by default. Which means that, if you use `useList`, `useMany`, or `useOne` hooks on the same page, they will refetch the data after the mutation is completed. You can change this behavior by passing the [`invalidates`](#invalidates) prop.
 
-> For more information, refer to the [query invalidation documentation&#8594](https://tanstack.com/query/v4/docs/react/guides/query-invalidation)
+> For more information, refer to the [query invalidation documentation&#8594](https://tanstack.com/query/v5/docs/react/guides/query-invalidation)
 
 ## Audit Logs
 
-> This feature is only available if you use a [Audit Log Provider](/docs/audit-logs/audit-log-provider).
+> This feature is only available if you use a [Audit Log Provider](/core/docs/audit-logs/audit-log-provider/).
 
 When the `useUpdate` mutation runs successfully, it will call the `log` method from `auditLogProvider` with some parameters such as `resource`, `action`, `data`, `previousData` etc. It is useful when you want to log the changes to the database.
 
@@ -53,7 +61,7 @@ When the `useUpdate` mutation runs successfully, it will call the `log` method f
 `mutationOptions` is used to pass options to the `useMutation` hook. It is useful when you want to pass additional options to the `useMutation` hook.
 
 ```tsx
-const { mutate } = useUpdate({
+const { mutate, mutation } = useUpdate({
   resource: "products",
   id: 1,
   mutationOptions: {
@@ -73,9 +81,18 @@ mutate({
     material: "Wood",
   },
 });
+
+// You can access mutation status through the mutation object
+if (mutation.isPending) {
+  console.log("Updating product...");
+}
+
+if (mutation.isSuccess) {
+  console.log("Product updated:", mutation.data);
+}
 ```
 
-[Refer to the `useMutation` documentation for more information &#8594](https://tanstack.com/query/v4/docs/react/reference/useMutation)
+[Refer to the `useMutation` documentation for more information &#8594](https://tanstack.com/query/v5/docs/react/reference/useMutation)
 
 ## Mutation Parameters
 
@@ -84,13 +101,23 @@ Mutation parameters are passed to the `mutate` function and can also be provided
 ```tsx
 import { useUpdate } from "@refinedev/core";
 
-const { mutate } = useUpdate({
+const { mutate, mutation } = useUpdate({
   /* parameters */
 });
 
 mutate({
   /* this will override the parameters given to the useUpdate hook */
 });
+
+// Access mutation state
+if (mutation.isPending) {
+  // Handle loading state
+}
+
+if (mutation.isError) {
+  // Handle error state
+  console.error(mutation.error);
+}
 ```
 
 > 🚨 Parameters marked as required can be provided either as props to the `useUpdate` hook or as parameters to the `mutate` function.
@@ -100,25 +127,25 @@ mutate({
 This parameter will be passed to the `update` method from the `dataProvider` as a parameter. It is usually used as an API endpoint path but it all depends on how you handle the `resource` in the `update` method.
 
 ```tsx
-const { mutate } = useUpdate();
+const { mutate, mutation } = useUpdate();
 
 mutate({
   resource: "categories",
 });
 ```
 
-> For more information, refer to the [creating a data provider tutorial &#8594](/docs/data/data-provider)
+> For more information, refer to the [creating a data provider tutorial &#8594](/core/docs/data/data-provider/)
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### id <PropTag required />
 
 This prop will be passed to the `update` method from the `dataProvider` as a parameter. It is used to determine which record to update.
 
 ```tsx
-const { mutate } = useUpdate();
+const { mutate, mutation } = useUpdate();
 
 mutate({
   id: 123,
@@ -130,7 +157,7 @@ mutate({
 This prop will be passed to the `update` method from the `dataProvider` as a parameter. It is usually used as the data to be updated and contains the data that will be sent to the server.
 
 ```tsx
-const { mutate } = useUpdate();
+const { mutate, mutation } = useUpdate();
 
 mutate({
   values: {
@@ -146,21 +173,21 @@ Mutation mode determines which mode the mutation runs with. Mutations can run un
 Each mode corresponds to a different type of user experience.
 
 ```tsx
-const { mutate } = useUpdate();
+const { mutate, mutation } = useUpdate();
 
 mutate({
   mutationMode: "undoable",
 });
 ```
 
-> For more information, refer to the [mutation mode documentation &#8594](/docs/advanced-tutorials/mutation-mode)
+> For more information, refer to the [mutation mode documentation &#8594](/core/docs/advanced-tutorials/mutation-mode/)
 
 ### undoableTimeout
 
 When `mutationMode` is set to `undoable`, `undoableTimeout` is used to determine the duration to wait before executing the mutation. The default value is `5000` milliseconds.
 
 ```tsx
-const { mutate } = useUpdate();
+const { mutate, mutation } = useUpdate();
 
 mutate({
   mutationMode: "undoable",
@@ -179,7 +206,7 @@ import { useRef } from "react";
 import { useUpdate } from "@refinedev/core";
 
 const MyComponent = () => {
-  const { mutate } = useUpdate();
+  const { mutate, mutation } = useUpdate();
   const cancelRef = useRef<(() => void) | null>(null);
 
   const updateItem = () => {
@@ -207,12 +234,12 @@ const MyComponent = () => {
 
 ### successNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 This prop allows you to customize the success notification that shows up when the data is fetched successfully and `useUpdate` can calls `open` function from `NotificationProvider`:
 
 ```tsx
-const { mutate } = useUpdate();
+const { mutate, mutation } = useUpdate();
 
 mutate({
   successNotification: (data, values, resource) => {
@@ -227,12 +254,12 @@ mutate({
 
 ### errorNotification
 
-> [`NotificationProvider`](/docs/notification/notification-provider) is required for this prop to work.
+> [`NotificationProvider`](/core/docs/notification/notification-provider/) is required for this prop to work.
 
 This prop allows you to customize the error notification that shows up when the data fetching fails and the `useUpdate` calls the `open` function from `NotificationProvider`:
 
 ```tsx
-const { mutate } = useUpdate();
+const { mutate, mutation } = useUpdate();
 
 mutate({
   errorNotification: (data, values, resource) => {
@@ -255,7 +282,7 @@ mutate({
 In the following example, we pass the `headers` property in the `meta` object to the `update` method. You can pass any properties to specifically handle the data provider methods with similar logic.
 
 ```tsx
-const { mutate } = useUpdate();
+const { mutate, mutation } = useUpdate();
 
 mutate({
   // highlight-start
@@ -292,14 +319,14 @@ const myDataProvider = {
 };
 ```
 
-[Refer to the `meta` section of the General Concepts documentation for more information &#8594](/docs/guides-concepts/general-concepts/#meta-concept)
+[Refer to the `meta` section of the General Concepts documentation for more information &#8594](/core/docs/guides-concepts/general-concepts/#meta-concept)
 
 ### dataProviderName
 
 This prop allows you to specify which `dataProvider` if you have more than one. Just pass it like in the example:
 
 ```tsx
-const { mutate } = useUpdate();
+const { mutate, mutation } = useUpdate();
 
 mutate({
   dataProviderName: "second-data-provider",
@@ -313,7 +340,7 @@ mutate({
 By default, it invalidates the following queries from the current `resource`: `"list"`, `"many"` and `"detail"`. That means, if you use `useList`, `useMany`, or `useOne` hooks on the same page, they will refetch the data after the mutation is completed.
 
 ```tsx
-const { mutate } = useUpdate();
+const { mutate, mutation } = useUpdate();
 
 mutate({
   invalidates: ["list", "many", "detail"],
@@ -328,7 +355,7 @@ If you want loading overtime for the request, you can pass the `overtimeOptions`
 Return `overtime` object from this hook. `elapsedTime` is the elapsed time in milliseconds. It becomes `undefined` when the request is completed.
 
 ```tsx
-const { overtime } = useUpdate({
+const { overtime, mutation } = useUpdate({
   //...
   overtimeOptions: {
     interval: 1000,
@@ -342,7 +369,9 @@ console.log(overtime.elapsedTime); // undefined, 1000, 2000, 3000 4000, ...
 
 // You can use it like this:
 {
-  elapsedTime >= 4000 && <div>this takes a bit longer than expected</div>;
+  overtime.elapsedTime >= 4000 && (
+    <div>this takes a bit longer than expected</div>
+  );
 }
 ```
 
@@ -355,7 +384,7 @@ When the mutation mode is set to `optimistic` or `undoable`, the `useUpdate` hoo
 `list`, `many` and `detail` are the keys of the `optimisticUpdateMap` object. To automatically update the cache, you should pass `true`. If you don't want to update the cache, you should pass `false`.
 
 ```tsx
-const { mutate } = useUpdate();
+const { mutate, mutation } = useUpdate();
 
 mutate({
   //...
@@ -373,7 +402,7 @@ In the scenario mentioned above, the `list` and `many` queries will receive auto
 If you wish to customize the cache update, you have the option to provide functions for the `list`, `many`, and `detail` keys. These functions will be invoked with the `previous` data, `values`, and `id` parameters. Your responsibility is to return the updated data within these functions.
 
 ```tsx
-const { mutate } = useUpdate();
+const { mutate, mutation } = useUpdate();
 
 mutate({
   //...
@@ -443,9 +472,11 @@ mutate({
 
 ## Return Values
 
-Returns an object with TanStack Query's `useMutation` return values.
+Returns an object with `mutation`, `mutate`, `mutateAsync`, and `overtime` properties.
 
-> For more information, refer to the [`useMutation` documentation &#8594](https://tanstack.com/query/v4/docs/react/reference/useMutation)
+The `mutation` property contains all TanStack Query's `useMutation` return values.
+
+> For more information, refer to the [`useMutation` documentation &#8594](https://tanstack.com/query/v5/docs/react/reference/useMutation)
 
 ### Additional Values
 
@@ -454,32 +485,35 @@ Returns an object with TanStack Query's `useMutation` return values.
 `overtime` object is returned from this hook. `elapsedTime` is the elapsed time in milliseconds. It becomes `undefined` when the request is completed.
 
 ```tsx
-const { overtime } = useUpdate();
+const { overtime, mutation } = useUpdate();
 
 console.log(overtime.elapsedTime); // undefined, 1000, 2000, 3000 4000, ...
+
+// Also access mutation state
+console.log(mutation.isPending); // true/false
 ```
 
 ## API Reference
 
 ### Mutation Parameters
 
-| Property                      | Description                                                                                        | Type                                                                                   | Default                                                      |
-| ----------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| resource <PropTag asterisk /> | Resource name for API data interactions                                                            | `string`                                                                               |                                                              |
-| id <PropTag asterisk />       | id for mutation function                                                                           | [`BaseKey`](/docs/core/interface-references#basekey)                                   |                                                              |
-| values <PropTag asterisk />   | Values for mutation function                                                                       | `TVariables`                                                                           | {}                                                           |
-| mutationMode                  | [Determines when mutations are executed](/advanced-tutorials/mutation-mode.md)                     | ` "pessimistic` \| `"optimistic` \| `"undoable"`                                       | `"pessimistic"`\*                                            |
-| undoableTimeout               | Duration to wait before executing the mutation when `mutationMode = "undoable"`                    | `number`                                                                               | `5000ms`\*                                                   |
-| onCancel                      | Provides a function to cancel the mutation when `mutationMode = "undoable"`                        | `(cancelMutation: () => void) => void`                                                 |                                                              |
-| successNotification           | Successful Mutation notification                                                                   | [`SuccessErrorNotification`](/docs/core/interface-references#successerrornotification) | "Successfully updated `resource`"                            |
-| errorNotification             | Unsuccessful Mutation notification                                                                 | [`SuccessErrorNotification`](/docs/core/interface-references#successerrornotification) | "Error when updating `resource` (status code: `statusCode`)" |
-| meta                          | Meta data query for `dataProvider`                                                                 | [`MetaDataQuery`](/docs/core/interface-references#metaquery)                           | {}                                                           |
-| dataProviderName              | If there is more than one `dataProvider`, you should use the `dataProviderName` that you will use. | `string`                                                                               | `default`                                                    |
-| invalidates                   | You can use it to manage the invalidations that will occur at the end of the mutation.             | `all`, `resourceAll`, `list`, `many`, `detail`, `false`                                | `["list", "many", "detail"]`                                 |
+| Property                      | Description                                                                                        | Type                                                                                        | Default                                                      |
+| ----------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| resource <PropTag asterisk /> | Resource name for API data interactions                                                            | `string`                                                                                    |                                                              |
+| id <PropTag asterisk />       | id for mutation function                                                                           | [`BaseKey`](/core/docs/core/interface-references#basekey)                                   |                                                              |
+| values <PropTag asterisk />   | Values for mutation function                                                                       | `TVariables`                                                                                | {}                                                           |
+| mutationMode                  | [Determines when mutations are executed](/core/docs/advanced-tutorials/mutation-mode/)             | ` "pessimistic` \| `"optimistic` \| `"undoable"`                                            | `"pessimistic"`\*                                            |
+| undoableTimeout               | Duration to wait before executing the mutation when `mutationMode = "undoable"`                    | `number`                                                                                    | `5000ms`\*                                                   |
+| onCancel                      | Provides a function to cancel the mutation when `mutationMode = "undoable"`                        | `(cancelMutation: () => void) => void`                                                      |                                                              |
+| successNotification           | Successful Mutation notification                                                                   | [`SuccessErrorNotification`](/core/docs/core/interface-references#successerrornotification) | "Successfully updated `resource`"                            |
+| errorNotification             | Unsuccessful Mutation notification                                                                 | [`SuccessErrorNotification`](/core/docs/core/interface-references#successerrornotification) | "Error when updating `resource` (status code: `statusCode`)" |
+| meta                          | Meta data query for `dataProvider`                                                                 | [`MetaDataQuery`](/core/docs/core/interface-references#metaquery)                           | {}                                                           |
+| dataProviderName              | If there is more than one `dataProvider`, you should use the `dataProviderName` that you will use. | `string`                                                                                    | `default`                                                    |
+| invalidates                   | You can use it to manage the invalidations that will occur at the end of the mutation.             | `all`, `resourceAll`, `list`, `many`, `detail`, `false`                                     | `["list", "many", "detail"]`                                 |
 
 :::simple Global Configuration
 
-These props have default values in `RefineContext` and can also be set on [`<Refine>`](/docs/core/refine-component) component. `useUpdate` will use what's passed to `<Refine>` as default, but a local value will override it.
+These props have default values in `RefineContext` and can also be set on [`<Refine>`](/core/docs/core/refine-component/) component. `useUpdate` will use what's passed to `<Refine>` as default, but a local value will override it.
 
 :::
 
@@ -487,17 +521,19 @@ These props have default values in `RefineContext` and can also be set on [`<Ref
 
 ### Type Parameters
 
-| Property   | Description                                                                                     | Type                                                       | Default                                                    |
-| ---------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
-| TData      | Result data of the mutation. Extends [`BaseRecord`](/docs/core/interface-references#baserecord) | [`BaseRecord`](/docs/core/interface-references#baserecord) | [`BaseRecord`](/docs/core/interface-references#baserecord) |
-| TError     | Custom error object that extends [`HttpError`](/docs/core/interface-references#httperror)       | [`HttpError`](/docs/core/interface-references#httperror)   | [`HttpError`](/docs/core/interface-references#httperror)   |
-| TVariables | Values for mutation function                                                                    | `{}`                                                       | `{}`                                                       |
+| Property   | Description                                                                                          | Type                                                            | Default                                                         |
+| ---------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| TData      | Result data of the mutation. Extends [`BaseRecord`](/core/docs/core/interface-references#baserecord) | [`BaseRecord`](/core/docs/core/interface-references#baserecord) | [`BaseRecord`](/core/docs/core/interface-references#baserecord) |
+| TError     | Custom error object that extends [`HttpError`](/core/docs/core/interface-references#httperror)       | [`HttpError`](/core/docs/core/interface-references#httperror)   | [`HttpError`](/core/docs/core/interface-references#httperror)   |
+| TVariables | Values for mutation function                                                                         | `{}`                                                            | `{}`                                                            |
 
 ### Return value
 
-| Description                                | Type                                                                                                                                                                                   |
-| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Result of the TanStack Query's useMutation | [`UseMutationResult<{ data: TData }, TError, { resource:string; id: BaseKey; values: TVariables; }, UpdateContext>`](https://tanstack.com/query/v4/docs/react/reference/useMutation)\* |
-| overtime                                   | `{ elapsedTime?: number }`                                                                                                                                                             |
+| Property    | Description                                | Type                                                                                                                                                                                   |
+| ----------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| mutation    | Result of the TanStack Query's useMutation | [`UseMutationResult<{ data: TData }, TError, { resource:string; id: BaseKey; values: TVariables; }, UpdateContext>`](https://tanstack.com/query/v5/docs/react/reference/useMutation)\* |
+| mutate      | Mutation function                          | `(params?: { resource?: string, id?: BaseKey, values?: TVariables, ... }) => void`                                                                                                     |
+| mutateAsync | Async mutation function                    | `(params?: { resource?: string, id?: BaseKey, values?: TVariables, ... }) => Promise<{ data: TData }>`                                                                                 |
+| overtime    | Overtime loading information               | `{ elapsedTime?: number }`                                                                                                                                                             |
 
 > `*` `UpdateContext` is an internal type.

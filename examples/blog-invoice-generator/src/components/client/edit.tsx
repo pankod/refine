@@ -27,6 +27,10 @@ export const EditClient: React.FC<EditClientProps> = ({
   const { selectProps } = useSelect({
     resource: "contacts",
     optionLabel: "first_name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

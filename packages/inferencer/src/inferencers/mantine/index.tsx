@@ -1,5 +1,5 @@
 import React from "react";
-import { useResource } from "@refinedev/core";
+import { useParsed } from "@refinedev/core";
 
 import { ShowInferencer } from "./show.js";
 import { ListInferencer } from "./list.js";
@@ -13,7 +13,7 @@ const MantineInferencer: React.FC<InferencerComponentProps> = ({
   id: idFromProps,
   ...props
 }) => {
-  const { action, id } = useResource();
+  const { action, id } = useParsed();
 
   switch (actionFromProps ?? action) {
     case "show":

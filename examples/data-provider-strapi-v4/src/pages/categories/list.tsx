@@ -16,7 +16,7 @@ export const CategoryList = () => {
   const [locale, setLocale] = useState("en");
 
   const { tableProps } = useTable<ICategory>({
-    metaData: {
+    meta: {
       locale,
     },
   });

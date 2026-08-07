@@ -3,8 +3,9 @@ title: Using kubectl logs - DevOps Guide
 description: Kubernetes pod logs show container operations and events in real-time. Containers in Kubernetes pods log their stdout and stderr streams. Debugging and monitoring Kubernetes cluster applications requires these logs.
 slug: kubectl-logs
 authors: muhammad_khabbab
-tags: [kubernetes, docker]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-28-kubectl-logs/social.png
+category: "Ecosystem / Integrations"
+tags: [kubernetes]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-28-kubectl-logs/social.png
 hide_table_of_contents: false
 ---
 
@@ -50,7 +51,7 @@ The example command to view pod's log is `kubectl logs [POD_NAME]`. We will disc
 Let's start with getting the list of the pods and see what details are displayed after executing the `kubectl` command.
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-28-kubectl-logs/image1.png" alt="Getting list of pods" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-28-kubectl-logs/image1.png" alt="kubectl get pods output showing a single running pod" />
 </div>
 
 As you can see, there is only one pod because it is a small application. Here is the description of each of the columns shown in this example screenshot.
@@ -78,7 +79,7 @@ As you can see, there is only one pod because it is a small application. Here is
 - **Configuration**: **kubectl** should be configured to interact with your Kubernetes cluster. This typically involves setting up a **kubeconfig** file, often located at `~/.kube/config`.
 - **Verification Command**: Run `kubectl version` to confirm it is installed and configured correctly. This command shows both the client and server versions. If your cluster is not working, it will not show the server version, but it will still show you the version information.
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-28-kubectl-logs/image2.png" alt="Getting list of pods" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-28-kubectl-logs/image2.png" alt="kubectl version output showing both client and server versions" />
 </div>
 
 As you can see in the above image, both client and server versions are shown, which means you are good to go. Another command to verify your cluster's health is `kubectl cluster-info .`It will display information about the control node and services in the cluster, along with their IP addresses. It is a quick way to confirm that you can access the cluster and that it's operational.
@@ -126,7 +127,7 @@ With the YAML file ready, use `kubectl` to apply the deployment. Here is the com
 This command is instructing Kubernetes to create the deployment as described in the _hello-app.yaml_ file.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-28-kubectl-logs/image3.png" alt="Applying yaml file to pod" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-28-kubectl-logs/image3.png" alt="kubectl apply output creating hello-app deployment from YAML" />
 </div>
 
 As you can see from the screenshot, the pod is successfully configured with this yaml file. You can also see a warning that kubectl will not be able to track the last applied configuration of the pod without the annotation. This means that if you make changes to the pod specs and then run kubectl apply, kubectl may not patch the pod specs correctly.
@@ -138,7 +139,7 @@ As you can see from the screenshot, the pod is successfully configured with this
 Let's retrieve logs of a pod through `kubectl logs <pod-name>`
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-28-kubectl-logs/image4.png" alt="Getting pod logs" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-28-kubectl-logs/image4.png" alt="kubectl logs output showing pod log entries" />
 </div>
 
 As you can see, all the logs for this particular pod are displayed. If you want to download these logs to a text file for analysis, then you can use `kubectl logs my-pod > my-pod-logs.txt` command to do that. The only possible error you might get when running this command is that the pod is not in a running state. In that case you will see an error.
@@ -154,7 +155,7 @@ Remember the command to retrieve the logs for a pod `kubectl logs <pod-name>`? W
 You need to specify both the pod name and the container name. Let's try this out.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-28-kubectl-logs/image5.png" alt="Getting pod's container log" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-28-kubectl-logs/image5.png" alt="kubectl logs -c output for a specific container in a pod" />
 </div>
 
 Similarly, if you want to see the logs from the previous instance of the container, you can use the `-previous` flag like this `kubectl logs <pod-name> -c <container-name> -previous` This is helpful where the container has restarted and you would like to view the logs before that restart.
@@ -168,7 +169,7 @@ If you want to see the container logs in real-time on the go, you can the `-f` f
 Sometimes, you would like to see logs only for a particular time period, like the last hour. You can use the --since flag to do that. Here is an example below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-12-28-kubectl-logs/image6.png" alt="Time specific container logs" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-12-28-kubectl-logs/image6.png" alt="Filtering container logs by time using --since flag" />
 </div>
 
 You can also use 1d for one day and 1m for one minute.

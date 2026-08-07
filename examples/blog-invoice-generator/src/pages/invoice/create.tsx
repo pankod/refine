@@ -10,16 +10,28 @@ export const InvoiceCreate = () => {
   const { selectProps: companySelectProps } = useSelect<ICompany>({
     resource: "companies",
     optionLabel: "name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { selectProps: contactSelectProps } = useSelect<IContact>({
     resource: "contacts",
     optionLabel: "first_name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const { selectProps: missionSelectProps } = useSelect<IMission>({
     resource: "missions",
     optionLabel: "mission",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

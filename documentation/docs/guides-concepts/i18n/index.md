@@ -1,16 +1,20 @@
 ---
-title: Internationalization (i18n)
+title: "I18n Guide | Localization in Refine v5"
+display_title: "Internationalization (i18n)"
+sidebar_label: "Internationalization (i18n)"
+description: "Build i18n in Refine v5. Learn the key steps. Explore translation and common.json for real-world React admin panels. See practical code samples."
 ---
 
 import I18nHeadless from './i18n-headless.tsx';
 import TranslationFileEN from '../../partials/\_partial-translation-file-en.md';
 import TranslationFileDE from '../../partials/\_partial-translation-file-de.md';
+import TranslationFileZH from '../../partials\_partial-translation-file-zh.md';
 
-Internationalization (i18n) is a process that allows software applications to be localized for different regions and languages. Refine can work with any i18n framework, but needs an [`i18nProvider`](/docs/i18n/i18n-provider) to be created based on the chosen library.
+Internationalization (i18n) is a process that allows software applications to be localized for different regions and languages. Refine can work with any i18n framework, but needs an [`i18nProvider`](/core/docs/i18n/i18n-provider/) to be created based on the chosen library.
 
 ## i18n Provider
 
-[`i18nProvider`](/docs/i18n/i18n-provider) centralizes localization process in Refine applications. With flexible interface you can use any i18n library you want.
+[`i18nProvider`](/core/docs/i18n/i18n-provider/) centralizes localization process in Refine applications. With flexible interface you can use any i18n library you want.
 
 Here is the basic example `i18nProvider` with [react-i18next](https://react.i18next.com/). We will explain the details in the following sections.
 
@@ -184,7 +188,17 @@ Now, let's add the language files:
 
 <Tabs
 defaultValue="en"
-values={[{ label: "English", value: "en" }, { label: "German", value: "de" }]}>
+values=[{ label: "English", value: "en" }, { label: "German", value: "de" }, { label: "Chinese", value: "zh" }]>
+<TabItem value="zh">
+
+<details>
+<summary>Show translation file</summary>
+
+<TranslationFileZH />
+
+</details>
+
+</TabItem>
 <TabItem value="en">
 
 <details>
@@ -273,7 +287,7 @@ Then, we will pass `<Header>` to our `<Layout>` component.
 
 ```tsx title="src/App.tsx"
 import { Refine, Resource } from "@refinedev/core";
-import { ThemedLayoutV2 } from "@refinedev/antd";
+import { ThemedLayout } from "@refinedev/antd";
 
 import { useTranslation } from "react-i18next";
 
@@ -296,7 +310,7 @@ const App: React.FC = () => {
             i18nProvider={i18nProvider}
             /* ... */
         >
-            <ThemedLayoutV2
+            <ThemedLayout
                 // highlight-next-line
                 header={<Header />}
             >
@@ -401,7 +415,7 @@ export interface IPost {
 }
 ```
 
-<Image src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/i18n/changing-language.gif" alt="Language change action" />
+<Image src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/i18n/changing-language.avif" alt="Language change action" />
 
 ## Translation file
 
@@ -416,7 +430,7 @@ Here is the list of all translation keys that you can override:
 
 </details>
 
-[i18nnextjs]: /examples/i18n/i18n-nextjs.md
+[i18nnextjs]: /core/docs/examples/i18n/i18n-nextjs
 [react-i18next]: https://react.i18next.com/
-[create-refine-app]: /docs/getting-started/quickstart.md
-[use-translation]: /docs/i18n/hooks/use-translation
+[create-refine-app]: /core/docs/getting-started/quickstart
+[use-translation]: /core/docs/i18n/hooks/use-translation

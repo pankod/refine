@@ -1,5 +1,8 @@
 ---
-title: Development
+title: "Development Guide | Guides Concepts in Refine v5"
+display_title: "Development"
+sidebar_label: "Development"
+description: "Set up Development in Refine v5. Learn best practices. Learn devtools and command for real-world React admin panels. Hands-on examples included."
 ---
 
 Refine offers improved developer experience by providing a set of tools to help you develop your application. These tools will help you from creating a new project to developing, customizing and debugging your application. This guide will introduce you to these tools and how to use them.
@@ -25,13 +28,13 @@ To use the command-line interface, you can simply run the following command in y
 
 After running the command, you will be prompted to select the options you want to use for your project. After you are done with the options, the CLI will create your project in the `my-refine-app` directory.
 
-<Image src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/create-refine-project.gif" />
+<Image src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-25-refine-primereact/create-refine-project.avif" />
 
 ## Using CLI
 
 Refine offers a command-line interface to help you with your app's development. The CLI provides a set of commands to help you with running your app, creating new resources and taking care of the boilerplate code for you, creating providers with templates to get you started to implement your own providers with ease, updating your app's dependencies easily, exporting components and providers from Refine packages to your app to let you customize them just like you would do with your own components and providers, and and get you notified about the announcements from the Refine team.
 
-To learn more about the `@refinedev/cli` package, check out the [CLI documentation](/docs/packages/cli/).
+To learn more about the `@refinedev/cli` package, check out the [CLI documentation](/core/docs/packages/cli/).
 
 ### Installation
 
@@ -264,7 +267,7 @@ const App = () => {
 };
 ```
 
-<Image src="https://refine.ams3.cdn.digitaloceanspaces.com/assets/devtools-demo.gif" />
+<Image src="https://refine.ams3.cdn.digitaloceanspaces.com/assets/devtools-demo.avif" />
 
 **Running Devtools Server**
 
@@ -286,7 +289,7 @@ Devtools server will run on port `5001` by default. Devtools will serve HTTP and
 
 :::simple Enterprise Edition
 
-Refine Devtools running on ports other than "5001" is only available in the Enterprise Edition. If you're using the Community Edition, Refine Devtools will not work if the port is changed. Checkout [Refine Devtools in Enterprise Edition](/docs/enterprise-edition/devtools) for more information.
+Refine Devtools running on ports other than "5001" is only available in the Enterprise Edition. If you're using the Community Edition, Refine Devtools will not work if the port is changed. Checkout [Refine Devtools in Enterprise Edition](/core/docs/enterprise-edition/devtools/) for more information.
 
 :::
 

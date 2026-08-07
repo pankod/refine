@@ -3,17 +3,14 @@ import {
   matchResourceFromRoute,
   useBreadcrumb,
   useLink,
-  useRefineContext,
-  useResource,
-  useRouterContext,
-  useRouterType,
+  useResourceParams,
 } from "@refinedev/core";
 import type { RefineBreadcrumbProps } from "@refinedev/ui-types";
 
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
+import { Link as MuiLink } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 
 import type { BreadcrumbsProps as MuiBreadcrumbProps } from "@mui/material/Breadcrumbs";
 import type { LinkProps } from "@mui/material/Link";
@@ -27,39 +24,36 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
   showHome = true,
   hideIcons = false,
   meta,
+  minItems = 2,
 }) => {
   const { breadcrumbs } = useBreadcrumb({ meta });
-  const routerType = useRouterType();
-  const NewLink = useLink();
-  const { Link: LegacyLink } = useRouterContext();
+  const Link = useLink();
 
-  const ActiveLink = routerType === "legacy" ? LegacyLink : NewLink;
-
-  const { hasDashboard } = useRefineContext();
-
-  const { resources } = useResource();
+  const { resources } = useResourceParams();
 
   const rootRouteResource = matchResourceFromRoute("/", resources);
 
-  if (breadcrumbs.length === 1) {
-    return null;
-  }
+  if (breadcrumbs.length < minItems) return null;
 
-  const LinkRouter = (props: LinkProps & { to?: string }) => (
-    <Link {...props} component={ActiveLink} />
-  );
+  const LinkRouter = (props: LinkProps & { to?: string }) => {
+    const { to, children, ...restProps } = props;
+    return (
+      <Link to={to || ""}>
+        <span {...restProps}>{children}</span>
+      </Link>
+    );
+  };
 
   return (
     <Breadcrumbs
       aria-label="breadcrumb"
       sx={{
-        paddingY: 2,
-        paddingX: 2,
+        padding: 2,
         ...(breadcrumbProps?.sx ?? {}),
       }}
       {...breadcrumbProps}
     >
-      {showHome && (hasDashboard || rootRouteResource.found) && (
+      {showHome && rootRouteResource.found && (
         <LinkRouter
           underline="hover"
           sx={{
@@ -98,11 +92,11 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
                   display: "flex",
                   alignItems: "center",
                   fontSize: "14px",
+                  marginLeft: 0.5,
                 }}
                 color="inherit"
                 to={href}
                 variant="subtitle1"
-                marginLeft={0.5}
               >
                 {label}
               </LinkRouter>

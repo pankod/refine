@@ -12,7 +12,11 @@ const restDataProvider: DataProvider = {
 
     const url = `${API_URL}/${resource}`;
 
-    const { current = 1, pageSize = 10, mode = "server" } = pagination ?? {};
+    const {
+      currentPage = 1,
+      pageSize = 10,
+      mode = "server",
+    } = pagination ?? {};
 
     const queryFilters = generateFilter(filters);
 
@@ -24,8 +28,8 @@ const restDataProvider: DataProvider = {
     } = {};
 
     if (mode === "server") {
-      query._start = (current - 1) * pageSize;
-      query._end = current * pageSize;
+      query._start = (currentPage - 1) * pageSize;
+      query._end = currentPage * pageSize;
     }
 
     const generatedSort = generateSort(sorters);

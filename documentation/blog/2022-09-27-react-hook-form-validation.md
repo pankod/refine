@@ -3,9 +3,11 @@ title: React Hook Form Validation with Complete Examples
 description: We'll implement React Hook Form custom validations and schema validations using yup.
 slug: react-hook-form-validation-examples
 authors: david_omotayo
-tags: [react, react-hook-form, Refine, tutorial]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-27-react-hook-form-validation/social.png
+category: "Ecosystem / Integrations"
+tags: [react]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-27-react-hook-form-validation/social.png
 hide_table_of_contents: false
+last_update: 2024-11-26
 ---
 
 ## Introduction
@@ -15,19 +17,6 @@ Forms are crucial in how web administrators connect with their audience and how 
 However, due to how complicated and frustrating form validation can get, developers often settle for third-party libraries that simplify the process.
 
 In this guide, we’ll introduce [React Hook Form](https://www.react-hook-form.com/), a form validation library for React, and demonstrate how to use it to validate forms in React applications.
-
-Steps we'll cover:
-
-- [What is React Hook Form?](#what-is-react-hook-form)
-- [What is Refine?](#what-is-refine)
-- [Project setup](#project-setup)
-  - [Integrating React Hook Forms](#integrating-react-hook-forms)
-- [Validating forms with React Hook Forms](#validating-forms-with-react-hook-forms)
-- [Schema Validation](#schema-validation)
-- [Handling errors](#handling-errors)
-- [How to conditionally render input fields](#how-to-conditionally-render-input-fields)
-- [Form submission](#form-submission)
-- [Conclusion](#conclusion)
 
 ## Prerequisite
 
@@ -50,7 +39,7 @@ The library allows you to isolate component re-renders by using uncontrolled inp
 The package is super light, it has a minified size of 24.6kb and a minified + gzipped size of 8.8kb. This is because the library doesn’t use any dependencies to handle any of its functionalities under the hood.
 
 <div class="img-container" align-items="center" >
-   <img   src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-27-react-hook-form-validation/react-hook-form-package-size.png"  alt="react Hook Form package size" />
+  <img   src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-27-react-hook-form-validation/react-hook-form-package-size.png"  alt="React Hook Form package size chart" />
 </div>
 
 <br/>
@@ -67,7 +56,7 @@ There are a lot of benefits to using **Refine** in your applications, to name a 
 - Backend agnostic, you can connect with any backend technologies
 - Authentication, state management, data fetching routing, and more are prioritized.
 
-Visit [**Refine**'s documentation](https://refine.dev/docs/) to learn more about the framework.
+Visit [**Refine**'s documentation](https://refine.dev/core/docs/) to learn more about the framework.
 
 ## Project setup
 
@@ -104,7 +93,7 @@ npm run dev
 
 The second command will start the development server for our project and automatically preview our app in the default browser. If it doesn't, open the browser manually and navigate to http://localhost:5173.
 
-<img   src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-27-react-hook-form-validation/react-hook-form-dashboard.png"  alt="react Hook Form dashboard" />
+<img   src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-27-react-hook-form-validation/react-hook-form-dashboard.png"  alt="Refine welcome dashboard" />
 
 <br />
 
@@ -222,12 +211,12 @@ import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import {
   useNotificationProvider,
   RefineSnackbarProvider,
-  ThemedLayoutV2,
+  ThemedLayout,
 } from "@refinedev/mui";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
-import routerBindings, {
+import routerProvider, {
   DocumentTitleHandler,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
@@ -255,7 +244,7 @@ function App() {
                 },
               ]}
               // highlight-end
-              routerProvider={routerBindings}
+              routerProvider={routerProvider}
               options={{
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: true,
@@ -265,9 +254,9 @@ function App() {
                 {/* highlight-start */}
                 <Route
                   element={
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   }
                 >
                   <Route index element={<Create />} />
@@ -293,7 +282,7 @@ export default App;
 
 If you save your progress and open up the browser, you should see a form similar to the one below.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-27-react-hook-form-validation/react-hook-form.png"  alt="react Hook Form view" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-27-react-hook-form-validation/react-hook-form.png"  alt="Basic form layout" />
 
 <br />
 
@@ -305,9 +294,9 @@ That's it for the project setup, next we'll integrate React Hook Forms into our 
 
 But before we start implementing React Hook Form in our app, we need to first understand its fundamentals.
 
-The library provides a set of useful components and hooks, such as the controller component and the [`useForm`](/docs/packages/list-of-packages) hook, that let us register our form component into the hook, thus making its values available for both validation and submission.
+The library provides a set of useful components and hooks, such as the controller component and the [`useForm`](/core/docs/packages/list-of-packages/) hook, that let us register our form component into the hook, thus making its values available for both validation and submission.
 
-The library performs most of these functionalities using the methods exposed by the [`useForm`](/docs/packages/list-of-packages) hook. Here are some of the available methods:
+The library performs most of these functionalities using the methods exposed by the [`useForm`](/core/docs/packages/list-of-packages/) hook. Here are some of the available methods:
 
 - `register`: This method allows you to register an input for validation
 
@@ -632,7 +621,7 @@ To display the error, we’d have to render a message based on the state of the 
 // highlight-end
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-27-react-hook-form-validation/react-hook-form-2.png"  alt="react Hook Form input" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-27-react-hook-form-validation/react-hook-form-2.png"  alt="Inline error message placement" />
 
 <br />
 
@@ -724,7 +713,7 @@ That’s all we have to do to set up our schema, next we’ll look at a new way 
 <br/>
 <div>
 <a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="discord banner" />
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="Join Refine on Discord banner" />
 </a>
 </div>
 
@@ -766,7 +755,7 @@ Then, pass the error object and message to the `error` and `helperText` props li
 
 This will check if there's an error with the `error` prop, then it'll display a dynamic message with the help of the `helperText` prop.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-27-react-hook-form-validation/react-hook-form-big.png"  alt="react Hook Form yup" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-27-react-hook-form-validation/react-hook-form-big.png"  alt="Yup validation error styling" />
 
 <br />
 
@@ -1068,7 +1057,7 @@ export default Create;
 
 Now, if you save your progress and go to the browser, the company and role fields should only display when the Employed option is selected.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-27-react-hook-form-validation/react-hook-form-big2.gif"  alt="react Hook Form error handling" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-27-react-hook-form-validation/react-hook-form-big2.avif"  alt="Conditional fields for employment" />
 
 <br />
 
@@ -1109,7 +1098,7 @@ Lastly, add an `onSubmit` event handler to the form and pass the `handleSubmit` 
 
 Now, if you save your progress and head over to the browser, you should get a logged object of the form’s data in your console when you fill in the fields and submit the form.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-27-react-hook-form-validation/react-hook-form-console.gif"  alt="React Hook Form error handling" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-27-react-hook-form-validation/react-hook-form-console.avif"  alt="Form submission logged in console" />
 
 <br />
 

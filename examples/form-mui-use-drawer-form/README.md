@@ -30,6 +30,6 @@
 
 <br />
 
-### This example has been moved to [here.](https://github.com/refinedev/refine/tree/master/examples/form-material-ui-use-drawer-form)
+### This example has been moved to [here.](https://github.com/refinedev/refine/tree/main/examples/form-material-ui-use-drawer-form)
 
 </div>

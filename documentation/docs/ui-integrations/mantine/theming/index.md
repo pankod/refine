@@ -1,5 +1,8 @@
 ---
-title: Theme
+title: "Theming Guide | React UI Library in Refine v5"
+display_title: "Theme"
+sidebar_label: "Theme"
+description: "Build Theming in Refine v5. Learn the key steps. Learn integration patterns for React UI library, components for polished admin UIs. See practical code samples."
 ---
 
 ```tsx live shared
@@ -34,13 +37,12 @@ const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    refineCore: { setCurrent, pageCount, current },
+    reactTable: { getHeaderGroups, getRowModel },
+    refineCore: { setCurrentPage, pageCount, currentPage },
   } = useTable({
     columns,
     refineCoreProps: {
-      initialPageSize: 5,
+      pagination: { pageSize: 5 },
     },
   });
 
@@ -79,8 +81,8 @@ const PostList: React.FC = () => {
       <Pagination
         position="right"
         total={pageCount}
-        page={current}
-        onChange={setCurrent}
+        page={currentPage}
+        onChange={setCurrentPage}
       />
     </List>
   );
@@ -146,7 +148,7 @@ Mantine theme is an object where your application's colors, fonts, spacing, bord
 
 ## Predefined Themes
 
-If you don't want to use the default Mantine theme, [`RefineThemes`](https://github.com/refinedev/refine/blob/master/packages/mantine/src/theme/index.ts#L186) has predefined themes for you. You can import predefined themes from the `@refinedev/mantine` package.
+If you don't want to use the default Mantine theme, [`RefineThemes`](https://github.com/refinedev/refine/blob/main/packages/mantine/src/theme/index.ts#L186) has predefined themes for you. You can import predefined themes from the `@refinedev/mantine` package.
 
 ```ts
 const { Blue, Purple, Magenta, Red, Orange, Yellow } = RefineThemes;
@@ -154,7 +156,7 @@ const { Blue, Purple, Magenta, Red, Orange, Yellow } = RefineThemes;
 
 ```tsx
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/mantine";
+import { ThemedLayout, RefineThemes } from "@refinedev/mantine";
 
 import { MantineProvider } from "@mantine/core";
 
@@ -164,14 +166,14 @@ const App: React.FC = () => {
       <Refine
       /* ... */
       >
-        <ThemedLayoutV2>{/* ... */}</ThemedLayoutV2>
+        <ThemedLayout>{/* ... */}</ThemedLayout>
       </Refine>
     </MantineProvider>
   );
 };
 ```
 
-[You can see how themes change the look of the application in this example.](/docs/examples/themes/refine-themes-mantine/)
+[You can see how themes change the look of the application in this example.](/core/docs/examples/themes/refine-themes-mantine/)
 
 ## Theme customization
 
@@ -182,10 +184,10 @@ setInitialRoutes(["/posts"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   useNotificationProvider,
   ErrorComponent,
   // highlight-next-line
@@ -194,7 +196,7 @@ import {
 import { MantineProvider, Global } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { PostCreate, PostEdit, PostList } from "./pages";
 
@@ -225,9 +227,9 @@ const App = () => {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 <Route path="posts">
@@ -259,10 +261,10 @@ setInitialRoutes(["/posts"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   useNotificationProvider,
   ErrorComponent,
   // highlight-next-line
@@ -271,7 +273,7 @@ import {
 import { MantineProvider, Global } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { PostCreate, PostEdit, PostList } from "./pages";
 
@@ -324,9 +326,9 @@ const App = () => {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 <Route path="posts">
@@ -358,10 +360,10 @@ setInitialRoutes(["/posts"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   useNotificationProvider,
   RefineThemes,
@@ -381,7 +383,7 @@ import {
 import { useLocalStorage } from "@mantine/hooks";
 // highlight-end
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { IconSun, IconMoonStars } from "@tabler/icons-react";
 
@@ -458,12 +460,12 @@ const App = () => {
               <Routes>
                 <Route
                   element={
-                    <ThemedLayoutV2
+                    <ThemedLayout
                       // highlight-next-line
                       Header={Header}
                     >
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   }
                 >
                   <Route path="posts">
@@ -487,4 +489,4 @@ render(<App />);
 
 > For more information, refer to the [Mantine dark theme documentation &#8594](https://mantine.dev/guides/dark-theme)
 
-If you want to customize the default layout elements provided with `@refinedev/mantine` package, check out the [Custom ThemedLayout](/docs/advanced-tutorials/custom-layout) tutorial.
+If you want to customize the default layout elements provided with `@refinedev/mantine` package, check out the [Custom ThemedLayout](/core/docs/advanced-tutorials/custom-layout/) tutorial.

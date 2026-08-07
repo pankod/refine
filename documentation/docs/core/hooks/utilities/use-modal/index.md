@@ -1,5 +1,8 @@
 ---
-title: useModal
+title: "useModal Hook | Options, Patterns & Edge Cases in Refine v5"
+display_title: "useModal"
+sidebar_label: "useModal"
+description: "Explore how to use the useModal hook in Refine v5. Explore best practices for state and function for real-world React admin panels. Hands-on examples included."
 source: packages/core/src/hooks/modal/useModal/index.tsx
 ---
 

@@ -18,7 +18,9 @@ export const DocCardList = (props) => {
     return <DocCardListForCurrentSidebarCategory {...props} />;
   }
 
-  const filteredItems = filterDocCardListItems(items);
+  const filteredItems = filterDocCardListItems(
+    items.filter((item) => item.type !== "html"),
+  );
 
   return (
     <>

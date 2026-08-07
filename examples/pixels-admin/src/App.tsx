@@ -6,18 +6,19 @@ import {
 } from "@refinedev/core";
 import {
   ErrorComponent,
-  ThemedLayoutV2,
+  ThemedLayout,
   useNotificationProvider,
 } from "@refinedev/antd";
 import { ConfigProvider, App as AntdApp } from "antd";
 import { dataProvider, liveProvider } from "@refinedev/supabase";
-import routerBindings, {
+import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
 import { Title } from "./components/layout";
@@ -54,7 +55,7 @@ function App() {
             liveProvider={liveProvider(supabaseClient)}
             authProvider={authProvider}
             accessControlProvider={accessControlProvider}
-            routerProvider={routerBindings}
+            routerProvider={routerProvider}
             notificationProvider={useNotificationProvider}
             resources={[
               {
@@ -75,11 +76,11 @@ function App() {
               <Route
                 element={
                   <Authenticated key="authenticated-routes">
-                    <ThemedLayoutV2 Title={Title}>
+                    <ThemedLayout Title={Title}>
                       <CanAccess>
                         <Outlet />
                       </CanAccess>
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >
@@ -111,9 +112,9 @@ function App() {
               <Route
                 element={
                   <Authenticated key="catch-all">
-                    <ThemedLayoutV2>
+                    <ThemedLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </ThemedLayout>
                   </Authenticated>
                 }
               >

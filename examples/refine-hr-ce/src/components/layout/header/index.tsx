@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Box, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import { useThemedLayoutContext } from "@refinedev/mui";
 import { HandleIcon, RefineLogo } from "@/icons";

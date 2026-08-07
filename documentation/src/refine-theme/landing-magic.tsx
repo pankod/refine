@@ -290,6 +290,7 @@ export const LandingMagic = () => {
                       "animation-parent",
                     )}
                   >
+                    {/* @ts-expect-error framer-motion type error with react 17 */}
                     <motion.div
                       className={clsx("will-change-transform")}
                       style={{
@@ -339,6 +340,7 @@ export const LandingMagic = () => {
                       "animation-parent",
                     )}
                   >
+                    {/* @ts-expect-error framer-motion type error with react 17 */}
                     <motion.div
                       className={clsx("will-change-transform")}
                       style={{

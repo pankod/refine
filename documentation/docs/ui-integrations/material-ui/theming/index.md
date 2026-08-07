@@ -1,5 +1,8 @@
 ---
-title: Theming
+title: "Theming Guide | Material Design UI in Refine v5"
+display_title: "Theming"
+sidebar_label: "Theming"
+description: "Integrate Theming in Refine v5. Learn best practices. Explore customization options for Material Design, components for polished admin UIs."
 ---
 
 Theme specifies the color of the components, the darkness of the surfaces, level of shadow, appropriate opacity of ink elements, etc. You can either create your own Theme or use Themes that provide from Refine. Theme provides a way to your app's design to meet them.
@@ -8,7 +11,7 @@ Theme specifies the color of the components, the darkness of the surfaces, level
 
 ## Predefined Themes
 
-If you don't want to use the default Mantine theme, [`RefineThemes`](https://github.com/refinedev/refine/blob/master/packages/mui/src/theme/palette/refinePalette.ts) has predefined themes for you. You can import predefined themes from the `@refinedev/mui` package.
+If you don't want to use the default Mantine theme, [`RefineThemes`](https://github.com/refinedev/refine/blob/main/packages/mui/src/theme/palette/refinePalette.ts) has predefined themes for you. You can import predefined themes from the `@refinedev/mui` package.
 
 ```ts
 // light themes
@@ -21,7 +24,7 @@ const { BlueDark, PurpleDark, MagentaDark, RedDark, OrangeDark, YellowDark } =
 
 ```tsx
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/mui";
+import { ThemedLayout, RefineThemes } from "@refinedev/mui";
 
 import { ThemeProvider } from "@mui/material/styles";
 
@@ -31,14 +34,14 @@ const App: React.FC = () => {
       <Refine
       /* ... */
       >
-        <ThemedLayoutV2>{/* ... */}</ThemedLayoutV2>
+        <ThemedLayout>{/* ... */}</ThemedLayout>
       </Refine>
     </ThemeProvider>
   );
 };
 ```
 
-[You can see how themes change the look of the application in this example.](/docs/examples/themes/refine-themes-mui/)
+[You can see how themes change the look of the application in this example.](/core/docs/examples/themes/refine-themes-mui/)
 
 ## Theme Provider
 
@@ -46,14 +49,14 @@ The [`ThemeProvider`](https://mui.com/material-ui/customization/theming/#theme-p
 
 ```tsx title="src/App.tsx
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, ErrorComponent } from "@refinedev/mui";
+import { ThemedLayout, ErrorComponent } from "@refinedev/mui";
 // highlight-next-line
 import { CssBaseline, GlobalStyles, ThemeProvider } from "@mui/material";
 
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { PostsList, PostCreate, PostEdit } from "pages/posts";
 
@@ -79,9 +82,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="posts">
@@ -112,12 +115,12 @@ If you don't wrap your app with [`ThemeProvider`](https://mui.com/material-ui/cu
 
 ```tsx live previewOnly disableScroll
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, ErrorComponent } from "@refinedev/mui";
+import { ThemedLayout, ErrorComponent } from "@refinedev/mui";
 import { CssBaseline, GlobalStyles, ThemeProvider } from "@mui/material";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { SampleList, SampleCreate, SampleEdit } from "pages/samples";
 
@@ -143,9 +146,9 @@ const App: React.FC = () => {
             <Route index element={<NavigateToResource />} />
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="samples">
@@ -174,16 +177,16 @@ setInitialRoutes(["/samples"]);
 // visible-block-start
 import { Refine } from "@refinedev/core";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   // highlight-next-line
   RefineThemes,
 } from "@refinedev/mui";
 import { CssBaseline, GlobalStyles, ThemeProvider } from "@mui/material";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { SampleList, SampleCreate, SampleEdit } from "pages/samples";
 
@@ -210,9 +213,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="samples">
@@ -267,16 +270,16 @@ setInitialRoutes(["/samples"]);
 // visible-block-start
 import { Refine } from "@refinedev/core";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   // highlight-next-line
   RefineThemes,
 } from "@refinedev/mui";
 import { CssBaseline, GlobalStyles, ThemeProvider } from "@mui/material";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { SampleList } from "./pages/samples";
 
@@ -315,9 +318,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="samples">
@@ -401,14 +404,14 @@ For more information, you can review [`responsiveFontSizes()`](https://mui.com/m
 setInitialRoutes(["/samples"]);
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, ErrorComponent } from "@refinedev/mui";
+import { ThemedLayout, ErrorComponent } from "@refinedev/mui";
 import { CssBaseline, GlobalStyles, ThemeProvider } from "@mui/material";
 // highlight-next-line
 import { createTheme, responsiveFontSizes } from "@mui/material";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { SampleList } from "./pages/samples";
 
@@ -449,9 +452,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="samples">
@@ -501,7 +504,7 @@ declare module "@mui/material/styles" {
 }
 ```
 
-You can see an example of how to [`create your own theme with custom variables`](https://github.com/refinedev/refine/blob/master/examples/finefoods-material-ui/src/theme.ts) and its [`interface`](https://github.com/refinedev/refine/blob/master/examples/finefoods-material-ui/src/interfaces/theme.d.ts) by accessing the links.
+You can see an example of how to [`create your own theme with custom variables`](https://github.com/refinedev/refine/blob/main/examples/finefoods-material-ui/src/theme.ts) and its [`interface`](https://github.com/refinedev/refine/blob/main/examples/finefoods-material-ui/src/interfaces/theme.d.ts) by accessing the links.
 
 ## Dark Mode
 
@@ -514,14 +517,14 @@ For example:
 
 ```tsx title="src/App.tsx"
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, ErrorComponent, RefineThemes } from "@refinedev/mui";
+import { ThemedLayout, ErrorComponent, RefineThemes } from "@refinedev/mui";
 import { CssBaseline, GlobalStyles, ThemeProvider } from "@mui/material";
 // highlight-next-line
 import { useMediaQuery } from "@mui/material";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import {
   SampleList,
@@ -557,9 +560,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="samples">
@@ -665,16 +668,16 @@ export const ColorModeContextProvider: React.FC<PropsWithChildren> = ({
 ```tsx title="src/App.tsx"
 import { Refine } from "@refinedev/core";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   RefineSnackbarProvider,
   useNotificationProvider,
 } from "@refinedev/mui";
 import { CssBaseline, AppBar, IconButton, Box, Stack } from "@mui/material";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { LightModeOutlined, DarkModeOutlined } from "@mui/icons-material";
 
@@ -729,9 +732,9 @@ const App: React.FC = () => {
               <Route
                 element={
                   // highlight-next-line
-                  <ThemedLayoutV2 Header={Header}>
+                  <ThemedLayout Header={Header}>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 <Route path="samples">
@@ -758,23 +761,23 @@ export default App;
   </div>
 </details>
 
-[You can use this CodeSandbox link to access this example &#8594](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/customization-theme-material-ui/?view=preview&theme=dark&codemirror=1)
+[You can use this CodeSandbox link to access this example &#8594](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/customization-theme-material-ui/?view=preview&theme=dark&codemirror=1)
 
 ```tsx live previewOnly previewHeight=450px disableScroll
 setInitialRoutes(["/samples"]);
 // visible-block-start
 import { Refine } from "@refinedev/core";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   RefineSnackbarProvider,
   useNotificationProvider,
 } from "@refinedev/mui";
 import { CssBaseline, AppBar, IconButton, Box, Stack } from "@mui/material";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { LightModeOutlined, DarkModeOutlined } from "@mui/icons-material";
 
@@ -829,9 +832,9 @@ const App: React.FC = () => {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2 Header={Header}>
+                  <ThemedLayout Header={Header}>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 <Route path="samples">
@@ -858,14 +861,14 @@ render(<App />);
 We use the [`notistack`](https://iamhosseindhv.com/notistack) library for notifications in our Material UI package provides an elegant way to engage with your users.
 The main motivation for us to use the Notistack was that while the Notistack provider ( `<SnackbarProvider>` ) is a child of our ThemeProvider, it works in harmony with the theme.
 
-We provide [`<RefineSnackbarProvider>`](https://github.com/refinedev/refine/blob/master/packages/mui/src/providers/refineSnackbarProvider/index.tsx) that extended `<SnackbarProvider>` with theme style. You have to wrap `<Refine>` with [`<RefineSnackbarProvider>`](https://github.com/refinedev/refine/blob/master/packages/mui/src/providers/refineSnackbarProvider/index.tsx) and also pass the `notificationProvider` as props.
+We provide [`<RefineSnackbarProvider>`](https://github.com/refinedev/refine/blob/main/packages/mui/src/providers/refineSnackbarProvider/index.tsx) that extended `<SnackbarProvider>` with theme style. You have to wrap `<Refine>` with [`<RefineSnackbarProvider>`](https://github.com/refinedev/refine/blob/main/packages/mui/src/providers/refineSnackbarProvider/index.tsx) and also pass the `notificationProvider` as props.
 
 ```tsx live
 setInitialRoutes(["/samples"]);
 // visible-block-start
 import { Refine } from "@refinedev/core";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   RefineThemes,
   // highlight-start
@@ -875,9 +878,9 @@ import {
 } from "@refinedev/mui";
 import { ThemeProvider, CssBaseline, GlobalStyles } from "@mui/material";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import {
   SampleList,
@@ -910,9 +913,9 @@ const App: React.FC = () => {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 <Route path="samples">
@@ -937,9 +940,9 @@ render(<App />);
 
 If you want to use `notistack` snackbars with the default style, simply wrap `<Refine>` in `<SnackbarProvider>`.
 
-If you want to customize the default layout elements provided with `@refinedev/mui` package, check out the [Custom ThemedLayout](/docs/advanced-tutorials/custom-layout) tutorial.
+If you want to customize the default layout elements provided with `@refinedev/mui` package, check out the [Custom ThemedLayout](/core/docs/advanced-tutorials/custom-layout/) tutorial.
 
-[create-refine-app]: /docs/getting-started/quickstart.md
+[create-refine-app]: /core/docs/getting-started/quickstart
 
 ```tsx live shared
 import React, {
@@ -1027,7 +1030,10 @@ const ColorModeContextProvider: React.FC<PropsWithChildren> = ({
 const SampleList = () => {
   const { dataGridProps } = useDataGrid();
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useMany({
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useMany({
     resource: "categories",
     ids: dataGridProps?.rows?.map((item: any) => item?.category?.id) ?? [],
     queryOptions: {
@@ -1057,6 +1063,7 @@ const SampleList = () => {
           return value;
         },
         minWidth: 300,
+        display: "flex",
         renderCell: function render({ value }) {
           return categoryIsLoading ? (
             <>Loading...</>
@@ -1069,6 +1076,7 @@ const SampleList = () => {
         field: "createdAt",
         headerName: "Created At",
         minWidth: 250,
+        display: "flex",
         renderCell: function render({ value }) {
           return <DateField value={value} />;
         },
@@ -1076,6 +1084,7 @@ const SampleList = () => {
       {
         field: "actions",
         headerName: "Actions",
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <>
@@ -1094,18 +1103,19 @@ const SampleList = () => {
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 };
 
 const SampleShow = () => {
-  const { queryResult } = useShow();
-  const { data, isLoading } = queryResult;
+  const { result: record, query } = useShow();
+  const { isLoading } = query;
 
-  const record = data?.data;
-
-  const { data: categoryData, isLoading: categoryIsLoading } = useOne({
+  const {
+    result: category,
+    query: { isLoading: categoryIsLoading },
+  } = useOne({
     resource: "categories",
     id: record?.category?.id || "",
     queryOptions: {
@@ -1131,7 +1141,7 @@ const SampleShow = () => {
         <Typography variant="body1" fontWeight="bold">
           Category
         </Typography>
-        {categoryIsLoading ? <>Loading...</> : <>{categoryData?.data?.title}</>}
+        {categoryIsLoading ? <>Loading...</> : <>{category?.title}</>}
         <Typography variant="body1" fontWeight="bold">
           Created At
         </Typography>
@@ -1144,13 +1154,13 @@ const SampleShow = () => {
 const SampleEdit = () => {
   const {
     saveButtonProps,
-    refineCore: { queryResult },
+    refineCore: { query },
     register,
     control,
     formState: { errors },
   } = useForm();
 
-  const samplesData = queryResult?.data?.data;
+  const samplesData = query?.data?.data;
 
   const { autocompleteProps: categoryAutocompleteProps } = useAutocomplete({
     resource: "categories",
@@ -1172,7 +1182,9 @@ const SampleEdit = () => {
           helperText={(errors as any)?.id?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            InputLabelProps: { shrink: true },
+          }}
           type="number"
           label="Id"
           name="id"
@@ -1186,7 +1198,9 @@ const SampleEdit = () => {
           helperText={(errors as any)?.title?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            InputLabelProps: { shrink: true },
+          }}
           type="text"
           label="Title"
           name="title"
@@ -1199,7 +1213,9 @@ const SampleEdit = () => {
           helperText={(errors as any)?.content?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            InputLabelProps: { shrink: true },
+          }}
           multiline
           label="Content"
           name="content"
@@ -1275,7 +1291,9 @@ const SampleCreate = () => {
           helperText={(errors as any)?.title?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            InputLabelProps: { shrink: true },
+          }}
           type="text"
           label="Title"
           name="title"
@@ -1288,7 +1306,9 @@ const SampleCreate = () => {
           helperText={(errors as any)?.content?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
+          slotProps={{
+            InputLabelProps: { shrink: true },
+          }}
           multiline
           label="Content"
           name="content"

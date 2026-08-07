@@ -3,14 +3,14 @@ import { useQueryClient } from "@tanstack/react-query";
 
 export const useInvalidateAuthStore = () => {
   const queryClient = useQueryClient();
-  const { keys, preferLegacyKeys } = useKeys();
+  const { keys } = useKeys();
 
   const invalidate = async () => {
     await Promise.all(
       (["check", "identity", "permissions"] as const).map((action) =>
-        queryClient.invalidateQueries(
-          keys().auth().action(action).get(preferLegacyKeys),
-        ),
+        queryClient.invalidateQueries({
+          queryKey: keys().auth().action(action).get(),
+        }),
       ),
     );
   };

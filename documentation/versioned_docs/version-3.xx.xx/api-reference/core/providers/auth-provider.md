@@ -186,11 +186,11 @@ These hooks can be used with the `authProvider` authentication and authorization
 
 ### How can I create authProvider?
 
-[Refer to the "Create Auth Provider From Scratch" section in the tutorial for more information &#8594](/docs/3.xx.xx/tutorial/understanding-authprovider/create-authprovider/)
+[Refer to the "Create Auth Provider From Scratch" section in the tutorial for more information &#8594](/core/docs/3.xx.xx/tutorial/understanding-authprovider/create-authprovider/)
 
 ### How can I set authorization credentials?
 
-[Refer to the "Setting Authorization Credentials" section in the tutorial for more information &#8594](/docs/3.xx.xx/tutorial/understanding-authprovider/create-authprovider/#setting-authorization-credentials)
+[Refer to the "Setting Authorization Credentials" section in the tutorial for more information &#8594](/core/docs/3.xx.xx/tutorial/understanding-authprovider/create-authprovider/#setting-authorization-credentials)
 
 ## API Reference
 
@@ -214,14 +214,14 @@ These hooks can be used with the `authProvider` authentication and authorization
 
 <CodeSandboxExample path="auth-antd" />
 
-[use-login]: /docs/3.xx.xx/api-reference/core/hooks/auth/useLogin/
-[use-logout]: /docs/3.xx.xx/api-reference/core/hooks/auth/useLogout/
-[use-authenticated]: /docs/3.xx.xx/api-reference/core/hooks/auth/useAuthenticated/
-[use-check-error]: /docs/3.xx.xx/api-reference/core/hooks/auth/useCheckError/
-[use-get-identity]: /docs/3.xx.xx/api-reference/core/hooks/auth/useGetIdentity/
-[use-permissions]: /docs/3.xx.xx/api-reference/core/hooks/auth/usePermissions/
-[authenticated]: /docs/3.xx.xx/api-reference/core/components/auth/authenticated/
-[use-register]: /docs/3.xx.xx/api-reference/core/hooks/auth/useRegister/
-[use-forgot-password]: /docs/3.xx.xx/api-reference/core/hooks/auth/useForgotPassword/
-[use-update-password]: /docs/3.xx.xx/api-reference/core/hooks/auth/useUpdatePassword/
-[create-auth-provider-tutorial]: /docs/3.xx.xx/tutorial/understanding-authprovider/create-authprovider
+[use-login]: /core/docs/3.xx.xx/api-reference/core/hooks/auth/useLogin/
+[use-logout]: /core/docs/3.xx.xx/api-reference/core/hooks/auth/useLogout/
+[use-authenticated]: /core/docs/3.xx.xx/api-reference/core/hooks/auth/useAuthenticated/
+[use-check-error]: /core/docs/3.xx.xx/api-reference/core/hooks/auth/useCheckError/
+[use-get-identity]: /core/docs/3.xx.xx/api-reference/core/hooks/auth/useGetIdentity/
+[use-permissions]: /core/docs/3.xx.xx/api-reference/core/hooks/auth/usePermissions/
+[authenticated]: /core/docs/3.xx.xx/api-reference/core/components/auth/authenticated/
+[use-register]: /core/docs/3.xx.xx/api-reference/core/hooks/auth/useRegister/
+[use-forgot-password]: /core/docs/3.xx.xx/api-reference/core/hooks/auth/useForgotPassword/
+[use-update-password]: /core/docs/3.xx.xx/api-reference/core/hooks/auth/useUpdatePassword/
+[create-auth-provider-tutorial]: /core/docs/3.xx.xx/tutorial/understanding-authprovider/create-authprovider

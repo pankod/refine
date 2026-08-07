@@ -7,7 +7,7 @@ import {
   useGo,
 } from "@refinedev/core";
 import InputMask from "react-input-mask";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { useAutocomplete } from "@refinedev/mui";
 import {
   type UseStepsFormReturnType,

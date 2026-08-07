@@ -3,12 +3,7 @@
 
 describe("table-antd-advanced", () => {
   beforeEach(() => {
-    cy.interceptGETPosts();
     cy.visit("/");
-  });
-
-  it("should be view list page", () => {
-    cy.resourceList();
   });
 
   it("the row should be expandable", () => {
@@ -48,8 +43,6 @@ describe("table-antd-advanced", () => {
   it("should fill the form with the row data when click the edit button and save the form", () => {
     cy.getAntdLoadingOverlay().should("not.exist");
 
-    cy.interceptGETPost();
-
     cy.getEditButton().first().click();
 
     cy.get(".ant-input").should("exist");
@@ -64,8 +57,6 @@ describe("table-antd-advanced", () => {
 
     cy.get("#title").clear().type("Fuga eos enim autem eos.");
 
-    cy.interceptPATCHPost();
-
     cy.getSaveButton().first().click();
 
     cy.wait("@patchPost").then((interception) => {
@@ -78,8 +69,6 @@ describe("table-antd-advanced", () => {
 
   it("expanded row should be display the post content", () => {
     cy.getAntdLoadingOverlay().should("not.exist");
-
-    cy.interceptGETPosts();
 
     cy.getTableRowExpandButton(0).click();
 

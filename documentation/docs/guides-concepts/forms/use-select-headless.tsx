@@ -67,12 +67,12 @@ export const EditPage: React.FC = () => {
     });
     const product = productQuery?.data?.data;
 
-    const { options, queryResult: categoriesQueryResult } =
+    const { options, query: categoriesQuery } =
         useSelect<ICategory>({
             resource: "categories",
             defaultValue: product?.category.id,
         });
-    const categories = categoriesQueryResult?.data?.data;
+    const categories = categoriesQuery?.result?.data;
 
     // find category of product by id from categories
     const categoryOfProduct = categories?.find(

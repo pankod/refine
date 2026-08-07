@@ -12,7 +12,7 @@ import {
 import { useGetIdentity } from "@refinedev/core";
 import {
   HamburgerMenu,
-  type RefineThemedLayoutV2HeaderProps,
+  type RefineThemedLayoutHeaderProps,
 } from "@refinedev/mantine";
 import { IconMoonStars, IconSun } from "@tabler/icons-react";
 import React from "react";
@@ -23,9 +23,7 @@ type IUser = {
   avatar: string;
 };
 
-export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
-  sticky,
-}) => {
+export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({ sticky }) => {
   const { data: user } = useGetIdentity<IUser>();
 
   const theme = useMantineTheme();

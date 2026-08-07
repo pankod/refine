@@ -24,6 +24,10 @@ export const BlogPostEdit = () => {
   const { options: categoryOptions } = useSelect({
     resource: "categories",
     defaultValue: blogPostsData?.category?.id,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   React.useEffect(() => {

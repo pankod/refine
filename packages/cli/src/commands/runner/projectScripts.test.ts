@@ -1,3 +1,6 @@
+import { vi, afterEach, describe, test, expect } from "vitest";
+import path from "path";
+import fs from "fs";
 import { projectScripts } from "./projectScripts";
 import { ProjectTypes } from "@definitions/projectTypes";
 
@@ -168,7 +171,7 @@ describe("REMIX project type", () => {
 
   describe("getStart with empty args", () => {
     test("should return default", () => {
-      const logSpy = jest.spyOn(console, "warn");
+      const logSpy = vi.spyOn(console, "warn");
       expect(projectScripts[projectType].getStart([])).toEqual([
         "./build/index.js",
       ]);
@@ -221,7 +224,7 @@ describe("REMIX_VITE project type", () => {
 
   describe("getStart with empty args", () => {
     test("should return default", () => {
-      const logSpy = jest.spyOn(console, "warn");
+      const logSpy = vi.spyOn(console, "warn");
       expect(projectScripts[projectType].getStart([])).toEqual([
         "./build/server/index.js",
       ]);
@@ -459,5 +462,50 @@ describe("UNKNOWN project type", () => {
       const args = ["--arg1", "--arg2"];
       expect(projectScripts[projectType].getBuild(args)).toEqual([...args]);
     });
+  });
+});
+
+describe("resolveBin (workspace support)", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  test("should find binary in cwd node_modules/.bin (standard setup)", () => {
+    const mockCwd = "/project";
+    vi.spyOn(process, "cwd").mockReturnValue(mockCwd);
+    vi.spyOn(fs, "existsSync").mockImplementation((p) => {
+      return p === path.join(mockCwd, "node_modules", ".bin", "vite");
+    });
+
+    expect(projectScripts[ProjectTypes.VITE].getBin()).toBe(
+      path.join(mockCwd, "node_modules", ".bin", "vite"),
+    );
+  });
+
+  test("should find binary in parent node_modules/.bin (monorepo workspace setup)", () => {
+    const mockCwd = "/project/apps/admin";
+    const workspaceRoot = "/project";
+    vi.spyOn(process, "cwd").mockReturnValue(mockCwd);
+    vi.spyOn(fs, "existsSync").mockImplementation((p) => {
+      // Binary is NOT in the app's local node_modules, but IS in the workspace root
+      return p === path.join(workspaceRoot, "node_modules", ".bin", "vite");
+    });
+
+    expect(projectScripts[ProjectTypes.VITE].getBin()).toBe(
+      path.join(workspaceRoot, "node_modules", ".bin", "vite"),
+    );
+  });
+
+  test("should find binary for next.js in parent node_modules/.bin (monorepo workspace setup)", () => {
+    const mockCwd = "/project/apps/admin";
+    const workspaceRoot = "/project";
+    vi.spyOn(process, "cwd").mockReturnValue(mockCwd);
+    vi.spyOn(fs, "existsSync").mockImplementation((p) => {
+      return p === path.join(workspaceRoot, "node_modules", ".bin", "next");
+    });
+
+    expect(projectScripts[ProjectTypes.NEXTJS].getBin()).toBe(
+      path.join(workspaceRoot, "node_modules", ".bin", "next"),
+    );
   });
 });

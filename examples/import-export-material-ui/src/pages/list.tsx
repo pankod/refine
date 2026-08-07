@@ -15,14 +15,16 @@ import type { ICategory, IPost } from "../interfaces";
 export const ImportList: React.FC = () => {
   const { dataGridProps } = useDataGrid<IPost>();
 
-  const { data: categoryData, isLoading: categoryIsLoading } =
-    useMany<ICategory>({
-      resource: "categories",
-      ids: dataGridProps?.rows?.map((item) => item?.category?.id) ?? [],
-      queryOptions: {
-        enabled: !!dataGridProps?.rows,
-      },
-    });
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useMany<ICategory>({
+    resource: "categories",
+    ids: dataGridProps?.rows?.map((item) => item?.category?.id) ?? [],
+    queryOptions: {
+      enabled: !!dataGridProps?.rows,
+    },
+  });
 
   const { open } = useNotification();
 
@@ -58,12 +60,13 @@ export const ImportList: React.FC = () => {
       {
         field: "category",
         headerName: "Category",
-        valueGetter: ({ row }) => {
+        valueGetter: (_, row) => {
           const value = row?.category?.id;
 
           return value;
         },
         minWidth: 300,
+        display: "flex",
         renderCell: function render({ value }) {
           return categoryIsLoading ? (
             <>Loading...</>

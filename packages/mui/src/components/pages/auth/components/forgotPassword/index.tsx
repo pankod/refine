@@ -22,12 +22,10 @@ import {
   type HttpError,
   useForgotPassword,
   useLink,
-  useRouterContext,
-  useRouterType,
   useTranslate,
 } from "@refinedev/core";
 
-import { ThemedTitleV2 } from "@components";
+import { ThemedTitle } from "@components";
 import type { FormPropsType } from "../../index";
 import { layoutStyles, titleStyles } from "../styles";
 
@@ -59,13 +57,9 @@ export const ForgotPasswordPage: React.FC<ForgotPasswordProps> = ({
     ...useFormProps,
   });
 
-  const { mutate, isLoading } = useForgotPassword<ForgotPasswordFormTypes>();
+  const { mutate, isPending } = useForgotPassword<ForgotPasswordFormTypes>();
   const translate = useTranslate();
-  const routerType = useRouterType();
   const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
-
-  const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
 
   const PageTitle =
     title === false ? null : (
@@ -78,7 +72,7 @@ export const ForgotPasswordPage: React.FC<ForgotPasswordProps> = ({
         }}
       >
         {title ?? (
-          <ThemedTitleV2
+          <ThemedTitle
             collapsed={false}
             wrapperStyles={{
               gap: "8px",
@@ -150,7 +144,7 @@ export const ForgotPasswordPage: React.FC<ForgotPasswordProps> = ({
               </Typography>{" "}
               <MuiLink
                 variant="body2"
-                component={ActiveLink}
+                component={Link as any}
                 underline="none"
                 to="/login"
                 fontWeight="bold"
@@ -169,7 +163,7 @@ export const ForgotPasswordPage: React.FC<ForgotPasswordProps> = ({
             fullWidth
             variant="contained"
             sx={{ mt: "24px" }}
-            disabled={isLoading}
+            disabled={isPending}
           >
             {translate(
               "pages.forgotPassword.buttons.submit",

@@ -23,14 +23,18 @@ export const PostList = () => {
     syncWithLocation: true,
   });
 
-  const { listProps } = useSimpleList<IProducts>({
-    resource: "products",
-    dataProviderName: "fineFoods",
-  });
+  const //`useSimpleList` does not accept all of Ant Design's `List` component props anymore. You can directly use `List` component instead.,
+    { listProps } = useSimpleList<IProducts>({
+      resource: "products",
+      dataProviderName: "fineFoods",
+    });
 
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-  const { data, isLoading } = useMany<ICategory>({
+  const {
+    result: data,
+    query: { isLoading },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -43,6 +47,10 @@ export const PostList = () => {
     optionLabel: "title",
     optionValue: "id",
     defaultValue: getDefaultFilter("category.id", filters, "in"),
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const renderItem = (item: IProducts) => {

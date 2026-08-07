@@ -3,9 +3,11 @@ title: How to implement a date picker in React
 description: We’ll show you how to implement a date picker using the ‘react-datepicker’ library and how to customize the functionality for your use case.
 slug: react-date-picker
 authors: irakli_tchigladze
+category: "Ecosystem / Integrations"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-03-react-date-picker/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-03-react-date-picker/social-2.png
 hide_table_of_contents: false
+last_update: 2024-11-13
 ---
 
 **This article was last updated on November 12, 2024, to add sections for Accessibility Considerations, Internationalization and Localization, Performance Optimization, and Testing Date Pickers.**
@@ -76,7 +78,7 @@ export default function App() {
 }
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-03-react-date-picker/first.gif" alt="react date picker" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-03-react-date-picker/first.gif" alt="Date picker basic selection" />
 
 <br/>
 
@@ -234,7 +236,7 @@ export default function App() {
 }
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-03-react-date-picker/select_range%20.gif" alt="react date picker" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-03-react-date-picker/select_range%20.gif" alt="Date range selection" />
 
 <br/>
 
@@ -307,7 +309,7 @@ The React date picker that selects the end should have a **startDate** prop as w
 
 Also, have the **minDate** prop set to the start date. This will ensure that users can’t select an end date that comes earlier than the start date.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-03-react-date-picker/two-datepickers.png" alt="react date picker" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-03-react-date-picker/two-datepickers.png" alt="Two date pickers for range" />
 
 <br/>
 
@@ -344,7 +346,7 @@ export default function App() {
 }
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-03-react-date-picker/time-mintime.png" alt="react date picker" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-03-react-date-picker/time-mintime.png" alt="Date and time selection with min and max" />
 
 <br/>
 
@@ -408,7 +410,7 @@ export default function App() {
 }
 ```
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-03-react-date-picker/disable_dates.png" alt="react date picker" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-03-react-date-picker/disable_dates.png" alt="Disabled dates example" />
 
 <br/>
 
@@ -438,7 +440,7 @@ Set the **highlightDates** prop to an array of date values that should be highli
 
 Simply add the **isClearable** prop to the date picker to display a button to reset the selected date.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-03-react-date-picker/is_clearable.png" alt="react date picker" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-03-react-date-picker/is_clearable.png" alt="Clearable date picker control" />
 
 <br/>
 
@@ -504,7 +506,7 @@ Allow users to pick months and years instead of specific dates.
 
 By default, a date picker shows a calendar where users can select a date. Use the **monthsShown** prop to specify the number of months that should display simultaneously. For example, setting **monthsShown** to 3 will allow users to select dates (or ranges) from 90 days.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-03-react-date-picker/monthsshown.png" alt="react date picker" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-03-react-date-picker/monthsshown.png" alt="Multiple months displayed" />
 
 <br/>
 

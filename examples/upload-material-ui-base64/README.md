@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example upload-material-ui-base64
 
 <br/>
 
-[![Open upload-material-ui-base64 example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/upload-material-ui-base64?view=preview&theme=dark&codemirror=1)
+[![Open upload-material-ui-base64 example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/upload-material-ui-base64?view=preview&theme=dark&codemirror=1)

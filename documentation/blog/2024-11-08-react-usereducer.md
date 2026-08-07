@@ -3,9 +3,11 @@ title: React useReducer Hook - The Basics
 description: This post is about the useReducer() hook in React. We demonstrate with examples how to use it for action based state updates and discuss some safe practices.
 slug: react-usereducer
 authors: abdullah_numan
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-05-28-react-usereducer/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-05-28-react-usereducer/social.png
 hide_table_of_contents: false
+last_update: 2024-11-11
 ---
 
 **This article was last updated on November 8, 2024 to include lazy initialization, error handling techniques, and default selection strategies in advanced useReducer implementations.**
@@ -605,7 +607,7 @@ In `<Posts />` component, we are going to add a form for creating a post. The fo
 
 <details>
 
-<summary>Show `CreatePostForm />` component code</summary>
+<summary>Show `<CreatePostForm />` component code</summary>
 
 ```js
 import { useState } from "react";

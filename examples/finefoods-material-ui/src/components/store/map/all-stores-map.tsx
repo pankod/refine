@@ -19,7 +19,7 @@ export const AllStoresMap = () => {
   const [selectedStore, setSelectedStore] = useState<IStore | null>(null);
   const { edit } = useNavigation();
 
-  const { data: storeData } = useList<IStore>({
+  const { result: storeData } = useList<IStore>({
     resource: "stores",
     pagination: {
       mode: "off",

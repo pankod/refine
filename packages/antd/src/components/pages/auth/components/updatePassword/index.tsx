@@ -1,8 +1,7 @@
 import React from "react";
-import {
-  type UpdatePasswordPageProps,
-  type UpdatePasswordFormTypes,
-  useActiveAuthProvider,
+import type {
+  UpdatePasswordPageProps,
+  UpdatePasswordFormTypes,
 } from "@refinedev/core";
 import {
   Row,
@@ -27,7 +26,7 @@ import {
   headStyles,
   bodyStyles,
 } from "../styles";
-import { ThemedTitleV2 } from "@components";
+import { ThemedTitle } from "@components";
 
 type UpdatePasswordProps = UpdatePasswordPageProps<
   LayoutProps,
@@ -51,11 +50,8 @@ export const UpdatePasswordPage: React.FC<UpdatePasswordProps> = ({
   const { token } = theme.useToken();
   const [form] = Form.useForm<UpdatePasswordFormTypes>();
   const translate = useTranslate();
-  const authProvider = useActiveAuthProvider();
-  const { mutate: updatePassword, isLoading } =
-    useUpdatePassword<UpdatePasswordFormTypes>({
-      v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-    });
+  const { mutate: updatePassword, isPending } =
+    useUpdatePassword<UpdatePasswordFormTypes>();
 
   const PageTitle =
     title === false ? null : (
@@ -67,7 +63,7 @@ export const UpdatePasswordPage: React.FC<UpdatePasswordProps> = ({
           fontSize: "20px",
         }}
       >
-        {title ?? <ThemedTitleV2 collapsed={false} />}
+        {title ?? <ThemedTitle collapsed={false} />}
       </div>
     );
 
@@ -86,8 +82,10 @@ export const UpdatePasswordPage: React.FC<UpdatePasswordProps> = ({
   const CardContent = (
     <Card
       title={CardTitle}
-      headStyle={headStyles}
-      bodyStyle={bodyStyles}
+      styles={{
+        header: headStyles,
+        body: bodyStyles,
+      }}
       style={{
         ...containerStyles,
         backgroundColor: token.colorBgElevated,
@@ -166,7 +164,7 @@ export const UpdatePasswordPage: React.FC<UpdatePasswordProps> = ({
             type="primary"
             size="large"
             htmlType="submit"
-            loading={isLoading}
+            loading={isPending}
             block
           >
             {translate("pages.updatePassword.buttons.submit", "Update")}

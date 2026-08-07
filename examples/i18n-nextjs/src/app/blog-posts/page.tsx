@@ -18,7 +18,10 @@ export default function BlogPostList() {
     syncWithLocation: true,
   });
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useMany({
+  const {
+    result: categoryData,
+    query: { isLoading: categoryIsLoading },
+  } = useMany({
     resource: "categories",
     ids:
       tableProps?.dataSource
@@ -59,7 +62,7 @@ export default function BlogPostList() {
           render={(value: string) => {
             return (
               <Typography.Text>
-                {t(`posts.fields.status.${value}`)}
+                {t(`blog_posts.fields.status.${value}`)}
               </Typography.Text>
             );
           }}

@@ -8,9 +8,10 @@ import type { ICompany } from "interfaces";
 import { CompanyItem, CreateCompany, EditCompany } from "@/components/company";
 
 export const CompanyList = () => {
-  const { listProps } = useSimpleList<ICompany>({
-    metaData: { populate: ["logo"] },
-  });
+  const //`useSimpleList` does not accept all of Ant Design's `List` component props anymore. You can directly use `List` component instead.,
+    { listProps } = useSimpleList<ICompany>({
+      meta: { populate: ["logo"] },
+    });
 
   const {
     modalProps: createModalProps,
@@ -18,7 +19,7 @@ export const CompanyList = () => {
     show: createShow,
   } = useModalForm<ICompany, HttpError, ICompany>({
     action: "create",
-    metaData: { populate: ["logo"] },
+    meta: { populate: ["logo"] },
   });
 
   const {
@@ -27,7 +28,7 @@ export const CompanyList = () => {
     show: editShow,
   } = useModalForm<ICompany, HttpError, ICompany>({
     action: "edit",
-    metaData: { populate: ["logo"] },
+    meta: { populate: ["logo"] },
   });
 
   return (

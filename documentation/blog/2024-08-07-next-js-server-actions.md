@@ -3,9 +3,11 @@ title: Next.js 13.4's Server Actions and Data Fetching
 description: We'll delve into the Next.js alpha feature Server actions and data fetching techniques.
 slug: next-js-server-actions-and-data-fetching
 authors: victor_uma
-tags: [nextjs]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-29-next-js-server-actions/social-2.png
+category: "Tutorials"
+tags: [nextjs, backend]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-29-next-js-server-actions/social-2.png
 hide_table_of_contents: false
+last_update: 2024-08-09
 ---
 
 **This article was last updated on August 07, 2024, to add sections on Security Considerations and SWR.**
@@ -17,12 +19,6 @@ Delivering flawless user experience and structured data retrieval is of the most
 Understanding the fundamentals of data fetching is essential to harnessing the power of Next.js. In this tutorial, we're going to dive deep into Next.js data fetching and server actions and how we can use and manage its features in an application. Whether you're a seasoned Next.js developer or exploring the framework for the first time, this article will provide valuable insights and practical examples to supercharge your web applications.
 
 Server actions are an alpha feature in Next.js, enable you to build custom server endpoints that handle specific actions and data operations. Next.js API routes offer a robust foundation to implement server actions effectively, bridging the gap between the client and server seamlessly. We'll delve into the intricacies of creating API routes, handling client-server communication, and implementing server-side functionalities.
-
-Steps we'll cover:
-
-- [Basics of Next.js](#basics-of-nextjs)
-- [Data Fetching in Next.js](#data-fetching-in-nextjs)
-- [Server actions in Next.js](#server-actions-in-nextjs)
 
 ## Basics of Next.js
 

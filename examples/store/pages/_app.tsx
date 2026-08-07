@@ -36,7 +36,10 @@ type AppPropsWithLayout = AppProps & {
   categories: GetListResponse<ProductCollection>;
 };
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
+function MyApp({
+  Component,
+  pageProps,
+}: AppPropsWithLayout): React.JSX.Element {
   const { categories } = pageProps;
 
   useAnalytics();

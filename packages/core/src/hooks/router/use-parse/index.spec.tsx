@@ -1,4 +1,5 @@
 import React from "react";
+import { vi } from "vitest";
 
 import { renderHook } from "@testing-library/react";
 
@@ -8,7 +9,7 @@ import { useParse } from "./";
 
 describe("useParse Hook", () => {
   it("should return routerProvider parse function", () => {
-    const mockParse = jest.fn();
+    const mockParse = vi.fn();
 
     const { result } = renderHook(() => useParse(), {
       wrapper: TestWrapper({
@@ -24,7 +25,7 @@ describe("useParse Hook", () => {
 
     result.current();
 
-    expect(mockParse).toBeCalledTimes(1);
+    expect(mockParse).toHaveBeenCalledTimes(1);
   });
 
   it("if routerProvider parse function is not defined, should return empty object", () => {
@@ -46,7 +47,7 @@ describe("useParse Hook", () => {
   });
 
   it("if it is used outside of router provider, should return empty object", () => {
-    jest.spyOn(React, "useContext").mockReturnValue(undefined);
+    vi.spyOn(React, "useContext").mockReturnValue(undefined);
 
     const { result } = renderHook(() => useParse());
 

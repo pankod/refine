@@ -3,9 +3,11 @@ title: Top React JS Frameworks Every Developer Should Know
 description: We will compare the features of Refine and react-admin
 slug: best-react-frameworks
 authors: aydin
-tags: [comparison]
+category: "Alternatives"
+tags: [react, comparison]
 image: https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/placeholder.png
 hide_table_of_contents: false
+last_update: 2025-03-24
 ---
 
 ## Best UI Frameworks for React.js
@@ -48,7 +50,7 @@ npm start
 
 **Example**
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-02-21-top-react-frameworks/create-react-app.png" alt="create-react-app" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-02-21-top-react-frameworks/create-react-app.png" alt="Create React App logo" />
 
 ### 2. Material UI <a name="material-ui"></a>
 
@@ -68,7 +70,7 @@ yarn add @mui/material @emotion/react @emotion/styled
 
 [Link](https://mui.com/getting-started/templates/dashboard/)
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-02-21-top-react-frameworks/material-ui.png" alt="material-ui" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-02-21-top-react-frameworks/material-ui.png" alt="Material UI logo" />
 
 ### 3. Ant Design <a name="antd"></a>
 
@@ -86,7 +88,7 @@ yarn add antd
 
 [Link](https://preview.pro.ant.design/dashboard/analysis/)
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-02-21-top-react-frameworks/antd.png" alt="antd" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-02-21-top-react-frameworks/antd.png" alt="Ant Design logo" />
 
 ### 4. React Bootstrap <a name="react-bootstrap"></a>
 
@@ -101,7 +103,7 @@ npm install react-bootstrap bootstrap@5.1.3
 
 [Link](https://demos.creative-tim.com/light-bootstrap-dashboard-react/#/admin/dashboard)
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-02-21-top-react-frameworks/react-bootstrap.png" alt="react-bootstrap" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-02-21-top-react-frameworks/react-bootstrap.png" alt="React Bootstrap logo" />
 
 ### 5. Refine <a name="refine"></a>
 
@@ -112,7 +114,7 @@ npm install react-bootstrap bootstrap@5.1.3
 ​
 ⚙️ Experience effortless setup in just a minute using a single command via **zero-configuration**.
 
-🔌 Seamlessly connect to over **15 backend services** such as [REST API](https://github.com/refinedev/refine/tree/master/packages/simple-rest), [GraphQL](https://github.com/refinedev/refine/tree/master/packages/graphql), [NestJs CRUD](https://github.com/refinedev/refine/tree/master/packages/nestjsx-crud), [Airtable](https://github.com/refinedev/refine/tree/master/packages/airtable), [Strapi](https://github.com/refinedev/refine/tree/master/packages/strapi), [Strapi v4](https://github.com/refinedev/refine/tree/master/packages/strapi-v4), [Supabase](https://github.com/refinedev/refine/tree/master/packages/supabase), [Hasura](https://github.com/refinedev/refine/tree/master/packages/hasura), [Appwrite](https://github.com/refinedev/refine/tree/master/packages/appwrite), [Firebase](https://firebase.google.com/), and [Directus](https://directus.io/).
+🔌 Seamlessly connect to over **15 backend services** such as [REST API](https://github.com/refinedev/refine/tree/main/packages/simple-rest), [GraphQL](https://github.com/refinedev/refine/tree/main/packages/graphql), [NestJs CRUD](https://github.com/refinedev/refine/tree/main/packages/nestjsx-crud), [Airtable](https://github.com/refinedev/refine/tree/main/packages/airtable), [Strapi](https://github.com/refinedev/refine/tree/main/packages/strapi), [Strapi v4](https://github.com/refinedev/refine/tree/main/packages/strapi-v4), [Supabase](https://github.com/refinedev/refine/tree/main/packages/supabase), [Hasura](https://github.com/refinedev/refine/tree/main/packages/hasura), [Appwrite](https://github.com/refinedev/refine/tree/main/packages/appwrite), [Firebase](https://firebase.google.com/), and [Directus](https://directus.io/).
 
 🌐 Enable **server-side rendering (SSR)** support using **Next.js** or **Remix**.
 
@@ -132,7 +134,7 @@ npm install react-bootstrap bootstrap@5.1.3
 
 💪 Ensure a future-proof and **robust architecture**.
 
-⌛️ Utilize the time-saving features of the built-in [CLI](https://refine.dev/docs/packages/documentation/cli/).
+⌛️ Utilize the time-saving features of the built-in [CLI](https://refine.dev/core/docs/packages/cli/).
 
 ✅ Benefit from comprehensive **test coverage** for enhanced reliability.
 
@@ -141,7 +143,7 @@ There are two ways to add UI elements to Refine;
 1. Using a UI Library such as Tailwind, Chakra UI, etc.
 2. Using a complete UI Framework such as Ant Design, Material UI, etc.
 
-The recommended way is using the [superplate](https://github.com/pankod/superplate) tool. superplate's CLI wizard will let you create and customize your application in seconds. You can find tutorial from [here](https://refine.dev/tutorial)
+The recommended way is using the [superplate](https://github.com/pankod/superplate) tool. superplate's CLI wizard will let you create and customize your application in seconds. You can find tutorial from [here](https://refine.dev/core/tutorial)
 
 ```
 npm create refine-app@latest
@@ -151,11 +153,11 @@ npm create refine-app@latest
 
 [Link](https://example.admin.refine.dev/?current=1&pageSize=5)
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-02-21-top-react-frameworks/refine.png" alt="refine-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-02-21-top-react-frameworks/refine.png" alt="Refine logo" />
 
 [Link](https://example.refine.dev)
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-02-21-top-react-frameworks/refine-2.png" alt="refine" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-02-21-top-react-frameworks/refine-2.png" alt="Refine logo" />
 
 If you enjoyed this article, please hit that little heart button and share with others!
 This will help us grow our community so we can all learn more together.

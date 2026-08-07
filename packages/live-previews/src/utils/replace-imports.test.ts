@@ -30,6 +30,34 @@ describe("Replace Imports Helper", () => {
     expect(result).toContain("const { useForm: useRefineForm } = RefineCore;");
     expect(result).not.toContain(content);
   });
+  it("works with @refinedev/rest root imports", () => {
+    const content = `import { createSimpleRestDataProvider } from "@refinedev/rest";`;
+    const result = replaceImports(content);
+    expect(result).toContain(
+      "const { createSimpleRestDataProvider } = RefineRest;",
+    );
+    expect(result).not.toContain(content);
+  });
+  it("works with @refinedev/rest subpath imports", () => {
+    const content = `import { createNestjsxCrudDataProvider } from "@refinedev/rest/nestjsx-crud";
+import { createStrapiV4DataProvider } from "@refinedev/rest/strapi-v4";`;
+    const result = replaceImports(content);
+    expect(result).toContain(
+      "const { createNestjsxCrudDataProvider } = RefineRest;",
+    );
+    expect(result).toContain(
+      "const { createStrapiV4DataProvider } = RefineRest;",
+    );
+    expect(result).not.toContain(content);
+  });
+  it("works with @refinedev/rest/simple-rest subpath imports", () => {
+    const content = `import { createSimpleRestDataProvider } from "@refinedev/rest/simple-rest";`;
+    const result = replaceImports(content);
+    expect(result).toContain(
+      "const { createSimpleRestDataProvider } = RefineRest;",
+    );
+    expect(result).not.toContain(content);
+  });
   it("should work with multiline code", () => {
     const content = `import { useForm, useStepsForm } from "@refinedev/core";
 import { default as RefineCore } from "@refinedev/core";

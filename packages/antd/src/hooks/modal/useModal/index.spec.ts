@@ -1,5 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
+import { vi } from "vitest";
 
 import { TestWrapper } from "@test";
 
@@ -71,7 +72,7 @@ describe("useModal Hook", () => {
   });
 
   it("should call close on modal onCancel", async () => {
-    const mockedOnClose = jest.fn();
+    const mockedOnClose = vi.fn();
     const { result } = renderHook(
       () =>
         useModal({
@@ -102,7 +103,7 @@ describe("useModal Hook", () => {
     });
 
     expect(result.current.modalProps.open).toEqual(false);
-    expect(mockedOnClose).toBeCalledTimes(1);
+    expect(mockedOnClose).toHaveBeenCalledTimes(1);
   });
 
   it("should call close if modalProps onCancel is undefined", async () => {

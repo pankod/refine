@@ -3,9 +3,11 @@ title: How Next.js Redirects Work
 description: We'll examine the concept of URL redirection in Next.js and how redirects work.
 slug: next-js-redirect
 authors: michael
+category: "Tutorials"
 tags: [nextjs]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-05-16-next-redirects/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-05-16-next-redirects/social-2.png
 hide_table_of_contents: false
+last_update: 2024-07-30
 ---
 
 **This article was last updated on July 29, 2024, to add sections for Custom Redirects and Redirect Chains.**
@@ -15,14 +17,6 @@ hide_table_of_contents: false
 The concept of URL redirection in web application development is one that is ubiquitous. We experience it almost every time during our usage of the internet. Think about the last time you were trying to sign up on a website and they asked you to sign up with Google. Remember all the pop-ups and redirects that happen before you're finally signed up to the website? Yeah, that's a typical example of URL redirection in web app development.
 
 In this article, we'll examine the concept of URL redirection in Next.js, you'll learn how Next.js redirects work, how to implement them in your next project and everything else you need to know about Next.js redirects. Now, let's get started!
-
-Steps we'll cover:
-
-- [What is URL Redirection?](#what-is-url-redirection)
-- [How to make redirects in Next.js](#how-to-make-redirects-in-nextjs)
-- [Methods of Redirecting in Next.js](#methods-of-redirecting-in-nextjs)
-- [Custom Redirects](#custom-redirects)
-- [Performance Considerations](#performance-considerations)
 
 ## Prerequisites
 

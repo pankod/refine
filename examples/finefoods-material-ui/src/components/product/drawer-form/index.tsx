@@ -6,7 +6,7 @@ import {
   useTranslate,
 } from "@refinedev/core";
 import { DeleteButton, useAutocomplete } from "@refinedev/mui";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { useForm } from "@refinedev/react-hook-form";
 import { Controller } from "react-hook-form";
 import Button from "@mui/material/Button";
@@ -232,10 +232,12 @@ export const ProductDrawerForm = (props: Props) => {
                       label={t("products.fields.price")}
                       placeholder={t("products.fields.price")}
                       type="number"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">$</InputAdornment>
-                        ),
+                      slotProps={{
+                        input: {
+                          startAdornment: (
+                            <InputAdornment position="start">$</InputAdornment>
+                          ),
+                        },
                       }}
                     />
                   );

@@ -22,6 +22,10 @@ export const PostEdit: React.FC = () => {
 
   const { options } = useSelect({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

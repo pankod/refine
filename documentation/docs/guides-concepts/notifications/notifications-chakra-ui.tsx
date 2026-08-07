@@ -10,7 +10,7 @@ export default function NotificationChakraUI() {
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
         "@chakra-ui/react": "^2.5.1",
-        "@refinedev/chakra-ui": "^2.26.17",
+        "@refinedev/chakra-ui": "latest",
       }}
       startRoute="/"
       files={{

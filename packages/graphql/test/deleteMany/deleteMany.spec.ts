@@ -1,4 +1,4 @@
-import { gql } from "@urql/core";
+import gql from "graphql-tag";
 import dataProvider from "../../src/index";
 import client from "../gqlClient";
 import "./deleteMany.mock";
@@ -14,7 +14,7 @@ mutation DeleteManyBlogPosts($input: DeleteManyBlogPostsInput!) {
 describe("deleteMany", () => {
   describe("with correct params", () => {
     it("works as expected", async () => {
-      const ids = ["333", "334"];
+      const ids = ["555", "666"];
       const { data } = await dataProvider(client).deleteMany({
         resource: "blogPosts",
         ids,
@@ -29,9 +29,9 @@ describe("deleteMany", () => {
 
   describe("without operation", () => {
     it("throws error", async () => {
-      expect(
+      await expect(
         dataProvider(client).deleteMany({ resource: "blogPosts", ids: [1, 2] }),
-      ).rejects.toEqual(new Error("Operation is required."));
+      ).rejects.toEqual(new Error("[Code] Operation is required."));
     });
   });
 });

@@ -1,31 +1,22 @@
 ---
-title: useNotification
-source: https://github.com/refinedev/refine/blob/master/packages/core/src/hooks/notification/useNotification/index.ts
+title: "useNotification Hook | Best Practices for Notifications in Refine v5"
+display_title: "useNotification"
+sidebar_label: "useNotification"
+description: "Explore how to use the useNotification hook in Refine v5. Explore best practices for open and undoable for real-world React admin panels."
+source: https://github.com/refinedev/refine/blob/main/packages/core/src/hooks/notification/useNotification/index.ts
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import BasicUsageLivePreview from "./\_basic-usage-live-preview.md";
+import BasicUsageLivePreview from "./basic-usage-live-preview.md";
 
-`useNotification` can be used to `open` or `close` notification at any time. It returns the `open` and `close` method from [`notificationProvider`](/docs/notification/notification-provider) under the hood.
+`useNotification` can be used to `open` or `close` notification at any time. It returns the `open` and `close` method from [`notificationProvider`](/core/docs/notification/notification-provider/) under the hood.
 
 ## Usage
 
 Here is a basic example of how to use `useNotification` hook.
 
-```tsx
-const { open, close } = useNotification();
-
-// open notification
-open?.({
-  type: "success",
-  message: "Success",
-  description: "This is a success message",
-});
-
-// close notification
-close?.("notification-key");
-```
+ <BasicUsageLivePreview/>
 
 ## Properties
 
@@ -43,7 +34,7 @@ open?.({
 });
 ```
 
-> For more information, refer to the [`Open Notification Params` interface→](/docs/core/interface-references#open-notification-params)
+> For more information, refer to the [`Open Notification Params` interface→](/core/docs/core/interface-references#open-notification-params)
 
 ### close
 
@@ -80,7 +71,7 @@ open?.({
 
 ### Return Values
 
-| Property | Description               | Type                                                                                   |
-| -------- | ------------------------- | -------------------------------------------------------------------------------------- |
-| open     | Open Notification Params  | [`Open Notification Params`](/docs/core/interface-references#open-notification-params) |
-| close    | Close Notification Params | `(key: string) => void;`                                                               |
+| Property | Description               | Type                                                                                        |
+| -------- | ------------------------- | ------------------------------------------------------------------------------------------- |
+| open     | Open Notification Params  | [`Open Notification Params`](/core/docs/core/interface-references#open-notification-params) |
+| close    | Close Notification Params | `(key: string) => void;`                                                                    |

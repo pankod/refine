@@ -3,9 +3,11 @@ title: How to Use the JavaScript Ternary Operator
 description: We expound on the use of JS Ternary Operator with examples of what it is, how it works and discuss the best practices.
 slug: javascript-ternary-operator
 authors: abdullah_numan
+category: "Tutorials"
 tags: [javascript]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-15-js-ternary/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-15-js-ternary/social.png
 hide_table_of_contents: false
+last_update: 2024-10-08
 ---
 
 **_TThis article was last updated on October 08, 2024 to include deeper performance considerations, technical insights on how JavaScript engines process the Ternary Operator, and examples illustrating the use of the operator in complex scenarios such as handling asynchronous operations._**
@@ -13,27 +15,6 @@ hide_table_of_contents: false
 ## Introduction
 
 This post is about the Ternary Operator in JavaScript. We discuss what the ternary operator is and how it works. We go over some examples demonstrating when and why to use it and how it compares to other JavaScript control structures like `if/else`, `if/else if/else` and `switch`. We also learn about some of the best practices while using JS Ternary Operator.
-
-Steps we'll cover:
-
-- [Introduction](#introduction)
-- [What is JavaScript Ternary Operator ?](#what-is-javascript-ternary-operator-)
-- [How JS Ternary Operator Works](#how-js-ternary-operator-works)
-  - [What are Truthy/Falsy Values ?](#what-are-truthyfalsy-values-)
-- [When to Use the JS Ternary Operator ?](#when-to-use-the-js-ternary-operator-)
-  - [JavaScript Ternary Operator: A Shorthand for `if/else`](#javascript-ternary-operator-a-shorthand-for-ifelse)
-  - [Using the JavaScript Ternary Operator to Test a Function's Truthiness](#using-the-javascript-ternary-operator-to-test-a-functions-truthiness)
-  - [Handling Nullish Values with JS Ternary Operator](#handling-nullish-values-with-js-ternary-operator)
-  - [JavaScript Ternary Operator: When The Return Value Rules](#javascript-ternary-operator-when-the-return-value-rules)
-  - [Chaining Ternary Operators in JavaScript](#chaining-ternary-operators-in-javascript)
-- [Bonus: Quick Ternary Operator Tips for Beginners](#bonus-quick-ternary-operator-tips-for-beginners)
-- [Performance considerations](#performance-considerations)
-  - [Performance Comparison: if/else vs. Ternary Operator](#performance-comparison-ifelse-vs-ternary-operator)
-    - [using if/else](#using-ifelse)
-    - [Using Ternary Operator](#using-ternary-operator)
-    - [Benchmark Example](#benchmark-example)
-- [JavaScript Ternary Operator Best Practices](#javascript-ternary-operator-best-practices)
-- [Summary](#summary)
 
 ## What is JavaScript Ternary Operator ?
 

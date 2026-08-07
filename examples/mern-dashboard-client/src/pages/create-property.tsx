@@ -7,9 +7,7 @@ import type { FieldValues } from "react-hook-form";
 import Form from "components/common/Form";
 
 const CreateProperty = () => {
-  const { data: user } = useGetIdentity({
-    v3LegacyAuthProviderCompatible: true,
-  });
+  const { data: user } = useGetIdentity();
   const [propertyImage, setPropertyImage] = useState({ name: "", url: "" });
   const {
     refineCore: { onFinish, formLoading },

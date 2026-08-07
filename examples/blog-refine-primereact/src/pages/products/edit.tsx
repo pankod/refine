@@ -29,6 +29,10 @@ export const ProductEdit = () => {
 
   const { options: categoryOptions } = useSelect({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const getFormErrorMessage = (name: keyof IProduct) => {

@@ -1,5 +1,8 @@
 ---
-title: Url
+title: "MUI Url Field Component | UI Component in Refine v5"
+display_title: "Url"
+sidebar_label: "Url"
+description: "Explore how to integrate Url Field in Refine v5. Explore customization options for Material Design, components for polished admin UIs."
 swizzle: true
 ---
 
@@ -7,7 +10,7 @@ This field lets you embed a link. It uses Material UI's [`<Typography>`](https:/
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -16,6 +19,8 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 Let's see how we can use `<UrlField>` with an example:
 
 ```tsx live url=http://localhost:3000/posts previewHeight=340px
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import {
   useDataGrid,
@@ -31,6 +36,7 @@ const columns: GridColDef[] = [
   {
     field: "image",
     headerName: "Image URL",
+    display: "flex",
     renderCell: function render({ row }) {
       // highlight-start
       return <UrlField value={row.image[0].url} />;
@@ -46,7 +52,7 @@ const PostsList: React.FC = () => {
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 };
@@ -63,14 +69,29 @@ interface IImage {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    resources={[
-      {
-        name: "posts",
-        list: PostsList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostsList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

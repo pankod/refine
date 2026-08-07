@@ -1,6 +1,5 @@
 import type { IResourceItem } from "../../../contexts/resource/types";
 import { pickResource } from "../pick-resource";
-import { pickNotDeprecated } from "../pickNotDeprecated";
 
 /**
  * Picks the data provider name based on the provided name or fallbacks to resource definition, or `default`.
@@ -19,7 +18,7 @@ export const pickDataProvider = (
    */
   const resource = pickResource(resourceName, resources);
 
-  const meta = pickNotDeprecated(resource?.meta, resource?.options);
+  const meta = resource?.meta;
 
   if (meta?.dataProviderName) {
     return meta.dataProviderName;

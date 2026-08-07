@@ -4,7 +4,7 @@ import { GitHubBanner, Refine } from "@refinedev/core";
 import {
   useNotificationProvider,
   RefineSnackbarProvider,
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
   ErrorComponent,
 } from "@refinedev/mui";
@@ -21,8 +21,8 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import dataProvider from "@refinedev/simple-rest";
 
 function App() {
@@ -53,9 +53,9 @@ function App() {
             <Routes>
               <Route
                 element={
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 }
               >
                 <Route

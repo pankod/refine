@@ -1,16 +1,16 @@
-import React from "react";
 import clsx from "clsx";
+import React from "react";
 
 import SearchBar from "../theme/SearchBar";
 
-import { TutorialRefineLogo } from "./tutorial-refine-logo";
+import { Dialog, Transition } from "@headlessui/react";
 import { CommonHamburgerIcon } from "./common-hamburger-icon";
 import { CommonThemeToggle, CommonThemeToggleAlt } from "./common-theme-toggle";
 import { DocSearchButton } from "./doc-search-button";
-import { TutorialParameterDropdown } from "./tutorial-parameter-dropdown";
-import { TutorialNavigation } from "./tutorial-navigation";
-import { Dialog, Transition } from "@headlessui/react";
 import { socialLinks } from "./footer-data";
+import { TutorialNavigation } from "./tutorial-navigation";
+import { TutorialParameterDropdown } from "./tutorial-parameter-dropdown";
+import { TutorialRefineLogo } from "./tutorial-refine-logo";
 
 import Link from "@docusaurus/Link";
 
@@ -35,7 +35,7 @@ const TutorialModal = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-0 dark:bg-gray-800" />
+          <div className="fixed inset-0 bg-white dark:bg-zinc-800" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -74,7 +74,7 @@ const TutorialModal = ({
                     "flex-col",
                     "mx-auto",
                     "rounded-lg",
-                    "border border-gray-300 dark:border-gray-600",
+                    "border border-zinc-300 dark:border-zinc-600",
                     "flex flex-col gap-0",
                   )}
                 >
@@ -84,14 +84,14 @@ const TutorialModal = ({
                       "gap-10",
                       "px-4",
                       "py-4",
-                      "border-b border-b-gray-200 dark:border-b-gray-600",
+                      "border-b border-b-zinc-200 dark:border-b-zinc-600",
                     )}
                   >
                     <span
                       className={clsx(
                         "text-sm",
-                        "text-gray-800",
-                        "dark:text-gray-100",
+                        "text-zinc-800",
+                        "dark:text-white",
                       )}
                     >
                       Appearance
@@ -104,17 +104,17 @@ const TutorialModal = ({
                       "gap-10",
                       "px-4",
                       "py-4",
-                      "border-b border-b-gray-200 dark:border-b-gray-600",
+                      "border-b border-b-zinc-200 dark:border-b-zinc-600",
                     )}
                   >
                     <Link
-                      to="/"
+                      to="/core/"
                       className={clsx(
                         "text-sm",
                         "no-underline",
                         "hover:no-underline",
                         "font-semibold",
-                        "text-gray-800 dark:text-gray-100",
+                        "text-zinc-800 dark:text-white",
                       )}
                     >
                       Refine Home
@@ -126,17 +126,17 @@ const TutorialModal = ({
                       "gap-10",
                       "px-4",
                       "py-4",
-                      "border-b border-b-gray-200 dark:border-b-gray-600",
+                      "border-b border-b-zinc-200 dark:border-b-zinc-600",
                     )}
                   >
                     <Link
-                      to="/docs"
+                      to="/core/docs/"
                       className={clsx(
                         "text-sm",
                         "no-underline",
                         "hover:no-underline",
                         "font-semibold",
-                        "text-gray-800 dark:text-gray-100",
+                        "text-zinc-800 dark:text-white",
                       )}
                     >
                       Documentation
@@ -147,14 +147,14 @@ const TutorialModal = ({
                       "flex items-start justify-between",
                       "px-4",
                       "py-4",
-                      "bg-gray-100 dark:bg-gray-700",
+                      "bg-zinc-100 dark:bg-zinc-700",
                       "flex-col tutorial-sm:flex-row",
                       "gap-4",
                     )}
                   >
                     <div
                       className={clsx(
-                        "dark:text-gray-100 text-gray-800",
+                        "dark:text-white text-zinc-800",
                         "text-sm leading-6",
                       )}
                     >
@@ -163,7 +163,7 @@ const TutorialModal = ({
                     <div
                       className={clsx(
                         "flex gap-4",
-                        "dark:text-gray-400 text-gray-500",
+                        "dark:text-zinc-400 text-zinc-500",
                       )}
                     >
                       {socialLinks.map(({ href, icon: Icon }, i) => {
@@ -172,7 +172,7 @@ const TutorialModal = ({
                             key={i}
                             href={href}
                             target="_blank"
-                            rel="noreferrer"
+                            rel="noopener"
                             className={clsx("flex items-center no-underline")}
                           >
                             <Icon
@@ -305,13 +305,13 @@ export const TutorialHeader = React.memo(function TutorialHeaderComponent() {
       className={clsx(
         "flex items-center justify-center",
         "flex-col",
-        // "h-16",
+        "min-h-16",
+        "pb-4 tutorial-sm:pb-0",
         "z-10",
         "sticky",
         "top-0",
-        "py-4 pb-[15px] tutorial-sm:pt-[15px] tutorial-sm:pb-[16px] px-4 tutorial-md:px-6 tutorial-md:pt-[11px] tutorial-md:pb-[10px]",
-        "bg-gray-0 dark:bg-gray-800",
-        "border-b border-gray-300 dark:border-gray-700",
+        "pr-4 tutorial-md:pr-6",
+        "bg-white dark:bg-neutral-900",
       )}
     >
       <Header />

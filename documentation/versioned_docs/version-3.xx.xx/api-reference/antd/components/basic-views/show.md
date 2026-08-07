@@ -67,7 +67,7 @@ render(
 ```
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Properties
@@ -127,7 +127,7 @@ render(
 
 The `<Show>` component reads the `resource` information from the route by default. This default behavior will not work on custom pages. If you want to use the `<Show>` component in a custom page, you can use the `resource` property.
 
-[Refer to the custom pages documentation for detailed usage. &#8594](/advanced-tutorials/custom-pages.md)
+[Refer to the custom pages documentation for detailed usage. &#8594](/core/docs/3.xx.xx/advanced-tutorials/custom-pages)
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/custom/2
 setInitialRoutes(["/custom/2"]);
@@ -175,9 +175,9 @@ render(<App />);
 
 `canDelete` and `canEdit` allows us to add the delete and edit buttons inside the `<Show>` component. If the resource has `canDelete` or `canEdit` property refine adds the buttons by default.
 
-When clicked on, delete button executes the `useDelete` method provided by the [`dataProvider`](/api-reference/core/providers/data-provider.md) and the edit button redirects the user to the record edit page.
+When clicked on, delete button executes the `useDelete` method provided by the [`dataProvider`](/core/docs/3.xx.xx/api-reference/core/providers/data-provider) and the edit button redirects the user to the record edit page.
 
-Refer to the [`<DeleteButton>`](/api-reference/antd/components/buttons/delete.md) and the [`<EditButton>`](/api-reference/antd/components/buttons/edit.md) documentation for detailed usage.
+Refer to the [`<DeleteButton>`](/core/docs/3.xx.xx/api-reference/antd/components/buttons/delete) and the [`<EditButton>`](/core/docs/3.xx.xx/api-reference/antd/components/buttons/edit) documentation for detailed usage.
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/2
 const { ShowButton, Edit } = RefineAntd;
@@ -248,7 +248,7 @@ render(
 );
 ```
 
-[Refer to the `usePermission` documentation for detailed usage. &#8594](/api-reference/core/hooks/auth/usePermissions.md)
+[Refer to the `usePermission` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/auth/usePermissions)
 
 ### `recordItemId`
 
@@ -416,10 +416,10 @@ render(
 
 To customize or disable the breadcrumb, you can use the `breadcrumb` property. By default it uses the `Breadcrumb` component from `@pankod/refine-antd` package.
 
-[Refer to the `Breadcrumb` documentation for detailed usage. &#8594](/api-reference/antd/components/breadcrumb.md)
+[Refer to the `Breadcrumb` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/antd/components/breadcrumb)
 
 :::tip
-This feature can be managed globally via the `<Refine>` component's [options](/docs/3.xx.xx/api-reference/core/components/refine-config/#breadcrumb)
+This feature can be managed globally via the `<Refine>` component's [options](/core/docs/3.xx.xx/api-reference/core/components/refine-config/#breadcrumb)
 :::
 
 ```tsx live disableScroll previewHeight=280px url=http://localhost:3000/posts/show/2
@@ -824,11 +824,11 @@ render(
 
 <PropsTable module="@pankod/refine-antd/Show"
 contentProps-type="[`CardProps`](https://ant.design/components/card/#API)"
-headerProps-type="[`PageHeaderProps`](https://procomponents.ant.design/en-US/components/page-header)" 
-headerButtons-default="[`ListButton`](https://refine.dev/docs/api-reference/antd/components/buttons/list-button/), [`RefreshButton`](https://refine.dev/docs/api-reference/antd/components/buttons/refresh-button/), [`EditButton`](https://refine.dev/docs/api-reference/antd/components/buttons/edit-button/) and [`DeleteButton`](https://refine.dev/docs/api-reference/antd/components/buttons/delete-button/)"
+headerProps-type="[`PageHeaderProps`](https://procomponents.ant.design/en-US/components/page-header)"
+headerButtons-default="[`ListButton`](https://refine.dev/core/docs/api-reference/antd/components/buttons/list-button/), [`RefreshButton`](https://refine.dev/core/docs/api-reference/antd/components/buttons/refresh-button/), [`EditButton`](https://refine.dev/core/docs/api-reference/antd/components/buttons/edit-button/) and [`DeleteButton`](https://refine.dev/core/docs/api-reference/antd/components/buttons/delete-button/)"
 headerButtonProps-type="[`SpaceProps`](https://ant.design/components/space/)"
-deleteButtonProps-type="[`DeleteButtonProps`](/docs/3.xx.xx/api-reference/antd/components/buttons/delete-button/)"
-saveButtonProps-type="[`SaveButtonProps`](https://refine.dev/docs/api-reference/antd/components/buttons/save-button/)"
+deleteButtonProps-type="[`DeleteButtonProps`](/core/docs/3.xx.xx/api-reference/antd/components/buttons/delete-button/)"
+saveButtonProps-type="[`SaveButtonProps`](https://refine.dev/core/docs/api-reference/antd/components/buttons/save-button/)"
 footerButtonsProps-type="[`SpaceProps`](https://ant.design/components/space/)"
 breadcrumb-default="[`<Breadcrumb>`](https://ant.design/components/breadcrumb/)"
 goBack-default="`<ArrowLeft />`"

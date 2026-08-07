@@ -1,12 +1,18 @@
+import { vi } from "vitest";
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import {
   type RefineCrudShowProps,
   RefineButtonTestIds,
 } from "@refinedev/ui-types";
 import type { AccessControlProvider } from "@refinedev/core";
 
-import { type ITestWrapperProps, render, TestWrapper } from "@test";
+import {
+  type ITestWrapperProps,
+  mockRouterProvider,
+  render,
+  TestWrapper,
+} from "@test";
 
 const renderShow = (
   show: React.ReactNode,
@@ -18,14 +24,29 @@ const renderShow = (
       <Route path="/:resource/:action/:id" element={show} />
     </Routes>,
     {
-      wrapper: TestWrapper(
-        wrapperProps
-          ? wrapperProps
-          : {
-              routerInitialEntries: ["/posts/show/1"],
-              accessControlProvider,
+      wrapper: TestWrapper({
+        routerInitialEntries: ["/posts/show/1"],
+        accessControlProvider,
+        routerProvider: {
+          ...mockRouterProvider(),
+          parse: () => () => ({
+            params: {},
+            id: 1,
+            action: "show",
+            resource: {
+              name: "posts",
+              list: "/posts",
+              create: "/posts/create",
+              clone: "/posts/clone/1",
+              show: "/posts/show/1",
+              edit: "/posts/edit/1",
+              meta: { canDelete: true, canEdit: true },
             },
-      ),
+            pathname: "/posts/show/1",
+          }),
+        },
+        ...wrapperProps,
+      }),
     },
   );
 };
@@ -37,7 +58,7 @@ export const crudShowTests = (
 ): void => {
   describe("[@refinedev/ui-tests] Common Tests / CRUD Show", () => {
     beforeAll(() => {
-      jest.spyOn(console, "warn").mockImplementation(jest.fn());
+      vi.spyOn(console, "warn").mockImplementation(vi.fn());
     });
 
     it("should render children", async () => {

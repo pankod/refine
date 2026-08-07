@@ -2,7 +2,7 @@ import Link from "@docusaurus/Link";
 import clsx from "clsx";
 import React from "react";
 import { openFigma } from "../utils/open-figma";
-import { RefineLogoIcon } from "./icons/refine-logo";
+import { RefineCoreLogoIcon } from "./icons/refine-logo";
 
 interface Props {
   title?: string;
@@ -13,7 +13,7 @@ export const RefineLogo = ({ title, className }: Props) => {
   return (
     <div className={clsx("flex", "items-center", className)}>
       <Link
-        to="/docs"
+        to="/core/docs"
         className={clsx(
           "flex",
           "items-center justify-center",
@@ -22,7 +22,7 @@ export const RefineLogo = ({ title, className }: Props) => {
         )}
         onContextMenu={openFigma}
       >
-        <RefineLogoIcon
+        <RefineCoreLogoIcon
           className={clsx(
             "text-gray-900 dark:text-gray-0",
             "w-[64px] h-[20px] sm:w-[88px] sm:h-[24px]",

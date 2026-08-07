@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example form-chakra-ui-mutation-mode
 
 <br/>
 
-[![Open form-chakra-ui-mutation-mode example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/form-chakra-ui-mutation-mode?view=preview&theme=dark&codemirror=1)
+[![Open form-chakra-ui-mutation-mode example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/form-chakra-ui-mutation-mode?view=preview&theme=dark&codemirror=1)

@@ -4,13 +4,12 @@ import { ProductListCard, ProductListTable } from "../../components";
 import { type PropsWithChildren, useState } from "react";
 import { AppstoreOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { Segmented } from "antd";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 type View = "table" | "card";
 
 export const ProductList = ({ children }: PropsWithChildren) => {
   const go = useGo();
-  const { replace } = useNavigation();
   const { pathname } = useLocation();
   const { createUrl } = useNavigation();
 
@@ -20,7 +19,16 @@ export const ProductList = ({ children }: PropsWithChildren) => {
 
   const handleViewChange = (value: View) => {
     // remove query params (pagination, filters, etc.) when changing view
-    replace("");
+    go({
+      to: pathname,
+      query: {
+        view: value,
+      },
+      options: {
+        keepQuery: false,
+      },
+      type: "replace",
+    });
 
     setView(value);
     localStorage.setItem("product-view", value);

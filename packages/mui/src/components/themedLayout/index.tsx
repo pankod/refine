@@ -1,58 +1,83 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 
+import { ThemedLayoutContextProvider } from "@contexts";
 import { ThemedSider as DefaultSider } from "./sider";
 import { ThemedHeader as DefaultHeader } from "./header";
+
+import type { BoxProps } from "@mui/material";
 import type { RefineThemedLayoutProps } from "./types";
 
-/**
- * @deprecated It is recommended to use the improved `ThemedLayoutV2`. Review migration guidelines. https://refine.dev/docs/api-reference/mui/components/mui-themed-layout/#migrate-themedlayout-to-themedlayoutv2
- */
-export const ThemedLayout: React.FC<RefineThemedLayoutProps> = ({
+interface ExtendedRefineThemedLayoutProps extends RefineThemedLayoutProps {
+  /**
+   * Additional properties for the children box.
+   * This type includes all properties of BoxProps, including 'sx'.
+   */
+  childrenBoxProps?: BoxProps;
+
+  /**
+   * Additional properties for the container box.
+   * This type includes all properties of BoxProps, including 'sx'.
+   */
+  containerBoxProps?: BoxProps;
+}
+
+export const ThemedLayout: React.FC<ExtendedRefineThemedLayoutProps> = ({
   Sider,
   Header,
   Title,
   Footer,
   OffLayoutArea,
   children,
+  initialSiderCollapsed,
+  onSiderCollapsed,
+  childrenBoxProps = {},
+  containerBoxProps = {},
 }) => {
-  const [isSiderOpen, setIsSiderOpen] = useState(true);
-
   const SiderToRender = Sider ?? DefaultSider;
   const HeaderToRender = Header ?? DefaultHeader;
 
+  const { sx: childrenSx, ...restChildrenProps } = childrenBoxProps;
+  const { sx: containerSx, ...restContainerProps } = containerBoxProps;
+
   return (
-    <Box display="flex" flexDirection="row">
-      <SiderToRender
-        Title={Title}
-        isSiderOpen={isSiderOpen}
-        onToggleSiderClick={(isOpen) => setIsSiderOpen(Boolean(isOpen))}
-      />
+    <ThemedLayoutContextProvider
+      initialSiderCollapsed={initialSiderCollapsed}
+      onSiderCollapsed={onSiderCollapsed}
+    >
       <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          minHeight: "100vh",
-        }}
+        sx={{ display: "flex", flexDirection: "row", ...containerSx }}
+        {...restContainerProps}
       >
-        <HeaderToRender
-          isSiderOpen={isSiderOpen}
-          onToggleSiderClick={() => setIsSiderOpen((prev) => !prev)}
-        />
+        <SiderToRender Title={Title} />
         <Box
-          component="main"
-          sx={{
-            p: { xs: 1, md: 2, lg: 3 },
-            flexGrow: 1,
-            bgcolor: (theme) => theme.palette.background.default,
-          }}
+          sx={[
+            {
+              display: "flex",
+              flexDirection: "column",
+              flex: 1,
+              minWidth: "1px",
+              minHeight: "1px",
+            },
+          ]}
         >
-          {children}
+          <HeaderToRender />
+          <Box
+            component="main"
+            sx={{
+              p: { xs: 1, md: 2, lg: 3 },
+              flexGrow: 1,
+              bgcolor: (theme) => theme.palette.background.default,
+              ...childrenSx,
+            }}
+            {...restChildrenProps}
+          >
+            {children}
+          </Box>
+          {Footer && <Footer />}
         </Box>
-        {Footer && <Footer />}
+        {OffLayoutArea && <OffLayoutArea />}
       </Box>
-      {OffLayoutArea && <OffLayoutArea />}
-    </Box>
+    </ThemedLayoutContextProvider>
   );
 };

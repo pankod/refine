@@ -21,7 +21,7 @@ export const InstallPackagesCommand: FC<PropsWithChildren<Props>> = ({
   };
 
   return (
-    <Tabs>
+    <Tabs wrapContent={true}>
       <TabItem value="npm" label="npm" default>
         <CodeBlock className="language-bash">{commands.npm}</CodeBlock>
         {children}

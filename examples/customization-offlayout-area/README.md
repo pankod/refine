@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example customization-offlayout-area
 
 <br/>
 
-[![Open customization-offlayout-area example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/customization-offlayout-area?view=preview&theme=dark&codemirror=1)
+[![Open customization-offlayout-area example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/customization-offlayout-area?view=preview&theme=dark&codemirror=1)

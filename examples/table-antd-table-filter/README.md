@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example table-antd-table-filter
 
 <br/>
 
-[![Open table-antd-table-filter example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/table-antd-table-filter?view=preview&theme=dark&codemirror=1)
+[![Open table-antd-table-filter example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/table-antd-table-filter?view=preview&theme=dark&codemirror=1)

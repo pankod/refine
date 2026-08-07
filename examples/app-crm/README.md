@@ -1,4 +1,4 @@
-> 🚨 This example has been moved to the Enterprise Edition. However, we still have a version available for the Community. You can check it out [here](https://github.com/refinedev/refine/tree/master/examples/app-crm-minimal).
+> 🚨 This example has been moved to the Enterprise Edition. However, we still have a version available for the Community. You can check it out [here](https://github.com/refinedev/refine/tree/main/examples/app-crm-minimal).
 
 [![Cover Image](https://refine.ams3.cdn.digitaloceanspaces.com/example-readmes/CRM/crm-readme-temp.png "Cover Image")](https://github.com/refinedev/refine)
 

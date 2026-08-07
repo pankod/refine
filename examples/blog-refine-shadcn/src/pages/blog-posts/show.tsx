@@ -3,7 +3,7 @@ import {
   type IResourceComponentsProps,
   useNavigation,
   useOne,
-  useResource,
+  useResourceParams,
   useShow,
 } from "@refinedev/core";
 
@@ -12,7 +12,7 @@ import { ChevronLeft, EditIcon, ListIcon } from "lucide-react";
 
 export const BlogPostShow: React.FC<IResourceComponentsProps> = () => {
   const { edit, list } = useNavigation();
-  const { id } = useResource();
+  const { id } = useResourceParams();
   const { query: queryResult } = useShow({
     meta: {
       populate: ["category"],

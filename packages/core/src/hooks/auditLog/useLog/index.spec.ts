@@ -1,24 +1,28 @@
 import { renderHook, waitFor } from "@testing-library/react";
+import { vi } from "vitest";
 
-import { TestWrapper, mockAuthProvider, mockLegacyAuthProvider } from "@test";
+import { TestWrapper, mockAuthProvider } from "@test";
 
 import { useLog } from ".";
 import type { LogParams } from "../../../contexts/auditLog/types";
 import type { ResourceProps } from "../../../contexts/resource/types";
 import * as hasPermission from "../../../definitions/helpers/hasPermission";
 
-const auditLogProviderCreateMock = jest.fn();
-const auditLogProviderUpdateMock = jest.fn();
-const auditLogProviderGetMock = jest.fn();
+const auditLogProviderCreateMock = vi.fn();
+const auditLogProviderUpdateMock = vi.fn();
+const auditLogProviderGetMock = vi.fn();
 
-const invalidateQueriesMock = jest.fn();
-jest.mock("@tanstack/react-query", () => ({
-  ...jest.requireActual("@tanstack/react-query"),
-  useQueryClient: () => ({
-    ...jest.requireActual("@tanstack/react-query").useQueryClient(),
-    invalidateQueries: invalidateQueriesMock,
-  }),
-}));
+const invalidateQueriesMock = vi.fn();
+vi.mock("@tanstack/react-query", async () => {
+  const actual = await vi.importActual("@tanstack/react-query");
+  return {
+    ...actual,
+    useQueryClient: () => ({
+      ...(actual as any).useQueryClient(),
+      invalidateQueries: invalidateQueriesMock,
+    }),
+  };
+});
 
 describe("useLog Hook", () => {
   beforeEach(() => {
@@ -37,6 +41,10 @@ describe("useLog Hook", () => {
               name: "posts",
             },
           ],
+          authProvider: {
+            ...mockAuthProvider,
+            getIdentity: () => Promise.resolve({}),
+          },
           auditLogProvider: {
             create: auditLogProviderCreateMock,
           },
@@ -61,8 +69,8 @@ describe("useLog Hook", () => {
         expect(result.current.log.isSuccess).toBeTruthy();
       });
 
-      expect(auditLogProviderCreateMock).toBeCalledWith(logEventPayload);
-      expect(auditLogProviderCreateMock).toBeCalledTimes(1);
+      expect(auditLogProviderCreateMock).toHaveBeenCalledWith(logEventPayload);
+      expect(auditLogProviderCreateMock).toHaveBeenCalledTimes(1);
     });
 
     it("should not called logEvent if no includes permissions", async () => {
@@ -97,7 +105,7 @@ describe("useLog Hook", () => {
         expect(result.current.log.isSuccess).toBeTruthy();
       });
 
-      expect(auditLogProviderGetMock).not.toBeCalled();
+      expect(auditLogProviderGetMock).not.toHaveBeenCalled();
     });
 
     it("should called logEvent if exist auditLogPermissions", async () => {
@@ -132,11 +140,11 @@ describe("useLog Hook", () => {
         expect(result.current.log.isSuccess).toBeTruthy();
       });
 
-      expect(auditLogProviderCreateMock).toBeCalled();
+      expect(auditLogProviderCreateMock).toHaveBeenCalled();
     });
 
     it("should not invoke `useGetIdentity` if `auditLogProvider.create` is not defined", async () => {
-      const getUserIdentityMock = jest.fn();
+      const getUserIdentityMock = vi.fn();
       const { result } = renderHook(() => useLog(), {
         wrapper: TestWrapper({
           resources: [
@@ -170,11 +178,11 @@ describe("useLog Hook", () => {
         expect(result.current.log.isSuccess).toBeTruthy();
       });
 
-      expect(getUserIdentityMock).not.toBeCalled();
+      expect(getUserIdentityMock).not.toHaveBeenCalled();
     });
 
     it("should invoke `useGetIdentity` if `auditLogProvider.create` is defined", async () => {
-      const getUserIdentityMock = jest.fn();
+      const getUserIdentityMock = vi.fn();
       const { result } = renderHook(() => useLog(), {
         wrapper: TestWrapper({
           resources: [
@@ -210,71 +218,56 @@ describe("useLog Hook", () => {
         expect(result.current.log.isSuccess).toBeTruthy();
       });
 
-      expect(getUserIdentityMock).toBeCalled();
+      expect(getUserIdentityMock).toHaveBeenCalled();
     });
 
-    it.each(["legacy", "new"])(
-      "should work with %s auth provider",
-      async (testCase) => {
-        const isLegacy = testCase === "legacy";
+    it.each(["new"])("should work with %s auth provider", async (testCase) => {
+      const authProvider = { authProvider: mockAuthProvider };
 
-        const authProvider = isLegacy
-          ? {
-              legacyAuthProvider: mockLegacyAuthProvider,
-            }
-          : { authProvider: mockAuthProvider };
-
-        const { result } = renderHook(() => useLog(), {
-          wrapper: TestWrapper({
-            ...authProvider,
-            resources: [
-              {
-                name: "posts",
-                meta: { auditLog: { permissions: ["update"] } },
-              },
-            ],
-            auditLogProvider: {
-              create: auditLogProviderCreateMock,
+      const { result } = renderHook(() => useLog(), {
+        wrapper: TestWrapper({
+          ...authProvider,
+          resources: [
+            {
+              name: "posts",
+              meta: { auditLog: { permissions: ["update"] } },
             },
-          }),
-        });
-
-        const { log } = result.current;
-
-        const logEventPayload: LogParams = {
-          action: "update",
-          resource: "posts",
-          data: { id: 1, title: "title" },
-          meta: {
-            id: 1,
+          ],
+          auditLogProvider: {
+            create: auditLogProviderCreateMock,
           },
-        };
+        }),
+      });
 
-        log.mutate(logEventPayload);
+      const { log } = result.current;
 
-        await waitFor(() => {
-          expect(result.current.log.isSuccess).toBeTruthy();
-        });
+      const logEventPayload: LogParams = {
+        action: "update",
+        resource: "posts",
+        data: { id: 1, title: "title" },
+        meta: {
+          id: 1,
+        },
+      };
 
-        const author = isLegacy
-          ? await mockLegacyAuthProvider.getUserIdentity?.()
-          : await mockAuthProvider.getIdentity?.();
+      log.mutate(logEventPayload);
 
-        expect(auditLogProviderCreateMock).toHaveBeenCalledWith({
-          ...logEventPayload,
-          author,
-        });
-      },
-    );
+      await waitFor(() => {
+        expect(result.current.log.isSuccess).toBeTruthy();
+      });
+
+      const author = await mockAuthProvider.getIdentity?.();
+
+      expect(auditLogProviderCreateMock).toHaveBeenCalledWith({
+        ...logEventPayload,
+        author,
+      });
+    });
   });
 
-  it.each([
-    "meta.audit",
-    "options.audit", // deprecated value
-    "options.audit.auditLog.permissions", // deprecated value
-  ])("should work with %s values", async (testCase) => {
+  it.each(["meta.audit"])("should work with %s values", async (testCase) => {
     // jest spyon hasPermission
-    const hasPermissionSpy = jest.spyOn(hasPermission, "hasPermission");
+    const hasPermissionSpy = vi.spyOn(hasPermission, "hasPermission");
     hasPermissionSpy.mockReturnValue(false);
 
     let resourceAudit: ResourceProps["meta"] = {};
@@ -283,20 +276,6 @@ describe("useLog Hook", () => {
       case "meta.audit":
         resourceAudit = {
           meta: { audit: ["create"] },
-        };
-        break;
-      case "options.audit":
-        resourceAudit = {
-          options: { audit: ["create"] },
-        };
-        break;
-      case "options.audit.auditLog.permissions":
-        resourceAudit = {
-          options: {
-            auditLog: {
-              permissions: ["create"],
-            },
-          },
         };
         break;
     }
@@ -380,14 +359,16 @@ describe("useLog Hook", () => {
         expect(result.current.rename.isSuccess).toBeTruthy();
       });
 
-      expect(auditLogProviderUpdateMock).toBeCalledWith({
+      expect(auditLogProviderUpdateMock).toHaveBeenCalledWith({
         id: 1,
         name: "test name",
       });
-      expect(auditLogProviderUpdateMock).toBeCalledTimes(1);
+      expect(auditLogProviderUpdateMock).toHaveBeenCalledTimes(1);
 
-      expect(invalidateQueriesMock).toBeCalledTimes(1);
-      expect(invalidateQueriesMock).toBeCalledWith(["logList", "posts"]);
+      expect(invalidateQueriesMock).toHaveBeenCalledTimes(1);
+      expect(invalidateQueriesMock).toHaveBeenCalledWith({
+        queryKey: ["audit", "posts", "list"],
+      });
     });
 
     it("succeed rename should not call invalidateQueries if have not resource", async () => {
@@ -412,13 +393,13 @@ describe("useLog Hook", () => {
         expect(result.current.rename.isSuccess).toBeTruthy();
       });
 
-      expect(auditLogProviderUpdateMock).toBeCalledWith({
+      expect(auditLogProviderUpdateMock).toHaveBeenCalledWith({
         id: 1,
         name: "test name",
       });
-      expect(auditLogProviderUpdateMock).toBeCalledTimes(1);
+      expect(auditLogProviderUpdateMock).toHaveBeenCalledTimes(1);
 
-      expect(invalidateQueriesMock).toBeCalledTimes(0);
+      expect(invalidateQueriesMock).toHaveBeenCalledTimes(0);
     });
   });
 });

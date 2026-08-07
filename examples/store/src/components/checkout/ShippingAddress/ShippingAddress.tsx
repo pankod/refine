@@ -13,11 +13,11 @@ export const ShippingAddress: React.FC = () => {
     formState: { errors, touchedFields },
   } = useFormContext<CheckoutFormValues>();
 
-  const { data: customerData } = useOne<{ customer: Customer }>({
+  const { result: customerData } = useOne<{ customer: Customer }>({
     resource: "customers/me",
     id: "",
   });
-  const customer = customerData?.data.customer;
+  const customer = customerData?.customer;
 
   return (
     <div>

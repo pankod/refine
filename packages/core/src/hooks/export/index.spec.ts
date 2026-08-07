@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { renderHook } from "@testing-library/react";
 import papaparse from "papaparse";
 
@@ -6,19 +7,22 @@ import { mockRouterProvider, posts } from "@test/dataMocks";
 
 import { downloadInBrowser } from "../../definitions/helpers/downloadInBrowser";
 import * as pickDataProvider from "../../definitions/helpers/pickDataProvider";
-import { type ExportOptions, useExport } from "./";
+import { useExport } from "./";
 
 const testCsv = "col1,col2\r\ncell1,cell2";
-jest.mock("papaparse", () => ({
-  unparse: jest.fn(() => testCsv),
+vi.mock("papaparse", () => ({
+  default: {
+    unparse: vi.fn(() => testCsv),
+  },
+  unparse: vi.fn(() => testCsv),
 }));
 
-jest.mock("../../definitions/helpers/downloadInBrowser", () => ({
-  downloadInBrowser: jest.fn(),
+vi.mock("../../definitions/helpers/downloadInBrowser", () => ({
+  downloadInBrowser: vi.fn(),
 }));
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 describe("useExport Hook", () => {
@@ -43,14 +47,14 @@ describe("useExport Hook", () => {
       resultingCSV = await result.current.triggerExport();
     });
 
-    expect(papaparse.unparse).toBeCalledWith(posts, expect.anything());
+    expect(papaparse.unparse).toHaveBeenCalledWith(posts, expect.anything());
     expect(resultingCSV).toEqual(testCsv);
   });
 
   it.each(["categories", "posts"])(
     "should call getList with '%s' resource",
     async (testCase) => {
-      const getListMock = jest.fn();
+      const getListMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -72,12 +76,12 @@ describe("useExport Hook", () => {
         await result.current.triggerExport();
       });
 
-      expect(getListMock).toBeCalledWith(testCase);
+      expect(getListMock).toHaveBeenCalledWith(testCase);
     },
   );
 
   it("should call getList with resource from router provider", async () => {
-    const getListMock = jest.fn();
+    const getListMock = vi.fn();
 
     const { result } = renderHook(() => useExport(), {
       wrapper: TestWrapper({
@@ -99,7 +103,7 @@ describe("useExport Hook", () => {
       await result.current.triggerExport();
     });
 
-    expect(getListMock).toBeCalledWith("posts");
+    expect(getListMock).toHaveBeenCalledWith("posts");
   });
 
   it("should cut the amount of data to be exported when given maxItemCount", async () => {
@@ -120,7 +124,10 @@ describe("useExport Hook", () => {
       await result.current.triggerExport();
     });
 
-    expect(papaparse.unparse).toBeCalledWith([posts[0]], expect.anything());
+    expect(papaparse.unparse).toHaveBeenCalledWith(
+      [posts[0]],
+      expect.anything(),
+    );
   });
 
   it("should work with custom pageSize", async () => {
@@ -141,7 +148,7 @@ describe("useExport Hook", () => {
       await result.current.triggerExport();
     });
 
-    expect(papaparse.unparse).toBeCalledWith(posts, expect.anything());
+    expect(papaparse.unparse).toHaveBeenCalledWith(posts, expect.anything());
   });
 
   it("should work with custom mapData", async () => {
@@ -165,7 +172,7 @@ describe("useExport Hook", () => {
       await result.current.triggerExport();
     });
 
-    expect(papaparse.unparse).toBeCalledWith(
+    expect(papaparse.unparse).toHaveBeenCalledWith(
       posts.map((post) => ({
         id: post.id,
         title: post.title,
@@ -175,7 +182,7 @@ describe("useExport Hook", () => {
   });
 
   it("should handle getList throwing error", async () => {
-    const onError = jest.fn();
+    const onError = vi.fn();
     const { result } = renderHook(
       () =>
         useExport({
@@ -201,9 +208,9 @@ describe("useExport Hook", () => {
     });
 
     expect(result.current.isLoading).toEqual(false);
-    expect(onError).toBeCalledWith(Error("Error"));
+    expect(onError).toHaveBeenCalledWith(Error("Error"));
 
-    expect(papaparse.unparse).not.toBeCalled();
+    expect(papaparse.unparse).not.toHaveBeenCalled();
   });
 
   it.each(["identifier", "name"])(
@@ -211,7 +218,7 @@ describe("useExport Hook", () => {
     async (testCase) => {
       const isIdentifier = testCase === "identifier";
 
-      const pickDataProviderSpy = jest.spyOn(
+      const pickDataProviderSpy = vi.spyOn(
         pickDataProvider,
         "pickDataProvider",
       );
@@ -232,24 +239,35 @@ describe("useExport Hook", () => {
         await result.current.triggerExport();
       });
 
-      expect(papaparse.unparse).toBeCalledWith(posts, expect.anything());
+      expect(papaparse.unparse).toHaveBeenCalledWith(posts, expect.anything());
 
       if (isIdentifier) {
-        expect(pickDataProviderSpy).toBeCalledWith(
+        expect(pickDataProviderSpy).toHaveBeenCalledWith(
           "postsIdentifier",
           undefined,
           [],
         );
       } else {
-        expect(pickDataProviderSpy).toBeCalledWith("postsName", undefined, []);
+        expect(pickDataProviderSpy).toHaveBeenCalledWith(
+          "postsName",
+          undefined,
+          [],
+        );
       }
 
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     },
   );
-  describe("should exportOptions be backwards compatible", () => {
+  describe("should work with new export configuration", () => {
     type TestCase = {
-      exportOptions?: ExportOptions;
+      exportConfig?: {
+        filename?: string;
+        useTextFile?: boolean;
+        useBom?: boolean;
+        title?: string;
+        showTitle?: boolean;
+        unparseConfig?: papaparse.UnparseConfig;
+      };
       expectations?: {
         unparseConfig: papaparse.UnparseConfig;
         filename: string | RegExp;
@@ -258,11 +276,8 @@ describe("useExport Hook", () => {
       };
     };
     const defaultUnparseConfig: papaparse.UnparseConfig = {
-      quoteChar: '"',
-      header: true,
-      delimiter: undefined,
-      columns: undefined,
       quotes: true,
+      header: true,
     };
 
     const defaultExpect: TestCase["expectations"] = {
@@ -289,10 +304,10 @@ describe("useExport Hook", () => {
     const TEST_CASES: TestCase[] = [
       {},
       {
-        exportOptions: undefined,
+        exportConfig: undefined,
       },
       {
-        exportOptions: {
+        exportConfig: {
           filename: "my file",
         },
         expectations: createExpectations({
@@ -300,7 +315,7 @@ describe("useExport Hook", () => {
         }),
       },
       {
-        exportOptions: {
+        exportConfig: {
           useTextFile: true,
         },
         expectations: createExpectations({
@@ -308,12 +323,7 @@ describe("useExport Hook", () => {
         }),
       },
       {
-        exportOptions: {
-          title: "some-tile",
-        },
-      },
-      {
-        exportOptions: {
+        exportConfig: {
           title: "some-title",
           showTitle: true,
         },
@@ -322,7 +332,7 @@ describe("useExport Hook", () => {
         }),
       },
       {
-        exportOptions: {
+        exportConfig: {
           useBom: false,
         },
         expectations: createExpectations({
@@ -330,96 +340,30 @@ describe("useExport Hook", () => {
         }),
       },
       {
-        exportOptions: {
-          useBom: true,
-        },
-        expectations: createExpectations({
-          useBom: true,
-        }),
-      },
-      {
-        exportOptions: {
-          quoteStrings: "my-quote",
-        },
-        expectations: createExpectations({
+        exportConfig: {
           unparseConfig: {
-            quoteChar: "my-quote",
-          },
-        }),
-      },
-      {
-        exportOptions: {
-          fieldSeparator: "my-field-separator",
-        },
-        expectations: createExpectations({
-          unparseConfig: {
-            delimiter: "my-field-separator",
-          },
-        }),
-      },
-      {
-        exportOptions: {
-          decimalSeparator: "does nothing",
-        },
-      },
-      {
-        exportOptions: {
-          useKeysAsHeaders: false,
-        },
-        expectations: createExpectations({
-          unparseConfig: {
+            delimiter: ",",
             header: false,
           },
-        }),
-      },
-      {
-        // useKeysAsHeaders takes priority over options.headers
-        exportOptions: {
-          headers: ["col1"],
-        },
-      },
-      {
-        exportOptions: {
-          useKeysAsHeaders: false,
-          headers: ["col1"],
         },
         expectations: createExpectations({
           unparseConfig: {
+            delimiter: ",",
             header: false,
-            columns: ["col1"],
-          },
-        }),
-      },
-      {
-        exportOptions: {
-          useKeysAsHeaders: false,
-          showLabels: true,
-          headers: ["col1"],
-        },
-        expectations: createExpectations({
-          unparseConfig: {
-            header: true,
-            columns: ["col1"],
           },
         }),
       },
     ];
 
     it.each(TEST_CASES)(
-      "exportOptions=$exportOptions",
-      async ({ exportOptions, expectations }) => {
-        const { result } = renderHook(
-          () =>
-            useExport({
-              exportOptions,
-            }),
-          {
-            wrapper: TestWrapper({
-              dataProvider: MockJSONServer,
-              resources: [{ name: "posts" }],
-            }),
-          },
-        );
+      "exportConfig=$exportConfig",
+      async ({ exportConfig, expectations }) => {
+        const { result } = renderHook(() => useExport(exportConfig), {
+          wrapper: TestWrapper({
+            dataProvider: MockJSONServer,
+            resources: [{ name: "posts" }],
+          }),
+        });
 
         let resultCSV = null;
         await act(async () => {
@@ -428,15 +372,15 @@ describe("useExport Hook", () => {
 
         expectations = expectations ?? defaultExpect;
         expect(resultCSV).toEqual(expectations.csvToSave);
-        expect(papaparse.unparse).toBeCalledWith(
+        expect(papaparse.unparse).toHaveBeenCalledWith(
           posts,
           expectations.unparseConfig,
         );
-        expect(downloadInBrowser).toBeCalledWith(
+        expect(downloadInBrowser).toHaveBeenCalledWith(
           expect.stringMatching(expectations.filename),
           `${expectations.useBom ? "\ufeff" : ""}${expectations.csvToSave}`,
           expect.stringContaining(
-            exportOptions?.useTextFile ? "text/plain" : "text/csv",
+            exportConfig?.useTextFile ? "text/plain" : "text/csv",
           ),
         );
       },
@@ -462,6 +406,6 @@ describe("useExport Hook", () => {
     });
 
     expect(resultCSV).toEqual(testCsv);
-    expect(downloadInBrowser).not.toBeCalled();
+    expect(downloadInBrowser).not.toHaveBeenCalled();
   });
 });

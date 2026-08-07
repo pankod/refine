@@ -1,4 +1,4 @@
-import { ProjectTypes } from "@definitions/projectTypes";
+import { ProjectTypes } from "../../definitions/projectTypes";
 import camelCase from "camelcase";
 
 export const getResourcePath = (

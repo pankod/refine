@@ -1,4 +1,5 @@
 import React from "react";
+import { vi } from "vitest";
 
 import { renderHook } from "@testing-library/react";
 
@@ -16,7 +17,6 @@ const renderWrapper = (wrapperProps: ITestWrapperProps = {}) => {
   return WrapperWith;
 };
 
-const DummyResourcePage = () => <div>resource page</div>;
 const DummyIcon = <div>icon</div>;
 
 describe("useBreadcrumb Hook", () => {
@@ -39,13 +39,13 @@ describe("useBreadcrumb Hook", () => {
         resources: [
           {
             name: "posts",
-            icon: DummyIcon,
+            meta: { icon: DummyIcon },
           },
         ],
         routerProvider: mockRouterProvider({
           resource: {
             name: "posts",
-            icon: DummyIcon,
+            meta: { icon: DummyIcon },
           },
         }),
       }),
@@ -62,15 +62,13 @@ describe("useBreadcrumb Hook", () => {
         resources: [
           {
             name: "posts",
-            route: "posts",
-            list: DummyResourcePage,
+            list: "/posts",
           },
         ],
         routerProvider: mockRouterProvider({
           resource: {
             name: "posts",
-            route: "posts",
-            list: DummyResourcePage,
+            list: "/posts",
           },
         }),
       }),
@@ -87,18 +85,18 @@ describe("useBreadcrumb Hook", () => {
         resources: [
           {
             name: "posts",
-            icon: DummyIcon,
-            list: DummyResourcePage,
-            create: DummyResourcePage,
+            list: "/posts",
+            create: "/posts/create",
+            meta: { icon: DummyIcon },
           },
         ],
         routerProvider: mockRouterProvider({
           action: "create",
           resource: {
             name: "posts",
+            list: "/posts",
+            create: "/posts/create",
             meta: { icon: DummyIcon },
-            list: DummyResourcePage,
-            create: DummyResourcePage,
           },
         }),
       }),
@@ -120,8 +118,8 @@ describe("useBreadcrumb Hook", () => {
           {
             meta: { parent: "cms", icon: DummyIcon },
             name: "posts",
-            list: DummyResourcePage,
-            create: DummyResourcePage,
+            list: "/posts",
+            create: "/posts/create",
           },
         ],
         routerProvider: mockRouterProvider({
@@ -129,8 +127,8 @@ describe("useBreadcrumb Hook", () => {
           resource: {
             name: "posts",
             meta: { parent: "cms", icon: DummyIcon },
-            list: DummyResourcePage,
-            create: DummyResourcePage,
+            list: "/posts",
+            create: "/posts/create",
           },
         }),
       }),
@@ -155,7 +153,7 @@ describe("useBreadcrumb Hook", () => {
   });
 
   it("should work with i18nProvider", async () => {
-    jest.spyOn(console, "warn");
+    vi.spyOn(console, "warn");
 
     const { result } = renderHook(() => useBreadcrumb(), {
       wrapper: renderWrapper({
@@ -172,7 +170,7 @@ describe("useBreadcrumb Hook", () => {
       }),
     });
 
-    expect(console.warn).toBeCalledWith(
+    expect(console.warn).toHaveBeenCalledWith(
       `[useBreadcrumb]: Breadcrumb missing translate key for the "show" action. Please add "actions.show" key to your translation file.\nFor more information, see https://refine.dev/docs/api-reference/core/hooks/useBreadcrumb/#i18n-support`,
     );
 

@@ -1,5 +1,4 @@
 import type { IResourceItem } from "@refinedev/core";
-import { pickNotDeprecated } from "@refinedev/core";
 
 /**
  * Picks the data provider for the given resource. Which can be overridden by the resource itself.
@@ -15,9 +14,8 @@ export function pickDataProvider(
 
   const resource = resources?.find((item) => item.name === resourceName);
 
-  const meta = pickNotDeprecated(resource?.meta, resource?.options);
-  if (meta?.dataProviderName) {
-    return meta.dataProviderName;
+  if (resource?.meta?.dataProviderName) {
+    return resource.meta.dataProviderName;
   }
 
   return "default";
@@ -28,5 +26,5 @@ export function pickDataProvider(
  * This is a simpler version of the above function which works with the resource item instead of the resource name and additional arguments.
  */
 export const dataProviderFromResource = (resource?: IResourceItem) => {
-  return resource?.options?.dataProviderName;
+  return resource?.meta?.dataProviderName;
 };

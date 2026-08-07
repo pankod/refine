@@ -1,17 +1,18 @@
 import { renderHook } from "@testing-library/react";
+import { vi } from "vitest";
 
 import { TestWrapper } from "@test";
 
 import { usePublish } from "./";
 
-const publishMock = jest.fn();
+const publishMock = vi.fn();
 describe("usePublish Hook", () => {
   it("publish event", async () => {
     const { result } = renderHook(() => usePublish(), {
       wrapper: TestWrapper({
         liveProvider: {
-          subscribe: () => jest.fn(),
-          unsubscribe: () => jest.fn(),
+          subscribe: () => vi.fn(),
+          unsubscribe: () => vi.fn(),
           publish: publishMock,
         },
       }),
@@ -27,7 +28,7 @@ describe("usePublish Hook", () => {
     };
     publish?.(publishPayload);
 
-    expect(publishMock).toBeCalledWith(publishPayload);
-    expect(publishMock).toBeCalledTimes(1);
+    expect(publishMock).toHaveBeenCalledWith(publishPayload);
+    expect(publishMock).toHaveBeenCalledTimes(1);
   });
 });

@@ -39,3 +39,7 @@ examples/with-nx
 examples/with-remix-mui
 examples/with-storybook-mui
 examples/with-vite
+examples/mern-dashboard-client
+examples/with-nextjs-headless
+examples/blog-*
+examples/store

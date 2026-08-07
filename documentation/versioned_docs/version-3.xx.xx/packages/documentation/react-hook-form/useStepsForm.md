@@ -813,7 +813,7 @@ interface IPost {
 :::tip
 Since `category` is a relational data, we use `useSelect` to fetch its data.
 
-[Refer to `useSelect` documentation for detailed usage. &#8594](/docs/3.xx.xx/api-reference/antd/hooks/field/useSelect/)
+[Refer to `useSelect` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/field/useSelect/)
 
 :::
 
@@ -962,7 +962,7 @@ interface IPost {
 
 ### `refineCoreProps`
 
-All [`useForm`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) properties also available in `useStepsForm`. You can find descriptions on [`useForm`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#return-values) docs.
+All [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) properties also available in `useStepsForm`. You can find descriptions on [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#return-values) docs.
 
 ```tsx
 const stepsForm = useStepsForm({
@@ -1009,7 +1009,7 @@ const stepsForm = useStepsForm({
 ## Return Values
 
 :::tip
-All [`useForm`](/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/) return values also available in `useStepsForm`. You can find descriptions on [`useForm`](/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/#return-values) docs.
+All [`useForm`](/core/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/) return values also available in `useStepsForm`. You can find descriptions on [`useForm`](/core/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/#return-values) docs.
 :::
 
 ### `steps`
@@ -1031,7 +1031,7 @@ It takes in one argument, step, which is a number representing the index of the 
 
 <PropsTable module="@pankod/refine-react-hook-form/useStepsForm" />
 
-> `*`: These properties have default values in `RefineContext` and can also be set on the **<[Refine](/api-reference/core/components/refine-config.md)>** component.
+> `*`: These properties have default values in `RefineContext` and can also be set on the **<[Refine](/core/docs/3.xx.xx/api-reference/core/components/refine-config)>** component.
 
 :::tip External Props
 It also accepts all props of [useForm](https://react-hook-form.com/api/useform) hook available in the [React Hook Form](https://react-hook-form.com/).
@@ -1039,10 +1039,10 @@ It also accepts all props of [useForm](https://react-hook-form.com/api/useform) 
 
 ### Return values
 
-| Property                      | Description                                                     | Type                                                                        |
-| ----------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| steps                         | Relevant state and method to control the steps                  | [`StepsReturnValues`](#steps)                                               |
-| refineCore                    | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/api-reference/core/hooks/useForm.md#return-values) |
+| Property                      | Description                                                     | Type                                                                                       |
+| ----------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| steps                         | Relevant state and method to control the steps                  | [`StepsReturnValues`](#steps)                                                              |
+| refineCore                    | The return values of the [`useForm`][use-form-core] in the core | [`UseFormReturnValues`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm#return-values) |
 | React Hook Form Return Values | See [React Hook Form][react-hook-form-use-form] documentation   |
 
 ## Example
@@ -1050,9 +1050,9 @@ It also accepts all props of [useForm](https://react-hook-form.com/api/useform) 
 <CodeSandboxExample path="form-react-hook-form-use-steps-form" />
 
 [@pankod/refine-react-hook-form]: https://github.com/refinedev/refine/tree/v3/packages/react-hook-form
-[refine-react-hook-form-use-form]: /packages/documentation/react-hook-form/useForm.md
+[refine-react-hook-form-use-form]: /core/docs/3.xx.xx/packages/documentation/react-hook-form/useForm
 [react-hook-form-use-form]: https://react-hook-form.com/api/useform
-[use-form-core]: /api-reference/core/hooks/useForm.md
+[use-form-core]: /core/docs/3.xx.xx/api-reference/core/hooks/useForm
 
 ```
 

@@ -8,7 +8,6 @@ import { reloadOnChange } from "./reload-on-change";
 import { setupServer } from "./setup-server";
 import { type Activity, createDb } from "./create-db";
 import { serveApi } from "./serve-api";
-import { serveProxy } from "./serve-proxy";
 import { serveOpenInEditor } from "./serve-open-in-editor";
 
 type Options = {
@@ -106,25 +105,6 @@ export const server = async ({
         },
       );
 
-      receive(client as any, DevtoolsEvent.DEVTOOLS_LOGIN_SUCCESS, () => {
-        ws.clients.forEach((c) => {
-          send(c as any, DevtoolsEvent.DEVTOOLS_RELOAD_AFTER_LOGIN, {});
-        });
-      });
-
-      receive(
-        client as any,
-        DevtoolsEvent.DEVTOOLS_LOGIN_FAILURE,
-        ({ error, code }) => {
-          ws.clients.forEach((c) => {
-            send(c as any, DevtoolsEvent.DEVTOOLS_DISPLAY_LOGIN_FAILURE, {
-              error,
-              code,
-            });
-          });
-        },
-      );
-
       // close connected app if client disconnects
       client.on("close", (_, reason) => {
         if (__DEVELOPMENT__) {
@@ -155,7 +135,6 @@ export const server = async ({
     reloadOnChange(ws);
     serveClient(app);
     serveApi(app, db);
-    serveProxy(app);
     serveOpenInEditor(app, projectPath);
 
     process.on("SIGTERM", () => {

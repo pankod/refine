@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { ProgressBar } from "react95";
 import { AppLayout } from "@/components/layout";

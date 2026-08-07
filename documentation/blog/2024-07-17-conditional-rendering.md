@@ -3,9 +3,11 @@ title: How to use Conditional Rendering in React
 description: We'll implement Conditional Rendering in React and the various ways to use it in your React applications.
 slug: react-conditional-rendering
 authors: deborah_emeni
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-14-conditional-rendering/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-14-conditional-rendering/social-2.png
 hide_table_of_contents: false
+last_update: 2024-07-17
 ---
 
 **This article was last updated on July 17, 2024, to add sections for Common Pitfalls and Best Practices in Conditional Rendering and Testing Conditional Rendering in React Applications.**
@@ -17,20 +19,6 @@ One of the essential features in modern React applications is the dynamic render
 Developers can use React to define a number of distinct functional components that are only rendered when a specific condition is passed. This is a useful feature that has provided several benefits in a variety of areas, including user personalization, defining authentication roles, and implementing Authorization.
 
 In this article, you'll learn about Conditional Rendering in React and the various ways to use it in your React applications.
-
-Steps we'll cover:
-
-- [What is Conditional Rendering in React?](#what-is-conditional-rendering-in-react)
-- [Demo: Methods of Conditional Rendering in React](#demo-methods-of-conditional-rendering-in-react)
-- [Using If-else](#using-if-else)
-- [Rendering nothing with null](#rendering-nothing-with-null)
-- [Conditional rendering with switch statements](#conditional-rendering-with-switch-statements)
-- [Using ternary operators](#using-ternary-operators)
-- [Using Logical AND (\&\&) and OR (||) operators (Short Circuit Evaluation)](#using-logical-and--and-or--operators-short-circuit-evaluation)
-- [Common Pitfalls in Conditional Rendering](#common-pitfalls-in-conditional-rendering)
-- [Using IIFEs (Immediately Invoked Function Expressions)](#using-iifes-immediately-invoked-function-expressions)
-- [Use cases of conditional rendering](#use-cases-of-conditional-rendering)
-- [Best Practices for Testing Conditional Rendering in React](#best-practices-for-testing-conditional-rendering-in-react)
 
 ## What is Conditional Rendering in React?
 
@@ -98,13 +86,13 @@ export default function App() {
 
 When a user logs in, the state is set to **true**, and the **welcome message** from the `HeaderComponent` is displayed to the user as follows:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-14-conditional-rendering/screen-1.png"  alt="conditional rendering react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-14-conditional-rendering/screen-1.png"  alt="conditional rendering react" />
 
 <br />
 
 If the user is not logged in, the state is set to **false**, and the following **message** is displayed from the `NotloggedIn` component:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-14-conditional-rendering/screen-2.png"  alt="conditional rendering react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-14-conditional-rendering/screen-2.png"  alt="conditional rendering react" />
 
 <br />
 
@@ -169,13 +157,13 @@ export default function App() {
 
 If the user has permission, the state is set to **true** and the `EditComponent` is rendered as follows:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-14-conditional-rendering/screen-3.png"  alt="conditional rendering react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-14-conditional-rendering/screen-3.png"  alt="conditional rendering react" />
 
 <br />
 
 If the user has no permission, the state is set to **false** and `null` is rendered as the `template`:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-14-conditional-rendering/screen-4.png"  alt="conditional rendering react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-14-conditional-rendering/screen-4.png"  alt="conditional rendering react" />
 
 <br />
 
@@ -220,7 +208,7 @@ export default function App() {
 
 The component will render based on what the users enter as follows:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-14-conditional-rendering/screen-5.png"  alt="conditional rendering react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-14-conditional-rendering/screen-5.png"  alt="conditional rendering react" />
 
 <br />
 
@@ -497,7 +485,7 @@ export default function App() {
 
 The result is shown below:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-14-conditional-rendering/screen-6.png"  alt="conditional rendering react" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-14-conditional-rendering/screen-6.png"  alt="conditional rendering react" />
 
 <br />
 

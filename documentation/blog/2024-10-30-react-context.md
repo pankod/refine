@@ -3,9 +3,11 @@ title: A Guide to useContext and React Context API
 description: Share data across components with React Context in TypeScript and Next.js
 slug: usecontext-and-react-context
 authors: chibuzor_otuokwu
+category: "Tutorials"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-23-react-context/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-23-react-context/social-2.png
 hide_table_of_contents: false
+last_update: 2024-10-31
 ---
 
 **This article was last updated on October 30, 2024 to include sections on optimizing context performance, testing React Context, managing state with context in complex applications, and security considerations with context data.**
@@ -19,18 +21,6 @@ The **React Context API** provides functionality for passing data from a parent 
 In this tutorial, you will learn the context API and build a mini e-commerce store to illustrate how to use the context API in a real-world application.
 
 <br />
-
-Steps we'll cover:
-
-- [What is prop drilling?](#what-is-prop-drilling)
-- [What is React Context API?](#what-is-react-context-api)
-- [Why React Context?](#why-react-context)
-- [Use cases of the React Context API](#use-cases-of-the-react-context-api)
-- [How to use the React context API with functional components](#how-to-use-the-react-context-api-with-functional-components)
-- [How to use the React context API with class components](#how-to-use-the-react-context-api-with-class-components)
-- [How to use the React context API in a Next.js project](#how-to-use-the-react-context-api-in-a-nextjs-project)
-- [Exploring Context in Complex State Management: Using Reducers and Middlewares with Context API](#exploring-context-in-complex-state-management-using-reducers-and-middlewares-with-context-api)
-- [Custom Hooks and Optimizations with React.memo and useCallback](#custom-hooks-and-optimizations-with-reactmemo-and-usecallback)
 
 ## What is prop drilling?
 
@@ -872,7 +862,7 @@ export default Home;
 
 If you click the favorite icon for each product, you should see it listed under the "My Favorite products" list.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-10-23-react-context/favorite-product-list.png"  alt="React context API favoriteProduct" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-10-23-react-context/favorite-product-list.png"  alt="Favorite products list section" />
 
 <br />
 

@@ -12,7 +12,7 @@ export const CategoryEdit = () => {
     saveButtonProps,
     query: queryResult,
   } = useForm<GetFields<CategoryEditMutation>>({
-    metaData: {
+    meta: {
       gqlMutation: CATEGORY_EDIT_MUTATION,
     },
   });

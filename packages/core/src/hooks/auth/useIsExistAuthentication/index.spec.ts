@@ -18,21 +18,6 @@ describe("useActiveAuthProvider", () => {
     expect(result.current).toBeTruthy();
   });
 
-  it("v3LegacyAuthProviderCompatible authProvider", async () => {
-    const { result } = renderHook(() => useIsExistAuthentication(), {
-      wrapper: TestWrapper({
-        legacyAuthProvider: {
-          login: () => Promise.resolve(),
-          checkAuth: () => Promise.resolve(),
-          logout: () => Promise.resolve(),
-          checkError: () => Promise.resolve(),
-        },
-      }),
-    });
-
-    expect(result.current).toBeTruthy();
-  });
-
   it("returns false", async () => {
     const { result } = renderHook(() => useIsExistAuthentication(), {
       wrapper: TestWrapper({}),

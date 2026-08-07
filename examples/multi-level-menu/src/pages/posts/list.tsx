@@ -17,7 +17,10 @@ export const PostList = () => {
 
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-  const { data, isLoading } = useMany<ICategory>({
+  const {
+    result: data,
+    query: { isLoading },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -30,6 +33,10 @@ export const PostList = () => {
     optionLabel: "title",
     optionValue: "id",
     defaultValue: getDefaultFilter("category.id", filters, "in"),
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

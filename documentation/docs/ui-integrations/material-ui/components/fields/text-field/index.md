@@ -1,5 +1,8 @@
 ---
-title: Text
+title: "MUI Text Field Component | UI Component in Refine v5"
+display_title: "Text"
+sidebar_label: "Text"
+description: "Integrate Text Field in Refine v5. Learn best practices. Learn integration patterns for Material Design, components for polished admin UIs."
 swizzle: true
 ---
 
@@ -7,7 +10,7 @@ This field lets you show basic text. It uses Material UI's [`<Typography>`](http
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -16,6 +19,8 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 Let's see how to use it in a basic list page:
 
 ```tsx live url=http://localhost:3000/posts previewHeight=340px
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import {
   useDataGrid,
@@ -30,6 +35,7 @@ const columns: GridColDef[] = [
   {
     field: "title",
     headerName: "Title",
+    display: "flex",
     renderCell: function render({ row }) {
       // highlight-start
       return <TextField value={row.title} />;
@@ -45,7 +51,7 @@ const PostsList: React.FC = () => {
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns} />
     </List>
   );
 };
@@ -57,14 +63,29 @@ interface IPost {
 // visible-block-end
 
 render(
-  <RefineMuiDemo
-    resources={[
-      {
-        name: "posts",
-        list: PostsList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineMuiDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostsList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMuiDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

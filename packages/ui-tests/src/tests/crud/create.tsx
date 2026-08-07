@@ -1,11 +1,17 @@
+import { vi } from "vitest";
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import {
   type RefineCrudCreateProps,
   RefineButtonTestIds,
 } from "@refinedev/ui-types";
 
-import { type ITestWrapperProps, render, TestWrapper } from "@test";
+import {
+  type ITestWrapperProps,
+  mockRouterProvider,
+  render,
+  TestWrapper,
+} from "@test";
 
 const renderCreate = (
   create: React.ReactNode,
@@ -18,9 +24,34 @@ const renderCreate = (
     {
       wrapper: TestWrapper(
         wrapperProps
-          ? wrapperProps
+          ? {
+              routerInitialEntries: ["/posts/create"],
+              routerProvider: {
+                ...mockRouterProvider(),
+                parse() {
+                  return () => ({
+                    params: {},
+                    resource: { name: "posts", create: "/posts/create" },
+                    pathname: "/posts/create",
+                    action: "create",
+                  });
+                },
+              },
+              ...wrapperProps,
+            }
           : {
               routerInitialEntries: ["/posts/create"],
+              routerProvider: {
+                ...mockRouterProvider(),
+                parse() {
+                  return () => ({
+                    params: {},
+                    resource: { name: "posts", create: "/posts/create" },
+                    pathname: "/posts/create",
+                    action: "create",
+                  });
+                },
+              },
             },
       ),
     },
@@ -34,7 +65,7 @@ export const crudCreateTests = (
 ): void => {
   describe("[@refinedev/ui-tests] Common Tests / CRUD Create", () => {
     beforeAll(() => {
-      jest.spyOn(console, "warn").mockImplementation(jest.fn());
+      vi.spyOn(console, "warn").mockImplementation(vi.fn());
     });
 
     it("should render children", async () => {
@@ -76,9 +107,25 @@ export const crudCreateTests = (
         resources: [
           {
             name: "posts",
-            meta: { route: "posts", label: "test label" },
+            create: "/posts/create",
+            meta: { label: "test label" },
           },
         ],
+        routerProvider: {
+          ...mockRouterProvider(),
+          parse() {
+            return () => ({
+              params: {},
+              resource: {
+                name: "posts",
+                create: "/posts/create",
+                meta: { label: "test label" },
+              },
+              pathname: "/posts/create",
+              action: "create",
+            });
+          },
+        },
         routerInitialEntries: ["/posts/create"],
       });
 
@@ -97,21 +144,6 @@ export const crudCreateTests = (
       });
 
       queryByText("Create Post");
-    });
-
-    it("should render tags", async () => {
-      const { getByText } = render(
-        <Routes>
-          <Route path="/:resource/:action/:id" element={<Create />} />
-        </Routes>,
-        {
-          wrapper: TestWrapper({
-            routerInitialEntries: ["/posts/clone/1"],
-          }),
-        },
-      );
-
-      getByText("Create Post");
     });
   });
 };

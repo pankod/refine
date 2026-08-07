@@ -16,12 +16,12 @@ const AllProperties = () => {
 
   const {
     tableQuery: { data, isLoading, isError },
-    current,
-    setCurrent,
+    currentPage: current,
+    setCurrentPage: setCurrent,
     setPageSize,
     pageCount,
-    sorter,
-    setSorter,
+    sorters: sorter,
+    setSorters: setSorter,
     filters,
     setFilters,
   } = useTable();
@@ -101,7 +101,11 @@ const AllProperties = () => {
                 color="info"
                 displayEmpty
                 required
-                inputProps={{ "aria-label": "Without label" }}
+                slotProps={{
+                  input: {
+                    "aria-label": "Without label",
+                  },
+                }}
                 defaultValue=""
                 value={currentFilterValues.propertyType}
                 onChange={(e) => {
@@ -192,7 +196,11 @@ const AllProperties = () => {
             color="info"
             displayEmpty
             required
-            inputProps={{ "aria-label": "Without label" }}
+            slotProps={{
+              input: {
+                "aria-label": "Without label",
+              },
+            }}
             defaultValue={10}
             onChange={(e) =>
               setPageSize(e.target.value ? Number(e.target.value) : 10)

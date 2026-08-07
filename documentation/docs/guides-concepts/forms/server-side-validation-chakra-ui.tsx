@@ -7,19 +7,18 @@ export default function ServerSideValidationChakraUi() {
       height={460}
       showOpenInCodeSandbox={false}
       dependencies={{
-        "@refinedev/chakra-ui": "^2.26.17",
+        "@refinedev/chakra-ui": "latest",
         "@tabler/icons-react": "^3.1.0",
-        "@refinedev/core": "^4.45.1",
-        "@refinedev/react-router-v6": "^4.5.4",
-        "@refinedev/simple-rest": "^4.5.4",
-        "@refinedev/react-table": "^5.6.4",
+        "@refinedev/core": "latest",
+        "@refinedev/react-router": "latest",
+        "@refinedev/simple-rest": "latest",
+        "@refinedev/react-table": "latest",
         "@tanstack/react-table": "^8.2.6",
-        "@refinedev/react-hook-form": "^4.8.12",
+        "@refinedev/react-hook-form": "latest",
         "@chakra-ui/react": "^2.5.1",
         "react-dom": "^18.0.0",
-        "react-router": "latest",
-        "react-router-dom": "^6.8.1",
-        "react-hook-form": "^7.43.5",
+        "react-router": "^7.0.2",
+        "react-hook-form": "^7.57.0",
       }}
       startRoute="/products/create"
       files={{
@@ -68,7 +67,7 @@ const AppTsxCode = /* jsx */ `
 import { Refine } from "@refinedev/core";
 import {
     ErrorComponent,
-    ThemedLayoutV2,
+    ThemedLayout,
     RefineThemes,
     useNotificationProvider,
     AuthPage
@@ -76,8 +75,8 @@ import {
 import { ChakraProvider } from "@chakra-ui/react";
 import routerProvider, {
     NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router";
 
 import dataProvider from "./data-provider";
 
@@ -102,9 +101,9 @@ const App: React.FC = () => {
                     <Routes>
                         <Route
                             element={
-                                <ThemedLayoutV2>
+                                <ThemedLayout>
                                     <Outlet />
-                                </ThemedLayoutV2>
+                                </ThemedLayout>
                             }
                         >
                             <Route path="/products" element={<Outlet />}>

@@ -29,7 +29,7 @@ import type { IUser, IUserFilterVariables } from "../../interfaces";
 import { EyeOutlined, SearchOutlined } from "@ant-design/icons";
 import { PaginationTotal, UserStatus } from "../../components";
 import type { PropsWithChildren } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 export const CustomerList = ({ children }: PropsWithChildren) => {
   const go = useGo();
@@ -52,6 +52,7 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
         },
       ],
     },
+
     sorters: {
       initial: [
         {
@@ -60,6 +61,7 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
         },
       ],
     },
+
     syncWithLocation: true,
   });
 

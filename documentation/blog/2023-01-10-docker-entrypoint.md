@@ -3,8 +3,9 @@ title: How to Use Docker EntryPoint
 description: We'll discuss how to use Docker ENTRYPOINT instruction to configure the executables run after the container is initiated.
 slug: docker-entrypoint
 authors: muhammad_khabbab
-tags: [docker, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-01-10-docker-entrypoint/social.png
+category: "Engineering"
+tags: [docker]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-01-10-docker-entrypoint/social.png
 hide_table_of_contents: false
 ---
 
@@ -16,14 +17,6 @@ Docker ENTRYPOINT instructions can be written in both shell and exec forms, such
 
 • Shell form: ENTRYPOINT node app.js
 • Exec form: ENTRYPOINT ["node", "app.js"]
-
-Steps we'll cover:
-
-- [How does docker ENTRYPOINT work?](#how-does-docker-entrypoint-work)
-- [Docker entrypoint example commands](#docker-entrypoint-example-commands)
-- [Difference between ENTRYPOINT and CMD](#difference-between-entrypoint-and-cmd)
-- [When to use docker ENTRYPOINT vs CMD](#when-to-use-docker-entrypoint-vs-cmd)
-- [How to use a script as ENTRYPOINT](#how-to-use-a-script-as-entrypoint)
 
 ## How does docker ENTRYPOINT work?
 
@@ -59,7 +52,7 @@ docker build  <directoryName>  –t testentrypoint
 ```
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-01-10-docker-entrypoint/image1.png"  alt="docker entrypoint" />
+    <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-01-10-docker-entrypoint/image1.png"  alt="Docker build output for the entrypoint example" />
 </div>
 
 <br/>
@@ -72,7 +65,7 @@ Docker run testentrypoint
 ```
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-01-10-docker-entrypoint/image2.png"  alt="docker entrypoint" />
+    <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-01-10-docker-entrypoint/image2.png"  alt="Container run output showing ab benchmark execution" />
 </div>
 
 <br/>
@@ -96,7 +89,7 @@ Both commands are different in the following aspects:
 Here is a quick summary table that clarifies the behavior of using CMD and ENTRYPOINT:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-01-10-docker-entrypoint/image3.png"  alt="docker entrypoint" />
+    <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-01-10-docker-entrypoint/image3.png"  alt="CMD and ENTRYPOINT behavior comparison table" />
 </div>
 
 <br/>
@@ -152,7 +145,7 @@ To conclude:
 <br/>
 <div>
 <a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="discord banner" />
+    <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="Join Refine on Discord banner" />
 </a>
 </div>
 

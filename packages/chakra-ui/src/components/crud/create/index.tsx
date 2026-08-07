@@ -1,11 +1,9 @@
 import React from "react";
 import {
-  useNavigation,
   useTranslate,
   useUserFriendlyName,
   useRefineContext,
-  useRouterType,
-  useResource,
+  useResourceParams,
   useBack,
 } from "@refinedev/core";
 import { Box, Heading, HStack, IconButton, Spinner } from "@chakra-ui/react";
@@ -39,12 +37,9 @@ export const Create: React.FC<CreateProps> = (props) => {
     options: { breadcrumb: globalBreadcrumb } = {},
   } = useRefineContext();
 
-  const routerType = useRouterType();
   const back = useBack();
-  const { goBack } = useNavigation();
   const getUserFriendlyName = useUserFriendlyName();
-
-  const { resource, action, identifier } = useResource(resourceFromProps);
+  const { resource, action, identifier } = useResourceParams();
 
   const breadcrumb =
     typeof breadcrumbFromProps === "undefined"
@@ -65,11 +60,7 @@ export const Create: React.FC<CreateProps> = (props) => {
         variant="ghost"
         size="sm"
         onClick={
-          action !== "list" || typeof action !== "undefined"
-            ? routerType === "legacy"
-              ? goBack
-              : back
-            : undefined
+          action !== "list" || typeof action !== "undefined" ? back : undefined
         }
       >
         {typeof goBackFromProps !== "undefined" ? (
@@ -121,10 +112,7 @@ export const Create: React.FC<CreateProps> = (props) => {
         {translate(
           `${identifier}.titles.create`,
           `Create ${getUserFriendlyName(
-            resource?.meta?.label ??
-              resource?.options?.label ??
-              resource?.label ??
-              identifier,
+            resource?.meta?.label ?? identifier,
             "singular",
           )}`,
         )}

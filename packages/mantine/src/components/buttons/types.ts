@@ -14,73 +14,59 @@ import type {
 } from "@refinedev/ui-types";
 import type { IconProps } from "@tabler/icons-react";
 
+type CommonButtonProps = {
+  hidden?: boolean;
+  svgIconProps?: Omit<IconProps, "ref">;
+};
+
 export type ShowButtonProps = RefineShowButtonProps<
   ButtonProps,
-  {
-    svgIconProps?: Omit<IconProps, "ref">;
-  }
+  CommonButtonProps
 >;
 
 export type SaveButtonProps = RefineSaveButtonProps<
   ButtonProps,
-  {
-    svgIconProps?: Omit<IconProps, "ref">;
-  }
+  CommonButtonProps
 >;
 
 export type RefreshButtonProps = RefineRefreshButtonProps<
   ButtonProps,
-  {
-    svgIconProps?: Omit<IconProps, "ref">;
-  }
+  CommonButtonProps
 >;
 
 export type ListButtonProps = RefineListButtonProps<
   ButtonProps,
-  {
-    svgIconProps?: Omit<IconProps, "ref">;
-  }
+  CommonButtonProps
 >;
 
 export type ImportButtonProps = RefineImportButtonProps<
   ButtonProps,
-  {
+  CommonButtonProps & {
     inputProps: UseImportInputPropsType;
-    svgIconProps?: Omit<IconProps, "ref">;
   }
 >;
 
 export type ExportButtonProps = RefineExportButtonProps<
   ButtonProps,
-  {
-    svgIconProps?: Omit<IconProps, "ref">;
-  }
+  CommonButtonProps
 >;
 
 export type EditButtonProps = RefineEditButtonProps<
   ButtonProps,
-  {
-    svgIconProps?: Omit<IconProps, "ref">;
-  }
+  CommonButtonProps
 >;
 
 export type DeleteButtonProps = RefineDeleteButtonProps<
   ButtonProps,
-  {
-    svgIconProps?: Omit<IconProps, "ref">;
-  }
+  CommonButtonProps
 >;
 
 export type CreateButtonProps = RefineCreateButtonProps<
   ButtonProps,
-  {
-    svgIconProps?: Omit<IconProps, "ref">;
-  }
+  CommonButtonProps
 >;
 
 export type CloneButtonProps = RefineCloneButtonProps<
   ButtonProps,
-  {
-    svgIconProps?: Omit<IconProps, "ref">;
-  }
+  CommonButtonProps
 >;

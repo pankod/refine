@@ -9,11 +9,11 @@ import {
   GitHubBanner,
   type LegacyAuthProvider as AuthProvider,
   Refine,
+  ReadyPage,
 } from "@refinedev/core";
 import {
   ErrorComponent,
   useNotificationProvider,
-  ReadyPage,
   RefineSnackbarProvider,
 } from "@refinedev/mui";
 
@@ -157,7 +157,7 @@ function App() {
             },
             {
               name: "my-profile",
-              options: { label: "My Profile " },
+              meta: { label: "My Profile " },
               list: MyProfile,
               icon: <AccountCircleOutlined />,
             },

@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
-import { act, render, TestWrapper } from "@test";
+import { render, TestWrapper, MockRouterProvider } from "@test";
 import { Create } from "./";
 import { crudCreateTests } from "@refinedev/ui-tests";
 import { SaveButton } from "@components/buttons";
@@ -22,6 +22,30 @@ describe("Create", () => {
       {
         wrapper: TestWrapper({
           routerInitialEntries: ["/posts/create"],
+          resources: [
+            {
+              name: "posts",
+              list: "/posts",
+              create: "/posts/create",
+              meta: {
+                label: "Posts",
+              },
+            },
+          ],
+          routerProvider: {
+            ...MockRouterProvider(),
+            parse: () => () => ({
+              params: {},
+              action: "create",
+              resource: {
+                name: "posts",
+                list: "/posts",
+                create: "/posts/create",
+                meta: { label: "Posts" },
+              },
+              pathname: "/posts/create",
+            }),
+          },
         }),
       },
     );

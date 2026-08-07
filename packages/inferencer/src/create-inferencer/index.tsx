@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useResource, TranslationContext } from "@refinedev/core";
+import { useResourceParams, TranslationContext } from "@refinedev/core";
 
 import type {
   CreateInferencer,
@@ -66,10 +66,12 @@ export const createInferencer: CreateInferencer = ({
     meta?: InferencerComponentProps["meta"];
     id?: string | number;
   }) => {
-    const { resource, resources } = useResource(resourceName);
+    const { resource, resources } = useResourceParams({
+      resource: resourceName,
+    });
     const { i18nProvider } = useContext(TranslationContext);
 
-    const { resource: resourceFromURL } = useResource();
+    const { resource: resourceFromURL } = useResourceParams();
 
     const {
       data: record,
@@ -344,11 +346,7 @@ export const createInferencer: CreateInferencer = ({
               code={prepareLiveCode(
                 code,
                 componentName(
-                  resource?.meta?.label ??
-                    resource?.options?.label ??
-                    resource?.label ??
-                    resource?.name ??
-                    "Resource",
+                  resource?.meta?.label ?? resource?.name ?? "Resource",
                   type,
                 ),
               )}
@@ -375,7 +373,9 @@ export const createInferencer: CreateInferencer = ({
     hideCodeViewerInProduction,
     id,
   }) => {
-    const { resource: resourceItem } = useResource(resource ?? name);
+    const { resource: resourceItem } = useResourceParams({
+      resource: resource ?? name,
+    });
 
     const key = `${
       resourceItem?.identifier ?? resourceItem?.name

@@ -9,9 +9,8 @@ export function ReactRouterUseTableUsage() {
       dependencies={{
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-router-v6": "latest",
-        "react-router-dom": "latest",
-        "react-router": "latest",
+        "@refinedev/react-router": "latest",
+        "react-router": "^7.0.2",
       }}
       startRoute="/my-products"
       theme={{}}
@@ -39,9 +38,9 @@ const AppTsxCode = /* tsx */ `
 import React from "react";
 
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router";
 
 import "./style.css";
 
@@ -108,7 +107,7 @@ import { ProductList } from "../../components/products/list";
 
 export const ListPage: React.FC = () => {
   const tableProps = useTable({
-    pagination: { current: 1, pageSize: 2 },
+    pagination: { currentPage: 1, pageSize: 2 },
     filters: {
       initial: [{ field: "category.id", operator: "eq", value: "1" }],
     },
@@ -124,10 +123,11 @@ import React from "react";
 
 export const ProductList: React.FC = ({ tableProps }) => {
   const {
+    result,
     tableQuery,
     isLoading,
-    current,
-    setCurrent,
+    currentPage,
+    setCurrentPage,
     pageSize,
     pageCount,
     filters,
@@ -150,7 +150,7 @@ export const ProductList: React.FC = ({ tableProps }) => {
           </tr>
         </thead>
         <tbody>
-          {tableQuery.data?.data?.map((record) => (
+          {result?.data?.map((record) => (
             <tr key={record.id}>
               <td>{record.id}</td>
               <td>{record.name}</td>
@@ -198,21 +198,21 @@ export const ProductList: React.FC = ({ tableProps }) => {
         Toggle Filter
       </button>
       <hr />
-      <p>Current Page: {current}</p>
+      <p>Current Page: {currentPage}</p>
       <p>Page Size: {pageSize}</p>
       <button
         onClick={() => {
-          setCurrent(current - 1);
+          setCurrentPage(currentPage - 1);
         }}
-        disabled={current < 2}
+        disabled={currentPage < 2}
       >
         Previous Page
       </button>
       <button
         onClick={() => {
-          setCurrent(current + 1);
+          setCurrentPage(currentPage + 1);
         }}
-        disabled={current === pageCount}
+        disabled={currentPage === pageCount}
       >
         Next Page
       </button>

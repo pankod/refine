@@ -6,7 +6,7 @@ title: useDrawerForm
 `useDrawerForm` hook allows you to manage a form within a Drawer. It returns Ant Design [`<Form>`](https://ant.design/components/form/) and [`<Drawer>`](https://ant.design/components/drawer/) components props.
 
 :::info
-`useDrawerForm` hook is extended from [`useForm`](/api-reference/antd/hooks/form/useForm.md) from the [@pankod/refine-antd](https://github.com/refinedev/refine/tree/v3/packages/antd) package. This means that you can use all the features of [`useForm`](/api-reference/antd/hooks/form/useForm.md) hook.
+`useDrawerForm` hook is extended from [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) from the [@pankod/refine-antd](https://github.com/refinedev/refine/tree/v3/packages/antd) package. This means that you can use all the features of [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) hook.
 :::
 
 ## Basic Usage
@@ -319,7 +319,7 @@ Don't forget to pass the record `"id"` to `show` to fetch the record data. This 
 ## Properties
 
 :::tip
-All [`useForm`][antd-use-form] props also available in `useDrawerForm`. You can find descriptions on [`useForm`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#properties) docs.
+All [`useForm`][antd-use-form] props also available in `useDrawerForm`. You can find descriptions on [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#properties) docs.
 :::
 
 ## Return values
@@ -344,7 +344,7 @@ It contains the props needed by the `"delete"` button within the `<Drawer>` (dis
 
 It's required to manage `<Form>` state and actions. Under the hood the `formProps` came from [`useForm`][antd-use-form].
 
-It contains the props to manage the [Antd `<Form>`](https://ant.design/components/form#api) component such as [_`onValuesChange`, `initialValues`, `onFieldsChange`, `onFinish` etc._](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#return-values)
+It contains the props to manage the [Antd `<Form>`](https://ant.design/components/form#api) component such as [_`onValuesChange`, `initialValues`, `onFieldsChange`, `onFinish` etc._](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#return-values)
 
 ### `drawerProps`
 
@@ -359,7 +359,7 @@ It's the width of the `<Drawer>`.
 #### `onClose`
 
 A function that can close the `<Drawer>`. It's useful when you want to close the `<Drawer>` manually.
-When [`warnWhenUnsavedChanges`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#warnwhenunsavedchanges) is `true`, it will show a confirmation modal before closing the `<Drawer>`. If you override this function, you have to handle this confirmation modal manually.
+When [`warnWhenUnsavedChanges`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#warnwhenunsavedchanges) is `true`, it will show a confirmation modal before closing the `<Drawer>`. If you override this function, you have to handle this confirmation modal manually.
 
 #### `open`
 
@@ -379,23 +379,23 @@ It renders `<Drawer>` instead of lazy rendering it.
 
 <PropsTable module="@pankod/refine-antd/useDrawerForm"/>
 
-> `*`: These props have default values in `RefineContext` and can also be set on **<[Refine](/api-reference/core/components/refine-config.md)>** component. `useDrawerForm` will use what is passed to `<Refine>` as default but a local value will override it.
+> `*`: These props have default values in `RefineContext` and can also be set on **<[Refine](/core/docs/3.xx.xx/api-reference/core/components/refine-config)>** component. `useDrawerForm` will use what is passed to `<Refine>` as default but a local value will override it.
 
 > `**`: If not explicitly configured, default value of `redirect` depends which `action` used. If `action` is `create`, `redirect`s default value is `edit` (created resources edit page). Otherwise if `action` is `edit`, `redirect`s default value is `list`.
 
 ### Return Value
 
-| Key               | Description                                                  | Type                                                                           |
-| ----------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| show              | A function that opens the drawer                             | `(id?: BaseKey) => void`                                                       |
-| form              | Ant Design form instance                                     | [`FormInstance<TVariables>`](https://ant.design/components/form/#FormInstance) |
-| formProps         | Ant Design form props                                        | [`FormProps`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#properties) |
-| drawerProps       | Props for managed drawer                                     | [`DrawerProps`](#drawerprops)                                                  |
-| saveButtonProps   | Props for a submit button                                    | `{ disabled: boolean; onClick: () => void; loading: boolean; }`                |
-| deleteButtonProps | Adds props for delete button                                 | [`DeleteButtonProps`](/api-reference/core/interfaces.md#delete-button-props)   |
-| submit            | Submit method, the parameter is the value of the form fields | `() => void`                                                                   |
-| open              | Whether the drawer is open or not                            | `boolean`                                                                      |
-| close             | Specify a function that can close the drawer                 | `() => void`                                                                   |
+| Key               | Description                                                  | Type                                                                                        |
+| ----------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| show              | A function that opens the drawer                             | `(id?: BaseKey) => void`                                                                    |
+| form              | Ant Design form instance                                     | [`FormInstance<TVariables>`](https://ant.design/components/form/#FormInstance)              |
+| formProps         | Ant Design form props                                        | [`FormProps`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#properties)         |
+| drawerProps       | Props for managed drawer                                     | [`DrawerProps`](#drawerprops)                                                               |
+| saveButtonProps   | Props for a submit button                                    | `{ disabled: boolean; onClick: () => void; loading: boolean; }`                             |
+| deleteButtonProps | Adds props for delete button                                 | [`DeleteButtonProps`](/core/docs/3.xx.xx/api-reference/core/interfaces#delete-button-props) |
+| submit            | Submit method, the parameter is the value of the form fields | `() => void`                                                                                |
+| open              | Whether the drawer is open or not                            | `boolean`                                                                                   |
+| close             | Specify a function that can close the drawer                 | `() => void`                                                                                |
 
 ### Type Parameters
 
@@ -409,6 +409,6 @@ It renders `<Drawer>` instead of lazy rendering it.
 
 <CodeSandboxExample path="form-antd-use-drawer-form" />
 
-[baserecord]: /api-reference/core/interfaces.md#baserecord
-[httperror]: /api-reference/core/interfaces.md#httperror
-[antd-use-form]: /docs/3.xx.xx/api-reference/antd/hooks/form/useForm
+[baserecord]: /core/docs/3.xx.xx/api-reference/core/interfaces#baserecord
+[httperror]: /core/docs/3.xx.xx/api-reference/core/interfaces#httperror
+[antd-use-form]: /core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm

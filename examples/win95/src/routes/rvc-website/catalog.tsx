@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { useList } from "@refinedev/core";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router";
 import { Hourglass } from "react95";
 import styled from "styled-components";
 import { Browser } from "@/components/browser";
@@ -16,7 +16,10 @@ export const RVCWebsiteCatalogPage = ({ withBrowser = true }: Props) => {
   const navigate = useNavigate();
   const { catalogLetter } = useParams();
 
-  const { data, isFetching } = useList<VideoTitle>({
+  const {
+    result: data,
+    query: { isFetching },
+  } = useList<VideoTitle>({
     resource: "titles",
     pagination: { mode: "off" },
     filters: [{ field: "title", operator: "startswith", value: catalogLetter }],

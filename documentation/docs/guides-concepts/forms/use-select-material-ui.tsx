@@ -9,7 +9,7 @@ export default function UseSelectMaterialUI() {
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
         "@refinedev/react-hook-form": "latest",
-        "@refinedev/mui": "5.0.0",
+        "@refinedev/mui": "latest",
         "@mui/material": "latest",
       }}
       startRoute="/"
@@ -93,12 +93,12 @@ export const EditPage: React.FC = () => {
     });
     const product = productQuery?.data?.data;
 
-    const { autocompleteProps, queryResult: categoriesQueryResult } =
+    const { autocompleteProps, query: categoriesQuery } =
         useAutocomplete<ICategory>({
             resource: "categories",
             defaultValue: product?.category.id,
         });
-    const categories = categoriesQueryResult?.data?.data;
+    const categories = categoriesQuery?.result?.data;
 
     // find category of product by id from categories
     const categoryOfProduct = categories?.find(

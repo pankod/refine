@@ -42,7 +42,7 @@ npm create refine-app@latest -- --example invoicer
 
 <br/>
 
-[![Open invoicer example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/invoicer?view=preview&theme=dark&codemirror=1)
+[![Open invoicer example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/invoicer?view=preview&theme=dark&codemirror=1)
 
 ## Features
 
@@ -59,33 +59,33 @@ npm create refine-app@latest -- --example invoicer
 ![Login Page](https://refine.ams3.cdn.digitaloceanspaces.com/blog/invoicer/login-page.png)
 
  <br />
- 
+
 ![Accounts List](https://refine.ams3.cdn.digitaloceanspaces.com/blog/invoicer/accounts-list.png)
- 
+
  <br />
- 
+
 ![New Account](https://refine.ams3.cdn.digitaloceanspaces.com/blog/invoicer/accounts-new.png)
- 
+
  <br />
- 
+
 ![Edit Account](https://refine.ams3.cdn.digitaloceanspaces.com/blog/invoicer/accounts-edit.png)
- 
+
  <br />
- 
+
 ![Clients List](https://refine.ams3.cdn.digitaloceanspaces.com/blog/invoicer/clients-list.png)
- 
+
  <br />
- 
+
 ![Invoices List](https://refine.ams3.cdn.digitaloceanspaces.com/blog/invoicer/invoices-list.png)
- 
+
  <br />
- 
+
 ![New Invoice](https://refine.ams3.cdn.digitaloceanspaces.com/blog/invoicer/invoices-new.png)
- 
+
  <br />
- 
+
 ![Show Invoice](https://refine.ams3.cdn.digitaloceanspaces.com/blog/invoicer/invoices-show.png)
- 
+
  <br />
- 
+
 ![PDF Export](https://refine.ams3.cdn.digitaloceanspaces.com/blog/invoicer/pdf-export.png)

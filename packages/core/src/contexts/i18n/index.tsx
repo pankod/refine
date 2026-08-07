@@ -1,9 +1,6 @@
 import React, { type PropsWithChildren } from "react";
 
-import type { I18nProvider, II18nContext } from "./types";
-
-/** @deprecated default value for translation context has no use and is an empty object.  */
-export const defaultProvider: Partial<I18nProvider> = {};
+import type { II18nContext } from "./types";
 
 export const I18nContext = React.createContext<II18nContext>({});
 

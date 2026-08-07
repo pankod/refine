@@ -6,7 +6,6 @@ import {
   Paper,
   Skeleton,
   type SxProps,
-  Typography,
   useTheme,
 } from "@mui/material";
 import ArrowDropDownCircleOutlinedIcon from "@mui/icons-material/ArrowDropDownCircleOutlined";
@@ -74,27 +73,37 @@ const Info = ({ icon, label, value, sx }: InfoProps) => {
 
   return (
     <Box
-      display="flex"
-      alignItems="flex-start"
-      justifyContent="flex-start"
-      p="16px 0px 16px 24px"
-      sx={sx}
+      sx={[
+        {
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "flex-start",
+          p: "16px 0px 16px 24px",
+        },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     >
       <Box
-        mr="8px"
-        display="flex"
-        alignItems="flex-start"
-        justifyContent="flex-start"
         sx={{
+          mr: "8px",
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "flex-start",
           color: palette.primary.main,
         }}
       >
         {icon}
       </Box>
-      <Box mr="8px" display="flex" alignItems="center" width="112px">
+      <Box
+        sx={{
+          mr: "8px",
+          display: "flex",
+          alignItems: "center",
+          width: "112px",
+        }}
+      >
         {label}
       </Box>
-
       {value ?? (
         <Skeleton variant="text" sx={{ fontSize: "1rem", width: "200px" }} />
       )}

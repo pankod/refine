@@ -1,5 +1,8 @@
 ---
-title: Deployment
+title: "Deployment Guide | Best Practices in Refine v5"
+display_title: "Deployment"
+sidebar_label: "Deployment"
+description: "Build Deployment in Refine v5. Learn the key steps. Explore provider for real-world React admin panels. Learn with code examples."
 ---
 
 Refine being a meta-framework, it does not have a specific deployment configuration on its own.

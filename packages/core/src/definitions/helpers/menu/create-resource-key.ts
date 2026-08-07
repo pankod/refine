@@ -7,7 +7,6 @@ import {
 export const createResourceKey = (
   resource: IResourceItem,
   resources: IResourceItem[],
-  legacy = false,
 ) => {
   const parents: IResourceItem[] = [];
 
@@ -19,11 +18,7 @@ export const createResourceKey = (
   parents.reverse();
 
   const key = [...parents, resource]
-    .map((r) =>
-      removeLeadingTrailingSlashes(
-        (legacy ? r.route : undefined) ?? r.identifier ?? r.name,
-      ),
-    )
+    .map((r) => removeLeadingTrailingSlashes(r.identifier ?? r.name))
     .join("/");
 
   return `/${key.replace(/^\//, "")}`;

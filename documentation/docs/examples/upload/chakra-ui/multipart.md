@@ -1,6 +1,9 @@
 ---
 id: multipart
-title: Multipart Upload
+title: "Multipart Example | Multipart/form-data in Refine v5"
+display_title: "Multipart Upload"
+sidebar_label: "Multipart Upload"
+description: "Explore how to build with the Multipart example in Refine v5. Explore provider and upload for real-world React admin panels. See practical code samples."
 example-tags: [chakra-ui, upload]
 ---
 

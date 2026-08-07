@@ -19,7 +19,6 @@ import type { EditButtonProps } from "../types";
  */
 export const EditButton: React.FC<EditButtonProps> = ({
   resource: resourceNameFromProps,
-  resourceNameOrRouteName,
   recordItemId,
   hideText = false,
   accessControl,
@@ -30,13 +29,16 @@ export const EditButton: React.FC<EditButtonProps> = ({
   ...rest
 }) => {
   const { to, label, title, disabled, hidden, LinkComponent } = useEditButton({
-    resource: resourceNameFromProps ?? resourceNameOrRouteName,
+    resource: resourceNameFromProps,
     id: recordItemId,
     accessControl,
     meta,
   });
 
-  if (hidden) return null;
+  const isDisabled = disabled || rest.disabled;
+  const isHidden = hidden || rest.hidden;
+
+  if (isHidden) return null;
 
   const { variant, styles, ...commonProps } = rest;
 
@@ -46,7 +48,7 @@ export const EditButton: React.FC<EditButtonProps> = ({
       to={to}
       replace={false}
       onClick={(e: React.PointerEvent<HTMLButtonElement>) => {
-        if (disabled) {
+        if (isDisabled) {
           e.preventDefault();
           return;
         }
@@ -59,7 +61,7 @@ export const EditButton: React.FC<EditButtonProps> = ({
       {hideText ? (
         <ActionIcon
           title={title}
-          disabled={disabled}
+          disabled={isDisabled}
           aria-label={label}
           data-testid={RefineButtonTestIds.EditButton}
           className={RefineButtonClassNames.EditButton}
@@ -75,7 +77,7 @@ export const EditButton: React.FC<EditButtonProps> = ({
       ) : (
         <Button
           variant="default"
-          disabled={disabled}
+          disabled={isDisabled}
           leftIcon={<IconPencil size={18} {...svgIconProps} />}
           title={title}
           data-testid={RefineButtonTestIds.EditButton}

@@ -24,31 +24,31 @@ export const LandingTestimonial: FC<Props> = ({ className }) => {
         <h2
           className={clsx(
             "text-2xl landing-sm:text-[32px]",
-            "tracking-tight",
+            "tracking-normal",
             "text-start",
             "p-0",
-            "dark:text-gray-0 text-gray-900",
+            "text-white",
           )}
         >
-          The{" "}
+          The difference that Refine{" "}
           <span
             className={clsx(
-              "font-semibold",
-              "dark:text-refine-cyan-alt dark:drop-shadow-[0_0_30px_rgba(71,235,235,0.25)]",
-              "text-refine-blue drop-shadow-[0_0_30px_rgba(0,128,255,0.3)]",
+              "font-bold",
+              "font-jetBrains-mono",
+              "text-orange-400",
             )}
           >
-            difference
+            CORE
           </span>{" "}
-          that Refine makes
+          makes
         </h2>
       </div>
 
       <div
         className={clsx(
-          "mt-8 landing-sm:mt-12 landing-lg:mt-20",
+          "mt-8 landing-sm:mt-12",
           "grid grid-cols-12",
-          "gap-6",
+          "gap-4 landing-sm:gap-1",
           "items-stretch",
         )}
       >
@@ -83,14 +83,15 @@ export const LandingTestimonial: FC<Props> = ({ className }) => {
         <div
           className={clsx(
             "block landing-md:hidden landing-lg:block",
-            "columns-1 landing-lg:columns-3 gap-6",
+            "columns-1 landing-lg:columns-3",
+            "gap-4 landing-sm:gap-1",
           )}
         >
           {testiomianlsStartFromThree.map((testimonial, index) => {
             return (
               <TestimonialCard
                 key={index}
-                className={clsx("inline-block", "w-full", "mt-6")}
+                className={clsx("inline-block", "w-full", "mt-1")}
                 {...testimonial}
               />
             );
@@ -108,7 +109,7 @@ export const LandingTestimonial: FC<Props> = ({ className }) => {
             return (
               <TestimonialCard
                 key={index}
-                className={clsx("inline-block", "w-full", "mt-6")}
+                className={clsx("inline-block", "w-full", "mt-1")}
                 {...testimonial}
               />
             );
@@ -137,13 +138,7 @@ const TestimonialCard = ({
   className,
 }) => {
   return (
-    <div
-      className={clsx(
-        "border dark:border-gray-700 border-gray-200",
-        "rounded-3xl",
-        className,
-      )}
-    >
+    <div className={clsx("bg-zinc-800", "rounded-xl", className)}>
       <div
         className={clsx(
           "not-prose",
@@ -151,16 +146,18 @@ const TestimonialCard = ({
           "flex flex-col",
           "justify-between",
           "gap-6",
-          "p-10",
+          "p-4 landing-sm:p-10",
         )}
       >
-        <div className={clsx("text-base", "dark:text-gray-0 text-gray-900")}>
+        <div
+          className={clsx("text-sm", "text-zinc-300", "tracking-[-0.007em]")}
+        >
           {description}
         </div>
         <a
           href={link}
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
           className={clsx(
             "flex gap-4",
             "items-center",
@@ -175,12 +172,20 @@ const TestimonialCard = ({
           />
           <div className={clsx("flex flex-col")}>
             <div
-              className={clsx("text-sm", "dark:text-gray-400 text-gray-600")}
+              className={clsx(
+                "text-xs",
+                "text-zinc-400",
+                "tracking-[-0.006em]",
+              )}
             >
               {name}
             </div>
             <div
-              className={clsx("text-sm", "dark:text-gray-400 text-gray-600")}
+              className={clsx(
+                "text-xs",
+                "text-zinc-400",
+                "tracking-[-0.006em]",
+              )}
             >
               {title}
             </div>

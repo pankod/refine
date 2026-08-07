@@ -1,5 +1,6 @@
 import { useGetIdentity, useList } from "@refinedev/core";
-import { Box, Grid, Skeleton, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import { AnnualLeaveIcon, CasualLeaveIcon, SickLeaveIcon } from "@/icons";
 import {
   type Employee,
@@ -12,76 +13,95 @@ export const TimeOffLeaveCards = () => {
   const { data: employee, isLoading: isLoadingEmployee } =
     useGetIdentity<Employee>();
 
-  const { data: timeOffsSick, isLoading: isLoadingTimeOffsSick } =
-    useList<TimeOff>({
-      resource: "time-offs",
-      // we only need total number of sick leaves, so we can set pageSize to 1 to reduce the load
-      pagination: { pageSize: 1 },
-      filters: [
-        {
-          field: "status",
-          operator: "eq",
-          value: TimeOffStatus.APPROVED,
-        },
-        {
-          field: "timeOffType",
-          operator: "eq",
-          value: TimeOffType.SICK,
-        },
-        {
-          field: "employeeId",
-          operator: "eq",
-          value: employee?.id,
-        },
-      ],
-      queryOptions: {
-        enabled: !!employee?.id,
+  const {
+    result: timeOffsSick,
+    query: { isLoading: isLoadingTimeOffsSick },
+  } = useList<TimeOff>({
+    resource: "time-offs",
+    // we only need total number of sick leaves, so we can set pageSize to 1 to reduce the load
+    pagination: { pageSize: 1 },
+    filters: [
+      {
+        field: "status",
+        operator: "eq",
+        value: TimeOffStatus.APPROVED,
       },
-    });
+      {
+        field: "timeOffType",
+        operator: "eq",
+        value: TimeOffType.SICK,
+      },
+      {
+        field: "employeeId",
+        operator: "eq",
+        value: employee?.id,
+      },
+    ],
+    queryOptions: {
+      enabled: !!employee?.id,
+    },
+  });
 
-  const { data: timeOffsCasual, isLoading: isLoadingTimeOffsCasual } =
-    useList<TimeOff>({
-      resource: "time-offs",
-      // we only need total number of sick leaves, so we can set pageSize to 1 to reduce the load
-      pagination: { pageSize: 1 },
-      filters: [
-        {
-          field: "status",
-          operator: "eq",
-          value: TimeOffStatus.APPROVED,
-        },
-        {
-          field: "timeOffType",
-          operator: "eq",
-          value: TimeOffType.CASUAL,
-        },
-        {
-          field: "employeeId",
-          operator: "eq",
-          value: employee?.id,
-        },
-      ],
-      queryOptions: {
-        enabled: !!employee?.id,
+  const {
+    result: timeOffsCasual,
+    query: { isLoading: isLoadingTimeOffsCasual },
+  } = useList<TimeOff>({
+    resource: "time-offs",
+    // we only need total number of sick leaves, so we can set pageSize to 1 to reduce the load
+    pagination: { pageSize: 1 },
+    filters: [
+      {
+        field: "status",
+        operator: "eq",
+        value: TimeOffStatus.APPROVED,
       },
-    });
+      {
+        field: "timeOffType",
+        operator: "eq",
+        value: TimeOffType.CASUAL,
+      },
+      {
+        field: "employeeId",
+        operator: "eq",
+        value: employee?.id,
+      },
+    ],
+    queryOptions: {
+      enabled: !!employee?.id,
+    },
+  });
 
   const loading =
     isLoadingEmployee || isLoadingTimeOffsSick || isLoadingTimeOffsCasual;
 
   return (
     <Grid container spacing="24px">
-      <Grid item xs={12} sm={4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 4,
+        }}
+      >
         <Card
           loading={loading}
           type="annual"
           value={employee?.availableAnnualLeaveDays || 0}
         />
       </Grid>
-      <Grid item xs={12} sm={4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 4,
+        }}
+      >
         <Card loading={loading} type="sick" value={timeOffsSick?.total || 0} />
       </Grid>
-      <Grid item xs={12} sm={4}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 4,
+        }}
+      >
         <Card
           loading={loading}
           type="casual"

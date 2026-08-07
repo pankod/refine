@@ -54,13 +54,13 @@ export const dataProvider = (url: string): DataProvider => ({
     getOne: async ({ id, resource }) => {
         const response = await fetch(\`\${url}/\${resource}/\${id}\`);
         const data = await response.json();
-  
+
         return {
             data,
         };
     },
 
-    update: async ({ resource, id, variables }) => {      
+    update: async ({ resource, id, variables }) => {
         console.log(variables, JSON.stringify(variables))
         const response = await fetch(\`\${url}/\${resource}/\${id}\`, {
             method: "PATCH",
@@ -95,12 +95,12 @@ import React from "react";
 import { useOne, BaseKey, useUpdate } from "@refinedev/core";
 
 export const Product: React.FC = () => {
-    const { data, error, isError, isLoading, isFetching } = useOne<IProduct>({
+    const { result: product, query: { error, isError, isLoading, isFetching } } = useOne<IProduct>({
         resource: "products",
         id: 124,
     });
 
-    const { mutate, isLoading: isUpdating } = useUpdate();
+    const { mutate, mutation: { isPending: isUpdating } } = useUpdate();
 
     if (isError) {
         return (
@@ -122,8 +122,6 @@ export const Product: React.FC = () => {
             },
         });
     };
-
-    const product = data?.data;
 
     return (
         <div>

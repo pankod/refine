@@ -30,7 +30,7 @@ const calculatePercentage = (total: number, target: number): number => {
 export const DashboardPage: React.FC = () => {
   const API_URL = useApiUrl("metrics");
 
-  const { data: dailyRevenue } = useCustom({
+  const { result: dailyRevenue } = useCustom({
     url: `${API_URL}/dailyRevenue`,
     method: "get",
     config: {
@@ -38,7 +38,7 @@ export const DashboardPage: React.FC = () => {
     },
   });
 
-  const { data: dailyOrders } = useCustom({
+  const { result: dailyOrders } = useCustom({
     url: `${API_URL}/dailyOrders`,
     method: "get",
     config: {
@@ -46,7 +46,7 @@ export const DashboardPage: React.FC = () => {
     },
   });
 
-  const { data: newCustomers } = useCustom({
+  const { result: newCustomers } = useCustom({
     url: `${API_URL}/newCustomers`,
     method: "get",
     config: {

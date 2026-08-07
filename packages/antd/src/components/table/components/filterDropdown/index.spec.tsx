@@ -2,18 +2,19 @@ import React from "react";
 import { Input, DatePicker, Select } from "antd";
 import dayjs from "dayjs";
 import { render, fireEvent } from "@test";
+import { vi } from "vitest";
 import { FilterDropdown, type FilterDropdownProps } from "./";
 
 describe("FilterDropdown", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
-  const confirm = jest.fn();
-  const clearFilters = jest.fn();
-  const setSelectedKeys = jest.fn();
-  const mapValueFn = jest.fn();
-  const close = jest.fn();
+  const confirm = vi.fn();
+  const clearFilters = vi.fn();
+  const setSelectedKeys = vi.fn();
+  const mapValueFn = vi.fn();
+  const close = vi.fn();
 
   const props: FilterDropdownProps = {
     confirm,

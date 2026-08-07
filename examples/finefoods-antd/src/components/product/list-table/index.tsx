@@ -26,7 +26,7 @@ import {
 import { ProductStatus } from "../status";
 import { PaginationTotal } from "../../paginationTotal";
 import { EyeOutlined, SearchOutlined } from "@ant-design/icons";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 export const ProductListTable = () => {
   const { token } = theme.useToken();
@@ -68,6 +68,10 @@ export const ProductListTable = () => {
       optionLabel: "title",
       optionValue: "id",
       defaultValue: getDefaultFilter("category.id", filters, "in"),
+
+      pagination: {
+        mode: "server",
+      },
     });
 
   const categories = queryResult?.data?.data || [];

@@ -3,9 +3,11 @@ title: Introduction to React Table - TanStack Table Adapter for React
 description: We'll explore how to use TanStack Table(React Table) in a react project. We'll also explore how to use TanStack Table with refine.
 slug: tanstack-react-table
 authors: joseph_mawa
+category: "Ecosystem / Integrations"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-31-react-table/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-31-react-table/social.png
 hide_table_of_contents: false
+last_update: 2024-09-06
 ---
 
 **This article was last updated on September 06, 2024, to add sections on Advanced Column Customization and Accessibility Features in React Table.**
@@ -165,7 +167,7 @@ The table object has several other properties that you can look up in the React 
 
 ## How to use React Table with Refine
 
-TanStack Table is framework agnostic. Therefore, you need an adapter to use it with front-end frameworks like [Refine](https://github.com/refinedev/refine/stargazers). The Refine ecosystem has the [`@refinedev/react-table`](https://github.com/refinedev/refine/tree/master/packages/react-table) adapter for integrating TanStack Table into your Refine application.
+TanStack Table is framework agnostic. Therefore, you need an adapter to use it with front-end frameworks like [Refine](https://github.com/refinedev/refine/stargazers). The Refine ecosystem has the [`@refinedev/react-table`](https://github.com/refinedev/refine/tree/main/packages/react-table) adapter for integrating TanStack Table into your Refine application.
 
 Depending on your package manager, first, install it from the NPM package registry. The command below assumes you're using the NPM package manager.
 
@@ -243,9 +245,7 @@ export const CategoryList = () => {
   const { edit, show } = useNavigation();
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    setOptions,
+    reactTable: { getHeaderGroups, getRowModel, setOptions },
     refineCore: {
       tableQuery: { data: tableData },
     },
@@ -314,7 +314,7 @@ export const CategoryList = () => {
         <div class="control orange"></div>
         <div class="control green"></div>
     </div>
-    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-31-react-table/react-table.png" alt="react slick" />
+    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-31-react-table/react-table.png" alt="Category table rendered with useTable" />
 </div>
 
 As in the above example, Refine's React Table adapter exports the `useTable` hook. You need to create the table column and pass it as an argument to the `useTable` hook.
@@ -340,8 +340,10 @@ import { ColumnDef, flexRender } from "@tanstack/react-table";
 export const CategoryList = () => {
   ...
   const {
-    getHeaderGroups,
-    getRowModel,
+    reactTable: {
+      getHeaderGroups,
+      getRowModel,
+    },
     setOptions,
     refineCore: {
       tableQuery: { data: tableData },
@@ -435,7 +437,7 @@ export const CategoryList = () => {
         <div class="control orange"></div>
         <div class="control green"></div>
     </div>
-    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-31-react-table/react-table-with-pagination.png" alt="react slick" />
+    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-31-react-table/react-table-with-pagination.png" alt="Table with pagination controls" />
 </div>
 
 After adding the changes above, you can now navigate to any page of the data. By default, pagination is handled on the server side. If you want pagination to be handled on the client side, set the value of the `pagination.mode` property to `"client"` like so:
@@ -546,7 +548,7 @@ export const CategoryList = () => {
         <div class="control orange"></div>
         <div class="control green"></div>
     </div>
-    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-31-react-table/react-table-with-sorting.png" alt="react slick" />
+    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-31-react-table/react-table-with-sorting.png" alt="Table with sortable column headers" />
 </div>
 
 You can now click the Title header to sort the table in ascending or descending order of the title.
@@ -707,7 +709,7 @@ export const CategoryList = () => {
         <div class="control orange"></div>
         <div class="control green"></div>
     </div>
-    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-31-react-table/react-table-with-filtering.png" alt="react slick" />
+    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-31-react-table/react-table-with-filtering.png" alt="Table with title filter input" />
 </div>
 
 You will now see a search field that you can use to search for an entry in the title field.
@@ -718,7 +720,7 @@ You will now see a search field that you can use to search for an entry in the t
         <div class="control orange"></div>
         <div class="control green"></div>
     </div>
-    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-10-31-react-table/react-table-with-refine.gif" alt="react slick" />
+    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-10-31-react-table/react-table-with-refine.avif" alt="Refine table with filters and actions" />
 </div>
 
 There are several features of React Table that we haven't explored in this section. Check out the documentation.

@@ -3,8 +3,9 @@ title: CSS Box Shadow with 25 Examples
 description: We'll explore the CSS `box-shadow` property.
 slug: box-shadow-css
 authors: joseph_mawa
+category: "Tutorials"
 tags: [css]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/social.png
 hide_table_of_contents: false
 ---
 
@@ -341,7 +342,7 @@ The first and last box shadows have dark color with alpha values of `0.25`. The 
 The image below shows what the above box shadow will look like.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/11.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/11.png" alt="box shadow css" />
 </div>
 
 **Example 12**
@@ -365,7 +366,7 @@ The code below is similar to the previous one. However, it has four box shadows 
 The code above will create a shadow effect that will look like the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/12.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/12.png" alt="box shadow css" />
 </div>
 
 **Example 13**
@@ -388,7 +389,7 @@ The code below will apply inner box shadow to an element because of the `inset` 
 The code above will create a box shadow that looks like the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/13.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/13.png" alt="box shadow css" />
 </div>
 
 **Example 14**
@@ -409,7 +410,7 @@ You will notice some of the box shadow length values are negative while others a
 The code above will create a box shadow that looks like the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/14.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/14.png" alt="box shadow css" />
 </div>
 
 **Example 15**
@@ -429,7 +430,7 @@ Both do not have the `inset` keyword. Therefore, it will create outer shadow eff
 The code above will create a box shadow that looks like the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/15.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/15.png" alt="box shadow css" />
 </div>
  **Example 16**
 
@@ -446,7 +447,7 @@ The code below will create outer box shadow similar to the previous example. How
 The code above will create a box shadow similar to the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/16.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/16.png" alt="box shadow css" />
 </div>
 
 **Example 17**
@@ -473,7 +474,7 @@ You can tweak the values to see their effect.
 The code above will create a box shadow effect that looks like the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/17.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/17.png" alt="box shadow css" />
 </div>
 
 **Example 18**
@@ -491,7 +492,7 @@ The code below resembles most of the examples highlighted above. The difference 
 The code above will create a box shadow that looks like the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/18.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/18.png" alt="box shadow css" />
 </div>
 
 **Example 19**
@@ -509,7 +510,7 @@ In the box shadow example below, we have an x-offset of `0px`, y-offset of `9px`
 The code above will generate a box shadow that looks like the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/19.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/19.png" alt="box shadow css" />
 </div>
 
 **Example 20**
@@ -527,7 +528,7 @@ In the box shadow example below we have two box shadows separated by a comma. Th
 The box shadow styles above will generate box shadow that looks like the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/20.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/20.png" alt="box shadow css" />
 </div>
 
 **Example 21**
@@ -545,7 +546,7 @@ In the example below, we have an inner box shadow because of the `inset` keyword
 The code above will generate a box shadow which looks like the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/21.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/21.png" alt="box shadow css" />
 </div>
 
 **Example 22**
@@ -563,7 +564,7 @@ The box shadow below has an x-offset of `0px`, y-offset of `22px`, blur radius o
 The code above will create a box shadow which looks like the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/22.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/22.png" alt="box shadow css" />
 </div>
 
 **Example 23**
@@ -584,7 +585,7 @@ You will notice that the spread radius both take on negative values. The colors 
 The styling above will create a box shadow which looks like the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/23.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/23.png" alt="box shadow css" />
 </div>
 
 **Example 24**
@@ -602,7 +603,7 @@ The example below is similar to one of the box shadows we created above. All the
 The styling above will create a box shadow which looks like the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/24.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/24.png" alt="box shadow css" />
 </div>
 
 **Example 25**
@@ -621,7 +622,7 @@ The box shadow example below comprise of three box shadows separated by commas. 
 The code above will create a box shadow which looks like the image below.
 
 <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-28-css-shadows/25.png" alt="box shadow css" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-28-css-shadows/25.png" alt="box shadow css" />
 </div>
 
 ## Conclusion

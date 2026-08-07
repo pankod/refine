@@ -1,5 +1,8 @@
 ---
-title: CLI
+title: "CLI Integration Guide | Best Practices in Refine v5"
+display_title: "CLI"
+sidebar_label: "CLI"
+description: "Learn to implement CLI in Refine v5. Learn swizzle and command for real-world React admin panels. Hands-on examples included."
 ---
 
 import Tabs from '@theme/Tabs';
@@ -223,10 +226,6 @@ You can use this command to add integration to your existing projects.
   React Router - Setup routing with React Router
 ```
 
-### create-resource <PropTag deprecated />
-
-Use [add](#add) command instead.
-
 ### update
 
 Interactively update your outdated Refine packages. To skip interactive mode, use the `--all` flag to update all outdated Refine packages to selected tag.
@@ -404,7 +403,7 @@ View the details of the development environment.
 
 ## How to add to an existing project?
 
-If you want to add the [@refinedev/cli](https://github.com/refinedev/refine/tree/master/packages/cli) to your existing project, you have to add it to your project's `dependencies`.
+If you want to add the [@refinedev/cli](https://github.com/refinedev/refine/tree/main/packages/cli) to your existing project, you have to add it to your project's `dependencies`.
 
 <InstallPackagesCommand args="@refinedev/cli"/>
 

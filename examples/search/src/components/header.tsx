@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
-import { useList } from "@refinedev/core";
+import { Link, useList } from "@refinedev/core";
 import { SearchOutlined } from "@ant-design/icons";
 import { Layout as AntdLayout, AutoComplete, Input, Typography } from "antd";
-import routerProvider from "@refinedev/react-router-v6/legacy";
 import debounce from "lodash/debounce";
 
 import type { ICategory, IOptions, IPost } from "../interfaces";
 
-const { Link } = routerProvider;
 const { Text } = Typography;
 
 const renderTitle = (title: string) => {
@@ -33,53 +31,65 @@ export const Header: React.FC = () => {
   const [value, setValue] = useState<string>("");
   const [options, setOptions] = useState<IOptions[]>([]);
 
-  const { refetch: refetchPosts } = useList<IPost>({
+  const {
+    result: postsData,
+    query: { refetch: refetchPosts },
+  } = useList<IPost>({
     resource: "posts",
-    config: {
-      filters: [{ field: "title", operator: "contains", value }],
-    },
+
     queryOptions: {
       enabled: false,
-      onSuccess: (data) => {
-        const postOptionGroup = data.data.map((item) =>
-          renderItem(item.title, "posts", item.id),
-        );
-        if (postOptionGroup.length > 0) {
-          setOptions((prevOptions) => [
-            ...prevOptions,
-            {
-              label: renderTitle("Posts"),
-              options: postOptionGroup,
-            },
-          ]);
-        }
-      },
     },
+
+    filters: [{ field: "title", operator: "contains", value }],
   });
 
-  const { refetch: refetchCategories } = useList<ICategory>({
+  const {
+    result: categoriesData,
+    query: { refetch: refetchCategories },
+  } = useList<ICategory>({
     resource: "categories",
-    config: {
-      filters: [{ field: "title", operator: "contains", value }],
-    },
+
     queryOptions: {
       enabled: false,
-      onSuccess: (data) => {
-        const categoryOptionGroup = data.data.map((item) =>
-          renderItem(item.title, "categories", item.id),
-        );
-        if (categoryOptionGroup.length > 0) {
-          setOptions((prevOptions) => [
-            ...prevOptions,
-            {
-              label: renderTitle("Categories"),
-              options: categoryOptionGroup,
-            },
-          ]);
-        }
-      },
     },
+
+    filters: [{ field: "title", operator: "contains", value }],
   });
+
+  useEffect(() => {
+    if (postsData) {
+      const postOptionGroup = postsData.data.map((item) =>
+        renderItem(item.title, "posts", item.id),
+      );
+      if (postOptionGroup.length > 0) {
+        setOptions((prevOptions) => [
+          ...prevOptions,
+          {
+            label: renderTitle("Posts"),
+            options: postOptionGroup,
+          },
+        ]);
+      }
+    }
+  }, [postsData]);
+
+  useEffect(() => {
+    if (categoriesData) {
+      const categoryOptionGroup = categoriesData.data.map((item) =>
+        renderItem(item.title, "categories", item.id),
+      );
+      if (categoryOptionGroup.length > 0) {
+        setOptions((prevOptions) => [
+          ...prevOptions,
+          {
+            label: renderTitle("Categories"),
+            options: categoryOptionGroup,
+          },
+        ]);
+      }
+    }
+  }, [categoriesData]);
 
   useEffect(() => {
     setOptions([]);

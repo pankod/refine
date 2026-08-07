@@ -17,7 +17,6 @@
 
 </br>
 
-
 <div align="center">Build your React-based internal tools, admin panels, dashboards, B2B apps with flexibility in mind.
 An open-source, headless React meta-framework, developed with a commitment to best practices, flexibility, minimal tech debt, and team alignment, could be a perfect fit for dynamic environments.
 
@@ -37,10 +36,6 @@ The example includes list, create, edit, and delete pages for the `posts` and `c
 
 For more information on how to use Material UI with Refine, please refer to the [Material UI integration guide](https://refine.dev/docs/ui-integrations/material-ui/introduction/).
 
-
-
-
-
 ## Try this example on your local
 
 ```bash
@@ -51,8 +46,7 @@ npm create refine-app@latest -- --example with-material-ui-vite
 
 <br/>
 
-[![Open with-material-ui-vite example from Refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/with-material-ui-vite?view=preview&theme=dark&codemirror=1)
-
+[![Open with-material-ui-vite example from Refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/with-material-ui-vite?view=preview&theme=dark&codemirror=1)
 
 ## Screenshots
 

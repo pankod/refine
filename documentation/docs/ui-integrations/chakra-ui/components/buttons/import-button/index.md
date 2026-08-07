@@ -1,44 +1,21 @@
 ---
-title: Import
+title: "Chakra UI Import Button Component | Data Tools in Refine v5"
+display_title: "Import"
+sidebar_label: "Import"
+description: "Secure Import Button in Refine v5. Learn best practices. Explore customization options for properties for polished admin UIs. Real-world snippets included."
 swizzle: true
 ---
-
-```tsx live shared
-const { default: sharedRouterProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: sharedRouterProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  Layout: RefineChakra.Layout,
-  Sider: () => null,
-  catchAll: <RefineChakra.ErrorComponent />,
-});
-
-const Wrapper = ({ children }) => {
-  return (
-    <ChakraUI.ChakraProvider theme={RefineChakra.refineTheme}>
-      {children}
-    </ChakraUI.ChakraProvider>
-  );
-};
-```
 
 `<ImportButton>` is compatible with the [`useImport`][useimport] hook and is meant to be used as it's upload button.
 
 It uses Chakra UI's [`<Button>`][button] component and native html [`<input>`][input] element. It wraps a [`<label>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label) with a [`<Button>`][button] component and [`<input>`][input] element and accepts its own properties separately.
 
-```tsx live url=http://localhost:3000 previewHeight=420px hideCode
+```tsx live previewHeight=360px hideCode
 setInitialRoutes(["/posts"]);
-import { Refine } from "@refinedev/core";
 
 // visible-block-start
-//highlight-next-line
 import { useImport, useNotification } from "@refinedev/core";
-import {
-  List,
-  //highlight-next-line
-  ImportButton,
-} from "@refinedev/chakra-ui";
+import { List, ImportButton } from "@refinedev/chakra-ui";
 import {
   TableContainer,
   Table,
@@ -47,6 +24,8 @@ import {
   Th,
   Tbody,
   Td,
+  Box,
+  Text,
 } from "@chakra-ui/react";
 import { useTable } from "@refinedev/react-table";
 import { ColumnDef, flexRender } from "@tanstack/react-table";
@@ -69,14 +48,11 @@ const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    refineCore: { setCurrent, pageCount, current },
+    reactTable: { getHeaderGroups, getRowModel },
   } = useTable({
     columns,
   });
 
-  //highlight-start
   const { open } = useNotification();
 
   const { inputProps, isLoading } = useImport({
@@ -87,22 +63,20 @@ const PostList: React.FC = () => {
       });
     },
   });
-  //highlight-end
 
   return (
     <List
       headerButtons={
-        // highlight-next-line
         <ImportButton loading={isLoading} inputProps={inputProps} />
       }
     >
-      <TableContainer>
-        <Table variant="simple" whiteSpace="pre-line">
-          <Thead>
-            {getHeaderGroups().map((headerGroup) => (
-              <Tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
+      <Box position="relative">
+        <TableContainer whiteSpace="pre-line">
+          <Table variant="simple">
+            <Thead>
+              {getHeaderGroups().map((headerGroup) => (
+                <Tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
                     <Th key={header.id}>
                       {!header.isPlaceholder &&
                         flexRender(
@@ -110,31 +84,47 @@ const PostList: React.FC = () => {
                           header.getContext(),
                         )}
                     </Th>
-                  );
-                })}
-              </Tr>
-            ))}
-          </Thead>
-          <Tbody>
-            {getRowModel().rows.map((row) => {
-              return (
-                <Tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <Td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </Td>
-                    );
-                  })}
+                  ))}
                 </Tr>
-              );
-            })}
-          </Tbody>
-        </Table>
-      </TableContainer>
+              ))}
+            </Thead>
+            <Tbody>
+              {getRowModel().rows.map((row) => (
+                <Tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <Td key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </Td>
+                  ))}
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          height="100%"
+          pointerEvents="none"
+          background="linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 90%, rgba(0, 0, 0, 0.1) 95%, rgba(0, 0, 0, 0.2) 100%)"
+        />
+        <Text
+          position="absolute"
+          bottom={2}
+          left="50%"
+          transform="translateX(-50%)"
+          color="gray.700"
+          fontSize="sm"
+        >
+          ✨ Live Preview
+        </Text>
+      </Box>
     </List>
   );
 };
@@ -145,68 +135,149 @@ interface IPost {
 }
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
-      notificationProvider={RefineChakra.notificationProvider()}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          list: PostList,
+          list: "/posts",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
 ## Properties
 
-### hideText
+### `hideText`
 
 `hideText` is used to show and not show the text of the button. When `true`, only the button icon is visible.
 
-```tsx live url=http://localhost:3000 previewHeight=200px
-setInitialRoutes(["/"]);
-
-import { Refine } from "@refinedev/core";
+```tsx live previewHeight=120px
+setInitialRoutes(["/posts"]);
 
 // visible-block-start
 import { ImportButton } from "@refinedev/chakra-ui";
+import { useImport } from "@refinedev/core";
 
 const MyImportComponent = () => {
-  return <ImportButton colorScheme="black" hideText />;
-};
-// visible-block-end
+  const { inputProps, isLoading } = useImport({
+    onFinish: () => {
+      console.log("Import completed");
+    },
+  });
 
-const App = () => {
   return (
-    <Refine
-      resources={[
-        {
-          name: "posts",
-          list: MyImportComponent,
-        },
-      ]}
+    <ImportButton
+      colorScheme="blue"
+      hideText={true}
+      loading={isLoading}
+      inputProps={inputProps}
     />
   );
 };
+// visible-block-end
 
 render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<MyImportComponent />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
+);
+```
+
+### `loading`
+
+It is used to show a loading state on the button when the import process is in progress.
+
+```tsx live previewHeight=120px
+setInitialRoutes(["/posts"]);
+
+// visible-block-start
+import { ImportButton } from "@refinedev/chakra-ui";
+import { useImport } from "@refinedev/core";
+
+const MyImportComponent = () => {
+  const { inputProps, isLoading } = useImport({
+    onFinish: () => {
+      console.log("Import completed");
+    },
+  });
+
+  return (
+    <ImportButton
+      colorScheme="black"
+      loading={isLoading}
+      inputProps={inputProps}
+    />
+  );
+};
+// visible-block-end
+
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<MyImportComponent />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -216,6 +287,12 @@ render(
 
 <PropsTable module="@refinedev/chakra-ui/ImportButton" />
 
-[useimport]: /docs/core/hooks/utilities/use-import
+:::simple External Props
+
+It also accepts all props of Chakra UI [Button](https://chakra-ui.com/docs/components/button#props).
+
+:::
+
+[useimport]: /core/docs/core/hooks/utilities/use-import
 [button]: https://www.chakra-ui.com/docs/components/button#usage
 [input]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input

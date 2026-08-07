@@ -6,6 +6,8 @@ body {
 ```
 
 ```tsx live url=http://localhost:3000/posts previewHeight=420px
+setInitialRoutes(["/posts"]);
+
 import React from "react";
 import { useTable } from "@refinedev/react-table";
 import { ColumnDef, flexRender } from "@tanstack/react-table";
@@ -45,19 +47,21 @@ const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    // highlight-start
-    getState,
-    setPageIndex,
-    getCanPreviousPage,
-    getPageCount,
-    getCanNextPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    getPrePaginationRowModel,
-    // highlight-end
+    reactTable: {
+      getHeaderGroups,
+      getRowModel,
+      // highlight-start
+      getState,
+      setPageIndex,
+      getCanPreviousPage,
+      getPageCount,
+      getCanNextPage,
+      nextPage,
+      previousPage,
+      setPageSize,
+      getPrePaginationRowModel,
+      // highlight-end
+    },
   } = useTable({
     columns,
   });
@@ -164,14 +168,20 @@ const PostList: React.FC = () => {
 
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
-
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/posts" element={<PostList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

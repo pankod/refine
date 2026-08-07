@@ -1,5 +1,5 @@
 import React from "react";
-import { LiveContext } from "@aliemir/react-live";
+import { LiveContext } from "react-live";
 
 export const LiveError: React.FC = () => {
   const { error } = React.useContext(LiveContext);

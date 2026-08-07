@@ -1,4 +1,5 @@
 import { renderHook, waitFor } from "@testing-library/react";
+import { vi } from "vitest";
 
 import { TestWrapper, queryClient } from "@test";
 
@@ -104,7 +105,7 @@ describe("useCan Hook", () => {
   });
 
   it("can should sanitize resource icon ", async () => {
-    const mockFn = jest.fn();
+    const mockFn = vi.fn();
     renderHook(
       () =>
         useCan({
@@ -112,7 +113,13 @@ describe("useCan Hook", () => {
           resource: "posts",
           params: {
             id: 1,
-            resource: { icon: "test", name: "posts" } as any,
+            resource: {
+              name: "posts",
+              meta: {
+                icon: "test",
+                label: "Posts",
+              },
+            },
           },
         }),
       {
@@ -124,18 +131,18 @@ describe("useCan Hook", () => {
       },
     );
 
-    expect(mockFn).toBeCalledWith({
+    expect(mockFn).toHaveBeenCalledWith({
       action: "list",
       params: {
         id: 1,
-        resource: { name: "posts" },
+        resource: { name: "posts", meta: { label: "Posts" } },
       },
       resource: "posts",
     });
   });
 
   it("should be disable by queryOptions", async () => {
-    const mockFn = jest.fn();
+    const mockFn = vi.fn();
     renderHook(
       () =>
         useCan({
@@ -155,7 +162,7 @@ describe("useCan Hook", () => {
       },
     );
 
-    expect(mockFn).not.toBeCalled();
+    expect(mockFn).not.toHaveBeenCalled();
   });
 
   it("should not throw error when accessControlProvider is undefined", async () => {
@@ -176,7 +183,7 @@ describe("useCan Hook", () => {
   });
 
   it("should override `queryKey` with `queryOptions.queryKey`", async () => {
-    const canMock = jest.fn().mockResolvedValue({
+    const canMock = vi.fn().mockResolvedValue({
       can: true,
       reason: "Access granted",
     });
@@ -211,11 +218,11 @@ describe("useCan Hook", () => {
   });
 
   it("should override `queryFn` with `queryOptions.queryFn`", async () => {
-    const canMock = jest.fn().mockResolvedValue({
+    const canMock = vi.fn().mockResolvedValue({
       can: true,
       reason: "Access granted",
     });
-    const queryFnMock = jest.fn().mockResolvedValue({
+    const queryFnMock = vi.fn().mockResolvedValue({
       can: true,
       reason: "Access granted",
     });
@@ -242,12 +249,12 @@ describe("useCan Hook", () => {
       expect(result.current.isSuccess).toBeTruthy();
     });
 
-    expect(canMock).not.toBeCalled();
-    expect(queryFnMock).toBeCalled();
+    expect(canMock).not.toHaveBeenCalled();
+    expect(queryFnMock).toHaveBeenCalled();
   });
 
   it("should use global queryOptions from AccessControlContext", async () => {
-    const mockFn = jest
+    const mockFn = vi
       .fn()
       .mockResolvedValue({ can: true, reason: "Access granted" });
     const globalQueryOptions = { enabled: false };
@@ -268,13 +275,13 @@ describe("useCan Hook", () => {
       expect(result.current.isFetched).toBeFalsy();
     });
 
-    expect(mockFn).not.toBeCalled();
+    expect(mockFn).not.toHaveBeenCalled();
   });
 });
 
 describe("useCanWithoutCache", () => {
   it("should return the can function from the AccessControlContext", () => {
-    const canMock = jest.fn();
+    const canMock = vi.fn();
 
     const { result } = renderHook(() => useCanWithoutCache(), {
       wrapper: TestWrapper({
@@ -289,13 +296,13 @@ describe("useCanWithoutCache", () => {
       resource: "posts",
     });
 
-    expect(canMock).toBeCalledWith({
+    expect(canMock).toHaveBeenCalledWith({
       action: "list",
       resource: "posts",
     });
   });
   it("should sanitize the `resource` if provided", () => {
-    const canMock = jest.fn();
+    const canMock = vi.fn();
 
     const { result } = renderHook(() => useCanWithoutCache(), {
       wrapper: TestWrapper({
@@ -312,22 +319,19 @@ describe("useCanWithoutCache", () => {
         id: 1,
         resource: {
           name: "posts",
-          meta: { icon: "test" },
-          options: { icon: "test" },
-          icon: "test",
-        } as any,
+          meta: { icon: "test", label: "Posts" },
+        },
       },
     });
 
-    expect(canMock).toBeCalledWith({
+    expect(canMock).toHaveBeenCalledWith({
       action: "list",
       resource: "posts",
       params: {
         id: 1,
         resource: {
           name: "posts",
-          meta: {},
-          options: {},
+          meta: { label: "Posts" },
         },
       },
     });

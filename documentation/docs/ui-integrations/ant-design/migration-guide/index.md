@@ -1,5 +1,8 @@
 ---
-title: Migration Guide
+title: "Ant Design Migration Guide Migration Guide | Upgrade Checklist & Fixes in Refine v5"
+display_title: "Migration Guide"
+sidebar_label: "Migration Guide"
+description: "Integrate Migration Guide in Refine v5. Learn best practices. Learn integrate enterprise UI, components for polished admin UIs. See practical code samples."
 ---
 
 Ant Design released a new major version, v5. This document will help you upgrade from antd 4.x version to antd 5.x version.
@@ -28,7 +31,7 @@ Some of the changes are:
 
 ## Updating the packages
 
-[`@refinedev/antd`](https://github.com/refinedev/refine/tree/master/packages/antd) must be updated to `4.x.x`
+[`@refinedev/antd`](https://github.com/refinedev/refine/tree/main/packages/antd) must be updated to `4.x.x`
 
 <Tabs
 defaultValue="refine-cli"
@@ -39,13 +42,13 @@ values={[
 
 <TabItem value="refine-cli">
 
-⚡️ You can easily update Refine packages with the Refine CLI [`update`](/docs/packages/cli/#update) command.
+⚡️ You can easily update Refine packages with the Refine CLI [`update`](/core/docs/packages/cli/#update) command.
 
 ```bash
 npm run refine update
 ```
 
-> [How to add Refine CLI to an existing project?](/docs/packages/cli/#how-to-add-to-an-existing-project)
+> [How to add Refine CLI to an existing project?](/core/docs/packages/cli/#how-to-add-to-an-existing-project)
 
 </TabItem>
 
@@ -61,7 +64,7 @@ npm i @refinedev/antd@latest
 
 ## 🪄 Migrating your project automatically with Codemod ✨ (recommended)
 
-`@refinedev/codemod` package handles the breaking changes for your project automatically, migrating your [`@refinedev/antd`](https://github.com/refinedev/refine/tree/master/packages/antd) version from 3.x.x to 4.x.x. without any manual steps
+`@refinedev/codemod` package handles the breaking changes for your project automatically, migrating your [`@refinedev/antd`](https://github.com/refinedev/refine/tree/main/packages/antd) version from 3.x.x to 4.x.x. without any manual steps
 
 Just `cd` into root folder of your project (where `package.json` is contained) and run this command:
 

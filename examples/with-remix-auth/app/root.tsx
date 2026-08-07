@@ -33,7 +33,7 @@ export const meta: MetaFunction = () => [
   },
 ];
 
-export default function App(): JSX.Element {
+export default function App(): React.JSX.Element {
   const { profile, to } = useLoaderData<typeof loader>();
 
   const authProvider: AuthProvider = {

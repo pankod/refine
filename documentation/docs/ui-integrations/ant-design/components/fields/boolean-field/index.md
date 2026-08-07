@@ -1,5 +1,8 @@
 ---
-title: Boolean
+title: "Ant Design Boolean Field Component | UI Component in Refine v5"
+display_title: "Boolean"
+sidebar_label: "Boolean"
+description: "Integrate Boolean Field in Refine v5. Learn best practices. Learn integration patterns for enterprise UI, components for polished admin UIs."
 swizzle: true
 ---
 
@@ -7,7 +10,7 @@ This field is used to display boolean values. It uses the [`<Tooltip>`](https://
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -15,14 +18,15 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 
 Let's see how we can use `<BooleanField>` with the example in the post list:
 
-```tsx live
+```tsx live previewHeight=280px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import {
   List,
   useTable,
-  // highlight-start
+  // highlight-next-line
   BooleanField,
-  // highlight-end
 } from "@refinedev/antd";
 import { Table } from "antd";
 
@@ -30,14 +34,13 @@ const PostList: React.FC = () => {
   const { tableProps } = useTable<IPost>();
 
   const TrueIcon = () => <span>✅</span>;
-
   const FalseIcon = () => <span>❌</span>;
 
   return (
     <List>
       <Table {...tableProps} rowKey="id">
         <Table.Column dataIndex="id" title="ID" />
-        <Table.Column dataIndex="title" title="Title" width="50%" />
+        <Table.Column dataIndex="title" title="Title" />
         <Table.Column
           dataIndex="status"
           title="Published"
@@ -52,7 +55,6 @@ const PostList: React.FC = () => {
             />
             // highlight-end
           )}
-          width="50%"
         />
       </Table>
     </List>
@@ -67,14 +69,27 @@ interface IPost {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <PostList />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

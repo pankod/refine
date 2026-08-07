@@ -2,9 +2,7 @@ import React from "react";
 import {
   type RegisterPageProps,
   type RegisterFormTypes,
-  useRouterType,
   useLink,
-  useActiveAuthProvider,
 } from "@refinedev/core";
 import {
   Row,
@@ -21,7 +19,7 @@ import {
   Divider,
   theme,
 } from "antd";
-import { useTranslate, useRouterContext, useRegister } from "@refinedev/core";
+import { useTranslate, useRegister } from "@refinedev/core";
 
 import {
   layoutStyles,
@@ -30,7 +28,7 @@ import {
   headStyles,
   bodyStyles,
 } from "../styles";
-import { ThemedTitleV2 } from "@components";
+import { ThemedTitle } from "@components";
 
 type RegisterProps = RegisterPageProps<LayoutProps, CardProps, FormProps>;
 /**
@@ -52,16 +50,9 @@ export const RegisterPage: React.FC<RegisterProps> = ({
   const { token } = theme.useToken();
   const [form] = Form.useForm<RegisterFormTypes>();
   const translate = useTranslate();
-  const routerType = useRouterType();
   const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
 
-  const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
-
-  const authProvider = useActiveAuthProvider();
-  const { mutate: register, isLoading } = useRegister<RegisterFormTypes>({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate: register, isPending } = useRegister<RegisterFormTypes>();
 
   const PageTitle =
     title === false ? null : (
@@ -73,7 +64,7 @@ export const RegisterPage: React.FC<RegisterProps> = ({
           fontSize: "20px",
         }}
       >
-        {title ?? <ThemedTitleV2 collapsed={false} />}
+        {title ?? <ThemedTitle collapsed={false} />}
       </div>
     );
 
@@ -141,8 +132,10 @@ export const RegisterPage: React.FC<RegisterProps> = ({
   const CardContent = (
     <Card
       title={CardTitle}
-      headStyle={headStyles}
-      bodyStyle={bodyStyles}
+      styles={{
+        header: headStyles,
+        body: bodyStyles,
+      }}
       style={{
         ...containerStyles,
         backgroundColor: token.colorBgElevated,
@@ -219,7 +212,7 @@ export const RegisterPage: React.FC<RegisterProps> = ({
                     "Have an account?",
                   ),
                 )}{" "}
-                <ActiveLink
+                <Link
                   style={{
                     fontWeight: "bold",
                     color: token.colorPrimaryTextHover,
@@ -230,7 +223,7 @@ export const RegisterPage: React.FC<RegisterProps> = ({
                     "pages.register.signin",
                     translate("pages.login.signin", "Sign in"),
                   )}
-                </ActiveLink>
+                </Link>
               </Typography.Text>
             )}
           </div>
@@ -243,7 +236,7 @@ export const RegisterPage: React.FC<RegisterProps> = ({
               type="primary"
               size="large"
               htmlType="submit"
-              loading={isLoading}
+              loading={isPending}
               block
             >
               {translate("pages.register.buttons.submit", "Sign up")}
@@ -266,7 +259,7 @@ export const RegisterPage: React.FC<RegisterProps> = ({
               "pages.register.buttons.haveAccount",
               translate("pages.login.buttons.haveAccount", "Have an account?"),
             )}{" "}
-            <ActiveLink
+            <Link
               style={{
                 fontWeight: "bold",
                 color: token.colorPrimaryTextHover,
@@ -277,7 +270,7 @@ export const RegisterPage: React.FC<RegisterProps> = ({
                 "pages.register.signin",
                 translate("pages.login.signin", "Sign in"),
               )}
-            </ActiveLink>
+            </Link>
           </Typography.Text>
         </div>
       )}

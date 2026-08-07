@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useSelect, useForm, useNavigation } from "@refinedev/core";
+import { useSelect, useForm } from "@refinedev/core";
+import { useNavigate } from "react-router";
 
 import type { IPost } from "../../interfaces";
 
@@ -15,11 +16,14 @@ export const PostCreate: React.FC = () => {
   const { formLoading, onFinish, redirect } = useForm({
     redirect: false,
   });
-
-  const { goBack } = useNavigation();
+  const navigate = useNavigate();
 
   const { options } = useSelect({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const handleSubmit = async (redirectTo: "list" | "edit" | "create") => {
@@ -42,7 +46,7 @@ export const PostCreate: React.FC = () => {
 
   return (
     <div>
-      <button className="back" onClick={() => goBack()}>
+      <button className="back" onClick={() => navigate(-1)}>
         Go Back
       </button>
       <form className="form-wrapper">

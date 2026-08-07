@@ -1,5 +1,525 @@
 # @refinedev/core
 
+## 5.1.0
+
+### Minor Changes
+
+- [#7440](https://github.com/refinedev/refine/pull/7440) [`b71dc1fedbfd0bc0196f45d6ef52127e00633790`](https://github.com/refinedev/refine/commit/b71dc1fedbfd0bc0196f45d6ef52127e00633790) Thanks [@pulkitxm](https://github.com/pulkitxm)! - feat: add `updateIdentity` method to auth provider and `useUpdateIdentity` hook
+
+  Added an optional `updateIdentity` method to the `AuthProvider` interface so consumers can natively update the current user's identity (e.g. username and/or email), following the same pattern as `updatePassword`.
+
+  A new `useUpdateIdentity` hook calls the `updateIdentity` method from the `authProvider` under the hood, mirroring `useUpdatePassword`'s behavior for redirects, notifications and error handling.
+
+  ```tsx
+  import { useUpdateIdentity } from "@refinedev/core";
+
+  const { mutate: updateIdentity } = useUpdateIdentity();
+
+  updateIdentity({ name: "New Name", email: "new@email.com" });
+  ```
+
+  The `updateIdentity` method is optional, so existing auth providers remain fully backwards-compatible.
+
+  [Resolves #6926](https://github.com/refinedev/refine/issues/6926)
+
+### Patch Changes
+
+- [#7426](https://github.com/refinedev/refine/pull/7426) [`f8e4c53f7aa83eff6563d62a9f09fc71d513e0c3`](https://github.com/refinedev/refine/commit/f8e4c53f7aa83eff6563d62a9f09fc71d513e0c3) Thanks [@jwgmeligmeyling](https://github.com/jwgmeligmeyling)! - fix(core): keep query context signal lazy when merging meta
+
+  `prepareQueryContext` was previously spread into new `meta` objects inside core data hooks. Because `signal` is exposed as a getter, object spread eagerly accessed it during merge and marked the query as abortable earlier than intended.
+
+  This keeps `signal` lazy by merging `meta` inside `prepareQueryContext` and preserving the getter on the returned object. The fix is applied across the affected hooks in `@refinedev/core`, and a regression test was added for the lazy `signal` behavior.
+
+  Resolves #7132
+
+## 5.0.12
+
+### Patch Changes
+
+- [#7372](https://github.com/refinedev/refine/pull/7372) [`59c6470ca0ecff0588f749ef4530312e7537bfdd`](https://github.com/refinedev/refine/commit/59c6470ca0ecff0588f749ef4530312e7537bfdd) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix(core): preserve custom `getList` response fields in `useList` and `useTable` results.
+
+  We had an edge case where custom fields returned from `getList` were available on `query.data` but dropped from `result`. Now those extra fields are preserved in both `useList` and `useTable`.
+
+## 5.0.11
+
+### Patch Changes
+
+- [#7289](https://github.com/refinedev/refine/pull/7289) [`c040475723d8e2980c0b3ba6d8fae35e05525b09`](https://github.com/refinedev/refine/commit/c040475723d8e2980c0b3ba6d8fae35e05525b09) Thanks [@RonakRahane](https://github.com/RonakRahane)! - fix: useDeleteButton now passes meta params to useButtonCanAccess
+
+  useDeleteButton was not forwarding the `meta` prop to `useButtonCanAccess`, which caused custom access control rules relying on meta to fail for delete buttons.
+
+  Fixes #7285
+
+## 5.0.10
+
+### Patch Changes
+
+- [#7245](https://github.com/refinedev/refine/pull/7245) [`bf3cc65f73a6801a5fd1e42e6162efd2e89406d3`](https://github.com/refinedev/refine/commit/bf3cc65f73a6801a5fd1e42e6162efd2e89406d3) Thanks [@harsha-cpp](https://github.com/harsha-cpp)! - fix: correctly parse deeply nested conditional filters from URL with syncWithLocation
+
+  Increased `qs.parse` depth from default 5 to 10 to support deeply nested conditional filters (e.g., `or -> and -> {field, operator, value}`). Previously, nested filter properties were incorrectly parsed as bracket notation keys (`[field]`, `[operator]`, `[value]`) after page reload when using `syncWithLocation: true`.
+
+## 5.0.9
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @refinedev/devtools-internal@2.0.2
+
+## 5.0.8
+
+### Patch Changes
+
+- [#7143](https://github.com/refinedev/refine/pull/7143) [`72ed290dd671ce0031737b5cfe638b2998d3a048`](https://github.com/refinedev/refine/commit/72ed290dd671ce0031737b5cfe638b2998d3a048) Thanks [@arndom](https://github.com/arndom)! - - Add case sensitive `eq` and `ne` variants
+
+  [Resolves #6984](https://github.com/refinedev/refine/issues/6984)
+
+- [#7124](https://github.com/refinedev/refine/pull/7124) [`dbf5ab844bfe87c0c5b23ca080ab2ef9b64bf070`](https://github.com/refinedev/refine/commit/dbf5ab844bfe87c0c5b23ca080ab2ef9b64bf070) Thanks [@arndom](https://github.com/arndom)! - - Invalidate queries on logout.
+
+  - Resolves cached error state being there after login from forced logout.
+
+  [Resolves #6997](https://github.com/refinedev/refine/issues/6997)
+
+- [#7163](https://github.com/refinedev/refine/pull/7163) [`add2f6f3c16f808d4d13255a120f6785ad21a425`](https://github.com/refinedev/refine/commit/add2f6f3c16f808d4d13255a120f6785ad21a425) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix(core): `useGetToPath` returns `undefined` #7159
+
+  Fixed an issue where `useGetToPath` would return `undefined` when a partial resource object was passed. The hook now always looks up the full resource definition from the resources array to ensure all action routes are available.
+
+  Additionally, added a warning message when an action route cannot be found for a resource, making it easier to debug routing issues.
+
+  Resolves #7159
+
+## 5.0.7
+
+### Patch Changes
+
+- [#7150](https://github.com/refinedev/refine/pull/7150) [`0ceb0f6e5cf57ba50760e55709d7e70c69b13461`](https://github.com/refinedev/refine/commit/0ceb0f6e5cf57ba50760e55709d7e70c69b13461) Thanks [@pcfreak30](https://github.com/pcfreak30)! - feat(core): add option to disable RouteChangeHandler
+
+  Added `disableRouteChangeHandler` option to Refine context and props
+
+  Resolves #7148
+
+## 5.0.6
+
+### Patch Changes
+
+- [#7106](https://github.com/refinedev/refine/pull/7106) [`5a79da5cf4ce38bed776dd63a935dd3102b3d4df`](https://github.com/refinedev/refine/commit/5a79da5cf4ce38bed776dd63a935dd3102b3d4df) Thanks [@angelodirb](https://github.com/angelodirb)! - fix: memoize queryOptions.select in useList to prevent multiple executions
+
+- [#7083](https://github.com/refinedev/refine/pull/7083) [`3ece8335935ff3e8c27f5883cd2f06ef29c2c746`](https://github.com/refinedev/refine/commit/3ece8335935ff3e8c27f5883cd2f06ef29c2c746) Thanks [@a28689604](https://github.com/a28689604)! - fix(core): stabilize autosave debounce and cancel on unmount in useForm
+
+  Fixes #7082
+
+## 5.0.5
+
+### Patch Changes
+
+- [#7086](https://github.com/refinedev/refine/pull/7086) [`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3) Thanks [@BatuhanW](https://github.com/BatuhanW)! - feat: disable minify
+
+  Resolves #6417
+
+- Updated dependencies [[`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3)]:
+  - @refinedev/devtools-internal@2.0.1
+
+## 5.0.4
+
+### Patch Changes
+
+- [#7031](https://github.com/refinedev/refine/pull/7031) [`99e9cf01546a4707e1d79be2a4e1671e045bf41e`](https://github.com/refinedev/refine/commit/99e9cf01546a4707e1d79be2a4e1671e045bf41e) Thanks [@DipakHalkude](https://github.com/DipakHalkude)! - fix: prevent external queryOptions.enabled from overriding internal ID check in useForm (#7031)
+
+  Fixed a bug where the `useForm` hook allowed external `queryOptions.enabled` to bypass internal ID safety checks, causing API calls with undefined IDs.
+
+  Added comprehensive tests covering create mode, undefined IDs, and various enabled combinations to ensure the fix works correctly.
+
+  Fixes #7031
+
+- [#7035](https://github.com/refinedev/refine/pull/7035) [`6934c008bee0e07eab424f560503fe5a8e541c8a`](https://github.com/refinedev/refine/commit/6934c008bee0e07eab424f560503fe5a8e541c8a) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix: `useInfiniteList` pagination not work #7034
+
+  Now `useInfiniteList` correctly advances server-side pages when loading more results. This bug was caused by [this commit](https://github.com/refinedev/refine/commit/1a02f020fdc2030e7c7a702e3bd9bfddae2fe1c8).
+
+  Resolves #7034
+
+## 5.0.3
+
+### Patch Changes
+
+- [#7020](https://github.com/refinedev/refine/pull/7020) [`32ff2e4200ff888111f03d613e7bb838f505c1b1`](https://github.com/refinedev/refine/commit/32ff2e4200ff888111f03d613e7bb838f505c1b1) Thanks [@samay-rgb](https://github.com/samay-rgb)! - fix: use stable array to prevent memoization issue in useList. #7019
+
+  Fixed an issue where `useList`, `useMany`, `useTable`, and `useCustom` hooks created new empty arrays/objects on every render. This caused `useEffect` and `useMemo` to trigger unnecessarily.
+
+  Now these hooks use stable references for better performance.
+
+  Fixes #7019
+
+## 5.0.2
+
+### Patch Changes
+
+- [#7016](https://github.com/refinedev/refine/pull/7016) [`97e974547949197ed9ca4a1e02b19ef3fc46b673`](https://github.com/refinedev/refine/commit/97e974547949197ed9ca4a1e02b19ef3fc46b673) Thanks [@DoguhanOzgurAkca](https://github.com/DoguhanOzgurAkca)! - feat: comprehensive deprecated code cleanup for v5
+
+  This release completes the cleanup of deprecated code that remained after the Refine v5 migration, providing a cleaner and more maintainable codebase.
+
+  ## Breaking Changes - Removed Deprecated Components
+
+  **@refinedev/antd:**
+
+  - Removed deprecated `ReadyPage` component (use custom components instead)
+  - Removed deprecated `LoginPage` component (use `AuthPage` instead)
+  - Removed deprecated `useSiderVisible` hook (use `useThemedLayoutContext` instead)
+
+  **@refinedev/chakra-ui:**
+
+  - Removed deprecated `ReadyPage` component (use custom components instead)
+  - Removed deprecated `useSiderVisible` hook (use `useThemedLayoutContext` instead)
+
+  **@refinedev/mantine:**
+
+  - Removed deprecated `useSiderVisible` hook (use `useThemedLayoutContext` instead)
+
+  ## New Features
+
+  **@refinedev/codemod:**
+
+  - Added `welcome-page-import-from-core` codemod transformation
+  - Automatically migrates WelcomePage imports from UI libraries to @refinedev/core
+  - Run with: `npx @refinedev/codemod@latest welcome-page-import-from-core`
+
+  ## Improvements
+
+  **@refinedev/antd:**
+
+  - Un-deprecated `getDefaultFilter` function - now the preferred import location
+  - Updated documentation to import `getDefaultFilter` from `@refinedev/antd` instead of `@refinedev/core`
+
+  **@refinedev/core:**
+
+  - Un-deprecated `warnWhenUnsavedChanges` property in RefineOptions (still valid and actively used)
+  - Updated all TanStack Query documentation links from v4 to v5
+  - Improved TSDoc comments with current TanStack Query v5 references
+
+  ## Documentation Updates
+
+  - Updated 7 documentation files to use `getDefaultFilter` from `@refinedev/antd`
+  - Migrated 22 TanStack Query v4 documentation links to v5
+  - All API references now point to current TanStack Query v5 documentation
+
+- [#7015](https://github.com/refinedev/refine/pull/7015) [`acb1e96b0d6cfddbd6115818b8f01c73d56934ff`](https://github.com/refinedev/refine/commit/acb1e96b0d6cfddbd6115818b8f01c73d56934ff) Thanks [@BatuhanW](https://github.com/BatuhanW)! - fix: incorrect parseTableParams issue.
+
+  Resolves (#7013)[https://github.com/refinedev/refine/issues/7013]
+
+## 5.0.1
+
+### Patch Changes
+
+- [#6990](https://github.com/refinedev/refine/pull/6990) [`90f3f7a43f71747c8d35e69b9a84a5dee6df9354`](https://github.com/refinedev/refine/commit/90f3f7a43f71747c8d35e69b9a84a5dee6df9354) Thanks [@BatuhanW](https://github.com/BatuhanW)! - fix(core): error notification infinite render issue
+
+  useEffect hook in data query hooks that handles the error notification had whole error object in dependency array, which changes with every request, thus causing infinite re-renders. Changed the dependency to just error message string.
+
+  [Resolves #6983](https://github.com/refinedev/refine/issues/6983)
+
+## 5.0.0
+
+### Major Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: upgrade to Refine 5.0 with React 19 and TanStack Query v5
+
+  - Modern React 19 and TanStack Query v5 support with improved performance and developer experience.
+  - Removed all deprecated APIs and legacy systems for a cleaner, more maintainable codebase.
+
+  > 🚨 Breaking changes require migration - check our guide at https://refine.dev/docs/migration-guide/4x-to-5x/
+
+### Patch Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`807099eecb4e8d41b1cf9ab557d71d34d12bec35`](https://github.com/refinedev/refine/commit/807099eecb4e8d41b1cf9ab557d71d34d12bec35) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - - Throw an error in `useGetLocale` if it is called without an i18n Provider.
+
+  - This ensures the hook's return type matches that of `i18nProvider.getLocale`.
+  - `useTranslation().getLocale` which is from `useGetLocale` now returns a string.
+
+  [Resolves #6812](https://github.com/refinedev/refine/issues/6812)
+
+- Updated dependencies [[`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/devtools-internal@2.0.0
+
+## 4.58.0
+
+### Minor Changes
+
+- [#6880](https://github.com/refinedev/refine/pull/6880) [`2b4c2082b2e07f6c5afa514c4beeb7abc4082ea2`](https://github.com/refinedev/refine/commit/2b4c2082b2e07f6c5afa514c4beeb7abc4082ea2) Thanks [@arndom](https://github.com/arndom)! - - Add `siderItemsAreCollapsed` prop to all `Sider` components to set default expanded/collapsed nested sider items.
+
+  - UI packages: AntDesign, Manitine, Charka-UI, Material-UI
+  - Add documentation for this addition
+
+  [Resolves #6721](https://github.com/refinedev/refine/issues/6721)
+
+### Patch Changes
+
+- [#6925](https://github.com/refinedev/refine/pull/6925) [`5a3e404de3f655efd8317f8e2eacbc2be8b3fa7a`](https://github.com/refinedev/refine/commit/5a3e404de3f655efd8317f8e2eacbc2be8b3fa7a) Thanks [@pokycookie](https://github.com/pokycookie)! - - Preserve row id in meta for data hooks.
+
+  [Resolves #6906](https://github.com/refinedev/refine/issues/6906)
+
+## 4.57.11
+
+### Patch Changes
+
+- [#6889](https://github.com/refinedev/refine/pull/6889) [`6087f72c2d38977410e401efae61c5583d61425d`](https://github.com/refinedev/refine/commit/6087f72c2d38977410e401efae61c5583d61425d) Thanks [@DoguhanOzgurAkca](https://github.com/DoguhanOzgurAkca)! - [chore: replace outdated and broken `@tanstack/query` links](https://github.com/refinedev/refine/pull/6889)
+
+  Updated broken links to `@tanstack/query` documentation for `useMutation` in TSDoc definitions.
+
+## 4.57.10
+
+### Patch Changes
+
+- [#6826](https://github.com/refinedev/refine/pull/6826) [`9dca95e276fa704911c32599473a54a71a6c5246`](https://github.com/refinedev/refine/commit/9dca95e276fa704911c32599473a54a71a6c5246) Thanks [@devarsh-mavani-19](https://github.com/devarsh-mavani-19)! - fix: pass meta params to useCan hook params #6833
+
+  Now access control provider can receive additional arguments through meta params.
+
+  Resolves [#6833]
+
+## 4.57.9
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- fix: wrong JSDoc links in components
+
+## 4.57.8
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6728](https://github.com/refinedev/refine/pull/6728) [`1663501c9c9f37b98434af83afd8d0fc41d27af2`](https://github.com/refinedev/refine/commit/1663501c9c9f37b98434af83afd8d0fc41d27af2) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix: wrong JSDoc links in components
+
+## 4.57.7
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- Move invalidation in `useRegister` to be called only on success.
+
+  [Resolves #6639](https://github.com/refinedev/refine/issues/6639)
+
+📢 **Refine Community Release** 📢
+
+- fix(types): remove path aliases from type imports
+
+  Since typescript doesn't resolve and replace path aliases, using them for the type imports will cause `d.ts` files to reference unresolvable paths and types.
+
+  While this doesn't break everything, it breaks the types in places where the path aliases are used for type imports.
+
+  This change removes the path aliases from the type imports and replaces them with relative imports.
+
+## 4.57.6
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6658](https://github.com/refinedev/refine/pull/6658) [`91aaf75f04e6e6434196ece9a52b024c70d29df4`](https://github.com/refinedev/refine/commit/91aaf75f04e6e6434196ece9a52b024c70d29df4) Thanks [@arndom](https://github.com/arndom)! - Move invalidation in `useRegister` to be called only on success.
+
+  [Resolves #6639](https://github.com/refinedev/refine/issues/6639)
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6683](https://github.com/refinedev/refine/pull/6683) [`a12a0821e3c573386c2a8eea4ac1582cc46dd26d`](https://github.com/refinedev/refine/commit/a12a0821e3c573386c2a8eea4ac1582cc46dd26d) Thanks [@aliemir](https://github.com/aliemir)! - fix(types): remove path aliases from type imports
+
+  Since typescript doesn't resolve and replace path aliases, using them for the type imports will cause `d.ts` files to reference unresolvable paths and types.
+
+  While this doesn't break everything, it breaks the types in places where the path aliases are used for type imports.
+
+  This change removes the path aliases from the type imports and replaces them with relative imports.
+
+## 4.57.5
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- feat(core): add `enabled` prop to `useLoadingOvertime` and `overtimeOptions`
+
+  Added missing `enabled` prop to `useLoadingOvertime` and added ability to globally configure through `options.overtime.enabled`.
+
+  Due to the nature of calculating elapsed time, an interval is set by the `interval` prop. This was causing unwanted updates in the return value and there was no way to disable it properly.
+
+📢 **Refine Community Release** 📢
+
+- fixed: `to` query parameter is not working after login. #6582
+  From now on, the `to` query parameter will work after login. If the URL includes a `to` query parameter, the user will be redirected to the specified path after logging in.
+
+  Example:
+
+  After logout, Refine will automatically appends `to` query param to URL.
+
+  ```
+  http://localhost:3000/login?to=/any-path
+  ```
+
+  After login, it will redirect to `http://localhost:3000/any-path`
+
+  Resolves [#6582](https://github.com/refinedev/refine/issues/6582)
+
+📢 **Refine Community Release** 📢
+
+- refactor(core): remove duplicated overtime intervals caused by internally used hooks
+
+  Updated Refine's data hooks and extensions to prevent duplicated overtime intervals from being created. This uses the `enabled` prop to prevent internal hooks from registering the intervals.
+
+  Prior to this change, `useTable` was initializing its own `useLoadingOvertime` hook but also propagated the `elapsedTime` from `useList` hook which is used internally by `useTable`. This caused duplicated intervals and unwanted updates.
+
+  This now ensures a single interval is created and used for the extension hooks.
+
+📢 **Refine Community Release** 📢
+
+- fix(core): add missing checks and warnings for `ids` and `resource` props in `useMany` hook
+
+  Added checks for `ids` and `resource` props to check in runtime if they are valid or not.
+
+  `useMany` will warn if `ids` or `resource` props are missing unless the query is manually enabled through `queryOptions.enabled` prop.
+
+  [Resolves #6617](https://github.com/refinedev/refine/issues/6617)
+
+## 4.57.4
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6626](https://github.com/refinedev/refine/pull/6626) [`087039f0ccd13e9fe5bf4ef904e4f1c2df129d69`](https://github.com/refinedev/refine/commit/087039f0ccd13e9fe5bf4ef904e4f1c2df129d69) Thanks [@aliemir](https://github.com/aliemir)! - feat(core): add `enabled` prop to `useLoadingOvertime` and `overtimeOptions`
+
+  Added missing `enabled` prop to `useLoadingOvertime` and added ability to globally configure through `options.overtime.enabled`.
+
+  Due to the nature of calculating elapsed time, an interval is set by the `interval` prop. This was causing unwanted updates in the return value and there was no way to disable it properly.
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6626](https://github.com/refinedev/refine/pull/6626) [`087039f0ccd13e9fe5bf4ef904e4f1c2df129d69`](https://github.com/refinedev/refine/commit/087039f0ccd13e9fe5bf4ef904e4f1c2df129d69) Thanks [@aliemir](https://github.com/aliemir)! - refactor(core): remove duplicated overtime intervals caused by internally used hooks
+
+  Updated Refine's data hooks and extensions to prevent duplicated overtime intervals from being created. This uses the `enabled` prop to prevent internal hooks from registering the intervals.
+
+  Prior to this change, `useTable` was initializing its own `useLoadingOvertime` hook but also propagated the `elapsedTime` from `useList` hook which is used internally by `useTable`. This caused duplicated intervals and unwanted updates.
+
+  This now ensures a single interval is created and used for the extension hooks.
+
+## 4.57.3
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6618](https://github.com/refinedev/refine/pull/6618) [`5377e7d8f7ccb986c5d38352351b9b2d2c414fde`](https://github.com/refinedev/refine/commit/5377e7d8f7ccb986c5d38352351b9b2d2c414fde) Thanks [@aliemir](https://github.com/aliemir)! - fix(core): add missing checks and warnings for `ids` and `resource` props in `useMany` hook
+
+  Added checks for `ids` and `resource` props to check in runtime if they are valid or not.
+
+  `useMany` will warn if `ids` or `resource` props are missing unless the query is manually enabled through `queryOptions.enabled` prop.
+
+  [Resolves #6617](https://github.com/refinedev/refine/issues/6617)
+
+## 4.57.2
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6583](https://github.com/refinedev/refine/pull/6583) [`5ce59d0352ba5402452bb812ac0e506b3c2216df`](https://github.com/refinedev/refine/commit/5ce59d0352ba5402452bb812ac0e506b3c2216df) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fixed: `to` query parameter is not working after login. #6582
+  From now on, the `to` query parameter will work after login. If the URL includes a `to` query parameter, the user will be redirected to the specified path after logging in.
+
+  Example:
+
+  After logout, Refine will automatically appends `to` query param to URL.
+
+  ```
+  http://localhost:3000/login?to=/any-path
+  ```
+
+  After login, it will redirect to `http://localhost:3000/any-path`
+
+  Resolves [#6582](https://github.com/refinedev/refine/issues/6582)
+
+## 4.57.1
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- This PR fixes an issue where the ListButton component doesn't include a query filter in the navigation URL.
+
+  [Resolves #6528](https://github.com/refinedev/refine/issues/6528)
+
+📢 **Refine Community Release** 📢
+
+- chore: update package descriptions
+
+📢 **Refine Community Release** 📢
+
+- refactor: modified the Authenticated component to receive optional params prop to be passed to the useIsAuthenticated hook.
+
+  Fixes #6309
+
+📢 **Refine Community Release** 📢
+
+- fix: `useUpdate` and `useForm` hooks throws an error when `id` is an empty string. (`id=""`) #6505
+
+  This reverts a breaking change introduced in [PR #6116](https://github.com/refinedev/refine/pull/6116) and restores support for using an empty string as `id`. This enables updates without an `id` field, as allowed before `@refinedev/core@4.54.0`.
+
+  Affected versions with this bug:
+
+  - `@refinedev/core@4.54.0`
+  - `@refinedev/core@4.54.1`
+  - `@refinedev/core@4.55.0`
+  - `@refinedev/core@4.56.0`
+
+  The bug is fixed in:
+
+  - `@refinedev/core@4.56.1`
+
+  Resolves [#6505](https://github.com/refinedev/refine/issues/6505)
+
+- Updated dependencies []:
+  - @refinedev/devtools-internal@1.1.16
+
+## 4.57.0
+
+### Minor Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6558](https://github.com/refinedev/refine/pull/6558) [`42d730aa2908003cfb0dcf0c57e9b70793c88ddc`](https://github.com/refinedev/refine/commit/42d730aa2908003cfb0dcf0c57e9b70793c88ddc) Thanks [@OmkarBansod02](https://github.com/OmkarBansod02)! - This PR fixes an issue where the ListButton component doesn't include a query filter in the navigation URL.
+
+  [Resolves #6528](https://github.com/refinedev/refine/issues/6528)
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6483](https://github.com/refinedev/refine/pull/6483) [`8309c5690e7c49529f07d288e79896636c6ce7c2`](https://github.com/refinedev/refine/commit/8309c5690e7c49529f07d288e79896636c6ce7c2) Thanks [@reedwane](https://github.com/reedwane)! - refactor: modified the Authenticated component to receive optional params prop to be passed to the useIsAuthenticated hook.
+
+  Fixes #6309
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6554](https://github.com/refinedev/refine/pull/6554) [`3cb2ca6f687398e422b867692b597b0c0d911706`](https://github.com/refinedev/refine/commit/3cb2ca6f687398e422b867692b597b0c0d911706) Thanks [@necatiozmen](https://github.com/necatiozmen)! - chore: update package descriptions
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6514](https://github.com/refinedev/refine/pull/6514) [`f32af58283bdaf7712805520bd9feb8bfd27ba38`](https://github.com/refinedev/refine/commit/f32af58283bdaf7712805520bd9feb8bfd27ba38) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix: `useUpdate` and `useForm` hooks throws an error when `id` is an empty string. (`id=""`) #6505
+
+  This reverts a breaking change introduced in [PR #6116](https://github.com/refinedev/refine/pull/6116) and restores support for using an empty string as `id`. This enables updates without an `id` field, as allowed before `@refinedev/core@4.54.0`.
+
+  Affected versions with this bug:
+
+  - `@refinedev/core@4.54.0`
+  - `@refinedev/core@4.54.1`
+  - `@refinedev/core@4.55.0`
+  - `@refinedev/core@4.56.0`
+
+  The bug is fixed in:
+
+  - `@refinedev/core@4.56.1`
+
+  Resolves [#6505](https://github.com/refinedev/refine/issues/6505)
+
+- Updated dependencies [[`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53)]:
+  - @refinedev/devtools-internal@1.1.15
+
 ## 4.56.0
 
 ### Minor Changes
@@ -1093,8 +1613,8 @@
   import { Refine, Authenticated, AuthPage } from "@refinedev/core";
   import {
     CatchAllNavigate,
-  } from "@refinedev/react-router-v6";
-  import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
+  } from "@refinedev/react-router";
+  import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router";
 
   const App = () => {
     return (

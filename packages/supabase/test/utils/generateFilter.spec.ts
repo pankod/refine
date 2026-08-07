@@ -9,7 +9,7 @@ describe("generateFilter", () => {
       value: "5",
     } as unknown as CrudFilter;
 
-    expect(() => generateFilter(filter, jest.fn())).toThrowError(
+    expect(() => generateFilter(filter, vi.fn())).toThrow(
       "Operator 'and' is not supported",
     );
   });

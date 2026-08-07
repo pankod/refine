@@ -16,28 +16,28 @@ export const useProductPrice = ({ id, variantId }: UseProductPriceProps) => {
   const { cart } = useCartContext();
 
   const {
-    data: productData,
-    isLoading,
-    isError,
+    result: productData,
+
+    query: { isLoading, isError },
   } = useList<Product>({
     resource: "products",
-    config: {
-      filters: [
-        {
-          field: "id",
-          value: id,
-          operator: "eq",
-        },
-        {
-          field: "cart_id",
-          value: cart?.id,
-          operator: "eq",
-        },
-      ],
-    },
+
     queryOptions: {
       enabled: !!cart?.id,
     },
+
+    filters: [
+      {
+        field: "id",
+        value: id,
+        operator: "eq",
+      },
+      {
+        field: "cart_id",
+        value: cart?.id,
+        operator: "eq",
+      },
+    ],
   });
 
   const product = productData?.data[0];

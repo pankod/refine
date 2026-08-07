@@ -1,4 +1,4 @@
-import { gql, type OperationResult } from "@urql/core";
+import type { OperationResult } from "@urql/core";
 import type {
   BaseRecord,
   CreateManyParams,
@@ -14,6 +14,7 @@ import type {
 } from "@refinedev/core";
 import camelcase from "camelcase";
 import { singular } from "pluralize";
+import gql from "graphql-tag";
 
 import {
   buildFilters,
@@ -288,6 +289,7 @@ export const defaultOptions = {
     dataMapper: (response: OperationResult<any>, params: CustomParams) =>
       response.data ?? response.error?.message,
     buildVariables: (params: CustomParams) => ({
+      ...(typeof params.payload === "object" ? params.payload : {}),
       ...params?.meta?.variables,
       ...params?.meta?.gqlVariables,
     }),

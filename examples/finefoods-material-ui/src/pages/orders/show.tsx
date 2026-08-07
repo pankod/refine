@@ -9,7 +9,7 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import Divider from "@mui/material/Divider";
-import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import Paper from "@mui/material/Paper";
 import {
   OrderDeliveryMap,
@@ -107,7 +107,14 @@ export const OrderShow = () => {
         ]}
       >
         <Grid container spacing={3}>
-          <Grid xs={12} md={6} lg={8} height="max-content">
+          <Grid
+            size={{
+              xs: 12,
+              md: 6,
+              lg: 8,
+            }}
+            height="max-content"
+          >
             <Card
               title={t("orders.titles.deliveryMap")}
               cardContentProps={{
@@ -127,7 +134,14 @@ export const OrderShow = () => {
               <OrderProducts order={record} />
             </Paper>
           </Grid>
-          <Grid xs={12} md={6} lg={4} height="max-content">
+          <Grid
+            size={{
+              xs: 12,
+              md: 6,
+              lg: 4,
+            }}
+            height="max-content"
+          >
             <Card title={t("orders.titles.deliveryDetails")}>
               <OrderDetails order={record} />
             </Card>

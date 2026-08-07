@@ -30,9 +30,9 @@ describe("AutoSaveIndicator", () => {
     getByText("waiting for changes");
   });
 
-  it("should render loading", async () => {
+  it("should render pending", async () => {
     const { findByText, getByText } = render(
-      <AutoSaveIndicator status="loading" />,
+      <AutoSaveIndicator status="pending" />,
     );
 
     await findByText("saving...");

@@ -10,7 +10,7 @@ import SortingLivePreview from "./\_partial-sorting-live-preview.md";
 import RelationalLivePreview from "./\_partial-relational-live-preview.md";
 import PropResource from "@site/src/partials/prop-resource";
 
-**refine** offers a [TanStack Table][tanstack-table] adapter with [@pankod/refine-react-table][refine-react-table] that allows you to use the TanStack Table library with **refine**. All features such as sorting, filtering, and pagination come out of the box. Under the hood it uses [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) for the fetch. Since it is designed as headless, It expects you to handle the UI.
+**refine** offers a [TanStack Table][tanstack-table] adapter with [@pankod/refine-react-table][refine-react-table] that allows you to use the TanStack Table library with **refine**. All features such as sorting, filtering, and pagination come out of the box. Under the hood it uses [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) for the fetch. Since it is designed as headless, It expects you to handle the UI.
 
 All of [TanStack Table's][tanstack-table] features are supported and you can use all of the [TanStack Table's][tanstack-table] examples with no changes just copy and paste them into your project.
 
@@ -56,17 +56,17 @@ It also syncs the sorting state with the URL if you enable the [`syncWithLocatio
 
 It also syncs the filtering state with the URL if you enable the [`syncWithLocation`](#syncwithlocation).
 
-You can specify which field will be filtered with which filter operator with the `filterOperator` property in the `meta` object. `filterOperator` must be a [`CrudOperators`](/api-reference/core/interfaces.md#crudoperators) type.
+You can specify which field will be filtered with which filter operator with the `filterOperator` property in the `meta` object. `filterOperator` must be a [`CrudOperators`](/core/docs/3.xx.xx/api-reference/core/interfaces#crudoperators) type.
 
 <FilteringLivePreview/>
 
 ## Realtime Updates
 
-> This feature is only available if you use a [Live Provider](/docs/3.xx.xx/api-reference/core/providers/live-provider).
+> This feature is only available if you use a [Live Provider](/core/docs/3.xx.xx/api-reference/core/providers/live-provider).
 
 When the `useTable` hook is mounted, it will call the `subscribe` method from the `liveProvider` with some parameters such as `channel`, `resource` etc. It is useful when you want to subscribe to live updates.
 
-[Refer to the `liveProvider` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/providers/live-provider)
+[Refer to the `liveProvider` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/providers/live-provider)
 
 ## Properties
 
@@ -255,7 +255,7 @@ useTable({
 
 ### `queryOptions`
 
-`useTable` uses [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery).
+`useTable` uses [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery).
 
 ```tsx
 useTable({
@@ -269,10 +269,10 @@ useTable({
 
 ### `metaData`
 
-[`metaData`](/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
+[`metaData`](/core/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
 
 - To pass additional information to data provider methods.
-- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
+- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/core/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
 
 In the following example, we pass the `headers` property in the `metaData` object to the `create` method. With similar logic, you can pass any properties to specifically handle the data provider methods.
 
@@ -356,10 +356,10 @@ useTable({
 
 ### `liveMode`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider) is required.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider) is required.
 
 Determines whether to update data automatically ("auto") or not ("manual") if a related live event is received. It can be used to update and show data in Realtime throughout your app.
-For more information about live mode, please check [Live / Realtime](/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
+For more information about live mode, please check [Live / Realtime](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
 
 ```tsx
 useTable({
@@ -371,7 +371,7 @@ useTable({
 
 ### `onLiveEvent`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider) is required.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider) is required.
 
 The callback function is executed when new events from a subscription have arrived.
 
@@ -387,9 +387,9 @@ useTable({
 
 ### `liveParams`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider) is required.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider) is required.
 
-Params to pass to liveProvider's [subscribe](/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) method.
+Params to pass to liveProvider's [subscribe](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) method.
 
 ## Return Values
 
@@ -401,7 +401,7 @@ It also have all return values of [TanStack Table](https://tanstack.com/table/v8
 
 #### `tableQueryResult`
 
-Returned values from [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
+Returned values from [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
 
 #### `sorter`
 
@@ -467,7 +467,7 @@ A function creates accessible links for `syncWithLocation`. It takes [SyncWithLo
 
 ### How can I handle relational data?
 
-You can use [`useMany`](/docs/3.xx.xx/api-reference/core/hooks/data/useMany/) hook to fetch relational data.
+You can use [`useMany`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useMany/) hook to fetch relational data.
 
 <RelationalLivePreview/>
 
@@ -486,9 +486,9 @@ You can use [`useMany`](/docs/3.xx.xx/api-reference/core/hooks/data/useMany/) ho
 
 ### Return values
 
-| Property                     | Description                                                                                     | Type                                                                                    |
-| ---------------------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| refineCore                   | The return values of the [`useTable`][use-table-core] in the core                               | [`UseTableReturnValues`](/docs/3.xx.xx/api-reference/core/hooks/useTable#return-values) |
+| Property                     | Description                                                                                     | Type                                                                                         |
+| ---------------------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| refineCore                   | The return values of the [`useTable`][use-table-core] in the core                               | [`UseTableReturnValues`](/core/docs/3.xx.xx/api-reference/core/hooks/useTable#return-values) |
 | Tanstack Table Return Values | See [TanStack Table](https://tanstack.com/table/v8/docs/api/core/table#table-api) documentation |
 
 ## Example
@@ -497,11 +497,11 @@ You can use [`useMany`](/docs/3.xx.xx/api-reference/core/hooks/data/useMany/) ho
 
 [tanstack-table]: https://tanstack.com/table/v8
 [refine-react-table]: https://github.com/refinedev/refine/tree/v3/packages/react-table
-[use-table-core]: /docs/3.xx.xx/api-reference/core/hooks/useTable
-[baserecord]: /api-reference/core/interfaces.md#baserecord
-[httperror]: /api-reference/core/interfaces.md#httperror
-[syncwithlocationparams]: /api-reference/core/interfaces.md#syncwithlocationparams
-[notification-provider]: /api-reference/core/providers/notification-provider.md
-[crudsorting]: /api-reference/core/interfaces.md#crudsorting
-[crudfilters]: /api-reference/core/interfaces.md#crudfilters
-[refine swl]: /api-reference/core/components/refine-config.md#syncwithlocation
+[use-table-core]: /core/docs/3.xx.xx/api-reference/core/hooks/useTable
+[baserecord]: /core/docs/3.xx.xx/api-reference/core/interfaces#baserecord
+[httperror]: /core/docs/3.xx.xx/api-reference/core/interfaces#httperror
+[syncwithlocationparams]: /core/docs/3.xx.xx/api-reference/core/interfaces#syncwithlocationparams
+[notification-provider]: /core/docs/3.xx.xx/api-reference/core/providers/notification-provider
+[crudsorting]: /core/docs/3.xx.xx/api-reference/core/interfaces#crudsorting
+[crudfilters]: /core/docs/3.xx.xx/api-reference/core/interfaces#crudfilters
+[refine swl]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#syncwithlocation

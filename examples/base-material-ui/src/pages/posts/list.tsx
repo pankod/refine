@@ -10,7 +10,10 @@ export const PostList: React.FC = () => {
   const { dataGridProps } = useDataGrid<IPost>();
 
   const categoryIds = dataGridProps.rows.map((item) => item.category.id);
-  const { data: categoriesData, isLoading } = useMany<ICategory>({
+  const {
+    result: categoriesData,
+    query: { isLoading },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -35,6 +38,7 @@ export const PostList: React.FC = () => {
         align: "left",
         minWidth: 250,
         flex: 0.5,
+        display: "flex",
         renderCell: function render({ row }) {
           if (isLoading) {
             return "Loading...";
@@ -50,6 +54,7 @@ export const PostList: React.FC = () => {
       {
         field: "actions",
         headerName: "Actions",
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <div>
@@ -68,7 +73,15 @@ export const PostList: React.FC = () => {
 
   return (
     <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          maxHeight: "calc(100vh - 320px)",
+        }}
+      >
+        <DataGrid {...dataGridProps} columns={columns} />
+      </div>
     </List>
   );
 };

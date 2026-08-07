@@ -2,12 +2,7 @@ import React from "react";
 
 import { renderHook } from "@testing-library/react";
 
-import { legacyResourceTransform } from "@definitions/helpers";
-import {
-  TestWrapper,
-  mockLegacyRouterProvider,
-  mockRouterProvider,
-} from "@test";
+import { TestWrapper, mockRouterProvider } from "@test";
 
 import { useMenu } from ".";
 
@@ -29,11 +24,10 @@ describe("useMenu Hook", () => {
           },
           {
             name: "CMS",
-            key: "CMS",
           },
           {
             name: "Posts",
-            parentName: "CMS",
+            meta: { parent: "CMS" },
           },
         ],
       }),
@@ -48,11 +42,8 @@ describe("useMenu Hook", () => {
         resources: [
           {
             name: "posts",
-            key: "posts",
-            label: "Posts",
-            list: function list() {
-              return <div>render me!</div>;
-            },
+            meta: { label: "Posts" },
+            list: "/posts",
           },
         ],
       }),
@@ -69,10 +60,7 @@ describe("useMenu Hook", () => {
         resources: [
           {
             name: "posts",
-            key: "posts",
-            list: function list() {
-              return <div>render me!</div>;
-            },
+            list: "/posts",
           },
         ],
         i18nProvider: {
@@ -115,37 +103,36 @@ describe("useMenu Hook", () => {
           pathname: "/CMS/posts",
           resource: {
             name: "posts",
-            parentName: "CMS",
-            options: {
-              route: "asdasd",
+            meta: {
+              parent: "CMS",
             },
           },
         }),
-        resources: legacyResourceTransform([
+        resources: [
           {
             name: "CMS",
           },
           {
             name: "posts",
-            parentName: "CMS",
-            options: {
-              route: "asdasd",
+            list: "/posts",
+            meta: {
+              parent: "CMS",
             },
           },
           {
             name: "categories",
-            parentName: "CMS",
+            list: "categories",
+            meta: { parent: "CMS" },
           },
           {
             name: "posts",
-            parentName: "categories",
+            identifier: "categories-posts",
             meta: {
-              label: "else-new",
-              route: "else-new",
+              parent: "categories",
+              label: "Posts by category",
             },
-            canDelete: true,
           },
-        ]),
+        ],
       }),
     });
 
@@ -158,44 +145,40 @@ describe("useMenu Hook", () => {
     const { result } = renderHook(() => useMenu(), {
       wrapper: TestWrapper({
         routerProvider: mockRouterProvider({
-          pathname: "/CMS/categories/else-new",
+          pathname: "/CMS/categories/posts",
           resource: {
-            name: "posts",
-            parentName: "categories",
+            name: "categories-posts",
             meta: {
-              label: "else-new",
-              route: "else-new",
+              parent: "CMS",
             },
-            list: () => null,
-            canDelete: true,
           },
         }),
-        resources: legacyResourceTransform([
+        resources: [
           {
             name: "CMS",
           },
           {
             name: "posts",
-            parentName: "CMS",
-            options: {
-              route: "asdasd",
+            list: "/posts",
+            meta: {
+              parent: "CMS",
             },
           },
           {
             name: "categories",
-            parentName: "CMS",
+            list: "categories",
+            meta: { parent: "CMS" },
           },
           {
-            name: "posts",
-            parentName: "categories",
+            name: "categories-posts",
+            list: "/posts",
+            identifier: "posts",
             meta: {
-              label: "else-new",
-              route: "else-new",
+              parent: "categories",
+              label: "Posts by category",
             },
-            list: () => null,
-            canDelete: true,
           },
-        ]),
+        ],
       }),
     });
 
@@ -211,12 +194,10 @@ describe("useMenu Hook", () => {
   it("should tree view render all except hide true", async () => {
     const { result } = renderHook(() => useMenu(), {
       wrapper: TestWrapper({
-        resources: legacyResourceTransform([
+        resources: [
           {
             name: "visible",
-            list: function list() {
-              return <div>render me!</div>;
-            },
+            list: "/posts",
           },
           {
             name: "hidden",
@@ -232,33 +213,31 @@ describe("useMenu Hook", () => {
           },
           {
             name: "hidden-child",
-            parentName: "hidden-parent-menu",
+            meta: { parent: "hidden-parent-menu" },
           },
           {
             name: "CMS",
           },
           {
             name: "Shop-1",
-            parentName: "CMS",
             meta: {
+              parent: "CMS",
               hide: true,
             },
           },
           {
             name: "posts",
-            parentName: "Shop-1",
+            meta: { parent: "Shop-1" },
           },
           {
             name: "categories",
-            parentName: "Shop-1",
+            meta: { parent: "Shop-1" },
           },
           {
             name: "visible-item-2",
-            list: function list() {
-              return <div>render me!</div>;
-            },
+            list: "/posts",
           },
-        ]),
+        ],
       }),
     });
 
@@ -280,12 +259,10 @@ describe("useMenu Hook", () => {
   it("should hide all necessary resources with nested structure", async () => {
     const { result } = renderHook(() => useMenu(), {
       wrapper: TestWrapper({
-        resources: legacyResourceTransform([
+        resources: [
           {
             name: "visible",
-            list: function list() {
-              return <div>render me!</div>;
-            },
+            list: "/posts",
           },
           {
             name: "hidden-level-1",
@@ -295,7 +272,7 @@ describe("useMenu Hook", () => {
           },
           {
             name: "hidden-child-level-2",
-            parentName: "hidden-parent-menu",
+            meta: { parent: "hidden-parent-menu" },
           },
           {
             name: "hidden-parent-level-1",
@@ -305,15 +282,15 @@ describe("useMenu Hook", () => {
           },
           {
             name: "Shop-1",
-            parentName: "CMS",
+            meta: { parent: "CMS" },
           },
           {
             name: "posts",
-            parentName: "Shop-1",
+            meta: { parent: "Shop-1" },
           },
           {
             name: "categories",
-            parentName: "Shop-1",
+            meta: { parent: "Shop-1" },
           },
           {
             name: "CMS",
@@ -323,11 +300,9 @@ describe("useMenu Hook", () => {
           },
           {
             name: "visible-item-2",
-            list: function list() {
-              return <div>render me!</div>;
-            },
+            list: "/posts",
           },
-        ]),
+        ],
       }),
     });
 
@@ -370,12 +345,12 @@ describe("useMenu Hook", () => {
               orgId: "1",
             },
           }),
-          resources: legacyResourceTransform([
+          resources: [
             {
               name: "projects",
               list: ":orgId/repos/:repoId/projects",
             },
-          ]),
+          ],
         }),
       },
     );
@@ -393,16 +368,16 @@ describe("useMenu Hook", () => {
   it("should hide item if parameter is missing by default", async () => {
     const { result } = renderHook(() => useMenu(), {
       wrapper: TestWrapper({
-        resources: legacyResourceTransform([
+        resources: [
           {
             name: "visible",
-            list: () => null,
+            list: "/posts",
           },
           {
             name: "org-users",
             list: "orgs/:orgId/users",
           },
-        ]),
+        ],
       }),
     });
 
@@ -419,16 +394,16 @@ describe("useMenu Hook", () => {
   it("should hide item if parameter is missing by partial props", async () => {
     const { result } = renderHook(() => useMenu({ meta: {} }), {
       wrapper: TestWrapper({
-        resources: legacyResourceTransform([
+        resources: [
           {
             name: "visible",
-            list: () => null,
+            list: "/posts",
           },
           {
             name: "org-users",
             list: "orgs/:orgId/users",
           },
-        ]),
+        ],
       }),
     });
 
@@ -447,16 +422,16 @@ describe("useMenu Hook", () => {
       () => useMenu({ hideOnMissingParameter: true }),
       {
         wrapper: TestWrapper({
-          resources: legacyResourceTransform([
+          resources: [
             {
               name: "visible",
-              list: () => null,
+              list: "/posts",
             },
             {
               name: "org-users",
               list: "orgs/:orgId/users",
             },
-          ]),
+          ],
         }),
       },
     );
@@ -476,16 +451,16 @@ describe("useMenu Hook", () => {
       () => useMenu({ hideOnMissingParameter: true }),
       {
         wrapper: TestWrapper({
-          resources: legacyResourceTransform([
+          resources: [
             {
               name: "visible",
-              list: () => null,
+              list: "/posts",
             },
             {
               name: "org-users",
               list: "orgs/:orgId/users",
             },
-          ]),
+          ],
         }),
       },
     );
@@ -497,70 +472,6 @@ describe("useMenu Hook", () => {
       expect.not.arrayContaining([
         expect.objectContaining({ name: "org-users" }),
       ]),
-    );
-  });
-
-  // NOTE: Will be removed in the refine v5
-  it("should work with deprecated props", async () => {
-    const { result } = renderHook(() => useMenu(), {
-      wrapper: TestWrapper({
-        resources: [
-          {
-            name: "posts",
-            list: "/posts",
-            options: {
-              icon: "X",
-              label: "Best Posts",
-            },
-          },
-          {
-            name: "categories",
-            list: "/categories",
-            options: {
-              hide: true,
-            },
-          },
-        ],
-      }),
-    });
-
-    expect(result.current.menuItems).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          name: "posts",
-          icon: "X",
-          label: "Best Posts",
-          options: { icon: "X", label: "Best Posts" },
-        }),
-        expect.not.objectContaining({ name: "categories" }),
-      ]),
-    );
-  });
-});
-
-// NOTE: Will be removed in the refine v5
-describe("legacy roter provider", () => {
-  it("should contain resources", () => {
-    const { result } = renderHook(() => useMenu(), {
-      wrapper: TestWrapper({
-        resources: [
-          {
-            name: "posts",
-            list: () => null,
-          },
-        ],
-        legacyRouterProvider: {
-          ...mockLegacyRouterProvider(),
-          useLocation: () => ({
-            pathname: "/posts",
-            search: "",
-          }),
-        },
-      }),
-    });
-
-    expect(result.current.menuItems).toEqual(
-      expect.arrayContaining([expect.objectContaining({ name: "posts" })]),
     );
   });
 });

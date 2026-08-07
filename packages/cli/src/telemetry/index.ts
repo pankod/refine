@@ -1,5 +1,5 @@
-import type { NODE_ENV } from "@definitions/node";
-import type { ProjectTypes } from "@definitions/projectTypes";
+import type { NODE_ENV } from "../definitions/node";
+import type { ProjectTypes } from "../definitions/projectTypes";
 import { ENV } from "@utils/env";
 import { getOS } from "@utils/os";
 import { getInstalledRefinePackages, getRefineProjectId } from "@utils/package";

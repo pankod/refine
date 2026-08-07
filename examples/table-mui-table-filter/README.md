@@ -30,6 +30,6 @@
 
 <br />
 
-### This example has been moved to [here.](https://github.com/refinedev/refine/tree/master/examples/table-material-ui-table-filter)
+### This example has been moved to [here.](https://github.com/refinedev/refine/tree/main/examples/table-material-ui-table-filter)
 
 </div>

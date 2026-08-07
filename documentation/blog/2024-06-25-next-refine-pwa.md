@@ -3,9 +3,11 @@ title: Build a Progressive Web App (PWA) with Next.js
 description: We will walk you through the entire process of building a PWA using Next.JS and Refine framework, from start to finish!
 slug: next-js-pwa
 authors: david_omotayo
-tags: [nextjs, tutorial, Refine]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-11-next-refine-pwa/social-2.png
+category: "How To Build"
+tags: [nextjs]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-11-next-refine-pwa/social-2.png
 hide_table_of_contents: false
+last_update: 2024-06-25
 ---
 
 **This article was last updated on Jun 25, 2024, to add new SEO considerations, accessibility, and configuring Service Worker for Next PWA apps**
@@ -21,19 +23,6 @@ Fast forward to today, there are several frameworks and libraries in the picture
 In this article, we'll look at what Refine is and demonstrate how to use it to build a **Next.js PWA** storefront application.
 
 <!--truncate-->
-
-Steps we'll cover:
-
-- [What is a PWA?](#what-is-a-pwa)
-- [Project Setup](#project-setup)
-- [Adding Tailwind CSS for styling](#adding-tailwind-css-for-styling)
-- [Using Next.js SSR](#using-nextjs-ssr)
-- [Creating product cards](#creating-product-cards)
-- [Generating PWA manifest](#generating-pwa-manifest)
-- [Configuring PWA](#configuring-pwa)
-- [SEO Considerations for PWAs](#seo-considerations-for-pwas)
-- [Advance techniques: Customizing the Service Worker](#advance-techniques-customizing-the-service-worker)
-- [Accessibility Considerations for PWAs](#accessibility-considerations-for-pwas)
 
 ## Prerequisites
 
@@ -250,13 +239,13 @@ Run `npm run dev` to start the Refine development server.
 
 Within seconds it should automatically bring up your default browser with the preview of the app. If it does not, open the browser manually and navigate to `http://localhost:3000`.
 
- <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-11-next-refine-pwa/welcome.jpg" alt="welcome" />
+ <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-11-next-refine-pwa/welcome.jpg" alt="Next.js Refine welcome screen" />
 
 ## Adding a Data provider
 
 Data providers are hooks that Refine use to communicate with APIs. They act as adapters that make HTTP requests to different APIs and return response data using predefined methods.
 
-Refine comes with different data providers out of the box, but the one we’re interested in and will be using in this tutorial is the [refine-simple-rest](https://github.com/refinedev/refine/tree/master/packages/simple-rest) data provider, a data provider for communicating with RESTful APIs. Visit the docs to learn more about Refine’s data providers.
+Refine comes with different data providers out of the box, but the one we’re interested in and will be using in this tutorial is the [refine-simple-rest](https://github.com/refinedev/refine/tree/main/packages/simple-rest) data provider, a data provider for communicating with RESTful APIs. Visit the docs to learn more about Refine’s data providers.
 
 We’ll be using the fake store API to populate our storefront prototype app, and since it’s a REST API, the refine-simple-rest data provider won’t have trouble communicating with it.
 
@@ -279,7 +268,7 @@ With our Fake store endpoint:
 
 Next, we’ll create a layout component for our app and pass it as a prop to the Refine component.
 
-[Refer to documentation for more information about data providers in refine. &#8594](https://refine.dev/docs/core/providers/data-provider/)
+[Refer to documentation for more information about data providers in refine. &#8594](https://refine.dev/core/docs/core/providers/data-provider/)
 
 ## Adding a Layout component
 
@@ -310,7 +299,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 };
 ```
 
-Also you need to add the Refine logo to the public folder. You can find the logo [here](https://github.com/refinedev/refine/blob/master/examples/blog-next-refine-pwa/public/refine_logo.png).
+Also you need to add the Refine logo to the public folder. You can find the logo [here](https://github.com/refinedev/refine/blob/main/examples/blog-next-refine-pwa/public/refine_logo.png).
 
 The code above is relatively straightforward, we created a functional component structure with a destructured children argument. In the returned JSX code, we created a navbar with the Refine logo and a cart button, and below it is the children argument rendered dynamically to the template.
 
@@ -416,7 +405,7 @@ export default function Index() {
 
 Now if you save your progress and go back to the browser, you should see the Layout component rendered successfully.
 
- <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-11-next-refine-pwa/layout.png" alt="layout" />
+ <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-11-next-refine-pwa/layout.png" alt="App layout preview" />
 
 <br/>
 
@@ -469,7 +458,7 @@ Then we chain the `getList` method to the `dataProvider` to specify the endpoint
 
 Lastly, we exposed the data variable by passing it to the props object.
 
-[Refer to official Refine docs for more information about Next.js usage. &#8594](https://refine.dev/docs/guides-and-concepts/ssr/nextjs/)
+[Refer to official Refine docs for more information about Next.js usage. &#8594](https://refine.dev/core/docs/guides-and-concepts/ssr/nextjs/)
 
 ## Creating product cards
 
@@ -558,7 +547,7 @@ type ItemProp = {
 
 const ProductList: React.FC<ItemProp> = ({ products }) => {
   //highlight-start
-  const { tableQuery } = useTable<IProduct>({
+  const { result } = useTable<IProduct>({
     resource: "products",
     queryOptions: {
       initialData: products,
@@ -569,7 +558,7 @@ const ProductList: React.FC<ItemProp> = ({ products }) => {
   return (
     //highlight-start
     <div className="my-8 grid grid-cols-4 gap-6 px-24">
-      {tableQuery.data?.data.map((product) => {
+      {result?.data.map((product) => {
         return (
           <ProductCards
             key={product.id}
@@ -604,17 +593,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 `useTable` is a Refine hook that uses helper hooks to simplify the process of fetching, interacting, and rendering data. To put things into perspective, we’ll use the `useTable` hook to process our response data from the `getServerSideProps` function.
 
-In the code above, we’re using `tableQuery` to map through the query results and passing them as props to the `ProductCards` component. Then we wrapped the component with the LayoutWrapper component.
+In the code above, we’re using `result` to map through the query results and passing them as props to the `ProductCards` component. Then we wrapped the component with the LayoutWrapper component.
 
 What we’re doing here is similar to what we did earlier with the resources prop, we specify which source (endpoint) to be fetched from the API by passing the resource option a string value. In this case, `products`.
 
-The only difference is that we added a `queryOptions` option and passed the products prop as its initial data. Then we destructed the `tableQuery` object from the `useTable` hook. This is what we’ll use to get the result of our query.
+The only difference is that we added a `queryOptions` option and passed the products prop as its initial data. Then we destructed the `result` object from the `useTable` hook. This is what we’ll use to get the result of our query.
 
-Also we created a `ProductCard` component and use it to render the query results using the `tableQuery` object.
+Also we created a `ProductCard` component and use it to render the query results using the `result` object.
 
 If you save your progress and go back to the browser, you should see a nicely rendered grid of product cards.
 
- <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-11-next-refine-pwa/final.png" alt="final" />
+ <img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-11-next-refine-pwa/final.png" alt="Final PWA UI preview" />
 
 <br/>
 <br/>
@@ -629,7 +618,7 @@ Generating a manifest file manually is tedious. Fortunately for us, we can use s
 
 Head over to [SimiCart manifest generator](https://www.simicart.com/manifest-generator.html/) or any site you trust and generate your manifest with the following example:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-11-next-refine-pwa/manifest.png" alt="manifest" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-11-next-refine-pwa/manifest.png" alt="Web app manifest settings" />
 
 <br/>
 
@@ -727,7 +716,7 @@ After starting the server, head over to your browser and visit `http://localhost
 
 <br/>
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-11-next-refine-pwa/pwa.png" alt="pwa" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-11-next-refine-pwa/pwa.png" alt="Installable PWA prompt" />
 
 <br/>
 
@@ -822,4 +811,4 @@ The purpose of this tutorial is to give you a headstart with Refine and its ecos
 
 ## Project source code
 
-https://github.com/refinedev/refine/tree/master/examples/blog-next-refine-pwa
+https://github.com/refinedev/refine/tree/main/examples/blog-next-refine-pwa

@@ -3,9 +3,11 @@ title: Error Handling With try, catch and finally Blocks in JavaScript
 description: We'll see how to handle errors in JavaScript using the try/catch/finally blocks.
 slug: javascript-try-catch-finally
 authors: abdullah_numan
+category: "Tutorials"
 tags: [javascript]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-22-js-try-catch/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-22-js-try-catch/social.png
 hide_table_of_contents: false
+last_update: 2024-10-31
 ---
 
 **This article was last updated on October 30, 2024 to clarify explanations and add sections on handling JSON operations, user input, file operations in Node.js, and scenarios for using try-catch effectively.**
@@ -13,23 +15,6 @@ hide_table_of_contents: false
 ## Introduction
 
 This post is about graceful error handling in JavaScript where we explore the use of `try/catch/finally` blocks.
-
-Steps we'll cover:
-
-- [What are Errors?](#what-are-errors)
-  - [What is Graceful Error Handling?](#what-is-graceful-error-handling)
-- [How `try/catch/finally` Blocks Work](#how-trycatchfinally-blocks-work)
-  - [Running Usual Code In The `try` Block](#running-usual-code-in-the-try-block)
-- [The `catch` Block](#the-catch-block)
-  - [The `finally` Block](#the-finally-block)
-- [Error Types in JavaScript](#error-types-in-javascript)
-- [Custom Error Handling with throw](#custom-error-handling-with-throw)
-- [Error Handling in Promises](#error-handling-in-promises)
-- [When to use try-catch in JavaScript?](#when-to-use-try-catch-in-javascript)
-  - [External Data Fetching](#external-data-fetching)
-  - [JSON Parsing](#json-parsing)
-  - [User Input Processing](#user-input-processing)
-  - [File Operations in Node.js](#file-operations-in-nodejs)
 
 ## What are Errors?
 

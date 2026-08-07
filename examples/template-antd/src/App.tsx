@@ -4,14 +4,15 @@ import {
   ErrorComponent,
   RefineThemes,
 } from "@refinedev/antd";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router";
 import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 
 import { ConfigProvider, App as AntdApp } from "antd";
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
 function App() {

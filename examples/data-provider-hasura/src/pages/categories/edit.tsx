@@ -21,7 +21,7 @@ export const CategoryEdit = () => {
     HttpError,
     GetVariables<UpdateCategoryMutationVariables>
   >({
-    metaData: {
+    meta: {
       gqlMutation: CATEGORY_UPDATE_MUTATION,
     },
   });

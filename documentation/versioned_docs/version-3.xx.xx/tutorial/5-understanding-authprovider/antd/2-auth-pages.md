@@ -94,7 +94,7 @@ const App: React.FC = () => {
 
 In this section, we will learn how to create auth pages such as login, signup, forgot password and reset password using the `<AuthPage/>` component.
 
-[Refer to the `<AuthPage/>` documentation for more information &#8594](/docs/3.xx.xx/api-reference/antd/components/antd-auth-page/)
+[Refer to the `<AuthPage/>` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/antd/components/antd-auth-page/)
 
 `<AuthPage/>` component provides auth pages for login, signup, forgot password and reset password. It also provides a way to customize theses pages with various props. So, `<AuthPage/>` is a quick starting point for creating auth pages.
 
@@ -207,7 +207,7 @@ You can also use the `LoginPage` prop of the `<Refine/>` component to render the
 />
 ```
 
-[Refer to the `<Refine/>` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/components/refine-config/#loginpage)
+[Refer to the `<Refine/>` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/components/refine-config/#loginpage)
 
 :::
 
@@ -490,9 +490,9 @@ render(<App />);
 
 ## Customizing Auth Pages
 
-You can customize the auth pages by using the `<AuthPage/>` component's props. Also, you can use [`refine-cli`](/docs/3.xx.xx/packages/documentation/cli/) to [swizzle](/docs/3.xx.xx/packages/documentation/cli/#swizzle) the auth pages.
+You can customize the auth pages by using the `<AuthPage/>` component's props. Also, you can use [`refine-cli`](/core/docs/3.xx.xx/packages/documentation/cli/) to [swizzle](/core/docs/3.xx.xx/packages/documentation/cli/#swizzle) the auth pages.
 
-[Refer to the `<AuthPage/>` component's props to customize the auth pages &#8594](/docs/3.xx.xx/api-reference/core/components/auth-page/#props)
+[Refer to the `<AuthPage/>` component's props to customize the auth pages &#8594](/core/docs/3.xx.xx/api-reference/core/components/auth-page/#props)
 
 When you swizzle the auth pages, default auth pages will be copied to the `components/pages/auth` folder. You can customize the auth pages as you want by editing the files.
 

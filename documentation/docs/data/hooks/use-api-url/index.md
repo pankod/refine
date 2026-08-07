@@ -1,6 +1,9 @@
 ---
-title: useApiUrl
-source: packages/core/src/hooks/data/useApiUrl.ts
+title: "useAPIUrl Hook | Best Practices for Usage & Patterns in Refine v5"
+display_title: "useApiUrl"
+sidebar_label: "useApiUrl"
+description: "Learn to use the useAPIUrl hook in Refine v5. Explore best practices to scale REST, GraphQL for custom APIs and scalable data flows."
+source: packages/core/src/data/hooks/useApiUrl.ts
 ---
 
 `useApiUrl` is a React hook that returns the API URL. It uses the `getApiUrl` method to get the API URL from the [`dataProvider`][data provider].
@@ -67,4 +70,4 @@ const apiUrl = useApiUrl("other");
 | ----------- | -------- |
 | API URL     | `string` |
 
-[data provider]: /docs/data/data-provider
+[data provider]: /core/docs/data/data-provider

@@ -7,10 +7,16 @@ export const CompanyCreate = () => {
 
   const { selectProps } = useSelect({
     resource: "users",
+
     meta: {
       fields: ["name", "id"],
     },
+
     optionLabel: "name",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

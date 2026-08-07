@@ -18,16 +18,16 @@ export const CommonShowSourcePrompt = ({ path }: Props) => {
         "flex items-center",
         "gap-2",
         "rounded-lg",
-        "dark:bg-gray-700",
-        "bg-gray-100",
+        "dark:bg-zinc-950",
+        "bg-zinc-50",
         "mb-6",
       )}
     >
-      <GithubIcon className="ml-1.5 w-5 h-5 text-gray-800 dark:text-gray-100" />
+      <GithubIcon className="ml-1.5 w-5 h-5 text-zinc-900 dark:text-white" />
       <a
         href={path}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noopener"
         className={clsx(
           "text-base",
           "leading-8",

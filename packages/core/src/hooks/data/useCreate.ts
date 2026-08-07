@@ -1,8 +1,4 @@
-import {
-  pickDataProvider,
-  pickNotDeprecated,
-  useActiveAuthProvider,
-} from "@definitions/helpers";
+import { pickDataProvider } from "@definitions/helpers";
 import { getXRay } from "@refinedev/devtools-internal";
 import {
   type UseMutationOptions,
@@ -20,7 +16,7 @@ import {
   useOnError,
   usePublish,
   useRefineContext,
-  useResource,
+  useResourceParams,
   useTranslate,
 } from "@hooks";
 
@@ -54,9 +50,6 @@ export type UseCreateParams<TData, TError, TVariables> = {
   meta?: MetaQuery;
   /**
    * Meta data for `dataProvider`
-   * @deprecated `metaData` is deprecated with refine@4, refine will pass `meta` instead, however, we still support `metaData` for backward compatibility.
-   */
-  metaData?: MetaQuery;
   /**
    * If there is more than one `dataProvider`, you should use the `dataProviderName` that you will use.
    */
@@ -96,7 +89,7 @@ export type UseCreateProps<
   UseCreateParams<TData, TError, TVariables>;
 
 /**
- * `useCreate` is a modified version of `react-query`'s {@link https://react-query.tanstack.com/reference/useMutation `useMutation`} for create mutations.
+ * `useCreate` is a modified version of `react-query`'s {@link https://tanstack.com/query/v5/docs/framework/react/reference/useMutation `useMutation`} for create mutations.
  *
  * It uses `create` method as mutation function from the `dataProvider` which is passed to `<Refine>`.
  *
@@ -120,7 +113,6 @@ export const useCreate = <
   errorNotification: errorNotificationFromProps,
   invalidates: invalidatesFromProps,
   meta: metaFromProps,
-  metaData: metaDataFromProps,
   mutationOptions,
   overtimeOptions,
 }: UseCreateProps<TData, TError, TVariables> = {}): UseCreateReturnType<
@@ -129,13 +121,10 @@ export const useCreate = <
   TVariables
 > &
   UseLoadingOvertimeReturnType => {
-  const authProvider = useActiveAuthProvider();
-  const { mutate: checkError } = useOnError({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate: checkError } = useOnError();
   const dataProvider = useDataProvider();
   const invalidateStore = useInvalidate();
-  const { resources, select } = useResource();
+  const { resources, select } = useResourceParams();
   const translate = useTranslate();
   const publish = usePublish();
   const { log } = useLog();
@@ -144,7 +133,7 @@ export const useCreate = <
   const {
     options: { textTransformers },
   } = useRefineContext();
-  const { keys, preferLegacyKeys } = useKeys();
+  const { keys } = useKeys();
 
   const mutationResult = useMutation<
     CreateResponse<TData>,
@@ -156,7 +145,6 @@ export const useCreate = <
       resource: resourceName = resourceFromProps,
       values = valuesFromProps,
       meta = metaFromProps,
-      metaData = metaDataFromProps,
       dataProviderName = dataProviderNameFromProps,
     }: UseCreateParams<TData, TError, TVariables>) => {
       if (!values) throw missingValuesError;
@@ -166,7 +154,7 @@ export const useCreate = <
 
       const combinedMeta = getMeta({
         resource,
-        meta: pickNotDeprecated(meta, metaData),
+        meta,
       });
 
       return dataProvider(
@@ -175,7 +163,6 @@ export const useCreate = <
         resource: resource.name,
         variables: values,
         meta: combinedMeta,
-        metaData: combinedMeta,
       });
     },
     onSuccess: (data, variables, context) => {
@@ -187,7 +174,6 @@ export const useCreate = <
         invalidates = invalidatesFromProps ?? ["list", "many"],
         values = valuesFromProps,
         meta = metaFromProps,
-        metaData = metaDataFromProps,
       } = variables;
       if (!values) throw missingValuesError;
       if (!resourceName) throw missingResourceError;
@@ -203,7 +189,7 @@ export const useCreate = <
 
       const combinedMeta = getMeta({
         resource,
-        meta: pickNotDeprecated(meta, metaData),
+        meta,
       });
 
       const notificationConfig =
@@ -257,9 +243,9 @@ export const useCreate = <
         resource: resource.name,
         data: values,
         meta: {
+          ...rest,
           dataProviderName,
           id: data?.data?.id ?? undefined,
-          ...rest,
         },
       });
 
@@ -305,19 +291,18 @@ export const useCreate = <
 
       mutationOptions?.onError?.(err, variables, context);
     },
-    mutationKey: keys().data().mutation("create").get(preferLegacyKeys),
+    mutationKey: keys().data().mutation("create").get(),
     ...mutationOptions,
     meta: {
       ...mutationOptions?.meta,
-      ...getXRay("useCreate", preferLegacyKeys),
+      ...getXRay("useCreate"),
     },
   });
   const { mutate, mutateAsync, ...mutation } = mutationResult;
 
   const { elapsedTime } = useLoadingOvertime({
-    isLoading: mutation.isLoading,
-    interval: overtimeOptions?.interval,
-    onInterval: overtimeOptions?.onInterval,
+    ...overtimeOptions,
+    isLoading: mutation.isPending,
   });
 
   // this function is used to make the `variables` parameter optional
@@ -347,7 +332,7 @@ export const useCreate = <
   };
 
   return {
-    ...mutation,
+    mutation: mutationResult,
     mutate: handleMutation,
     mutateAsync: handleMutateAsync,
     overtime: { elapsedTime },

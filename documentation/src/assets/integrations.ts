@@ -35,6 +35,7 @@ import {
   PocketBase,
   ShadCnUI,
   PostgREST,
+  Chakrav3,
 } from "./integration-icons";
 
 export const integrations: IntegrationsType = {
@@ -149,6 +150,22 @@ export const integrations: IntegrationsType = {
         "<strong>Medusa</strong> connector for your e-commerce projects.",
       url: "https://www.npmjs.com/package/@refinedev/medusa",
       status: "stable",
+    },
+  ],
+  "community-ui-framework-packages": [
+    {
+      name: "Chakra UI v3",
+      icon: Chakrav3,
+      description:
+        " <strong>Chakra UI v3</strong> Framework support. 20+ framework-specific components incl. Layout, Feedback, and CRUD components.",
+      url: "https://www.npmjs.com/package/@ffimnsr/refine-chakra-ui-v3",
+      status: "stable",
+      contributors: [
+        {
+          name: "ffimnsr",
+          url: "https://github.com/ffimnsr",
+        },
+      ],
     },
   ],
   "community-data-provider-packages": [

@@ -2,7 +2,7 @@ import React from "react";
 import { useLogout } from "@refinedev/core";
 import dayjs from "dayjs";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import {
   Button,
   Frame,

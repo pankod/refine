@@ -1,15 +1,21 @@
+import { vi } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import * as papaparse from "papaparse";
-import { act } from "react-dom/test-utils";
+import { act } from "react";
 
 import { MockJSONServer, TestWrapper, mockRouterProvider } from "@test";
 
 import { useImport } from ".";
 import type { DataProviders, HttpError } from "../../contexts/data/types";
 
-jest.mock("papaparse", () => {
+vi.mock("papaparse", async () => {
+  const actual = await vi.importActual("papaparse");
+  const mockParse = vi.fn((actual as any).parse);
   return {
-    parse: jest.fn(jest.requireActual("papaparse").parse),
+    default: {
+      parse: mockParse,
+    },
+    parse: mockParse,
   };
 });
 
@@ -47,7 +53,7 @@ const parsedData = [
 
 describe("useImport hook", () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("should render hook without crashing", () => {
@@ -62,7 +68,7 @@ describe("useImport hook", () => {
   });
 
   it("should call onProgress", async () => {
-    const onProgressMock = jest.fn();
+    const onProgressMock = vi.fn();
     const { result } = renderHook(
       () =>
         useImport({
@@ -87,7 +93,7 @@ describe("useImport hook", () => {
       });
     });
 
-    expect(onProgressMock).toBeCalledWith({
+    expect(onProgressMock).toHaveBeenCalledWith({
       totalAmount: parsedData.length,
       processedAmount: 3,
     });
@@ -120,7 +126,7 @@ describe("useImport hook", () => {
     const mockDataProvider = {
       default: {
         ...MockJSONServer.default,
-        createMany: jest.fn(),
+        createMany: vi.fn(),
       },
     } as DataProviders;
 
@@ -171,7 +177,7 @@ describe("useImport hook", () => {
     const mockDataProvider = {
       default: {
         ...MockJSONServer.default,
-        createMany: jest.fn(),
+        createMany: vi.fn(),
       },
     } as DataProviders;
 
@@ -217,7 +223,7 @@ describe("useImport hook", () => {
     const mockDataProvider = {
       default: {
         ...MockJSONServer.default,
-        createMany: jest.fn(),
+        createMany: vi.fn(),
       },
     } as DataProviders;
 
@@ -253,7 +259,7 @@ describe("useImport hook", () => {
 
   describe("batchSize = undefined", () => {
     beforeEach(() => {
-      jest.spyOn(console, "error").mockImplementation((message) => {
+      vi.spyOn(console, "error").mockImplementation((message) => {
         if (message?.message === "something happened") return;
         console.warn(message);
       });
@@ -263,7 +269,7 @@ describe("useImport hook", () => {
       const mockDataProvider = {
         default: {
           ...MockJSONServer.default,
-          createMany: jest.fn(),
+          createMany: vi.fn(),
         },
       } as DataProviders;
 
@@ -291,7 +297,7 @@ describe("useImport hook", () => {
       const mockDataProvider = {
         default: {
           ...MockJSONServer.default,
-          createMany: jest.fn(async () => {
+          createMany: vi.fn(async () => {
             return {
               data: parsedData,
             };
@@ -369,7 +375,7 @@ describe("useImport hook", () => {
       const mockDataProvider = {
         default: {
           ...MockJSONServer.default,
-          create: jest.fn(),
+          create: vi.fn(),
         },
       } as DataProviders;
 
@@ -478,7 +484,7 @@ describe("useImport hook", () => {
     });
 
     it("should onChange call handleChange", async () => {
-      const onProgressMock = jest.fn();
+      const onProgressMock = vi.fn();
 
       const { result } = renderHook(
         () =>
@@ -511,7 +517,7 @@ describe("useImport hook", () => {
       });
 
       await waitFor(() => {
-        expect(onProgressMock).toBeCalledWith({
+        expect(onProgressMock).toHaveBeenCalledWith({
           totalAmount: parsedData.length,
           processedAmount: 3,
         });

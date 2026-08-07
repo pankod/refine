@@ -1,7 +1,8 @@
 import React from "react";
 import clsx from "clsx";
-import { LandingArrowRightIcon } from "./icons/landing-arrow-right";
 import { ShowcaseWrapper } from "../components/landing/showcase-wrapper";
+import { LandingSectionCtaButton } from "./landing-section-cta-button";
+import { CircleChevronRight } from "lucide-react";
 
 export const LandingHeroShowcaseSection = () => {
   const [activeApp, setActiveApp] = React.useState(apps[0]);
@@ -13,13 +14,11 @@ export const LandingHeroShowcaseSection = () => {
   return (
     <div
       className={clsx(
-        "bg-gray-50 dark:bg-gray-800",
+        "bg-zinc-800",
         "flex",
         "flex-col",
         "w-full",
-        "rounded-2xl landing-sm:rounded-[32px]",
-        "gap-2 landing-sm:gap-4",
-        "p-2 landing-sm:p-4",
+        "rounded-2.5xl",
         "relative",
         "group/showcase",
         "landing-lg:overflow-hidden",
@@ -28,7 +27,7 @@ export const LandingHeroShowcaseSection = () => {
       <div className={clsx("flex", "w-full", "gap-2")}>
         <div
           className={clsx(
-            "rounded-3xl",
+            "rounded-t-2.5xl",
             "overflow-y-auto",
             "flex",
             "w-full",
@@ -36,11 +35,12 @@ export const LandingHeroShowcaseSection = () => {
             "scrollbar-hidden",
             "snap snap-x snap-mandatory",
             "snap-mandatory",
+            "bg-zinc-800",
+            "p-2.5",
           )}
         >
           <div
             className={clsx(
-              "rounded-3xl",
               "flex",
               "w-auto",
               "landing-lg:w-full",
@@ -48,25 +48,28 @@ export const LandingHeroShowcaseSection = () => {
               "justify-start",
               "gap-2",
               "relative",
-              "bg-gray-0 dark:bg-gray-900",
+              "bg-zinc-900",
+              "rounded-lg",
+              "p-1",
             )}
           >
             <div
               className={clsx(
                 "hidden landing-sm:block",
                 "flex-1",
-                "rounded-3xl",
-                "h-full",
-                "bg-gray-200 dark:bg-gray-700",
                 "absolute",
-                "left-0",
-                "top-0",
+                "left-1",
+                "top-1",
                 "transition-transform",
                 "duration-150",
                 "ease-out",
+                "bg-zinc-700",
+                "rounded-md",
+                "shadow-[inset_0_1px_0_0_rgb(82_82_91)]",
               )}
               style={{
-                width: "calc((100% - (3 * 8px)) / 4)",
+                width: "calc((100% - (3 * 8px) - 8px) / 4)",
+                height: "calc(100% - 8px)",
                 minWidth: "244px",
                 transform: `translateX(calc((100% + 8px) * ${apps.findIndex(
                   (f) => f.name === activeApp.name,
@@ -87,6 +90,7 @@ export const LandingHeroShowcaseSection = () => {
                   });
                 }}
                 className={clsx(
+                  "cursor-pointer",
                   "z-[1]",
                   "snap-start",
                   "appearance-none",
@@ -96,26 +100,24 @@ export const LandingHeroShowcaseSection = () => {
                   "break-keep",
                   "whitespace-nowrap",
                   "landing-sm:min-w-[244px]",
-                  "py-2",
-                  "landing-sm:py-3.5",
+                  "py-2.5",
                   "px-4",
-                  "rounded-3xl",
                   "transition-colors",
                   "ease-in-out",
                   "duration-150",
                   activeApp.name !== app.name && "bg-transparent",
-                  activeApp.name === app.name && "bg-gray-200 dark:bg-gray-700",
-                  activeApp.name !== app.name &&
-                    "text-gray-600 dark:text-gray-400",
-                  activeApp.name === app.name &&
-                    "text-gray-900 dark:text-gray-0",
+                  activeApp.name === app.name && "bg-zinc-800",
+                  activeApp.name !== app.name && "text-zinc-400",
+                  activeApp.name === app.name && "text-white",
                   "landing-sm:bg-transparent",
-                  "dark:landing-sm:bg-transparent",
+                  "landing-sm:bg-transparent",
                   "transition-colors",
                   "duration-150",
                   "ease-out",
                   "text-xs",
                   "landing-sm:text-sm",
+                  activeApp.name !== app.name && "hover:bg-zinc-800",
+                  activeApp.name !== app.name && "hover:text-white",
                 )}
               >
                 {app.name}
@@ -125,15 +127,7 @@ export const LandingHeroShowcaseSection = () => {
         </div>
       </div>
       <div
-        className={clsx(
-          "rounded-lg",
-          "landing-md:rounded-xl",
-          "landing-lg:rounded-2xl",
-          "overflow-hidden",
-          "shadow-sm shadow-gray-200 dark:shadow-none",
-          "relative",
-          "group/showcase-inner",
-        )}
+        className={clsx("overflow-hidden", "relative", "group/showcase-inner")}
       >
         <div
           className={clsx(
@@ -143,7 +137,7 @@ export const LandingHeroShowcaseSection = () => {
             "transition-colors",
             "duration-150",
             "ease-in-out",
-            activeApp.dark ? "bg-gray-900" : "bg-gray-0",
+            activeApp.dark ? "bg-zinc-900" : "bg-white",
           )}
         />
         <ShowcaseComponent
@@ -153,9 +147,6 @@ export const LandingHeroShowcaseSection = () => {
             "left-0",
             "top-0",
             "w-full",
-            "rounded-lg",
-            "landing-md:rounded-xl",
-            "landing-lg:rounded-2xl",
             "overflow-hidden",
           )}
         />
@@ -181,9 +172,6 @@ export const LandingHeroShowcaseSection = () => {
               "bg-[linear-gradient(0deg,_#14141F_30%,_transparent_90%,_transparent_100%)]",
             !activeApp.dark &&
               "bg-[linear-gradient(0deg,_#FFFFFF_30%,_transparent_90%,_transparent_100%)]",
-            "rounded-bl-lg rounded-br-lg",
-            "landing-md:rounded-bl-xl landing-md:rounded-br-xl",
-            "landing-lg:rounded-bl-2xl landing-lg:rounded-br-2xl",
           )}
         />
         <div
@@ -197,7 +185,7 @@ export const LandingHeroShowcaseSection = () => {
           <a
             href={activeApp.link}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener"
             className={clsx(
               "hidden",
               "landing-lg:flex",
@@ -213,23 +201,23 @@ export const LandingHeroShowcaseSection = () => {
               "z-[3]",
               "py-2 landing-sm:py-4",
               "pl-4 pr-4 landing-sm:pl-6 landing-sm:pr-4",
-              "rounded-[32px] landing-sm:rounded-[48px]",
+              "rounded-2xl",
               "items-center",
               "justify-center",
               "gap-2",
-              "bg-refine-blue dark:bg-refine-cyan-alt",
-              "bg-opacity-10 dark:bg-opacity-10",
-              "landing-lg:bg-opacity-100 dark:landing-lg:bg-opacity-100",
-              "text-refine-blue dark:text-refine-cyan-alt",
-              "landing-lg:text-gray-0 dark:landing-lg:text-gray-900",
+              "bg-[#3A261A]",
+              "bg-opacity-10",
+              "landing-lg:bg-opacity-100",
+              "text-orange-400",
+              "landing-lg:text-orange-400",
               "hover:brightness-125",
               "landing-lg:hover:scale-105 landing-lg:hover:brightness-100",
-              "hover:text-refine-blue dark:hover:text-refine-cyan-alt",
-              "landing-lg:hover:text-gray-0 dark:landing-lg:hover:text-gray-900",
+              " hover:text-orange-400",
+              "landing-lg:hover:text-orange-400",
               "landing-lg:border-8 landing-lg:border-solid",
               activeApp.dark
-                ? "landing-lg:border-gray-900"
-                : "landing-lg:border-gray-0",
+                ? "landing-lg:border-zinc-900"
+                : "landing-lg:border-white",
             )}
           >
             <span
@@ -237,60 +225,23 @@ export const LandingHeroShowcaseSection = () => {
             >
               {activeApp.label}
             </span>
-            <LandingArrowRightIcon />
+            {/* @ts-expect-error - lucide-react icon react 17 compatibility issues */}
+            <CircleChevronRight />
           </a>
         </div>
       </div>
       <div
         className={clsx(
+          "p-2.5",
           "flex",
           "items-center",
           "justify-center",
-          "landing-lg:-mb-4",
+          "landing-lg:hidden",
         )}
       >
-        <a
-          href={activeApp.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={clsx(
-            "landing-lg:opacity-0",
-            "duration-150",
-            "delay-75",
-            "ease-in-out",
-            "transition-all",
-            "hover:no-underline",
-            "z-[3]",
-            "py-2 landing-sm:py-4",
-            "pl-4 pr-4 landing-sm:pl-6 landing-sm:pr-4",
-            "rounded-[32px] landing-sm:rounded-[48px]",
-            "flex",
-            "landing-lg:hidden",
-            "items-center",
-            "justify-center",
-            "gap-2",
-            "bg-refine-blue dark:bg-refine-cyan-alt",
-            "bg-opacity-10 dark:bg-opacity-10",
-            "landing-lg:bg-opacity-100 dark:landing-lg:bg-opacity-100",
-            "text-refine-blue dark:text-refine-cyan-alt",
-            "landing-lg:text-gray-0 dark:landing-lg:text-gray-900",
-            "hover:brightness-125",
-            "landing-lg:hover:scale-105 landing-lg:hover:brightness-100",
-            "hover:text-refine-blue dark:hover:text-refine-cyan-alt",
-            "landing-lg:hover:text-gray-0 dark:landing-lg:hover:text-gray-900",
-            "landing-lg:border-8 landing-lg:border-solid",
-            activeApp.dark
-              ? "landing-lg:border-gray-900"
-              : "landing-lg:border-gray-0",
-          )}
-        >
-          <span
-            className={clsx("text-xs landing-sm:text-base", "font-semibold")}
-          >
-            {activeApp.label}
-          </span>
-          <LandingArrowRightIcon />
-        </a>
+        <LandingSectionCtaButton to={activeApp.link}>
+          {activeApp.label}
+        </LandingSectionCtaButton>
       </div>
     </div>
   );
@@ -313,7 +264,7 @@ const ShowcaseCRM = ({ className }: { className?: string }) => {
           code: `
                                 import { useList } from "@refinedev/core";
 
-                                const { data: { total } } = useList({
+                                const { result: { total } } = useList({
                                     resource: "companies"
                                 });
                                 `,
@@ -328,7 +279,7 @@ const ShowcaseCRM = ({ className }: { className?: string }) => {
           codePosition: "right",
           code: `
                     import { useMenu } from "@refinedev/core";
-                    import { Link } from "react-router-dom";
+                    import { Link } from "react-router";
 
                     const { menuItems } = useMenu();
 
@@ -351,7 +302,7 @@ const ShowcaseCRM = ({ className }: { className?: string }) => {
           code: `
                     import { useList } from "@refinedev/core";
 
-                    const { data } = useList({
+                    const { result: { data } } = useList({
                         resource: "events",
                         sorters: [
                             { field: "start_date", order: "asc" },
@@ -373,7 +324,7 @@ const ShowcaseCRM = ({ className }: { className?: string }) => {
                     const { data } = useTable({
                         resource: "activities",
                         pagination: {
-                            current: 1,
+                            currentPage: 1,
                             pageSize: 5,
                         },
                     });
@@ -429,7 +380,7 @@ const ShowcaseHR = ({ className }: { className?: string }) => {
           code: `
                                 import { useList } from "@refinedev/core";
 
-                                const { data } = useList({
+                                const { result: { data } } = useList({
                                     resource: "notifications",
                                     liveMode: "auto",
                                     filters: [
@@ -484,10 +435,10 @@ const ShowcaseHR = ({ className }: { className?: string }) => {
           code: `
                         import { useList } from "@refinedev/core";
 
-                        const { data } = useList({
+                        const { result: { data } } = useList({
                           resource: "polls",
                           filters: [{ field: "status", operator: "eq", value: "active" }],
-                          pagination: { current: 1, pageSize: 1 },
+                          pagination: { currentPage: 1, pageSize: 1 },
                           liveMode: "auto",
                         });
                                 `,
@@ -519,12 +470,12 @@ const ShowcaseHR = ({ className }: { className?: string }) => {
           codePosition: "left",
           code: `
                     import { useGetIdentity, useList } from "@refinedev/core";
-                  
+
                     const { data: { employeeId } } = useGetIdentity();
-                  
-                    const { data } = useList({
-                      resource: "time-offs", 
-                      pagination: { current: 1, pageSize: 1 },
+
+                    const { result: { data } } = useList({
+                      resource: "time-offs",
+                      pagination: { currentPage: 1, pageSize: 1 },
                       filters: [
                         {
                           field: "employeeId",
@@ -605,9 +556,9 @@ const ShowcaseECommerce = ({ className }: { className?: string }) => {
             "https://refine.ams3.cdn.digitaloceanspaces.com/website/static/showcase-images/finefoods/actions-2.png",
           codePosition: "left",
           code: `
-                    import { useResource, useUpdate } from "@refinedev/core";
+                    import { useResourceParams, useUpdate } from "@refinedev/core";
 
-                    const { id }  = useResource();
+                    const { id }  = useResourceParams();
                     const { mutate } = useUpdate();
 
                     const onReject = () => mutate({
@@ -706,9 +657,9 @@ const ShowcaseDevOps = ({ className }: { className?: string }) => {
             "https://refine.ams3.cdn.digitaloceanspaces.com/website/static/showcase-images/devops/actions.png",
           codePosition: "left",
           code: `
-                        import { useDelete, useResource } from "@refinedev/core";
+                        import { useDelete, useResourceParams } from "@refinedev/core";
 
-                        const { id } = useResource();
+                        const { id } = useResourceParams();
                         const { mutate } = useDelete();
 
                         const onDelete = () => {

@@ -39,8 +39,8 @@ export const dataProvider: DataProvider = {
     const params = new URLSearchParams();
 
     if (pagination) {
-      params.append("_start", (pagination.current - 1) * pagination.pageSize);
-      params.append("_end", pagination.current * pagination.pageSize);
+      params.append("_start", (pagination.currentPage - 1) * pagination.pageSize);
+      params.append("_end", pagination.currentPage * pagination.pageSize);
     }
 
     if (sorters && sorters.length > 0) {
@@ -138,21 +138,22 @@ import { useTable, useMany } from "@refinedev/core";
 
 export const ListProducts = () => {
   const {
-    tableQuery: { data, isLoading },
-    current,
-    setCurrent,
+    result,
+    tableQuery: { isLoading },
+    currentPage,
+    setCurrentPage,
     pageCount,
     sorters,
     setSorters,
   } = useTable({
     resource: "protected-products",
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
     sorters: { initial: [{ field: "id", order: "asc" }] },
   });
 
-  const { data: categories } = useMany({
+  const { result: categoriesResult } = useMany({
     resource: "categories",
-    ids: data?.data?.map((product) => product.category?.id) ?? [],
+    ids: result?.data?.map((product) => product.category?.id) ?? [],
   });
 
   if (isLoading) {
@@ -160,19 +161,19 @@ export const ListProducts = () => {
   }
 
   const onPrevious = () => {
-    if (current > 1) {
-      setCurrent(current - 1);
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
   const onNext = () => {
-    if (current < pageCount) {
-      setCurrent(current + 1);
+    if (currentPage < pageCount) {
+      setCurrentPage(currentPage + 1);
     }
   };
 
   const onPage = (page: number) => {
-    setCurrent(page);
+    setCurrentPage(page);
   };
 
   const getSorter = (field: string) => {
@@ -221,13 +222,13 @@ export const ListProducts = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.data?.map((product) => (
+          {result?.data?.map((product) => (
             <tr key={product.id}>
               <td>{product.id}</td>
               <td>{product.name}</td>
               <td>
                 {
-                  categories?.data?.find(
+                  categoriesResult?.data?.find(
                     (category) => category.id == product.category?.id,
                   )?.title
                 }
@@ -243,9 +244,9 @@ export const ListProducts = () => {
           {"<"}
         </button>
         <div>
-          {current - 1 > 0 && <span onClick={() => onPage(current - 1)}>{current - 1}</span>}
-          <span className="current">{current}</span>
-          {current + 1 < pageCount && <span onClick={() => onPage(current + 1)}>{current + 1}</span>}
+          {currentPage - 1 > 0 && <span onClick={() => onPage(currentPage - 1)}>{currentPage - 1}</span>}
+          <span className="currentPage">{currentPage}</span>
+          {currentPage + 1 <= pageCount && <span onClick={() => onPage(currentPage + 1)}>{currentPage + 1}</span>}
         </div>
         <button type="button" onClick={onNext}>
           {">"}
@@ -261,14 +262,18 @@ import { AuthProvider } from "@refinedev/core";
 
 export const authProvider: AuthProvider = {
     onError: async (error) => {
-        if (error?.status === 401) {
-            return {
-                logout: true,
-                error: { message: "Unauthorized" },
-            }
+      if (error?.status === 401) {
+        return {
+          logout: true,
+          error: {
+            message: "Unauthorized",
+            name: "Error",
+            statusCode: error?.status ?? 403,
+          },
         }
+      }
 
-        return {};
+      return {};
     },
     getIdentity: async () => {
       const response = await fetch("https://api.fake-rest.refine.dev/auth/me", {

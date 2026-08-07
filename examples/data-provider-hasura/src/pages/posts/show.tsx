@@ -12,7 +12,7 @@ const { Title, Text } = Typography;
 
 export const PostShow = () => {
   const { query: queryResult } = useShow<GetFields<GetPostQuery>>({
-    metaData: {
+    meta: {
       gqlQuery: POST_QUERY,
     },
   });

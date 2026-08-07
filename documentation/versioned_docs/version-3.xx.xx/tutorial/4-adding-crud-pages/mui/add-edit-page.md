@@ -85,7 +85,7 @@ We will go through the edit page components and hooks one by one.
 
 - `<Edit/>` is a **refine** component that is used to presentation purposes like showing the title of the page, save button, refresh button etc.
 
-  [Refer to the `<Edit/>` documentation for more information &#8594](/docs/3.xx.xx/api-reference/mui/components/basic-views/edit)
+  [Refer to the `<Edit/>` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/mui/components/basic-views/edit)
 
 - `useForm` hook, imported from `@pankod/refine-react-hook-form` package, has been developed by using the **React Hook Form** and `useForm` hook imported from `@pankod/refine-core` package.
 
@@ -95,7 +95,7 @@ We will go through the edit page components and hooks one by one.
 
   When you use `useForm` in the edit page, it automatically fetches the data of the record by using the `id` in the URL, then fills the form with the data. It sends the form data to `dataProvider`'s `update` method when the form is submitted.
 
-  [Refer to the **@pankod/refine-react-hook-form** `useForm` documentation for more information &#8594](/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/)
+  [Refer to the **@pankod/refine-react-hook-form** `useForm` documentation for more information &#8594](/core/docs/3.xx.xx/packages/documentation/react-hook-form/useForm/)
 
   [Refer to the **React Hook Form** documentation for more information &#8594](https://react-hook-form.com/)
 
@@ -107,7 +107,7 @@ We will go through the edit page components and hooks one by one.
 
 In the edit page, we may need to select a record from another resource. For example, we may need to select a category from the `categories` resource to assign the blog post to the category. In this case, we can use the `useAutocomplete` hook provided by **refine**. This hook fetches the data by passing the params to the `dataProvider`'s `getList` method. Then, it returns the necessary props for the `<Autocomplete/>` component.
 
-[Refer to the `useAutocomplete` documentation for more information &#8594](/docs/3.xx.xx/api-reference/mui/hooks/useAutocomplete/)
+[Refer to the `useAutocomplete` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/mui/hooks/useAutocomplete/)
 
 [Refer to the **Material UI** `<Autocomplete/>` documentation for more information &#8594](https://mui.com/material-ui/react-autocomplete/)
 

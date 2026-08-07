@@ -7,17 +7,18 @@ export default function LayoutNextjs() {
       showNavigator
       hidePreview
       dependencies={{
-        "@refinedev/mui": "5.0.0",
+        "@refinedev/mui": "latest",
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-router-v6": "latest",
-        "@refinedev/react-hook-form": "^4.8.12",
+        "@refinedev/react-router": "latest",
+        "@refinedev/react-hook-form": "latest",
         "@emotion/react": "^11.8.2",
         "@emotion/styled": "^11.8.1",
-        "@mui/lab": "^5.0.0-alpha.85",
-        "@mui/material": "^5.14.2",
-        "@mui/system": "latest",
-        "@mui/x-data-grid": "^6.6.0",
+        "@mui/utils": "^7.1.0",
+        "@mui/lab": "^6.0.0-beta.14",
+        "@mui/material": "^6.1.7",
+        "@mui/system": "^6.4.11",
+        "@mui/x-data-grid": "7.23.5",
         "@refinedev/nextjs-router": "latest",
       }}
       // template="nextjs"
@@ -44,7 +45,7 @@ import routerProvider from "@refinedev/nextjs-router/pages";
 import dataProvider from "@refinedev/simple-rest";
 import type { AppProps } from "next/app";
 
-import { RefineThemes, ThemedLayoutV2, notificationProvider, RefineSnackbarProvider } from "@refinedev/mui";
+import { RefineThemes, ThemedLayout, notificationProvider, RefineSnackbarProvider } from "@refinedev/mui";
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import { ThemeProvider } from "@mui/material/styles";
@@ -68,9 +69,9 @@ function App({ Component, pageProps }: AppProps) {
                         },
                     ]}
                 >
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Component {...pageProps} />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Refine>
             </RefineSnackbarProvider>
         </ThemeProvider>
@@ -104,7 +105,7 @@ export default function ProductList() {
 
   return (
     <List>
-        <DataGrid {...dataGridProps} columns={columns} autoHeight />
+        <DataGrid {...dataGridProps} columns={columns}  />
     </List>
   );
 };

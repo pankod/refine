@@ -11,14 +11,10 @@ describe("server-side-form-validation-antd", () => {
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    cy.interceptGETCategories();
-    cy.interceptGETPosts();
     cy.visit("/");
   });
 
   it("should render edit form errors ", () => {
-    cy.interceptGETPost();
-
     cy.wait("@getPosts");
     cy.getAntdLoadingOverlay().should("not.exist");
     cy.wait("@getCategories");

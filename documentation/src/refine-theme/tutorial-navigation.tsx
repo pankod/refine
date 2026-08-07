@@ -3,7 +3,6 @@ import clsx from "clsx";
 
 import Link from "@docusaurus/Link";
 
-/* @ts-expect-error `/internal` is not directly exported but required in this case */
 import { useDoc } from "@docusaurus/theme-common/internal";
 
 import { TriangleDownIcon } from "./icons/triangle-down";
@@ -140,12 +139,12 @@ const NavigationDropdown = () => {
           "py-2 tutorial-md:py-2.5",
           "pl-4 tutorial-md:pl-6",
           "pr-3",
-          "bg-gray-200 dark:bg-gray-700",
+          "bg-zinc-100 dark:bg-zinc-800",
           "flex",
           "gap-2",
           "items-center",
           "justify-start",
-          "rounded-[40px]",
+          "rounded",
         )}
       >
         <div
@@ -154,7 +153,7 @@ const NavigationDropdown = () => {
             "flex-1",
             "text-xs tutorial-md:text-sm",
             "leading-4 tutorial-md:leading-5",
-            "text-gray-800 dark:text-gray-100",
+            "text-zinc-900 dark:text-white",
             "relative",
           )}
         >
@@ -176,7 +175,7 @@ const NavigationDropdown = () => {
                 <span className={clsx("font-normal")}>
                   {currentUnit?.title}
                 </span>
-                <span className={clsx("text-gray-400")}>{" / "}</span>
+                <span className={clsx("text-zinc-400")}>{" / "}</span>
                 <span className={clsx("font-semibold")}>
                   {currentDoc.metadata.title}
                 </span>
@@ -190,7 +189,7 @@ const NavigationDropdown = () => {
             "flex",
             "items-center",
             "justify-center",
-            "text-gray-400",
+            "text-zinc-400",
           )}
         >
           <TriangleDownIcon className="w-4 h-4" />
@@ -210,7 +209,7 @@ const NavigationDropdown = () => {
           "shadow",
           "w-full",
           "h-fit",
-          "bg-gray-100 dark:bg-gray-700",
+          "bg-zinc-100 dark:bg-zinc-800",
           "rounded-[20px]",
         )}
       >
@@ -241,17 +240,16 @@ const NavigationDropdown = () => {
                     )}
                   >
                     {isUnitVisited(unit.id) ? (
-                      <NavigationCheckFilled className="text-gray-100 dark:text-gray-700" />
+                      <NavigationCheckFilled className="text-zinc-100 dark:text-zinc-800" />
                     ) : (
-                      <NavigationCheckEmpty className="text-gray-400 dark:text-gray-500" />
+                      <NavigationCheckEmpty className="text-zinc-400" />
                     )}
                     <span
                       className={clsx(
                         "font-semibold",
                         !isUnitVisited(unit.id) &&
-                          "text-gray-700 dark:text-gray-200",
-                        isUnitVisited(unit.id) &&
-                          "text-gray-500 dark:text-gray-400",
+                          "text-zinc-900 dark:text-white",
+                        isUnitVisited(unit.id) && "text-zinc-400",
                       )}
                     >
                       {unit.title}
@@ -267,25 +265,24 @@ const NavigationDropdown = () => {
                           "pl-8 pr-4",
                           "flex",
                           item === currentDoc.metadata.id &&
-                            "bg-gray-200 dark:bg-gray-600",
+                            "bg-zinc-200 dark:bg-zinc-700",
                           "items-center",
                           "gap-1",
-                          "text-gray-700 dark:text-gray-200",
+                          "text-zinc-900 dark:text-white",
                           "no-underline",
-                          "hover:bg-gray-200 dark:hover:bg-gray-600",
+                          "hover:bg-zinc-200 dark:hover:bg-zinc-700",
                         )}
                       >
                         {visited[item]?.visited ? (
-                          <NavigationCheckFilled className="text-gray-100 dark:text-gray-700" />
+                          <NavigationCheckFilled className="text-zinc-100 dark:text-zinc-800" />
                         ) : (
-                          <NavigationCheckEmpty className="text-gray-400 dark:text-gray-500" />
+                          <NavigationCheckEmpty className="text-zinc-400" />
                         )}
                         <span
                           className={clsx(
                             !visited[item]?.visited &&
-                              "text-gray-700 dark:text-gray-200",
-                            visited[item]?.visited &&
-                              "text-gray-500 dark:text-gray-400",
+                              "text-zinc-900 dark:text-white",
+                            visited[item]?.visited && "text-zinc-400",
                           )}
                         >
                           {getTitleFromId(item, tutorialDocs)}
@@ -342,10 +339,10 @@ export const TutorialNavigation = () => {
           previousDoc ? "opacity-100" : "opacity-50",
           previousDoc ? "cursor-pointer" : "cursor-not-allowed",
           "p-2 tutorial-md:p-2.5",
-          "text-gray-400 dark:text-gray-400",
-          "hover:text-gray-400 dark:hover:text-gray-400",
-          "bg-gray-100 dark:bg-refine-react-dark-code",
-          "rounded-full",
+          "text-zinc-400",
+          "hover:text-zinc-400",
+          "bg-zinc-100 dark:bg-zinc-800",
+          "rounded",
         )}
       >
         <CommonCircleChevronLeft className="w-4 h-4 tutorial-md:w-5 tutorial-md:h-5" />
@@ -359,10 +356,10 @@ export const TutorialNavigation = () => {
           nextDoc ? "opacity-100" : "opacity-50",
           nextDoc ? "cursor-pointer" : "cursor-not-allowed",
           "p-2 tutorial-md:p-2.5",
-          "text-gray-400 dark:text-gray-400",
-          "hover:text-gray-400 dark:hover:text-gray-400",
-          "bg-gray-100 dark:bg-refine-react-dark-code",
-          "rounded-full",
+          "text-zinc-400",
+          "hover:text-zinc-400",
+          "bg-zinc-100 dark:bg-zinc-800",
+          "rounded",
         )}
       >
         <CommonCircleChevronLeft className="rotate-180 w-4 h-4 tutorial-md:w-5 tutorial-md:h-5" />

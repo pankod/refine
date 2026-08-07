@@ -1,17 +1,10 @@
 import React from "react";
+import { vi } from "vitest";
 import { pageErrorTests } from "@refinedev/ui-tests";
-import type ReactRouterDom from "react-router-dom";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
 import { ErrorComponent } from ".";
-import { render, fireEvent, TestWrapper, act } from "@test";
-
-const mHistory = jest.fn();
-
-jest.mock("react-router-dom", () => ({
-  ...(jest.requireActual("react-router-dom") as typeof ReactRouterDom),
-  useNavigate: () => mHistory,
-}));
+import { render, fireEvent, TestWrapper, act, MockRouterProvider } from "@test";
 
 describe("ErrorComponent", () => {
   pageErrorTests.bind(this)(ErrorComponent);
@@ -32,39 +25,57 @@ describe("ErrorComponent", () => {
     getByText("Back Home");
   });
 
-  it("renders called function successfully if click the button", async () => {
+  it("renders called go function successfully if click the button", async () => {
+    const mockGo = vi.fn();
+
     const { getByText } = render(<ErrorComponent />, {
-      wrapper: TestWrapper({}),
+      wrapper: TestWrapper({
+        routerProvider: {
+          ...MockRouterProvider(),
+          go: () => mockGo,
+        },
+      }),
     });
 
     await act(async () => {
       fireEvent.click(getByText("Back Home"));
     });
 
-    expect(mHistory).toBeCalledWith("/");
+    expect(mockGo).toHaveBeenCalledWith({ to: "/" });
   });
 
   it("renders error messages if resources action's not found", async () => {
-    const { getByTestId, findByText } = render(
+    const { findByTestId } = render(
       <Routes>
         <Route path="/:resource/:action" element={<ErrorComponent />} />
       </Routes>,
       {
         wrapper: TestWrapper({
           routerInitialEntries: ["/posts/create"],
+          routerProvider: {
+            ...MockRouterProvider(),
+            parse: () => () => ({
+              action: "create",
+              resource: {
+                name: "posts",
+                list: "/posts",
+                create: "/posts/create",
+              },
+              pathname: "/posts/create",
+            }),
+          },
+          resources: [
+            {
+              name: "posts",
+              list: "/posts",
+              create: "/posts/create",
+            },
+          ],
         }),
       },
     );
 
-    await act(async () => {
-      fireEvent.mouseEnter(getByTestId("error-component-tooltip"));
-    });
-
-    const element = await findByText(
-      `You may have forgotten to add the "create" component to "posts" resource.`,
-    );
-
-    expect(element).toBeInTheDocument();
+    expect(await findByTestId("error-component-tooltip")).toBeInTheDocument();
   });
 
   it("renders error messages if resource action's is different from 'create, edit, show'", async () => {

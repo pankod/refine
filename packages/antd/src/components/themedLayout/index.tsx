@@ -4,10 +4,8 @@ import { Grid, Layout as AntdLayout } from "antd";
 import { ThemedSider as DefaultSider } from "./sider";
 import { ThemedHeader as DefaultHeader } from "./header";
 import type { RefineThemedLayoutProps } from "./types";
+import { ThemedLayoutContextProvider } from "@contexts";
 
-/**
- * @deprecated It is recommended to use the improved `ThemedLayoutV2`. Review migration guidelines. https://refine.dev/docs/api-reference/antd/components/antd-themed-layout/#migrate-themedlayout-to-themedlayoutv2
- */
 export const ThemedLayout: React.FC<RefineThemedLayoutProps> = ({
   children,
   Header,
@@ -15,30 +13,38 @@ export const ThemedLayout: React.FC<RefineThemedLayoutProps> = ({
   Title,
   Footer,
   OffLayoutArea,
+  initialSiderCollapsed,
+  onSiderCollapsed,
 }) => {
   const breakpoint = Grid.useBreakpoint();
   const SiderToRender = Sider ?? DefaultSider;
   const HeaderToRender = Header ?? DefaultHeader;
   const isSmall = typeof breakpoint.sm === "undefined" ? true : breakpoint.sm;
+  const hasSider = !!SiderToRender({ Title });
 
   return (
-    <AntdLayout style={{ minHeight: "100vh" }}>
-      <SiderToRender Title={Title} />
-      <AntdLayout>
-        <HeaderToRender />
-        <AntdLayout.Content>
-          <div
-            style={{
-              minHeight: 360,
-              padding: isSmall ? 24 : 12,
-            }}
-          >
-            {children}
-          </div>
-          {OffLayoutArea && <OffLayoutArea />}
-        </AntdLayout.Content>
-        {Footer && <Footer />}
+    <ThemedLayoutContextProvider
+      initialSiderCollapsed={initialSiderCollapsed}
+      onSiderCollapsed={onSiderCollapsed}
+    >
+      <AntdLayout style={{ minHeight: "100vh" }} hasSider={hasSider}>
+        <SiderToRender Title={Title} />
+        <AntdLayout>
+          <HeaderToRender />
+          <AntdLayout.Content>
+            <div
+              style={{
+                minHeight: 360,
+                padding: isSmall ? 24 : 12,
+              }}
+            >
+              {children}
+            </div>
+            {OffLayoutArea && <OffLayoutArea />}
+          </AntdLayout.Content>
+          {Footer && <Footer />}
+        </AntdLayout>
       </AntdLayout>
-    </AntdLayout>
+    </ThemedLayoutContextProvider>
   );
 };

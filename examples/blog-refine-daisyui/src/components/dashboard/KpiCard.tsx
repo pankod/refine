@@ -3,7 +3,7 @@ import React from "react";
 type TKpiCardProps = {
   title: string;
   data: any;
-  icon: JSX.Element;
+  icon: React.JSX.Element;
   colors: {
     stroke: string;
     fill: string;

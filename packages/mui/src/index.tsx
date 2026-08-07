@@ -1,6 +1,3 @@
-/** @deprecated not exists anymore - this type exists as a fallback for existing usages */
-export type ThemeInput = any;
-
 /** Notistack */
 /**
  * Part of the following typing and documentation is from material-ui/src/Snackbar/Snackbar.d.ts

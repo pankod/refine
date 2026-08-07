@@ -1,18 +1,18 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
 import { render, act, TestWrapper } from "@test";
 import { ShowInferencer, renderer } from "../show";
 
-xdescribe("AntdShowInferencer", () => {
+describe("AntdShowInferencer", () => {
   it("should match the snapshot", async () => {
     const Wrapper = TestWrapper({
       routerInitialEntries: ["/posts/show/11"],
       resources: [
         {
           name: "posts",
-          list: () => <div>list</div>,
-          show: ShowInferencer,
+          list: "/posts",
+          show: "/posts/show/:id",
         },
         {
           name: "categories",

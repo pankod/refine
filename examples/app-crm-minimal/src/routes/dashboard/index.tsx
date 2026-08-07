@@ -13,7 +13,11 @@ import {
 import { DASHBOARD_TOTAL_COUNTS_QUERY } from "./queries";
 
 export const DashboardPage = () => {
-  const { data, isLoading } = useCustom<DashboardTotalCountsQuery>({
+  const {
+    query: { isLoading },
+
+    result: data,
+  } = useCustom<DashboardTotalCountsQuery>({
     url: "",
     method: "get",
     meta: { gqlQuery: DASHBOARD_TOTAL_COUNTS_QUERY },

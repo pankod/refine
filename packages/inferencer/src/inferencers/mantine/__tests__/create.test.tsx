@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
 import { render, act, TestWrapper } from "@test";
 import { CreateInferencer, renderer } from "../create";
@@ -11,8 +11,8 @@ describe("MantineCreateInferencer", () => {
       resources: [
         {
           name: "posts",
-          list: () => <div>list</div>,
-          create: CreateInferencer,
+          list: "/posts",
+          create: "/posts/create",
         },
         {
           name: "categories",

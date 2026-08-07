@@ -4,7 +4,7 @@ nock("https://api.nestjs-query.refine.dev:443", { encodedQueryParams: true })
   .post("/graphql", {
     operationName: "CreateManyBlogPosts",
     query:
-      "mutation CreateManyBlogPosts($input: CreateManyBlogPostsInput!) {\n  createManyBlogPosts(input: $input) {\n    id\n    title\n    content\n    category {\n      id\n    }\n  }\n}",
+      "\n  mutation CreateManyBlogPosts(\n    $input: CreateManyBlogPostsInput!\n  ) {\n    createManyBlogPosts(input: $input) {\n        id\n        title\n        content\n        category {\n            id\n        }\n    }\n  }\n",
     variables: {
       input: {
         blogPosts: [
@@ -19,8 +19,8 @@ nock("https://api.nestjs-query.refine.dev:443", { encodedQueryParams: true })
     {
       data: {
         createManyBlogPosts: [
-          { id: "501", title: "foo1", content: "bar1", category: { id: "1" } },
-          { id: "502", title: "foo2", content: "bar2", category: { id: "2" } },
+          { id: "505", title: "foo1", content: "bar1", category: { id: "1" } },
+          { id: "506", title: "foo2", content: "bar2", category: { id: "2" } },
         ],
       },
     },
@@ -28,10 +28,10 @@ nock("https://api.nestjs-query.refine.dev:443", { encodedQueryParams: true })
       "access-control-allow-origin": "*",
       "cache-control": "no-store",
       connection: "keep-alive",
-      "content-length": "170",
+      "content-length": "169",
       "content-type": "application/graphql-response+json; charset=utf-8",
-      date: "Thu, 26 Sep 2024 12:24:48 GMT",
-      etag: 'W/"aa-gQK/S0twncVKhGZ9SZ2sK0O9fZ4"',
+      date: "Tue, 03 Dec 2024 11:40:16 GMT",
+      etag: 'W/"a9-W9IwWmaqsrSR9pGwGCGez3wiqqs"',
       "strict-transport-security": "max-age=15724800; includeSubDomains",
       "x-powered-by": "Express",
     },

@@ -1,8 +1,12 @@
-import type { RefinePackageInstalledVersionData } from "@definitions/package";
+import type { RefinePackageInstalledVersionData } from "../../definitions/package";
 import chalk from "chalk";
 import center from "center-align";
-import { getDependencies, getPreferedPM, getScripts } from "@utils/package";
-import { getVersionTable } from "@components/version-table";
+import {
+  getDependencies,
+  getPreferedPM,
+  getScripts,
+} from "../../utils/package";
+import { getVersionTable } from "../version-table";
 
 export interface UpdateWarningTableParams {
   data: RefinePackageInstalledVersionData[];

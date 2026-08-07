@@ -4,10 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { AccessControlContextProvider } from "@contexts/accessControl";
 import { AuditLogContextProvider } from "@contexts/auditLog";
-import {
-  AuthBindingsContextProvider,
-  LegacyAuthContextProvider,
-} from "@contexts/auth";
+import { AuthProviderContextProvider } from "@contexts/auth";
 import { DataContextProvider } from "@contexts/data";
 import { I18nContextProvider } from "@contexts/i18n";
 import { LiveContextProvider } from "@contexts/live";
@@ -16,36 +13,22 @@ import { RefineContextProvider } from "@contexts/refine";
 import type { IRefineContextProvider } from "@contexts/refine/types";
 import { ResourceContextProvider } from "@contexts/resource";
 import { RouterContextProvider } from "@contexts/router";
-import { LegacyRouterContextProvider } from "@contexts/router/legacy";
-import { RouterPickerProvider } from "@contexts/router/picker";
 import { UndoableQueueContextProvider } from "@contexts/undoableQueue";
 
 import type { AccessControlProvider } from "../src/contexts/accessControl/types";
 import type { AuditLogProvider } from "../src/contexts/auditLog/types";
-import type {
-  AuthProvider,
-  ILegacyAuthContext,
-} from "../src/contexts/auth/types";
+import type { AuthProvider } from "../src/contexts/auth/types";
 import type { DataProvider, DataProviders } from "../src/contexts/data/types";
 import type { I18nProvider } from "../src/contexts/i18n/types";
 import type { LiveProvider } from "../src/contexts/live/types";
 import type { NotificationProvider } from "../src/contexts/notification/types";
 import type { IResourceItem } from "../src/contexts/resource/types";
-import type { LegacyRouterProvider } from "../src/contexts/router/legacy/types";
 import type { RouterProvider } from "../src/contexts/router/types";
 
 export const queryClient = new QueryClient({
-  logger: {
-    log: console.log,
-    warn: console.warn,
-    // ✅ no more errors on the console
-    error: () => {
-      return {};
-    },
-  },
   defaultOptions: {
     queries: {
-      cacheTime: 0,
+      gcTime: 0,
       retry: 0,
     },
   },
@@ -56,7 +39,6 @@ beforeEach(() => {
 });
 
 export interface ITestWrapperProps {
-  legacyAuthProvider?: ILegacyAuthContext;
   authProvider?: AuthProvider;
   dataProvider?: DataProvider | DataProviders;
   i18nProvider?: I18nProvider;
@@ -65,7 +47,6 @@ export interface ITestWrapperProps {
   liveProvider?: LiveProvider;
   resources?: IResourceItem[];
   children?: React.ReactNode;
-  legacyRouterProvider?: LegacyRouterProvider;
   routerProvider?: RouterProvider;
   refineProvider?: IRefineContextProvider;
   auditLogProvider?: Partial<AuditLogProvider>;
@@ -74,51 +55,33 @@ export interface ITestWrapperProps {
 export const TestWrapper: (
   props: ITestWrapperProps,
 ) => React.FC<{ children: ReactNode }> = ({
-  legacyAuthProvider,
   authProvider,
   dataProvider,
   resources,
   i18nProvider,
   notificationProvider,
   accessControlProvider,
-  legacyRouterProvider,
   routerProvider,
   refineProvider,
   liveProvider,
   auditLogProvider,
 }) => {
   return ({ children }): React.ReactElement => {
-    const withRouterPicker = (
-      <RouterPickerProvider
-        value={routerProvider ? "new" : legacyRouterProvider ? "legacy" : "new"}
-      >
-        {children}
-      </RouterPickerProvider>
-    );
-
-    const withLegacyRouter = legacyRouterProvider ? (
-      <LegacyRouterContextProvider {...legacyRouterProvider}>
-        {withRouterPicker}
-      </LegacyRouterContextProvider>
-    ) : (
-      withRouterPicker
-    );
-
     const withRouter = routerProvider ? (
       <RouterContextProvider router={routerProvider}>
-        {withLegacyRouter}
+        {children}
       </RouterContextProvider>
     ) : (
-      withLegacyRouter
+      children
     );
 
     const withResource = resources ? (
       <ResourceContextProvider
         resources={resources.map((r) => ({
           ...r,
-          options: {
-            ...r.options,
-            route: r.options?.route ?? r.route,
+          meta: {
+            ...r.meta,
+            route: r.meta?.route,
           },
         }))}
       >
@@ -181,26 +144,15 @@ export const TestWrapper: (
       </UndoableQueueContextProvider>
     );
 
-    const withLegacyAuth = legacyAuthProvider ? (
-      <LegacyAuthContextProvider
-        {...legacyAuthProvider}
-        isProvided={Boolean(legacyAuthProvider)}
-      >
-        {withNotification}
-      </LegacyAuthContextProvider>
-    ) : (
-      withNotification
-    );
-
     const withAuth = authProvider ? (
-      <AuthBindingsContextProvider
+      <AuthProviderContextProvider
         {...authProvider}
         isProvided={Boolean(authProvider)}
       >
-        {withLegacyAuth}
-      </AuthBindingsContextProvider>
+        {withNotification}
+      </AuthProviderContextProvider>
     ) : (
-      withLegacyAuth
+      withNotification
     );
 
     const withRefine = refineProvider ? (
@@ -221,13 +173,14 @@ export const TestWrapper: (
 
 export {
   MockJSONServer,
-  mockLegacyRouterProvider,
   mockRouterProvider,
   MockAccessControlProvider,
   MockLiveProvider,
-  mockLegacyAuthProvider,
   mockAuthProvider,
 } from "./dataMocks";
 
 // re-export everything
 export * from "@testing-library/react";
+
+// Export the proper act function from React instead of react-dom/test-utils
+export { act } from "react";

@@ -7,7 +7,11 @@ export const dataProvider = (
 ): Required<DataProvider> => {
   return {
     getList: async ({ resource, pagination, filters, sorters, meta }) => {
-      const { current = 1, pageSize = 10, mode = "server" } = pagination ?? {};
+      const {
+        currentPage = 1,
+        pageSize = 10,
+        mode = "server",
+      } = pagination ?? {};
 
       const client = meta?.schema
         ? supabaseClient.schema(meta.schema)
@@ -18,7 +22,7 @@ export const dataProvider = (
       });
 
       if (mode === "server") {
-        query.range((current - 1) * pageSize, current * pageSize - 1);
+        query.range((currentPage - 1) * pageSize, currentPage * pageSize - 1);
       }
 
       sorters?.map((item) => {

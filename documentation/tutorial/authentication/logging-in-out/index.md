@@ -118,7 +118,10 @@ import { useLogin } from "@refinedev/core";
 
 export const Login = () => {
   // highlight-next-line
-  const { mutate, isLoading } = useLogin();
+  const {
+    mutate,
+    mutation: { isPending },
+  } = useLogin();
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -151,8 +154,8 @@ export const Login = () => {
           defaultValue="demodemo"
         />
 
-        {isLoading && <span>loading...</span>}
-        <button type="submit" disabled={isLoading}>
+        {isPending && <span>loading...</span>}
+        <button type="submit" disabled={isPending}>
           Submit
         </button>
       </form>
@@ -272,14 +275,17 @@ import { useLogout } from "@refinedev/core";
 
 export const Header = () => {
   // highlight-next-line
-  const { mutate, isLoading } = useLogout();
+  const {
+    mutate,
+    mutation: { isPending },
+  } = useLogout();
 
   return (
     <>
       <h2>Welcome!</h2>
       <button
         type="button"
-        disabled={isLoading}
+        disabled={isPending}
         // highlight-next-line
         onClick={mutate}
       >

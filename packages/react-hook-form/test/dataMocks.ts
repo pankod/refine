@@ -2,9 +2,9 @@ import type {
   ParsedParams,
   IResourceItem,
   Action,
-  RouterBindings,
+  RouterProvider,
 } from "@refinedev/core";
-import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
+import { useParams, useLocation, Link, useNavigate } from "react-router";
 
 export const posts = [
   {
@@ -84,7 +84,7 @@ export const MockRouterProvider = {
   Prompt: () => null,
 };
 
-export const mockRouterBindings = ({
+export const mockRouterProvider = ({
   pathname,
   params,
   resource,
@@ -97,9 +97,9 @@ export const mockRouterBindings = ({
   resource?: IResourceItem;
   action?: Action;
   id?: string;
-  fns?: Partial<RouterBindings>;
-} = {}): RouterBindings => {
-  const bindings: RouterBindings = {
+  fns?: Partial<RouterProvider>;
+} = {}): RouterProvider => {
+  const bindings: RouterProvider = {
     go: () => {
       return ({ type }) => {
         if (type === "path") return "";

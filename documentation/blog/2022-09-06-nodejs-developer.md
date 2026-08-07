@@ -3,8 +3,9 @@ title: How to become a modern Node.js developer?
 description: The most essential skills to have as a modern Node.js developer
 slug: node-js-developer-skills
 authors: david_herbert
-tags: [community, javascript]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-09-06-nodejs-developer/social.png
+category: "Engineering"
+tags: [javascript, backend]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-09-06-nodejs-developer/social.png
 hide_table_of_contents: false
 ---
 
@@ -17,17 +18,6 @@ The Node.js framework is used by some of the world's largest companies to build 
 In this article, we'll delve into the essential key competencies that a Node Js developer needs to succeed and function effectively in today's modern software development landscape.
 
 <!--truncate-->
-
-Steps we'll cover:
-
-- [Understanding of JavaScript ES6](#understanding-of-javascript-es6)
-- [Understanding of Node's Async Nature (Promises and Callbacks)](#understanding-of-nodes-async-nature-promises-and-callbacks)
-- [Understanding of Event-Driven Programming in Node](#understanding-of-event-driven-programming-in-node)
-- [Experience with Express Framework](#experience-with-express-framework)
-- [Understanding of Middlewares](#understanding-of-middlewares)
-- [Version Control Tools and Package management](#version-control-tools-and-package-management)
-- [Database Management](#database-management)
-- [Security](#security)
 
 ## Understanding of JavaScript ES6
 
@@ -77,7 +67,7 @@ Therefore, having a proper understanding of Middlewares will allow you to write 
 <br/>
 <div>
 <a href="https://discord.gg/refine">
-  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="discord banner" />
+  <img  src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/discord_big_blue.png" alt="Join Refine on Discord banner" />
 </a>
 </div>
 

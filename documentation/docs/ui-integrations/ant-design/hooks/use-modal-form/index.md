@@ -1,5 +1,8 @@
 ---
-title: useModalForm
+title: "useModalForm Hook | Options, Patterns & Edge Cases in Refine v5"
+display_title: "useModalForm"
+sidebar_label: "useModalForm"
+description: "Explore how to use the useModalForm hook in Refine v5. Learn integrate data for polished admin UIs. Hands-on examples included."
 ---
 
 The `useModalForm` hook allows you to manage a form within a [`<Modal>`][antd-modal]. It returns Ant Design [`<Form>`][antd-form] and [Modal][antd-modal] components props.
@@ -118,16 +121,31 @@ interface IPost {
 }
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
-
-render(<RefineAntdDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 </TabItem>
@@ -238,16 +256,31 @@ interface IPost {
 }
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
-
-render(<RefineAntdDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 Refine doesn't automatically add a `<EditButton/>` to the each record in `<PostList>` which opens the edit form in `<Modal>` when clicked.
@@ -372,16 +405,31 @@ interface IPost {
 }
 // visible-block-end
 
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
-
-render(<RefineAntdDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 Refine doesn't automatically add a `<CloneButton/>` to the each record in `<PostList>` which opens clone form in `<Modal>` when clicked.
@@ -405,7 +453,7 @@ Don't forget to pass the record id to `show` to fetch the record data. This is n
 
 ## Properties
 
-All [`useForm`][antd-use-form] props are also available in `useModalForm`. You can find descriptions on the [`useForm` documentation](/docs/ui-integrations/ant-design/hooks/use-form#properties).
+All [`useForm`][antd-use-form] props are also available in `useModalForm`. You can find descriptions on the [`useForm` documentation](/core/docs/ui-integrations/ant-design/hooks/use-form#properties).
 
 ### syncWithLocation
 
@@ -475,11 +523,21 @@ const modalForm = useModalForm({
 });
 ```
 
+### autoResetFormWhenClose
+
+`autoResetFormWhenClose` will reset the form when modal closes. It is `true` by default.
+
+```tsx
+const modalForm = useModalForm({
+  autoResetFormWhenClose: false,
+});
+```
+
 ### warnWhenUnsavedChanges
 
 When set to true, `warnWhenUnsavedChanges` shows a warning when the user tries to leave the page with unsaved changes. It is used to prevent the user from accidentally leaving the page. It is `false` by default
 
-You can also set this value in [`<Refine>`](/docs/core/refine-component#warnwhenunsavedchanges) component.
+You can also set this value in [`<Refine>`](/core/docs/core/refine-component#warnwhenunsavedchanges) component.
 
 ```tsx
 const modalForm = useModalForm({
@@ -601,13 +659,13 @@ useModalForm({
 
 ## Return Values
 
-`useModalForm` returns the same values from [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form#return-values) and additional values to work with [`<Modal>`][antd-modal] components.
+`useModalForm` returns the same values from [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form#return-values) and additional values to work with [`<Modal>`][antd-modal] components.
 
 ### formProps
 
 It's required to manage `<Form>` state and actions. Under the hood the `formProps` came from [`useForm`][antd-use-form].
 
-It contains the props to manage the [Antd `<Form>`](https://ant.design/components/form#api) components such as [`onValuesChange`, `initialValues`, `onFieldsChange`, `onFinish` etc.](/docs/ui-integrations/ant-design/hooks/use-form#return-values)
+It contains the props to manage the [Antd `<Form>`](https://ant.design/components/form#api) components such as [`onValuesChange`, `initialValues`, `onFieldsChange`, `onFinish` etc.](/core/docs/ui-integrations/ant-design/hooks/use-form#return-values)
 
 :::note Difference between `onFinish` and `formProps.onFinish`
 
@@ -654,10 +712,6 @@ A function that can submit the `<Form>` inside `<Modal>`. It's useful when you w
 > Same as `close`
 
 A function that can close the `<Modal>`. It's useful when you want to close the modal manually.
-
-#### ~~visible~~ <PropTag deprecated />
-
-Please use `open` instead.
 
 ### open
 
@@ -843,7 +897,7 @@ export const UserCreate: React.FC = () => {
 
 <PropsTable module="@refinedev/antd/useModalForm"/>
 
-> `*`: These props have default values in `RefineContext` and can also be set on **<[Refine](/docs/core/refine-component)>** component. `useModalForm` will use what is passed to `<Refine>` as default but a local value will override it.
+> `*`: These props have default values in `RefineContext` and can also be set on **<[Refine](/core/docs/core/refine-component/)>** component. `useModalForm` will use what is passed to `<Refine>` as default but a local value will override it.
 
 > `**`: If not explicitly configured, default value of `redirect` depends on which `action` used. If `action` is `create`, `redirect`s default value is `edit` (created resources edit page). If `action` is `edit` instead, `redirect`s default value is `list`.
 
@@ -860,33 +914,33 @@ export const UserCreate: React.FC = () => {
 
 ### Return Value
 
-| Key                      | Description                                                                                                    | Type                                                                                                                                                       |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| show                     | A function that can open the modal                                                                             | `(id?: BaseKey) => void`                                                                                                                                   |
-| formProps                | [Props needed to manage form component](/docs/ui-integrations/ant-design/hooks/use-modal-form#formprops)       | [`FormProps`](https://ant.design/components/form/#Form)                                                                                                    |
-| modalProps               | [Props for needed to manage modal component](/docs/ui-integrations/ant-design/hooks/use-modal-form#modalprops) | [`ModalProps`](https://ant.design/components/modal/#API)                                                                                                   |
-| formLoading              | Loading status of form                                                                                         | `boolean`                                                                                                                                                  |
-| submit                   | Submit method, the parameter is the value of the form fields                                                   | `() => void`                                                                                                                                               |
-| open                     | Whether the modal dialog is open or not                                                                        | `boolean`                                                                                                                                                  |
-| close                    | Specify a function that can close the modal                                                                    | `() => void`                                                                                                                                               |
-| defaultFormValuesLoading | DefaultFormValues loading status of form                                                                       | `boolean`                                                                                                                                                  |
-| form                     | Ant Design form instance                                                                                       | [`FormInstance<TVariables>`](https://ant.design/components/form/#FormInstance)                                                                             |
-| id                       | Record id for edit action                                                                                      | [`BaseKey`][basekey] \| `undefined`                                                                                                                        |
-| setId                    | `id` setter                                                                                                    | `Dispatch<SetStateAction<` [`BaseKey`][basekey] \| `undefined>>`                                                                                           |
-| queryResult              | Result of the query of a record                                                                                | [`QueryObserverResult<{ data: TData }>`](https://react-query.tanstack.com/reference/useQuery)                                                              |
-| mutation                 | Result of the mutation triggered by submitting the form                                                        | [`UseMutationResult<{ data: TData }, TError, { resource: string; values: TVariables; }, unknown>`](https://react-query.tanstack.com/reference/useMutation) |
-| overtime                 | Overtime loading props                                                                                         | `{ elapsedTime?: number }`                                                                                                                                 |
-| autoSaveProps            | Auto save props                                                                                                | `{ data: UpdateResponse<TData>` \| `undefined, error: HttpError` \| `null, status: "loading"` \| `"error"` \| `"idle"` \| `"success" }`                    |
-| defaultFormValuesLoading | DefaultFormValues loading status of form                                                                       | `boolean`                                                                                                                                                  |
+| Key                      | Description                                                                                                         | Type                                                                                                                                                       |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| show                     | A function that can open the modal                                                                                  | `(id?: BaseKey) => void`                                                                                                                                   |
+| formProps                | [Props needed to manage form component](/core/docs/ui-integrations/ant-design/hooks/use-modal-form#formprops)       | [`FormProps`](https://ant.design/components/form/#Form)                                                                                                    |
+| modalProps               | [Props for needed to manage modal component](/core/docs/ui-integrations/ant-design/hooks/use-modal-form#modalprops) | [`ModalProps`](https://ant.design/components/modal/#API)                                                                                                   |
+| formLoading              | Loading status of form                                                                                              | `boolean`                                                                                                                                                  |
+| submit                   | Submit method, the parameter is the value of the form fields                                                        | `() => void`                                                                                                                                               |
+| open                     | Whether the modal dialog is open or not                                                                             | `boolean`                                                                                                                                                  |
+| close                    | Specify a function that can close the modal                                                                         | `() => void`                                                                                                                                               |
+| defaultFormValuesLoading | DefaultFormValues loading status of form                                                                            | `boolean`                                                                                                                                                  |
+| form                     | Ant Design form instance                                                                                            | [`FormInstance<TVariables>`](https://ant.design/components/form/#FormInstance)                                                                             |
+| id                       | Record id for edit action                                                                                           | [`BaseKey`][basekey] \| `undefined`                                                                                                                        |
+| setId                    | `id` setter                                                                                                         | `Dispatch<SetStateAction<` [`BaseKey`][basekey] \| `undefined>>`                                                                                           |
+| query                    | Result of the query of a record                                                                                     | [`QueryObserverResult<{ data: TData }>`](https://react-query.tanstack.com/reference/useQuery)                                                              |
+| mutation                 | Result of the mutation triggered by submitting the form                                                             | [`UseMutationResult<{ data: TData }, TError, { resource: string; values: TVariables; }, unknown>`](https://react-query.tanstack.com/reference/useMutation) |
+| overtime                 | Overtime loading props                                                                                              | `{ elapsedTime?: number }`                                                                                                                                 |
+| autoSaveProps            | Auto save props                                                                                                     | `{ data: UpdateResponse<TData>` \| `undefined, error: HttpError` \| `null, status: "loading"` \| `"error"` \| `"idle"` \| `"success" }`                    |
+| defaultFormValuesLoading | DefaultFormValues loading status of form                                                                            | `boolean`                                                                                                                                                  |
 
 ## Example
 
 <CodeSandboxExample path="form-antd-use-modal-form" />
 
-[@refinedev/antd]: https://github.com/refinedev/refine/tree/master/packages/antd
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
-[basekey]: /docs/core/interface-references#basekey
-[antd-use-form]: /docs/ui-integrations/ant-design/hooks/use-form
+[@refinedev/antd]: https://github.com/refinedev/refine/tree/main/packages/antd
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror
+[basekey]: /core/docs/core/interface-references#basekey
+[antd-use-form]: /core/docs/ui-integrations/ant-design/hooks/use-form
 [antd-modal]: https://ant.design/components/modal/
 [antd-form]: https://ant.design/components/form/

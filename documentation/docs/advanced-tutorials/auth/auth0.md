@@ -1,6 +1,8 @@
 ---
 id: auth0
-title: Auth0 Login
+title: "Auth0 Integration Guide | Secure Enterprise Authentication in Refine v5"
+display_title: "Auth0 Login"
+description: "Implement Auth0 in Refine v5. Learn the key steps. Explore secure patterns for OIDC, SSO for secure enterprise React apps. Learn with code examples."
 sidebar_label: Auth0 Login
 ---
 
@@ -56,7 +58,7 @@ First, we need to override the **Refine** login page. In this way, we will redir
 
 ```tsx title="/pages/login.tsx"
 import { Layout, Button, Space, Typography } from "antd";
-import { ThemedTitleV2 } from "@refinedev/antd";
+import { ThemedTitle } from "@refinedev/antd";
 // highlight-next-line
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -73,7 +75,7 @@ export const Login: React.FC = () => {
       }}
     >
       <Space direction="vertical" align="center" size="large">
-        <ThemedTitleV2
+        <ThemedTitle
           collapsed={false}
           wrapperStyles={{
             fontSize: "22px",
@@ -97,7 +99,7 @@ export const Login: React.FC = () => {
 
 After clicking the `Login` button, you will be directed to the auth0 login screen.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/auth0/auth0-login-min.gif" className="border border-gray-200 rounded" alt="auth0-login" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/website/static/img/guides-and-concepts/auth0/auth0-login-min.avif" className="border border-zinc-200 rounded" alt="auth0-login" />
 
 ## Auth Provider
 
@@ -110,7 +112,7 @@ In Refine, authentication and authorization processes are performed with the aut
 ```tsx title="App.tsx"
 import { Refine, AuthProvider, Authenticated } from "@refinedev/core";
 import {
-  ThemedLayoutV2,
+  ThemedLayout,
   ReadyPage,
   useNotificationProvider,
   ErrorComponent,
@@ -120,10 +122,10 @@ import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
   NavigateToResource,
   CatchAllNavigate,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { ConfigProvider } from "antd";
 import "@refinedev/antd/dist/reset.css";
@@ -227,9 +229,9 @@ const App = () => {
             <Route
               element={
                 <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >

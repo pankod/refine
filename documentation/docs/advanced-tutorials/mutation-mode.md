@@ -1,6 +1,9 @@
 ---
 id: mutation-mode
-title: Mutation Mode
+title: "Mutation Mode Tutorial | Best Practices in Refine v5"
+display_title: "Mutation Mode"
+sidebar_label: "Mutation Mode"
+description: "Set up Mutation Mode in Refine v5. Learn best practices. Explore production tips for optimistic updates, cache for production-ready workflows."
 ---
 
 ```tsx live shared
@@ -8,13 +11,13 @@ import { Refine } from "@refinedev/core";
 import {
   AuthPage,
   RefineThemes,
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   useNotificationProvider,
 } from "@refinedev/antd";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 import { ConfigProvider } from "antd";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import dataProvider from "@refinedev/simple-rest";
 
 const API_URL = "https://api.fake-rest.refine.dev";
@@ -46,7 +49,7 @@ import {
 } from "antd";
 
 const PostList: React.FC = () => {
-  const { tableProps, sorter } = RefineAntdUseTable<IPost>({
+  const { tableProps } = RefineAntdUseTable<IPost>({
     sorters: {
       initial: [
         {
@@ -59,7 +62,10 @@ const PostList: React.FC = () => {
 
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-  const { data, isLoading } = CoreUseMany<ICategory>({
+  const {
+    result,
+    query: { isLoading },
+  } = CoreUseMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -82,7 +88,7 @@ const PostList: React.FC = () => {
 
             return (
               <RefineAntdTextField
-                value={data?.data.find((item) => item.id === value)?.title}
+                value={result?.data.find((item) => item.id === value)?.title}
               />
             );
           }}
@@ -209,36 +215,39 @@ const PostEdit: React.FC = () => {
 };
 
 const PostShow: React.FC = () => {
-  const { queryResult } = RefineCoreUseShow<IPost>();
-  const { data, isLoading } = queryResult;
-  const record = data?.data;
+  const {
+    result: post,
+    query: { data, isLoading },
+  } = RefineCoreUseShow<IPost>();
 
-  const { data: categoryData, isLoading: categoryIsLoading } =
-    RefineCoreUseOne<ICategory>({
-      resource: "categories",
-      id: record?.category?.id || "",
-      queryOptions: {
-        enabled: !!record,
-      },
-    });
+  const {
+    result: category,
+    query: { isLoading: categoryIsLoading },
+  } = RefineCoreUseOne<ICategory>({
+    resource: "categories",
+    id: post?.category?.id || "",
+    queryOptions: {
+      enabled: !!post,
+    },
+  });
 
   return (
     <RefineAntdShow isLoading={isLoading}>
       <AntdTypography.Title level={5}>Id</AntdTypography.Title>
-      <AntdTypography.Text>{record?.id}</AntdTypography.Text>
+      <AntdTypography.Text>{post?.id}</AntdTypography.Text>
 
       <AntdTypography.Title level={5}>
         AntdTypography.Title
       </AntdTypography.Title>
-      <AntdTypography.Text>{record?.title}</AntdTypography.Text>
+      <AntdTypography.Text>{post?.title}</AntdTypography.Text>
 
       <AntdTypography.Title level={5}>Category</AntdTypography.Title>
       <AntdTypography.Text>
-        {categoryIsLoading ? "Loading..." : categoryData?.data.title}
+        {categoryIsLoading ? "Loading..." : category?.title}
       </AntdTypography.Text>
 
       <AntdTypography.Title level={5}>Content</AntdTypography.Title>
-      <AntdTypography.Text>{record?.content}</AntdTypography.Text>
+      <AntdTypography.Text>{post?.content}</AntdTypography.Text>
     </RefineAntdShow>
   );
 };
@@ -282,9 +291,9 @@ const App = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route index element={<NavigateToResource />} />
@@ -340,9 +349,9 @@ const App = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route index element={<NavigateToResource />} />
@@ -398,9 +407,9 @@ const App = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route index element={<NavigateToResource />} />
@@ -428,7 +437,7 @@ render(<App />);
 
 ## Usage
 
-Mutation mode can be set application-wide in [`<Refine>`](/docs/core/refine-component#mutationmode) component.
+Mutation mode can be set application-wide in [`<Refine>`](/core/docs/core/refine-component#mutationmode) component.
 
 ```tsx title="App.tsx"
 <Refine
@@ -441,7 +450,7 @@ Mutation mode can be set application-wide in [`<Refine>`](/docs/core/refine-comp
 
 <br />
 
-It can also be set in supported [data hooks](/docs/data/hooks/use-update#mutation-mode) and [form hooks](/docs/data/hooks/use-form/#properties) for fine-grained configuration.
+It can also be set in supported [data hooks](/core/docs/data/hooks/use-update#mutation-mode) and [form hooks](/core/docs/data/hooks/use-form/#properties) for fine-grained configuration.
 
 ```tsx
 import { useUpdate } from "@refinedev/core";
@@ -461,10 +470,10 @@ mutate({
 
 ### Supported data hooks
 
-- [`useUpdate` &#8594](/docs/data/hooks/use-update)
-- [`useUpdateMany` &#8594](/docs/data/hooks/use-update)
-- [`useDelete` &#8594](/docs/data/hooks/use-delete)
-- [`useDeleteMany` &#8594](/docs/data/hooks/use-delete)
+- [`useUpdate` &#8594](/core/docs/data/hooks/use-update/)
+- [`useUpdateMany` &#8594](/core/docs/data/hooks/use-update-many/)
+- [`useDelete` &#8594](/core/docs/data/hooks/use-delete/)
+- [`useDeleteMany` &#8594](/core/docs/data/hooks/use-delete-many/)
 
 <br />
 

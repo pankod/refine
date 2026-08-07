@@ -13,6 +13,10 @@ export const PostEdit = () => {
   const { selectProps: categorySelectProps } = useSelect<IPost>({
     resource: "categories",
     defaultValue: queryResult?.data?.data.category.id,
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

@@ -2,7 +2,7 @@ import React from "react";
 
 type TTabPanelProps = {
   isActive: boolean;
-  children: JSX.Element;
+  children: React.JSX.Element;
 };
 
 export const TabPanel = ({ isActive, children }: TTabPanelProps) => {

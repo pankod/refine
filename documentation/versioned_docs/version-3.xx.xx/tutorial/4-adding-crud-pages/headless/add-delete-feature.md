@@ -11,7 +11,7 @@ Let's start by adding the delete feature to the list page by adding a delete but
 
 `useDelete` is a **refine** hook that is used to delete a record. It returns mutation functions that can be used to delete a record. When the mutation function is called, the parameters of the function are passed to the `delete` method of the data provider.
 
-[Refer to the `useDelete` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/)
+[Refer to the `useDelete` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/)
 
 To add a delete feature to the blog posts table, you can follow the steps below:
 
@@ -31,7 +31,7 @@ To add a delete feature to the blog posts table, you can follow the steps below:
    };
    ```
 
-   `deleteBlogPost` mutation takes `id`, `resource` etc. You can check the parameters of the mutation function in the [documentation](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/#properties).
+   `deleteBlogPost` mutation takes `id`, `resource` etc. You can check the parameters of the mutation function in the [documentation](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/#properties).
 
 4. Add the `<button/>` component to the `actions` column of the table as shown below:
 
@@ -90,7 +90,7 @@ Now, you can try to delete a record from the list page. Just click on the delete
 
 You can also use `useDelete` hook provided by **refine** to delete a record.
 
-[Refer to the `useDelete` documentation for more information information &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/)
+[Refer to the `useDelete` documentation for more information information &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useDelete/)
 
 :::
 

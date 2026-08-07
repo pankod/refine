@@ -1,12 +1,15 @@
 ---
-title: Forms
+title: "Forms Guide | Validation in Refine v5"
+display_title: "Forms"
+sidebar_label: "Forms"
+description: "Learn to implement Forms in Refine v5. Explore data and more for real-world React admin panels. Learn with code examples. Fast to follow."
 ---
 
 In almost every user facing application, forms are a necessity. They are the primary way for users to interact with your application and provide data to your backend. They are also one of the most complex parts of an application to build and maintain with many cases and features to consider. Refine's form integration aims to make this process as simple as possible while providing as many real world features as possible out of the box. This guide will cover the basics of forms in Refine and how to use them.
 
 ## Handling Data
 
-`useForm` hook orchestrates Refine's [`useOne`](/docs/data/hooks/use-one), [`useUpdate`](/docs/data/hooks/use-update) and [`useCreate`](/docs/data/hooks/use-create) hooks internally to provide a single interface for form handling.
+`useForm` hook orchestrates Refine's [`useOne`](/core/docs/data/hooks/use-one/), [`useUpdate`](/core/docs/data/hooks/use-update/) and [`useCreate`](/core/docs/data/hooks/use-create/) hooks internally to provide a single interface for form handling.
 
 While editing or cloning a record, `useOne` will be used to fetch the record to provide values for the form. When creating a new record, `useCreate` will be used for the mutation. When updating a record, `useUpdate` will be used for the mutation.
 
@@ -59,7 +62,7 @@ const EditPage = () => {
 };
 ```
 
-[Check out Core's `useForm` reference page to learn more about the usage and see it in action.](/docs/data/hooks/use-form/)
+[Check out Core's `useForm` reference page to learn more about the usage and see it in action.](/core/docs/data/hooks/use-form/)
 
 </TabItem>
 <TabItem value="hook-form" label="React Hook Form" default>
@@ -98,7 +101,7 @@ const EditPage = () => {
 };
 ```
 
-[Check out React Hook Form's `useForm` reference page to learn more about the usage and see it in action.](/docs/packages/list-of-packages)
+[Check out React Hook Form's `useForm` reference page to learn more about the usage and see it in action.](/core/docs/packages/list-of-packages/)
 
 </TabItem>
 <TabItem value="antd" label="Ant Design">
@@ -135,7 +138,7 @@ const EditPage = () => {
 };
 ```
 
-[Check out Ant Design Form's `useForm` reference page to learn more about the usage and see it in action.](/docs/ui-integrations/ant-design/hooks/use-form)
+[Check out Ant Design Form's `useForm` reference page to learn more about the usage and see it in action.](/core/docs/ui-integrations/ant-design/hooks/use-form/)
 
 </TabItem>
 <TabItem value="mantine" label="Mantine">
@@ -184,7 +187,7 @@ const EditPage = () => {
 };
 ```
 
-[Check out Mantine Form's `useForm` reference page to learn more about the usage and see it in action.](/docs/ui-integrations/mantine/hooks/use-form)
+[Check out Mantine Form's `useForm` reference page to learn more about the usage and see it in action.](/core/docs/ui-integrations/mantine/hooks/use-form/)
 
 </TabItem>
 <TabItem value="material-ui" label={(<span><span className="block">Material UI</span><small className="block">React Hook Form</small></span>)}>
@@ -232,7 +235,7 @@ const EditPage = () => {
 };
 ```
 
-[Check out React Hook Form's `useForm` reference page to learn more about the usage and see it in action.](/docs/packages/list-of-packages)
+[Check out React Hook Form's `useForm` reference page to learn more about the usage and see it in action.](/core/docs/packages/list-of-packages/)
 
 </TabItem>
 <TabItem value="chakra-ui" label={(<span><span className="block">Chakra UI</span><small className="block">React Hook Form</small></span>)}>
@@ -284,7 +287,7 @@ const EditPage = () => {
 };
 ```
 
-[Check out React Hook Form's `useForm` reference page to learn more about the usage and see it in action.](/docs/packages/list-of-packages)
+[Check out React Hook Form's `useForm` reference page to learn more about the usage and see it in action.](/core/docs/packages/list-of-packages/)
 
 </TabItem>
 </Tabs>
@@ -306,11 +309,11 @@ useForm({
 });
 ```
 
-To learn more about the routing, check out the [Routing](/guides-concepts/routing/index.md#router-integrations) guide and the [General Concepts](/guides-concepts/general-concepts/index.md#router-provider) guide to learn more about how it benefits the development experience.
+To learn more about the routing, check out the [Routing](/core/docs/guides-concepts/routing/) guide and the [General Concepts](/core/docs/guides-concepts/general-concepts/) guide to learn more about how it benefits the development experience.
 
 ### Redirection
 
-`useForm` also uses the router integration to redirect the user to the desired page after a successful mutation. By default, it's the list page of the resource but this can be customized by passing a `redirect` prop to the `useForm` hook. If you want to change the redirection behavior for all forms, you can use the `options.redirect` prop of the [`<Refine>` component](/docs/core/refine-component).
+`useForm` also uses the router integration to redirect the user to the desired page after a successful mutation. By default, it's the list page of the resource but this can be customized by passing a `redirect` prop to the `useForm` hook. If you want to change the redirection behavior for all forms, you can use the `options.redirect` prop of the [`<Refine>` component](/core/docs/core/refine-component/).
 
 ```tsx
 import { useForm } from "@refinedev/core";
@@ -322,7 +325,7 @@ useForm({
 
 ### Unsaved Changes <GuideBadge id="guides-concepts/routing/#useform" /> <GlobalConfigBadge id="core/refine-component/#warnwhenunsavedchanges" />
 
-Refine's `useForm` hooks have a built-in feature to prevent the user from losing the unsaved changes via a confirmation dialog when changing the route/leaving the page. To enable this feature, you need to use the [`<UnsavedChangesNotifier />`](/docs/guides-concepts/routing/#useform) components from the router package of the library you are using and set the `warnWhenUnsavedChanges` prop to `true`.
+Refine's `useForm` hooks have a built-in feature to prevent the user from losing the unsaved changes via a confirmation dialog when changing the route/leaving the page. To enable this feature, you need to use the [`<UnsavedChangesNotifier />`](/core/docs/guides-concepts/routing/#useform) components from the router package of the library you are using and set the `warnWhenUnsavedChanges` prop to `true`.
 
 ```tsx
 import { Refine, useForm } from "@refinedev/core";
@@ -332,18 +335,18 @@ useForm({
 });
 ```
 
-##### **Usage of `<UnsavedChangesNotifier />`**
+#### **Usage of `<UnsavedChangesNotifier />`**
 
 <Tabs wrapContent={false}>
-<TabItem value="react-router" label="React Router v6">
+<TabItem value="react-router" label="React Router">
 
 ```tsx title="app.tsx"
 import { Refine } from "@refinedev/core";
 import {
   routerProvider,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes } from "react-router";
 
 const App = () => (
   <BrowserRouter>
@@ -365,7 +368,7 @@ const App = () => (
 );
 ```
 
-Check out the [`UnsavedChangesNotifier` section of the React Router integration documentation](/docs/packages/list-of-packages#unsavedchangesnotifier) for more information.
+Check out the [`UnsavedChangesNotifier` section of the React Router integration documentation](/core/docs/packages/list-of-packages#unsavedchangesnotifier) for more information.
 
 </TabItem>
 <TabItem value="next-js" label="Next.js">
@@ -398,7 +401,7 @@ export default function App({ Component, pageProps }) {
 }
 ```
 
-Check out the [`UnsavedChangesNotifier` section of the React Router integration documentation](/docs/packages/list-of-packages#unsavedchangesnotifier) for more information.
+Check out the [`UnsavedChangesNotifier` section of the React Router integration documentation](/core/docs/packages/list-of-packages#unsavedchangesnotifier) for more information.
 
 </TabItem>
 <TabItem value="remix" label="Remix">
@@ -451,7 +454,7 @@ export default function App() {
 }
 ```
 
-Check out the [`UnsavedChangesNotifier` section of the React Router integration documentation](/docs/packages/list-of-packages#unsavedchangesnotifier) for more information.
+Check out the [`UnsavedChangesNotifier` section of the React Router integration documentation](/core/docs/packages/list-of-packages#unsavedchangesnotifier) for more information.
 
 </TabItem>
 </Tabs>
@@ -474,16 +477,16 @@ Used for cloning an existing record. This action mode requires an `id` prop to b
 
 ## Relationships <GuideBadge id="guides-concepts/data-fetching/#relationships" />
 
-Refine handles [data relations](/docs/guides-concepts/data-fetching/#relationships) with data hooks(eg: `useOne`, `useMany`, etc.). This compositional design allows you to easily display other resources' data in your components.
+Refine handles [data relations](/core/docs/guides-concepts/data-fetching/#relationships) with data hooks(eg: `useOne`, `useMany`, etc.). This compositional design allows you to easily display other resources' data in your components.
 
-However, when it comes to forms, we may want to add fields that are related to other resources. For instance, you may want to add a `category` field to the `products` resource. This field will be a select input that will display the categories fetched from the `categories` resource. Refine offers [`useSelect`](/docs/core/hooks/use-select) hook to easily manage select (like a [Html `<select>` tag](https://www.w3schools.com/tags/tag_select.asp), [React Select](https://react-select.com/home), etc.) components.
+However, when it comes to forms, we may want to add fields that are related to other resources. For instance, you may want to add a `category` field to the `products` resource. This field will be a select input that will display the categories fetched from the `categories` resource. Refine offers [`useSelect`](/core/docs/data/hooks/use-select/) hook to easily manage select (like a [Html `<select>` tag](https://www.w3schools.com/tags/tag_select.asp), [React Select](https://react-select.com/home), etc.) components.
 
 You can find more information and usage examples on following `useSelect` documentation pages:
 
-- [Headless](/docs/core/hooks/use-select)
-- [Ant Design Select](/docs/ui-integrations/ant-design/hooks/use-select/)
-- [Material UI Autocomplete](/docs/ui-integrations/material-ui/hooks/use-auto-complete/)
-- [Mantine Select](/docs/ui-integrations/mantine/hooks/use-select/)
+- [Headless](/core/docs/data/hooks/use-select/)
+- [Ant Design Select](/core/docs/ui-integrations/ant-design/hooks/use-select/)
+- [Material UI Autocomplete](/core/docs/ui-integrations/material-ui/hooks/use-auto-complete/)
+- [Mantine Select](/core/docs/ui-integrations/mantine/hooks/use-select/)
 
 In the following example, we will add a `category` field to the `products` resource. This field will be a select input populated with categories using the `useSelect` hook.
 
@@ -582,7 +585,7 @@ const { formProps } = useForm({
 });
 ```
 
-If you want to disable the invalidation completely and handle it manually, you can pass `false` to the `invalidates` prop. Then, you can use the [`useInvalidate`](/docs/data/hooks/use-invalidate) hook to invalidate the queries manually based on your conditions.
+If you want to disable the invalidation completely and handle it manually, you can pass `false` to the `invalidates` prop. Then, you can use the [`useInvalidate`](/core/docs/data/hooks/use-invalidate/) hook to invalidate the queries manually based on your conditions.
 
 ```tsx
 import { useInvalidate } from "@refinedev/core";
@@ -680,7 +683,7 @@ const error: HttpError = {
 };
 ```
 
-[Check out `HttpError` interface for more information about the error format.](/docs/core/interface-references#httperror)
+[Check out `HttpError` interface for more information about the error format.](/core/docs/core/interface-references#httperror)
 
 Examples below demonstrates the server-side validation and error propagation:
 
@@ -782,7 +785,7 @@ const { autoSaveProps } = useForm({
 
 ### `<AutoSaveIndicator />`
 
-Refine's core and ui integrations are shipped with an [`<AutoSaveIndicator />`](/docs/core/components/auto-save-indicator) component that can be used to show a visual indicator to the user when the auto save is triggered. The `autoSaveProps` value from the `useForm`'s return value can be passed to the `<AutoSaveIndicator />` to show the auto save status to the user. It will automatically show the loading, success and error states to the user.
+Refine's core and ui integrations are shipped with an [`<AutoSaveIndicator />`](/core/docs/core/components/auto-save-indicator/) component that can be used to show a visual indicator to the user when the auto save is triggered. The `autoSaveProps` value from the `useForm`'s return value can be passed to the `<AutoSaveIndicator />` to show the auto save status to the user. It will automatically show the loading, success and error states to the user.
 
 ```tsx title="edit.tsx"
 import { AutoSaveIndicator } from "@refinedev/core";
@@ -813,7 +816,7 @@ Each of these form implementations have a way to modify the data before submissi
 <Tabs>
 <TabItem value="react-hook-form" label="React Hook Form" default>
 
-To learn more about how to modify the data before submission, check out the [Using `useForm` of `@refinedev/react-hook-form`](/docs/packages/list-of-packages##how-can-i-change-the-form-data-before-submitting-it-to-the-api) reference page.
+To learn more about how to modify the data before submission, check out the [Using `useForm` of `@refinedev/react-hook-form`](/core/docs/packages/list-of-packages##how-can-i-change-the-form-data-before-submitting-it-to-the-api) reference page.
 
 <Tabs>
 <TabItem value="headless" label="Headless">
@@ -916,7 +919,7 @@ export const UserCreate: React.FC = () => {
 };
 ```
 
-Check out the [`<Create />`](/docs/ui-integrations/material-ui/components/basic-views/create#savebuttonprops) component and [`saveButtonProps`](/docs/packages/list-of-packages#savebuttonprops) prop to learn more about their usage.
+Check out the [`<Create />`](/core/docs/ui-integrations/material-ui/components/basic-views/create#savebuttonprops) component and [`saveButtonProps`](/core/docs/packages/list-of-packages#savebuttonprops) prop to learn more about their usage.
 
 </TabItem>
 <TabItem value="chakra-ui" label="With Chakra UI">
@@ -980,7 +983,7 @@ export const UserCreate: React.FC = () => {
 };
 ```
 
-Check out the [`<Create />`](/docs/ui-integrations/chakra-ui/components/basic-views/create#savebuttonprops) component and [`saveButtonProps`](/docs/packages/list-of-packages#savebuttonprops) prop to learn more about their usage.
+Check out the [`<Create />`](/core/docs/ui-integrations/chakra-ui/components/basic-views/create#savebuttonprops) component and [`saveButtonProps`](/core/docs/packages/list-of-packages#savebuttonprops) prop to learn more about their usage.
 
 </TabItem>
 </Tabs>
@@ -988,7 +991,7 @@ Check out the [`<Create />`](/docs/ui-integrations/chakra-ui/components/basic-vi
 </TabItem>
 <TabItem value="antd" label="Ant Design">
 
-To learn more about how to modify the data before submission, check out the [Using `useForm` of `@refinedev/antd`](/docs/ui-integrations/ant-design/hooks/use-form#how-can-i-change-the-form-data-before-submitting-it-to-the-api) reference page.
+To learn more about how to modify the data before submission, check out the [Using `useForm` of `@refinedev/antd`](/core/docs/ui-integrations/ant-design/hooks/use-form#how-can-i-change-the-form-data-before-submitting-it-to-the-api) reference page.
 
 ```tsx title="edit.tsx"
 import { useForm, Create } from "@refinedev/antd";
@@ -1023,7 +1026,7 @@ const EditPage = () => {
 </TabItem>
 <TabItem value="mantine" label="Mantine">
 
-To learn more about how to modify the data before submission, check out the [Using `useForm` of `@refinedev/mantine`](/docs/ui-integrations/mantine/hooks/use-form#how-can-i-change-the-form-data-before-submitting-it-to-the-api) reference page.
+To learn more about how to modify the data before submission, check out the [Using `useForm` of `@refinedev/mantine`](/core/docs/ui-integrations/mantine/hooks/use-form#how-can-i-change-the-form-data-before-submitting-it-to-the-api) reference page.
 
 ```tsx title="edit.tsx"
 import { useForm, Create } from "@refinedev/mantine";

@@ -34,11 +34,13 @@ export const CategoryEdit = () => {
           helperText={(errors as any)?.id?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
           type="number"
           label={translate("categories.fields.id")}
           name="id"
           disabled
+          slotProps={{
+            inputLabel: { shrink: true },
+          }}
         />
         <TextField
           {...register("title", {
@@ -48,10 +50,12 @@ export const CategoryEdit = () => {
           helperText={(errors as any)?.title?.message}
           margin="normal"
           fullWidth
-          InputLabelProps={{ shrink: true }}
           type="text"
           label={translate("categories.fields.title")}
           name="title"
+          slotProps={{
+            inputLabel: { shrink: true },
+          }}
         />
         <Controller
           control={control}

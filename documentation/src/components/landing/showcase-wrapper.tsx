@@ -16,12 +16,6 @@ type HighlightProps = {
   codeClassName?: string;
   overlap?: boolean;
   codePosition: "top" | "bottom" | "left" | "right";
-};
-
-type Props = {
-  className?: string;
-  render: string;
-  highlights?: Array<HighlightProps>;
   dark?: boolean;
 };
 
@@ -35,6 +29,7 @@ const HighlightItem = React.memo(function HighlightBase({
   codeClassName,
   codePosition,
   overlap,
+  dark,
 }: HighlightProps) {
   return (
     <div
@@ -73,6 +68,7 @@ const HighlightItem = React.memo(function HighlightBase({
         key={`${x}-${y}`}
         x={Number(0) - 16}
         y={Number(0) - 16}
+        dark={dark}
         className={clsx(
           "z-[2]",
           "duration-200 ease-in-out transition-opacity",
@@ -197,6 +193,13 @@ const HighlightItem = React.memo(function HighlightBase({
   );
 });
 
+type Props = {
+  className?: string;
+  render: string;
+  highlights?: Array<HighlightProps>;
+  dark?: boolean;
+};
+
 export const ShowcaseWrapper = React.memo(
   function ShowcaseWrapperBase({ className, render, highlights, dark }: Props) {
     const ref = React.useRef<HTMLDivElement>(null);
@@ -265,7 +268,7 @@ export const ShowcaseWrapper = React.memo(
                 )}
               />
               {highlights.map((h) => (
-                <HighlightItem key={`${h.x}-${h.y}`} {...h} />
+                <HighlightItem key={`${h.x}-${h.y}`} {...h} dark={dark} />
               ))}
             </motion.foreignObject>
           )}

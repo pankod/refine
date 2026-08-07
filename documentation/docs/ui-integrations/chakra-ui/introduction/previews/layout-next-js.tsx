@@ -7,14 +7,14 @@ export default function LayoutNextjs() {
       showNavigator
       hidePreview
       dependencies={{
-        "@refinedev/chakra-ui": "^2.26.17",
+        "@refinedev/chakra-ui": "latest",
         "@tabler/icons-react": "^3.1.0",
-        "@refinedev/core": "^4.45.1",
-        "@refinedev/react-router-v6": "^4.5.4",
-        "@refinedev/simple-rest": "^4.5.4",
-        "@refinedev/react-table": "^5.6.4",
+        "@refinedev/core": "latest",
+        "@refinedev/react-router": "latest",
+        "@refinedev/simple-rest": "latest",
+        "@refinedev/react-table": "latest",
         "@tanstack/react-table": "^8.2.6",
-        "@refinedev/react-hook-form": "^4.8.12",
+        "@refinedev/react-hook-form": "latest",
         "@chakra-ui/react": "^2.5.1",
         "@refinedev/nextjs-router": "latest",
       }}
@@ -42,7 +42,7 @@ import routerProvider from "@refinedev/nextjs-router/pages";
 import dataProvider from "@refinedev/simple-rest";
 import type { AppProps } from "next/app";
 
-import { RefineThemes, ThemedLayoutV2, notificationProvider } from "@refinedev/chakra-ui";
+import { RefineThemes, ThemedLayout, notificationProvider } from "@refinedev/chakra-ui";
 import { ChakraProvider } from "@chakra-ui/react";
 
 function App({ Component, pageProps }: AppProps) {
@@ -59,9 +59,9 @@ function App({ Component, pageProps }: AppProps) {
                   },
               ]}
           >
-            <ThemedLayoutV2>
+            <ThemedLayout>
               <Component {...pageProps} />
-            </ThemedLayoutV2>
+            </ThemedLayout>
           </Refine>
         </ChakraProvider>
     );
@@ -120,24 +120,24 @@ export default function ProductList() {
     );
 
     const {
-        getHeaderGroups,
-        getRowModel,
-        setOptions,
+        reactTable: { getHeaderGroups, getRowModel, setOptions },
         refineCore: {
-            setCurrent,
+            setCurrentPage,
             pageCount,
-            current,
+            currentPage,
             tableQuery: { data: tableData },
         },
     } = useTable({
         columns,
         refineCoreProps: {
-            initialSorter: [
-                {
-                    field: "id",
-                    order: "desc",
-                },
-            ],
+            sorters: {
+              initial: [
+                  {
+                      field: "id",
+                      order: "desc",
+                  },
+              ],
+            },
         },
     });
 
@@ -179,9 +179,9 @@ export default function ProductList() {
                 </Table>
             </TableContainer>
             <Pagination
-                current={current}
+                currentPage={currentPage}
                 pageCount={pageCount}
-                setCurrent={setCurrent}
+                setCurrentPage={setCurrentPage}
             />
         </List>
     );

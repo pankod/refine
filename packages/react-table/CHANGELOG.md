@@ -1,5 +1,80 @@
 # @refinedev/react-table
 
+## 6.0.1
+
+### Patch Changes
+
+- [#7086](https://github.com/refinedev/refine/pull/7086) [`5c57073cf7584a7ca28ad7e78dc25a16c72e83d3`](https://github.com/refinedev/refine/commit/5c57073cf7584a7ca28ad7e78dc25a16c72e83d3) Thanks [@BatuhanW](https://github.com/BatuhanW)! - feat: disable minify
+
+  Resolves #6417
+
+## 6.0.0
+
+### Major Changes
+
+- [#6945](https://github.com/refinedev/refine/pull/6945) [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: upgrade React Table integration for Refine 5.0
+
+  - Removed deprecated API usage and updated test infrastructure for Refine 5 compatibility.
+
+  > 🚨 Breaking changes require migration - check our guide at https://refine.dev/docs/migration-guide/4x-to-5x/
+
+### Patch Changes
+
+- Updated dependencies [[`807099eecb4e8d41b1cf9ab557d71d34d12bec35`](https://github.com/refinedev/refine/commit/807099eecb4e8d41b1cf9ab557d71d34d12bec35), [`44a8c7663c42a2aa91074c33294e9d6a88d9ba98`](https://github.com/refinedev/refine/commit/44a8c7663c42a2aa91074c33294e9d6a88d9ba98)]:
+  - @refinedev/core@5.0.0
+
+## 5.6.17
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- fix: get always latest `columns` from `table ref` when `columnFilters` or `filters` are changed.
+
+## 5.6.16
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6823](https://github.com/refinedev/refine/pull/6823) [`8a17ea50ce615b3213832bd66d01c946351621ea`](https://github.com/refinedev/refine/commit/8a17ea50ce615b3213832bd66d01c946351621ea) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - fix: get always latest `columns` from `table ref` when `columnFilters` or `filters` are changed.
+
+## 5.6.15
+
+### Patch Changes
+
+📢 **Refine Community Release** 📢
+
+- fix(react-table): add equality checks before setting filters and sorters
+
+  When setting the filters and sorters received from the `useTable` of `@tanstack/react-table` to Refine's table state, it was causing unnecessary updates. Those updates sometimes caused queries to stuck in loading state. Adding deep equality checks before setting the filters and sorters solves the issue.
+
+  [Resolves #6265](https://github.com/refinedev/refine/issues/6265)
+
+📢 **Refine Community Release** 📢
+
+- feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
+## 5.6.14
+
+### Patch Changes
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6501](https://github.com/refinedev/refine/pull/6501) [`1ba8a85d7c5feaa144260228c890c064834a9d63`](https://github.com/refinedev/refine/commit/1ba8a85d7c5feaa144260228c890c064834a9d63) Thanks [@taiseiiiii](https://github.com/taiseiiiii)! - fix(react-table): add equality checks before setting filters and sorters
+
+  When setting the filters and sorters received from the `useTable` of `@tanstack/react-table` to Refine's table state, it was causing unnecessary updates. Those updates sometimes caused queries to stuck in loading state. Adding deep equality checks before setting the filters and sorters solves the issue.
+
+  [Resolves #6265](https://github.com/refinedev/refine/issues/6265)
+
+⚡ **Refine Enterprise Release** ⚡
+
+- [#6556](https://github.com/refinedev/refine/pull/6556) [`1ced1baa1dda3251b2a3d058a9168533126efb53`](https://github.com/refinedev/refine/commit/1ced1baa1dda3251b2a3d058a9168533126efb53) Thanks [@alicanerdurmaz](https://github.com/alicanerdurmaz)! - feat: React Router v7 support added.
+
+  🚨 These packages are not dependent on `react-router`. However, they use the `react-router` package for testing purposes on [Jest](https://jestjs.io/) environment.
+
 ## 5.6.13
 
 ### Patch Changes

@@ -1,19 +1,14 @@
 import type { IResourceItem } from "../../../contexts/resource/types";
-import { pickNotDeprecated } from "../pickNotDeprecated";
 
 /**
  * Returns the parent resource of the given resource.
- * Works both with the deprecated `parentName` and the new `parent` property.
+ * Uses the `resource.meta.parent` property.
  */
 export const getParentResource = (
   resource: IResourceItem,
   resources: IResourceItem[],
 ): IResourceItem | undefined => {
-  const parentName = pickNotDeprecated(
-    resource.meta?.parent,
-    resource.options?.parent,
-    resource.parentName,
-  );
+  const parentName = resource.meta?.parent;
 
   if (!parentName) {
     return undefined;

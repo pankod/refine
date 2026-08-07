@@ -2,11 +2,9 @@ import React from "react";
 import {
   type LoginPageProps,
   type LoginFormTypes,
-  useRouterType,
   useLink,
-  useActiveAuthProvider,
 } from "@refinedev/core";
-import { useLogin, useTranslate, useRouterContext } from "@refinedev/core";
+import { useLogin, useTranslate } from "@refinedev/core";
 import {
   Box,
   Card,
@@ -25,7 +23,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 
-import { ThemedTitleV2 } from "@components";
+import { ThemedTitle } from "@components";
 import { FormContext } from "@contexts/form-context";
 import {
   layoutStyles,
@@ -58,11 +56,7 @@ export const LoginPage: React.FC<LoginProps> = ({
   const { useForm, FormProvider } = FormContext;
   const { onSubmit: onSubmitProp, ...useFormProps } = formProps || {};
   const translate = useTranslate();
-  const routerType = useRouterType();
   const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
-
-  const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
 
   const form = useForm({
     initialValues: {
@@ -81,15 +75,12 @@ export const LoginPage: React.FC<LoginProps> = ({
   });
   const { onSubmit, getInputProps } = form;
 
-  const authProvider = useActiveAuthProvider();
-  const { mutate: login, isLoading } = useLogin<LoginFormTypes>({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate: login, isPending } = useLogin<LoginFormTypes>({});
 
   const PageTitle =
     title === false ? null : (
       <div style={pageTitleStyles}>
-        {title ?? <ThemedTitleV2 collapsed={false} />}
+        {title ?? <ThemedTitle collapsed={false} />}
       </div>
     );
 
@@ -186,11 +177,7 @@ export const LoginPage: React.FC<LoginProps> = ({
                 />
               )}
               {forgotPasswordLink ?? (
-                <Anchor
-                  component={ActiveLink as any}
-                  to="/forgot-password"
-                  size="xs"
-                >
+                <Anchor component={Link as any} to="/forgot-password" size="xs">
                   {translate(
                     "pages.login.buttons.forgotPassword",
                     "Forgot password?",
@@ -203,7 +190,7 @@ export const LoginPage: React.FC<LoginProps> = ({
               fullWidth
               size="md"
               type="submit"
-              loading={isLoading}
+              loading={isPending}
             >
               {translate("pages.login.signin", "Sign in")}
             </Button>
@@ -213,7 +200,7 @@ export const LoginPage: React.FC<LoginProps> = ({
       {registerLink ?? (
         <Text mt="md" size="xs" align="center">
           {translate("pages.login.buttons.noAccount", "Don’t have an account?")}{" "}
-          <Anchor component={ActiveLink as any} to="/register" weight={700}>
+          <Anchor component={Link as any} to="/register" weight={700}>
             {translate("pages.login.signup", "Sign up")}
           </Anchor>
         </Text>

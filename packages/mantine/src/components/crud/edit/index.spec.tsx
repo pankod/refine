@@ -1,9 +1,10 @@
 import React, { type ReactNode } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import type { AccessControlProvider } from "@refinedev/core";
+import { vi } from "vitest";
 
 import {
-  MockLegacyRouterProvider,
+  MockRouterProvider,
   act,
   fireEvent,
   type ITestWrapperProps,
@@ -35,9 +36,34 @@ const renderEdit = (
     </Routes>,
     {
       wrapper: TestWrapper({
-        legacyRouterProvider: MockLegacyRouterProvider,
         routerInitialEntries: ["/posts/edit/1"],
         accessControlProvider,
+        resources: [
+          {
+            name: "posts",
+            list: "/posts",
+            create: "/posts/create",
+            clone: "/posts/clone/:id",
+            show: "/posts/show/:id",
+            edit: "/posts/edit/:id",
+            meta: { canDelete: true },
+          },
+        ],
+        routerProvider: MockRouterProvider({
+          pathname: "/posts/edit/1",
+          params: { id: "1" },
+          action: "edit",
+          id: "1",
+          resource: {
+            name: "posts",
+            list: "/posts",
+            create: "/posts/create",
+            clone: "/posts/clone/1",
+            show: "/posts/show/1",
+            edit: "/posts/edit/1",
+            meta: { canDelete: true },
+          },
+        }),
         ...wrapperOptions,
       }),
     },
@@ -60,7 +86,6 @@ describe("Edit", () => {
       </Routes>,
       {
         wrapper: TestWrapper({
-          legacyRouterProvider: MockLegacyRouterProvider,
           routerInitialEntries: ["/custom"],
         }),
       },
@@ -87,9 +112,27 @@ describe("Edit", () => {
         </Routes>,
         {
           wrapper: TestWrapper({
-            legacyRouterProvider: MockLegacyRouterProvider,
-            resources: [{ name: "posts", canDelete: true }],
+            resources: [
+              {
+                name: "posts",
+                edit: "/posts/edit/:id",
+                meta: { canDelete: true },
+              },
+            ],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: MockRouterProvider({
+              pathname: "/posts/edit/1",
+              params: { id: "1" },
+              action: "edit",
+              id: "1",
+              resource: {
+                name: "posts",
+                list: "/posts",
+                create: "/posts/create",
+                edit: "/posts/edit/1",
+                meta: { canDelete: true },
+              },
+            }),
           }),
         },
       );
@@ -116,9 +159,27 @@ describe("Edit", () => {
         </Routes>,
         {
           wrapper: TestWrapper({
-            legacyRouterProvider: MockLegacyRouterProvider,
-            resources: [{ name: "posts", canDelete: false }],
+            resources: [
+              {
+                name: "posts",
+                edit: "/posts/edit/:id",
+                meta: { canDelete: false },
+              },
+            ],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: MockRouterProvider({
+              pathname: "/posts/edit/1",
+              params: { id: "1" },
+              action: "edit",
+              id: "1",
+              resource: {
+                name: "posts",
+                list: "/posts",
+                create: "/posts/create",
+                edit: "/posts/edit/1",
+                meta: { canDelete: false },
+              },
+            }),
           }),
         },
       );
@@ -147,9 +208,27 @@ describe("Edit", () => {
 
         {
           wrapper: TestWrapper({
-            legacyRouterProvider: MockLegacyRouterProvider,
-            resources: [{ name: "posts", canDelete: true }],
+            resources: [
+              {
+                name: "posts",
+                edit: "/posts/edit/:id",
+                meta: { canDelete: true },
+              },
+            ],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: MockRouterProvider({
+              pathname: "/posts/edit/1",
+              params: { id: "1" },
+              action: "edit",
+              id: "1",
+              resource: {
+                name: "posts",
+                list: "/posts",
+                create: "/posts/create",
+                edit: "/posts/edit/1",
+                meta: { canDelete: true },
+              },
+            }),
           }),
         },
       );
@@ -175,9 +254,27 @@ describe("Edit", () => {
         </Routes>,
         {
           wrapper: TestWrapper({
-            legacyRouterProvider: MockLegacyRouterProvider,
-            resources: [{ name: "posts", canDelete: false }],
+            resources: [
+              {
+                name: "posts",
+                edit: "/posts/edit/:id",
+                meta: { canDelete: false },
+              },
+            ],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: MockRouterProvider({
+              pathname: "/posts/edit/1",
+              params: { id: "1" },
+              action: "edit",
+              id: "1",
+              resource: {
+                name: "posts",
+                list: "/posts",
+                create: "/posts/create",
+                edit: "/posts/edit/1",
+                meta: { canDelete: false },
+              },
+            }),
           }),
         },
       );
@@ -195,9 +292,21 @@ describe("Edit", () => {
         </Routes>,
         {
           wrapper: TestWrapper({
-            legacyRouterProvider: MockLegacyRouterProvider,
-            resources: [{ name: "posts", canDelete: false }],
+            resources: [{ name: "posts", meta: { canDelete: false } }],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: MockRouterProvider({
+              pathname: "/posts/edit/1",
+              params: { id: "1" },
+              action: "edit",
+              id: "1",
+              resource: {
+                name: "posts",
+                list: "/posts",
+                create: "/posts/create",
+                edit: "/posts/edit/1",
+                meta: { canDelete: false },
+              },
+            }),
           }),
         },
       );
@@ -288,9 +397,21 @@ describe("Edit", () => {
         </Routes>,
         {
           wrapper: TestWrapper({
-            legacyRouterProvider: MockLegacyRouterProvider,
             resources: [{ name: "posts" }],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: MockRouterProvider({
+              pathname: "/posts/edit/1",
+              params: { id: "1" },
+              action: "edit",
+              id: "1",
+              resource: {
+                name: "posts",
+                list: "/posts",
+                create: "/posts/create",
+                edit: "/posts/edit/1",
+                meta: {},
+              },
+            }),
           }),
         },
       );
@@ -307,9 +428,21 @@ describe("Edit", () => {
         </Routes>,
         {
           wrapper: TestWrapper({
-            legacyRouterProvider: MockLegacyRouterProvider,
             resources: [{ name: "posts" }],
             routerInitialEntries: ["/posts/edit/1"],
+            routerProvider: MockRouterProvider({
+              pathname: "/posts/edit/1",
+              params: { id: "1" },
+              action: "edit",
+              id: "1",
+              resource: {
+                name: "posts",
+                list: "/posts",
+                create: "/posts/create",
+                edit: "/posts/edit/1",
+                meta: {},
+              },
+            }),
           }),
         },
       );
@@ -385,6 +518,20 @@ describe("list button", () => {
       undefined,
       {
         resources: [{ name: "posts", list: undefined }],
+        routerProvider: {
+          ...MockRouterProvider(),
+          parse: () => () => ({
+            action: "edit",
+            id: "1",
+            pathname: "/posts/edit/1",
+            resource: {
+              name: "posts",
+              list: undefined,
+              create: "/posts/create",
+              edit: "/posts/edit/1",
+            },
+          }),
+        },
       },
     );
     await waitFor(() =>
@@ -442,7 +589,7 @@ describe("auto save", () => {
   };
 
   it("check idle,loading,success statuses", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const { getByText, getByTestId } = render(
       <Routes>
@@ -450,9 +597,21 @@ describe("auto save", () => {
       </Routes>,
       {
         wrapper: TestWrapper({
-          resources: [{ name: "posts", canDelete: false }],
+          resources: [{ name: "posts", meta: { canDelete: false } }],
           routerInitialEntries: ["/posts/edit/1"],
-          legacyRouterProvider: MockLegacyRouterProvider,
+          routerProvider: MockRouterProvider({
+            pathname: "/posts/edit/1",
+            params: { id: "1" },
+            action: "edit",
+            id: "1",
+            resource: {
+              name: "posts",
+              list: "/posts",
+              create: "/posts/create",
+              edit: "/posts/edit/1",
+              meta: { canDelete: false },
+            },
+          }),
           dataProvider: {
             ...MockJSONServer,
             update: () => {
@@ -483,14 +642,14 @@ describe("auto save", () => {
         target: { value: "test" },
       });
 
-      jest.advanceTimersByTime(1100);
+      vi.advanceTimersByTime(1100);
     });
 
     // check saving message
     expect(getByText("saving...")).toBeTruthy();
 
     await act(async () => {
-      jest.advanceTimersByTime(1000);
+      vi.advanceTimersByTime(1000);
     });
 
     // check saved message
@@ -498,7 +657,7 @@ describe("auto save", () => {
   });
 
   it("check error status", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const { getByText, getByTestId } = render(
       <Routes>
@@ -506,9 +665,21 @@ describe("auto save", () => {
       </Routes>,
       {
         wrapper: TestWrapper({
-          resources: [{ name: "posts", canDelete: false }],
+          resources: [{ name: "posts", meta: { canDelete: false } }],
           routerInitialEntries: ["/posts/edit/1"],
-          legacyRouterProvider: MockLegacyRouterProvider,
+          routerProvider: MockRouterProvider({
+            pathname: "/posts/edit/1",
+            params: { id: "1" },
+            action: "edit",
+            id: "1",
+            resource: {
+              name: "posts",
+              list: "/posts",
+              create: "/posts/create",
+              edit: "/posts/edit/1",
+              meta: { canDelete: false },
+            },
+          }),
           dataProvider: {
             ...MockJSONServer,
             update: () => {
@@ -530,17 +701,66 @@ describe("auto save", () => {
         target: { value: "test" },
       });
 
-      jest.advanceTimersByTime(1100);
+      vi.advanceTimersByTime(1100);
     });
 
     // check saving message
     expect(getByText("saving...")).toBeTruthy();
 
     await act(async () => {
-      jest.advanceTimersByTime(1000);
+      vi.advanceTimersByTime(1000);
     });
 
     // check saved message
     expect(getByText("auto save failure")).toBeTruthy();
+  });
+
+  it("debounces multiple rapid changes into a single API call", async () => {
+    vi.useFakeTimers();
+
+    const updateMock = vi
+      .fn()
+      .mockResolvedValue({ data: { id: "1", title: "ok" } });
+
+    const { getByTestId } = render(
+      <Routes>
+        <Route path="/:resource/edit/:id" element={<EditPageWithAutoSave />} />
+      </Routes>,
+      {
+        wrapper: TestWrapper({
+          resources: [{ name: "posts", meta: { canDelete: false } }],
+          routerInitialEntries: ["/posts/edit/1"],
+          routerProvider: MockRouterProvider({
+            pathname: "/posts/edit/1",
+            params: { id: "1" },
+            action: "edit",
+            id: "1",
+            resource: {
+              name: "posts",
+              list: "/posts",
+              create: "/posts/create",
+              edit: "/posts/edit/1",
+              meta: { canDelete: false },
+            },
+          }),
+          dataProvider: { ...MockJSONServer, update: updateMock },
+        }),
+      },
+    );
+
+    await act(async () => {
+      fireEvent.change(getByTestId("title"), { target: { value: "a" } });
+      vi.advanceTimersByTime(300);
+      fireEvent.change(getByTestId("title"), { target: { value: "ab" } });
+      vi.advanceTimersByTime(300);
+      fireEvent.change(getByTestId("title"), { target: { value: "abc" } });
+      vi.advanceTimersByTime(300);
+    });
+    expect(updateMock).toHaveBeenCalledTimes(0);
+
+    await act(async () => {
+      vi.advanceTimersByTime(1100);
+    });
+    expect(updateMock).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,13 +1,16 @@
 ---
-title: Breadcrumb
+title: "Chakra UI Breadcrumb Component | UI Component in Refine v5"
+display_title: "Breadcrumb"
+sidebar_label: "Breadcrumb"
+description: "Explore how to integrate Breadcrumb in Refine v5. Learn integrate accessibility, components for polished admin UIs. Real-world snippets included."
 swizzle: true
 ---
 
-A breadcrumb displays the current location within a hierarchy. It allows going back to states higher up in the hierarchy. `<Breadcrumb>` component was built with the Chakra UI [Breadcrumb][chakra-ui-breadcrumb] components using the [`useBreadcrumb`](/docs/core/hooks/utilities/use-breadcrumb) hook.
+A breadcrumb displays the current location within a hierarchy. It allows going back to states higher up in the hierarchy. `<Breadcrumb>` component was built with the Chakra UI [Breadcrumb][chakra-ui-breadcrumb] components using the [`useBreadcrumb`](/core/docs/core/hooks/utilities/use-breadcrumb/) hook.
 
 :::simple Good to know
 
-- You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-packages) to customize it.
+- You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 
 - In the earlier versions of Refine, `<Refine>` component had accepted `DashboardPage` which could be used to add an index page to your app. With the changes in `routerProvider` API of Refine, `DashboardPage` is deprecated. You can now define an index route yourself manually with your router package.
 

@@ -15,6 +15,10 @@ export const PostCreate: React.FC = () => {
     defaultValue: queryResult?.data?.data?.category?.[0],
     optionLabel: "name",
     optionValue: "id",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const handleSubmitHandler = (data: any) => {

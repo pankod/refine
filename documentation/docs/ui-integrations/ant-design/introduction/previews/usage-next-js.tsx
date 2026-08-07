@@ -121,7 +121,7 @@ import routerProvider from "@refinedev/nextjs-router/pages";
 import dataProvider from "@refinedev/simple-rest";
 import type { AppProps } from "next/app";
 
-import { RefineThemes, ThemedLayoutV2, useNotificationProvider } from "@refinedev/antd";
+import { RefineThemes, ThemedLayout, useNotificationProvider } from "@refinedev/antd";
 import { App as AntdApp, ConfigProvider } from "antd";
 
 import "@refinedev/antd/dist/reset.css";
@@ -143,9 +143,9 @@ function App({ Component, pageProps }: ExtendedAppProps) {
       }
 
       return (
-          <ThemedLayoutV2>
+          <ThemedLayout>
               <Component {...pageProps} />
-          </ThemedLayoutV2>
+          </ThemedLayout>
       );
   }
 
@@ -242,23 +242,20 @@ import authProvider from "../../src/auth-provider";
 const { Title } = Typography;
 
 export default function ProductShow() {
-  const { queryResult } = useShow();
-  const { data, isLoading } = queryResult;
-
-  const record = data?.data;
+  const { result: product, query: { isLoading } } = useShow();
 
   return (
     <Show isLoading={isLoading}>
       <Title level={5}>Id</Title>
-      <NumberField value={record?.id ?? ""} />
+      <NumberField value={product?.id ?? ""} />
       <Title level={5}>Name</Title>
-      <TextField value={record?.name} />
+      <TextField value={product?.name} />
       <Title level={5}>Material</Title>
-      <TextField value={record?.material} />
+      <TextField value={product?.material} />
       <Title level={5}>Description</Title>
-      <MarkdownField value={record?.description} />
+      <MarkdownField value={product?.description} />
       <Title level={5}>Price</Title>
-      <NumberField value={record?.price ?? ""} />
+      <NumberField value={product?.price ?? ""} />
     </Show>
   );
 };

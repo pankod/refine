@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 
 import { useModalForm } from "@refinedev/antd";
 import { useNavigation } from "@refinedev/core";

@@ -1,20 +1,22 @@
-import { useResource, useGetToPath } from "@refinedev/core";
+import { useResourceParams, useGetToPath } from "@refinedev/core";
 import React, { type PropsWithChildren } from "react";
 import { useNavigate } from "@remix-run/react";
 
 type NavigateToResourceProps = PropsWithChildren<{
   resource?: string;
+  fallbackTo?: string;
   meta?: Record<string, unknown>;
 }>;
 
 export const NavigateToResource: React.FC<NavigateToResourceProps> = ({
   resource: resourceProp,
+  fallbackTo,
   meta,
 }) => {
   const ran = React.useRef(false);
   const navigate = useNavigate();
   const getToPath = useGetToPath();
-  const { resource, resources } = useResource(resourceProp);
+  const { resource, resources } = useResourceParams({ resource: resourceProp });
 
   const toResource = resource || resources.find((r) => r.list);
 
@@ -32,6 +34,10 @@ export const NavigateToResource: React.FC<NavigateToResourceProps> = ({
         }
         ran.current = true;
       }
+    } else if (fallbackTo) {
+      console.warn(`No resource is found. navigation to ${fallbackTo}.`);
+      navigate(fallbackTo, { replace: true });
+      ran.current = true;
     }
   }, [toResource, meta, navigate, getToPath]);
 

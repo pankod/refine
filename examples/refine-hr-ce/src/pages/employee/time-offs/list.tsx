@@ -1,6 +1,7 @@
 import { CanAccess, useCan } from "@refinedev/core";
 import { CreateButton } from "@refinedev/mui";
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import { PageHeader } from "@/components/layout/page-header";
 import { TimeOffList } from "@/components/time-offs/list";
 import { TimeOffLeaveCards } from "@/components/time-offs/leave-cards";
@@ -49,7 +50,12 @@ export const PageEmployeeTimeOffsList = () => {
             marginTop: "24px",
           }}
         >
-          <Grid item xs={12} md={6}>
+          <Grid
+            size={{
+              xs: 12,
+              md: 6,
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
@@ -61,7 +67,12 @@ export const PageEmployeeTimeOffsList = () => {
               <TimeOffList type="upcoming" />
             </Box>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid
+            size={{
+              xs: 12,
+              md: 6,
+            }}
+          >
             <TimeOffList type="history" />
           </Grid>
         </Grid>

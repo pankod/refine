@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  useNavigation,
-  useTranslate,
-  useResource,
-  useGo,
-  useRouterType,
-} from "@hooks";
+import { useTranslate, useGo, useResourceParams } from "@hooks";
 
 /**
  * When the app is navigated to a non-existent route, refine shows a default error page.
@@ -17,11 +11,9 @@ import {
 export const ErrorComponent: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string>();
   const translate = useTranslate();
-  const { push } = useNavigation();
   const go = useGo();
-  const routerType = useRouterType();
 
-  const { resource, action } = useResource();
+  const { action, resource } = useResourceParams();
 
   useEffect(() => {
     if (resource && action) {
@@ -50,11 +42,7 @@ export const ErrorComponent: React.FC = () => {
       {errorMessage && <p>{errorMessage}</p>}
       <button
         onClick={() => {
-          if (routerType === "legacy") {
-            push("/");
-          } else {
-            go({ to: "/" });
-          }
+          go({ to: "/" });
         }}
       >
         {translate("pages.error.backHome", undefined, "Back Home")}

@@ -36,7 +36,7 @@ const Wrapper = ({ children }) => {
 This field lets you embed a link. It uses Mantine [`<Anchor>`](https://mantine.dev/core/anchor) component. You can pass a URL in its `value` prop and you can show a text in its place by passing any `children`.
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Usage

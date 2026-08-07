@@ -60,7 +60,7 @@ export const generateFilter = (filter: CrudFilter, query: any) => {
             }
 
             if (item.operator === "contains" || item.operator === "containss") {
-              value = `%${value}%`;
+              value = `"%${value}%"`;
             }
 
             if (item.operator === "startswith") {
@@ -69,6 +69,9 @@ export const generateFilter = (filter: CrudFilter, query: any) => {
 
             if (item.operator === "endswith") {
               value = `%${value}`;
+            }
+            if (item.operator === "in") {
+              value = `(${item.value.map((val: any) => `"${val}"`).join(",")})`;
             }
 
             return `${item.field}.${mapOperator(item.operator)}.${value}`;

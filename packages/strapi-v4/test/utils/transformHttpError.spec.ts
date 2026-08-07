@@ -1,16 +1,18 @@
 import type { HttpError } from "@refinedev/core";
 import { transformHttpError } from "../../src/utils/transformHttpError";
-import * as _transformErrorMessages from "../../src/utils/transformErrorMessages";
+import { vi } from "vitest";
+
+vi.mock("../../src/utils/transformErrorMessages", () => ({
+  transformErrorMessages: vi.fn(),
+}));
+
+import { transformErrorMessages } from "../../src/utils/transformErrorMessages";
 
 describe("transformHttpError", () => {
   it("should transform an error object", () => {
-    jest.mock("../../src/utils/transformErrorMessages", () => ({
-      transformErrorMessages: jest.fn().mockImplementationOnce(() => {
-        return {
-          email: ["Email is required"],
-        };
-      }),
-    }));
+    vi.mocked(transformErrorMessages).mockReturnValueOnce({
+      email: ["Email is required"],
+    });
 
     const mockError = {
       response: {
@@ -44,11 +46,7 @@ describe("transformHttpError", () => {
   });
 
   it("should handle undefined values", () => {
-    jest.mock("../../src/utils/transformErrorMessages", () => ({
-      transformErrorMessages: jest.fn().mockImplementationOnce(() => {
-        return {};
-      }),
-    }));
+    vi.mocked(transformErrorMessages).mockReturnValueOnce({});
 
     const mockError = {
       response: {

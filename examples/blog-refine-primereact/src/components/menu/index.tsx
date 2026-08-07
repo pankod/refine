@@ -1,5 +1,5 @@
 import { useMenu } from "@refinedev/core";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { TabMenu } from "primereact/tabmenu";
 import type { MenuItem } from "primereact/menuitem";

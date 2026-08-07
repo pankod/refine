@@ -2,14 +2,11 @@ import React from "react";
 import {
   type LoginPageProps,
   type LoginFormTypes,
-  useRouterType,
   useLink,
-  useRouterContext,
   useLogin,
   useTranslate,
   type BaseRecord,
   type HttpError,
-  useActiveAuthProvider,
 } from "@refinedev/core";
 import {
   Box,
@@ -32,7 +29,7 @@ import { FormProvider } from "react-hook-form";
 
 import { layoutProps, cardProps } from "../styles";
 import type { FormPropsType } from "../..";
-import { ThemedTitleV2 } from "@components";
+import { ThemedTitle } from "@components";
 
 type LoginProps = LoginPageProps<
   BoxProps,
@@ -55,15 +52,9 @@ export const LoginPage: React.FC<LoginProps> = ({
 }) => {
   const { onSubmit, ...useFormProps } = formProps || {};
 
-  const authProvider = useActiveAuthProvider();
-  const { mutate: login } = useLogin<LoginFormTypes>({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate: login } = useLogin<LoginFormTypes>();
   const translate = useTranslate();
-  const routerType = useRouterType();
-  const NewLink = useLink();
-  const { Link: LegacyLink } = useRouterContext();
-  const Link = routerType === "legacy" ? LegacyLink : NewLink;
+  const Link = useLink();
   const methods = useForm<BaseRecord, HttpError, LoginFormTypes>({
     ...useFormProps,
   });
@@ -115,7 +106,7 @@ export const LoginPage: React.FC<LoginProps> = ({
           fontSize: "20px",
         }}
       >
-        {title ?? <ThemedTitleV2 collapsed={false} />}
+        {title ?? <ThemedTitle collapsed={false} />}
       </div>
     );
 
@@ -205,9 +196,9 @@ export const LoginPage: React.FC<LoginProps> = ({
             <HStack justifyContent="space-between" fontSize="12px">
               {forgotPasswordLink ?? (
                 <ChakraLink
-                  as={Link}
-                  color={importantTextColor}
+                  as={Link as any}
                   to="/forgot-password"
+                  color={importantTextColor}
                 >
                   {translate(
                     "pages.login.buttons.forgotPassword",
@@ -224,11 +215,11 @@ export const LoginPage: React.FC<LoginProps> = ({
                     )}
                   </span>
                   <ChakraLink
+                    as={Link as any}
+                    to="/register"
                     color={importantTextColor}
                     ml="1"
-                    as={Link}
                     fontWeight="bold"
-                    to="/register"
                   >
                     {translate("pages.login.register", "Sign up")}
                   </ChakraLink>
@@ -248,11 +239,11 @@ export const LoginPage: React.FC<LoginProps> = ({
             )}
           </span>
           <ChakraLink
+            as={Link as any}
+            to="/register"
             color={importantTextColor}
             ml="1"
-            as={Link}
             fontWeight="bold"
-            to="/register"
           >
             {translate("pages.login.register", "Sign up")}
           </ChakraLink>

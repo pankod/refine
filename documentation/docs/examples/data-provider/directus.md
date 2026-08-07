@@ -1,6 +1,9 @@
 ---
 id: directus
-title: Directus
+title: "Directus Example | REST API Integration in Refine v5"
+display_title: "Directus"
+sidebar_label: "Directus"
+description: "Build Directus in Refine v5. Learn the key steps. Learn scale provider for custom APIs and scalable data flows. See practical code samples."
 example-tags: [community, data-provider]
 ---
 

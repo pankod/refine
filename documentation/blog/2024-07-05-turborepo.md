@@ -3,9 +3,11 @@ title: What is Turborepo and Why Should You Care?
 description: The advantages of using Turborepo for monorepo development.
 slug: how-to-use-turborepo
 authors: muhammad_khabbab
-tags: [nextjs, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-13-turborepo/social-2.png
+category: "Ecosystem / Integrations"
+tags: [dev-tools]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-13-turborepo/social-2.png
 hide_table_of_contents: false
+last_update: 2024-07-08
 ---
 
 **This article was last updated on July 05, 2024, to add sections for Advanced Configuration Options and Integrating Turborepo with Existing Tools.**
@@ -27,16 +29,6 @@ In this article, we will discuss [Turborepo](https://turbo.build/) in detail. Tu
 
 Today we will cover why we should use Turborepo, what are its major features and when are the best use cases for adopting it in your projects.
 
-Steps we'll cover:
-
-- [Why Turborepo?](#why-turborepo)
-- [Unique Features of Turborepo](#unique-features-of-turborepo)
-  - [Remote caching](#remote-caching)
-  - [Prune now supports all package managers](#prune-now-supports-all-package-managers)
-  - [Support for Polyrepo](#support-for-polyrepo)
-- [When should you use Turborepo?](#when-should-you-use-turborepo)
-- [How to use Turborepo?](#how-to-use-turborepo)
-
 ## Why Turborepo?
 
 There was a need for a monorepo tool that could take advantage of advanced techniques with zero configuration. Something that is easy to scale and adapt while at the same time improving the speed of monorepo pipelines. Turborepo provides all these features and more.
@@ -57,7 +49,7 @@ With your remote caching, builds can achieve amazingly fast build times by provi
 <br/>
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-13-turborepo/turbopack.png"  alt="turbopack" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-13-turborepo/turbopack.png"  alt="Turbopack architecture diagram" />
 <em> Source - </em>
 </div>
 

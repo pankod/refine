@@ -1,6 +1,8 @@
 ---
 id: access-control
-title: Access Control
+title: "Access Control Tutorial | Best Practices in Refine v5"
+display_title: "Access Control"
+description: "Secure Access Control in Refine v5. Learn best practices. Learn advanced patterns for RBAC, ABAC for production-ready workflows. Explore with code snippets."
 sidebar_label: Access Control
 ---
 
@@ -252,7 +254,7 @@ const Header = ({ role }) => {
 
 Access control is a broad topic where there are lots of advanced solutions that provide a different sets of features. **Refine** is deliberately agnostic for its own API to be able to integrate different methods (RBAC, ABAC, ACL, etc.) and different libraries ([Casbin](https://casbin.org/), [CASL](https://casl.js.org/v5/en/), [Cerbos](https://cerbos.dev/), [AccessControl.js](https://onury.io/accesscontrol/)). `can` method would be the entry point for those solutions.
 
-[Refer to the Access Control Provider documentation for detailed information. &#8594](/docs/authorization/access-control-provider)
+[Refer to the Access Control Provider documentation for detailed information. &#8594](/core/docs/authorization/access-control-provider/)
 
 **Refine** provides an agnostic API via the `accessControlProvider` to manage access control throughout your app.
 
@@ -268,7 +270,7 @@ We need to install Casbin.
 
 :::caution
 
-To make this example more visual, we used the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/master/packages/antd) package. If you are using Refine headless, you need to provide the components, hooks, or helpers imported from the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/master/packages/antd) package.
+To make this example more visual, we used the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/main/packages/antd) package. If you are using Refine headless, you need to provide the components, hooks, or helpers imported from the [`@refinedev/antd`](https://github.com/refinedev/refine/tree/main/packages/antd) package.
 
 :::
 
@@ -282,11 +284,11 @@ The app will have three resources: **posts**, **users**, and **categories** with
 
 ```tsx title="src/App.tsx"
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, ErrorComponent, RefineThemes } from "@refinedev/antd";
+import { ThemedLayout, ErrorComponent, RefineThemes } from "@refinedev/antd";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { ConfigProvider } from "antd";
 import "@refinedev/antd/dist/reset.css";
@@ -330,9 +332,9 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="posts">
@@ -453,25 +455,41 @@ const adapter = new CasbinStringAdapter(`
 p, editor, posts, list
 `);
 
-setRefineProps({
-  accessControlProvider: {
-    can: async ({ resource, action }) => {
-      const enforcer = await CasbinNewEnforcer(model, adapter);
-      const can = await enforcer.enforce("editor", resource, action);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      accessControlProvider={{
+        can: async ({ resource, action }) => {
+          const enforcer = await CasbinNewEnforcer(model, adapter);
+          const can = await enforcer.enforce("editor", resource, action);
 
-      return { can };
-    },
-  },
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-      create: PostCreate,
-    },
-  ],
-});
-
-render(<RefineAntdDemo />);
+          return { can };
+        },
+      }}
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          create: "/posts/create",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+        <ReactRouter.Route path="/posts/create" element={<PostCreate />} />
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 ## Adding Different Roles
@@ -528,11 +546,11 @@ const App: React.FC = () => {
           <Route
             element={
               // highlight-start
-              <ThemedLayoutV2 Header={() => <Header role={role} />}>
+              <ThemedLayout Header={() => <Header role={role} />}>
                 <CanAccess>
                   <Outlet />
                 </CanAccess>
-              </ThemedLayoutV2>
+              </ThemedLayout>
               // highlight-end
             }
           >
@@ -599,10 +617,10 @@ values={[ {label: 'admin', value: 'admin'}, {label: 'editor', value: 'editor'} ]
 setInitialRoutes(["/posts"]);
 import { useState } from "react";
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { ThemedLayout, RefineThemes } from "@refinedev/antd";
 import { ConfigProvider, Layout } from "antd";
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import dataProvider from "@refinedev/simple-rest";
 const API_URL = "https://api.fake-rest.refine.dev";
@@ -654,11 +672,11 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2
+                <ThemedLayout
                 // Header={() => <Header role={role} />}
                 >
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="posts">
@@ -692,10 +710,10 @@ render(<App />);
 setInitialRoutes(["/posts"]);
 import { useState } from "react";
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { ThemedLayout, RefineThemes } from "@refinedev/antd";
 import { ConfigProvider, Layout } from "antd";
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import dataProvider from "@refinedev/simple-rest";
 const API_URL = "https://api.fake-rest.refine.dev";
@@ -747,11 +765,11 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2
+                <ThemedLayout
                 // Header={() => <Header role={role} />}
                 >
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="posts">
@@ -956,7 +974,7 @@ const App: React.FC = () => {
 export default App;
 ```
 
-Then it can be used with [`useCan`](/docs/authorization/hooks/use-can) in the related area:
+Then it can be used with [`useCan`](/core/docs/authorization/hooks/use-can/) in the related area:
 
 ```tsx title="src/pages/posts/list.tsx"
 import {
@@ -995,7 +1013,7 @@ export const PostList: React.FC = () => {
 
 :::tip
 
-[`<CanAccess />`](/docs/authorization/components/can-access) can be used too to check access control in custom places in your app.
+[`<CanAccess />`](/core/docs/authorization/components/can-access/) can be used too to check access control in custom places in your app.
 
 :::
 
@@ -1013,10 +1031,10 @@ values={[ {label: 'admin', value: 'admin'}, {label: 'editor', value: 'editor'} ]
 setInitialRoutes(["/posts"]);
 import { useState } from "react";
 import { Refine, useCan } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { ThemedLayout, RefineThemes } from "@refinedev/antd";
 import { ConfigProvider, Layout } from "antd";
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import dataProvider from "@refinedev/simple-rest";
 const API_URL = "https://api.fake-rest.refine.dev";
@@ -1142,11 +1160,11 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2
+                <ThemedLayout
                 // Header={() => <Header role={role} />}
                 >
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="posts">
@@ -1180,10 +1198,10 @@ render(<App />);
 setInitialRoutes(["/posts"]);
 import { useState } from "react";
 import { Refine, useCan } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/antd";
+import { ThemedLayout, RefineThemes } from "@refinedev/antd";
 import { ConfigProvider, Layout } from "antd";
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import dataProvider from "@refinedev/simple-rest";
 const API_URL = "https://api.fake-rest.refine.dev";
@@ -1300,11 +1318,11 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2
+                <ThemedLayout
                 // Header={() => <Header role={role} />}
                 >
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="posts">

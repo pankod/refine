@@ -1,5 +1,8 @@
 ---
-title: Theming
+title: "Theming Guide | Accessibility UI in Refine v5"
+display_title: "Theming"
+sidebar_label: "Theming"
+description: "Integrate Theming in Refine v5. Learn best practices. Learn integration patterns for accessibility, components for polished admin UIs. Learn with code examples."
 ---
 
 ```tsx live shared
@@ -47,10 +50,12 @@ const PostList: React.FC = () => {
     [],
   );
 
-  const { getHeaderGroups, getRowModel } = useTable({
+  const {
+    reactTable: { getHeaderGroups, getRowModel },
+  } = useTable({
     columns,
     refineCoreProps: {
-      initialPageSize: 5,
+      pagination: { pageSize: 5 },
     },
   });
 
@@ -143,7 +148,7 @@ The theme object is where you define your application's color palette, type scal
 
 ## Predefined Themes
 
-[`RefineThemes`](https://github.com/refinedev/refine/blob/master/packages/chakra-ui/src/theme/index.ts#L92) has predefined themes for you. You can use them by importing them from the `@refinedev/chakra-ui` package. It is not required if you decide to use the default Chakra UI theme.
+[`RefineThemes`](https://github.com/refinedev/refine/blob/main/packages/chakra-ui/src/theme/index.ts#L92) has predefined themes for you. You can use them by importing them from the `@refinedev/chakra-ui` package. It is not required if you decide to use the default Chakra UI theme.
 
 ```ts
 const { Blue, Purple, Magenta, Red, Orange, Yellow } = RefineThemes;
@@ -151,7 +156,7 @@ const { Blue, Purple, Magenta, Red, Orange, Yellow } = RefineThemes;
 
 ```tsx
 import { Refine } from "@refinedev/core";
-import { ThemedLayoutV2, RefineThemes } from "@refinedev/chakra-ui";
+import { ThemedLayout, RefineThemes } from "@refinedev/chakra-ui";
 
 import { ChakraProvider } from "@chakra-ui/react";
 
@@ -161,16 +166,16 @@ const App: React.FC = () => {
       <Refine
       /* ... */
       >
-        <ThemedLayoutV2>{/* ... */}</ThemedLayoutV2>
+        <ThemedLayout>{/* ... */}</ThemedLayout>
       </Refine>
     </ChakraProvider>
   );
 };
 ```
 
-You can see how themes change the look of the application in [this example &#8594](/docs/examples/themes/refine-themes-chakra-ui/)
+You can see how themes change the look of the application in [this example &#8594](/core/docs/examples/themes/refine-themes-chakra-ui/)
 
-If you want to use `<ThemedLayoutV2>` you have to wrap your application with the `<ChakraProvider>` component and should give `theme` prop to it.
+If you want to use `<ThemedLayout>` you have to wrap your application with the `<ChakraProvider>` component and should give `theme` prop to it.
 
 You can use `RefineThemes` provided by Refine or you can create your own theme object.
 
@@ -185,11 +190,11 @@ setInitialRoutes(["/posts"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import {
   ErrorComponent,
-  ThemedLayoutV2,
+  ThemedLayout,
   useNotificationProvider,
   // highlight-next-line
   RefineThemes,
@@ -200,7 +205,7 @@ import {
   extendTheme,
 } from "@chakra-ui/react";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { PostCreate, PostEdit, PostList } from "./pages";
 
@@ -237,9 +242,9 @@ const App = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="posts">
@@ -259,7 +264,7 @@ const App = () => {
 render(<App />);
 ```
 
-[Refer to the `refineTheme` object in the source code to see the default theme values &#8594](https://github.com/refinedev/refine/blob/master/packages/chakra-ui/src/theme/index.ts)
+[Refer to the `refineTheme` object in the source code to see the default theme values &#8594](https://github.com/refinedev/refine/blob/main/packages/chakra-ui/src/theme/index.ts)
 
 ## Theme switching
 
@@ -274,11 +279,11 @@ setInitialRoutes(["/posts"]);
 
 // visible-block-start
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import {
   ErrorComponent,
-  ThemedLayoutV2,
+  ThemedLayout,
   useNotificationProvider,
   // highlight-next-line
   RefineThemes,
@@ -295,7 +300,7 @@ import {
 } from "@chakra-ui/react";
 import { IconSun, IconMoonStars } from "@tabler/icons-react";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 
 import { PostCreate, PostEdit, PostList } from "./pages";
 
@@ -359,9 +364,9 @@ const App = () => {
             <Route
               element={
                 // highlight-next-line
-                <ThemedLayoutV2 Header={Header}>
+                <ThemedLayout Header={Header}>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route path="posts">
@@ -381,4 +386,4 @@ const App = () => {
 render(<App />);
 ```
 
-If you want to customize the default layout elements provided with `@refinedev/chakra-ui` package, check out the [Custom Layout](/docs/advanced-tutorials/custom-layout) tutorial.
+If you want to customize the default layout elements provided with `@refinedev/chakra-ui` package, check out the [Custom Layout](/core/docs/advanced-tutorials/custom-layout/) tutorial.

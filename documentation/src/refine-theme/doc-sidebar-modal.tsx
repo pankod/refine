@@ -7,9 +7,9 @@ import { RefineLogo } from "./common-refine-logo";
 import { CommonHamburgerIcon } from "./common-hamburger-icon";
 import { useSidebarItems } from "./doc-sidebar";
 import { DocVersionTabs } from "./doc-version-tabs";
-import { DocRefineLogo } from "./doc-refine-logo";
 import { DocVersionDropdown } from "./doc-version-dropdown";
 import { CommonThemeToggleAlt } from "./common-theme-toggle";
+import { RefineCoreLogoIcon } from "./icons/refine-logo";
 
 type Props = {
   isOpen: boolean;
@@ -35,7 +35,7 @@ export const DocSidebarModal = ({ isOpen, onClose }: Props) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-0 dark:bg-gray-800" />
+          <div className="fixed inset-0 bg-zinc-0 dark:bg-zinc-800" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -60,7 +60,7 @@ export const DocSidebarModal = ({ isOpen, onClose }: Props) => {
                     "flex items-center justify-between",
                   )}
                 >
-                  <DocRefineLogo />
+                  <RefineCoreLogoIcon />
                   <div className={clsx("flex items-center gap-4")}>
                     <CommonHamburgerIcon onClick={onClose} active={true} />
                   </div>
@@ -75,15 +75,15 @@ export const DocSidebarModal = ({ isOpen, onClose }: Props) => {
                     "flex-1",
                     "mx-auto",
                     "rounded-lg",
-                    "border border-gray-300 dark:border-gray-600",
+                    "border border-zinc-300 dark:border-zinc-600",
                   )}
                 >
                   <div
                     className={clsx(
                       "h-12",
                       "rounded-tl-lg rounded-tr-lg",
-                      "bg-gray-100 dark:bg-gray-700",
-                      "border-b border-gray-300 dark:border-gray-600",
+                      "bg-zinc-100 dark:bg-zinc-700",
+                      "border-b border-zinc-300 dark:border-zinc-600",
                       "flex items-center gap-2",
                       "px-4 py-2",
                       "justify-end",
@@ -92,7 +92,7 @@ export const DocSidebarModal = ({ isOpen, onClose }: Props) => {
                     <span
                       className={clsx(
                         "text-sm",
-                        "text-gray-500 dark:text-gray-400",
+                        "text-zinc-500 dark:text-zinc-400",
                       )}
                     >
                       Version
@@ -132,8 +132,8 @@ export const DocSidebarModal = ({ isOpen, onClose }: Props) => {
                     <span
                       className={clsx(
                         "text-sm",
-                        "text-gray-800",
-                        "dark:text-gray-100",
+                        "text-zinc-800",
+                        "dark:text-zinc-100",
                       )}
                     >
                       Appearance
@@ -143,7 +143,7 @@ export const DocSidebarModal = ({ isOpen, onClose }: Props) => {
                   <div
                     className={clsx(
                       "border-t",
-                      "border-t-gray-300 dark:border-t-gray-700",
+                      "border-t-zinc-300 dark:border-t-zinc-700",
                       "px-4",
                       "py-2",
                       "flex",

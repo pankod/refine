@@ -13,6 +13,7 @@ import React from "react";
 import { CommonCodeBlockContainer } from "./common-codeblock-container";
 import { CommonCopyButton } from "./common-copy-button";
 import { CommonWordWrapButton } from "./common-wordwrap-button";
+import { isCurrentBlogRoute } from "../utils/is-blog-route";
 
 const DefaultDocumentIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -39,19 +40,27 @@ const CodeBlockTitle = ({
   children?: React.ReactNode;
   icon?: React.ReactNode;
 }) => {
+  const isBlog = isCurrentBlogRoute();
+
   return (
     <div
       className={clsx(
         "py-3",
         "px-4",
-        "bg-gray-100 dark:bg-gray-700",
-        "text-gray-800",
-        "dark:text-gray-100",
         "text-xs",
         "flex items-center",
         "gap-2",
-        "rounded-tl-lg",
-        "rounded-tr-lg",
+        !isBlog && "bg-zinc-200 dark:bg-zinc-800",
+        !isBlog && "text-zinc-900",
+        !isBlog && "dark:text-white",
+        !isBlog && "rounded-tl-xl",
+        !isBlog && "rounded-tr-xl",
+        isBlog && "border-b border-zinc-200 dark:border-transparent",
+        isBlog && "text-zinc-700",
+        isBlog && "dark:text-white",
+        isBlog && "bg-zinc-100 dark:bg-zinc-800",
+        isBlog && "rounded-tl-lg",
+        isBlog && "rounded-tr-lg",
       )}
     >
       {icon}
@@ -70,6 +79,8 @@ export const CodeBlockString = ({
   icon,
   style,
 }) => {
+  const isBlog = isCurrentBlogRoute();
+
   const {
     prism: { defaultLanguage, magicComments },
   } = useThemeConfig();
@@ -97,20 +108,18 @@ export const CodeBlockString = ({
       className={clsx(
         "refine-common-code-block",
         language && `language-${language}`,
-        "rounded-lg",
+        !isBlog && "rounded-xl",
+        isBlog && "rounded-lg",
         "bg-refine-react-light-code",
         "dark:bg-refine-react-dark-code",
-        "border",
-        "border-gray-300",
-        "dark:border-0",
         "mb-6",
         "relative",
-        "refine-wider-container",
+        !isBlog && "refine-wider-container",
       )}
       style={style}
     >
       {title && <CodeBlockTitle icon={icon}>{title}</CodeBlockTitle>}
-      <div className={clsx("relative", "pt-3", "pb-0", "not-prose")}>
+      <div className={clsx("relative", "pt-4", "pb-0", "not-prose")}>
         <Highlight
           {...defaultProps}
           theme={prismTheme}
@@ -163,7 +172,7 @@ export const CodeBlockString = ({
       <div
         className={clsx(
           "absolute",
-          title ? "top-2 right-2" : "top-3 right-3",
+          title ? "top-14 right-4" : "top-3 right-3",
           "flex items-center gap-2",
         )}
       >

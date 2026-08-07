@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
-import { ThemedLayoutContext } from "@contexts";
-import type { IThemedLayoutContext } from "@contexts/themedLayoutContext/IThemedLayoutContext";
+import { ThemedLayoutContext } from "../../contexts";
+import type { IThemedLayoutContext } from "../../contexts/themedLayoutContext/IThemedLayoutContext";
 
 export type UseThemedLayoutContextType = IThemedLayoutContext;
 

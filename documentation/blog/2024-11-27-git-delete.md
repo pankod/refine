@@ -3,12 +3,14 @@ title: How to Delete Local and Remote Git Branches
 description: We will take a look the example of deleting local and remote Git branches.
 slug: git-delete-remote-branch-and-local-branch
 authors: muhammad_khabbab
-tags: [git, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-27-git-delete/social-2.png
+category: "Engineering"
+tags: [git]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-27-git-delete/social-2.png
 hide_table_of_contents: false
+last_update: 2025-09-26
 ---
 
-**This article was last updated on November 27, 2024, to short explanations for git deleote local and remote branches.**
+**This article was last updated on September 26, 2025 to include branch protection policies and team best practices for safe deletion.**
 
 ## Introduction
 
@@ -35,20 +37,6 @@ Today we will discuss various scenarios related to branch deletion. We will show
 
 For this article, we assume you have installed GIT, and you have the access rights to **delete a branch**. Let's start with the need to delete a branch.
 
-Steps we'll cover:
-
-- [Why you might need to remove a branch](#why-you-might-need-to-remove-a-branch)
-- [Deleting a GIT local branch](#deleting-a-git-local-branch)
-- [Deleting a Git remote branch](#deleting-a-git-remote-branch)
-- [Deleting a branch with merged changes](#deleting-a-branch-with-merged-changes)
-- [Deleting a git branch with unmerged changes](#deleting-a-git-branch-with-unmerged-changes)
-- [Advanced Scenarios for Branch Deletion](#advanced-scenarios-for-branch-deletion)
-- [What are tracking branches and how to delete them](#what-are-tracking-branches-and-how-to-delete-them)
-- [How to delete a branch on Github using web console](#how-to-delete-a-branch-on-github-using-web-console)
-- [Automate Deletion with a Scheduled Task](#automate-deletion-with-a-scheduled-task)
-- [Running on CI/CD Pipelines](#running-on-cicd-pipelines)
-- [Frequently asked questions](#frequently-asked-questions)
-
 ## Why you might need to remove a branch
 
 You need to ensure that your Git repository is not a mess of outdated and old branches that are not being worked on anymore. You should perform periodic cleanup of the branches where you would either remove the old branches or you would merge them into the master. Your code repository should be neat, tidy, and easy to navigate.
@@ -62,7 +50,7 @@ git branch -d "branch name"
 ```
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-27-git-delete/git-delete-branch-1.png"  alt="git delete branch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-27-git-delete/git-delete-branch-1.png"  alt="Terminal output for deleting a local Git branch" />
 </div>
 
 <br/>
@@ -90,7 +78,7 @@ git push origin -d "branch name"
 ```
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center", }}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-27-git-delete/git-delete-branch-2.png"  alt="git delete branch" />
+   <img style={{alignSelf:"center", }}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-27-git-delete/git-delete-branch-2.png"  alt="Terminal output for deleting a remote Git branch" />
 </div>
 
 <br/>
@@ -119,7 +107,7 @@ git branch -d <BranchName>
 ```
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-27-git-delete/git-delete-branch-3.png"  alt="git delete branch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-27-git-delete/git-delete-branch-3.png"  alt="Deleting a merged Git branch with -d" />
 </div>
 
 ## Deleting a git branch with unmerged changes
@@ -131,7 +119,7 @@ git branch -D <branchName>
 ```
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-27-git-delete/git-delete-branch-4.png"  alt="git delete branch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-27-git-delete/git-delete-branch-4.png"  alt="Force deleting an unmerged Git branch with -D" />
 </div>
 
 <br/>
@@ -203,7 +191,7 @@ A shorted version of the command is:
 Note that if you delete a remote branch "X" from the command line using `git push` then it will also remove the local remote-tracking branch "origin/X" so there is no need to prune the obsolete remote-tracking branch with `git fetch –prune` or `git fetch –p`.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-27-git-delete/git-delete-branch-5.png"  alt="git delete branch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-27-git-delete/git-delete-branch-5.png"  alt="Deleting a local branch with verbose output" />
 </div>
 
 <br/>
@@ -227,7 +215,7 @@ git branch –r
 3.  Navigate to the branch you want to delete, then click delete icon
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-27-git-delete/git-delete-branch-6.png"  alt="git delete branch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-27-git-delete/git-delete-branch-6.png"  alt="Pruning remote branches after deletion" />
 </div>
 
 <br/>
@@ -285,7 +273,7 @@ The workflow is triggered with each push to the main branch and cleans branches 
 Solution: You cannot delete a branch you are already on. You must first switch to another branch and then delete the required branch. See the below example:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-27-git-delete/git-delete-branch-7.png"  alt="git delete branch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-27-git-delete/git-delete-branch-7.png"  alt="Listing all local and remote branches" />
 </div>
 
 <br/>
@@ -301,7 +289,7 @@ The `git reflog` command is used to record updates made to the tip of branches. 
 The below snapshot provides an example where a branch named "dev-arsam" will be recovered.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-27-git-delete/git-delete-branch-8.png"  alt="git delete branch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-27-git-delete/git-delete-branch-8.png"  alt="Deleting a remote branch with git push --delete" />
 </div>
 
 <br/>
@@ -315,7 +303,7 @@ To avoid dangling branches, you can set up the configuration so that your branch
 3. Under "Pull Requests", select or unselect Automatically delete head branches.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-11-27-git-delete/git-delete-branch-9.png"  alt="git delete branch" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-11-27-git-delete/git-delete-branch-9.png"  alt="Remote branch removed confirmation" />
 </div>
 
 <br/>
@@ -335,6 +323,14 @@ Similarly if you want to specify the deletion of tags and not branch, then use b
 ```
 git push origin :refs/tags/tag-name
 ```
+
+## Branch Protection and Pre-Delete Hooks
+
+To avoid accidental removal of important branches such as `main`, `develop`, or long-lived release lines, modern platforms like GitHub and GitLab offer **branch protection rules**. These rules can block deletion, require pull request reviews, or enforce status checks before changes are merged. Combined with local safeguards, teams can also configure **pre-push or pre-delete Git hooks** that run before destructive actions. For example, a hook could refuse to delete a branch unless a team lead approves, or it could stop pushes that target protected branches. These practices make it harder for human error to remove branches that are still in use or critical to deployment pipelines.
+
+## Best Practices for Teams
+
+When multiple developers are working on the same repository, branch cleanup becomes more than a personal workflow—it’s a team-wide responsibility. A good practice is to schedule periodic reviews of stale branches, ideally at sprint boundaries or release milestones, so old feature branches don’t pile up. Communication also matters: announcing deletions in a team channel helps avoid surprises, especially when others may still be referencing those branches. Tools like `git show-branch`, `git branch --merged`, or GitHub’s branch dashboard can help verify whether a branch is truly inactive before removal. By treating cleanup as part of the collaboration process, teams reduce friction and ensure that only safe, unnecessary branches are deleted.
 
 ## Conclusion
 

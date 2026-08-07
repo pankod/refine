@@ -1,5 +1,8 @@
 ---
-title: useGetToPath
+title: "useGetToPath Hook | Usage & Patterns in Refine v5"
+display_title: "useGetToPath"
+sidebar_label: "useGetToPath"
+description: "Implement Use Get To Path in Refine v5. Learn the key steps. Explore best practices for want for real-world React admin panels. Learn with code examples."
 ---
 
 `useGetToPath` is a hook that returns a function that composes the URL for the given `resource` and the `action` by using the URL parameters and the `meta` property if provided.
@@ -23,7 +26,9 @@ const MyComponent = () => {
       onClick={() => {
         go({
           to: getToPath({
-            resource: "posts",
+            resource: {
+              name: "posts",
+            },
             action: "edit",
             meta: {
               id: 1,
@@ -60,7 +65,3 @@ This is the name of the action that you want to navigate to.
 ### meta
 
 This is the meta object that you want to use to compose the URL. It will be merged with the `params` object that is parsed from the URL.
-
-### legacy
-
-This is a boolean value that indicates whether the legacy URL format should be used or not. If it is set to `true`, the URL will be composed for the legacy routers. Default value is `false`.

@@ -1,6 +1,6 @@
-import React from "react";
 import Link from "@docusaurus/Link";
 import clsx from "clsx";
+import React from "react";
 
 type Props = {
   className?: string;
@@ -9,7 +9,7 @@ type Props = {
 export const CommonHomeButton = ({ className }: Props) => {
   return (
     <Link
-      href="/"
+      href="/core"
       className={clsx(
         "text-base",
         "text-gray-500 dark:text-gray-400",

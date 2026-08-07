@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example calendar-app
 
 <br/>
 
-[![Open calendar-app example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/calendar-app?view=preview&theme=dark&codemirror=1)
+[![Open calendar-app example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/calendar-app?view=preview&theme=dark&codemirror=1)

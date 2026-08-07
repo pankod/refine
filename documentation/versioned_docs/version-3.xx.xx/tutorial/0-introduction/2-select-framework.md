@@ -11,7 +11,7 @@ import { SelectTutorialFramework } from '@site/src/components/select-tutorial-fr
 
 **refine** is a headless framework by default. It means you can build your app without any UI frameworks. However, **refine** has built-in support for the most popular UI frameworks like **Material UI**, **Ant Design**, **Mantine**, and **Chakra UI**. You can speed up your app UI development with these powerful frameworks.
 
-Before you start, you can read the [API references](/docs/3.xx.xx/api-reference/general-concepts/) of the UI frameworks to get more information about them.
+Before you start, you can read the [API references](/core/docs/3.xx.xx/api-reference/general-concepts/) of the UI frameworks to get more information about them.
 
 <h3>Select a UI Framework</h3>
 

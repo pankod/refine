@@ -1,8 +1,9 @@
 import React from "react";
+import { vi } from "vitest";
 
 import { fireEvent, render, waitFor } from "@testing-library/react";
 
-import { TestWrapper, mockLegacyRouterProvider } from "@test/index";
+import { TestWrapper } from "@test/index";
 
 import { RegisterPage } from ".";
 import type { AuthProvider } from "../../../../../contexts/auth/types";
@@ -145,7 +146,7 @@ describe("Auth Page Register", () => {
   });
 
   it("should run register mutation when form is submitted", async () => {
-    const registerMock = jest.fn();
+    const registerMock = vi.fn();
     const { getByLabelText, getByDisplayValue } = render(<RegisterPage />, {
       wrapper: TestWrapper({
         authProvider: {
@@ -166,39 +167,17 @@ describe("Auth Page Register", () => {
     fireEvent.click(getByDisplayValue(/sign up/i));
 
     await waitFor(() => {
-      expect(registerMock).toBeCalledTimes(1);
+      expect(registerMock).toHaveBeenCalledTimes(1);
     });
 
-    expect(registerMock).toBeCalledWith({
+    expect(registerMock).toHaveBeenCalledWith({
       email: "demo@refine.dev",
       password: "demo",
     });
   });
 
-  it("should work with legacy router provider Link", async () => {
-    const LinkComponentMock = jest.fn();
-
-    render(<RegisterPage />, {
-      wrapper: TestWrapper({
-        legacyRouterProvider: {
-          ...mockLegacyRouterProvider(),
-          useLocation: jest.fn(),
-          Link: LinkComponentMock,
-        },
-      }),
-    });
-
-    expect(LinkComponentMock).toBeCalledWith(
-      {
-        to: "/login",
-        children: "Sign in",
-      },
-      {},
-    );
-  });
-
   it("should run register mutation when provider button is clicked", async () => {
-    const registerMock = jest.fn();
+    const registerMock = vi.fn();
     const { getByText } = render(
       <RegisterPage
         providers={[
@@ -223,10 +202,10 @@ describe("Auth Page Register", () => {
     fireEvent.click(getByText(/google/i));
 
     await waitFor(() => {
-      expect(registerMock).toBeCalledTimes(1);
+      expect(registerMock).toHaveBeenCalledTimes(1);
     });
 
-    expect(registerMock).toBeCalledWith({
+    expect(registerMock).toHaveBeenCalledWith({
       providerName: "Google",
     });
   });
@@ -282,7 +261,7 @@ describe("Auth Page Register", () => {
   });
 
   it("should should accept 'mutationVariables'", async () => {
-    const registerMock = jest.fn().mockResolvedValue({ success: true });
+    const registerMock = vi.fn().mockResolvedValue({ success: true });
 
     const { getByRole, getByLabelText } = render(
       <RegisterPage

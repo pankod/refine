@@ -18,7 +18,10 @@ export const PostList = () => {
 
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-  const { data, isLoading } = useMany<ICategory>({
+  const {
+    result: data,
+    query: { isLoading },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -28,7 +31,10 @@ export const PostList = () => {
 
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
 
-  const { mutate, isLoading: deleteManyIsLoading } = useDeleteMany<IPost>();
+  const {
+    mutate,
+    mutation: { isPending: deleteManyIsLoading },
+  } = useDeleteMany<IPost>();
 
   const deleteSelectedItems = () => {
     mutate(

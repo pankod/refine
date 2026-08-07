@@ -6,6 +6,19 @@ import BlogPostItemContainer from "@theme/BlogPostItem/Container";
 import { Date as DateComponent } from "@site/src/components/blog/common";
 import clsx from "clsx";
 
+const Dot = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={6}
+    height={6}
+    viewBox="0 0 6 6"
+    fill="none"
+    className={clsx("flex-shrink-0", "text-zinc-300 dark:text-zinc-600")}
+  >
+    <circle cx={3} cy={3} r={3} fill="currentColor" />
+  </svg>
+);
+
 export default function BlogPostItem({ className }) {
   const { metadata } = useBlogPost();
   const {
@@ -15,59 +28,86 @@ export default function BlogPostItem({ className }) {
     formattedDate,
     frontMatter,
     description,
-    tags,
+    category,
   } = metadata;
-
-  const author = metadata.authors[0];
+  const { label: categoryLabel, permalink: categoryPermalink } = category;
 
   return (
     <BlogPostItemContainer className={className}>
-      <div>
-        <Link
-          itemProp="url"
-          to={permalink}
-          className={clsx("block", "w-full h-auto", "aspect-[592/334]")}
-        >
-          <div
+      <Link
+        itemProp="url"
+        to={permalink}
+        className={clsx(
+          "block",
+          "flex-shrink-0",
+          "w-full",
+          "h-auto",
+          "aspect-[320/178]",
+          "blog-lg:aspect-[428/238]",
+          "blog-max:aspect-[360/200]",
+          "blog-max:max-w-[360px]",
+          "rounded-lg",
+          "overflow-hidden",
+        )}
+      >
+        <div className={clsx("not-prose relative m-0", "h-full w-full")}>
+          <img
+            src={`https://refine-web.imgix.net${frontMatter.image?.replace(
+              "https://refine.ams3.cdn.digitaloceanspaces.com",
+              "",
+            )}?fm=webp&auto=format&h=668`}
+            alt={title}
             className={clsx(
-              "not-prose relative m-0 hover:brightness-90",
-              "h-full w-full",
+              "absolute inset-0 mt-0 h-full w-full rounded-[0.25rem] object-cover",
+            )}
+            loading="lazy"
+          />
+        </div>
+      </Link>
+      <div
+        className={clsx(
+          "pt-3",
+          "blog-md:pt-4",
+          "px-3",
+          "blog-md:px-6",
+          "blog-md:pb-6",
+          "h-full",
+        )}
+      >
+        <div
+          className={clsx(
+            "flex flex-wrap items-center",
+            "mb-3",
+            "blog-lg:mb-4",
+            "gap-2",
+            "text-zinc-500 dark:text-zinc-400",
+            "text-[0.625rem]",
+            "leading-4",
+            "font-semibold",
+            "tracking-[0.001em]",
+          )}
+        >
+          <Link
+            to={categoryPermalink}
+            className={clsx(
+              "uppercase",
+              "no-underline",
+              "hover:no-underline",
+              "text-zinc-500",
+              "dark:text-zinc-400",
+              "hover:text-zinc-600",
+              "dark:hover:text-zinc-300",
+              "transition-colors",
+              "duration-200",
+              "ease-in-out",
             )}
           >
-            <img
-              src={`https://refine-web.imgix.net${frontMatter.image?.replace(
-                "https://refine.ams3.cdn.digitaloceanspaces.com",
-                "",
-              )}?h=668`}
-              alt={title}
-              className={clsx(
-                "absolute inset-0 mt-0 h-full w-full rounded-[10px] object-cover",
-              )}
-              loading="lazy"
-            />
-          </div>
-        </Link>
-      </div>
-      <div className="px-4 py-4 md:px-6  md:py-6">
-        <div className={clsx("flex flex-wrap items-center", "mb-6", "gap-3")}>
-          {tags.map((tag) => (
-            <Link
-              className={clsx(
-                "text-xs",
-                "bg-refine-react-3 dark:bg-refine-react-7",
-                "text-refine-react-8 dark:text-refine-react-3",
-                "no-underline",
-                "rounded-full",
-                "px-2 py-1",
-              )}
-              href={tag.permalink}
-              key={tag.permalink}
-            >
-              {tag.label}
-            </Link>
-          ))}
+            {categoryLabel}
+          </Link>
+          <Dot />
+          <DateComponent date={date} formattedDate={formattedDate} />
         </div>
-        <div className="mb-2 md:mb-4">
+        <div>
           <Link
             itemProp="url"
             to={permalink}
@@ -76,11 +116,13 @@ export default function BlogPostItem({ className }) {
           >
             <div
               className={clsx(
-                "mb-4",
-                "text-gray-700 dark:text-refine-react-3",
-                "text-xl",
-                "font-lg",
-                "font-bold",
+                "mb-3",
+                "blog-lg:mb-4",
+                "text-zinc-900 dark:text-white",
+                "text-base",
+                "font-medium",
+                "text-balance",
+                "tracking-[-0.004em]",
               )}
             >
               {title}
@@ -89,25 +131,15 @@ export default function BlogPostItem({ className }) {
           <div
             className={clsx(
               "line-clamp-3",
-              "text-gray-700 dark:text-refine-react-4",
+              "text-zinc-600 dark:text-zinc-400",
               "text-sm",
+              "tracking-[-0.007em]",
+              "mt-auto",
+              "text-pretty",
             )}
           >
             {description}
           </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span
-            className={clsx(
-              "text-gray-600 dark:text-refine-react-5",
-              "text-xs",
-              "leading-6",
-              "no-underline",
-            )}
-          >
-            <DateComponent date={date} formattedDate={formattedDate} />
-          </span>
         </div>
       </div>
     </BlogPostItemContainer>

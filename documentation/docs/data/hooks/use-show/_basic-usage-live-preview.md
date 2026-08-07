@@ -6,7 +6,7 @@ body {
 ```
 
 ```tsx live url=http://localhost:3000/products/show/1 previewHeight=300px
-setInitialRoutes(["/products/show/1"]);
+setInitialRoutes(["/products/show/123"]);
 // visible-block-start
 import { useShow } from "@refinedev/core";
 
@@ -17,10 +17,10 @@ interface IProduct {
 }
 
 const ProductShow: React.FC = () => {
-  const { query } = useShow<IProduct>();
-
-  const { data, isFetching, isError, refetch } = query;
-  const product = data?.data;
+  const {
+    result: product,
+    query: { isFetching, isError, refetch },
+  } = useShow<IProduct>();
 
   if (isFetching) {
     return <div>Loading...</div>;
@@ -46,9 +46,20 @@ setRefineProps({
   resources: [
     {
       name: "products",
-      show: ProductShow,
+      show: "/products/show/:id",
     },
   ],
 });
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo>
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/products/show/:id"
+          element={<ProductShow />}
+        />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

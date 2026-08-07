@@ -21,7 +21,7 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
           cache: "pnpm"
       - name: Install Dependencies
         run: |
@@ -44,16 +44,16 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
           cache: "pnpm"
       - name: Install & Build
         run: pnpm install
+      - name: Test
+        run: pnpm test:all --skip-nx-cache
       - name: Publint
         run: pnpm publint:all
       - name: Are The Types Wrong
         run: pnpm attw:all
-      - name: Test
-        run: pnpm test:all --skip-nx-cache
 
   tsdoc-check:
     runs-on: ubuntu-latest
@@ -65,4 +65,4 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - name: Check TSDoc Links
-        run: npx tsdoc-link-check --patterns packages/**
+        run: npx tsdoc-link-check --patterns packages/**/*.ts packages/**/*.tsx

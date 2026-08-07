@@ -4,11 +4,11 @@ title: General Concepts
 ---
 
 - **refine** core is fully independent of UI. So you can use core components and hooks without any UI dependency.
-- All the **data** related hooks([`useTable`](/docs/3.xx.xx/api-reference/core/hooks/useTable/), [`useForm`](/api-reference/core/hooks/useForm.md), [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList) etc.) of **refine** can be given some common properties like `resource`, `metaData`, `queryOptions` etc.
+- All the **data** related hooks([`useTable`](/core/docs/3.xx.xx/api-reference/core/hooks/useTable/), [`useForm`](/core/docs/3.xx.xx/api-reference/core/hooks/useForm), [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList) etc.) of **refine** can be given some common properties like `resource`, `metaData`, `queryOptions` etc.
 
 ### `resource`
 
-**refine** passes the `resource` to the `dataProvider` as a params. This parameter is usually used to as a API endpoint path. It all depends on how to handle the `resource` in your `dataProvider`. See the [`creating a data provider`](/docs/3.xx.xx/tutorial/understanding-dataprovider/create-dataprovider/) section for an example of how `resource` are handled.
+**refine** passes the `resource` to the `dataProvider` as a params. This parameter is usually used to as a API endpoint path. It all depends on how to handle the `resource` in your `dataProvider`. See the [`creating a data provider`](/core/docs/3.xx.xx/tutorial/understanding-dataprovider/create-dataprovider/) section for an example of how `resource` are handled.
 
 How does refine know what the resource value is?
 
@@ -106,4 +106,4 @@ In the above example, we pass the `headers` property in the `metaData` object to
 
 [Refer to the how to pass `metaData` to your existing `dataProvider` methods. &#8594](/faq.md#how-i-can-override-specific-function-of-data-providers)
 
-[Refer to the `GraphQL` guide to learn how to use `metaData` to create GraphQL queries. &#8594](/advanced-tutorials/data-provider/graphql.md)
+[Refer to the `GraphQL` guide to learn how to use `metaData` to create GraphQL queries. &#8594](/core/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/)

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  type ITreeMenu,
+  type TreeMenuItem,
   CanAccess,
   useIsExistAuthentication,
   useTranslate,
@@ -9,8 +9,11 @@ import {
   useWarnAboutChange,
   useSubscription,
 } from "@refinedev/core";
-import { Link } from "react-router-dom";
-import { type Sider, ThemedTitleV2 } from "@refinedev/antd";
+import { Link } from "react-router";
+import {
+  type ThemedSider as ThemedSiderV2,
+  ThemedTitle as ThemedTitleV2,
+} from "@refinedev/antd";
 import { Layout as AntdLayout, Menu, Grid, theme, Button, Badge } from "antd";
 import {
   LogoutOutlined,
@@ -23,7 +26,7 @@ import { antLayoutSider, antLayoutSiderMobile } from "./styles";
 
 const { useToken } = theme;
 
-export const CustomSider: typeof Sider = ({ render }) => {
+export const CustomSider: typeof ThemedSiderV2 = ({ render }) => {
   const { token } = useToken();
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const isExistAuthentication = useIsExistAuthentication();
@@ -45,8 +48,8 @@ export const CustomSider: typeof Sider = ({ render }) => {
     onLiveEvent: () => setSubscriptionCount((prev) => prev + 1),
   });
 
-  const renderTreeView = (tree: ITreeMenu[], selectedKey?: string) => {
-    return tree.map((item: ITreeMenu) => {
+  const renderTreeView = (tree: TreeMenuItem[], selectedKey?: string) => {
+    return tree.map((item: TreeMenuItem) => {
       const { name, children, meta, key, list } = item;
 
       const icon = meta?.icon;
@@ -56,7 +59,7 @@ export const CustomSider: typeof Sider = ({ render }) => {
         typeof list === "string"
           ? list
           : typeof list !== "function"
-            ? list?.path
+            ? list
             : key;
 
       if (children.length > 0) {
@@ -136,7 +139,6 @@ export const CustomSider: typeof Sider = ({ render }) => {
   const renderSider = () => {
     if (render) {
       return render({
-        dashboard: null,
         items,
         logout,
         collapsed,

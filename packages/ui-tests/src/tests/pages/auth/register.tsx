@@ -1,9 +1,10 @@
+import { vi } from "vitest";
 import React, { type FC } from "react";
 
 import {
   fireEvent,
   mockAuthProvider,
-  mockRouterBindings,
+  mockRouterProvider,
   render,
   TestWrapper,
   waitFor,
@@ -199,7 +200,7 @@ export const pageRegisterTests = (
     });
 
     it("should run register mutation when form is submitted", async () => {
-      const registerMock = jest.fn().mockResolvedValue({ success: true });
+      const registerMock = vi.fn().mockResolvedValue({ success: true });
       const { getByLabelText, getAllByText } = render(<RegisterPage />, {
         wrapper: TestWrapper({
           authProvider: {
@@ -220,17 +221,17 @@ export const pageRegisterTests = (
       fireEvent.click(getAllByText(/sign up/i)[1]);
 
       await waitFor(() => {
-        expect(registerMock).toBeCalledTimes(1);
+        expect(registerMock).toHaveBeenCalledTimes(1);
       });
 
-      expect(registerMock).toBeCalledWith({
+      expect(registerMock).toHaveBeenCalledWith({
         email: "demo@refine.dev",
         password: "demo",
       });
     });
 
     it("should run register mutation when provider button is clicked", async () => {
-      const registerMock = jest.fn().mockResolvedValue({ success: true });
+      const registerMock = vi.fn().mockResolvedValue({ success: true });
       const { getByText } = render(
         <RegisterPage
           providers={[
@@ -255,36 +256,28 @@ export const pageRegisterTests = (
       fireEvent.click(getByText(/google/i));
 
       await waitFor(() => {
-        expect(registerMock).toBeCalledTimes(1);
+        expect(registerMock).toHaveBeenCalledTimes(1);
       });
 
-      expect(registerMock).toBeCalledWith({
+      expect(registerMock).toHaveBeenCalledWith({
         providerName: "Google",
       });
     });
 
     it("should work with new router provider Link", async () => {
-      jest.spyOn(console, "error").mockImplementation((message) => {
+      vi.spyOn(console, "error").mockImplementation((message) => {
         console.warn(message);
       });
-      const LinkComponentMock = jest.fn();
 
-      render(<RegisterPage />, {
+      const { getByText } = render(<RegisterPage />, {
         wrapper: TestWrapper({
-          routerProvider: mockRouterBindings({
-            fns: {
-              Link: LinkComponentMock,
-            },
-          }),
+          routerProvider: mockRouterProvider({}),
         }),
       });
 
-      expect(LinkComponentMock).toBeCalledWith(
-        expect.objectContaining({
-          to: "/login",
-        }),
-        {},
-      );
+      const loginLink = getByText(/sign in/i);
+      expect(loginLink).toBeInTheDocument();
+      expect(loginLink).toHaveAttribute("href", "/login");
     });
 
     it("should not render form when `hideForm` is true", async () => {
@@ -338,7 +331,7 @@ export const pageRegisterTests = (
     });
 
     it("should should accept 'mutationVariables'", async () => {
-      const registerMock = jest.fn().mockResolvedValue({ success: true });
+      const registerMock = vi.fn().mockResolvedValue({ success: true });
 
       const { getByRole, getByLabelText } = render(
         <RegisterPage

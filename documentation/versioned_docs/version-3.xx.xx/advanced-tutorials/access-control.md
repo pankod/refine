@@ -8,7 +8,7 @@ sidebar_label: Access Control
 
 Access control is a broad topic where there are lots of advanced solutions that provide a different sets of features. **refine** is deliberately agnostic for its own API to be able to integrate different methods (RBAC, ABAC, ACL, etc.) and different libraries ([Casbin](https://casbin.org/), [CASL](https://casl.js.org/v5/en/), [Cerbos](https://cerbos.dev/), [AccessControl.js](https://onury.io/accesscontrol/)). `can` method would be the entry point for those solutions.
 
-[Refer to the Access Control Provider documentation for detailed information. &#8594](/api-reference/core/providers/accessControl-provider.md)
+[Refer to the Access Control Provider documentation for detailed information. &#8594](/core/docs/3.xx.xx/api-reference/core/providers/accessControl-provider)
 
 **refine** provides an agnostic API via the `accessControlProvider` to manage access control throughout your app.
 
@@ -443,7 +443,7 @@ const App: React.FC = () => {
 export default App;
 ```
 
-Then it can be used with [`useCan`](/api-reference/core/hooks/accessControl/useCan.md) in the related area:
+Then it can be used with [`useCan`](/core/docs/3.xx.xx/api-reference/core/hooks/accessControl/useCan) in the related area:
 
 ```tsx title="src/pages/posts/list.tsx"
 import {
@@ -483,7 +483,7 @@ export const PostList: React.FC = () => {
 ```
 
 :::tip
-[`<CanAccess />`](/docs/3.xx.xx/api-reference/core/components/accessControl/can-access) can be used too to check access control in custom places in your app.
+[`<CanAccess />`](/core/docs/3.xx.xx/api-reference/core/components/accessControl/can-access) can be used too to check access control in custom places in your app.
 :::
 
 <br/>

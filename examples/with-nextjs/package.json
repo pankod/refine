@@ -11,32 +11,33 @@
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
     "@ant-design/nextjs-registry": "^1.0.0",
-    "@refinedev/antd": "^5.44.0",
-    "@refinedev/cli": "^2.16.39",
-    "@refinedev/core": "^4.56.0",
-    "@refinedev/devtools": "^1.2.9",
-    "@refinedev/kbar": "^1.3.12",
-    "@refinedev/nextjs-router": "^6.1.0",
-    "@refinedev/simple-rest": "^5.0.8",
-    "antd": "^5.17.0",
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@refinedev/antd": "^6.0.3",
+    "@refinedev/cli": "^2.16.52",
+    "@refinedev/core": "^5.1.0",
+    "@refinedev/devtools": "^2.0.5",
+    "@refinedev/kbar": "^2.0.1",
+    "@refinedev/nextjs-router": "^7.0.5",
+    "@refinedev/simple-rest": "^6.0.1",
+    "antd": "^5.23.0",
     "cross-env": "^7.0.3",
     "js-cookie": "^3.0.1",
-    "next": "^14.1.0",
+    "next": "^14.2.26",
     "nookies": "^2.5.2",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.2",
-    "@types/node": "^18.16.2",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
+    "@types/node": "^20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
     "@typescript-eslint/parser": "5.48.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.24.0",
-    "typescript": "^5.4.2"
+    "typescript": "^5.8.3"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20"
   }
 }

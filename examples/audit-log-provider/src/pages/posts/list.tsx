@@ -9,12 +9,14 @@ export const PostList: React.FC = () => {
   const { show, close, visible } = useModal();
   const [historyId, setHistoryId] = useState<number>();
   const { tableQuery: tableQueryResult } = useTable<IPost>({
-    initialSorter: [
-      {
-        field: "id",
-        order: "desc",
-      },
-    ],
+    sorters: {
+      initial: [
+        {
+          field: "id",
+          order: "desc",
+        },
+      ],
+    },
   });
   const { edit, create } = useNavigation();
 

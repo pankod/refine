@@ -1,42 +1,19 @@
 ---
-title: Export
+title: "Chakra UI Export Button Component | Data Tools in Refine v5"
+display_title: "Export"
+sidebar_label: "Export"
+description: "Explore how to integrate Export Button in Refine v5. Learn integrate hide for polished admin UIs. Hands-on examples included."
 swizzle: true
 ---
 
-```tsx live shared
-const { default: sharedRouterProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: sharedRouterProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  Layout: RefineChakra.Layout,
-  Sider: () => null,
-  catchAll: <RefineChakra.ErrorComponent />,
-});
-
-const Wrapper = ({ children }) => {
-  return (
-    <ChakraUI.ChakraProvider theme={RefineChakra.refineTheme}>
-      {children}
-    </ChakraUI.ChakraProvider>
-  );
-};
-```
-
 `<ExportButton>` is an Chakra UI [`<Button>`](https://www.chakra-ui.com/docs/components/button#usage) with a default export icon and a default text with "Export". It only has presentational value.
 
-```tsx live url=http://localhost:3000 previewHeight=420px hideCode
+```tsx live previewHeight=360px hideCode
 setInitialRoutes(["/posts"]);
-import { Refine } from "@refinedev/core";
 
 // visible-block-start
-//highlight-next-line
 import { useExport } from "@refinedev/core";
-import {
-  List,
-  //highlight-next-line
-  ExportButton,
-} from "@refinedev/chakra-ui";
+import { List, ExportButton } from "@refinedev/chakra-ui";
 import {
   TableContainer,
   Table,
@@ -45,6 +22,8 @@ import {
   Th,
   Tbody,
   Td,
+  Box,
+  Text,
 } from "@chakra-ui/react";
 import { useTable } from "@refinedev/react-table";
 import { ColumnDef, flexRender } from "@tanstack/react-table";
@@ -67,14 +46,11 @@ const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    refineCore: { setCurrent, pageCount, current },
+    reactTable: { getHeaderGroups, getRowModel },
   } = useTable({
     columns,
   });
 
-  //highlight-start
   const { triggerExport, isLoading: exportLoading } = useExport<IPost>({
     mapData: (item) => {
       return {
@@ -85,22 +61,20 @@ const PostList: React.FC = () => {
     pageSize: 10,
     maxItemCount: 50,
   });
-  //highlight-end
 
   return (
     <List
       headerButtons={
-        // highlight-next-line
         <ExportButton loading={exportLoading} onClick={triggerExport} />
       }
     >
-      <TableContainer>
-        <Table variant="simple" whiteSpace="pre-line">
-          <Thead>
-            {getHeaderGroups().map((headerGroup) => (
-              <Tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
+      <Box position="relative">
+        <TableContainer whiteSpace="pre-line">
+          <Table variant="simple">
+            <Thead>
+              {getHeaderGroups().map((headerGroup) => (
+                <Tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
                     <Th key={header.id}>
                       {!header.isPlaceholder &&
                         flexRender(
@@ -108,31 +82,27 @@ const PostList: React.FC = () => {
                           header.getContext(),
                         )}
                     </Th>
-                  );
-                })}
-              </Tr>
-            ))}
-          </Thead>
-          <Tbody>
-            {getRowModel().rows.map((row) => {
-              return (
-                <Tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <Td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </Td>
-                    );
-                  })}
+                  ))}
                 </Tr>
-              );
-            })}
-          </Tbody>
-        </Table>
-      </TableContainer>
+              ))}
+            </Thead>
+            <Tbody>
+              {getRowModel().rows.map((row) => (
+                <Tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <Td key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </Td>
+                  ))}
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Box>
     </List>
   );
 };
@@ -143,68 +113,155 @@ interface IPost {
 }
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
-      notificationProvider={RefineChakra.notificationProvider()}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
           name: "posts",
-          list: PostList,
+          list: "/posts",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
 ## Properties
 
-### hideText
+### `hideText`
 
-`hideText` is used to show and not show the text of the button. When `true`, only the button icon is visible.
+It is used to show and hide the text of the button. When `true`, only the button icon is shown.
 
-```tsx live url=http://localhost:3000 previewHeight=200px
-setInitialRoutes(["/"]);
-
-import { Refine } from "@refinedev/core";
+```tsx live previewHeight=120px
+setInitialRoutes(["/posts"]);
 
 // visible-block-start
 import { ExportButton } from "@refinedev/chakra-ui";
+import { useExport } from "@refinedev/core";
 
 const MyExportComponent = () => {
-  return <ExportButton colorScheme="black" hideText />;
-};
-// visible-block-end
+  const { triggerExport, isLoading } = useExport({
+    mapData: (item) => {
+      return {
+        id: item.id,
+        title: item.title,
+      };
+    },
+  });
 
-const App = () => {
   return (
-    <Refine
-      resources={[
-        {
-          name: "posts",
-          list: MyExportComponent,
-        },
-      ]}
+    <ExportButton
+      colorScheme="blue"
+      hideText={true}
+      loading={isLoading}
+      onClick={triggerExport}
     />
   );
 };
+// visible-block-end
 
 render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<MyExportComponent />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
+);
+```
+
+### `loading`
+
+It is used to show a loading state on the button when the export process is in progress.
+
+```tsx live previewHeight=120px
+setInitialRoutes(["/posts"]);
+
+// visible-block-start
+import { ExportButton } from "@refinedev/chakra-ui";
+import { useExport } from "@refinedev/core";
+
+const MyExportComponent = () => {
+  const { triggerExport, isLoading } = useExport({
+    mapData: (item) => {
+      return {
+        id: item.id,
+        title: item.title,
+      };
+    },
+  });
+
+  return (
+    <ExportButton
+      colorScheme="blue"
+      loading={isLoading}
+      onClick={triggerExport}
+    />
+  );
+};
+// visible-block-end
+
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<MyExportComponent />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -213,3 +270,9 @@ render(
 ### Properties
 
 <PropsTable module="@refinedev/chakra-ui/ExportButton" />
+
+:::simple External Props
+
+It also accepts all props of Chakra UI [Button](https://chakra-ui.com/docs/components/button#props).
+
+:::

@@ -21,7 +21,7 @@ import {
   Spin,
 } from "antd";
 import type { IProduct, ICategory } from "../../../interfaces";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { Drawer } from "../../drawer";
 import { UploadOutlined } from "@ant-design/icons";
 import { useStyles } from "./styled";
@@ -55,6 +55,10 @@ export const ProductDrawerForm = (props: Props) => {
 
   const { selectProps: categorySelectProps } = useSelect<ICategory>({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const onDrawerCLose = () => {

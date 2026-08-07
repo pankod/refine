@@ -8,6 +8,10 @@ const PostCreate: React.FC = () => {
 
   const { selectProps: categorySelectProps } = useSelect<IPost>({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   return (

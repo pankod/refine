@@ -21,7 +21,7 @@ It is used to get resource object by name or route name.
 import { useResource } from "@pankod/refine-core";
 
 const { resource } = useResource({
-    resourceNameOrRouteName: "posts",
+  resourceNameOrRouteName: "posts",
 });
 ```
 
@@ -55,57 +55,57 @@ Query param `action`.
 
 ### Return value
 
-| Description  | Type                                                           |
-| ------------ | -------------------------------------------------------------- |
-| resources    | [`IResourceItem[]`](#interfaces)                               |
-| resource     | [`IResourceItem`](#interfaces)                                 |
-| resourceName | `string`                                                       |
-| id           | [`BaseKey`](/api-reference/core/interfaces.md#basekey)         |
-| action       | `undefined` \| `"create"` \| `"edit"` \| `"show"` \| `"clone"` |
+| Description  | Type                                                                  |
+| ------------ | --------------------------------------------------------------------- |
+| resources    | [`IResourceItem[]`](#interfaces)                                      |
+| resource     | [`IResourceItem`](#interfaces)                                        |
+| resourceName | `string`                                                              |
+| id           | [`BaseKey`](/core/docs/3.xx.xx/api-reference/core/interfaces#basekey) |
+| action       | `undefined` \| `"create"` \| `"edit"` \| `"show"` \| `"clone"`        |
 
 #### Interfaces
 
 ```ts
 type OptionsProps<TExtends = { [key: string]: any }> = TExtends & {
-    label?: string;
-    route?: string;
-    hide?: boolean;
-    auditLog?: {
-        permissions?: AuditLogPermissions[number][] | string[];
-    };
+  label?: string;
+  route?: string;
+  hide?: boolean;
+  auditLog?: {
+    permissions?: AuditLogPermissions[number][] | string[];
+  };
 };
 
 interface IResourceComponentsProps<
-    TCrudData = any,
-    TOptionsPropsExtends = { [key: string]: any },
+  TCrudData = any,
+  TOptionsPropsExtends = { [key: string]: any },
 > {
-    canCreate?: boolean;
-    canEdit?: boolean;
-    canDelete?: boolean;
-    canShow?: boolean;
-    name?: string;
-    initialData?: TCrudData;
-    options?: OptionsProps<TOptionsPropsExtends>;
+  canCreate?: boolean;
+  canEdit?: boolean;
+  canDelete?: boolean;
+  canShow?: boolean;
+  name?: string;
+  initialData?: TCrudData;
+  options?: OptionsProps<TOptionsPropsExtends>;
 }
 
 interface IResourceComponents {
-    list?: React.FunctionComponent<IResourceComponentsProps<any, any>>;
-    create?: React.FunctionComponent<IResourceComponentsProps<any, any>>;
-    edit?: React.FunctionComponent<IResourceComponentsProps<any, any>>;
-    show?: React.FunctionComponent<IResourceComponentsProps<any, any>>;
+  list?: React.FunctionComponent<IResourceComponentsProps<any, any>>;
+  create?: React.FunctionComponent<IResourceComponentsProps<any, any>>;
+  edit?: React.FunctionComponent<IResourceComponentsProps<any, any>>;
+  show?: React.FunctionComponent<IResourceComponentsProps<any, any>>;
 }
 
 interface IResourceItem extends IResourceComponents {
-    name: string;
-    label?: string;
-    route?: string;
-    icon?: ReactNode;
-    canCreate?: boolean;
-    canEdit?: boolean;
-    canShow?: boolean;
-    canDelete?: boolean;
-    options?: OptionsProps;
-    parentName?: string;
+  name: string;
+  label?: string;
+  route?: string;
+  icon?: ReactNode;
+  canCreate?: boolean;
+  canEdit?: boolean;
+  canShow?: boolean;
+  canDelete?: boolean;
+  options?: OptionsProps;
+  parentName?: string;
 }
 ```
 

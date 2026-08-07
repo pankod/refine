@@ -1,7 +1,7 @@
 import { Authenticated, Refine } from "@refinedev/core";
 import {
   useNotificationProvider,
-  ThemedLayoutV2,
+  ThemedLayout,
   ErrorComponent,
   AuthPage,
 } from "@refinedev/antd";
@@ -10,8 +10,8 @@ import routerProvider, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
   CatchAllNavigate,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { App as AntdApp } from "antd";
 import { Header } from "@/components/header";
@@ -34,6 +34,7 @@ import {
 import { dataProvider } from "@/providers/data-provider";
 import { authProvider } from "@/providers/auth-provider";
 import { ConfigProvider } from "@/providers/config-provider";
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 import "./styles/custom.css";
 
@@ -81,7 +82,7 @@ const App: React.FC = () => {
                       key="authenticated-routes"
                       fallback={<CatchAllNavigate to="/login" />}
                     >
-                      <ThemedLayoutV2
+                      <ThemedLayout
                         Header={() => <Header />}
                         Sider={() => null}
                       >
@@ -94,7 +95,7 @@ const App: React.FC = () => {
                         >
                           <Outlet />
                         </div>
-                      </ThemedLayoutV2>
+                      </ThemedLayout>
                     </Authenticated>
                   }
                 >
@@ -177,12 +178,12 @@ const App: React.FC = () => {
                 <Route
                   element={
                     <Authenticated key="catch-all">
-                      <ThemedLayoutV2
+                      <ThemedLayout
                         Header={() => <Header />}
                         Sider={() => null}
                       >
                         <Outlet />
-                      </ThemedLayoutV2>
+                      </ThemedLayout>
                     </Authenticated>
                   }
                 >

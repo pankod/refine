@@ -1,10 +1,11 @@
 import type { AccessControlBindings } from "@refinedev/core";
 import { Role } from "@/types";
+import { keepPreviousData } from "@tanstack/react-query";
 
 export const accessControlProvider: AccessControlBindings = {
   options: {
     queryOptions: {
-      keepPreviousData: true,
+      placeholderData: keepPreviousData,
     },
     buttons: {
       hideIfUnauthorized: true,

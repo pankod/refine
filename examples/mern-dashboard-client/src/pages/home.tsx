@@ -11,12 +11,15 @@ import {
 } from "components";
 
 const Home = () => {
-  const { data, isLoading, isError } = useList({
+  const {
+    result: data,
+
+    query: { isLoading, isError },
+  } = useList({
     resource: "properties",
-    config: {
-      pagination: {
-        pageSize: 4,
-      },
+
+    pagination: {
+      pageSize: 4,
     },
   });
 

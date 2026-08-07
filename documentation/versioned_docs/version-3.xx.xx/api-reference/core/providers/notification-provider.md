@@ -5,7 +5,7 @@ title: Notification Provider
 
 **refine** let's you set a notification API by providing the `notificationProvider` property to the `<Refine>` component.
 
-`notificationProvider` is an object with close and open methods. **refine** uses these methods to show and hide notifications. These methods can be called from anywhere in the application with [`useNotification`](/docs/3.xx.xx/api-reference/core/hooks/useNotification/) hook.
+`notificationProvider` is an object with close and open methods. **refine** uses these methods to show and hide notifications. These methods can be called from anywhere in the application with [`useNotification`](/core/docs/3.xx.xx/api-reference/core/hooks/useNotification/) hook.
 
 An `notificationProvider` must include following methods:
 
@@ -83,7 +83,7 @@ values={[
 
   <TabItem value="custom">
 
-Create a custom notification provider by following the [guide](/docs/3.xx.xx/api-reference/core/providers/notification-provider/#creating-an-notificationprovider).
+Create a custom notification provider by following the [guide](/core/docs/3.xx.xx/api-reference/core/providers/notification-provider/#creating-an-notificationprovider).
 
   </TabItem>
 
@@ -334,7 +334,7 @@ export const UndoableNotification: React.FC<UndoableNotification> = ({
 </details>
 
 :::tip
-`open` method will be accessible via [`useNotification`](/docs/3.xx.xx/api-reference/core/hooks/useNotification/) hook.
+`open` method will be accessible via [`useNotification`](/core/docs/3.xx.xx/api-reference/core/hooks/useNotification/) hook.
 
 ```tsx
 import { useNotification } from "@pankod/refine-core";
@@ -365,7 +365,7 @@ const notificationProvider: NotificationProvider = {
 ```
 
 :::tip
-`close` method will be accessible via [`useNotification`](/docs/3.xx.xx/api-reference/core/hooks/useNotification/) hook.
+`close` method will be accessible via [`useNotification`](/core/docs/3.xx.xx/api-reference/core/hooks/useNotification/) hook.
 
 ```tsx
 import { useNotification } from "@pankod/refine-core";

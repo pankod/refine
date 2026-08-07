@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MantineEditInferencer should match the snapshot 1`] = `
+exports[`MantineEditInferencer > should match the snapshot 1`] = `
 <DocumentFragment>
   <div>
     <div
@@ -12,6 +12,35 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         <div
           class="mantine-Stack-root mantine-zyu68o"
         >
+          <div
+            aria-label="breadcrumb"
+            class="mantine-Breadcrumbs-root mantine-16ttirm"
+          >
+            <div
+              class="mantine-Group-root mantine-Breadcrumbs-breadcrumb mantine-lqce4f"
+            >
+              <a
+                class="mantine-Text-root mantine-Anchor-root mantine-1xmguuo"
+                href="/posts"
+              >
+                Posts
+              </a>
+            </div>
+            <div
+              class="mantine-Text-root mantine-Breadcrumbs-separator mantine-33yi4r"
+            >
+              /
+            </div>
+            <div
+              class="mantine-Group-root mantine-Breadcrumbs-breadcrumb mantine-lqce4f"
+            >
+              <div
+                class="mantine-Text-root mantine-rwoji2"
+              >
+                Edit
+              </div>
+            </div>
+          </div>
           <div
             class="mantine-Group-root mantine-1g4q40w"
           >
@@ -156,8 +185,8 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-NumberInput-label mantine-ittua2"
-            for="mantine-r0"
-            id="mantine-r0-label"
+            for="mantine-«r0»"
+            id="mantine-«r0»-label"
           >
             Id
           </label>
@@ -168,11 +197,11 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
               aria-invalid="false"
               class="mantine-Input-input mantine-NumberInput-input mantine-Input-disabled mantine-NumberInput-disabled mantine-13fwyki"
               disabled=""
-              id="mantine-r0"
+              id="mantine-«r0»"
               inputmode="numeric"
               step="1"
               type="text"
-              value=""
+              value="11"
             />
           </div>
         </div>
@@ -181,8 +210,8 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-            for="mantine-r1"
-            id="mantine-r1-label"
+            for="mantine-«r1»"
+            id="mantine-«r1»-label"
           >
             Title
           </label>
@@ -192,9 +221,9 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-              id="mantine-r1"
+              id="mantine-«r1»"
               type="text"
-              value=""
+              value="Nobis exercitationem officia quia est."
             />
           </div>
         </div>
@@ -203,8 +232,8 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-            for="mantine-r2"
-            id="mantine-r2-label"
+            for="mantine-«r2»"
+            id="mantine-«r2»-label"
           >
             Slug
           </label>
@@ -214,9 +243,9 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-              id="mantine-r2"
+              id="mantine-«r2»"
               type="text"
-              value=""
+              value="provident-culpa-facere"
             />
           </div>
         </div>
@@ -225,8 +254,8 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-Textarea-label mantine-ittua2"
-            for="mantine-r3"
-            id="mantine-r3-label"
+            for="mantine-«r3»"
+            id="mantine-«r3»-label"
           >
             Content
           </label>
@@ -236,8 +265,10 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
             <textarea
               aria-invalid="false"
               class="mantine-Input-input mantine-Textarea-input mantine-1cp6ct5"
-              id="mantine-r3"
-            />
+              id="mantine-«r3»"
+            >
+              Non velit blanditiis optio quo quaerat nam aperiam. Odit tempore consequatur voluptatibus molestias. Est nemo aut. Fugit aliquam enim eveniet veritatis. Magni et aut. Consequatur aliquid rerum vero. Quaerat debitis enim magnam. Dolorem est delectus architecto et accusantium. Velit quia vero. Aut necessitatibus quia at consequatur soluta accusantium.
+            </textarea>
           </div>
         </div>
         <div
@@ -245,8 +276,8 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-NumberInput-label mantine-ittua2"
-            for="mantine-r4"
-            id="mantine-r4-label"
+            for="mantine-«r4»"
+            id="mantine-«r4»-label"
           >
             Hit
           </label>
@@ -256,11 +287,11 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-NumberInput-input mantine-rum3t1"
-              id="mantine-r4"
+              id="mantine-«r4»"
               inputmode="numeric"
               step="1"
               type="text"
-              value=""
+              value="920557"
             />
             <div
               class="mantine-1cwybh2 mantine-Input-rightSection mantine-NumberInput-rightSection"
@@ -320,13 +351,13 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-Select-label mantine-ittua2"
-            for="mantine-r5"
-            id="mantine-r5-label"
+            for="mantine-«r5»"
+            id="mantine-«r5»-label"
           >
             Category
           </label>
           <div
-            aria-controls="mantine-r5"
+            aria-controls="mantine-«r5»"
             aria-expanded="false"
             aria-haspopup="listbox"
             class=""
@@ -335,7 +366,7 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
           >
             <input
               type="hidden"
-              value=""
+              value="16"
             />
             <div
               class="mantine-Input-wrapper mantine-Select-wrapper mantine-12sbrde"
@@ -346,29 +377,33 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
                 autocomplete="off"
                 class="mantine-Input-input mantine-Select-input mantine-149ccxv"
                 data-mantine-stop-propagation="false"
-                id="mantine-r5"
+                id="mantine-«r5»"
                 type="search"
-                value=""
+                value="Numquam Saepe Illo"
               />
               <div
-                class="mantine-uquezq mantine-Input-rightSection mantine-Select-rightSection"
+                class="mantine-163ph1f mantine-Input-rightSection mantine-Select-rightSection"
               >
-                <svg
-                  data-chevron="true"
-                  fill="none"
-                  height="18"
-                  style="color: rgb(134, 142, 150);"
-                  viewBox="0 0 15 15"
-                  width="18"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  class="mantine-UnstyledButton-root mantine-ActionIcon-root mantine-tzgcu0"
+                  tabindex="0"
+                  type="button"
                 >
-                  <path
-                    clip-rule="evenodd"
-                    d="M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z"
-                    fill="currentColor"
-                    fill-rule="evenodd"
-                  />
-                </svg>
+                  <svg
+                    fill="none"
+                    height="14"
+                    viewBox="0 0 15 15"
+                    width="14"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -378,13 +413,13 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-Select-label mantine-ittua2"
-            for="mantine-r7"
-            id="mantine-r7-label"
+            for="mantine-«r7»"
+            id="mantine-«r7»-label"
           >
             User
           </label>
           <div
-            aria-controls="mantine-r7"
+            aria-controls="mantine-«r7»"
             aria-expanded="false"
             aria-haspopup="listbox"
             class=""
@@ -393,7 +428,7 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
           >
             <input
               type="hidden"
-              value=""
+              value="21"
             />
             <div
               class="mantine-Input-wrapper mantine-Select-wrapper mantine-12sbrde"
@@ -404,29 +439,33 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
                 autocomplete="off"
                 class="mantine-Input-input mantine-Select-input mantine-149ccxv"
                 data-mantine-stop-propagation="false"
-                id="mantine-r7"
+                id="mantine-«r7»"
                 type="search"
-                value=""
+                value="Eriberto"
               />
               <div
-                class="mantine-uquezq mantine-Input-rightSection mantine-Select-rightSection"
+                class="mantine-163ph1f mantine-Input-rightSection mantine-Select-rightSection"
               >
-                <svg
-                  data-chevron="true"
-                  fill="none"
-                  height="18"
-                  style="color: rgb(134, 142, 150);"
-                  viewBox="0 0 15 15"
-                  width="18"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  class="mantine-UnstyledButton-root mantine-ActionIcon-root mantine-tzgcu0"
+                  tabindex="0"
+                  type="button"
                 >
-                  <path
-                    clip-rule="evenodd"
-                    d="M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z"
-                    fill="currentColor"
-                    fill-rule="evenodd"
-                  />
-                </svg>
+                  <svg
+                    fill="none"
+                    height="14"
+                    viewBox="0 0 15 15"
+                    width="14"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -436,8 +475,8 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-            for="mantine-r9"
-            id="mantine-r9-label"
+            for="mantine-«r9»"
+            id="mantine-«r9»-label"
           >
             Status
           </label>
@@ -447,9 +486,9 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-              id="mantine-r9"
+              id="mantine-«r9»"
               type="text"
-              value=""
+              value="draft"
             />
           </div>
         </div>
@@ -458,8 +497,8 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-            for="mantine-ra"
-            id="mantine-ra-label"
+            for="mantine-«ra»"
+            id="mantine-«ra»-label"
           >
             Status Color
           </label>
@@ -469,9 +508,9 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-              id="mantine-ra"
+              id="mantine-«ra»"
               type="text"
-              value=""
+              value="orange"
             />
           </div>
         </div>
@@ -480,8 +519,8 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-            for="mantine-rb"
-            id="mantine-rb-label"
+            for="mantine-«rb»"
+            id="mantine-«rb»-label"
           >
             Created At
           </label>
@@ -491,9 +530,9 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-              id="mantine-rb"
+              id="mantine-«rb»"
               type="text"
-              value=""
+              value="2022-04-02T08:25:44.933Z"
             />
           </div>
         </div>
@@ -502,8 +541,8 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-            for="mantine-rc"
-            id="mantine-rc-label"
+            for="mantine-«rc»"
+            id="mantine-«rc»-label"
           >
             Published At
           </label>
@@ -513,9 +552,9 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-              id="mantine-rc"
+              id="mantine-«rc»"
               type="text"
-              value=""
+              value="2021-08-10T08:07:39.705Z"
             />
           </div>
         </div>
@@ -524,13 +563,13 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-MultiSelect-label mantine-ittua2"
-            for="mantine-rd"
-            id="mantine-rd-label"
+            for="mantine-«rd»"
+            id="mantine-«rd»-label"
           >
             Tags
           </label>
           <div
-            aria-controls="mantine-rd"
+            aria-controls="mantine-«rd»"
             aria-expanded="false"
             aria-haspopup="listbox"
             class="mantine-qqmv3w mantine-MultiSelect-wrapper"
@@ -539,7 +578,7 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
           >
             <input
               type="hidden"
-              value=""
+              value="9"
             />
             <div
               class="mantine-Input-wrapper mantine-MultiSelect-wrapper mantine-12sbrde"
@@ -552,35 +591,70 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
                 <div
                   class="mantine-j220w7 mantine-MultiSelect-values"
                 >
+                  <div
+                    class="mantine-MultiSelect-defaultValue mantine-MultiSelect-value mantine-fqghar"
+                    value="9"
+                  >
+                    <span
+                      class="mantine-rsiguj mantine-MultiSelect-defaultValueLabel"
+                    >
+                      Nobis Et Ut
+                    </span>
+                    <button
+                      aria-hidden="true"
+                      class="mantine-UnstyledButton-root mantine-ActionIcon-root mantine-MultiSelect-defaultValueRemove mantine-zo2naa"
+                      tabindex="-1"
+                      type="button"
+                    >
+                      <svg
+                        fill="none"
+                        height="11"
+                        viewBox="0 0 15 15"
+                        width="11"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                   <input
                     autocomplete="off"
-                    class="mantine-MultiSelect-searchInput mantine-MultiSelect-searchInputEmpty mantine-zmh4e"
+                    class="mantine-MultiSelect-searchInput mantine-MultiSelect-searchInputInputHidden mantine-1pfwsds"
                     data-mantine-stop-propagation="false"
-                    id="mantine-rd"
+                    id="mantine-«rd»"
                     type="search"
                     value=""
                   />
                 </div>
               </div>
               <div
-                class="mantine-uquezq mantine-Input-rightSection mantine-MultiSelect-rightSection"
+                class="mantine-163ph1f mantine-Input-rightSection mantine-MultiSelect-rightSection"
               >
-                <svg
-                  data-chevron="true"
-                  fill="none"
-                  height="18"
-                  style="color: rgb(134, 142, 150);"
-                  viewBox="0 0 15 15"
-                  width="18"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  class="mantine-UnstyledButton-root mantine-ActionIcon-root mantine-tzgcu0"
+                  tabindex="0"
+                  type="button"
                 >
-                  <path
-                    clip-rule="evenodd"
-                    d="M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z"
-                    fill="currentColor"
-                    fill-rule="evenodd"
-                  />
-                </svg>
+                  <svg
+                    fill="none"
+                    height="14"
+                    viewBox="0 0 15 15"
+                    width="14"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -590,8 +664,8 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
         >
           <label
             class="mantine-InputWrapper-label mantine-NumberInput-label mantine-ittua2"
-            for="mantine-rf"
-            id="mantine-rf-label"
+            for="mantine-«rf»"
+            id="mantine-«rf»-label"
           >
             Language
           </label>
@@ -601,11 +675,11 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
             <input
               aria-invalid="false"
               class="mantine-Input-input mantine-NumberInput-input mantine-rum3t1"
-              id="mantine-rf"
+              id="mantine-«rf»"
               inputmode="numeric"
               step="1"
               type="text"
-              value=""
+              value="2"
             />
             <div
               class="mantine-1cwybh2 mantine-Input-rightSection mantine-NumberInput-rightSection"
@@ -713,7 +787,7 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
     style="position: sticky; bottom: 24px; padding-top: 24px; left: 0px; right: 0px; width: 100%; z-index: 10; display: flex; justify-content: center; transition: all 0.2s ease; opacity: 1; transform: translateY(0);"
   >
     <div
-      style="max-width: 1080px; padding: 20px; background-color: rgb(26, 26, 26); box-shadow: 0px 4px 16px -4px rgba(0, 0, 0, 0.5), 0px 8px 32px -8px rgba(0, 0, 0, 0.35); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; flex-direction: row; gap: 12px;"
+      style="width: calc(100% - 128px); max-width: 1080px; padding: 20px; background-color: rgb(26, 26, 26); box-shadow: 0px 4px 16px -4px rgba(0, 0, 0, 0.5), 0px 8px 32px -8px rgba(0, 0, 0, 0.35); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; flex-direction: row; gap: 12px;"
     >
       <div
         style="display: flex; align-items: flex-start; gap: 8px;"
@@ -791,7 +865,7 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
     style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index: 9999; background-color: rgba(0, 0, 0, 0.5); transition: all 0.2s ease; opacity: 0; pointer-events: none; display: flex; justify-content: center; align-items: center;"
   >
     <div
-      style="transform: scale(0) translateY(-200px); transition: all 0.25s cubic-bezier(.35,1.29,.81,1.08); transition-delay: 0.25; background-color: rgb(255, 255, 255); max-width: 640px; max-height: 720px; border-radius: 8px; padding: 16px;"
+      style="transform: scale(0) translateY(-200px); transition: all 0.25s cubic-bezier(.35,1.29,.81,1.08); transition-delay: 0.25; width: calc(100% - 64px); height: calc(100% - 64px); background-color: rgb(255, 255, 255); max-width: 640px; max-height: 720px; border-radius: 8px; padding: 16px;"
     >
       <div
         style="display: flex; flex-direction: column; height: 100%; width: 100%; gap: 16px;"
@@ -823,7 +897,7 @@ exports[`MantineEditInferencer should match the snapshot 1`] = `
           </button>
         </div>
         <div
-          style="font-size: 13px; border-radius: 8px; flex: 1; overflow: scroll; background: rgb(30, 30, 30);"
+          style="font-size: 13px; border-radius: 8px; flex: 1 1 0%; overflow: scroll; background: rgb(30, 30, 30);"
         >
           <pre
             class="prism-code language-tsx"

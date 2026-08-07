@@ -778,7 +778,7 @@ interface IPost {
 :::tip
 Since `category` is a relational data, we use `useSelect` to fetch its data.
 
-[Refer to `useSelect` documentation for detailed usage. &#8594](/docs/3.xx.xx/api-reference/antd/hooks/field/useSelect/)
+[Refer to `useSelect` documentation for detailed usage. &#8594](/core/docs/3.xx.xx/api-reference/antd/hooks/field/useSelect/)
 
 :::
 
@@ -1006,7 +1006,7 @@ interface IPost {
 ## Properties
 
 :::tip
-All [`useForm`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) props also available in `useStepsForm`. You can find descriptions on [`useForm`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#properties) docs.
+All [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) props also available in `useStepsForm`. You can find descriptions on [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#properties) docs.
 :::
 
 ### `defaultCurrent`
@@ -1048,7 +1048,7 @@ const stepsForm = useStepsForm({
 ## Return Values
 
 :::tip
-All [`useForm`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) return values also available in `useStepsForm`. You can find descriptions on [`useForm`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#return-values) docs.
+All [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) return values also available in `useStepsForm`. You can find descriptions on [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#return-values) docs.
 :::
 
 ### `stepsProps`
@@ -1115,21 +1115,21 @@ useStepsForm({
 
 <PropsTable module="@pankod/refine-antd/useStepsForm"/>
 
-> `*`: These props have default values in `RefineContext` and can also be set on **<[Refine](/api-reference/core/components/refine-config.md)>** component. `useModalForm` will use what is passed to `<Refine>` as default but a local value will override it.
+> `*`: These props have default values in `RefineContext` and can also be set on **<[Refine](/core/docs/3.xx.xx/api-reference/core/components/refine-config)>** component. `useModalForm` will use what is passed to `<Refine>` as default but a local value will override it.
 
 > `**`: If not explicitly configured, default value of `redirect` depends on which `action` used. If `action` is `create`, `redirect`s default value is `edit` (created resources edit page). if `action` is `edit` instead, `redirect`s default value is `list`.
 
 ### Return Values
 
-| Key                      | Description                                                  | Type                                                                           |
-| ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| stepsProps               | Ant Design steps props                                       | [`StepsProps`](https://ant.design/components/steps/#API)                       |
-| current                  | Current step, counting from 0.                               | `number`                                                                       |
-| gotoStep                 | Go to the target step                                        | `(step: number) => void`                                                       |
-| formProps                | Ant Design form props                                        | [`FormProps`](/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#formprops)  |
-| form                     | Ant Design form instance                                     | [`FormInstance<TVariables>`](https://ant.design/components/form/#FormInstance) |
-| defaultFormValuesLoading | DefaultFormValues loading status of form                     | `boolean`                                                                      |
-| submit                   | Submit method, the parameter is the value of the form fields | `() => void`                                                                   |
+| Key                      | Description                                                  | Type                                                                               |
+| ------------------------ | ------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| stepsProps               | Ant Design steps props                                       | [`StepsProps`](https://ant.design/components/steps/#API)                           |
+| current                  | Current step, counting from 0.                               | `number`                                                                           |
+| gotoStep                 | Go to the target step                                        | `(step: number) => void`                                                           |
+| formProps                | Ant Design form props                                        | [`FormProps`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm/#formprops) |
+| form                     | Ant Design form instance                                     | [`FormInstance<TVariables>`](https://ant.design/components/form/#FormInstance)     |
+| defaultFormValuesLoading | DefaultFormValues loading status of form                     | `boolean`                                                                          |
+| submit                   | Submit method, the parameter is the value of the form fields | `() => void`                                                                       |
 
 ### Type Parameters
 
@@ -1143,6 +1143,6 @@ useStepsForm({
 
 <CodeSandboxExample path="form-antd-use-steps-form" />
 
-[baserecord]: /api-reference/core/interfaces.md#baserecord
-[httperror]: /api-reference/core/interfaces.md#httperror
-[antd-use-form]: /docs/3.xx.xx/api-reference/antd/hooks/form/useForm
+[baserecord]: /core/docs/3.xx.xx/api-reference/core/interfaces#baserecord
+[httperror]: /core/docs/3.xx.xx/api-reference/core/interfaces#httperror
+[antd-use-form]: /core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm

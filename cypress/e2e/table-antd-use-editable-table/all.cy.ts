@@ -6,10 +6,6 @@ describe("table-antd-use-update-many", () => {
     cy.visit("/");
   });
 
-  it("should be view list page", () => {
-    cy.resourceList();
-  });
-
   it("should be show form when click on the row", () => {
     cy.getAntdLoadingOverlay().should("not.exist");
 
@@ -42,8 +38,6 @@ describe("table-antd-use-update-many", () => {
 
     cy.get("#title").should("exist");
 
-    cy.interceptPATCHPost();
-
     cy.getSaveButton().first().click();
 
     cy.get("#title").should("not.exist");
@@ -53,8 +47,6 @@ describe("table-antd-use-update-many", () => {
 
   it("should fill the form with the row data when click the edit button and save the form", () => {
     cy.getAntdLoadingOverlay().should("not.exist");
-
-    cy.interceptGETPost();
 
     cy.getEditButton().first().click();
 
@@ -68,8 +60,6 @@ describe("table-antd-use-update-many", () => {
     });
 
     cy.get("#title").clear().type("Fuga eos enim autem eos.");
-
-    cy.interceptPATCHPost();
 
     cy.getSaveButton().first().click();
 

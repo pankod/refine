@@ -3,9 +3,11 @@ title: CSS Rounded Corners Examples
 description: We'll examine CSS rounded corners in this article.
 slug: css-rounded-corners
 authors: peter_osah
+category: "Tutorials"
 tags: [css]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-15-css-rounded-corners/social.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-15-css-rounded-corners/social.png
 hide_table_of_contents: false
+last_update: 2024-10-23
 ---
 
 **This article was last updated on October 23, to include browser compatibility considerations, responsive design techniques, and advanced clip-path and masking techniques.**
@@ -13,15 +15,6 @@ hide_table_of_contents: false
 ## Introduction
 
 Rounded corners on `HTML` help soften the overall design of a website, giving it a more inviting and user-friendly appearance. We'll examine CSS-created rounded corners in this article.
-
-Steps we'll cover:
-
-- [What is CSS border-radius?](#what-is-css-border-radius)
-- [Rounded corners using CSS border-radius](#rounded-corners-using-css-border-radius)
-- [Elliptical corners using CSS border-radius](#elliptical-corners-using-css-border-radius)
-- [Random corners using CSS border-radius.](#random-corners-using-css-border-radius)
-- [Inverted corners](#inverted-corners)
-- [Notched corners](#notched-corners)
 
 ## What is CSS border-radius?
 
@@ -177,7 +170,7 @@ div.rounded-circular-corners {
 **VIEW:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-15-css-rounded-corners/rounded-corners.png" style={{ width:"500px"}} alt="css rounded corners" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-15-css-rounded-corners/rounded-corners.png" style={{ width:"500px"}} alt="Rounded corners example" />
 </div>
 
 ## Elliptical corners using CSS border-radius
@@ -216,7 +209,7 @@ div {
 **VIEW:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-15-css-rounded-corners/Elliptical-corners.png" style={{ width:"350px"}} alt="css rounded corners" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-15-css-rounded-corners/Elliptical-corners.png" style={{ width:"350px"}} alt="Elliptical rounded corners example" />
 </div>
 
 ## Random corners using CSS border-radius.
@@ -255,7 +248,7 @@ div {
 **VIEW:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-15-css-rounded-corners/Random-corner-one-radius.png" style={{ width:"350px"}} alt="css rounded corners" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-15-css-rounded-corners/Random-corner-one-radius.png" style={{ width:"350px"}} alt="Random corners with a single radius value" />
 </div>
 
 ### Example 2:
@@ -279,7 +272,7 @@ div {
 **VIEW:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-15-css-rounded-corners/Random-corners-2-radii.png" style={{ width:"350px"}} alt="css rounded corners" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-15-css-rounded-corners/Random-corners-2-radii.png" style={{ width:"350px"}} alt="Random corners with two radius values" />
 </div>
 
 ## Inverted corners
@@ -337,7 +330,7 @@ div:before {
 **VIEW:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-15-css-rounded-corners/Inverted-corners-chat-bubble.png" style={{ width:"350px"}} alt="css rounded corners" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-15-css-rounded-corners/Inverted-corners-chat-bubble.png" style={{ width:"350px"}} alt="Inverted corners chat bubble example" />
 </div>
 
 ## Notched corners
@@ -404,7 +397,7 @@ p {
 **VIEW:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-15-css-rounded-corners/Notched-corners-pseudo-element.png" style={{ width:"350px"}} alt="css rounded corners" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-15-css-rounded-corners/Notched-corners-pseudo-element.png" style={{ width:"350px"}} alt="Notched corners using a pseudo-element" />
 </div>
 
 ### Example 2:
@@ -459,7 +452,7 @@ p {
 **VIEW:**
 
  <div className="centered-image">
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2024-02-15-css-rounded-corners/Notched-corners-clip-path.png" style={{ width:"350px"}} alt="css rounded corners" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2024/2024-02-15-css-rounded-corners/Notched-corners-clip-path.png" style={{ width:"350px"}} alt="Notched corners using clip-path" />
 </div>
 
 ## Advanced Clip-Path and Masking Techniques

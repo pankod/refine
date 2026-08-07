@@ -1,12 +1,18 @@
+import { vi } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 
-import { MockJSONServer, TestWrapper, mockRouterProvider } from "@test";
+import {
+  MockJSONServer,
+  TestWrapper,
+  mockAuthProvider,
+  mockRouterProvider,
+} from "@test";
 
 import { useCustomMutation } from "./useCustomMutation";
 
 describe("useCustomMutation Hook", () => {
   it("should only pass meta from the hook parameter and query parameters to the dataProvider", async () => {
-    const customMock = jest.fn();
+    const customMock = vi.fn();
 
     const { result } = renderHook(() => useCustomMutation(), {
       wrapper: TestWrapper({
@@ -23,7 +29,7 @@ describe("useCustomMutation Hook", () => {
       }),
     });
 
-    result.current.mutate({
+    result.current.mutation.mutate({
       method: "post",
       url: "/posts",
       values: {},
@@ -31,10 +37,10 @@ describe("useCustomMutation Hook", () => {
     });
 
     await waitFor(() => {
-      expect(customMock).toBeCalled();
+      expect(customMock).toHaveBeenCalled();
     });
 
-    expect(customMock).toBeCalledWith(
+    expect(customMock).toHaveBeenCalledWith(
       expect.objectContaining({
         meta: expect.objectContaining({
           foo: "bar",
@@ -57,25 +63,25 @@ describe("useCustomMutation Hook", () => {
       }),
     });
 
-    result.current.mutate({
+    result.current.mutation.mutate({
       method: "post",
       url: "/posts",
       values: {},
     });
 
     await waitFor(() => {
-      expect(result.current.isError).toBeTruthy();
+      expect(result.current.mutation.isError).toBeTruthy();
     });
 
-    expect(result.current.error).toEqual(
+    expect(result.current.mutation.error).toEqual(
       new Error("Not implemented custom on data provider."),
     );
   });
 
   describe("useNotification", () => {
     it("should call `open` from the notification provider on error", async () => {
-      const customMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const notificationMock = jest.fn();
+      const customMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const notificationMock = vi.fn();
 
       const { result } = renderHook(() => useCustomMutation(), {
         wrapper: TestWrapper({
@@ -87,23 +93,23 @@ describe("useCustomMutation Hook", () => {
           },
           notificationProvider: {
             open: notificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
       });
 
-      result.current.mutate({
+      result.current.mutation.mutate({
         method: "post",
         url: "/posts",
         values: {},
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(notificationMock).toBeCalledWith({
+      expect(notificationMock).toHaveBeenCalledWith({
         description: "Error",
         key: "post-notification",
         message: "Error (status code: undefined)",
@@ -112,20 +118,20 @@ describe("useCustomMutation Hook", () => {
     });
 
     it("should call `open` from notification provider on success with custom notification params", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCustomMutation(), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
       });
 
-      result.current.mutate({
+      result.current.mutation.mutate({
         method: "post",
         url: "/posts",
         values: {},
@@ -137,10 +143,10 @@ describe("useCustomMutation Hook", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "Successfully created post",
         message: "Success",
         type: "success",
@@ -148,20 +154,20 @@ describe("useCustomMutation Hook", () => {
     });
 
     it("should not call `open` from notification provider on return `false`", async () => {
-      const openNotificationMock = jest.fn();
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCustomMutation(), {
         wrapper: TestWrapper({
           dataProvider: MockJSONServer,
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
       });
 
-      result.current.mutate({
+      result.current.mutation.mutate({
         method: "post",
         url: "/posts",
         values: {},
@@ -169,15 +175,15 @@ describe("useCustomMutation Hook", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
+        expect(result.current.mutation.isSuccess).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledTimes(0);
+      expect(openNotificationMock).toHaveBeenCalledTimes(0);
     });
 
     it("should call `open` from notification provider on error with custom notification params", async () => {
-      const customMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const openNotificationMock = jest.fn();
+      const customMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const openNotificationMock = vi.fn();
 
       const { result } = renderHook(() => useCustomMutation(), {
         wrapper: TestWrapper({
@@ -189,13 +195,13 @@ describe("useCustomMutation Hook", () => {
           },
           notificationProvider: {
             open: openNotificationMock,
-            close: jest.fn(),
+            close: vi.fn(),
           },
           resources: [{ name: "posts" }],
         }),
       });
 
-      result.current.mutate({
+      result.current.mutation.mutate({
         method: "post",
         url: "/posts",
         values: {},
@@ -207,10 +213,10 @@ describe("useCustomMutation Hook", () => {
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(openNotificationMock).toBeCalledWith({
+      expect(openNotificationMock).toHaveBeenCalledWith({
         description: "There was an error creating post",
         message: "Error",
         type: "error",
@@ -220,8 +226,8 @@ describe("useCustomMutation Hook", () => {
 
   describe("useOnError", () => {
     it("should call `onError` from the auth provider on error", async () => {
-      const customMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onErrorMock = jest.fn();
+      const customMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const onErrorMock = vi.fn();
 
       const { result } = renderHook(() => useCustomMutation(), {
         wrapper: TestWrapper({
@@ -238,22 +244,22 @@ describe("useCustomMutation Hook", () => {
         }),
       });
 
-      result.current.mutate({
+      result.current.mutation.mutate({
         method: "post",
         url: "/posts",
         values: {},
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(onErrorMock).toBeCalledWith(new Error("Error"));
+      expect(onErrorMock).toHaveBeenCalledWith(new Error("Error"));
     });
 
     it("should call `checkError` from the legacy auth provider on error", async () => {
-      const customMock = jest.fn().mockRejectedValue(new Error("Error"));
-      const onErrorMock = jest.fn();
+      const customMock = vi.fn().mockRejectedValue(new Error("Error"));
+      const onErrorMock = vi.fn();
 
       const { result } = renderHook(() => useCustomMutation(), {
         wrapper: TestWrapper({
@@ -263,29 +269,32 @@ describe("useCustomMutation Hook", () => {
               custom: customMock,
             },
           },
-          legacyAuthProvider: {
-            checkError: onErrorMock,
+          authProvider: {
+            login: () => Promise.resolve({ success: true }),
+            logout: () => Promise.resolve({ success: true }),
+            check: () => Promise.resolve({ authenticated: true }),
+            onError: onErrorMock,
           },
           resources: [{ name: "posts" }],
         }),
       });
 
-      result.current.mutate({
+      result.current.mutation.mutate({
         method: "post",
         url: "/posts",
         values: {},
       });
 
       await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
+        expect(result.current.mutation.isError).toBeTruthy();
       });
 
-      expect(onErrorMock).toBeCalledWith(new Error("Error"));
+      expect(onErrorMock).toHaveBeenCalledWith(new Error("Error"));
     });
   });
 
   it("should pass `headers` to the data provider if `config.headers` is provided", async () => {
-    const customMock = jest.fn();
+    const customMock = vi.fn();
 
     const { result } = renderHook(() => useCustomMutation(), {
       wrapper: TestWrapper({
@@ -299,7 +308,7 @@ describe("useCustomMutation Hook", () => {
       }),
     });
 
-    result.current.mutate({
+    result.current.mutation.mutate({
       method: "post",
       url: "/posts",
       values: {},
@@ -311,10 +320,10 @@ describe("useCustomMutation Hook", () => {
     });
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBeTruthy();
+      expect(result.current.mutation.isSuccess).toBeTruthy();
     });
 
-    expect(customMock).toBeCalledWith(
+    expect(customMock).toHaveBeenCalledWith(
       expect.objectContaining({
         headers: {
           "X-Custom-Header": "Custom header value",
@@ -324,7 +333,7 @@ describe("useCustomMutation Hook", () => {
   });
 
   it("works correctly with `interval` and `onInterval` params", async () => {
-    const onInterval = jest.fn();
+    const onInterval = vi.fn();
     const { result } = renderHook(
       () =>
         useCustomMutation({
@@ -350,20 +359,20 @@ describe("useCustomMutation Hook", () => {
       },
     );
 
-    result.current.mutate({
+    result.current.mutation.mutate({
       method: "post",
       url: "/posts",
       values: {},
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeTruthy();
+      expect(result.current.mutation.isPending).toBeTruthy();
       expect(result.current.overtime.elapsedTime).toBe(900);
-      expect(onInterval).toBeCalled();
+      expect(onInterval).toHaveBeenCalled();
     });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBeFalsy();
+      expect(result.current.mutation.isPending).toBeFalsy();
       expect(result.current.overtime.elapsedTime).toBeUndefined();
     });
   });

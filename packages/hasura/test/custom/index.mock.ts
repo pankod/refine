@@ -275,3 +275,104 @@ nock("https://ruling-redbird-23.hasura.app:443", { encodedQueryParams: true })
       "gzip",
     ],
   );
+
+nock("https://flowing-mammal-24.hasura.app:443", { encodedQueryParams: true })
+  .post("/v1/graphql", {
+    query:
+      "query GetPost($includeAvg: Boolean = false) {\n  posts_aggregate {\n    aggregate {\n      count\n      avg @include(if: $includeAvg) {\n        id\n      }\n    }\n  }\n}\n",
+    variables: {
+      includeAvg: true,
+    },
+    operationName: "GetPost",
+  })
+  .reply(
+    200,
+    {
+      data: {
+        posts_aggregate: {
+          aggregate: {
+            count: 318,
+            avg: {
+              id: 42,
+            },
+          },
+        },
+      },
+    },
+    [
+      "Date",
+      "Tue, 09 Jan 2024 11:15:20 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Connection",
+      "close",
+      "x-request-id",
+      "7d98c24a10b32a6e7c1f5d9b8e4a2c1d",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Content-Security-Policy",
+      "upgrade-insecure-requests",
+      "Referrer-Policy",
+      "strict-origin-when-cross-origin",
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options",
+      "nosniff",
+      "X-Frame-Options",
+      "SAMEORIGIN",
+      "X-XSS-Protection",
+      "0",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "842c42fbb9f768bc-BUD",
+    ],
+  );
+
+nock("https://flowing-mammal-24.hasura.app:443", { encodedQueryParams: true })
+  .post("/v1/graphql", {
+    query:
+      "query GetPost($includeAvg: Boolean = false) {\n  posts_aggregate {\n    aggregate {\n      count\n      avg @include(if: $includeAvg) {\n        id\n      }\n    }\n  }\n}\n",
+    variables: {},
+    operationName: "GetPost",
+  })
+  .reply(
+    200,
+    {
+      data: {
+        posts_aggregate: {
+          aggregate: {
+            count: 318,
+          },
+        },
+      },
+    },
+    [
+      "Date",
+      "Tue, 09 Jan 2024 11:15:21 GMT",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "Connection",
+      "close",
+      "x-request-id",
+      "3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d",
+      "CF-Cache-Status",
+      "DYNAMIC",
+      "Content-Security-Policy",
+      "upgrade-insecure-requests",
+      "Referrer-Policy",
+      "strict-origin-when-cross-origin",
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options",
+      "nosniff",
+      "X-Frame-Options",
+      "SAMEORIGIN",
+      "X-XSS-Protection",
+      "0",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "842c42fee9abc1c1-BUD",
+    ],
+  );

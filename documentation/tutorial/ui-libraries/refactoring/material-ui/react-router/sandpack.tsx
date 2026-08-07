@@ -36,7 +36,7 @@ export const ListProducts = () => {
     syncWithLocation: true,
   });
 
-  const { data: categories, isLoading } = useMany<ICategory>({
+  const { result: categories, query: { isLoading } } = useMany<ICategory>({
     resource: "categories",
     ids: dataGridProps?.rows?.map((product) => product.category?.id) ?? [],
   });
@@ -60,6 +60,7 @@ export const ListProducts = () => {
         headerName: "Category",
         minWidth: 250,
         flex: 0.5,
+        display: "flex",
         renderCell: function render({ row }) {
           if (isLoading) {
             return "Loading...";
@@ -85,6 +86,7 @@ export const ListProducts = () => {
       {
         field: "actions",
         headerName: "Actions",
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <div>
@@ -101,7 +103,7 @@ export const ListProducts = () => {
   return (
     <div>
       <h1>Products</h1>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns}  />
     </div>
   );
 };
@@ -128,7 +130,6 @@ import { useDataGrid, EditButton, ShowButton } from "@refinedev/mui";
 import {
   DataGrid,
   GridColDef,
-  GridValueFormatterParams,
 } from "@mui/x-data-grid";
 
 export const ListProducts = () => {
@@ -166,7 +167,7 @@ export const ListProducts = () => {
         flex: 0.5,
         type: "singleSelect",
         valueOptions: categories,
-        valueFormatter: (params) => params?.value,
+        display: "flex",
         renderCell: function render({ row }) {
           if (isLoading) {
             return "Loading...";
@@ -192,6 +193,7 @@ export const ListProducts = () => {
       {
         field: "actions",
         headerName: "Actions",
+        display: "flex",
         renderCell: function render({ row }) {
           return (
             <div>
@@ -208,7 +210,7 @@ export const ListProducts = () => {
   return (
     <div>
       <h1>Products</h1>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
+      <DataGrid {...dataGridProps} columns={columns}  />
     </div>
   );
 };
@@ -240,18 +242,19 @@ import Stack from "@mui/material/Stack";
 
 export const ShowProduct = () => {
   const {
-    query: { data, isLoading },
+    result: product,
+    query: { isLoading },
   } = useShow();
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useOne({
+  const { data: category, query: { isLoading: categoryIsLoading } } = useOne({
     resource: "categories",
-    id: data?.data?.category.id || "",
+    id: product?.category.id || "",
     queryOptions: {
-      enabled: !!data?.data,
+      enabled: !!product,
     },
   });
 
-  if (isLoading) {
+  if (isLoading || !product) {
     return <div>Loading...</div>;
   }
 
@@ -260,34 +263,34 @@ export const ShowProduct = () => {
       <Typography variant="body1" fontWeight="bold">
         Id
       </Typography>
-      <TextField value={data?.data?.id} />
+      <TextField value={product.id} />
 
       <Typography variant="body1" fontWeight="bold">
         Name
       </Typography>
-      <TextField value={data?.data?.name} />
+      <TextField value={product.name} />
 
       <Typography variant="body1" fontWeight="bold">
         Description
       </Typography>
-      <MarkdownField value={data?.data?.description} />
+      <MarkdownField value={product.description} />
 
       <Typography variant="body1" fontWeight="bold">
         Material
       </Typography>
-      <TextField value={data?.data?.material} />
+      <TextField value={product.material} />
 
       <Typography variant="body1" fontWeight="bold">
         Category
       </Typography>
       <TextField
-        value={categoryIsLoading ? "Loading..." : categoryData?.data?.title}
+        value={categoryIsLoading ? "Loading..." : categoryproduct.title}
       />
 
       <Typography variant="body1" fontWeight="bold">
         Price
       </Typography>
-      <NumberField value={data?.data?.price} />
+      <NumberField value={product.price} />
     </Stack>
   );
 };
@@ -405,7 +408,7 @@ export const EditProduct = () => {
 
   const { autocompleteProps } = useAutocomplete({
     resource: "categories",
-    defaultValue: query?.data?.data?.category?.id,
+    defaultValue: query?.product.category?.id,
   });
 
   return (

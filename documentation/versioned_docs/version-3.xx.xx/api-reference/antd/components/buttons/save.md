@@ -7,12 +7,12 @@ swizzle: true
 `<SaveButton>` uses Ant Design's [`<Button>`](https://ant.design/components/button/) component. It uses it for presantation purposes only. Some of the hooks that **refine** has adds features to this button.
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Usage
 
-For example, let's add logic to the `<SaveButton>` component with the `saveButtonProps` returned by the [`useForm`](/api-reference/antd/hooks/form/useForm.md) hook.
+For example, let's add logic to the `<SaveButton>` component with the `saveButtonProps` returned by the [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) hook.
 
 ```tsx live url=http://localhost:3000/posts/edit/123
 // visible-block-start
@@ -68,7 +68,7 @@ render(
 );
 ```
 
-The [`useForm`](/api-reference/antd/hooks/form/useForm.md) hook exposes `saveButtonProps` to be passed to `<SaveButton>` component which includes submitting the form action, button loading, and disable states.
+The [`useForm`](/core/docs/3.xx.xx/api-reference/antd/hooks/form/useForm) hook exposes `saveButtonProps` to be passed to `<SaveButton>` component which includes submitting the form action, button loading, and disable states.
 
 ## Properties
 

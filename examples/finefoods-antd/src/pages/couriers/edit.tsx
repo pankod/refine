@@ -59,8 +59,13 @@ export const CourierEdit = () => {
   const { selectProps: storeSelectProps } = useSelect({
     resource: "stores",
     defaultValue: courier?.store.id,
+
     queryOptions: {
       enabled: !!courier,
+    },
+
+    pagination: {
+      mode: "server",
     },
   });
 
@@ -69,8 +74,13 @@ export const CourierEdit = () => {
     defaultValue: courier?.vehicle?.id,
     optionLabel: "model",
     optionValue: "id",
+
     queryOptions: {
       enabled: !!courier?.vehicle?.id,
+    },
+
+    pagination: {
+      mode: "server",
     },
   });
 

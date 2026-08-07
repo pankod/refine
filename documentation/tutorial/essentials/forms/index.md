@@ -10,7 +10,7 @@ In this step, we'll be learning about the Refine's `useForm` hook to manage form
 
 :::simple Implementation Tips
 
-Refine's `useForm` has extended versions with more features and compatibility with other libraries. To learn more about the `useForm` hook, please refer to the [Forms](/docs/guides-concepts/forms) guide.
+Refine's `useForm` has extended versions with more features and compatibility with other libraries. To learn more about the `useForm` hook, please refer to the [Forms](/core/docs/guides-concepts/forms) guide.
 
 :::
 
@@ -20,7 +20,7 @@ Refine's `useForm` has extended versions with more features and compatibility wi
 - `edit`: To update an existing record for a resource using the data provider's `update` method.
 - `clone`: To create a new record using an existing record's data as a template using the data provider's `create` method.
 
-In this step, we'll be covering the `create` and `edit` actions. Check out the [Clone](/docs/guides-concepts/forms/#clone) section of the Forms guide for information about the `clone` action.
+In this step, we'll be covering the `create` and `edit` actions. Check out the [Clone](/core/docs/guides-concepts/forms/#clone) section of the Forms guide for information about the `clone` action.
 
 ## Implementing the `create` Method
 
@@ -120,7 +120,9 @@ export const CreateProduct = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Using FormData to get the form values and convert it to an object.
-    const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+    const data = Object.fromEntries(
+      new FormData(event.currentTarget).entries(),
+    );
     // Calling onFinish to submit with the data we've collected from the form.
     onFinish(data);
   };
@@ -173,7 +175,9 @@ export const CreateProduct = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Using FormData to get the form values and convert it to an object.
-    const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+    const data = Object.fromEntries(
+      new FormData(event.currentTarget).entries(),
+    );
     // Calling onFinish to submit with the data we've collected from the form.
     // highlight-start
     onFinish({
@@ -194,7 +198,7 @@ We're now able to create a record with the `price` value properly formatted.
 
 :::simple Implementation Tips
 
-Modifying the values before submission is supported in all the derivatives of the `useForm` hook but the implementation may differ slightly. To learn more about their usage, please refer to the [Modifying Data Before Submission](/docs/guides-concepts/forms/#modifying-data-before-submission) section of the Forms guide.
+Modifying the values before submission is supported in all the derivatives of the `useForm` hook but the implementation may differ slightly. To learn more about their usage, please refer to the [Modifying Data Before Submission](/core/docs/guides-concepts/forms/#modifying-data-before-submission) section of the Forms guide.
 
 :::
 
@@ -257,7 +261,7 @@ And we'll finally be able to create a proper record with all the necessary field
 
 :::simple Relations
 
-Refine allows you to use different types of relationships in your forms, tables or in other ways to display data. To learn more about the relationships, please refer to the [Relationships](/docs/guides-concepts/data-fetching/#relationships) section of the Data Fetching guide.
+Refine allows you to use different types of relationships in your forms, tables or in other ways to display data. To learn more about the relationships, please refer to the [Relationships](/core/docs/guides-concepts/data-fetching/#relationships) section of the Data Fetching guide.
 
 :::
 
@@ -302,7 +306,7 @@ We'll also be re-using the elements we've used for the fields in our `<CreatePro
 
 `useForm` will fetch the record first to make sure we're able to provide default values for the fields.
 
-In the extensions of the `useForm` hook, this is handled automatically. To learn more about the extensions, please refer to the [Forms](/docs/guides-concepts/forms) guide.
+In the extensions of the `useForm` hook, this is handled automatically. To learn more about the extensions, please refer to the [Forms](/core/docs/guides-concepts/forms) guide.
 
 :::
 
@@ -330,7 +334,9 @@ export const EditProduct = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Using FormData to get the form values and convert it to an object.
-    const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+    const data = Object.fromEntries(
+      new FormData(event.currentTarget).entries(),
+    );
     // Calling onFinish to submit with the data we've collected from the form.
     onFinish({
       ...data,
@@ -410,7 +416,7 @@ Refine's `useForm` hooks are not limited to these abilities. `useForm` hook will
 - Auto saving,
 - Notifications and more...
 
-To learn more about the `useForm` hook, please refer to the [Forms](/docs/guides-concepts/forms) guide.
+To learn more about the `useForm` hook, please refer to the [Forms](/core/docs/guides-concepts/forms) guide.
 
 In the next step, we'll be learning about the Refine's `useTable` hook and how to display a list of records in a table.
 

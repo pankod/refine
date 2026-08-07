@@ -2,7 +2,7 @@ import { GitHubBanner, Refine } from "@refinedev/core";
 import {
   useNotificationProvider,
   ErrorComponent,
-  ThemedLayoutV2,
+  ThemedLayout,
   RefineThemes,
 } from "@refinedev/antd";
 import { ConfigProvider, Layout as AntdLayout } from "antd";
@@ -11,9 +11,10 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet, Link } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet, Link } from "react-router";
 
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
 import { PostList } from "./pages/posts";
@@ -44,7 +45,7 @@ const App: React.FC = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2
+                <ThemedLayout
                   Sider={() => null}
                   Header={() => {
                     return (
@@ -79,7 +80,7 @@ const App: React.FC = () => {
                       <Outlet />
                     </div>
                   </AntdLayout.Content>
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route index element={<NavigateToResource resource="posts" />} />

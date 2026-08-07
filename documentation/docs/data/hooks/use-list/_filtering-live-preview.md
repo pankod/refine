@@ -22,7 +22,7 @@ const ProductList: React.FC = () => {
   //highlight-next-line
   const [value, setValue] = useState("Cotton");
 
-  const { data, isLoading, isError } = useList<IProduct, HttpError>({
+  const { result, query } = useList<IProduct, HttpError>({
     resource: "products",
     //highlight-start
     filters: [
@@ -35,13 +35,13 @@ const ProductList: React.FC = () => {
     //highlight-end
   });
 
-  const products = data?.data ?? [];
+  const products = result.data ?? [];
 
-  if (isLoading) {
+  if (query.isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (isError) {
+  if (query.isError) {
     return <div>Something went wrong!</div>;
   }
 
@@ -77,10 +77,18 @@ setRefineProps({
   resources: [
     {
       name: "products",
-      list: ProductList,
+      list: "/products",
     },
   ],
 });
 
-render(<RefineHeadlessDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineHeadlessDemo>
+      <ReactRouter.Routes>
+        <ReactRouter.Route path="/products" element={<ProductList />} />
+      </ReactRouter.Routes>
+    </RefineHeadlessDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```

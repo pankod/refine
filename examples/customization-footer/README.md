@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example customization-footer
 
 <br/>
 
-[![Open customization-footer example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/customization-footer?view=preview&theme=dark&codemirror=1)
+[![Open customization-footer example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/customization-footer?view=preview&theme=dark&codemirror=1)

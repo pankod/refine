@@ -1,4 +1,4 @@
-import type { NODE_ENV } from "@definitions/node";
+import type { NODE_ENV } from "../../definitions/node";
 import * as dotenv from "dotenv";
 
 const refineEnv: Record<string, string> = {};

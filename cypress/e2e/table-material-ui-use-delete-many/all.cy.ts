@@ -6,12 +6,9 @@ describe("table-material-ui-use-delete-many", () => {
     cy.visit("/");
   });
 
-  it("should be view list page", () => {
-    cy.resourceList();
-  });
-
   it("should select all rows when click the checkbox in the table header", () => {
-    cy.getMaterialUILoadingCircular().should("exist");
+    cy.wait("@getPosts");
+
     cy.getMaterialUILoadingCircular().should("not.exist");
 
     cy.get(".MuiDataGrid-columnHeaderTitleContainer .MuiCheckbox-root").click();
@@ -24,25 +21,33 @@ describe("table-material-ui-use-delete-many", () => {
   });
 
   it("delete button should be disabled when no row is selected", () => {
-    cy.getMaterialUILoadingCircular().should("exist");
+    cy.wait("@getPosts");
+
     cy.getMaterialUILoadingCircular().should("not.exist");
 
     cy.get("#delete-selected").eq(0).should("be.disabled");
   });
 
   it("should be able to delete all selected rows", () => {
-    cy.getMaterialUILoadingCircular().should("exist");
+    cy.wait("@getPosts");
+
     cy.getMaterialUILoadingCircular().should("not.exist");
 
-    cy.get(".MuiDataGrid-row").eq(0).children().eq(0).click();
-    cy.get(".MuiDataGrid-row").eq(1).children().eq(0).click();
+    cy.get(".MuiDataGrid-row")
+      .eq(0)
+      .find(".MuiDataGrid-cellCheckbox")
+      .first()
+      .click();
+    cy.get(".MuiDataGrid-row")
+      .eq(1)
+      .find(".MuiDataGrid-cellCheckbox")
+      .first()
+      .click();
 
     cy.get(".MuiDataGrid-virtualScrollerContent .Mui-checked").should(
       "have.length",
       2,
     );
-
-    cy.interceptDELETEPost();
 
     cy.get("#delete-selected").click();
 

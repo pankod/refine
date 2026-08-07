@@ -10,12 +10,12 @@ In this step, we'll be learning about the Refine's `useList` hook to fetch a lis
 
 ## Implementing the `getList` Method
 
-To list records using Refine's hooks, first we need to implement the [`getList`](/docs/data/data-provider/#getlist-) method in our data provider. This method will be called when we use the [`useList`](/docs/data/hooks/use-list) hook or its extensions in our components.
+To list records using Refine's hooks, first we need to implement the [`getList`](/core/docs/data/data-provider/#getlist-) method in our data provider. This method will be called when we use the [`useList`](/core/docs/data/hooks/use-list) hook or its extensions in our components.
 
 The `getList` method accepts `resource`, `pagination`, `sorters`, `filters` and `meta` properties.
 
 - `resource` refers to the entity we're fetching.
-- `pagination` is an object containing the `current` and `pageSize` properties.
+- `pagination` is an object containing the `currentPage` and `pageSize` properties.
 - `sorters` is an array containing the sorters we're using.
 - `filters` is an array containing the filters we're using.
 - `meta` is an object containing any additional data passed to the hook.
@@ -68,10 +68,10 @@ import { useList } from "@refinedev/core";
 
 export const ListProducts = () => {
   // highlight-start
-  const { data, isLoading } = useList({ resource: "products" });
+  const { result, query } = useList({ resource: "products" });
   // highlight-end
 
-  if (isLoading) {
+  if (query.isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -80,7 +80,7 @@ export const ListProducts = () => {
       <h1>Products</h1>
       <ul>
         {/* highlight-next-line */}
-        {data?.data?.map((product) => (
+        {result.data?.map((product) => (
           <li key={product.id}>
             <p>
               {product.name}
@@ -148,8 +148,11 @@ export const dataProvider: DataProvider = {
     const params = new URLSearchParams();
 
     if (pagination) {
-      params.append("_start", (pagination.current - 1) * pagination.pageSize);
-      params.append("_end", pagination.current * pagination.pageSize);
+      params.append(
+        "_start",
+        (pagination.currentPage - 1) * pagination.pageSize,
+      );
+      params.append("_end", pagination.currentPage * pagination.pageSize);
     }
 
     const response = await fetch(`${API_URL}/${resource}?${params.toString()}`);
@@ -178,13 +181,13 @@ Update your `src/pages/products/list.tsx` file by adding the following lines:
 import { useList } from "@refinedev/core";
 
 export const ListProducts = () => {
-  const { data, isLoading } = useList({
+  const { result, query } = useList({
     resource: "products",
     // highlight-next-line
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
   });
 
-  if (isLoading) {
+  if (query.isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -222,8 +225,11 @@ export const dataProvider: DataProvider = {
     const params = new URLSearchParams();
 
     if (pagination) {
-      params.append("_start", (pagination.current - 1) * pagination.pageSize);
-      params.append("_end", pagination.current * pagination.pageSize);
+      params.append(
+        "_start",
+        (pagination.currentPage - 1) * pagination.pageSize,
+      );
+      params.append("_end", pagination.currentPage * pagination.pageSize);
     }
 
     // highlight-start
@@ -258,14 +264,14 @@ Update your `src/pages/products/list.tsx` file by adding the following lines:
 import { useList } from "@refinedev/core";
 
 export const ListProducts = () => {
-  const { data, isLoading } = useList({
+  const { result, query } = useList({
     resource: "products",
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
     // highlight-next-line
     sorters: [{ field: "name", order: "asc" }],
   });
 
-  if (isLoading) {
+  if (query.isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -281,7 +287,7 @@ We should be able to see the first 10 products sorted by name on our screen now.
 
 We've added sorting to our `getList` method. But, we're not able to filter the list. Let's add filtering logic to our `getList` method.
 
-`useList`'s `filters` property implements the [`CrudFilters`](/docs/core/interface-references/#crudfilters) interface which accepts various operators for fields. To learn more about the operators, you can check the [Filters](/docs/guides-concepts/data-fetching/#filters-sorters-and-pagination) section of the Data Fetching guide.
+`useList`'s `filters` property implements the [`CrudFilters`](/core/docs/core/interface-references/#crudfilters) interface which accepts various operators for fields. To learn more about the operators, you can check the [Filters](/core/docs/guides-concepts/data-fetching/#filters-sorters-and-pagination) section of the Data Fetching guide.
 
 :::simple Implementation Details
 
@@ -307,8 +313,11 @@ export const dataProvider: DataProvider = {
     const params = new URLSearchParams();
 
     if (pagination) {
-      params.append("_start", (pagination.current - 1) * pagination.pageSize);
-      params.append("_end", pagination.current * pagination.pageSize);
+      params.append(
+        "_start",
+        (pagination.currentPage - 1) * pagination.pageSize,
+      );
+      params.append("_end", pagination.currentPage * pagination.pageSize);
     }
 
     if (sorters && sorters.length > 0) {
@@ -352,15 +361,15 @@ Update your `src/pages/products/list.tsx` file by adding the following lines:
 import { useList } from "@refinedev/core";
 
 export const ListProducts = () => {
-  const { data, isLoading } = useList({
+  const { result, query } = useList({
     resource: "products",
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
     sorters: [{ field: "name", order: "asc" }],
     // highlight-next-line
     filters: [{ field: "material", operator: "eq", value: "Aluminum" }],
   });
 
-  if (isLoading) {
+  if (query.isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -374,11 +383,11 @@ export const ListProducts = () => {
 
 In this step, we've learned about the Refine's `useList` hook to fetch a list of records from our API. We've also learned about pagination, sorting and filtering through the `useList` hook.
 
-Refine also offers `useInfiniteList` hook to fetch a list of records with infinite scrolling and `useTable` hook to fetch a list of records with additional features on top of `useList` hook. You can check the [Hooks](/docs/guides-concepts/data-fetching/#data-hooks) section of the Data Fetching guide and [Tables](/docs/guides-concepts/tables) guide to learn more about these hooks and their usages.
+Refine also offers `useInfiniteList` hook to fetch a list of records with infinite scrolling and `useTable` hook to fetch a list of records with additional features on top of `useList` hook. You can check the [Hooks](/core/docs/guides-concepts/data-fetching/#data-hooks) section of the Data Fetching guide and [Tables](/core/docs/guides-concepts/tables) guide to learn more about these hooks and their usages.
 
 :::simple Implementation Tips
 
-To see the full implementation of a REST data provider, please check the [source code of `@refinedev/simple-rest`](https://github.com/refinedev/refine/tree/master/packages/simple-rest).
+To see the full implementation of a REST data provider, please check the [source code of `@refinedev/simple-rest`](https://github.com/refinedev/refine/tree/main/packages/simple-rest).
 
 :::
 

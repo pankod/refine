@@ -1,45 +1,22 @@
 ---
-title: Create
+title: "Mantine Create Button Component | Navigation UI in Refine v5"
+display_title: "Create"
+sidebar_label: "Create"
+description: "Learn to integrate Create Button in Refine v5. Learn integrate React UI library, components for polished admin UIs. Explore with code snippets."
 swizzle: true
 ---
 
 ```tsx live shared
-const { default: routerProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: routerProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  notificationProvider: RefineMantine.useNotificationProvider,
-  Layout: RefineMantine.Layout,
-  Sider: () => null,
-  catchAll: <RefineMantine.ErrorComponent />,
-});
-
-const Wrapper = ({ children }) => {
-  return (
-    <MantineCore.MantineProvider
-      theme={RefineMantine.LightTheme}
-      withNormalizeCSS
-      withGlobalStyles
-    >
-      <MantineCore.Global styles={{ body: { WebkitFontSmoothing: "auto" } }} />
-      <MantineNotifications.NotificationsProvider position="top-right">
-        {children}
-      </MantineNotifications.NotificationsProvider>
-    </MantineCore.MantineProvider>
-  );
-};
-
 const CreatePage = () => {
   const { list } = RefineCore.useNavigation();
-  const params = RefineCore.useRouterContext().useParams();
+  const params = RefineCore.useParsed();
 
   return (
     <div>
       <MantineCore.Text italic color="dimmed" size="sm">
         URL Parameters:
       </MantineCore.Text>
-      <MantineCore.Code>{JSON.stringify(params)}</MantineCore.Code>
+      <MantineCore.Code>{JSON.stringify(params, null, 2)}</MantineCore.Code>
       <MantineCore.Space h="md" />
       <MantineCore.Button
         size="xs"
@@ -53,11 +30,11 @@ const CreatePage = () => {
 };
 ```
 
-`<CreateButton>` uses Mantine's [`<Button>`](https://mantine.dev/core/button) component. It uses the `create` method from [`useNavigation`](/docs/routing/hooks/use-navigation) under the hood. It can be useful to redirect the app to the create page route of resource.
+`<CreateButton>` uses Mantine's [`<Button>`](https://mantine.dev/core/button) component. It uses the `create` method from [`useNavigation`](/core/docs/routing/hooks/use-navigation/) under the hood. It can be useful to redirect the app to the create page route of resource.
 
 :::simple Good to know
 
-You can swizzle this component with the [**Refine CLI**](/docs/packages/list-of-packages) to customize it.
+You can swizzle this component with the [**Refine CLI**](/core/docs/packages/cli/) to customize it.
 
 :::
 
@@ -91,9 +68,8 @@ const PostList: React.FC = () => {
   );
 
   const {
-    getHeaderGroups,
-    getRowModel,
-    refineCore: { setCurrent, pageCount, current },
+    reactTable: { getHeaderGroups, getRowModel },
+    refineCore: { setCurrentPage, pageCount, currentPage },
   } = useTable({
     columns,
   });
@@ -134,8 +110,8 @@ const PostList: React.FC = () => {
       <Pagination
         position="right"
         total={pageCount}
-        page={current}
-        onChange={setCurrent}
+        page={currentPage}
+        onChange={setCurrentPage}
       />
     </List>
   );
@@ -147,23 +123,32 @@ interface IPost {
 }
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
       resources={[
         {
           name: "posts",
-          list: PostList,
-          create: CreatePage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+          <ReactRouter.Route path="create" element={<CreatePage />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
@@ -174,9 +159,7 @@ render(
 It is used to redirect the app to the `create` action path of the given resource name. By default, the app redirects to the inferred resource's `create` action path.
 
 ```tsx live url=http://localhost:3000 previewHeight=200px
-setInitialRoutes(["/"]);
-
-import { Refine } from "@refinedev/core";
+setInitialRoutes(["/posts"]);
 
 // visible-block-start
 import { CreateButton } from "@refinedev/mantine";
@@ -186,40 +169,56 @@ const MyCreateComponent = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
-      legacyRouterProvider={routerProvider}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
       resources={[
         {
           name: "posts",
-          list: MyCreateComponent,
+          list: "/posts",
+          create: "/posts/create",
         },
         {
           name: "categories",
-          create: CreatePage,
+          list: "/categories",
+          create: "/categories/create",
         },
       ]}
-    />
-  );
-};
-
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<MyCreateComponent />} />
+        </ReactRouter.Route>
+        <ReactRouter.Route
+          path="/categories/create"
+          element={
+            <div style={{ padding: 16 }}>
+              <CreatePage />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-Clicking the button will trigger the `create` method of [`useNavigation`](/docs/routing/hooks/use-navigation) and then redirect the app to the `create` action path of the resource, filling the necessary parameters in the route.
+Clicking the button will trigger the `create` method of [`useNavigation`](/core/docs/routing/hooks/use-navigation/) and then redirect the app to the `create` action path of the resource, filling the necessary parameters in the route.
 
 If you have multiple resources with the same name, you can pass the `identifier` instead of the `name` of the resource. It will only be used as the main matching key for the resource, data provider methods will still work with the `name` of the resource defined in the `<Refine/>` component.
 
-> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/docs/core/refine-component#identifier)
+> For more information, refer to the [`identifier` section of the `<Refine/>` component documentation &#8594](/core/docs/core/refine-component#identifier)
 
 ### meta
 
-It is used to pass additional parameters to the `create` method of [`useNavigation`](/docs/routing/hooks/use-navigation). By default, existing parameters in the route are used by the `create` method. You can pass additional parameters or override the existing ones using the `meta` prop.
+It is used to pass additional parameters to the `create` method of [`useNavigation`](/core/docs/routing/hooks/use-navigation/). By default, existing parameters in the route are used by the `create` method. You can pass additional parameters or override the existing ones using the `meta` prop.
 
 If the `create` action route is defined by the pattern: `/posts/:authorId/create`, the `meta` prop can be used as follows:
 
@@ -231,12 +230,10 @@ const MyComponent = () => {
 
 ### hideText
 
-`hideText` is used to show and not show the text of the button. When `true`, only the button icon is visible.
+It is used to show and not show the text of the button. When `true`, only the button icon is visible.
 
 ```tsx live url=http://localhost:3000 previewHeight=200px
-setInitialRoutes(["/"]);
-
-import { Refine } from "@refinedev/core";
+setInitialRoutes(["/posts"]);
 
 // visible-block-start
 import { CreateButton } from "@refinedev/mantine";
@@ -246,31 +243,38 @@ const MyCreateComponent = () => {
 };
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
-      legacyRouterProvider={routerProvider}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineMantineDemo
       resources={[
         {
           name: "posts",
-          list: MyCreateComponent,
-          create: CreatePage,
+          list: "/posts",
+          create: "/posts/create",
         },
       ]}
-    />
-  );
-};
-
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<MyCreateComponent />} />
+          <ReactRouter.Route path="create" element={<CreatePage />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineMantineDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
 ### accessControl
 
-This prop can be used to skip access control check with its `enabled` property or to hide the button when the user does not have the permission to access the resource with `hideIfUnauthorized` property. This is relevant only when an [`accessControlProvider`](/docs/authorization/access-control-provider) is provided to [`<Refine/>`](/docs/core/refine-component)
+This prop can be used to skip access control check with its `enabled` property or to hide the button when the user does not have the permission to access the resource with `hideIfUnauthorized` property. This is relevant only when an [`accessControlProvider`](/core/docs/authorization/access-control-provider/) is provided to [`<Refine/>`](/core/docs/core/refine-component/)
 
 ```tsx
 import { CreateButton } from "@refinedev/mantine";
@@ -281,10 +285,6 @@ export const MyListComponent = () => {
   );
 };
 ```
-
-### ~~resourceNameOrRouteName~~ <PropTag deprecated />
-
-Use `resource` prop instead.
 
 ## API Reference
 

@@ -10,7 +10,7 @@ source: /packages/core/src/hooks/invalidate
 
 `useInvalidate` can be used to invalidate the state of a particular `resource` or [`dataProvider`][data-provider] (with dataProviderName).
 
-This hook is used on mutation hooks. when a mutation is success, this hook will called. For example, creating a `Posts` with [useCreate](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) hook will invalidate the `list` ([useList](/docs/3.xx.xx/api-reference/core/hooks/data/useList/)) and `many` ([useMany](/docs/3.xx.xx/api-reference/core/hooks/data/useMany/)) state of the `Posts` resource.
+This hook is used on mutation hooks. when a mutation is success, this hook will called. For example, creating a `Posts` with [useCreate](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/) hook will invalidate the `list` ([useList](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/)) and `many` ([useMany](/core/docs/3.xx.xx/api-reference/core/hooks/data/useMany/)) state of the `Posts` resource.
 
 :::info-tip
 
@@ -110,11 +110,11 @@ The states you want to invalidate. You can use the following values:
 
 ### Invalidation Parameters
 
-| Property                                                                                              | Description                                                       | Type                                                    | Default   |
-| ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------- | --------- |
-| <div className="required-block"><div>invalidates</div> <div className="required">Required</div></div> | The states you want to invalidate.                                | `all`, `resourceAll`, `list`, `many`, `detail`, `false` |           |
-| resource                                                                                              | Resource name for State invalidation.                             | `string`                                                |           |
-| id                                                                                                    | The `id` to use when invalidating the "detail" state.             | [`BaseKey`](/api-reference/core/interfaces.md#basekey)  |           |
-| dataProviderName                                                                                      | The name of the data provider whose state you want to invalidate. | `string`                                                | `default` |
+| Property                                                                                              | Description                                                       | Type                                                                  | Default   |
+| ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------- | --------- |
+| <div className="required-block"><div>invalidates</div> <div className="required">Required</div></div> | The states you want to invalidate.                                | `all`, `resourceAll`, `list`, `many`, `detail`, `false`               |           |
+| resource                                                                                              | Resource name for State invalidation.                             | `string`                                                              |           |
+| id                                                                                                    | The `id` to use when invalidating the "detail" state.             | [`BaseKey`](/core/docs/3.xx.xx/api-reference/core/interfaces#basekey) |           |
+| dataProviderName                                                                                      | The name of the data provider whose state you want to invalidate. | `string`                                                              | `default` |
 
-[data-provider]: /docs/3.xx.xx/api-reference/core/providers/data-provider/
+[data-provider]: /core/docs/3.xx.xx/api-reference/core/providers/data-provider/

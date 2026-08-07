@@ -13,7 +13,7 @@ import { ChatbotIcon } from "./icons/chatbot";
 // import { TicketIcon } from "./icons/ticket";
 // import { SettingsIcon } from "./icons/settings";
 
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router";
 import { HiddenItemsBgIcon } from "./icons/hidden-items-bg";
 import { ActiveItemBackground } from "./active-item-background";
 

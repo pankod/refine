@@ -2714,7 +2714,7 @@
           "children": [
             {
               "type": "text",
-              "value": "React Router v6",
+              "value": "React Router",
               "position": {
                 "start": {
                   "line": 64,
@@ -7462,7 +7462,7 @@
               "children": [
                 {
                   "type": "text",
-                  "value": "React Router v6",
+                  "value": "React Router",
                   "position": {
                     "start": {
                       "line": 446,
@@ -18266,7 +18266,7 @@
             {
               "type": "link",
               "title": null,
-              "url": "https://github.com/refinedev/refine/tree/master/packages/devtools",
+              "url": "https://github.com/refinedev/refine/tree/main/packages/devtools",
               "children": [
                 {
                   "type": "text",

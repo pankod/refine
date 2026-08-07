@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 
-import { useActiveAuthProvider } from "@definitions/helpers";
-import {
-  useLink,
-  useLogin,
-  useRouterContext,
-  useRouterType,
-  useTranslate,
-} from "@hooks";
+import { useLink, useLogin, useTranslate } from "@hooks";
 
 import type { DivPropsType, FormPropsType } from "../..";
 import type { LoginFormTypes, LoginPageProps } from "../../types";
@@ -27,11 +20,7 @@ export const LoginPage: React.FC<LoginProps> = ({
   hideForm,
   mutationVariables,
 }) => {
-  const routerType = useRouterType();
   const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
-
-  const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,13 +28,10 @@ export const LoginPage: React.FC<LoginProps> = ({
 
   const translate = useTranslate();
 
-  const authProvider = useActiveAuthProvider();
-  const { mutate: login } = useLogin<LoginFormTypes>({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { mutate: login } = useLogin<LoginFormTypes>();
 
   const renderLink = (link: string, text?: string) => {
-    return <ActiveLink to={link}>{text}</ActiveLink>;
+    return <Link to={link}>{text}</Link>;
   };
 
   const renderProviders = () => {

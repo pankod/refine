@@ -1,4 +1,5 @@
 import React from "react";
+import { vi } from "vitest";
 
 import { fireEvent, render, waitFor } from "@testing-library/react";
 
@@ -74,7 +75,7 @@ describe("Auth Page Update Password", () => {
   });
 
   it("should run updatePassword mutation when form is submitted", async () => {
-    const updatePasswordMock = jest.fn();
+    const updatePasswordMock = vi.fn();
     const { getAllByLabelText, getByLabelText, getByDisplayValue } = render(
       <UpdatePasswordPage />,
       {
@@ -98,17 +99,17 @@ describe("Auth Page Update Password", () => {
     fireEvent.click(getByDisplayValue(/update/i));
 
     await waitFor(() => {
-      expect(updatePasswordMock).toBeCalledTimes(1);
+      expect(updatePasswordMock).toHaveBeenCalledTimes(1);
     });
 
-    expect(updatePasswordMock).toBeCalledWith({
+    expect(updatePasswordMock).toHaveBeenCalledWith({
       password: "demo",
       confirmPassword: "demo",
     });
   });
 
   it("should should accept 'mutationVariables'", async () => {
-    const updatePasswordMock = jest.fn().mockResolvedValue({ success: true });
+    const updatePasswordMock = vi.fn().mockResolvedValue({ success: true });
 
     const { getByRole, getByLabelText, getAllByLabelText } = render(
       <UpdatePasswordPage

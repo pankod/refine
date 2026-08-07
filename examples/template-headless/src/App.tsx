@@ -8,8 +8,8 @@ import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route } from "react-router";
 
 import "./App.css";
 

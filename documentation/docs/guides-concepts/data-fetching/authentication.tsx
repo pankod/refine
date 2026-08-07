@@ -160,10 +160,10 @@ export const HomePage = () => {
         });
     const animals = animalsData?.data;
 
-    const { mutate: login, isLoading: isLoadingLogin } = useLogin();
+    const { mutate: login, isPending: isPendingLogin } = useLogin();
     const { mutate: logout } = useLogout();
 
-    const loading = isLoadingAnimals || isLoadingLogin;
+    const loading = isLoadingAnimals || isPendingLogin;
 
     return (
         <Authenticated
@@ -172,7 +172,7 @@ export const HomePage = () => {
                 <div>
                     <h4>You are not authenticated</h4>
                     <button
-                        disabled={isLoadingLogin}
+                        disabled={isPendingLogin}
                         onClick={() =>
                             login({
                                 email: "refine@demo.com",

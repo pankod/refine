@@ -14,7 +14,7 @@ title: Appwrite
 You can only focus on your UI as we can handle your data quickly and simply.
 
 :::caution
-This guide has been prepared assuming you know the basics of **refine**. If you haven't learned these basics yet, we recommend reading the [Tutorial](https://refine.dev/docs/).
+This guide has been prepared assuming you know the basics of **refine**. If you haven't learned these basics yet, we recommend reading the [Tutorial](https://refine.dev/core/docs/).
 :::
 
 ## Setup
@@ -140,7 +140,7 @@ const App: React.FC = () => {
 :::tip Live/Realtime 🚀
 `@pankod/refine-appwrite` package supports Live/Realtime Provider natively 🚀
 
-[Refer to the Live/Realtime Provider docs for detailed usage. →](/docs/3.xx.xx/api-reference/core/providers/live-provider/)
+[Refer to the Live/Realtime Provider docs for detailed usage. →](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/)
 :::
 
 ## Create Collections

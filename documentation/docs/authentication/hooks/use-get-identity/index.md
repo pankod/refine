@@ -1,10 +1,12 @@
 ---
-title: useGetIdentity
-description: useGetIdentity data hook from Refine is a modified version of react-query's useQuery for retrieving user data
+title: "useGetIdentity Hook | Options, Patterns & Edge Cases in Refine v5"
+display_title: "useGetIdentity"
+sidebar_label: "useGetIdentity"
+description: "Build Use Get Identity in Refine v5. Learn the key steps. Learn how to secure OAuth, JWT for secure enterprise React apps. Learn with code examples."
 source: /packages/core/src/hooks/auth/useGetIdentity/index.ts
 ---
 
-`useGetIdentity` calls the `getIdentity` method from the [`authProvider`](/docs/authentication/auth-provider) under the hood.
+`useGetIdentity` calls the `getIdentity` method from the [`authProvider`](/core/docs/authentication/auth-provider/) under the hood.
 
 It returns the result of `react-query`'s `useQuery` which includes many properties, some of which being `isSuccess` and `isError`.
 
@@ -16,7 +18,7 @@ Data that is resolved from the `getIdentity` will be returned as the `data` in t
 
 Let's say that you want to show the user's name.
 
-We have a logic in [`authProvider`](/docs/authentication/auth-provider)'s `getIdentity` method like below:
+We have a logic in [`authProvider`](/core/docs/authentication/auth-provider/) 's `getIdentity` method like below:
 
 ```tsx
 import type { AuthProvider } from "@refinedev/core";

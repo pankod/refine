@@ -155,7 +155,7 @@ export const TutorialSandpack = ({
           "!w-full",
           "items-stretch",
           "justify-start",
-          "bg-gray-100 dark:bg-refine-tutorial-dark-bg",
+          "bg-zinc-100 dark:bg-refine-tutorial-dark-bg",
         )}
         ref={containerRef}
       >
@@ -163,8 +163,8 @@ export const TutorialSandpack = ({
           className={clsx(
             "overflow-hidden",
             "border-r",
-            "border-r-gray-300 dark:border-r-gray-700",
-            "bg-gray-0 dark:bg-gray-800",
+            "border-r-zinc-300 dark:border-r-zinc-700",
+            "bg-zinc-0 dark:bg-zinc-800",
             mobileVisiblePanel === "editor" && "max-w-0 tutorial-md:max-w-none",
             mobileVisiblePanel === "tutorial" &&
               "min-w-full tutorial-md:min-w-0",
@@ -197,7 +197,7 @@ export const TutorialSandpack = ({
             "w-2",
             "appearance-none",
             "outline-none",
-            "bg-gray-100 dark:bg-refine-tutorial-dark-bg",
+            "bg-zinc-100 dark:bg-refine-tutorial-dark-bg",
             "border-0",
             "cursor-col-resize",
             "items-center justify-center",
@@ -210,9 +210,9 @@ export const TutorialSandpack = ({
           <ResizeHandleIcon
             className={clsx(
               "w-1",
-              "text-gray-400",
+              "text-zinc-400",
 
-              "dark:text-gray-700",
+              "dark:text-zinc-700",
             )}
           />
         </button>
@@ -243,7 +243,7 @@ export const TutorialSandpack = ({
           "p-2",
           "w-full",
           "border-t",
-          "border-t-gray-300 dark:border-t-gray-700",
+          "border-t-zinc-300 dark:border-t-zinc-700",
           "justify-center",
         )}
       >
@@ -255,7 +255,7 @@ export const TutorialSandpack = ({
             "flex",
             "items-center",
             "justify-center",
-            "bg-gray-100 dark:bg-gray-700",
+            "bg-zinc-100 dark:bg-zinc-700",
             "text-sm",
           )}
         >
@@ -271,10 +271,10 @@ export const TutorialSandpack = ({
               "rounded-[32px]",
               "text-center",
               mobileVisiblePanel !== "tutorial" &&
-                "text-gray-500 dark:text-gray-400",
+                "text-zinc-500 dark:text-zinc-400",
               mobileVisiblePanel === "tutorial" && [
-                "text-gray-800 dark:text-gray-100",
-                "bg-gray-0 dark:bg-gray-600",
+                "text-zinc-800 dark:text-zinc-100",
+                "bg-zinc-0 dark:bg-zinc-600",
                 "shadow-[0px_1px_0px_0px_#E3E4E5] dark:shadow-[0px_-1px_0px_0px_#667084]",
               ],
               "transition-colors",
@@ -297,10 +297,10 @@ export const TutorialSandpack = ({
               "rounded-[32px]",
               "text-center",
               mobileVisiblePanel !== "editor" &&
-                "text-gray-500 dark:text-gray-400",
+                "text-zinc-500 dark:text-zinc-400",
               mobileVisiblePanel === "editor" && [
-                "text-gray-800 dark:text-gray-100",
-                "bg-gray-0 dark:bg-gray-600",
+                "text-zinc-800 dark:text-zinc-100",
+                "bg-zinc-0 dark:bg-zinc-600",
                 "shadow-[0px_1px_0px_0px_#E3E4E5] dark:shadow-[0px_-1px_0px_0px_#667084]",
               ],
               "transition-colors",
@@ -324,31 +324,31 @@ const TutorialSandpackBase = ({
     showTabs: true,
     initMode: "lazy",
     classes: {
-      "sp-layout": "!rounded-lg !border-gray-300 dark:!border-gray-700",
+      "sp-layout": "!rounded-lg !border-zinc-300 dark:!border-zinc-700",
       "sp-close-button": "!visible",
       "sp-editor":
-        "!h-full !gap-0 border-r !border-r-gray-300 dark:!border-r-gray-700 overflow-hidden",
+        "!h-full !gap-0 border-r !border-r-zinc-300 dark:!border-r-zinc-700 overflow-hidden",
       "sp-stack": "!h-full",
       "sp-tabs":
-        "!border-b-gray-300 dark:!border-b-gray-700 !bg-gray-0 dark:!bg-gray-800",
+        "!border-b-zinc-300 dark:!border-b-zinc-700 !bg-zinc-0 dark:!bg-zinc-800",
       "sp-tabs-scrollable-container": "!min-h-[32px] scrollbar-hidden",
       "sp-input":
-        "!text-gray-800 dark:!text-gray-100 !bg-gray-200 dark:!bg-gray-700 !pb-[5px]",
+        "!text-zinc-800 dark:!text-zinc-100 !bg-zinc-200 dark:!bg-zinc-700 !pb-[5px]",
       "sp-cm": clsx(
         "p-0 bg-transparent",
         "[&>.cm-editor]:!bg-refine-react-light-code",
         "[&>.cm-editor]:dark:!bg-refine-react-dark-code",
         "[&_.cm-gutters]:!bg-refine-react-light-code",
         "[&_.cm-gutters]:dark:!bg-refine-react-dark-code",
-        "[&_.cm-activeLine]:!bg-gray-100 [&_.cm-activeLine]:dark:!bg-gray-800",
+        "[&_.cm-activeLine]:!bg-zinc-100 [&_.cm-activeLine]:dark:!bg-zinc-800",
       ),
       "sp-icon-standalone":
-        "!bg-gray-300 dark:!bg-gray-700 !text-gray-400 dark:!text-gray-500",
+        "!bg-zinc-300 dark:!bg-zinc-700 !text-zinc-400 dark:!text-zinc-500",
       "sp-tab-button": clsx(
         "!h-8",
         "!px-2 !pb-2 !pt-1.5",
-        "!text-gray-800 dark:!text-gray-100",
-        "!border !border-solid !border-b-0 !border-x-gray-300 dark:!border-x-gray-700",
+        "!text-zinc-800 dark:!text-zinc-100",
+        "!border !border-solid !border-b-0 !border-x-zinc-300 dark:!border-x-zinc-700",
         "-ml-px first:ml-0",
         "!border-t-2 !border-t-transparent [&[data-active='true']]:!border-t-refine-react-light-link dark:[&[data-active='true']]:!border-t-refine-react-dark-link",
       ),
@@ -528,16 +528,16 @@ const SandpackRightSide = ({
             "h-full",
             "!py-2",
             "!pr-2",
-            "bg-gray-100 dark:bg-refine-tutorial-dark-bg",
+            "bg-zinc-100 dark:bg-refine-tutorial-dark-bg",
           )}
         >
           {previewOnly ? null : (
             <div
               className={clsx(
-                "bg-gray-0 dark:bg-gray-800",
+                "bg-zinc-0 dark:bg-zinc-800",
                 "overflow-hidden",
                 "rounded-[4px]",
-                "border border-gray-300 dark:border-gray-700",
+                "border border-zinc-300 dark:border-zinc-700",
                 "flex",
                 "relative",
               )}
@@ -572,7 +572,7 @@ const SandpackRightSide = ({
                 "w-full",
                 "appearance-none",
                 "outline-none",
-                "bg-gray-100 dark:bg-refine-tutorial-dark-bg",
+                "bg-zinc-100 dark:bg-refine-tutorial-dark-bg",
                 "border-0",
                 "cursor-row-resize",
                 "flex items-center justify-center",
@@ -586,8 +586,8 @@ const SandpackRightSide = ({
                 className={clsx(
                   "w-1",
                   "rotate-90",
-                  "text-gray-400",
-                  "dark:text-gray-700",
+                  "text-zinc-400",
+                  "dark:text-zinc-700",
                 )}
               />
             </button>
@@ -596,9 +596,9 @@ const SandpackRightSide = ({
             <div
               className={clsx(
                 "overflow-hidden",
-                "bg-gray-0 dark:bg-gray-800",
+                "bg-zinc-0 dark:bg-zinc-800",
                 "rounded-[4px]",
-                "border border-gray-300 dark:border-gray-700",
+                "border border-zinc-300 dark:border-zinc-700",
                 (resizing || parentResizing) && "pointer-events-none",
               )}
               style={{
@@ -619,7 +619,7 @@ const SandpackRightSide = ({
                   gap: 0,
                 }}
               >
-                <div className="sp-custom-loading bg-gray-0 dark:bg-gray-800">
+                <div className="sp-custom-loading bg-zinc-0 dark:bg-zinc-800">
                   <Spinner />
                   <LoaderProgress />
                 </div>
@@ -688,7 +688,7 @@ const LoaderProgress = () => {
           "w-40",
           "h-4",
           "rounded-xl",
-          "bg-gray-300 dark:bg-gray-700",
+          "bg-zinc-300 dark:bg-zinc-700",
           "p-px",
           "relative",
           "overflow-hidden",
@@ -710,8 +710,8 @@ const LoaderProgress = () => {
               "overflow-hidden",
               "whitespace-nowrap",
               "break-keep",
-              "text-gray-800",
-              "dark:text-gray-200",
+              "text-zinc-800",
+              "dark:text-zinc-200",
               "font-semibold",
               "text-[10px]",
               "text-center",
@@ -752,8 +752,8 @@ const LoaderProgress = () => {
                 "overflow-hidden",
                 "whitespace-nowrap",
                 "break-keep",
-                "text-gray-200",
-                "dark:text-gray-800",
+                "text-zinc-200",
+                "dark:text-zinc-800",
                 "font-semibold",
                 "text-[10px]",
                 "text-center",
@@ -810,16 +810,16 @@ const SolveButton = ({ finalFiles }: { finalFiles: SandpackFiles }) => {
           "justify-center",
           "items-center",
           solved && [
-            "text-gray-800 dark:text-gray-100",
-            "bg-gray-300",
-            "hover:bg-gray-200",
-            "dark:bg-gray-600",
+            "text-zinc-800 dark:text-zinc-100",
+            "bg-zinc-300",
+            "hover:bg-zinc-200",
+            "dark:bg-zinc-600",
           ],
           !solved && [
-            "text-gray-100",
+            "text-zinc-100",
             "bg-refine-react-light-link",
             "dark:bg-refine-react-dark-link",
-            "hover:text-gray-0",
+            "hover:text-zinc-0",
             "hover:brightness-110",
           ],
           "active:brightness-90",

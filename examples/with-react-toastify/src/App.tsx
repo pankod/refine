@@ -3,8 +3,8 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import dataProvider from "@refinedev/simple-rest";
 import { ToastContainer } from "react-toastify";
 
@@ -27,9 +27,9 @@ const App: React.FC = () => {
         resources={[
           {
             name: "posts",
-            list: PostList,
-            create: PostCreate,
-            edit: PostEdit,
+            list: "/posts",
+            create: "/posts/create",
+            edit: "/posts/edit/:id",
           },
         ]}
         options={{

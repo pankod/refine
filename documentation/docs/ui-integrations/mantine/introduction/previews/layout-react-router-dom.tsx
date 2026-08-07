@@ -9,11 +9,11 @@ export default function LayoutReactRouterDom() {
       //   showFiles
       initialPercentage={35}
       dependencies={{
-        "@refinedev/mantine": "^2.28.21",
-        "@refinedev/core": "^4.45.1",
-        "@refinedev/react-router-v6": "^4.5.4",
-        "@refinedev/simple-rest": "^4.5.4",
-        "@refinedev/react-table": "^5.6.4",
+        "@refinedev/mantine": "latest",
+        "@refinedev/core": "latest",
+        "@refinedev/react-router": "latest",
+        "@refinedev/simple-rest": "latest",
+        "@refinedev/react-table": "latest",
         "@tanstack/react-table": "^8.2.6",
         "@tabler/icons-react": "^3.1.0",
         "@emotion/react": "^11.8.2",
@@ -21,8 +21,7 @@ export default function LayoutReactRouterDom() {
         "@mantine/hooks": "^5.10.4",
         "@mantine/form": "^5.10.4",
         "@mantine/notifications": "^5.10.4",
-        "react-router": "latest",
-        "react-router-dom": "^6.8.1",
+        "react-router": "^7.0.2",
       }}
       startRoute="/products"
       files={{
@@ -42,12 +41,12 @@ export default function LayoutReactRouterDom() {
 const AppTsxCode = /* jsx */ `
 import { Refine } from "@refinedev/core";
 import dataProvider from "@refinedev/simple-rest";
-import routerProvider from "@refinedev/react-router-v6";
-import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router";
 
 import {
     ErrorComponent,
-    ThemedLayoutV2,
+    ThemedLayout,
     RefineThemes,
     useNotificationProvider,
     AuthPage
@@ -82,9 +81,9 @@ export default function App() {
                         <Route
                             // The layout will wrap all the pages inside this route
                             element={
-                            <ThemedLayoutV2>
+                            <ThemedLayout>
                                 <Outlet />
-                            </ThemedLayoutV2>
+                            </ThemedLayout>
                             }
                         >
                             <Route path="/products" element={<ProductList />} />
@@ -138,24 +137,24 @@ export const ProductList = () => {
     );
 
     const {
-        getHeaderGroups,
-        getRowModel,
-        setOptions,
+        reactTable: { getHeaderGroups, getRowModel, setOptions },
         refineCore: {
-            setCurrent,
+            setCurrentPage,
             pageCount,
-            current,
+            currentPage,
             tableQuery: { data: tableData },
         },
     } = useTable({
         columns,
         refineCoreProps: {
-            initialSorter: [
-                {
-                    field: "id",
-                    order: "desc",
-                },
-            ],
+            sorters: {
+              initial: [
+                  {
+                      field: "id",
+                      order: "desc",
+                  },
+              ],
+            },
         },
     });
 
@@ -197,8 +196,8 @@ export const ProductList = () => {
                 <Pagination
                     position="right"
                     total={pageCount}
-                    page={current}
-                    onChange={setCurrent}
+                    page={currentPage}
+                    onChange={setCurrentPage}
                 />
             </List>
         </ScrollArea>

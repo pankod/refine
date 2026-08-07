@@ -91,7 +91,7 @@ export const DashboardPage: React.FC = () => {
     }
   }, [selecetedDateFilter]);
 
-  const { data: dailyRevenueData } = useCustom<{
+  const { result: dailyRevenueData } = useCustom<{
     data: ISalesChart[];
     total: number;
     trend: number;
@@ -103,7 +103,7 @@ export const DashboardPage: React.FC = () => {
     },
   });
 
-  const { data: dailyOrdersData } = useCustom<{
+  const { result: dailyOrdersData } = useCustom<{
     data: ISalesChart[];
     total: number;
     trend: number;
@@ -115,7 +115,7 @@ export const DashboardPage: React.FC = () => {
     },
   });
 
-  const { data: newCustomersData } = useCustom<{
+  const { result: newCustomersData } = useCustom<{
     data: ISalesChart[];
     total: number;
     trend: number;

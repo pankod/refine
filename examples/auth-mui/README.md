@@ -30,6 +30,6 @@
 
 <br />
 
-### This example has been moved to [here.](https://github.com/refinedev/refine/tree/master/examples/auth-material-ui)
+### This example has been moved to [here.](https://github.com/refinedev/refine/tree/main/examples/auth-material-ui)
 
 </div>

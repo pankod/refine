@@ -8,7 +8,7 @@ type Props = {
 const ExampleSourcePrompt: React.FC<Props> = ({ path }) => {
   const REPO_TREE_URL = "https://github.com/refinedev/refine/tree";
 
-  const SOURCE_URL = `${REPO_TREE_URL}/master/examples/${path}`;
+  const SOURCE_URL = `${REPO_TREE_URL}/main/examples/${path}`;
 
   return <CommonShowSourcePrompt path={SOURCE_URL} />;
 };

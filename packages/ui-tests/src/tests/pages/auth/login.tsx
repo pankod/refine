@@ -1,9 +1,10 @@
+import { vi } from "vitest";
 import React, { type FC } from "react";
 
 import {
   fireEvent,
   mockAuthProvider,
-  mockRouterBindings,
+  mockRouterProvider,
   render,
   TestWrapper,
   waitFor,
@@ -247,7 +248,7 @@ export const pageLoginTests = (
     });
 
     it("should run login mutation when form is submitted", async () => {
-      const loginMock = jest.fn().mockResolvedValue({ success: true });
+      const loginMock = vi.fn().mockResolvedValue({ success: true });
       const { getByLabelText, getAllByText } = render(<LoginPage />, {
         wrapper: TestWrapper({
           authProvider: {
@@ -270,10 +271,10 @@ export const pageLoginTests = (
       fireEvent.click(getAllByText(/sign in/i)[1]);
 
       await waitFor(() => {
-        expect(loginMock).toBeCalledTimes(1);
+        expect(loginMock).toHaveBeenCalledTimes(1);
       });
 
-      expect(loginMock).toBeCalledWith({
+      expect(loginMock).toHaveBeenCalledWith({
         email: "demo@refine.dev",
         password: "demo",
         remember: true,
@@ -281,38 +282,27 @@ export const pageLoginTests = (
     });
 
     it("should work with new router provider Link", async () => {
-      jest.spyOn(console, "error").mockImplementation((message) => {
+      vi.spyOn(console, "error").mockImplementation((message) => {
         console.warn(message);
       });
-      const LinkComponentMock = jest.fn();
 
-      render(<LoginPage />, {
+      const { getByText } = render(<LoginPage />, {
         wrapper: TestWrapper({
-          routerProvider: mockRouterBindings({
-            fns: {
-              Link: LinkComponentMock,
-            },
-          }),
+          routerProvider: mockRouterProvider({}),
         }),
       });
 
-      expect(LinkComponentMock).toBeCalledWith(
-        expect.objectContaining({
-          to: "/forgot-password",
-        }),
-        {},
-      );
+      const forgotPasswordLink = getByText(/forgot password/i);
+      expect(forgotPasswordLink).toBeInTheDocument();
+      expect(forgotPasswordLink.getAttribute("href")).toBe("/forgot-password");
 
-      expect(LinkComponentMock).toBeCalledWith(
-        expect.objectContaining({
-          to: "/register",
-        }),
-        {},
-      );
+      const registerLink = getByText(/sign up/i);
+      expect(registerLink).toBeInTheDocument();
+      expect(registerLink.getAttribute("href")).toBe("/register");
     });
 
     it("should run login mutation when provider button is clicked", async () => {
-      const loginMock = jest.fn().mockResolvedValue({ success: true });
+      const loginMock = vi.fn().mockResolvedValue({ success: true });
       const { getByText } = render(
         <LoginPage
           providers={[
@@ -337,10 +327,10 @@ export const pageLoginTests = (
       fireEvent.click(getByText(/google/i));
 
       await waitFor(() => {
-        expect(loginMock).toBeCalledTimes(1);
+        expect(loginMock).toHaveBeenCalledTimes(1);
       });
 
-      expect(loginMock).toBeCalledWith({
+      expect(loginMock).toHaveBeenCalledWith({
         providerName: "Google",
       });
     });
@@ -405,7 +395,7 @@ export const pageLoginTests = (
     });
 
     it("should should accept 'mutationVariables'", async () => {
-      const loginMock = jest.fn().mockResolvedValue({ success: true });
+      const loginMock = vi.fn().mockResolvedValue({ success: true });
 
       const { getByRole, getByLabelText } = render(
         <LoginPage

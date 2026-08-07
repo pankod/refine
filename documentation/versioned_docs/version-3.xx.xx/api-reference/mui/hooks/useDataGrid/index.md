@@ -8,7 +8,7 @@ import BasicUsagePreview from "./\_partial-use-data-grid-basic-usage-live-previe
 import RelationalPreview from "./\_partial-use-data-grid-relational-live-preview.md";
 import PropResource from "@site/src/partials/prop-resource";
 
-By using `useDataGrid`, you can get properties that are compatible with MUI X [`<DataGrid>`][data-grid] component. All features such as sorting, filtering, and pagination come out of the box. Under the hood it uses [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) for the fetch.
+By using `useDataGrid`, you can get properties that are compatible with MUI X [`<DataGrid>`][data-grid] component. All features such as sorting, filtering, and pagination come out of the box. Under the hood it uses [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) for the fetch.
 
 For all the other features, you can refer to the MUI X [`<DataGrid>`][data-grid] documentation
 
@@ -258,11 +258,11 @@ When `filterModel` is not passed, it supports more than one criteria at a time, 
 
 ## Realtime Updates
 
-> This feature is only available if you use a [Live Provider](/docs/3.xx.xx/api-reference/core/providers/live-provider).
+> This feature is only available if you use a [Live Provider](/core/docs/3.xx.xx/api-reference/core/providers/live-provider).
 
 When the `useDataGrid` hook is mounted, it will call the `subscribe` method from the `liveProvider` with some parameters such as `channel`, `resource` etc. It is useful when you want to subscribe to live updates.
 
-[Refer to the `liveProvider` documentation for more information &#8594](/docs/3.xx.xx/api-reference/core/providers/live-provider)
+[Refer to the `liveProvider` documentation for more information &#8594](/core/docs/3.xx.xx/api-reference/core/providers/live-provider)
 
 ## Properties
 
@@ -427,7 +427,7 @@ useDataGrid({
 
 ### `queryOptions`
 
-`useDataGrid` uses [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery).
+`useDataGrid` uses [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook to fetch data. You can pass [`queryOptions`](https://tanstack.com/query/v4/docs/react/reference/useQuery).
 
 ```tsx
 useDataGrid({
@@ -439,10 +439,10 @@ useDataGrid({
 
 ### `metaData`
 
-[`metaData`](/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
+[`metaData`](/core/docs/3.xx.xx/api-reference/general-concepts/#metadata) is used following two purposes:
 
 - To pass additional information to data provider methods.
-- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
+- Generate GraphQL queries using plain JavaScript Objects (JSON). Please refer [GraphQL](/core/docs/3.xx.xx/advanced-tutorials/data-provider/graphql/#edit-page) for more information.
 
 In the following example, we pass the `headers` property in the `metaData` object to the `create` method. With similar logic, you can pass any properties to specifically handle the data provider methods.
 
@@ -520,10 +520,10 @@ useDataGrid({
 
 ### `liveMode`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
 Determines whether to update data automatically ("auto") or not ("manual") if a related live event is received. It can be used to update and show data in Realtime throughout your app.
-For more information about live mode, please check [Live / Realtime](/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
+For more information about live mode, please check [Live / Realtime](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode) page.
 
 ```tsx
 useDataGrid({
@@ -533,7 +533,7 @@ useDataGrid({
 
 ### `onLiveEvent`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
 The callback function is executed when new events from a subscription have arrived.
 
@@ -547,9 +547,9 @@ useDataGrid({
 
 ### `liveParams`
 
-> [`LiveProvider`](/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
+> [`LiveProvider`](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/) is required for this prop to work.
 
-Params to pass to liveProvider's [subscribe](/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) method.
+Params to pass to liveProvider's [subscribe](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#subscribe) method.
 
 ## Return Values
 
@@ -633,11 +633,11 @@ When the user sorts or filters a column, this function is called with the new st
 
 #### `rows`
 
-Contains the data to be displayed in the data grid. Values fetched with [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
+Contains the data to be displayed in the data grid. Values fetched with [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
 
 #### `rowCount`
 
-Total number of data. Value fetched with [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
+Total number of data. Value fetched with [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
 
 #### `loading`
 
@@ -649,7 +649,7 @@ Returns pagination configuration values(pageSize, current, setCurrent, etc.).
 
 ### `tableQueryResult`
 
-Returned values from [`useList`](/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
+Returned values from [`useList`](/core/docs/3.xx.xx/api-reference/core/hooks/data/useList/) hook.
 
 ### `sorter`
 
@@ -769,16 +769,16 @@ You can use [`useSelect`](http://localhost:3000/docs/api-reference/core/hooks/us
 
 <CodeSandboxExample path="table-material-ui-use-data-grid" />
 
-[use-table-core]: /docs/3.xx.xx/api-reference/core/hooks/useTable
+[use-table-core]: /core/docs/3.xx.xx/api-reference/core/hooks/useTable
 [source-code]: https://github.com/refinedev/refine/blob/v3/packages/mui/src/hooks/useDataGrid/index.ts
-[syncwithlocationparams]: /api-reference/core/interfaces.md#syncwithlocationparams
-[crudsorting]: /api-reference/core/interfaces.md#crudsorting
-[crudfilters]: /api-reference/core/interfaces.md#crudfilters
+[syncwithlocationparams]: /core/docs/3.xx.xx/api-reference/core/interfaces#syncwithlocationparams
+[crudsorting]: /core/docs/3.xx.xx/api-reference/core/interfaces#crudsorting
+[crudfilters]: /core/docs/3.xx.xx/api-reference/core/interfaces#crudfilters
 [usequery]: https://react-query.tanstack.com/reference/useQuery
-[baserecord]: /api-reference/core/interfaces.md#baserecord
-[httperror]: /api-reference/core/interfaces.md#httperror
-[refine swl]: /api-reference/core/components/refine-config.md#syncwithlocation
+[baserecord]: /core/docs/3.xx.xx/api-reference/core/interfaces#baserecord
+[httperror]: /core/docs/3.xx.xx/api-reference/core/interfaces#httperror
+[refine swl]: /core/docs/3.xx.xx/api-reference/core/components/refine-config#syncwithlocation
 [table search]: /advanced-tutorials/search/table-search.md
 [data-grid]: https://mui.com/x/react-data-grid/
-[syncwithlocationparams]: /api-reference/core/interfaces.md#syncwithlocationparams
-[notification-provider]: /api-reference/core/providers/notification-provider.md
+[syncwithlocationparams]: /core/docs/3.xx.xx/api-reference/core/interfaces#syncwithlocationparams
+[notification-provider]: /core/docs/3.xx.xx/api-reference/core/providers/notification-provider

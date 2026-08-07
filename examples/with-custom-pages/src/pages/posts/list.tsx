@@ -1,4 +1,4 @@
-import { useMany, useNavigation } from "@refinedev/core";
+import { useGo, useMany, useNavigation } from "@refinedev/core";
 
 import {
   List,
@@ -15,11 +15,14 @@ import type { IPost, ICategory } from "../../interfaces";
 
 export const PostList = () => {
   const { tableProps } = useTable<IPost>();
-  const { push } = useNavigation();
+  const go = useGo();
 
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-  const { data, isLoading } = useMany<ICategory>({
+  const {
+    result: data,
+    query: { isLoading },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -32,7 +35,9 @@ export const PostList = () => {
       headerProps={{
         extra: (
           <Space>
-            <Button onClick={() => push("/authenticated-page")}>
+            <Button
+              onClick={() => go({ to: "/authenticated-page", type: "push" })}
+            >
               Review Posts
             </Button>
             <CreateButton />

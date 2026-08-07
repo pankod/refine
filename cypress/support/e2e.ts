@@ -130,6 +130,19 @@ beforeEach(() => {
     body: "Disabled telemetry to avoid unwanted entries in the database",
     statusCode: 200,
   }).as("telemetry");
+
+  cy.interceptGETPosts();
+  cy.interceptGETPost();
+  cy.interceptPOSTPost();
+  cy.interceptPATCHPost();
+  cy.interceptDELETEPost();
+  cy.interceptGETBlogPosts();
+  cy.interceptGETBlogPost();
+  cy.interceptPOSTBlogPost();
+  cy.interceptPATCHBlogPost();
+  cy.interceptDELETEBlogPost();
+  cy.interceptGETCategories();
+  cy.interceptGETCategory();
 });
 
 Cypress.on("uncaught:exception", (err) => {

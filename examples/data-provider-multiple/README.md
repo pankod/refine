@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example data-provider-multiple
 
 <br/>
 
-[![Open data-provider-multiple example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/data-provider-multiple?view=preview&theme=dark&codemirror=1)
+[![Open data-provider-multiple example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/data-provider-multiple?view=preview&theme=dark&codemirror=1)

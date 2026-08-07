@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
 import { render, act, TestWrapper } from "@test";
 import { EditInferencer, renderer } from "../edit";
@@ -11,8 +11,8 @@ describe("HeadlessEditInferencer", () => {
       resources: [
         {
           name: "posts",
-          list: () => <div>list</div>,
-          edit: EditInferencer,
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
         {
           name: "categories",

@@ -7,7 +7,6 @@ import type { IRefineContextProvider } from "../../../contexts/refine/types";
 import { useLiveMode } from "./";
 
 const mockRefineProvider: IRefineContextProvider = {
-  hasDashboard: false,
   ...defaultRefineOptions,
   options: defaultRefineOptions,
 };

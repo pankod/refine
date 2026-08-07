@@ -1,10 +1,13 @@
 ---
-title: useDrawerForm
+title: "useDrawerForm Hook | Best Practices for Usage & Patterns | Refine v5"
+display_title: "useDrawerForm"
+sidebar_label: "useDrawerForm"
+description: "Integrate Use Drawer Form in Refine v5. Learn best practices. Learn integration patterns for value and data for polished admin UIs."
 ---
 
 The `useDrawerForm` hook allows you to manage a form within a Drawer. It returns the Ant Design [`<Form>`](https://ant.design/components/form/) and [`<Drawer>`](https://ant.design/components/drawer/) components props.
 
-The`useDrawerForm` hook is extended from [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form) from the [@refinedev/antd](https://github.com/refinedev/refine/tree/master/packages/antd) package. This means that you can use all the features of [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form) hook with it.
+The`useDrawerForm` hook is extended from [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form/) from the [@refinedev/antd](https://github.com/refinedev/refine/tree/main/packages/antd) package. This means that you can use all the features of [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form/) hook with it.
 
 ## Usage
 
@@ -117,16 +120,32 @@ const PostList: React.FC = () => {
 };
 
 // visible-block-end
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
 
-render(<RefineAntdDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 </TabItem>
@@ -254,17 +273,31 @@ const PostList: React.FC = () => {
   );
 };
 
-// visible-block-end
-setRefineProps({
-  resources: [
-    {
-      name: "posts",
-      list: PostList,
-    },
-  ],
-});
-
-render(<RefineAntdDemo />);
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<PostList />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
+);
 ```
 
 Refine doesn't automatically add a `<EditButton/>` to the each record in `<PostList>` which opens the edit form in `<Drawer>` when clicked.
@@ -288,7 +321,7 @@ Don't forget to pass the record `"id"` to `show` to fetch the record data. This 
 
 ## Properties
 
-All [`useForm`][antd-use-form] props are also available in `useDrawerForm`. You can find descriptions on the [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form#properties) documentation.
+All [`useForm`][antd-use-form] props are also available in `useDrawerForm`. You can find descriptions on the [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form#properties) documentation.
 
 ### syncWithLocation
 
@@ -442,7 +475,7 @@ const { defaultFormValuesLoading } = useForm({
 
 ## Return values
 
-`useDrawerForm` returns the same values from [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form#return-values) and additional values to work with [`<Drawer>`](https://ant.design/components/drawer/) components.
+`useDrawerForm` returns the same values from [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form#return-values) and additional values to work with [`<Drawer>`](https://ant.design/components/drawer/) components.
 
 ### show
 
@@ -464,7 +497,7 @@ It contains the props needed by the `"delete"` button within the `<Drawer>` (dis
 
 It's required to manage `<Form>` state and actions. Under the hood the `formProps` came from [`useForm`][antd-use-form].
 
-It contains the props to manage the [Antd `<Form>`](https://ant.design/components/form#api) component such as [_`onValuesChange`, `initialValues`, `onFieldsChange`, `onFinish` etc._](/docs/ui-integrations/ant-design/hooks/use-form#return-values)
+It contains the props to manage the [Antd `<Form>`](https://ant.design/components/form#api) component such as [_`onValuesChange`, `initialValues`, `onFieldsChange`, `onFinish` etc._](/core/docs/ui-integrations/ant-design/hooks/use-form#return-values)
 
 :::note Difference between `onFinish` and `formProps.onFinish`
 
@@ -485,7 +518,7 @@ It's the width of the `<Drawer>`. Default value is `"500px"`.
 #### onClose
 
 A function that can close the `<Drawer>`. It's useful when you want to close the `<Drawer>` manually.
-When [`warnWhenUnsavedChanges`](/docs/ui-integrations/ant-design/hooks/use-form#warnwhenunsavedchanges) is `true`, it will show a confirmation modal before closing the `<Drawer>`. If you override this function, you have to handle this confirmation modal manually.
+When [`warnWhenUnsavedChanges`](/core/docs/ui-integrations/ant-design/hooks/use-form#warnwhenunsavedchanges) is `true`, it will show a confirmation modal before closing the `<Drawer>`. If you override this function, you have to handle this confirmation modal manually.
 
 #### open
 
@@ -565,7 +598,7 @@ export const UserCreate: React.FC = () => {
 
 <PropsTable module="@refinedev/antd/useDrawerForm"/>
 
-> `*`: These props have default values in `RefineContext` and can also be set on **<[Refine](/docs/core/refine-component)>** component. `useDrawerForm` will use what is passed to `<Refine>` as default but a local value will override it.
+> `*`: These props have default values in `RefineContext` and can also be set on **<[Refine](/core/docs/core/refine-component/)>** component. `useDrawerForm` will use what is passed to `<Refine>` as default but a local value will override it.
 
 > `**`: If not explicitly configured, default value of `redirect` depends which `action` used. If `action` is `create`, `redirect`s default value is `edit` (created resources edit page). Otherwise if `action` is `edit`, `redirect`s default value is `list`.
 
@@ -582,31 +615,31 @@ export const UserCreate: React.FC = () => {
 
 ### Return Value
 
-| resourceName? | `string` |
+| resource? | `string` |
 | recordItemId? | [`BaseKey`](#basekey) |
 | onSuccess? | `<TData = BaseRecord>(value: { data: TData; }) => void;` |
 | mutationMode? | [`MutationMode`](#mutationmode) |
 | hideText? | `boolean` |
 
-| Key                      | Description                                                  | Type                                                                                                                                     |
-| ------------------------ | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| show                     | A function that opens the drawer                             | `(id?: BaseKey) => void`                                                                                                                 |
-| form                     | Ant Design form instance                                     | [`FormInstance<TVariables>`](https://ant.design/components/form/#FormInstance)                                                           |
-| formProps                | Ant Design form props                                        | [`FormProps`](/docs/ui-integrations/ant-design/hooks/use-form#properties)                                                                |
-| drawerProps              | Props for managed drawer                                     | [`DrawerProps`](#drawerprops)                                                                                                            |
-| saveButtonProps          | Props for a submit button                                    | `{ disabled: boolean; onClick: () => void; loading: boolean; }`                                                                          |
-| deleteButtonProps        | Adds props for delete button                                 | `{ resourceName?: string; recordItemId?: BaseKey; onSuccess?: (data: TData) => void; mutationMode?: MutationMode; hideText?: boolean; }` |
-| submit                   | Submit method, the parameter is the value of the form fields | `() => void`                                                                                                                             |
-| open                     | Whether the drawer is open or not                            | `boolean`                                                                                                                                |
-| close                    | Specify a function that can close the drawer                 | `() => void`                                                                                                                             |
-| overtime                 | Overtime loading props                                       | `{ elapsedTime?: number }`                                                                                                               |
-| autoSaveProps            | Auto save props                                              | `{ data: UpdateResponse<TData>` \| `undefined, error: HttpError` \| `null, status: "loading"` \| `"error"` \| `"idle"` \| `"success" }`  |
-| defaultFormValuesLoading | DefaultFormValues loading status of form                     | `boolean`                                                                                                                                |
+| Key                      | Description                                                  | Type                                                                                                                                    |
+| ------------------------ | ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| show                     | A function that opens the drawer                             | `(id?: BaseKey) => void`                                                                                                                |
+| form                     | Ant Design form instance                                     | [`FormInstance<TVariables>`](https://ant.design/components/form/#FormInstance)                                                          |
+| formProps                | Ant Design form props                                        | [`FormProps`](/core/docs/ui-integrations/ant-design/hooks/use-form#properties)                                                          |
+| drawerProps              | Props for managed drawer                                     | [`DrawerProps`](#drawerprops)                                                                                                           |
+| saveButtonProps          | Props for a submit button                                    | `{ disabled: boolean; onClick: () => void; loading: boolean; }`                                                                         |
+| deleteButtonProps        | Adds props for delete button                                 | `{ resource?: string; recordItemId?: BaseKey; onSuccess?: (data: TData) => void; mutationMode?: MutationMode; hideText?: boolean; }`    |
+| submit                   | Submit method, the parameter is the value of the form fields | `() => void`                                                                                                                            |
+| open                     | Whether the drawer is open or not                            | `boolean`                                                                                                                               |
+| close                    | Specify a function that can close the drawer                 | `() => void`                                                                                                                            |
+| overtime                 | Overtime loading props                                       | `{ elapsedTime?: number }`                                                                                                              |
+| autoSaveProps            | Auto save props                                              | `{ data: UpdateResponse<TData>` \| `undefined, error: HttpError` \| `null, status: "loading"` \| `"error"` \| `"idle"` \| `"success" }` |
+| defaultFormValuesLoading | DefaultFormValues loading status of form                     | `boolean`                                                                                                                               |
 
 ## Example
 
 <CodeSandboxExample path="form-antd-use-drawer-form" />
 
-[baserecord]: /docs/core/interface-references#baserecord
-[httperror]: /docs/core/interface-references#httperror
-[antd-use-form]: /docs/ui-integrations/ant-design/hooks/use-form
+[baserecord]: /core/docs/core/interface-references#baserecord
+[httperror]: /core/docs/core/interface-references#httperror
+[antd-use-form]: /core/docs/ui-integrations/ant-design/hooks/use-form

@@ -1,4 +1,4 @@
-import { gql } from "@urql/core";
+import gql from "graphql-tag";
 import dataProvider from "../../src/index";
 import client from "../gqlClient";
 import "./create.mock";
@@ -37,9 +37,9 @@ describe("create", () => {
 
   describe("without operation", () => {
     it("throws error", async () => {
-      expect(
+      await expect(
         dataProvider(client).create({ resource: "blogPosts", variables: {} }),
-      ).rejects.toEqual(new Error("Operation is required."));
+      ).rejects.toEqual(new Error("[Code] Operation is required."));
     });
   });
 });

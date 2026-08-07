@@ -9,7 +9,7 @@ describe("deleteOne", () => {
       id: "40",
     });
 
-    expect(promise).resolves.not.toThrow();
+    await expect(promise).resolves.not.toThrow();
   });
 
   it("should change schema", async () => {

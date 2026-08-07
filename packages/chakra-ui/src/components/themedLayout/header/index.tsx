@@ -6,83 +6,65 @@ import {
   Text,
   HStack,
   useColorModeValue,
-  IconButton,
-  Icon,
+  type BoxProps,
 } from "@chakra-ui/react";
 import type { RefineThemedLayoutHeaderProps } from "../types";
-import {
-  IconLayoutSidebarLeftCollapse,
-  IconLayoutSidebarLeftExpand,
-} from "@tabler/icons-react";
+import { HamburgerMenu } from "../hamburgerMenu";
 
-/**
- * @deprecated It is recommended to use the improved `ThemedLayoutV2`. Review migration guidelines. https://refine.dev/docs/api-reference/chakra-ui/components/chakra-ui-themed-layout/#migrate-themedlayout-to-themedlayoutv2
- */
 export const ThemedHeader: React.FC<RefineThemedLayoutHeaderProps> = ({
-  isSiderOpen,
-  onToggleSiderClick,
-  toggleSiderIcon: toggleSiderIconFromProps,
+  sticky,
 }) => {
-  const authProvider = useActiveAuthProvider();
-  const { data: user } = useGetIdentity({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { data: user } = useGetIdentity();
 
   const bgColor = useColorModeValue(
     "refine.header.bg.light",
     "refine.header.bg.dark",
   );
 
-  const hasSidebarToggle = Boolean(onToggleSiderClick);
+  let stickyProps: BoxProps = {};
+  if (sticky) {
+    stickyProps = {
+      position: "sticky",
+      top: 0,
+      zIndex: 1,
+    };
+  }
 
   return (
     <Box
       py="2"
-      pr="4"
-      pl="2"
+      px="4"
       display="flex"
       alignItems="center"
-      justifyContent={
-        hasSidebarToggle
-          ? { base: "flex-end", md: "space-between" }
-          : "flex-end"
-      }
       w="full"
       height="64px"
       bg={bgColor}
       borderBottom="1px"
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
+      {...stickyProps}
     >
-      {hasSidebarToggle && (
-        <IconButton
-          display={{ base: "none", md: "flex" }}
-          backgroundColor="transparent"
-          aria-label="sidebar-toggle"
-          onClick={() => onToggleSiderClick?.()}
-        >
-          {toggleSiderIconFromProps?.(Boolean(isSiderOpen)) ??
-            (isSiderOpen ? (
-              <Icon as={IconLayoutSidebarLeftCollapse} boxSize={"24px"} />
-            ) : (
-              <Icon as={IconLayoutSidebarLeftExpand} boxSize={"24px"} />
-            ))}
-        </IconButton>
-      )}
-
-      <HStack>
-        {user?.name && (
-          <Text size="sm" fontWeight="bold">
-            {user.name}
-          </Text>
-        )}
-        {user?.avatar && (
-          <Avatar
-            size="sm"
-            name={user?.name || "Profile Photo"}
-            src={user.avatar}
-          />
-        )}
-      </HStack>
+      <Box
+        w="full"
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <HamburgerMenu />
+        <HStack>
+          {user?.name && (
+            <Text size="sm" fontWeight="bold" data-testid="header-user-name">
+              {user.name}
+            </Text>
+          )}
+          {user?.avatar && (
+            <Avatar
+              size="sm"
+              name={user?.name || "Profile Photo"}
+              src={user.avatar}
+            />
+          )}
+        </HStack>
+      </Box>
     </Box>
   );
 };

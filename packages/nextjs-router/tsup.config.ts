@@ -7,7 +7,7 @@ const sharedConfig: Partial<Options> = {
   splitting: false,
   sourcemap: true,
   clean: false,
-  minify: true,
+  minify: false,
   format: ["cjs", "esm"],
   outExtension: ({ format }) => ({ js: format === "cjs" ? ".cjs" : ".mjs" }),
   platform: "browser",

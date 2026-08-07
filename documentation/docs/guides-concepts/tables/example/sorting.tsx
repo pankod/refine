@@ -47,13 +47,13 @@ import React from "react";
 import { useTable } from "@refinedev/core";
 
 export const ProductTable: React.FC = () => {
-    const { tableQuery, sorters, setSorters } = useTable<IProduct>({
+    const { result, tableQuery, sorters, setSorters } = useTable<IProduct>({
         resource: "products",
         sorters: {
             initial: [{ field: "price", order: "asc" }],
         },
     });
-    const products = tableQuery?.data?.data ?? [];
+    const products = result.data
 
     const findSorterByFieldName = (fieldName: string) => {
         return sorters.find((sorter) => sorter.field === fieldName);
@@ -63,7 +63,7 @@ export const ProductTable: React.FC = () => {
     if (tableQuery.isLoading) {
         return <div>Loading...</div>;
     }
-    
+
     return (
         <div>
             <h1>Products</h1>

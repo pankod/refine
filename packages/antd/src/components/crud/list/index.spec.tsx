@@ -1,7 +1,7 @@
 import React, { type ReactNode } from "react";
 import { crudListTests } from "@refinedev/ui-tests";
 import { RefineButtonTestIds } from "@refinedev/ui-types";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import { CreateButton } from "@components/buttons";
 import { render, TestWrapper } from "@test";
 import { List } from "./index";

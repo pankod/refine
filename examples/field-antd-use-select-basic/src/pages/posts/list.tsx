@@ -20,7 +20,10 @@ export const PostList = () => {
   const categoryIds =
     tableProps?.dataSource?.map((item) => item.category.id) ?? [];
 
-  const { data, isLoading } = useMany<ICategory>({
+  const {
+    result: data,
+    query: { isLoading },
+  } = useMany<ICategory>({
     resource: "categories",
     ids: categoryIds,
     queryOptions: {
@@ -30,7 +33,9 @@ export const PostList = () => {
 
   const { selectProps: categorySelectProps } = useSelect<ICategory>({
     resource: "categories",
-    fetchSize: 20,
+    pagination: {
+      pageSize: 20,
+    },
   });
 
   return (

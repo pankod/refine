@@ -3,8 +3,6 @@
 
 describe("table-chakra-ui-basic", () => {
   beforeEach(() => {
-    cy.interceptGETPosts();
-
     cy.visit("/");
   });
 
@@ -29,8 +27,6 @@ describe("table-chakra-ui-basic", () => {
     cy.url().should("include", "sorters[0][field]=id&sorters[0][order]=asc");
 
     cy.wait("@getAscPosts");
-
-    cy.interceptGETPosts();
 
     cy.get(".tabler-icon-chevron-down").first().click();
 
@@ -110,7 +106,7 @@ describe("table-chakra-ui-basic", () => {
 
     cy.get("#next-page").click();
 
-    cy.url().should("include", "current=2");
+    cy.url().should("include", "currentPage=2");
 
     cy.wait("@getSecondPagePosts").then((interception) => {
       const { request } = interception;
@@ -122,7 +118,7 @@ describe("table-chakra-ui-basic", () => {
 
     cy.get("#prev-page").click();
 
-    cy.url().should("include", "current=1");
+    cy.url().should("include", "currentPage=1");
 
     cy.wait("@getPosts").then((interception) => {
       const { request } = interception;
@@ -142,6 +138,6 @@ describe("table-chakra-ui-basic", () => {
     cy.get("#title").type("lorem");
     cy.get(".tabler-icon-check").click();
 
-    cy.url().should("include", "current=1");
+    cy.url().should("include", "currentPage=1");
   });
 });

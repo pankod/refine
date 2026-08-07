@@ -4,7 +4,7 @@
 describe("form-antd-use-drawer-form", () => {
   const mockPost = {
     title:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     status: "Published",
   };
 
@@ -35,13 +35,6 @@ describe("form-antd-use-drawer-form", () => {
   };
 
   beforeEach(() => {
-    cy.interceptGETPost();
-    cy.interceptPOSTPost();
-    cy.interceptPATCHPost();
-    cy.interceptDELETEPost();
-    cy.interceptGETPosts();
-    cy.interceptGETCategories();
-
     cy.clearAllCookies();
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();

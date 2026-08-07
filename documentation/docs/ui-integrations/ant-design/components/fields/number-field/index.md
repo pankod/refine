@@ -1,5 +1,8 @@
 ---
-title: Number
+title: "Ant Design Number Field Component | UI Component in Refine v5"
+display_title: "Number"
+sidebar_label: "Number"
+description: "Learn to integrate Number Field in Refine v5. Learn integrate enterprise UI, components for polished admin UIs. Real-world snippets included."
 swizzle: true
 ---
 
@@ -7,7 +10,7 @@ This field is used to display a number formatted according to the browser locale
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -17,7 +20,9 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 
 If Intl is not available, `<NumberField>` outputs numbers as is (and ignores the locales and options props).
 
-```tsx live
+```tsx live previewHeight=280px url=http://localhost:3000/posts
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import {
   List,
@@ -34,7 +39,7 @@ const PostList: React.FC = () => {
     <List>
       <Table {...tableProps} rowKey="id">
         <Table.Column dataIndex="id" title="ID" />
-        <Table.Column dataIndex="title" title="Title" width="50%" />
+        <Table.Column dataIndex="title" title="Title" />
         <Table.Column<IPost>
           key="hit"
           title="Hit"
@@ -49,7 +54,6 @@ const PostList: React.FC = () => {
             />
             // highlight-end
           )}
-          width="50%"
         />
       </Table>
     </List>
@@ -64,14 +68,27 @@ interface IPost {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    resources={[
-      {
-        name: "posts",
-        list: PostList,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <PostList />
+            </div>
+          }
+        />
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

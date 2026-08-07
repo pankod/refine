@@ -1,18 +1,14 @@
 import React from "react";
 import { Layout as AntdLayout, Typography, Avatar, Space, theme } from "antd";
-import { useActiveAuthProvider, useGetIdentity } from "@refinedev/core";
+import { useGetIdentity } from "@refinedev/core";
 import type { RefineThemedLayoutHeaderProps } from "../types";
 
-/**
- * @deprecated It is recommended to use the improved `ThemedLayoutV2`. Review migration guidelines. https://refine.dev/docs/api-reference/antd/components/antd-themed-layout/#migrate-themedlayout-to-themedlayoutv2
- */
-export const ThemedHeader: React.FC<RefineThemedLayoutHeaderProps> = () => {
+export const ThemedHeader: React.FC<RefineThemedLayoutHeaderProps> = ({
+  sticky,
+}) => {
   const { token } = theme.useToken();
 
-  const authProvider = useActiveAuthProvider();
-  const { data: user } = useGetIdentity({
-    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
-  });
+  const { data: user } = useGetIdentity();
 
   const shouldRenderHeader = user && (user.name || user.avatar);
 
@@ -20,17 +16,23 @@ export const ThemedHeader: React.FC<RefineThemedLayoutHeaderProps> = () => {
     return null;
   }
 
+  const headerStyles: React.CSSProperties = {
+    backgroundColor: token.colorBgElevated,
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    padding: "0px 24px",
+    height: "64px",
+  };
+
+  if (sticky) {
+    headerStyles.position = "sticky";
+    headerStyles.top = 0;
+    headerStyles.zIndex = 1;
+  }
+
   return (
-    <AntdLayout.Header
-      style={{
-        backgroundColor: token.colorBgElevated,
-        display: "flex",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        padding: "0px 24px",
-        height: "64px",
-      }}
-    >
+    <AntdLayout.Header style={headerStyles}>
       <Space>
         <Space size="middle">
           {user?.name && <Typography.Text strong>{user.name}</Typography.Text>}

@@ -3,22 +3,16 @@ title: How to Use Docker Copy Command
 description: We'll discuss how to copy files in Docker using the docker copy command.
 slug: docker-copy
 authors: muhammad_khabbab
-tags: [docker, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-28-docker-copy/social.png
+category: "Engineering"
+tags: [docker]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-28-docker-copy/social.png
 hide_table_of_contents: false
+last_update: 2023-01-04
 ---
 
 ## Introduction
 
 We will discuss how to copy files in Docker using the docker copy command. The `docker cp` command is a powerful command through which you can move files between your host file system and your Docker containers. It works with both files and directories.
-
-Steps we'll cover:
-
-- [How to copy files in Docker](#how-to-copy-files-in-docker)
-- [How docker copy command works](#how-docker-copy-command-works)
-- [Difference between Copy and Add command](#difference-between-copy-and-add-command)
-- [Limitations of Copy command](#limitations-of-copy-command)
-- [When should you use Docker copy](#when-should-you-use-docker-copy)
 
 ## How to copy files in Docker
 
@@ -35,7 +29,7 @@ The `cp` command is the quickest way to copy files to and from docker container.
 If you are running from the windows prompt, then you need to mention the container name/ID as part of the source. Let’s try one example. The `docker ps` command will display the running containers.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-28-docker-copy/image1.png"  alt="docker copy command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-28-docker-copy/image1.png"  alt="Docker ps command showing running containers" />
 </div>
 
 <br/>
@@ -45,7 +39,7 @@ Note the ID of the running container you want the files to copied to. In above e
 Now let’s find the files in the container through basic `ls` command.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-28-docker-copy/image2.png"  alt="docker copy command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-28-docker-copy/image2.png"  alt="List files in container with ls command" />
 </div>
 
 <br/>
@@ -53,7 +47,7 @@ Now let’s find the files in the container through basic `ls` command.
 The below command will copy the file `app.js` from container to host file system in the folder `D:/DockerCopy`. Note the container ID is mentioned in the source.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-28-docker-copy/image3.png"  alt="docker copy command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-28-docker-copy/image3.png"  alt="Docker cp copying file from container to host using ID" />
 </div>
 
 <br/>
@@ -61,7 +55,7 @@ The below command will copy the file `app.js` from container to host file system
 Instead of ID, you can mention container name as well. See the example below:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-28-docker-copy/image4.png"  alt="docker copy command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-28-docker-copy/image4.png"  alt="Docker cp copying file using container name" />
 </div>
 
 <br/>
@@ -69,7 +63,7 @@ Instead of ID, you can mention container name as well. See the example below:
 Just reverse the command and you can copy the file from host file system to the container. The below example will copy a text file named “tocopy.txt” from host file system to the container.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-28-docker-copy/image5.png"  alt="docker copy command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-28-docker-copy/image5.png"  alt="Docker cp copying text file from host to container" />
 </div>
 
 <br/>
@@ -77,7 +71,7 @@ Just reverse the command and you can copy the file from host file system to the 
 To verify the successfully copy, run the `ls` command in the container terminal. You can see the file copied to container.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-28-docker-copy/image6.png"  alt="docker copy command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-28-docker-copy/image6.png"  alt="Verifying file copied successfully with ls" />
 </div>
 
 <br/>
@@ -85,13 +79,13 @@ To verify the successfully copy, run the `ls` command in the container terminal.
 You can use the same command to copy not just single file but whole folder as well.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-28-docker-copy/image7.png"  alt="docker copy command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-28-docker-copy/image7.png"  alt="Docker cp copying entire folder to container" />
 </div>
 
 <br/>
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-28-docker-copy/image8.png"  alt="docker copy command" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-28-docker-copy/image8.png"  alt="Verifying folder copied successfully" />
 </div>
 
 <br/>

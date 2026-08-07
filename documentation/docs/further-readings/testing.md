@@ -1,5 +1,8 @@
 ---
-title: Testing
+title: "Testing Guide | Best Practices in Refine v5"
+display_title: "Testing"
+sidebar_label: "Testing"
+description: "Learn to implement Testing in Refine v5. Explore best practices for tests and write for real-world React admin panels. See practical code samples."
 ---
 
 **Refine**'s components and hooks are made from small pieces of code. Each component or hook is designed to be testable and work independently of each other.

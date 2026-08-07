@@ -1,6 +1,9 @@
 ---
-title: GraphQL
-source: https://github.com/refinedev/refine/tree/master/packages/graphql
+title: "GraphQL Integration Guide | Best Practices in Refine v5"
+display_title: "GraphQL"
+sidebar_label: "GraphQL"
+description: "Learn to implement GraphQL in Refine v5. Explore best practices to scale data and errors for custom APIs and scalable data flows. Explore with code snippets."
+source: https://github.com/refinedev/refine/tree/main/packages/graphql
 swizzle: true
 ---
 
@@ -13,7 +16,7 @@ Refine provides a data provider for GraphQL APIs that has all the features of Re
 
 - GraphQL Data Provider expects [`@urql/core`](https://github.com/urql-graphql/urql) client instance.
 - You are responsible for passing `gqlQuery`, `gqlMutation`. `gql` export of `@urql/core` can be used to write GraphQL Operations.
-- To learn more about data fetching in Refine, check out the [Data Fetching](/docs/guides-concepts/data-fetching) guide.
+- To learn more about data fetching in Refine, check out the [Data Fetching](/core/docs/guides-concepts/data-fetching/) guide.
 
 :::
 
@@ -257,11 +260,13 @@ import { useList } from "@refinedev/core";
 import { POSTS_LIST_QUERY } from "./queries";
 
 export const PostListPage () => {
-  const { data } = useList({
+  const { result } = useList({
     resource: "posts",
     // highlight-next-line
     meta: { gqlQuery: POSTS_LIST_QUERY },
   });
+
+  const data = result.data;
 
   return (
     <div>
@@ -290,21 +295,51 @@ export const PostCreatePage () => {
 }
 ```
 
+### Handling Errors
+
+When using GraphQL there are two kinds of errors we may see. Network errors and GraphQL errors from the API. URQL provides a _CombinedError_ class which holds these errors when encountered. The Refine GraphQL data provider package hooks identified these errors and provides them back along with a Refine specific error type for missing information. Each error type is prefixed with the `[type]` so that the you can determine how they can be handled.
+
+- **Code errors** `[Code]`: Error is when a required parameter such as a Query or a Mutation has not been provided
+- **Network errors** `[Network]`: Contains any error that would prevent making the network request.
+- **GraphQL errors** `[GraphQL]` : Any errors recevied from the errors array from the GraphQL API, converted into a string.
+
+The errors are provided through the Notification provider if used or through the Refine's error handlers.
+
+### Managing Retries
+
+Refine uses Tanstack Query which by default retries the API call 3 times before showing the error to the user. For `[Code]` or `[GraphQL]` errors, these retries can be avoided, and the users would only need this for `[Network]` type errors using the `queryOptions` parameter passed into the data fetch hooks using a function call can help prevent non-required API calls.
+
+```tsx
+useList({
+  meta: {
+    gqlQuery: GET_LIST_QUERY,
+  },
+  // highlight-start
+  queryOptions: {
+    retry(failureCount, error) {
+      // failureCount provides the number of times the request has failed
+      // error is the error thrown from the GraphQL provider
+      return error?.message.includes("[Network]") && failureCount <= 3;
+    },
+  },
+  // highlight-end
+});
+```
+
 ## Authentication
 
-If your API uses authentication, you can easily provide a custom fetcher for the requests and handle the authentication logic there. When creating a GraphQL Client, you can pass a `fetch` function to the client options. This function will be used to append the authentication headers to the requests.
-
-TBA: https://commerce.nearform.com/open-source/urql/docs/advanced/authentication/
+If your API uses authentication, the easiest way of passing in the token through the header is via the **fetchOptions** parameter passed into the GraphQL Client.
 
 ```tsx title="data-provider.tsx"
-import graphqlDataProvider, { GraphQLClient } from "@refinedev/graphql";
+import createDataProvider from "@refinedev/graphql";
+import { Client, fetchExchange } from "urql";
 
-const client = new GraphQLClient(API_URL, {
-  fetch: (url: string, options: RequestInit) => {
-    return fetch(url, {
-      ...options,
+export const client = new Client({
+  url: API_URL,
+  exchanges: [fetchExchange],
+  fetchOptions: () => {
+    return {
       headers: {
-        ...options.headers,
         /**
          * For demo purposes, we're using `localStorage` to access the token.
          * You can use your own authentication logic here.
@@ -313,7 +348,7 @@ const client = new GraphQLClient(API_URL, {
         // highlight-next-line
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-    });
+    };
   },
 });
 
@@ -323,14 +358,16 @@ const client = new GraphQLClient(API_URL, {
 const dataProvider = graphqlDataProvider(client);
 ```
 
+For more advanced authentication requirements you can use the urql _authExchange_ as documented in https://commerce.nearform.com/open-source/urql/docs/advanced/authentication
+
 ## Usage with Inferencer
 
 You can also use `@refinedev/inferencer` package to generate sample codes for your views. Since the GraphQL data providers rely on `meta` fields, you'll need to provide some `meta` values beforehand and then Inferencer will use these values to infer the fields of the data provider's response, generate a code and a preview.
 
-[Check out Inferencer docs for more information. &#8594](/docs/packages/list-of-packages#usage-with-graphql-backends-and-meta-values)
+[Check out Inferencer docs for more information. &#8594](/core/docs/packages/list-of-packages#usage-with-graphql-backends-and-meta-values)
 
 ## Example
 
-<CodeSandboxExample path="data-provider-nestjs-query" />
+<CodeSandboxExample path="data-provider-graphql" />
 
-[data-provider]: /docs/data/data-provider
+[data-provider]: /core/docs/data/data-provider

@@ -16,6 +16,7 @@ export type Filters = {
 type Props = {
   svgId?: string;
   className?: string;
+  showEdition?: boolean;
   selected: Filters;
   data: {
     editions: {
@@ -39,6 +40,7 @@ type Props = {
 export const TemplatesFilters: FC<Props> = ({
   svgId,
   className,
+  showEdition = true,
   data,
   selected,
   onEditionChange,
@@ -47,21 +49,23 @@ export const TemplatesFilters: FC<Props> = ({
 }) => {
   return (
     <div className={clsx("flex", "flex-col", "not-prose", className)}>
-      <List label="Edition">
-        {data.editions.map((item) => {
-          const isSelected = selected.edition === item.label;
+      {showEdition && (
+        <List label="Edition">
+          {data.editions.map((item) => {
+            const isSelected = selected.edition === item.label;
 
-          return (
-            <ListItem
-              key={item.label}
-              label={item.label}
-              isSelected={isSelected}
-              onClick={() => onEditionChange(item.label)}
-            />
-          );
-        })}
-      </List>
-      <List label="UI Frameworks" className={clsx("mt-10")}>
+            return (
+              <ListItem
+                key={item.label}
+                label={item.label}
+                isSelected={isSelected}
+                onClick={() => onEditionChange(item.label)}
+              />
+            );
+          })}
+        </List>
+      )}
+      <List label="UI Frameworks" className={clsx("mt-5")}>
         {data.uiFrameworks.map((item) => {
           const isSelected = selected.uiFramework.includes(item.label);
           const Icon = item.icon;
@@ -69,7 +73,7 @@ export const TemplatesFilters: FC<Props> = ({
           return (
             <ListItem
               key={item.label}
-              icon={<Icon id={svgId} />}
+              icon={<Icon id={svgId} className="!text-white" />}
               label={item.label}
               isSelected={isSelected}
               onClick={() => onUIFrameworkChange(item.label)}
@@ -77,7 +81,7 @@ export const TemplatesFilters: FC<Props> = ({
           );
         })}
       </List>
-      <List label="Backends" className={clsx("mt-10")}>
+      <List label="Backends" className={clsx("mt-5")}>
         {data.backends.map((item) => {
           const isSelected = selected.backend.includes(item.label);
           const Icon = item.icon;
@@ -85,7 +89,7 @@ export const TemplatesFilters: FC<Props> = ({
           return (
             <ListItem
               key={item.label}
-              icon={<Icon id={svgId} />}
+              icon={<Icon id={svgId} className="!text-white" />}
               label={item.label}
               isSelected={isSelected}
               onClick={() => onBackendChange(item.label)}
@@ -105,17 +109,10 @@ const List = (
 ) => {
   return (
     <>
-      <h4
-        className={clsx(
-          "pl-4",
-          "text-sm",
-          "dark:text-gray-500 text-gray-700",
-          props.className,
-        )}
-      >
+      <h4 className={clsx("pl-3", "text-sm", "text-zinc-400", props.className)}>
         {props.label}
       </h4>
-      <div className={clsx("flex", "flex-col", "items-start", "gap-4", "mt-3")}>
+      <div className={clsx("flex", "flex-col", "items-start", "gap-2", "mt-4")}>
         {props.children}
       </div>
     </>
@@ -133,30 +130,24 @@ const ListItem = (props: {
       onClick={props.onClick}
       className={clsx(
         "appearance-none",
+        "w-full",
         "flex",
         "items-center",
-        "h-10",
+        "h-8",
         "pr-4",
-        props.icon && "pl-2",
-        !props.icon && "pl-4",
-        "gap-2",
+        props.icon && "pl-1.5",
+        !props.icon && "pl-2.5",
+        "gap-1.5",
         "rounded-full",
+        "font-medium",
         "cursor-pointer",
-        "border dark:border-gray-700 border-gray-200",
-        props.isSelected && "dark:bg-gray-700 bg-gray-50",
+        "border border-zinc-700 ",
+        props.isSelected && "bg-zinc-700 ",
         "transition-colors duration-200 ease-in-out",
       )}
     >
       {props.icon}
-      <span
-        className={clsx(
-          "text-sm",
-          !props.isSelected && "dark:text-gray-400 text-gray-600",
-          props.isSelected && "dark:text-gray-0 text-gray-900",
-        )}
-      >
-        {props.label}
-      </span>
+      <span className={clsx("text-xs", "text-white")}>{props.label}</span>
     </button>
   );
 };

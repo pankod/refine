@@ -10,7 +10,11 @@ const DataProvider = (
   return {
     getList: async ({ resource, pagination, filters }) => {
       const url = `${apiUrl}/${resource}`;
-      const { current = 1, pageSize = 10, mode = "server" } = pagination ?? {};
+      const {
+        currentPage = 1,
+        pageSize = 10,
+        mode = "server",
+      } = pagination ?? {};
 
       const queryFilters = generateFilter(filters);
 
@@ -24,7 +28,7 @@ const DataProvider = (
       } = {
         ...(mode === "server"
           ? {
-              offset: (current - 1) * pageSize,
+              offset: (currentPage - 1) * pageSize,
               limit: pageSize,
             }
           : {}),

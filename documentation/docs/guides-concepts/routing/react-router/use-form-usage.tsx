@@ -9,9 +9,8 @@ export function ReactRouterUseFormUsage() {
       dependencies={{
         "@refinedev/core": "latest",
         "@refinedev/simple-rest": "latest",
-        "@refinedev/react-router-v6": "latest",
-        "react-router-dom": "latest",
-        "react-router": "latest",
+        "@refinedev/react-router": "latest",
+        "react-router": "^7.0.2",
       }}
       startRoute="/my-products"
       files={{
@@ -39,9 +38,9 @@ const AppTsxCode = /* tsx */ `
 import React from "react";
 
 import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router";
 
 import "./style.css";
 
@@ -106,15 +105,16 @@ import React from "react";
 import { useGo, useList } from "@refinedev/core";
 
 export const ProductList: React.FC = () => {
-  const { data, isLoading } = useList();
+  const { result, query } = useList();
+  const products = result?.data;
 
   const go = useGo();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (query.isLoading) return <div>Loading...</div>;
 
   return (
     <ul>
-      {data?.data?.map((product) => (
+      {products?.map((product) => (
         <li key={product.id}>
           <span>{product.name}</span>
           <button

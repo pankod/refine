@@ -3,8 +3,9 @@ title: A Guide on React Lazy Loading
 description: We will be looking at what lazy loading is, how it works, and how it can be used to improve the performance of React applications.
 slug: react-lazy-loading
 authors: chidume_nnamdi
+category: "Engineering"
 tags: [react]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2022-12-07-react-lazy/social-2.png
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2022/2022-12-07-react-lazy/social-2.png
 hide_table_of_contents: false
 ---
 
@@ -14,18 +15,6 @@ hide_table_of_contents: false
 
 Lazy Loading has been a concept in software development in general not just in web development. Lazy Loading can and used in desktop and mobile development. It is just another trick in making performance better in applications.
 Lazy loading is a technique used to optimize the performance of a website or application. It's an approach that loads only the necessary resources when they're needed, instead of downloading everything at once. This way, users don't have to wait for all the resources to be downloaded before they can use the site or app.
-
-Steps we'll cover:
-
-- [What is Lazy Loading and Why Use It?](#what-is-lazy-loading-and-why-use-it)
-- [What is React.lazy](#what-is-reactlazy)
-- [Suspense](#suspense)
-- [Catching Loading Errors](#catching-loading-errors)
-- [Route-based code-splitting](#route-based-code-splitting)
-- [SEO Considerations with Lazy Loading](#seo-considerations-with-lazy-loading)
-- [Component-based code-splitting](#component-based-code-splitting)
-- [Testing Lazy Loaded Components](#testing-lazy-loaded-components)
-- [Performance Metrics and Lazy Loading](#performance-metrics-and-lazy-loading)
 
 ## What is Lazy Loading and Why Use It?
 

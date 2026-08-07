@@ -265,7 +265,7 @@ export const useRelationFetch = ({
         console.groupEnd();
 
         console.info(
-          "@refinedev/inferencer may send multiple requests to your API for nonexistent resources when trying to detect relations. To learn more about how the inferencer works, visit https://s.refine.dev/how-inferencer-works",
+          "@refinedev/inferencer may send multiple requests to your API for nonexistent resources when trying to detect relations. To learn more about how the inferencer works, visit https://refine.dev/docs/packages/documentation/inferencer/#how-it-works",
         );
       }, 500);
     },

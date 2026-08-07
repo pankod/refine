@@ -1,19 +1,20 @@
+import { vi } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { useLocalStorage } from "./use-local-storage";
 import { getLocalStorage, setLocalStorage } from "../utils/local-storage";
 
-jest.mock("../utils/local-storage");
+vi.mock("../utils/local-storage");
 
 describe("useLocalStorage", () => {
   const name = "test";
   const defaultValue = "default";
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("should return the default value if localStorage is empty", () => {
-    (getLocalStorage as jest.Mock).mockReturnValueOnce(defaultValue);
+    (getLocalStorage as vi.Mock).mockReturnValueOnce(defaultValue);
     const { result } = renderHook(() =>
       useLocalStorage({ name, defaultValue }),
     );
@@ -22,7 +23,7 @@ describe("useLocalStorage", () => {
 
   it("should return the value from localStorage if available", () => {
     const value = "value";
-    (getLocalStorage as jest.Mock).mockReturnValueOnce(value);
+    (getLocalStorage as vi.Mock).mockReturnValueOnce(value);
     const { result } = renderHook(() =>
       useLocalStorage({ name, defaultValue }),
     );

@@ -2,9 +2,15 @@ import Link from "@docusaurus/Link";
 import clsx from "clsx";
 import React, { type FC, type SVGProps } from "react";
 import type { TemplateEdition } from "../types/integrations";
+import { getImgixSrc } from "../components/image";
+import {
+  BreadcrumbJsonLd,
+  type BreadcrumbItem,
+} from "@site/src/components/json-ld";
 
 type Props = {
   className?: string;
+  breadcrumbItems?: BreadcrumbItem[];
   data: {
     title: string;
     description: string;
@@ -18,14 +24,24 @@ type Props = {
   }[];
 };
 
-export const TemplatesList: FC<Props> = ({ className, data }) => {
+export const TemplatesList: FC<Props> = ({
+  className,
+  data,
+  breadcrumbItems,
+}) => {
+  const defaultBreadcrumbItems: BreadcrumbItem[] = [
+    { label: "Home", href: "/core/" },
+    { label: "Templates", href: "/core/templates/" },
+  ];
+
   return (
     <div className={clsx("not-prose", className)}>
+      <BreadcrumbJsonLd items={breadcrumbItems ?? defaultBreadcrumbItems} />
       <div
         className={clsx(
           "grid",
           "grid-cols-1 landing-sm:grid-cols-2 landing-lg:grid-cols-3",
-          "gap-8 landing-sm:gap-6",
+          "gap-1",
           "not-prose",
           className,
         )}
@@ -40,16 +56,22 @@ export const TemplatesList: FC<Props> = ({ className, data }) => {
                 "relative",
                 "flex",
                 "flex-col",
-                "dark:bg-gray-800 bg-gray-50",
-                "border dark:border-gray-700 border-transparent",
-                "rounded-2xl",
+                "bg-zinc-800",
+                "rounded-xl",
                 "hover:no-underline",
+                "p-2",
                 "not-prose",
               )}
             >
               <img
-                className={clsx("aspect-[590/405]", "rounded-t-2xl")}
-                src={item.image}
+                className={clsx(
+                  "w-full h-auto",
+                  "object-contain",
+                  "object-center",
+                  "aspect-[590/405]",
+                  "rounded-t-md",
+                )}
+                src={getImgixSrc(item.image)}
               />
               <div
                 className={clsx(
@@ -61,23 +83,12 @@ export const TemplatesList: FC<Props> = ({ className, data }) => {
                 )}
               >
                 <div
-                  className={clsx(
-                    "text-base",
-                    "font-semibold",
-                    "dark:text-gray-300",
-                    "text-gray-900",
-                  )}
+                  className={clsx("text-base", "font-semibold", "text-white")}
                 >
                   {item.title}
                 </div>
                 <div
-                  className={clsx(
-                    "text-sm",
-                    "dark:text-gray-400",
-                    "text-gray-600",
-                    "mt-4",
-                    "mb-6",
-                  )}
+                  className={clsx("text-sm", "text-zinc-300", "mt-4", "mb-6")}
                 >
                   {item.description}
                 </div>
@@ -98,17 +109,22 @@ export const TemplatesList: FC<Props> = ({ className, data }) => {
                           "flex",
                           "items-center",
                           "gap-2",
-                          "py-2 pl-2 pr-4",
-                          "rounded-full",
-                          "dark:bg-gray-900 bg-gray-0",
+                          "py-1.5 pl-1.5 pr-2.5",
+                          "rounded-md",
+                          "bg-zinc-900",
                         )}
                       >
-                        <Icon id={"template-list"} />
+                        <Icon
+                          id={"template-list"}
+                          height={20}
+                          width={20}
+                          className="!text-white"
+                        />
                         <div
                           className={clsx(
-                            "text-xs",
-                            "dark:text-gray-400",
-                            "text-gray-500",
+                            "text-sm",
+                            "font-medium",
+                            "text-white",
                           )}
                         >
                           {integration.label}
@@ -119,7 +135,7 @@ export const TemplatesList: FC<Props> = ({ className, data }) => {
                 </div>
               </div>
               {item.edition === "Enterprise" && (
-                <div className={clsx("absolute", "-top-1", "-right-1")}>
+                <div className={clsx("absolute", "top-1", "right-1")}>
                   <img
                     src="/assets/badge-enterprise.png"
                     alt="enterprise badge"

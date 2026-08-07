@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example blog-react-hot-toast
 
 <br/>
 
-[![Open blog-react-hot-toast example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/blog-react-hot-toast?view=preview&theme=dark&codemirror=1)
+[![Open blog-react-hot-toast example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/blog-react-hot-toast?view=preview&theme=dark&codemirror=1)

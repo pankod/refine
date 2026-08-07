@@ -1,7 +1,6 @@
 node_modules
 .DS_Store
 test
-jest.config.js
 **/*.spec.ts
 **/*.spec.tsx
 **/*.test.ts

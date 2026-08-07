@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example blog-material-ui-datagrid
 
 <br/>
 
-[![Open blog-material-ui-datagrid example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/blog-material-ui-datagrid?view=preview&theme=dark&codemirror=1)
+[![Open blog-material-ui-datagrid example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/blog-material-ui-datagrid?view=preview&theme=dark&codemirror=1)

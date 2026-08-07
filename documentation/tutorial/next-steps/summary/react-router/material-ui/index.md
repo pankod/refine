@@ -17,7 +17,7 @@ We've covered the following topics in this tutorial:
 - Using UI libraries and Refine's built-in components,
 - Using Refine's DX tools to improve your development experience.
 
-Refine's features are not limited to these topics and you can find more information about all the features and capabilities of Refine in the [documentation](/docs).
+Refine's features are not limited to these topics and you can find more information about all the features and capabilities of Refine in the [documentation](/core/docs).
 
 If you encounter any issues or have any questions, feel free to ask in the [Refine Discord](https://discord.gg/refine) or [GitHub Discussions](https://github.com/refinedev/refine/discussions).
 

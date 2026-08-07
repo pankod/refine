@@ -9,7 +9,7 @@ swizzle: true
 [Refer to the for more detailed information about `useImport`. &#8594][useimport]
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Usage
@@ -115,4 +115,4 @@ It also accepts all props of Material UI [LoadingButton](https://mui.com/materia
 :::
 
 [button]: https://mui.com/material-ui/api/loading-button/#main-content
-[useimport]: /api-reference/core/hooks/import-export/useImport.md
+[useimport]: /core/docs/3.xx.xx/api-reference/core/hooks/import-export/useImport

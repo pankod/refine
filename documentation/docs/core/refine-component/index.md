@@ -1,5 +1,8 @@
 ---
-title: <Refine>
+title: "Refine Component Guide | Best Practices in Refine v5"
+display_title: "<Refine>"
+sidebar_label: "<Refine>"
+description: "Set up Refine Component in Refine v5. Learn best practices. Learn value and data for real-world React admin panels. Explore with code snippets."
 ---
 
 `<Refine>` component is the entry point of a Refine app. It is where the highest level of configuration of the app occurs.
@@ -23,11 +26,11 @@ const App = () => (
 
 ## dataProvider <PropTag asterisk />
 
-A [`dataProvider`](/docs/data/data-provider) is the place where a Refine app communicates with an API.
+A [`dataProvider`](/core/docs/data/data-provider/) is the place where a Refine app communicates with an API.
 Data providers also act as adapters for Refine, making it possible for it to consume different API's and data services.
-A [`dataProvider`](/docs/data/data-provider) makes HTTP requests and returns response data back using predefined methods.
+A [`dataProvider`](/core/docs/data/data-provider/) makes HTTP requests and returns response data back using predefined methods.
 
-[Refer to the Data Provider documentation for detailed information. &#8594](/docs/data/data-provider)
+[Refer to the Data Provider documentation for detailed information. &#8594](/core/docs/data/data-provider/)
 
 Multiple data providers can be used with Refine, if you have multiple data providers, you can pass them to the `dataProvider` prop as an object.
 
@@ -50,7 +53,7 @@ const App = () => (
 
 Refine provides a simple interface from the `routerProvider` prop to infer the resource from route, pass, parse and sync the query parameters and handle navigation operations. This provider and its properties are optional but it is recommended to use it to get the most out of Refine. Bindings to pass to the `routerProvider` prop are provided for the following libraries:
 
-- React Router via `@refinedev/react-router-v6`
+- React Router via `@refinedev/react-router`
 - Next.js via `@refinedev/nextjs-router`
 - Remix via `@refinedev/remix-router`
 
@@ -96,7 +99,7 @@ const App = () => (
 
 :::simple Accessing the Resource
 
-You can use [useResource](/docs/routing/hooks/use-resource) hook to get the current active resource by the route or you can pass the `name` or the `identifier` of a resource to the `useResource` hook to get the resource object.
+You can use [useResourceParams](/core/docs/routing/hooks/use-resource-params/) hook to get the current active resource by the route or you can pass the `name` or the `identifier` of a resource to the `useResourceParams` hook to get the resource object.
 
 :::
 
@@ -204,7 +207,7 @@ There's also a third option, which is to pass an object with the `component` and
 
 - Additional parameters can also be used in the paths for the actions of the resources. Paths like `/:authorId/posts/:id/details` are also valid and supported. When these actions are used in the navigation helpers, the existing parameters from the URL and the `meta` property of these functions will be used to determine the additional parameters when composing the path.
 
-- Passing a component or an object to the action will only take effect if the RefineRoutes component from one of the [Router Packages](/docs/guides-concepts/routing/#router-integrations) is used in the app to render the routes.
+- Passing a component or an object to the action will only take effect if the RefineRoutes component from one of the [Router Packages](/core/docs/guides-concepts/routing/#router-integrations) is used in the app to render the routes.
 
 - When using the legacy router provider, only the component values will be used. Custom paths are not supported.
 
@@ -212,7 +215,7 @@ There's also a third option, which is to pass an object with the `component` and
 
 ### meta
 
-`meta` can have any kind of property. It is used to store additional information about the resource. This property you pass can be received from the [useResource](/docs/routing/hooks/use-resource). Listed below are the properties that are used by Refine or its libraries.
+`meta` can have any kind of property. It is used to store additional information about the resource. This property you pass can be received from the [useResourceParams](/core/docs/routing/hooks/use-resource-params/). Listed below are the properties that are used by Refine or its libraries.
 
 #### label
 
@@ -315,39 +318,35 @@ Can be used to hide a `resource` in `Sider`. This resource is also filtered in t
 />
 ```
 
-#### ~~route~~ <PropTag deprecated />
-
-Custom route name for the resource.
-
 ## authProvider
 
 `authProvider` handles authentication logic like login, logout flow, and checking user credentials. It is an object with methods that Refine uses when necessary.
 
-[Refer to Auth Provider documentation for detailed information. &#8594](/docs/authentication/auth-provider)
+[Refer to Auth Provider documentation for detailed information. &#8594](/core/docs/authentication/auth-provider/)
 
 ## i18nProvider
 
 The `i18nProvider` property lets you add i18n support to your app. Making you able to use any i18n framework.
 
-[Refer to i18n documentation for detailed information. &#8594](/docs/i18n/i18n-provider)
+[Refer to i18n documentation for detailed information. &#8594](/core/docs/i18n/i18n-provider/)
 
 ## accessControlProvider
 
 `accessControlProvider` is the entry point for implementing access control for Refine apps.
 
-[Refer to access control documentation for detailed information. &#8594](/docs/authorization/access-control-provider)
+[Refer to access control documentation for detailed information. &#8594](/core/docs/authorization/access-control-provider/)
 
 ## liveProvider
 
 Refine lets you add Realtime support to your app via `liveProvider`. It can be used to update and show data in Realtime throughout your app.
 
-[Refer to live provider documentation for detailed information. &#8594](/docs/realtime/live-provider)
+[Refer to live provider documentation for detailed information. &#8594](/core/docs/realtime/live-provider/)
 
 ## notificationProvider
 
 `notificationProvider` handles notification logic. It is an object with methods that Refine uses when necessary.
 
-[Refer to the Notification Provider documentation for detailed information. &#8594](/docs/notification/notification-provider)
+[Refer to the Notification Provider documentation for detailed information. &#8594](/core/docs/notification/notification-provider/)
 
 ## options
 
@@ -357,7 +356,7 @@ Refine lets you add Realtime support to your app via `liveProvider`. It can be u
 
 When the `dataProvider` returns rejected promise with [`errors`][http-error] field, the `useForm` hook will set the [`errors`][http-error] state with the `errors` returned from the `dataProvider`.
 
-[Refer to Server Side Validation section of the Forms guide for detailed information. &#8594](/docs/guides-concepts/forms/#server-side-validation-)
+[Refer to Server Side Validation section of the Forms guide for detailed information. &#8594](/core/docs/guides-concepts/forms/#server-side-validation-)
 
 To disable this behavior, you can set the `disableServerSideValidation` option to `true`.
 
@@ -379,7 +378,7 @@ const App = () => (
 
 Customize or disable the breadcrumb. By default it uses the Breadcrumb component from the respective package.
 
-[Refer to the Layouts and Menus section of UI Libraries guide for further information. &#8594](/docs/guides-concepts/ui-libraries/#layouts-and-menus)
+[Refer to the Layouts and Menus section of UI Libraries guide for further information. &#8594](/core/docs/guides-concepts/ui-libraries/#layouts-and-menus)
 
 ```tsx title="App.tsx"
 import { Breadcrumb } from "@refinedev/antd";
@@ -424,7 +423,7 @@ const App = () => (
 
 `undoable`: The mutation is applied locally, and redirection and UI updates are executed immediately as if the mutation is successful. Waits for a customizable amount of timeout before mutation is applied. During the timeout, mutation can be canceled from the notification with the ?undo? button. UI will revert accordingly.
 
-[Refer to the Mutation Mode docs for further information. &#8594](/docs/guides-concepts/forms/#mutation-modes-)
+[Refer to the Mutation Mode docs for further information. &#8594](/core/docs/guides-concepts/forms/#mutation-modes-)
 
 ### undoableTimeout
 
@@ -451,7 +450,7 @@ Form hooks like `useDrawerForm` and `useModalForm` also have a `syncWithLocation
 When `syncWithLocation` is active, the URL on the listing page shows query parameters like those shown below:
 
 ```
-/posts?current=1&pageSize=8&sort[]=createdAt&order[]=desc
+/posts?currentPage=1&pageSize=8&sort[]=createdAt&order[]=desc
 ```
 
 Users can change the current page, items count per page, and sort and filter parameters.
@@ -469,17 +468,21 @@ This feature also **requires** `UnsavedChangesNotifier` component to be mounted.
 
 `liveMode` controls whether to update data automatically or not, with `auto` and `manual` respectively if a related live event is received. The `off` value can be used to avoid creating a subscription all together.
 
-> For more information, refer to the [live provider documentation &#8594](/docs/realtime/live-provider#livemode)
+> For more information, refer to the [live provider documentation &#8594](/core/docs/realtime/live-provider#livemode)
 
 ### disableTelemetry
 
 Refine implements a simple and transparent telemetry module for collecting usage statistics defined in a very limited scope. This telemetry module is used to improve the Refine experience. You can disable this by setting `disableTelemetry` to `true`.
 
-> For more information, refer to the [Refine telemetry documentation &#8594](/further-readings/telemetry.md)
+> For more information, refer to the [Refine telemetry documentation &#8594](/core/docs/further-readings/telemetry/)
+
+### disableRouteChangeHandler
+
+`RouteChangeHandler` hooks into route changes to trigger navigation-side effects such as auth checks and redirect logic. Currently it invokes auth provider's check method and redirects to a different page if the user isn't authenticated. Setting `disableRouteChangeHandler` to `true` disables these route-change side effects—not routing itself.
 
 ### redirect
 
-By default, Refine redirects to the `list` page of the resource after a successful form mutation. To change this behavior based on the form [action](/docs/data/hooks/use-form/#actions), set `redirect` as follows:
+By default, Refine redirects to the `list` page of the resource after a successful form mutation. To change this behavior based on the form [action](/core/docs/data/hooks/use-form/#actions), set `redirect` as follows:
 
 ```tsx title="App.tsx"
 const App = () => (
@@ -555,12 +558,6 @@ const App = () => (
 
 > For more information, refer to the [QueryClient documentation &#8594](https://react-query.tanstack.com/reference/QueryClient#queryclient)
 
-#### ~~devtoolConfig~~ <PropTag deprecated />
-
-React Query Devtools are removed from the `@refinedev/core` and this prop is no longer supported for the configuration of the devtools. You can use the `@tanstack/react-query-devtools` in your app directly to use the devtools. For more information, please check out [FAQ - How to use React Query Devtools with Refine?](/docs/guides-concepts/faq/#how-to-use-react-query-devtools-with-refine)
-
-> For more information, refer to the [Devtools documentation &#8594](https://react-query.tanstack.com/devtools#options)
-
 ### textTransformers
 
 The `textTransformers` option in Refine is used to transform the resource name displayed on the user interface (UI). By default, if you define a resource named `posts`, Refine will display it as `Posts`. Similarly, when you delete a record, notification messages will be shown as `Post deleted successfully.`.
@@ -604,6 +601,7 @@ const App = () => (
     // highlight-start
     options={{
       overtime: {
+        enabled: true,
         interval: 1000, // default value is 1000
         onInterval: (elapsedInterval, context) => {
           console.log(elapsedInterval, context);
@@ -614,6 +612,10 @@ const App = () => (
   />
 );
 ```
+
+#### enabled
+
+If true, the elapsed time will be calculated. If set to false, the elapsed time will always be `undefined`.
 
 #### interval
 
@@ -658,13 +660,13 @@ const App = () => (
 );
 ```
 
-If you wish to use separate values for your `<AuthPage />` and `<ThemedLayoutV2 />` components, you can `Title` prop to override the default title component (which is the `<ThemedTitleV2 />` component from the respective package).
+If you wish to use separate values for your `<AuthPage />` and `<ThemedLayout />` components, you can `Title` prop to override the default title component (which is the `<ThemedTitle />` component from the respective package).
 
 ```tsx
 import { Refine } from "@refinedev/core";
-// ThemedTitleV2 accepts `text` and `icon` props with same types as `options.title`
-// This component is used in both AuthPage and ThemedLayoutV2 components.
-import { ThemedLayoutV2, AuthPage, ThemedTitleV2 } from "@refinedev/antd";
+// ThemedTitle accepts `text` and `icon` props with same types as `options.title`
+// This component is used in both AuthPage and ThemedLayout components.
+import { ThemedLayout, AuthPage, ThemedTitle } from "@refinedev/antd";
 
 const App = () => {
   return (
@@ -679,10 +681,10 @@ const App = () => {
       }}
     >
       {/* ... */}
-      <ThemedLayoutV2
+      <ThemedLayout
         // highlight-start
         Title={(props) => (
-          <ThemedTitleV2
+          <ThemedTitle
             // These values will override the global title values
             text="A Different Value"
             icon={<IconB />}
@@ -692,13 +694,13 @@ const App = () => {
         // highlight-end
       >
         {/* ... */}
-      </ThemedLayoutV2>
+      </ThemedLayout>
       {/* ... */}
       <AuthPage
         type="login"
         // highlight-start
         title={
-          <ThemedTitleV2
+          <ThemedTitle
             collapsed={false}
             // These values will override the global title values
             text="A Different Value"
@@ -716,210 +718,7 @@ const App = () => {
 
 Callback to handle all live events.
 
-> For more information, refer to the [live provider documentation &#8594](/docs/realtime/live-provider#Refine)
-
-## ~~catchAll~~ <PropTag deprecated />
-
-| 🚨 Use the `<CustomErrorPage />` component in your routes instead.
-
-When the app is navigated to a non-existent route, Refine shows a default error page. A custom error component can be used for this error page by passing the customized component to the `catchAll` property:
-
-```tsx title="App.tsx"
-// highlight-next-line
-const CustomErrorPage = <div>Page not found</div>;
-
-const App = () => (
-  <Refine
-    // highlight-next-line
-    catchAll={CustomErrorPage}
-  />
-);
-```
-
-## ~~LoginPage~~ <PropTag deprecated />
-
-| 🚨 Use the `<AuthPage />` component in your routes instead.
-
-Refine has a default login page form which is served on the `/login` route when the `authProvider` configuration is provided.
-
-Custom login component can be passed to the `LoginPage` property.
-
-```tsx title="App.tsx"
-// highlight-next-line
-const CustomLoginPage = () => <div> Custom Login Page </div>;
-
-const App = () => (
-  <Refine
-    // highlight-next-line
-    LoginPage={CustomLoginPage}
-  />
-);
-```
-
-## ~~DashboardPage~~ <PropTag deprecated />
-
-| 🚨 Use the `<CustomDashboardPage />` component in your routes instead.
-
-A custom dashboard page can be passed to the `DashboardPage` prop which is accessible on the root route.
-
-The dashboard item will appear at the top of the sider menu. If `DashboardPage` is not given, the first resource of `resources` will be shown.
-
-```tsx title="App.tsx"
-// highlight-next-line
-const CustomDashboardPage = () => <div> Custom Dashboard Page </div>;
-
-const App = () => (
-  <Refine
-    // highlight-next-line
-    DashboardPage={CustomDashboardPage}
-  />
-);
-```
-
-## ~~ReadyPage~~ <PropTag deprecated />
-
-Refine shows a default ready page on the root route when no `resources` is passed to the `<Refine>`.
-
-Custom ready page component can be set by passing to the `ReadyPage` property?.
-
-```tsx title="App.tsx"
-// highlight-next-line
-const CustomReadyPage = () => <div> Custom Ready Page </div>;
-
-const App = () => (
-  <Refine
-    // highlight-next-line
-    ReadyPage={CustomReadyPage}
-  />
-);
-```
-
-## ~~Sider~~ <PropTag deprecated />
-
-| 🚨 Use `Sider` prop of `<ThemedLayoutV2 />` component instead.
-
-The default sidebar can be customized by using Refine hooks and passing custom components to the `Sider` property.
-
-> For more information, refer to the [`useMenu` hook documentation &#8594](/docs/core/hooks/utilities/use-menu)
-
-## ~~Footer~~ <PropTag deprecated />
-
-| 🚨 Use `Footer` prop of `<ThemedLayoutV2 />` component instead.
-
-The default app footer can be customized by passing the `Footer` property.
-
-```tsx title="App.tsx"
-// highlight-next-line
-const CustomFooter = () => <div>Custom Footer</div>;
-
-const App = () => (
-  <Refine
-    // highlight-next-line
-    Footer={CustomFooter}
-  />
-);
-```
-
-## ~~Header~~ <PropTag deprecated />
-
-| 🚨 Use `Header` prop of `<ThemedLayoutV2 />` component instead.
-
-```tsx title="App.tsx"
-// highlight-next-line
-const CustomHeader = () => <div>Custom Header</div>;
-
-const App = () => (
-  <Refine
-    // highlight-next-line
-    Header={CustomHeader}
-  />
-);
-```
-
-## ~~Layout~~ <PropTag deprecated />
-
-| 🚨 Use `<ThemedLayoutV2 />` as children of `<Refine />` instead.
-
-The default layout can be customized by passing the `Layout` property.
-
-Layout property will receive individual layout components as property.
-
-```tsx title="App.tsx"
-const App = () => (
-  <Refine
-    // highlight-start
-    Layout={({ children, Sider, Footer, Header, OffLayoutArea }) => (
-      <AntdLayout style={{ minHeight: "100vh", flexDirection: "row" }}>
-        {Sider && <Sider />}
-        <AntdLayout>
-          {Header && <Header />}
-          <AntdLayout.Content>
-            <div style={{ padding: 24, minHeight: 360 }}>{children}</div>
-          </AntdLayout.Content>
-          {Footer && <Footer />}
-        </AntdLayout>
-        {OffLayoutArea && <OffLayoutArea />}
-      </AntdLayout>
-    )}
-    // highlight-end
-  />
-);
-```
-
-A completely custom layout can also be implemented instead of the Refine's default:
-
-```tsx title="App.tsx"
-const App = () => (
-  <Refine
-    // highlight-start
-    Layout={({ children }) => (
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <div>Custom Layout</div>
-        <div>{children}</div>
-      </div>
-    )}
-    // highlight-end
-  />
-);
-```
-
-## ~~OffLayoutArea~~ <PropTag deprecated />
-
-| 🚨 Use `OffLayoutArea` prop of `<ThemedLayoutV2 />` component instead.
-
-The component wanted to be placed out of the app layout structure can be set by passing to the `OffLayoutArea` prop.
-
-```tsx title="App.tsx"
-import { Refine } from "@refinedev/core";
-
-const App = () => (
-  <Refine
-    // highlight-next-line
-    OffLayoutArea={() => <div>Some elements to place outside the layout</div>}
-  />
-);
-```
-
-## ~~Title~~ <PropTag deprecated />
-
-| 🚨 Use `Title` prop of `<ThemedLayoutV2 />` component instead.
-
-The app title can be set by passing the `Title` property.
-
-```tsx title="App.tsx"
-// highlight-start
-const CustomTitle = ({ collapsed }) => (
-  <div>{collapsed ? "Collapsed Title" : "Full Title"}</div>
-);
-// highlight-end
-
-const App = () => (
-  <Refine
-    // highlight-next-line
-    Title={CustomTitle}
-  />
-);
-```
+> For more information, refer to the [live provider documentation &#8594](/core/docs/realtime/live-provider#Refine)
 
 ## API Reference
 
@@ -927,5 +726,5 @@ const App = () => (
 
 <PropsTable module="@refinedev/core/Refine"/>
 
-[routerprovider]: /docs/routing/router-provider
-[http-error]: /docs/core/interface-references#httperror
+[routerprovider]: /core/docs/routing/router-provider
+[http-error]: /core/docs/core/interface-references#httperror

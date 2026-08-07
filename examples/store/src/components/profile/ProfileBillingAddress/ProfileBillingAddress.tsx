@@ -77,7 +77,7 @@ export const ProfileBillingAddress: React.FC<MyInformationProps> = ({
     ],
   });
 
-  const { data: regions } = useList<Region>({
+  const { result: regions } = useList<Region>({
     resource: "regions",
   });
 

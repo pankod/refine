@@ -13,6 +13,10 @@
     "stop": "kill-port 4000,4001,4002"
   },
   "devDependencies": {
+    "@types/node": "^20",
     "kill-port": "^2.0.1"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

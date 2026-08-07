@@ -14,11 +14,11 @@ refine offers built-in data provider support for Supabase and handles all requir
 
 We'll build a simple CRUD app with refine and use Supabase as a data provider. We'll also see how to use Supabase's authentication features on refine app.
 
-We are assuming that you have already know how refine works. If not, please check out the [Tutorial](/docs/3.xx.xx/tutorial/introduction/index/) section first.
+We are assuming that you have already know how refine works. If not, please check out the [Tutorial](/core/docs/3.xx.xx/tutorial/introduction/index/) section first.
 
-[Refer to docs for more information about data provider &#8594](/docs/3.xx.xx/api-reference/core/providers/data-provider)
+[Refer to docs for more information about data provider &#8594](/core/docs/3.xx.xx/api-reference/core/providers/data-provider)
 
-[Discover the +15 most popular backend service data providers supported out-of-the-box by refine &#8594](/integrations/)
+[Discover the +15 most popular backend service data providers supported out-of-the-box by refine &#8594](/core/integrations/)
 
 ## Project Setup
 
@@ -137,7 +137,7 @@ Highlighted lines are the ones the CLI generator automatically added to register
 
 With this configuration, refine can now communicate with Supabase API and perform all required data service CRUD methods using data hooks.
 
-[Refer to documentation to learn more about how to use data hooks &#8594](/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/)
+[Refer to documentation to learn more about how to use data hooks &#8594](/core/docs/3.xx.xx/api-reference/core/hooks/data/useCreate/)
 
 ## Understanding the Auth Provider
 
@@ -149,7 +149,7 @@ So basically, this is where we set complete authentication logic for the app.
 
 Since we preferred refine-supabase as the data provider during the CLI project initialization, all required Supabase authentication methods are already implemented for us. This shows us how easy it is to bootstrap a refine app with CLI
 
-[Refer to docs for more information about Auth Provider methods and custom Auth Providers &#8594](/docs//3.xx.xx/api-reference/core/providers/auth-provider)
+[Refer to docs for more information about Auth Provider methods and custom Auth Providers &#8594](/core/docs/3.xx.xx/api-reference/core/providers/auth-provider)
 
 <details><summary>Take a look the auto-generated <b>authProvider.ts</b> file </summary>
 <p>
@@ -282,7 +282,7 @@ export default authProvider;
 </details>
 
 :::tip
-Auth provider functions are also consumed by [refine authorization hooks](api-reference/core/hooks/auth/useLogin.md). Since this is out of scope of this tutorial, we'll not cover them for now
+Auth provider functions are also consumed by [refine authorization hooks](/core/docs/3.xx.xx/api-reference/core/hooks/auth/useLogin/). Since this is out of scope of this tutorial, we'll not cover them for now
 :::
 
 <br/>
@@ -327,7 +327,7 @@ Now it's time to add some resources to our app.
 Before diving into Supabase features, we'll add simple CRUD pages to make the app more interactive.
 
 :::note
-Since this post focuses on Supabase implementation, we'll not discuss how to create CRUD pages and how it works. You can refer to [Tutorial](/docs/3.xx.xx/tutorial/introduction/index/) to learn more about creating CRUD pages.
+Since this post focuses on Supabase implementation, we'll not discuss how to create CRUD pages and how it works. You can refer to [Tutorial](/core/docs/3.xx.xx/tutorial/introduction/index/) to learn more about creating CRUD pages.
 :::
 
 ### Adding a List page
@@ -817,7 +817,7 @@ The resources property activates the connection between CRUD pages and Supabase 
 
 - The `create` property registers `/posts/create` endpoint to the `PostCreate` component. Thereby, when you head over to `yourdomain.com/posts/create`, you will see the `PostCreate` page you just created.
 
-[Refer to resources docs for more information &#8594](/docs/3.xx.xx/api-reference/core/components/refine-config/#resources)
+[Refer to resources docs for more information &#8594](/core/docs/3.xx.xx/api-reference/core/components/refine-config/#resources)
 
 ## Understanding the Login screen
 
@@ -900,7 +900,7 @@ Remember the [Understanding the Auth Provider](#understanding-auth-provider) sec
 
 We'll show how to implement third party logins in the next sections.
 
-[Refer to AuthPage docs for more information &#8594](/docs/3.xx.xx/api-reference/core/components/auth-page/)
+[Refer to AuthPage docs for more information &#8594](/core/docs/3.xx.xx/api-reference/core/components/auth-page/)
 
 Sign in the app with followings credentials:
 
@@ -1031,7 +1031,7 @@ function App() {
 :::note
 For live features to work automatically, we setted `liveMode: "auto"` in the options prop.
 
-[Refer to Live Provider docs for more information &#8594](/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode)
+[Refer to Live Provider docs for more information &#8594](/core/docs/3.xx.xx/api-reference/core/providers/live-provider/#livemode)
 :::
 
 :::caution
@@ -1106,7 +1106,7 @@ const { tableProps, sorter } = useTable<IUser>({
 
 `metaData` `id` property is used to match the column name of the primary key(in case the column name is different than "id") in your Supabase data table to the column name you have assigned.
 
-refine's [useMany](/docs/3.xx.xx/api-reference/core/hooks/data/useMany/) hook accepts `metaData` property and uses `getMany` method of data provider.
+refine's [useMany](/core/docs/3.xx.xx/api-reference/core/hooks/data/useMany/) hook accepts `metaData` property and uses `getMany` method of data provider.
 
 ```tsx
 useMany({

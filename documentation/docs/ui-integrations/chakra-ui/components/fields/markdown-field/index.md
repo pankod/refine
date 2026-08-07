@@ -1,32 +1,16 @@
 ---
-title: Markdown
+title: "Chakra UI Markdown Field Component | UI Component in Refine v5"
+display_title: "Markdown"
+sidebar_label: "Markdown"
+description: "Set up Markdown Field in Refine v5. Learn best practices. Explore customization options for accessibility, components for polished admin UIs."
 swizzle: true
 ---
-
-```tsx live shared
-const { default: routerProvider } = LegacyRefineReactRouterV6;
-const { default: simpleRest } = RefineSimpleRest;
-setRefineProps({
-  legacyRouterProvider: routerProvider,
-  dataProvider: simpleRest("https://api.fake-rest.refine.dev"),
-  Layout: RefineChakra.Layout,
-  Sider: () => null,
-});
-
-const Wrapper = ({ children }) => {
-  return (
-    <ChakraUI.ChakraProvider theme={RefineChakra.refineTheme}>
-      {children}
-    </ChakraUI.ChakraProvider>
-  );
-};
-```
 
 This field lets you display markdown content. It supports [GitHub Flavored Markdown](https://github.github.com/gfm/).
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
@@ -35,9 +19,7 @@ You can swizzle this component to customize it with the [**Refine CLI**](/docs/p
 Let's see how we can use `<MarkdownField>` in a show page.
 
 ```tsx live url=http://localhost:3000/posts/show/123 previewHeight=420px hideCode
-setInitialRoutes(["/samples", "/samples/show/123"]);
-import { Refine } from "@refinedev/core";
-import { ShowButton } from "@refinedev/chakra-ui";
+setInitialRoutes(["/posts", "/posts/show/123"]);
 
 // visible-block-start
 import { useShow } from "@refinedev/core";
@@ -48,9 +30,9 @@ import {
 } from "@refinedev/chakra-ui";
 import { Heading, Text } from "@chakra-ui/react";
 
-const SampleShow: React.FC = () => {
-  const { queryResult } = useShow<IPost>();
-  const { data, isLoading } = queryResult;
+const PostShow: React.FC = () => {
+  const { query } = useShow<IPost>();
+  const { data, isLoading } = query;
   const record = data?.data;
 
   return (
@@ -74,31 +56,42 @@ interface IPost {
 }
 // visible-block-end
 
-const App = () => {
-  return (
-    <Refine
-      notificationProvider={RefineChakra.notificationProvider()}
+render(
+  <ReactRouter.BrowserRouter>
+    <RefineChakraDemo
       resources={[
         {
-          name: "samples",
-          show: SampleShow,
-          list: () => (
-            <ChakraUI.VStack alignItems="flex-start">
-              <ChakraUI.Text>This page is empty.</ChakraUI.Text>
-              <RefineChakra.ShowButton colorScheme="black" recordItemId="123">
-                Show Item 123
-              </RefineChakra.ShowButton>
-            </ChakraUI.VStack>
-          ),
+          name: "posts",
+          show: "/posts/show/:id",
+          list: "/posts",
         },
       ]}
-    />
-  );
-};
-render(
-  <Wrapper>
-    <App />
-  </Wrapper>,
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route path="show/:id" element={<PostShow />} />
+          <ReactRouter.Route
+            index
+            element={
+              <ChakraUI.VStack alignItems="flex-start">
+                <ChakraUI.Text>This page is empty.</ChakraUI.Text>
+                <RefineChakra.ShowButton colorScheme="black" recordItemId="123">
+                  Show Item 123
+                </RefineChakra.ShowButton>
+              </ChakraUI.VStack>
+            }
+          />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineChakraDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

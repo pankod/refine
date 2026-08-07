@@ -9,8 +9,6 @@ describe("table-antd-advanced", () => {
   it("expanded row should be display the table with the posts data", () => {
     cy.getAntdLoadingOverlay().should("not.exist");
 
-    cy.interceptGETPosts();
-
     cy.getTableRowExpandButton(0).click();
 
     cy.wait("@getPosts").then((interception) => {

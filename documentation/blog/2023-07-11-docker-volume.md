@@ -3,23 +3,15 @@ title: A Detailed Guide on Docker Volumes
 description: We'll go over the fundamentals of Docker volumes, including what they are, why they're important, and how to use them.
 slug: docker-volumes
 authors: muhammad_khabbab
-tags: [docker, dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-11-docker-volume/social.png
+category: "Engineering"
+tags: [docker]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-11-docker-volume/social.webp
 hide_table_of_contents: false
 ---
 
 ## Brief introduction to Docker
 
 Docker, also known as Docker Engine, has a major impact on the modern industry as it is an open-source platform for creating, distributing, and running applications. Applications are packaged and executed using Docker containers in a loosely isolated environment. You can execute applications without depending on what is already installed on the host because containers are lightweight and come up with everything you need to run them. Its containerization solution addresses major issues with application deployment, supporting microservices design, allowing CI/CD pipelines, enhancing scalability and resource efficiency, enabling hybrid and cloud-native settings, and encouraging DevOps collaboration.
-
-Steps we'll cover:
-
-- [What are Docker volumes?](#what-are-docker-volumes)
-- [Why Docker Volumes are Important](#why-docker-volumes-are-important)
-- [Understanding Docker Volumes](#understanding-docker-volumes)
-- [Working with Docker Volumes](#working-with-docker-volumes)
-- [Backup and Restore Docker Volumes](#backup-and-restore-docker-volumes)
-- [Best Practices for Docker Volumes](#best-practices-for-docker-volumes)
 
 ## Why Docker Volumes are Important
 
@@ -82,7 +74,7 @@ The four key stages of a docker volume's lifespan are creation, use, inspection,
 The `docker volume create` command(i.e., docker volume create) can be used to build a docker volume. This command creates a volume with the local driver by default and a random name. The --name and --driver options additionally allow you to provide a name of your choice and a driver as well. Let's take an Example:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-11-docker-volume/image1.png"  alt="docker volume" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-11-docker-volume/image1.png"  alt="Terminal showing docker volume create command output" />
 </div>
 
 <br/>
@@ -94,13 +86,13 @@ With the options --mount or -v of the docker run command, you can attach a docke
 **Command in Example:** `docker run -d --name wordpress --mount source=sample-volume,target=/var/www/html wordpress`
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-11-docker-volume/image2.png"  alt="docker volume" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-11-docker-volume/image2.png"  alt="Terminal running docker run with --mount for a WordPress container" />
 </div>
 
 <br/>
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-11-docker-volume/image3.png"  alt="docker volume" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-11-docker-volume/image3.png"  alt="Terminal output confirming the volume mount in the running container" />
 </div>
 
 <br/>
@@ -112,7 +104,7 @@ With the options --mount or -v of the docker run command, you can attach a docke
 The `docker volume inspect` command(i.e., docker volume inspect \<name-of-volume\>) can be used to examine a docker volume. The information displayed by this command includes the volume's name, driver, mountpoint, labels, and options. Let's take an example of inspecting 'sample-volume'.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-11-docker-volume/image4.png"  alt="docker volume" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-11-docker-volume/image4.png"  alt="Terminal showing docker volume inspect output" />
 </div>
 
 <br/>
@@ -124,7 +116,7 @@ The `docker volume rm` command(i.e., docker volume rm \<name-of-volume\>) can de
 >
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-11-docker-volume/image5.png"  alt="docker volume" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-11-docker-volume/image5.png"  alt="Terminal showing docker volume rm command output" />
 </div>
 
 <br/>
@@ -138,7 +130,7 @@ The `docker volume rm` command(i.e., docker volume rm \<name-of-volume\>) can de
 Lists every Docker volume on the system with `docker volume ls`. Through this command, You can have general information of all docker volumes, along with their names and related mountpoints.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-11-docker-volume/image6.png"  alt="docker volume" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-11-docker-volume/image6.png"  alt="Terminal showing docker volume ls output" />
 </div>
 
 <br/>
@@ -152,7 +144,7 @@ To eliminate all unused volumes, you can also use the docker volume prune comman
 `docker volume rm sample-volume`
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-11-docker-volume/image7.png"  alt="docker volume" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-11-docker-volume/image7.png"  alt="Terminal showing docker volume prune output" />
 </div>
 
 <br/>
@@ -172,7 +164,7 @@ There are multiple ways to backup the docker volume, but the most common way is 
 **Command in Example:** `docker run -d --name sample-container -v sample-volume:/data ubuntu`
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-11-docker-volume/image8.png"  alt="docker volume" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-11-docker-volume/image8.png"  alt="Terminal creating a sample container with a mounted volume" />
 </div>
 
 <br/>
@@ -184,7 +176,7 @@ There are multiple ways to backup the docker volume, but the most common way is 
 `docker run --rm --volumes-from sample-container -v C:\Users\\*my-username*\]\Documents:/backup-dir ubuntu tar cvzf /backup-dir/sample-backup.tar.gz /data`
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-11-docker-volume/image9.png"  alt="docker volume" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-11-docker-volume/image9.png"  alt="Terminal command creating a backup archive from a Docker volume" />
 </div>
 
 <br/>
@@ -198,7 +190,7 @@ A docker volume can be restored from a backup file using a method similar to the
 **Command in Example:** `docker run --rm -v sample-volume:/data -v C:\Users\\username\]\Documents:/backup-dir ubuntu tar xvzf /backup-dir/sample-backup.tar.gz -C /data`
 
 <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-11-docker-volume/image10.png"  alt="docker volume" />
+   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-11-docker-volume/image10.png"  alt="Terminal command restoring a Docker volume from a backup archive" />
 </div>
 
 <br/>

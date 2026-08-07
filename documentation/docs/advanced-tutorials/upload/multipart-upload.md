@@ -1,14 +1,17 @@
 ---
 id: multipart-upload
-title: Multipart Upload
+title: "Multipart Upload Guide | FormData & File Handling in Refine v5"
+display_title: "Multipart Upload"
+sidebar_label: "Multipart Upload"
+description: "Secure Multipart Upload in Refine v5. Learn best practices. Learn advanced patterns for form and posts for production-ready workflows."
 ---
 
 ```tsx live shared
 import { Refine } from "@refinedev/core";
-import { AuthPage, RefineThemes, ThemedLayoutV2, ErrorComponent, useNotificationProvider } from "@refinedev/antd";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import { AuthPage, RefineThemes, ThemedLayout, ErrorComponent, useNotificationProvider } from "@refinedev/antd";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router";
 import { ConfigProvider } from "antd";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import dataProvider from "@refinedev/simple-rest";
 
 const API_URL = "https://api.fake-rest.refine.dev";
@@ -43,11 +46,11 @@ import {
 } from "antd";
 
 const PostList: React.FC = () => {
-    const { tableProps, sorter } = RefineAntdUseTable<IPost>();
+    const { result, tableProps } = RefineAntdUseTable<IPost>();
 
-    const categoryIds =
-        tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-    const { data, isLoading } = CoreUseMany<ICategory>({
+    const categoryIds = result?.data?.map((item) => item.category.id) ?? [];
+
+    const { result: categoryResult, query: { isLoading } } = CoreUseMany<ICategory>({
         resource: "categories",
         ids: categoryIds,
         queryOptions: {
@@ -74,7 +77,7 @@ const PostList: React.FC = () => {
                         return (
                             <RefineAntdTextField
                                 value={
-                                    data?.data.find((item) => item.id === value)
+                                    result?.data.find((item) => item.id === value)
                                         ?.title
                                 }
                             />
@@ -206,36 +209,35 @@ const PostEdit: React.FC = () => {
 };
 
 const PostShow: React.FC = () => {
-    const { queryResult } = RefineCoreUseShow<IPost>();
-    const { data, isLoading } = queryResult;
-    const record = data?.data;
+    const { query, result: post } = RefineCoreUseShow<IPost>();
+    const { isLoading } = query;
 
-    const { data: categoryData, isLoading: categoryIsLoading } =
+    const { result: category, isLoading: categoryIsLoading } =
         RefineCoreUseOne<ICategory>({
             resource: "categories",
-            id: record?.category?.id || "",
+            id: post?.category?.id || "",
             queryOptions: {
-                enabled: !!record,
+                enabled: !!post,
             },
         });
 
     return (
         <RefineAntdShow isLoading={isLoading}>
             <AntdTypography.Title level={5}>Id</AntdTypography.Title>
-            <AntdTypography.Text>{record?.id}</AntdTypography.Text>
+            <AntdTypography.Text>{post?.id}</AntdTypography.Text>
 
             <AntdTypography.Title level={5}>
                 AntdTypography.Title
             </AntdTypography.Title>
-            <AntdTypography.Text>{record?.title}</AntdTypography.Text>
+            <AntdTypography.Text>{post?.title}</AntdTypography.Text>
 
             <AntdTypography.Title level={5}>Category</AntdTypography.Title>
             <AntdTypography.Text>
-                {categoryIsLoading ? "Loading..." : categoryData?.data.title}
+                {categoryIsLoading ? "Loading..." : category?.title}
             </AntdTypography.Text>
 
             <AntdTypography.Title level={5}>Content</AntdTypography.Title>
-            <AntdTypography.Text>{record?.content}</AntdTypography.Text>
+            <AntdTypography.Text>{post?.content}</AntdTypography.Text>
         </RefineAntdShow>
     );
 };
@@ -333,7 +335,7 @@ interface IPost {
 
 :::tip
 
-We can reach the API URL by using the [`useApiUrl`](/docs/data/hooks/use-api-url) hook.
+We can reach the API URL by using the [`useApiUrl`](/core/docs/data/hooks/use-api-url/) hook.
 
 :::
 
@@ -363,9 +365,9 @@ const App = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route index element={<NavigateToResource />} />
@@ -544,9 +546,9 @@ const App = () => {
           <Routes>
             <Route
               element={
-                <ThemedLayoutV2>
+                <ThemedLayout>
                   <Outlet />
-                </ThemedLayoutV2>
+                </ThemedLayout>
               }
             >
               <Route index element={<NavigateToResource />} />

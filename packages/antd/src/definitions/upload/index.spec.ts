@@ -1,10 +1,11 @@
+import { vi } from "vitest";
 import { getValueFromEvent } from "./index";
 
 describe("definitions/upload", () => {
   const file = new File([new ArrayBuffer(1)], "file.jpg");
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("getValueFromEvent", async () => {

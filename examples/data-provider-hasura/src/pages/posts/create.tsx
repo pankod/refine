@@ -25,7 +25,7 @@ export const PostCreate = () => {
     HttpError,
     GetVariables<CreatePostMutationVariables>
   >({
-    metaData: {
+    meta: {
       gqlMutation: POST_CREATE_MUTATION,
     },
   });
@@ -34,8 +34,13 @@ export const PostCreate = () => {
     GetFieldsFromList<GetPostCategoriesSelectQuery>
   >({
     resource: "categories",
-    metaData: {
+
+    meta: {
       gqlQuery: POST_CATEGORIES_SELECT_QUERY,
+    },
+
+    pagination: {
+      mode: "server",
     },
   });
 

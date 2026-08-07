@@ -4,7 +4,7 @@ import {
   useTable,
   Link,
 } from "@refinedev/core";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { Button } from "react95";
 import {
@@ -32,12 +32,13 @@ export const VideoClubMemberPageList = () => {
   const {
     tableQuery: membersQueryResult,
     pageCount,
-    current,
-    setCurrent,
+    currentPage: current,
+    setCurrentPage: setCurrent,
     filters,
     setFilters,
   } = useTable<ExtendedMember>({
     resource: "members",
+
     meta: {
       select: "*, rentals(*)",
     },

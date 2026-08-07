@@ -491,16 +491,16 @@ You can find the `app/` directory example with **refine** in [examples/nextjs/ap
 
 [nextjs]: https://nextjs.org/docs/getting-started
 [nextjsrouter]: https://www.npmjs.com/package/@pankod/refine-nextjs-router
-[routerprovider]: /api-reference/core/providers/router-provider.md
+[routerprovider]: /core/docs/3.xx.xx/api-reference/core/providers/router-provider
 [nextjscustomapp]: https://nextjs.org/docs/advanced-features/custom-app
-[refine]: /api-reference/core/components/refine-config.md
+[refine]: /core/docs/3.xx.xx/api-reference/core/components/refine-config
 [nextjspages]: https://nextjs.org/docs/basic-features/pages
-[usetable]: /docs/3.xx.xx/api-reference/core/hooks/useTable
+[usetable]: /core/docs/3.xx.xx/api-reference/core/hooks/useTable
 [reactqueryssr]: https://react-query.tanstack.com/guides/ssr#using-initialdata
 [reactquery]: https://react-query.tanstack.com/
-[getlist]: /docs/3.xx.xx/api-reference/core/providers/data-provider/#getlist-
-[dataprovider]: /api-reference/core/providers/data-provider.md
-[usetable]: /docs/3.xx.xx/api-reference/core/hooks/useTable
-[interfaces]: /api-reference/core/interfaces.md/#crudfilters
+[getlist]: /core/docs/3.xx.xx/api-reference/core/providers/data-provider/#getlist-
+[dataprovider]: /core/docs/3.xx.xx/api-reference/core/providers/data-provider
+[usetable]: /core/docs/3.xx.xx/api-reference/core/hooks/useTable
+[interfaces]: /core/docs/3.xx.xx/api-reference/core/interfaces/#crudfilters
 [autostaticopt]: https://nextjs.org/docs/advanced-features/automatic-static-optimization
 [datafetching]: https://nextjs.org/docs/basic-features/data-fetching

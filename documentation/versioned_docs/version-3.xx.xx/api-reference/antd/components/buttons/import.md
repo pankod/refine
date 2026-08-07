@@ -8,7 +8,7 @@ swizzle: true
 It uses Ant Design's [`<Button>`][button] and [`<Upload>`][upload] components. It wraps a [`<Button>`][button] component with an [`<Upload>`][upload] component and accepts properties for [`<Button>`][button] and [`<Upload>`][upload] components separately.
 
 :::info-tip Swizzle
-You can swizzle this component to customize it with the [**refine CLI**](/docs/3.xx.xx/packages/documentation/cli)
+You can swizzle this component to customize it with the [**refine CLI**](/core/docs/3.xx.xx/packages/documentation/cli)
 :::
 
 ## Usage
@@ -113,6 +113,6 @@ render(
 
 <PropsTable module="@pankod/refine-antd/ImportButton" />
 
-[useimport]: /api-reference/antd/hooks/import/useImport.md
+[useimport]: /core/docs/3.xx.xx/api-reference/antd/hooks/import/useImport
 [button]: https://ant.design/components/button/
 [upload]: https://ant.design/components/upload/

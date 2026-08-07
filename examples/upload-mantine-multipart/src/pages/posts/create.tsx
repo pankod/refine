@@ -56,6 +56,10 @@ export const PostCreate: React.FC = () => {
 
   const { selectProps } = useSelect({
     resource: "categories",
+
+    pagination: {
+      mode: "server",
+    },
   });
 
   const previews = files.map((file, index) => {

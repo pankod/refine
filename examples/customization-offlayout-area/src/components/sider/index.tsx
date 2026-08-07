@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { type ITreeMenu, CanAccess, useMenu } from "@refinedev/core";
+import {
+  type TreeMenuItem as ITreeMenu,
+  CanAccess,
+  useMenu,
+} from "@refinedev/core";
 
 import {
   UnorderedListOutlined,
@@ -7,8 +11,8 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import { Layout as AntdLayout, Menu, theme, Button } from "antd";
-import { Link } from "react-router-dom";
-import { ThemedTitle } from "@refinedev/antd";
+import { Link } from "react-router";
+import { ThemedTitle as ThemedTitleV2 } from "@refinedev/antd";
 
 const { useToken } = theme;
 
@@ -20,17 +24,12 @@ export const FixedSider: React.FC = () => {
 
   const renderTreeView = (tree: ITreeMenu[], selectedKey: string) => {
     return tree.map((item: ITreeMenu) => {
-      const { name, children, meta, key, list } = item;
+      const { name, children, meta, list } = item;
 
       const icon = meta?.icon;
       const label = meta?.label ?? name;
       const parent = meta?.parent;
-      const route =
-        typeof list === "string"
-          ? list
-          : typeof list !== "function"
-            ? list?.path
-            : key;
+      const route = list;
 
       if (children.length > 0) {
         return (
@@ -120,7 +119,7 @@ export const FixedSider: React.FC = () => {
           fontSize: "14px",
         }}
       >
-        <ThemedTitle collapsed={collapsed} />
+        <ThemedTitleV2 collapsed={collapsed} />
       </div>
       <Menu
         style={{

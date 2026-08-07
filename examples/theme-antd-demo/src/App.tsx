@@ -4,7 +4,7 @@ import {
   useNotificationProvider,
   ErrorComponent,
   RefineThemes,
-  ThemedLayoutV2,
+  ThemedLayout,
   AuthPage,
 } from "@refinedev/antd";
 import { GoogleOutlined, GithubOutlined } from "@ant-design/icons";
@@ -15,8 +15,9 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
+import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
 import { PostList, PostCreate, PostEdit, PostShow } from "./pages/posts";
@@ -68,9 +69,9 @@ const App: React.FC = () => {
                   key="authenticated-routes"
                   fallback={<CatchAllNavigate to="/login" />}
                 >
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >
@@ -171,9 +172,9 @@ const App: React.FC = () => {
             <Route
               element={
                 <Authenticated key="catch-all">
-                  <ThemedLayoutV2>
+                  <ThemedLayout>
                     <Outlet />
-                  </ThemedLayoutV2>
+                  </ThemedLayout>
                 </Authenticated>
               }
             >

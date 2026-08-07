@@ -1,10 +1,12 @@
-export const groupBy = (arr: string[]) => {
+export const groupBy = (arr: Array<string | number>) => {
   const retVal: { [key: string]: number } = {};
   for (const key of arr) {
-    if (retVal[key]) {
-      retVal[key] += 1;
+    const normalizedKey = String(key);
+
+    if (retVal[normalizedKey]) {
+      retVal[normalizedKey] += 1;
     } else {
-      retVal[key] = 1;
+      retVal[normalizedKey] = 1;
     }
   }
   return retVal;

@@ -3,9 +3,11 @@ title: refine vs Blitz.js
 description: We will take a closer look at how to set both up, what are their internal builds, how they handle the data sources, how to implement the CRUD functionality, add authentication, and how to deploy them to production.
 slug: react-admin-frameworks-refine-vs-blitz-js
 authors: madars_biss
-tags: [Refine, comparison]
+category: "Alternatives"
+tags: [react, admin-panel, comparison]
 image: https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2FGroup%20821%20(1).png
 hide_table_of_contents: false
+last_update: 2024-04-18
 ---
 
 # React Refine vs Blitz comparison
@@ -27,7 +29,7 @@ By its core nature, it is a headless framework that is based on a collection of 
 The Refine framework was created in 2021 and has witnessed rapid growth and attracted an active community around it since then. As of the time of the writing, the framework has already reached around 8K GitHub stars.
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677092225_920x262.png"  alt="react-admin" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677092225_920x262.png"  alt="Refine GitHub stars history chart" />
 </div>
 
 <br/>
@@ -41,7 +43,7 @@ Furthermore, it is the NextJS toolkit that provides the necessary pieces to crea
 Blitz is also an [open-source](https://github.com/blitz-js/blitz) project that allows users to access the code and allows to contribute. Their community has generated a lot of impact as well, and has grown rapidly over time since the creation in 2020:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677092225_920x263.png"  alt="react-admin" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677092225_920x263.png"  alt="Blitz GitHub stars history chart" />
 </div>
 
 <br/>
@@ -55,7 +57,7 @@ Refine comes with the project starter tool, which allows users to set up a fully
 Run the command `npm create refine-app@latest crud-refine`. That will start the CLI wizard that will ask you to configure the project. For the purpose of this tutorial, pick the values as shown below:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2FScreenshot%202023-03-15%20at%2016.51.01.png"  alt="react-admin" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2FScreenshot%202023-03-15%20at%2016.51.01.png"  alt="Refine CLI wizard options" />
 </div>
 
 <br/>
@@ -66,7 +68,7 @@ Once it's done change the working directory to the newly created project by `cd 
 
 That should automatically open up a new browser window. If it's not, navigate to [localhost:3000](http://localhost:3000) manually and you will be presented with the Refine welcome screen:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677092501_1482x833.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677092501_1482x833.png"  alt="Refine welcome screen" />
 
 <br />
 <br />
@@ -78,7 +80,7 @@ To set up the Blitz app, the user must first install the Blitz CLI. You can do t
 Next, run the command `blitz new crud-blitz`. This will start the terminal CLI wizard asking you to configure the project. For the purpose of this tutorial pick the values as shown below:
 
 <div className="centered-image"  >
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677319716_906x107.png"  alt="react-admin" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677319716_906x107.png"  alt="Blitz CLI wizard options" />
 </div>
 
 <br/>
@@ -87,7 +89,7 @@ After that change the working directory to the newly created project by running 
 
 Finally, open your browser and navigate to [localhost:3000](http://localhost:3000). This should present you with a Blitz welcome screen:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677319885_1892x926.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677319885_1892x926.png"  alt="Blitz welcome screen" />
 
 <br />
 <br />
@@ -106,9 +108,9 @@ import { useNotificationProvider } from "@refinedev/antd";
 import "@refinedev/antd/dist/reset.css";
 
 import { useAuth0 } from "@auth0/auth0-react";
-import routerBindings, {
+import routerProvider, {
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import axios from "axios";
 import { BrowserRouter } from "react-router-dom";
@@ -308,14 +310,14 @@ Refine comes with a fake data provider that is perfect for testing or creating s
 
 It is a simple REST API endpoint that contains sample data about users, posts, products, categories, etc., and can be accessed via [api.fake-rest.refine.dev](http://api.fake-rest.refine.dev).
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677175406_1920x929.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677175406_1920x929.png"  alt="Refine fake REST API endpoints in browser" />
 
 <br />
 <br />
 
 If we click on any of the routes in the user interface, we can see that each of them contains JSON data. For example, the `/products` endpoint holds samples in the following format:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677181479_1896x806.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677181479_1896x806.png"  alt="Products endpoint JSON response in browser" />
 
 <br />
 <br />
@@ -361,7 +363,7 @@ Another great thing is that with Blitz you can run `blitz prisma studio` to open
 
 If the UI does not open automatically, navigate to [localhost:5555](http://localhost:5555):
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677324951_905x293.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677324951_905x293.png"  alt="Blitz Prisma Studio dashboard" />
 
 <br />
 <br />
@@ -374,21 +376,21 @@ Create a new free [Auth0 account](https://auth0.com/signup) and log in.
 
 Create a new web application.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677313884_762x678.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677313884_762x678.png"  alt="Auth0 application settings screen" />
 
 <br />
 <br />
 
 It will give you domain, client ID, and secret ID information.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677315028_1612x846.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677315028_1612x846.png"  alt="Auth0 domain and client ID values" />
 
 <br />
 <br />
 
 Scroll down and add [localhost:3000](http://localhost:3000) to the allowed URLs list.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677316037_1920x929.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677316037_1920x929.png"  alt="Auth0 allowed URLs configuration" />
 
 <br />
 <br />
@@ -424,7 +426,7 @@ Now reset the developer server by pressing `Ctrl` + `C` on your keyboard and run
 
 Now open your browser and navigate to [localhost:3000](http://localhost:3000) and you should be presented with the login screen:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677316431_1920x929.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677316431_1920x929.png"  alt="Refine Auth0 login screen" />
 
 <br />
 <br />
@@ -435,14 +437,14 @@ The great thing about Blitz is it already has the authentication views for signu
 
 The signup page should be available at [localhost:3000/auth/signup](http://localhost:3000/auth/signup):
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677324951_905x294.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677324951_905x294.png"  alt="Blitz signup page" />
 
 <br />
 <br />
 
 The login page should be available at [localhost:3000/auth/login](http://localhost:3000/auth/login):
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677324973_905x371.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677324973_905x371.png"  alt="Blitz login page" />
 
 <br />
 <br />
@@ -493,7 +495,7 @@ Also notice the newly created list page was automatically imported and passed in
 
 Now open your browser and navigate to [localhost:3000/products](http://localhost:3000/products). You should be presented with the page that lists data from the `/products` route from the Refine's built-in data provider:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677175220_1920x929.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677175220_1920x929.png"  alt="Refine products list page" />
 
 <br />
 <br />
@@ -521,7 +523,7 @@ export default Greet;
 
 Now open your browser and navigate to [localhost:3000/greet](http://localhost:3000/greet) and you should be presented with the rendered content of the newly created page:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677343984_905x228.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677343984_905x228.png"  alt="Blitz greet page" />
 
 <br />
 <br />
@@ -540,7 +542,7 @@ Now, open up your browser and navigate to [localhost:3000/posts](http://localhos
 
 You should be able to see all of the data coming from the `/posts` route, but this time you will notice there are action buttons to create, read, update, and delete the records:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677183011_1900x924.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677183011_1900x924.png"  alt="Refine posts list with CRUD actions" />
 
 <br />
 <br />
@@ -557,7 +559,7 @@ To test it out, restart your developer server by pressing `Ctrl` + `C` on your k
 
 This will display the landing of the crud page asking you to create the first task since we currently do not have any data in our database:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677344355_905x146.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677344355_905x146.png"  alt="Blitz empty todos list" />
 
 <br />
 <br />
@@ -570,7 +572,7 @@ To create a record click on the "Create" button in the top right corner.
 
 This will open up a form with empty fields, allowing you to enter the values and save a new record.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677280697_1895x924.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677280697_1895x924.png"  alt="Refine create post form" />
 
 <br />
 <br />
@@ -579,7 +581,7 @@ To read an already existing record click on the eye icon on the right of each re
 
 It will open up the record with all the values in read-only mode.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677280864_1898x923.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677280864_1898x923.png"  alt="Refine post show view" />
 
 <br />
 <br />
@@ -588,14 +590,14 @@ In order to update an existing record, click on the pencil icon next to the eye 
 
 This will open up the form with all the values editable.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677281365_1897x921.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677281365_1897x921.png"  alt="Refine post edit form" />
 
 <br />
 <br />
 
 To delete the post, click on the bin icon next to the eye icon. It will also display a confirmation popup to make sure you are not deleting the record by mistake.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677313540_1897x923.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677313540_1897x923.png"  alt="Refine delete confirmation dialog" />
 
 <br />
 <br />
@@ -604,28 +606,28 @@ To delete the post, click on the bin icon next to the eye icon. It will also dis
 
 To create a new task click on "Create Todo". It will open up an empty form, where you can give the name of the task.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677344456_909x264.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677344456_909x264.png"  alt="Blitz create todo form" />
 
 <br />
 <br />
 
 To read the created record navigate to the tasks list and click on the specific task. This will open up the selected record in read-only mode.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677344456_909x265.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677344456_909x265.png"  alt="Blitz todo details view" />
 
 <br />
 <br />
 
 In order to edit the existing record open it and click on the "Edit" button. That will allow you to change the title of the created to-do task.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677346371_906x354.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677346371_906x354.png"  alt="Blitz edit todo form" />
 
 <br />
 <br />
 
 To delete the task open it and click on the "Delete" button.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677346469_908x313.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677346469_908x313.png"  alt="Blitz delete todo confirmation" />
 
 <br />
 <br />
@@ -648,7 +650,7 @@ git push -u origin main
 
 After the code is pushed switch back to the GitHub repository and you should see all the code being pushed:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677316914_1872x857.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677316914_1872x857.png"  alt="GitHub repository with pushed Refine app" />
 
 <br />
 <br />
@@ -659,21 +661,21 @@ First, create a new [free account](https://vercel.com/signup) if you already do 
 
 Then create a new project by selecting the option Import from Git. Find your GitHub project in the list and click "Import".
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677317074_1920x929.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677317074_1920x929.png"  alt="Vercel import project screen" />
 
 <br />
 <br />
 
 Vercel will automatically configure everything for you, all you have to do is manually add the environmental keys and values from the `.env` file:
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677317283_1920x929.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677317283_1920x929.png"  alt="Vercel environment variables settings" />
 
 <br />
 <br />
 
 Once that's done, click on Deploy and after the deployment process is done you will be given a live access link to your project.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677319480_1920x929.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677319480_1920x929.png"  alt="Vercel deployment success screen" />
 
 <br />
 <br />
@@ -742,7 +744,7 @@ git push -u origin main
 
 Then switch back to GitHub and you will find everything synced up.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677348358_1876x865.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677348358_1876x865.png"  alt="GitHub repository with pushed Blitz app" />
 
 <br />
 <br />
@@ -751,20 +753,20 @@ Next, create a [free account](https://dashboard.render.com/register) on Render a
 
 Click on "New" and select the "Blueprint" option.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677348415_1424x797.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677348415_1424x797.png"  alt="Render blueprint creation screen" />
 
 <br />
 <br />
 
 Next, connect your Github account and find your project in the list.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677348579_1185x763.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677348579_1185x763.png"  alt="Render GitHub repo selection" />
 
 <br />
 
 Next, give the Blueprint a name and click on "Apply", so Render sets everything up using your `.yaml` configuration.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677348636_1323x614.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677348636_1323x614.png"  alt="Render blueprint apply screen" />
 
 <br />
 
@@ -772,7 +774,7 @@ The setup might take a few minutes.
 
 It will give you the live access link to your project once it's done.
 
-<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677362154_1364x440.png"  alt="react-admin" />
+<img src="https://refine.ams3.cdn.digitaloceanspaces.com/blog%2F2023-03-15-refine-vs-blitzjs%2F1677362154_1364x440.png"  alt="Render deployment complete screen" />
 
 <br />
 

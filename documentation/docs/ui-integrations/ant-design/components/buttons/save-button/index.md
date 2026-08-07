@@ -1,5 +1,8 @@
 ---
-title: Save
+title: "Ant Design Save Button Component | Form Actions in Refine v5"
+display_title: "Save"
+sidebar_label: "Save"
+description: "Set up Save Button in Refine v5. Learn best practices. Explore customization options for enterprise UI, components for polished admin UIs."
 swizzle: true
 ---
 
@@ -7,15 +10,17 @@ swizzle: true
 
 :::simple Good to know
 
-You can swizzle this component to customize it with the [**Refine CLI**](/docs/packages/list-of-packages)
+You can swizzle this component to customize it with the [**Refine CLI**](/core/docs/packages/cli/)
 
 :::
 
 ## Usage
 
-Let's add logic to the `<SaveButton>` component with the `saveButtonProps` returned by the [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form) hook:
+Let's add logic to the `<SaveButton>` component with the `saveButtonProps` returned by the [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form/) hook:
 
-```tsx live url=http://localhost:3000/posts/edit/123
+```tsx live previewHeight=360px
+setInitialRoutes(["/posts/edit/123"]);
+
 // visible-block-start
 import { Edit, useForm } from "@refinedev/antd";
 import { Form, Input } from "antd";
@@ -51,26 +56,35 @@ interface IPost {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/posts/edit/123"]}
-    resources={[
-      {
-        name: "posts",
-        edit: PostEdit,
-        list: () => {
-          return (
-            <RefineAntd.List>
-              <p>Your list page here</p>
-            </RefineAntd.List>
-          );
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+          edit: "/posts/edit/:id",
         },
-      },
-    ]}
-  />,
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<div>List page here...</div>} />
+          <ReactRouter.Route path="edit/:id" element={<PostEdit />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 
-The [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form) hook exposes `saveButtonProps` to be passed to the `<SaveButton>` component which includes submitting the form action, button loading, and disable states.
+The [`useForm`](/core/docs/ui-integrations/ant-design/hooks/use-form/) hook exposes `saveButtonProps` to be passed to the `<SaveButton>` component which includes submitting the form action, button loading, and disable states.
 
 ## Properties
 
@@ -78,7 +92,9 @@ The [`useForm`](/docs/ui-integrations/ant-design/hooks/use-form) hook exposes `s
 
 `hideText` is used to hide the text of the button. When its `true`, only the button icon will be visible.
 
-```tsx live disableScroll previewHeight=120px
+```tsx live previewHeight=120px
+setInitialRoutes(["/posts"]);
+
 // visible-block-start
 import { SaveButton } from "@refinedev/antd";
 
@@ -93,15 +109,29 @@ const MySaveComponent = () => {
 // visible-block-end
 
 render(
-  <RefineAntdDemo
-    initialRoutes={["/"]}
-    resources={[
-      {
-        name: "posts",
-        list: MySaveComponent,
-      },
-    ]}
-  />,
+  <ReactRouter.BrowserRouter>
+    <RefineAntdDemo
+      resources={[
+        {
+          name: "posts",
+          list: "/posts",
+        },
+      ]}
+    >
+      <ReactRouter.Routes>
+        <ReactRouter.Route
+          path="/posts"
+          element={
+            <div style={{ padding: 16 }}>
+              <ReactRouter.Outlet />
+            </div>
+          }
+        >
+          <ReactRouter.Route index element={<MySaveComponent />} />
+        </ReactRouter.Route>
+      </ReactRouter.Routes>
+    </RefineAntdDemo>
+  </ReactRouter.BrowserRouter>,
 );
 ```
 

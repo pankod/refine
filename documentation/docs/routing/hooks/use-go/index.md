@@ -1,5 +1,8 @@
 ---
-title: useGo
+title: "useGo Hook | Best Practices for Usage & Patterns in Refine v5"
+display_title: "useGo"
+sidebar_label: "useGo"
+description: "Build Use Go in Refine v5. Learn the key steps. Learn best practices for SSR, navigation for real-world React admin panels. Hands-on examples included."
 ---
 
 `useGo` is a hook that leverages the `go` method of the [`routerProvider`][routerprovider] to perform navigation operations.
@@ -117,5 +120,5 @@ The `options.keepHash` parameter is a boolean that determines whether the curren
 
 `useGo` does not return any value except for the `path` type, which returns the navigation path for the given config without mutating the history stack.
 
-[routerprovider]: /docs/routing/router-provider
-[basekey]: /docs/core/interface-references#basekey
+[routerprovider]: /core/docs/routing/router-provider
+[basekey]: /core/docs/core/interface-references#basekey

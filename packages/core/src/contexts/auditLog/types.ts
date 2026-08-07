@@ -1,4 +1,4 @@
-import type { BaseKey, MetaDataQuery } from "../data/types";
+import type { BaseKey } from "../data/types";
 
 export type ILog<TData = any> = {
   id: BaseKey;
@@ -33,7 +33,6 @@ export type IAuditLogContext = {
     action?: string;
     meta?: Record<number | string, any>;
     author?: Record<number | string, any>;
-    metaData?: MetaDataQuery;
   }) => Promise<any>;
   update?: (params: {
     id: BaseKey;

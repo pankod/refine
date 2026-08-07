@@ -40,4 +40,4 @@ npm create refine-app@latest -- --example monorepo-with-lerna-bootstrap
 
 <br/>
 
-[![Open monorepo-with-lerna-bootstrap example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/master/examples/monorepo-with-lerna-bootstrap?view=preview&theme=dark&codemirror=1)
+[![Open monorepo-with-lerna-bootstrap example from refine](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/github/refinedev/refine/tree/main/examples/monorepo-with-lerna-bootstrap?view=preview&theme=dark&codemirror=1)

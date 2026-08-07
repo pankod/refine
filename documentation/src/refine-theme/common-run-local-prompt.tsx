@@ -1,6 +1,5 @@
 import React from "react";
 import { CodeBlock } from "../theme/CodeBlock/base";
-import { CommandLineIcon } from "./icons/command-line";
 import { TerminalIcon } from "./icons/terminal";
 
 type Props = {

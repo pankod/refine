@@ -5,13 +5,12 @@ import {
   Refine,
 } from "@refinedev/core";
 import { DevtoolsProvider, DevtoolsPanel } from "@refinedev/devtools";
-import dataProvider from "@refinedev/nestjsx-crud";
 import routerProvider, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
   NavigateToResource,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import { Toaster } from "react-hot-toast";
 
 import { PageEmployeeTimeOffsList } from "@/pages/employee/time-offs/list";
@@ -27,9 +26,7 @@ import { authProvider } from "@/providers/auth-provider";
 import { accessControlProvider } from "@/providers/access-control";
 import { useNotificationProvider } from "@/providers/notification-provider";
 import { queryClient } from "@/providers/query-client";
-
-import { BASE_URL } from "@/utilities/constants";
-import { axiosInstance } from "@/utilities/axios";
+import { dataProvider } from "@/providers/data";
 
 import { RequestsIcon, TimeOffIcon } from "@/icons";
 
@@ -43,9 +40,10 @@ const App: React.FC = () => {
       <ThemeProvider>
         <DevtoolsProvider>
           <Refine
+            accessControlProvider={accessControlProvider}
             authProvider={authProvider}
             routerProvider={routerProvider}
-            dataProvider={dataProvider(BASE_URL, axiosInstance)}
+            dataProvider={dataProvider}
             notificationProvider={useNotificationProvider}
             resources={[
               {
@@ -85,14 +83,12 @@ const App: React.FC = () => {
                 },
               },
             ]}
-            accessControlProvider={accessControlProvider}
             options={{
               reactQuery: {
                 clientConfig: queryClient,
               },
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
-              useNewQueryKeys: true,
             }}
           >
             <Routes>

@@ -28,7 +28,7 @@ export const useMeta = () => {
     const {
       filters: _filters,
       sorters: _sorters,
-      current: _current,
+      currentPage: _currentPage,
       pageSize: _pageSize,
       ...additionalParams
     } = params ?? {};

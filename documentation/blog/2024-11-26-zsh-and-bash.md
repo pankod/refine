@@ -3,9 +3,11 @@ title: Zsh and Bash
 description: We'll explore the unique features of these tools and their similarities and differences.
 slug: zsh-vs-bash
 authors: muhammad_khabbab
-tags: [dev-tools]
-image: https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/social-2.png
+category: "Alternatives"
+tags: [dev-tools, comparison]
+image: https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/social-2.png
 hide_table_of_contents: false
+last_update: 2024-11-26
 ---
 
 **This article was last updated on November 26, 2024, to add clear definition.**
@@ -17,16 +19,6 @@ In the early days of computing, programmers used a non-graphical interface calle
 Among all Unix-based shell environments, two of the most famous are Zsh and Bash. Zsh is fully customizable, having features like auto-completion, syntax highlighting, and support for plugins, which is ideal for an interactive, modern workflow. On the other hand, Bash excels in simplicity with POSIX compliance and in scripting with strong automation and cross-platform capabilities. Thus, Zsh is the ideal choice when advanced customization and a modern user experience are desired, while Bash serves best for standardized scripting and in terms of being highly reliable.
 
 In this article, we’ll explore the unique features of these tools and their similarities and differences. We’ll also compare some of their features, so you'll have enough knowledge to make an informed choice when choosing the right shell. Let's dive in!
-
-Steps we'll cover:
-
-- [What is Bash?](#what-is-bash)
-- [What is Zsh?](#what-is-zsh)
-- [Basic Features of Bash and Zsh](#basic-features-of-bash-and-zsh)
-- [How to setup Bash and Zsh on your computer](#how-to-setup-bash-and-zsh-on-your-computer)
-- [Deep Dive into Bash Features](#deep-dive-into-bash-features)
-- [Deep Dive into Zsh Features](#deep-dive-into-zsh-features)
-- [Case Study: When to Use Bash and When to Use Zsh](#case-study-when-to-use-bash-and-when-to-use-zsh)
 
 ## What is Bash?
 
@@ -126,7 +118,7 @@ If you're a seasoned or experienced programmer, it's likely you have Git install
 To use Git Bash on a Windows machine, ensure you have Git downloaded and installed already. After the installation, you can use the search tool to look for the application and run it.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/search.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/search.png"  alt="Windows search showing Git Bash" />
 </div>
 
 <br/>
@@ -134,7 +126,7 @@ To use Git Bash on a Windows machine, ensure you have Git downloaded and install
 The app looks like below:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/bash.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/bash.png"  alt="Git Bash terminal window" />
 </div>
 
 <br/>
@@ -148,7 +140,7 @@ echo $SHELL
 You should get an output similar to the following:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/echo.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/echo.png"  alt="Terminal output for echo $SHELL" />
 </div>
 
 <br/>
@@ -160,7 +152,7 @@ Another way to use bash on Windows is through the Windows Subsystem for Linux (W
 1. Enable the Windows Subsystem for Linux. Open **Control Panel** on your computer then go to **Programs** > **Turn Windows features on and off**. Make sure the checkbox for Windows Subsystem for Linux is ticked as shown below (you'll need to restart your computer for the changes to apply):
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/control-panel.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/control-panel.png"  alt="Windows features dialog with WSL enabled" />
 </div>
 
 <br/>
@@ -168,7 +160,7 @@ Another way to use bash on Windows is through the Windows Subsystem for Linux (W
 2. Install a Linux distribution. Since bash is the default shell in most Linux distributions, you can use any distro you're comfortable with, but we'll be using Ubuntu in this guide. Head over to Microsoft Store on your computer and install Ubuntu on your computer:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/store.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/store.png"  alt="Microsoft Store listing for Ubuntu" />
 </div>
 
 <br/>
@@ -176,7 +168,7 @@ Another way to use bash on Windows is through the Windows Subsystem for Linux (W
 3. Search and run the Ubuntu application.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/search-ubuntu.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/search-ubuntu.png"  alt="Windows search showing Ubuntu app" />
 </div>
 
 <br/>
@@ -184,7 +176,7 @@ Another way to use bash on Windows is through the Windows Subsystem for Linux (W
 4. When you launch the Ubuntu application for the first time, it'll take you through a series of prompts to configure your username and password:
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/prompt.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/prompt.png"  alt="Ubuntu first-run setup prompts" />
 </div>
 
 <br/>
@@ -223,7 +215,7 @@ Editing commands in Bash is possible using standard editing keys. You can use th
 **Example 1:** You can Move the Cursor by using arrows. For example, we have used the left arrow to bring the Cursor from the end-of-line to the start of the line, and you can also delete the characters using the backspace or delete keys.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/comman-editing.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/comman-editing.png"  alt="Bash command line cursor editing example" />
 </div>
 
 <br/>
@@ -231,7 +223,7 @@ Editing commands in Bash is possible using standard editing keys. You can use th
 **Example 2:** You can also cut, copy and paste the text in the Bash Command line. Let’s take an example of the same command(echo “Hello, World!”). Move the Cursor to the start of the ‘World’ using the ‘left’ arrows explained above, and press ‘**Ctrl+K**’ to cut and then ‘**Ctrl+Y**’ to paste.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/command-editing-2.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/command-editing-2.png"  alt="Bash cut and paste command editing example" />
 </div>
 
 <br/>
@@ -244,7 +236,7 @@ The Ctrl+R keyboard shortcut allows you to look up, retrieve and then recall spe
 Let’s take an example of searching ‘echo “Hello, World!”’ command in our history by using the word ‘Hello’(i.e., the part of the command) after pressing ‘**Ctrl+R**’ and then recalling that command.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/command-recalling.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/command-recalling.png"  alt="Bash history search with Ctrl+R" />
 </div>
 
 <br/>
@@ -258,7 +250,7 @@ In the Bash tool, shortcuts are available to recall and reuse parts of earlier c
 **Example 1:** Let’s repeat the last command using “**!!**”
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/comman-reusing-1.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/comman-reusing-1.png"  alt="Bash command reuse with !!" />
 </div>
 
 <br/>
@@ -266,7 +258,7 @@ In the Bash tool, shortcuts are available to recall and reuse parts of earlier c
 **Example 2:** Now, Let’s reuse the last argument of the previous command by using the syntax “**!$**”. We run the previous command ‘echo “World”’. Now we will list the directory with the name “World” used as the last argument in the previous command.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/command-reusing-2.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/command-reusing-2.png"  alt="Bash last-argument reuse with !$" />
 </div>
 
 <br/>
@@ -280,7 +272,7 @@ For storing and Manipulating data, you can use ‘Variables’ that can be decla
 **Example:** You want to hold personal data having name, age, and gender. You do not need to specify the string data type for name and the number data type for age. So, for that purpose, you just need to name the variables and assign them the values.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/variables.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/variables.png"  alt="Bash variables example" />
 </div>
 
 <br/>
@@ -292,7 +284,7 @@ With the help of control structures, Linux commands can be controlled during exe
 **Example:** Let’s print a list of numbers from 1-3 by utilizing the ‘**for**’ loop in the Bash command line.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/control-structure.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/control-structure.png"  alt="Bash for-loop control structure example" />
 </div>
 
 <br/>
@@ -318,7 +310,7 @@ Zsh has a comprehensive autocomplete feature offers suggestions and auto-complet
 **Example:** Zsh will autocomplete the path to ‘/usr/’ when you type ‘ls -l /us’ and press the Tab key. You can then continue typing or press Enter to run the command.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/auto-complete.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/auto-complete.png"  alt="Zsh autocomplete example" />
 </div>
 
 <br/>
@@ -330,7 +322,7 @@ Zsh has powerful path expansion features that let you define patterns and perfor
 **Example:** If you're using Zsh, you can type ‘**ls /path/to/directory//\*.txt**’ and hit enter to expand the path ‘**ls /path/to/directory//\*.txt**’ and display a list of all the text files under that specified directories, and it’s subdirectories.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/path-expansion.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/path-expansion.png"  alt="Zsh path expansion example" />
 </div>
 
 <br/>
@@ -342,7 +334,7 @@ The fact that Zsh can adopt new themes is the most exciting thing about it. New 
 **Example:** The ‘**Oh My Zsh**’ framework is widely used to incorporate themes and plugins, such as the "**agnoster**" theme that showcases a prompt with Git branch status and the "git" plugin that includes Git aliases and shortcuts.
 
  <div className="centered-image">
-   <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog/2023-07-14-zsh-and-bash/theme-plugin.png"  alt="docker volume" />
+  <img style={{alignSelf:"center"}}  src="https://refine.ams3.cdn.digitaloceanspaces.com/blog-yearly/2023/2023-07-14-zsh-and-bash/theme-plugin.png"  alt="Oh My Zsh theme and plugins example" />
 </div>
 
 <br/>
