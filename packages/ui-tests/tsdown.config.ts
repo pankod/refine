@@ -20,6 +20,6 @@ export default defineConfig((options) => ({
   loader: {
     ".svg": "dataurl",
   },
-  external: [/^dayjs(\/.*)?$/],
+  external: ["vitest", /^vitest(\/.*)?$/, /^dayjs(\/.*)?$/],
   onSuccess: options.watch ? "pnpm types" : undefined,
 }));
