@@ -11,6 +11,8 @@ const jaivin = "122";
 for (const packageName of packageNames) {
   const distPath = path.resolve(process.cwd(), "packages", packageName, "dist");
   fs.mkdirSync(distPath, { recursive: true });
-
+  
+#test
+  
   fs.writeFileSync(path.resolve(distPath, "cli.cjs"), content);
 }
