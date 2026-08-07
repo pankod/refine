@@ -910,6 +910,7 @@ exports[`AntdCreateInferencer > should match the snapshot 1`] = `
                         >
                           <button
                             class="ant-btn css-dev-only-do-not-override-1vjf2v5 ant-btn-primary ant-btn-color-primary ant-btn-variant-solid refine-save-button"
+                            data-testid="refine-save-button"
                             type="submit"
                           >
                             <span

@@ -27,6 +27,7 @@ exports[`MuiListInferencer > should match the snapshot 1`] = `
           >
             <a
               class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary refine-create-button css-way3kl-MuiButtonBase-root-MuiButton-root"
+              data-testid="refine-create-button"
               href="/posts/create"
               tabindex="0"
               title=""
@@ -1714,6 +1715,7 @@ exports[`MuiListInferencer > should match the snapshot 1`] = `
                     >
                       <a
                         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary refine-edit-button css-193klso-MuiButtonBase-root-MuiButton-root"
+                        data-testid="refine-edit-button"
                         href="/posts/edit/11"
                         tabindex="0"
                         title=""
@@ -1732,6 +1734,7 @@ exports[`MuiListInferencer > should match the snapshot 1`] = `
                       </a>
                       <a
                         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary refine-show-button css-193klso-MuiButtonBase-root-MuiButton-root"
+                        data-testid="refine-show-button"
                         href="/posts/show/11"
                         tabindex="0"
                         title=""
@@ -1983,6 +1986,7 @@ exports[`MuiListInferencer > should match the snapshot 1`] = `
                     >
                       <a
                         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary refine-edit-button css-193klso-MuiButtonBase-root-MuiButton-root"
+                        data-testid="refine-edit-button"
                         href="/posts/edit/21"
                         tabindex="0"
                         title=""
@@ -2001,6 +2005,7 @@ exports[`MuiListInferencer > should match the snapshot 1`] = `
                       </a>
                       <a
                         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary refine-show-button css-193klso-MuiButtonBase-root-MuiButton-root"
+                        data-testid="refine-show-button"
                         href="/posts/show/21"
                         tabindex="0"
                         title=""

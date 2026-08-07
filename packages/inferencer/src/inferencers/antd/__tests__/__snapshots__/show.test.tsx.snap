@@ -132,6 +132,7 @@ exports[`AntdShowInferencer > should match the snapshot 1`] = `
                     >
                       <button
                         class="ant-btn css-dev-only-do-not-override-1vjf2v5 ant-btn-default ant-btn-color-default ant-btn-variant-outlined refine-list-button"
+                        data-testid="refine-list-button"
                         title=""
                         type="button"
                       >
@@ -169,6 +170,7 @@ exports[`AntdShowInferencer > should match the snapshot 1`] = `
                   >
                     <button
                       class="ant-btn css-dev-only-do-not-override-1vjf2v5 ant-btn-default ant-btn-color-default ant-btn-variant-outlined refine-refresh-button"
+                      data-testid="refine-refresh-button"
                       type="button"
                     >
                       <span

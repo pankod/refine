@@ -653,6 +653,7 @@ exports[`MuiCreateInferencer > should match the snapshot 1`] = `
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiLoadingButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiLoadingButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary refine-save-button css-1qsmdu3-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root"
+          data-testid="refine-save-button"
           id="«rf»"
           tabindex="0"
           type="button"

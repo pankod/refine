@@ -96,6 +96,7 @@ exports[`MuiShowInferencer > should match the snapshot 1`] = `
           >
             <a
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary refine-list-button css-193klso-MuiButtonBase-root-MuiButton-root"
+              data-testid="refine-list-button"
               href="/posts"
               tabindex="0"
               title=""
@@ -119,6 +120,7 @@ exports[`MuiShowInferencer > should match the snapshot 1`] = `
             </a>
             <button
               class="MuiButtonBase-root MuiButton-root MuiLoadingButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiLoadingButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary refine-refresh-button css-8h169x-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root"
+              data-testid="refine-refresh-button"
               id="«r0»"
               tabindex="0"
               type="button"
