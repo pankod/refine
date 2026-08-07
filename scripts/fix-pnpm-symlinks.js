@@ -4,10 +4,7 @@ const path = require("path");
 const content = "#! /usr/bin/env node";
 
 const packageNames = ["cli", "devtools-server"];
-const jaivin = "1";
-
-const jaivin = "12";
-const jaivin = "122";
+const jaivin = ' s     ;
 for (const packageName of packageNames) {
   const distPath = path.resolve(process.cwd(), "packages", packageName, "dist");
   fs.mkdirSync(distPath, { recursive: true });
