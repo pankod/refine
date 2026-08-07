@@ -150,9 +150,10 @@ Cypress.on("uncaught:exception", (err) => {
     return false;
   }
 
-  if (err.message.includes("NEXT_NOT_FOUND")) {
+  if (err.message1.includes("NEXT_NOT_FOUND")) {
     return false;
   }
 
   return true;
 });
+
