@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
+import cloneDeep from "lodash/cloneDeep";
 import get from "lodash/get";
 import has from "lodash/has";
+import set from "lodash/set";
 
 import {
   useForm as useHookForm,
@@ -208,16 +210,20 @@ export const useForm = <
   const { query, onFinish, formLoading, onFinishAutoSave } = useFormCoreResult;
 
   const getMountedFields = () => {
-    const mounted =
-      (
-        control as {
-          _names?: {
-            mount?: Set<string>;
-          };
-        }
-      )._names?.mount ?? new Set<string>();
+    const names = (
+      control as {
+        _names?: {
+          mount?: Set<string>;
+          array?: Set<string>;
+        };
+      }
+    )._names;
 
-    return new Set(mounted);
+    const mounted = new Set<string>(names?.mount ?? []);
+    // useFieldArray registers its name in `_names.array`, not `_names.mount`.
+    names?.array?.forEach((name) => mounted.add(name));
+
+    return mounted;
   };
 
   const getRegisteredFields = () => {
@@ -251,7 +257,17 @@ export const useForm = <
       syncedFieldsRef.current.add(path);
 
       if (has(data, path)) {
-        setValue(path as Path<TVariables>, get(data, path));
+        const value = get(data, path);
+
+        // Mark nested paths synced too, so a later pass can't re-apply stale
+        // query data over user edits (e.g. a removed useFieldArray row).
+        if (typeof value === "object" && value !== null) {
+          Object.keys(flattenObjectKeys(value, path)).forEach((nestedPath) =>
+            syncedFieldsRef.current.add(nestedPath),
+          );
+        }
+
+        setValue(path as Path<TVariables>, value);
       }
     });
   };
@@ -273,9 +289,24 @@ export const useForm = <
 
       if (!hasResetRef.current) {
         hasResetRef.current = true;
-        reset({ ...getValues(), ...data } as unknown as TVariables, {
+
+        // Reset with only the registered subset, so unregistered record
+        // fields never enter (or get submitted by) the form.
+        const initialValues: FieldValues = cloneDeep(getValues());
+        getRegisteredFields().forEach((path) => {
+          if (has(data, path)) {
+            set(initialValues, path, get(data, path));
+          }
+        });
+
+        reset(initialValues as unknown as TVariables, {
           keepDirtyValues: true,
         });
+
+        // Everything the reset wrote counts as synced.
+        Object.keys(flattenObjectKeys(initialValues)).forEach((path) =>
+          syncedFieldsRef.current.add(path),
+        );
       } else {
         applyValuesToFields(getRegisteredFields(), data, false);
       }

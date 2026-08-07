@@ -382,4 +382,208 @@ describe("useForm hook", () => {
       useFormCoreSpy.mockRestore();
     }
   });
+
+  it("should populate useFieldArray fields registered before query data sync", async () => {
+    const useFormCoreSpy = vi.spyOn(Core, "useForm").mockReturnValue({
+      query: {
+        data: {
+          data: { id: "1", tags: [{ value: "react" }, { value: "refine" }] },
+        },
+      },
+      onFinish: vi.fn().mockResolvedValue({}),
+      onFinishAutoSave: vi.fn().mockResolvedValue({}),
+      formLoading: false,
+    } as any);
+
+    const EditPage = () => {
+      const { control, register } = useForm<IPost, HttpError, IPost>({
+        refineCoreProps: { resource: "posts", action: "edit", id: "1" },
+      });
+      const { fields } = useFieldArray({ control, name: "tags" });
+
+      return (
+        <ul>
+          {fields.map((field, index) => (
+            <li key={field.id}>
+              <input
+                data-testid="tag-input"
+                {...register(`tags.${index}.value` as any)}
+              />
+            </li>
+          ))}
+        </ul>
+      );
+    };
+
+    try {
+      render(
+        <Routes>
+          <Route path="/" element={<EditPage />} />
+        </Routes>,
+        { wrapper: TestWrapper({}) },
+      );
+
+      await waitFor(() =>
+        expect(screen.getAllByTestId("tag-input")).toHaveLength(2),
+      );
+      expect(screen.getAllByTestId("tag-input")[0]).toHaveValue("react");
+      expect(screen.getAllByTestId("tag-input")[1]).toHaveValue("refine");
+    } finally {
+      useFormCoreSpy.mockRestore();
+    }
+  });
+
+  it("should not resurrect removed useFieldArray rows from stale query data", async () => {
+    const useFormCoreSpy = vi.spyOn(Core, "useForm").mockReturnValue({
+      query: {
+        data: {
+          data: { id: "1", tags: [{ value: "react" }] },
+        },
+      },
+      onFinish: vi.fn().mockResolvedValue({}),
+      onFinishAutoSave: vi.fn().mockResolvedValue({}),
+      formLoading: false,
+    } as any);
+
+    const FieldArrayChild = ({ control }: { control: any }) => {
+      const { fields, remove, append } = useFieldArray({
+        control,
+        name: "tags",
+      });
+      return (
+        <div>
+          {fields.map((field, index) => (
+            <Controller
+              key={field.id}
+              control={control}
+              name={`tags.${index}.value`}
+              render={({ field: inputField }) => (
+                <input
+                  data-testid="tag-input"
+                  value={inputField.value ?? ""}
+                  onChange={inputField.onChange}
+                />
+              )}
+            />
+          ))}
+          <button
+            type="button"
+            data-testid="remove-row"
+            onClick={() => remove(0)}
+          >
+            remove
+          </button>
+          <button
+            type="button"
+            data-testid="add-row"
+            onClick={() => append({ value: "" })}
+          >
+            add
+          </button>
+        </div>
+      );
+    };
+
+    const EditPage = () => {
+      const { control } = useForm<IPost, HttpError, IPost>({
+        refineCoreProps: { resource: "posts", action: "edit", id: "1" },
+      });
+      return <FieldArrayChild control={control} />;
+    };
+
+    try {
+      const { getByTestId } = render(
+        <Routes>
+          <Route path="/" element={<EditPage />} />
+        </Routes>,
+        { wrapper: TestWrapper({}) },
+      );
+
+      await waitFor(() =>
+        expect(screen.getAllByTestId("tag-input")).toHaveLength(1),
+      );
+      expect(screen.getAllByTestId("tag-input")[0]).toHaveValue("react");
+
+      await act(async () => {
+        getByTestId("remove-row").click();
+      });
+
+      await waitFor(() =>
+        expect(screen.queryAllByTestId("tag-input")).toHaveLength(0),
+      );
+
+      await act(async () => {
+        getByTestId("add-row").click();
+      });
+
+      await waitFor(() =>
+        expect(screen.getAllByTestId("tag-input")).toHaveLength(1),
+      );
+      expect(screen.getAllByTestId("tag-input")[0]).toHaveValue("");
+    } finally {
+      useFormCoreSpy.mockRestore();
+    }
+  });
+
+  it("should only submit registered fields, not all query data fields", async () => {
+    const onFinish = vi.fn().mockResolvedValue({});
+    const useFormCoreSpy = vi.spyOn(Core, "useForm").mockReturnValue({
+      query: {
+        data: {
+          data: {
+            id: "1",
+            title: "Post 1",
+            content: "Content 1",
+            slug: "post-1",
+            category: { id: 1 },
+            internalMetadata: { secret: "should-not-be-submitted" },
+          },
+        },
+      },
+      onFinish,
+      onFinishAutoSave: vi.fn().mockResolvedValue({}),
+      formLoading: false,
+    } as any);
+
+    const EditPage = () => {
+      const { register, saveButtonProps } = useForm<IPost, HttpError, IPost>({
+        refineCoreProps: { resource: "posts", action: "edit", id: "1" },
+      });
+
+      return (
+        <div>
+          <input data-testid="title-field" {...register("title")} />
+          <button
+            data-testid="refine-save-button"
+            type="submit"
+            {...saveButtonProps}
+          >
+            save
+          </button>
+        </div>
+      );
+    };
+
+    try {
+      const { getByTestId } = render(
+        <Routes>
+          <Route path="/" element={<EditPage />} />
+        </Routes>,
+        { wrapper: TestWrapper({}) },
+      );
+
+      await waitFor(() =>
+        expect(getByTestId("title-field")).toHaveValue("Post 1"),
+      );
+
+      await act(async () => {
+        getByTestId("refine-save-button").click();
+      });
+
+      await waitFor(() => expect(onFinish).toHaveBeenCalledTimes(1));
+      expect(onFinish).toHaveBeenCalledWith({ title: "Post 1" });
+    } finally {
+      useFormCoreSpy.mockRestore();
+    }
+  });
 });
