@@ -39,7 +39,7 @@ export interface QueryBuilderOptions {
   variables?: VariableOptions;
 }
 
-export type GraphQLQueryOptions = {
+export interface GraphQLQueryOptions {
   /**
    * @description GraphQL query to be used by data providers.
    * @optional
@@ -161,13 +161,12 @@ export type GraphQLQueryOptions = {
   gqlVariables?: {
     [key: string]: any;
   };
-};
+}
 
-export type MetaQuery = {
+export interface MetaQuery extends QueryBuilderOptions, GraphQLQueryOptions {
   [k: string]: any;
   queryContext?: Omit<QueryFunctionContext, "meta">;
-} & QueryBuilderOptions &
-  GraphQLQueryOptions;
+}
 
 export interface Pagination {
   /**
