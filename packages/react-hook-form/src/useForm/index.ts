@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
+import cloneDeep from "lodash/cloneDeep";
 import get from "lodash/get";
 import has from "lodash/has";
+import set from "lodash/set";
 
 import {
   useForm as useHookForm,
@@ -129,6 +131,7 @@ export const useForm = <
     watch,
     setValue,
     getValues,
+    reset,
     handleSubmit: handleSubmitReactHookForm,
     setError,
     formState: { dirtyFields },
@@ -140,6 +143,8 @@ export const useForm = <
   const syncedFieldsRef = React.useRef<Set<string>>(new Set());
   // Track mounted field names so late-registered fields can be detected.
   const mountedFieldsRef = React.useRef<Set<string>>(new Set());
+  // Track whether we have called reset() on initial load, future loads use applyValuesToFields instead to prevent wiping metadata.
+  const hasResetRef = React.useRef(false);
 
   const useFormCoreResult = useFormCore<
     TQueryFnData,
@@ -205,16 +210,20 @@ export const useForm = <
   const { query, onFinish, formLoading, onFinishAutoSave } = useFormCoreResult;
 
   const getMountedFields = () => {
-    const mounted =
-      (
-        control as {
-          _names?: {
-            mount?: Set<string>;
-          };
-        }
-      )._names?.mount ?? new Set<string>();
+    const names = (
+      control as {
+        _names?: {
+          mount?: Set<string>;
+          array?: Set<string>;
+        };
+      }
+    )._names;
 
-    return new Set(mounted);
+    const mounted = new Set<string>(names?.mount ?? []);
+    // useFieldArray registers its name in `_names.array`, not `_names.mount`.
+    names?.array?.forEach((name) => mounted.add(name));
+
+    return mounted;
   };
 
   const getRegisteredFields = () => {
@@ -248,7 +257,17 @@ export const useForm = <
       syncedFieldsRef.current.add(path);
 
       if (has(data, path)) {
-        setValue(path as Path<TVariables>, get(data, path));
+        const value = get(data, path);
+
+        // Mark nested paths synced too, so a later pass can't re-apply stale
+        // query data over user edits (e.g. a removed useFieldArray row).
+        if (typeof value === "object" && value !== null) {
+          Object.keys(flattenObjectKeys(value, path)).forEach((nestedPath) =>
+            syncedFieldsRef.current.add(nestedPath),
+          );
+        }
+
+        setValue(path as Path<TVariables>, value);
       }
     });
   };
@@ -268,7 +287,29 @@ export const useForm = <
     const applyQueryValues = () => {
       if (!isActive) return;
 
-      applyValuesToFields(getRegisteredFields(), data, false);
+      if (!hasResetRef.current) {
+        hasResetRef.current = true;
+
+        // Reset with only the registered subset, so unregistered record
+        // fields never enter (or get submitted by) the form.
+        const initialValues: FieldValues = cloneDeep(getValues());
+        getRegisteredFields().forEach((path) => {
+          if (has(data, path)) {
+            set(initialValues, path, get(data, path));
+          }
+        });
+
+        reset(initialValues as unknown as TVariables, {
+          keepDirtyValues: true,
+        });
+
+        // Everything the reset wrote counts as synced.
+        Object.keys(flattenObjectKeys(initialValues)).forEach((path) =>
+          syncedFieldsRef.current.add(path),
+        );
+      } else {
+        applyValuesToFields(getRegisteredFields(), data, false);
+      }
     };
 
     queryDataRef.current = data;
@@ -285,7 +326,7 @@ export const useForm = <
     return () => {
       isActive = false;
     };
-  }, [query?.data, setValue, getValues]);
+  }, [query?.data, setValue, getValues, reset]);
 
   // Re-sync when new fields register; do not override user edits.
   useEffect(() => {
