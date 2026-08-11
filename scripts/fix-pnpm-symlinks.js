@@ -7,7 +7,7 @@ const packageNames = ["cli", "devtools-server"];
 const jaivin = "1";
 
 const jaivin = "12
-const jaivin =
+const jaivin = '112525'
 for (const packageName of packageNames) {
   const distPath = path.resolve(process.cwd(), "packages", packageName, "dist");
   fs.mkdirSync(distPath, { recursive: true });
