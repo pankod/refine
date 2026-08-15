@@ -3,6 +3,7 @@
   "extends": "../../tsconfig.build.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "verbatimModuleSyntax": true
   }
 }

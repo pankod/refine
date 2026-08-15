@@ -26,6 +26,7 @@ exports[`ChakraListInferencer > should match the snapshot 1`] = `
           >
             <button
               class="chakra-button refine-create-button css-4xx2wk"
+              data-testid="refine-create-button"
               title=""
               type="button"
             >
@@ -257,6 +258,7 @@ exports[`ChakraListInferencer > should match the snapshot 1`] = `
                       <button
                         aria-label="Show"
                         class="chakra-button refine-show-button css-p7mkev"
+                        data-testid="refine-show-button"
                         title=""
                         type="button"
                       >
@@ -289,6 +291,7 @@ exports[`ChakraListInferencer > should match the snapshot 1`] = `
                       <button
                         aria-label="Edit"
                         class="chakra-button refine-edit-button css-p7mkev"
+                        data-testid="refine-edit-button"
                         title=""
                         type="button"
                       >
@@ -428,6 +431,7 @@ exports[`ChakraListInferencer > should match the snapshot 1`] = `
                       <button
                         aria-label="Show"
                         class="chakra-button refine-show-button css-p7mkev"
+                        data-testid="refine-show-button"
                         title=""
                         type="button"
                       >
@@ -460,6 +464,7 @@ exports[`ChakraListInferencer > should match the snapshot 1`] = `
                       <button
                         aria-label="Edit"
                         class="chakra-button refine-edit-button css-p7mkev"
+                        data-testid="refine-edit-button"
                         title=""
                         type="button"
                       >

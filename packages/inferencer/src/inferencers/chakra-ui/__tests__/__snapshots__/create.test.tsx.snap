@@ -420,6 +420,7 @@ exports[`ChakraCreateInferencer > should match the snapshot 1`] = `
       >
         <button
           class="chakra-button refine-save-button css-4xx2wk"
+          data-testid="refine-save-button"
           type="button"
         >
           <span

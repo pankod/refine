@@ -73,8 +73,8 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "attw": "attw --pack .",
-    "build": "tsup && node ../shared/generate-declarations.js",
-    "dev": "tsup --watch",
+    "build": "tsdown && node ../shared/generate-declarations.js",
+    "dev": "tsdown --watch",
     "prepare": "pnpm build",
     "publint": "publint --strict=true --level=suggestion",
     "test": "vitest run",
@@ -92,7 +92,7 @@
     "@types/node": "^20",
     "@vitest/ui": "^2.1.8",
     "nock": "^14.0.5",
-    "tsup": "^6.7.0",
+    "tsdown": "^0.21.10",
     "typescript": "^5.8.3",
     "vitest": "^2.1.8"
   },

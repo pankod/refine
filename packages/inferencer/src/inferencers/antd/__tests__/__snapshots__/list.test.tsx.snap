@@ -47,6 +47,7 @@ exports[`AntdListInferencer > should match the snapshot 1`] = `
                 >
                   <button
                     class="ant-btn css-dev-only-do-not-override-1vjf2v5 ant-btn-primary ant-btn-color-primary ant-btn-variant-solid refine-create-button"
+                    data-testid="refine-create-button"
                     title=""
                     type="button"
                   >
@@ -470,6 +471,7 @@ exports[`AntdListInferencer > should match the snapshot 1`] = `
                                     >
                                       <button
                                         class="ant-btn css-dev-only-do-not-override-1vjf2v5 ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-sm ant-btn-icon-only refine-edit-button"
+                                        data-testid="refine-edit-button"
                                         title=""
                                         type="button"
                                       >
@@ -507,6 +509,7 @@ exports[`AntdListInferencer > should match the snapshot 1`] = `
                                     >
                                       <button
                                         class="ant-btn css-dev-only-do-not-override-1vjf2v5 ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-sm ant-btn-icon-only refine-show-button"
+                                        data-testid="refine-show-button"
                                         title=""
                                         type="button"
                                       >
@@ -542,6 +545,7 @@ exports[`AntdListInferencer > should match the snapshot 1`] = `
                                     <button
                                       aria-describedby="test-id"
                                       class="ant-btn css-dev-only-do-not-override-1vjf2v5 ant-btn-default ant-btn-dangerous ant-btn-color-dangerous ant-btn-variant-outlined ant-btn-sm ant-btn-icon-only refine-delete-button"
+                                      data-testid="refine-delete-button"
                                       title=""
                                       type="button"
                                     >
@@ -711,6 +715,7 @@ exports[`AntdListInferencer > should match the snapshot 1`] = `
                                     >
                                       <button
                                         class="ant-btn css-dev-only-do-not-override-1vjf2v5 ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-sm ant-btn-icon-only refine-edit-button"
+                                        data-testid="refine-edit-button"
                                         title=""
                                         type="button"
                                       >
@@ -748,6 +753,7 @@ exports[`AntdListInferencer > should match the snapshot 1`] = `
                                     >
                                       <button
                                         class="ant-btn css-dev-only-do-not-override-1vjf2v5 ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-sm ant-btn-icon-only refine-show-button"
+                                        data-testid="refine-show-button"
                                         title=""
                                         type="button"
                                       >
@@ -783,6 +789,7 @@ exports[`AntdListInferencer > should match the snapshot 1`] = `
                                     <button
                                       aria-describedby="test-id"
                                       class="ant-btn css-dev-only-do-not-override-1vjf2v5 ant-btn-default ant-btn-dangerous ant-btn-color-dangerous ant-btn-variant-outlined ant-btn-sm ant-btn-icon-only refine-delete-button"
+                                      data-testid="refine-delete-button"
                                       title=""
                                       type="button"
                                     >

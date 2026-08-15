@@ -17,6 +17,7 @@
       "@test": ["src/test"],
       "@definitions/*": ["src/definitions/*"],
       "@definitions": ["src/definitions"]
-    }
+    },
+    "verbatimModuleSyntax": true
   }
 }

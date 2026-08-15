@@ -215,6 +215,7 @@ exports[`ChakraUIInferencer > should match the snapshot 1`] = `
                       <button
                         aria-label="Show"
                         class="chakra-button refine-show-button css-p7mkev"
+                        data-testid="refine-show-button"
                         title=""
                         type="button"
                       >
@@ -247,6 +248,7 @@ exports[`ChakraUIInferencer > should match the snapshot 1`] = `
                       <button
                         aria-label="Edit"
                         class="chakra-button refine-edit-button css-p7mkev"
+                        data-testid="refine-edit-button"
                         title=""
                         type="button"
                       >
@@ -279,6 +281,7 @@ exports[`ChakraUIInferencer > should match the snapshot 1`] = `
                       aria-haspopup="dialog"
                       aria-label=""
                       class="chakra-button refine-delete-button css-p7mkev"
+                      data-testid="refine-delete-button"
                       id="popover-trigger-«rq»"
                       type="button"
                     >
@@ -438,6 +441,7 @@ exports[`ChakraUIInferencer > should match the snapshot 1`] = `
                       <button
                         aria-label="Show"
                         class="chakra-button refine-show-button css-p7mkev"
+                        data-testid="refine-show-button"
                         title=""
                         type="button"
                       >
@@ -470,6 +474,7 @@ exports[`ChakraUIInferencer > should match the snapshot 1`] = `
                       <button
                         aria-label="Edit"
                         class="chakra-button refine-edit-button css-p7mkev"
+                        data-testid="refine-edit-button"
                         title=""
                         type="button"
                       >
@@ -502,6 +507,7 @@ exports[`ChakraUIInferencer > should match the snapshot 1`] = `
                       aria-haspopup="dialog"
                       aria-label=""
                       class="chakra-button refine-delete-button css-p7mkev"
+                      data-testid="refine-delete-button"
                       id="popover-trigger-«rs»"
                       type="button"
                     >
@@ -14739,6 +14745,7 @@ exports[`ChakraUIInferencer > should match the snapshot 2`] = `
       >
         <button
           class="chakra-button refine-save-button css-4xx2wk"
+          data-testid="refine-save-button"
           type="button"
         >
           <span
@@ -25330,6 +25337,7 @@ exports[`ChakraUIInferencer > should match the snapshot 3`] = `
           >
             <button
               class="chakra-button refine-refresh-button css-4xx2wk"
+              data-testid="refine-refresh-button"
               type="button"
             >
               <span
@@ -25711,6 +25719,7 @@ exports[`ChakraUIInferencer > should match the snapshot 3`] = `
       >
         <button
           class="chakra-button refine-save-button css-4xx2wk"
+          data-testid="refine-save-button"
           type="button"
         >
           <span
@@ -37968,6 +37977,7 @@ exports[`ChakraUIInferencer > should match the snapshot 4`] = `
         >
           <button
             class="chakra-button refine-refresh-button css-4xx2wk"
+            data-testid="refine-refresh-button"
             type="button"
           >
             <span

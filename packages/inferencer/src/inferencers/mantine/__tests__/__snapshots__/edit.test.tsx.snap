@@ -88,6 +88,7 @@ exports[`MantineEditInferencer > should match the snapshot 1`] = `
             <button
               class="mantine-UnstyledButton-root mantine-Button-root refine-list-button mantine-1gzbrws"
               data-button="true"
+              data-testid="refine-list-button"
               title=""
               type="button"
             >
@@ -140,6 +141,7 @@ exports[`MantineEditInferencer > should match the snapshot 1`] = `
           <button
             class="mantine-UnstyledButton-root mantine-Button-root refine-refresh-button mantine-1gzbrws"
             data-button="true"
+            data-testid="refine-refresh-button"
             type="button"
           >
             <div
@@ -741,6 +743,7 @@ exports[`MantineEditInferencer > should match the snapshot 1`] = `
         <button
           class="mantine-UnstyledButton-root mantine-Button-root refine-save-button mantine-4xmesm"
           data-button="true"
+          data-testid="refine-save-button"
           type="button"
         >
           <div

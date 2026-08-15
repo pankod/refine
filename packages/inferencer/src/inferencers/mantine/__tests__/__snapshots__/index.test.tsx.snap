@@ -190,6 +190,7 @@ exports[`MantineInferencer > should match the snapshot 1`] = `
                         >
                           <button
                             class="mantine-UnstyledButton-root mantine-ActionIcon-root refine-show-button mantine-1a20nyr"
+                            data-testid="refine-show-button"
                             title=""
                             type="button"
                           >
@@ -221,6 +222,7 @@ exports[`MantineInferencer > should match the snapshot 1`] = `
                           <button
                             aria-label="Edit"
                             class="mantine-UnstyledButton-root mantine-ActionIcon-root refine-edit-button mantine-1a20nyr"
+                            data-testid="refine-edit-button"
                             title=""
                             type="button"
                           >
@@ -250,6 +252,7 @@ exports[`MantineInferencer > should match the snapshot 1`] = `
                           aria-expanded="false"
                           aria-haspopup="dialog"
                           class="mantine-UnstyledButton-root mantine-ActionIcon-root refine-delete-button mantine-b5no9e"
+                          data-testid="refine-delete-button"
                           id="mantine-«r10»-target"
                           type="button"
                         >
@@ -401,6 +404,7 @@ exports[`MantineInferencer > should match the snapshot 1`] = `
                         >
                           <button
                             class="mantine-UnstyledButton-root mantine-ActionIcon-root refine-show-button mantine-1a20nyr"
+                            data-testid="refine-show-button"
                             title=""
                             type="button"
                           >
@@ -432,6 +436,7 @@ exports[`MantineInferencer > should match the snapshot 1`] = `
                           <button
                             aria-label="Edit"
                             class="mantine-UnstyledButton-root mantine-ActionIcon-root refine-edit-button mantine-1a20nyr"
+                            data-testid="refine-edit-button"
                             title=""
                             type="button"
                           >
@@ -461,6 +466,7 @@ exports[`MantineInferencer > should match the snapshot 1`] = `
                           aria-expanded="false"
                           aria-haspopup="dialog"
                           class="mantine-UnstyledButton-root mantine-ActionIcon-root refine-delete-button mantine-b5no9e"
+                          data-testid="refine-delete-button"
                           id="mantine-«r13»-target"
                           type="button"
                         >
@@ -12232,6 +12238,7 @@ exports[`MantineInferencer > should match the snapshot 2`] = `
         <button
           class="mantine-UnstyledButton-root mantine-Button-root refine-save-button mantine-4xmesm"
           data-button="true"
+          data-testid="refine-save-button"
           type="button"
         >
           <div
@@ -17208,6 +17215,7 @@ exports[`MantineInferencer > should match the snapshot 3`] = `
           <button
             class="mantine-UnstyledButton-root mantine-Button-root refine-refresh-button mantine-1gzbrws"
             data-button="true"
+            data-testid="refine-refresh-button"
             type="button"
           >
             <div
@@ -17809,6 +17817,7 @@ exports[`MantineInferencer > should match the snapshot 3`] = `
         <button
           class="mantine-UnstyledButton-root mantine-Button-root refine-save-button mantine-4xmesm"
           data-button="true"
+          data-testid="refine-save-button"
           type="button"
         >
           <div
@@ -23210,6 +23219,7 @@ exports[`MantineInferencer > should match the snapshot 4`] = `
           <button
             class="mantine-UnstyledButton-root mantine-Button-root refine-refresh-button mantine-1gzbrws"
             data-button="true"
+            data-testid="refine-refresh-button"
             type="button"
           >
             <div

@@ -10,6 +10,7 @@
     "paths": {
       "@utils/*": ["src/utils/*"],
       "@utils": ["src/utils"]
-    }
+    },
+    "verbatimModuleSyntax": true
   }
 }

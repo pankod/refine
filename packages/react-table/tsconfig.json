@@ -7,6 +7,7 @@
     "paths": {
       "@test/*": ["test/*"],
       "@test": ["test"]
-    }
+    },
+    "verbatimModuleSyntax": true
   }
 }

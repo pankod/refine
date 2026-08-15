@@ -94,6 +94,7 @@ exports[`ChakraShowInferencer > should match the snapshot 1`] = `
           >
             <button
               class="chakra-button refine-list-button css-4xx2wk"
+              data-testid="refine-list-button"
               title=""
               type="button"
             >
@@ -139,6 +140,7 @@ exports[`ChakraShowInferencer > should match the snapshot 1`] = `
           </a>
           <button
             class="chakra-button refine-refresh-button css-4xx2wk"
+            data-testid="refine-refresh-button"
             type="button"
           >
             <span

@@ -576,6 +576,7 @@ exports[`MantineCreateInferencer > should match the snapshot 1`] = `
         <button
           class="mantine-UnstyledButton-root mantine-Button-root refine-save-button mantine-4xmesm"
           data-button="true"
+          data-testid="refine-save-button"
           type="button"
         >
           <div

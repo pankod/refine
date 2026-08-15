@@ -28,6 +28,7 @@ exports[`MantineListInferencer > should match the snapshot 1`] = `
             <button
               class="mantine-UnstyledButton-root mantine-Button-root refine-create-button mantine-4xmesm"
               data-button="true"
+              data-testid="refine-create-button"
               title=""
               type="button"
             >
@@ -240,6 +241,7 @@ exports[`MantineListInferencer > should match the snapshot 1`] = `
                         >
                           <button
                             class="mantine-UnstyledButton-root mantine-ActionIcon-root refine-show-button mantine-1a20nyr"
+                            data-testid="refine-show-button"
                             title=""
                             type="button"
                           >
@@ -271,6 +273,7 @@ exports[`MantineListInferencer > should match the snapshot 1`] = `
                           <button
                             aria-label="Edit"
                             class="mantine-UnstyledButton-root mantine-ActionIcon-root refine-edit-button mantine-1a20nyr"
+                            data-testid="refine-edit-button"
                             title=""
                             type="button"
                           >
@@ -414,6 +417,7 @@ exports[`MantineListInferencer > should match the snapshot 1`] = `
                         >
                           <button
                             class="mantine-UnstyledButton-root mantine-ActionIcon-root refine-show-button mantine-1a20nyr"
+                            data-testid="refine-show-button"
                             title=""
                             type="button"
                           >
@@ -445,6 +449,7 @@ exports[`MantineListInferencer > should match the snapshot 1`] = `
                           <button
                             aria-label="Edit"
                             class="mantine-UnstyledButton-root mantine-ActionIcon-root refine-edit-button mantine-1a20nyr"
+                            data-testid="refine-edit-button"
                             title=""
                             type="button"
                           >

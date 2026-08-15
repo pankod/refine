@@ -10,8 +10,8 @@
   "typings": "dist/index.d.ts",
   "bin": "./dist/index.js",
   "scripts": {
-    "build": "tsup && tsc --project tsconfig.declarations.json",
-    "dev": "tsup --watch",
+    "build": "tsdown && tsc --project tsconfig.declarations.json",
+    "dev": "tsdown --watch",
     "prepare": "pnpm build",
     "test": "vitest run --passWithNoTests",
     "types": "tsc --project tsconfig.declarations.json"
@@ -38,7 +38,7 @@
     "@types/rimraf": "3.0.0",
     "@types/tar": "^6.1.11",
     "@types/which-pm-runs": "^1.0.0",
-    "tsup": "^6.7.0",
+    "tsdown": "^0.21.10",
     "typescript": "^5.8.3"
   },
   "engines": {

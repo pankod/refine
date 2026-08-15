@@ -34,8 +34,8 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "attw": "attw --pack . --exclude-entrypoints dist/reset.css",
-    "build": "tsup && node ../shared/generate-declarations.js",
-    "dev": "tsup --watch",
+    "build": "tsdown && node ../shared/generate-declarations.js",
+    "dev": "tsdown --watch",
     "prepare": "pnpm build",
     "publint": "publint --strict=true --level=suggestion",
     "test": "vitest run",
@@ -74,7 +74,8 @@
     "identity-obj-proxy": "^3.0.0",
     "postcss": "^8.1.4",
     "react-router": "^7.0.2",
-    "tsup": "^6.7.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "tsdown": "^0.21.10",
     "typescript": "^5.8.3",
     "vitest": "^2.1.8"
   },

@@ -1,12 +1,17 @@
-export { DevtoolsEvent, DevtoolsEventPayloads } from "./event-types.js";
-export { TraceType } from "./trace.js";
-export { Feed, FeedSection } from "./feed.js";
-export {
+export { DevtoolsEvent, type DevtoolsEventPayloads } from "./event-types.js";
+export { type TraceType } from "./trace.js";
+export type { Feed, FeedSection } from "./feed.js";
+export type {
   PackageType,
   PackageLatestVersionType,
   AvailablePackageType,
 } from "./package.js";
-export { RefineHook, Scopes, hooksByScope, scopes } from "./scopes.js";
+export {
+  type RefineHook,
+  type Scopes,
+  hooksByScope,
+  scopes,
+} from "./scopes.js";
 
 export { DevToolsContextProvider, DevToolsContext } from "./context.js";
 

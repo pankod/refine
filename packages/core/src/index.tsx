@@ -37,7 +37,7 @@ export { ResourceContext } from "./contexts/resource/index.js";
 
 export { AccessControlContext } from "./contexts/accessControl/index.js";
 
-export {
+export type {
   AccessControlProvider,
   AccessControlProvider as AccessControlBindings,
   CanParams,
@@ -47,7 +47,7 @@ export {
   IAccessControlContextReturnType,
 } from "./contexts/accessControl/types.js";
 
-export {
+export type {
   AuditLogProvider,
   IAuditLogContext,
   ILog,
@@ -55,7 +55,7 @@ export {
   LogParams,
 } from "./contexts/auditLog/types.js";
 
-export {
+export type {
   AuthActionResponse,
   AuthProvider,
   CheckResponse,
@@ -66,7 +66,7 @@ export {
   SuccessNotificationResponse,
 } from "./contexts/auth/types.js";
 
-export {
+export type {
   ConditionalFilter,
   CreateManyResponse,
   CreateResponse,
@@ -127,14 +127,14 @@ export {
   I18nContext as TranslationContext,
 } from "./contexts/i18n/index.js";
 
-export {
+export type {
   I18nProvider,
   I18nProvider as TranslationProvider,
   I18nProvider as i18nBindings,
   II18nContext as ITranslationContext,
 } from "./contexts/i18n/types.js";
 
-export {
+export type {
   ILiveContext,
   ILiveModeContextProvider,
   LiveEvent,
@@ -146,7 +146,7 @@ export {
   LiveListParams,
 } from "./contexts/live/types.js";
 
-export {
+export type {
   INotificationContext,
   NotificationProvider,
   NotificationProvider as NotificationsBindings,
@@ -154,7 +154,7 @@ export {
   SuccessErrorNotification,
 } from "./contexts/notification/types.js";
 
-export {
+export type {
   IRefineContext,
   IRefineContextOptions,
   IRefineContextProvider,
@@ -165,7 +165,7 @@ export {
   TitleProps,
 } from "./contexts/refine/types.js";
 
-export {
+export type {
   ResourceProps,
   IResourceComponents,
   IResourceComponentsProps,
@@ -177,7 +177,7 @@ export {
   ResourceRoutePath,
 } from "./contexts/resource/types.js";
 
-export {
+export type {
   Action,
   BackFunction,
   GoConfig,
@@ -188,17 +188,17 @@ export {
   RouterProvider,
 } from "./contexts/router/types.js";
 
-export {
+export type {
   ActionTypes,
   IUndoableQueue,
   IUndoableQueueContext,
 } from "./contexts/undoableQueue/types.js";
 
-export { IUnsavedWarnContext } from "./contexts/unsavedWarn/types.js";
+export type { IUnsavedWarnContext } from "./contexts/unsavedWarn/types.js";
 
 export {
   MetaContextProvider,
   useMetaContext,
 } from "./contexts/metaContext/index.js";
 
-export { TreeMenuItem, UseMenuProps } from "./hooks/menu/useMenu.js";
+export type { TreeMenuItem, UseMenuProps } from "./hooks/menu/useMenu.js";
