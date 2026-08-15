@@ -8,6 +8,7 @@ import {
   TestWrapper,
   waitFor,
 } from "@test";
+import userEvent from "@testing-library/user-event";
 import type { UpdatePasswordPageProps } from "@refinedev/core";
 
 export const pageUpdatePasswordTests = (
@@ -162,28 +163,25 @@ export const pageUpdatePasswordTests = (
     });
 
     it("if passwords are not matched, should display the validation error", async () => {
-      const { getAllByLabelText, getByLabelText, getByText } = render(
-        <UpdatePasswordPage />,
-        {
+      const user = userEvent.setup();
+
+      const { getAllByLabelText, getByLabelText, getByText, getByRole } =
+        render(<UpdatePasswordPage />, {
           wrapper: TestWrapper({
             authProvider: mockAuthProvider,
           }),
-        },
+        });
+
+      await user.type(getAllByLabelText(/password/i)[0], "demo");
+      await user.type(getByLabelText(/confirm new password/i), "demo2");
+
+      await user.click(
+        getByRole("button", {
+          name: /update/i,
+        }),
       );
 
-      fireEvent.change(getAllByLabelText(/password/i)[0], {
-        target: { value: "demo" },
-      });
-
-      fireEvent.change(getByLabelText(/confirm new password/i), {
-        target: { value: "demo2" },
-      });
-
-      fireEvent.click(getByText(/update/i));
-
-      await waitFor(() => {
-        expect(getByText(/asswords do not match/i)).toBeInTheDocument();
-      });
+      expect(getByText(/passwords do not match/i)).toBeInTheDocument();
     });
 
     it("should should accept 'mutationVariables'", async () => {
