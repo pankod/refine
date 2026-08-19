@@ -234,4 +234,4 @@ Refine CORE is a community-driven project, and your contributions continually im
 
 ## License
 
-Licensed under the MIT License, Copyright © 2021-present Refinedev
+Licensed under the [MIT License](LICENSE), Copyright © 2021-present Refinedev
