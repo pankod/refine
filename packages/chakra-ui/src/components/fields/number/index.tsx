@@ -11,7 +11,7 @@ function toLocaleStringSupportsOptions() {
   );
 }
 /**
- * This field is used to display a number formatted according to the browser locale, right aligned. and uses {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl `Intl`} to display date format
+ * This field is used to display a number formatted according to the browser locale, right-aligned, and uses {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl `Intl`} to format numbers
  * and Chakra UI {@link https://chakra-ui.com/docs/components/text  `<Text>`} component.
  * @see {@link https://refine.dev/docs/api-reference/chakra-ui/components/fields/number} for more details.
  */
