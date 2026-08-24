@@ -6,7 +6,7 @@ description: "Learn to integrate Number Field in Refine v5. Learn integrate opti
 swizzle: true
 ---
 
-This field is used to display a number formatted according to the browser locale, right aligned. and uses [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) to display date format.
+This field is used to display a number formatted according to the browser locale, right-aligned, and uses [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) to format numbers.
 
 :::simple Good to know
 
