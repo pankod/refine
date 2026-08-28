@@ -21,7 +21,7 @@
 
 <div align="center"><strong>The sweet spot between the low/no code and “starting from scratch” for CRUD-heavy applications.</strong><br>
 
-Refine Core is an open source, React meta-framework for enterprise. It provides a headless solution for everything from admin panels to
+Refine Core is an open-source, React meta-framework for enterprise. It provides a headless solution for everything from admin panels to
 dashboards and internal tools.
 <br />
 
