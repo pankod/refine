@@ -1,3 +1,3 @@
-export const userFriendlySecond = (miliseconds: number): number => {
-  return miliseconds / 1000; //convert to seconds
+export const userFriendlySecond = (milliseconds: number): number => {
+  return milliseconds / 1000; //convert to seconds
 };
